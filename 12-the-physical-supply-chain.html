@@ -1,0 +1,1341 @@
+<title>How It Works: The Physical Supply Chain</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F1;
+  --ground-2: #FCFBFA;
+  --panel:    #EAE9E6;
+  --panel-2:  #E0DEDA;
+
+  --ink:   #16181B;
+  --ink-2: #3D4048;
+  --ink-3: #71757E;
+
+  --rule:   #D5D3CF;
+  --rule-2: #E4E2DE;
+
+  --accent:      #0F5C6E;
+  --accent-soft: #E0EFF3;
+  --accent-deep: #0A3B47;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #0F5C6E;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #111215;
+    --ground-2: #181A1E;
+    --panel:    #202329;
+    --panel-2:  #292C33;
+
+    --ink:   #EAEAE8;
+    --ink-2: #BEC1C7;
+    --ink-3: #858992;
+
+    --rule:   #32353C;
+    --rule-2: #292C33;
+
+    --accent:      #5FBFD4;
+    --accent-soft: #10222A;
+    --accent-deep: #8AD5E6;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #5FBFD4;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #111215;
+  --ground-2: #181A1E;
+  --panel:    #202329;
+  --panel-2:  #292C33;
+
+  --ink:   #EAEAE8;
+  --ink-2: #BEC1C7;
+  --ink-3: #858992;
+
+  --rule:   #32353C;
+  --rule-2: #292C33;
+
+  --accent:      #5FBFD4;
+  --accent-soft: #10222A;
+  --accent-deep: #8AD5E6;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #5FBFD4;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #0F5C6E;
+  --accent-soft: #E9EEE9;
+  --accent-deep: #0A3B47;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: grid; grid-template-columns: 252px minmax(0, 1fr); max-width: none; margin: 0; }
+.rail {
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+.rail-title { font-family: var(--display); font-weight: 700; font-size: 15.4px; margin: 0 0 2px; }
+.rail-sub { color: var(--ink-3); font-size: 10.8px; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 6px; }
+.rail-vol { display: inline-block; font-size: 10.3px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 1px 5px; border-radius: 2px; margin-bottom: 16px; }
+.rail-group { color: var(--ink-3); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin: 16px 0 5px; padding-bottom: 4px; border-bottom: 1px solid var(--rule-2); }
+.rail a { display: block; color: var(--ink-2); text-decoration: none; padding: 3px 6px 3px 8px; border-left: 2px solid transparent; margin-left: -2px; }
+.rail a:hover { color: var(--ink); background: var(--panel); }
+.rail a.on { color: var(--accent); border-left-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+.rail a .n { color: var(--ink-3); margin-right: 5px; }
+.rail a.on .n { color: var(--accent); }
+
+.doc { padding: 38px 56px 100px; max-width: none; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--rule); padding: 18px 20px 22px; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + path band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 16.5px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 46px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+.byline { font-family: var(--mono); font-size: 12.6px; color: var(--ink-3); letter-spacing: .04em; margin: 0 0 14px; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+.rail, .tw, pre, .ascii, .doc { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+.rail::-webkit-scrollbar, .rail::-webkit-scrollbar-track { background: var(--ground); }
+.rail::-webkit-scrollbar-thumb { border-color: var(--ground); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<nav class="rail" aria-label="Contents">
+  <p class="rail-title">The Physical Supply Chain</p>
+  <p class="rail-sub">Chips, ships, cables and rocks</p>
+  <span class="rail-vol">Sharp Mind · 12 of 16</span>
+  <a href="#open"><span class="n">—</span>Open</a>
+
+  <div class="rail-group">I · The machines</div>
+  <a href="#s1"><span class="n">01</span>Chips and EUV</a>
+
+  <div class="rail-group">II · The rocks</div>
+  <a href="#s2"><span class="n">02</span>Rare earths</a>
+  <a href="#s3"><span class="n">03</span>Lithium</a>
+
+  <div class="rail-group">III · The moving</div>
+  <a href="#s4"><span class="n">04</span>Containers and chokepoints</a>
+  <a href="#s5"><span class="n">05</span>Undersea cables</a>
+
+  <div class="rail-group">IV · The invisible</div>
+  <a href="#s6"><span class="n">06</span>GPS and timing</a>
+  <a href="#s7"><span class="n">07</span>Satellite constellations</a>
+  <a href="#s8"><span class="n">08</span>Fertiliser</a>
+
+  <div class="rail-group">Reference</div>
+  <a href="#words"><span class="n">—</span>The words, in plain words</a>
+  <a href="#ten"><span class="n">—</span>Your ten sentences</a>
+  <a href="#t2"><span class="n">—</span>What next</a>
+</nav>
+
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind 12 · how the world works</p>
+  <h1>The physical supply chain. <span class="thin">Eight things the modern world quietly runs on.</span></h1>
+  <p class="lede">Everything in this file is a thing you already depend on and have probably never
+  pictured. A machine in the Netherlands that makes light by shooting lasers at tin. Six narrow places at
+  sea that most of world trade squeezes through. A few hundred cables on the ocean floor that <em>are</em>
+  the internet. Same eight parts per topic as file 11. Same short sentences.</p>
+  <div class="hero-meta">
+    <span><b>Covers</b> · 8 systems</span>
+    <span><b>Assumes</b> · nothing</span>
+    <span><b>Ends with</b> · 10 sentences</span>
+    <span><b>Useful for</b> · supply chain roles</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="11-energy-and-water.html"><span class="vn">Previous · 11</span><b>Energy and Water</b><em>Eight technologies</em></a>
+<div class="vol here"><span class="vn">You are here · 12</span><b>The Physical Supply Chain</b><em>Chips, ships and cables</em></div>
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All sixteen handbooks</em></a>
+</div>
+
+<div class="proj">
+  <span class="tag">One idea to carry through the whole file</span>
+  <p>You will see the same shape eight times, so it is worth naming now.</p>
+  <p><strong>The choke point is almost never the raw material. It is the processing step.</strong></p>
+  <p>Rare earths are not rare — separating them is hard. Lithium is not scarce — refining it is
+  concentrated. Sand is everywhere — turning it into a chip needs one machine that one company makes.
+  Once you are looking for the processing step, most supply chain news explains itself.</p>
+</div>
+
+<header class="part" id="machines">
+  <span class="pn">Part I · The machines</span>
+  <h2>The hardest thing humans make</h2>
+  <p class="lede">One topic, because it deserves the space. If you only read one entry in this file,
+  read this one.</p>
+</header>
+
+<header class="mod" id="s1">
+  <span class="mn">How it works 01</span>
+  <h2>Computer chips, and the machine that prints them</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>A chip is a slice of silicon with billions of tiny switches printed onto it, in layers.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>Printing a photograph. But the photograph is a city map with billions of streets, the streets are a
+  few dozen atoms wide, and you have to print sixty to a hundred of these maps <em>on top of each
+  other</em> — each one lined up with the one below to a few atoms.</p>
+  <p>That is the whole business. It is printing, done to an accuracy that has no everyday comparison.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works · one layer, repeated a hundred times</div>
+<pre><code>① START WITH A WAFER
+   A polished disc of extremely pure silicon, usually
+   300 mm across. Silicon is sand, purified beyond
+   anything else humans make.
+
+② COAT IT WITH A LIGHT-SENSITIVE CHEMICAL
+   Called photoresist. Light changes it.
+
+③ SHINE LIGHT THROUGH A STENCIL
+   The stencil (a "mask") carries the pattern for this
+   layer. A lens shrinks the image down onto the wafer.
+
+④ WASH THE RESIST AWAY
+   Where the light hit, the chemical dissolves (or does
+   not, depending on the type). The pattern is now
+   physically on the wafer.
+
+⑤ ETCH · ADD METAL · ADD IMPURITIES
+   This builds the actual transistors and wires for
+   this layer.
+
+⑥ REPEAT 60 TO 100 TIMES
+   Each new layer must line up with the layer below it
+   to within a few nanometres. A nanometre is a
+   millionth of a millimetre.
+
+⑦ CUT, TEST, PACKAGE
+   The wafer is sliced into individual chips, tested,
+   and put in the black rectangle you recognise.
+
+⭐ NOW THE PART THAT DECIDES EVERYTHING
+  YOU CANNOT PRINT DETAIL SMALLER THAN YOUR LIGHT.
+  Light has a wavelength. Try to print features much
+  smaller than it and the image blurs.
+  Older machines used ultraviolet light at 193
+  nanometres. To print smaller features, the industry
+  needed shorter light.
+
+⭐ SO THEY BUILT EUV — EXTREME ULTRAVIOLET, 13.5 nm
+  And here is how that light is made. This is not a
+  simplification:
+
+    · a droplet of molten tin falls
+    · a laser hits it ONCE to flatten it into a pancake
+    · a second laser pulse hits the pancake and blows
+      it into plasma
+    · the plasma glows at 13.5 nanometres
+    · this happens FIFTY THOUSAND TIMES A SECOND
+
+  ⚠ AND 13.5 nm LIGHT IS ABSORBED BY AIR. AND BY GLASS.
+    So the whole machine is a vacuum, and there are no
+    lenses — only mirrors. Those mirrors are the
+    flattest objects ever manufactured: scaled up to
+    the size of Germany, the biggest bump would be
+    under a millimetre.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:40%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>One company. In the world.</strong></td><td>ASML, in the Netherlands, is the only maker of EUV machines. Not the leader — the only one. There is no second supplier and no substitute.</td></tr>
+    <tr><td><strong>~$200 million each, and rising</strong></td><td>One machine. It ships in many containers or several aircraft and takes months to install and calibrate.</td></tr>
+    <tr><td><strong>~100,000 parts from thousands of suppliers</strong></td><td>Including the optics from Zeiss in Germany, which are their own near-monopoly. ASML is less a factory than the assembler of an enormous supply chain.</td></tr>
+    <tr><td><strong>Tens of billions of transistors on one chip</strong></td><td>On an advanced processor. Every one printed by the process above, and every one has to work.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>Everything is a single point of failure.</strong> One company for the machines. A handful
+    for the chemicals, the wafers, the photoresist. And <strong>one company, TSMC in Taiwan, makes the
+    large majority of the world's most advanced logic chips</strong> — on an island that China claims.
+    There is no comfortable way to say this: it is the largest concentrated risk in the world economy.</li>
+    <li><strong>Export controls are now the sharpest economic weapon in use.</strong> The US restricted
+    sales of advanced chipmaking tools to China; the Netherlands and Japan followed, because the critical
+    machines are theirs. You cannot build a modern fab without them, and you cannot buy them elsewhere.
+    <em>This is why "the chip war" is a real phrase and not a headline flourish.</em></li>
+    <li><strong>Yield.</strong> When a new process starts, most chips coming off the line are defective.
+    Over months and years the share that works climbs. That climb is the entire economics — the same
+    factory can be losing money or printing money depending on it, and yield numbers are closely guarded.</li>
+    <li><strong>A new fab costs $20 billion and takes years.</strong> So capacity always arrives late
+    relative to demand, which is why chip shortages and chip gluts alternate.</li>
+  </ul>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Who controls it</h4>
+    <p>Almost every step has one to three companies. <strong>ASML</strong> (machines, Netherlands),
+    <strong>Zeiss</strong> (optics, Germany), <strong>TSMC</strong> (manufacturing, Taiwan), with Samsung
+    and Intel behind, <strong>ARM</strong> (the designs in your phone, UK), <strong>Nvidia</strong>
+    (AI chip design, US), <strong>Applied Materials / Lam / Tokyo Electron</strong> (the other tools),
+    <strong>Shin-Etsu and SUMCO</strong> (the wafers, Japan).</p>
+    <p>Note how few countries that is.</p>
+  </div>
+  <div class="card">
+    <h4>Where you meet it</h4>
+    <p>Everything with a plug or a battery. And more memorably: this is why you could not buy a car in
+    2021. Carmakers cancelled chip orders early in the pandemic, the capacity was reallocated to laptops
+    and consoles, and when they came back the queue was two years long.</p>
+  </div>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"There's exactly one company in the world that makes the machines that print advanced chips. It's
+  Dutch."</p>
+  <p>"They make the light by firing a laser at a falling drop of molten tin, fifty thousand times a
+  second. That's not a metaphor, that's the machine."</p>
+  <p>"The chip fight isn't really about chips. It's about who is allowed to buy the machines."</p>
+</div>
+
+<header class="part" id="rocks">
+  <span class="pn">Part II · The rocks</span>
+  <h2>Two materials everyone argues about</h2>
+  <p class="lede">And in both cases, almost everyone argues about the wrong step.</p>
+</header>
+
+<header class="mod" id="s2">
+  <span class="mn">How it works 02</span>
+  <h2>Rare earths</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Rare earths are seventeen metals used in tiny amounts to make magnets, screens and motors
+  work.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>Salt in cooking. You use a very small amount. Without it, the dish does not work.</p>
+  <p>And one correction first, because it is the most common mistake about them: <strong>rare earths are
+  not rare.</strong> Cerium is more common in the earth's crust than copper. The problem is that they are
+  never found <em>concentrated</em> — they occur thinly, always mixed together, and the seventeen of them
+  are chemically so similar that pulling them apart is genuinely difficult.</p>
+  <p>The word "rare" has misled two generations of headlines.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works · and why step three is the whole story</div>
+<pre><code>① MINE THE ORE
+   It contains a mixture of several rare earths at low
+   concentration, plus other things.
+
+② CRUSH AND CONCENTRATE
+   Standard mining. Nothing unusual.
+
+③ ⭐ SEPARATE THEM — THE ACTUAL DIFFICULTY
+   The seventeen elements are chemically almost
+   identical. Ordinary chemistry cannot tell them
+   apart. So you use SOLVENT EXTRACTION:
+     · dissolve the mixture
+     · shake it with an oily solvent that prefers ONE
+       element very, very slightly over the others
+     · take the tiny enrichment you got
+     · do it again. And again. HUNDREDS OF TIMES, in
+       long cascades of tanks
+   ⇒ it is separating twins by shaking them, repeatedly,
+     for a very long time. It is chemically hard, it is
+     capital-heavy, and the practical know-how is not
+     in a textbook.
+
+④ TURN THE OXIDE INTO METAL, THEN INTO MAGNETS
+   Neodymium alloyed with iron and boron makes the
+   strongest permanent magnets there are: NdFeB.
+
+WHERE THEY ACTUALLY MATTER
+  NEODYMIUM + PRASEODYMIUM · the magnets in electric
+    motors, wind turbine generators, hard drives,
+    headphones, MRI machines
+  DYSPROSIUM + TERBIUM · added so the magnet keeps
+    working when it gets HOT. Critical for car motors,
+    and the scarcest of the useful ones
+  EUROPIUM, YTTRIUM · colour in screens and lighting
+  LANTHANUM · catalysts in oil refining</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:40%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>~1-2 kg of magnet in an EV motor</strong></td><td>Small. But there is no substitute that performs as well, and there are tens of millions of motors.</td></tr>
+    <tr><td><strong>Hundreds of kg to over a tonne in a big wind turbine</strong></td><td>Direct-drive offshore turbines use enormous permanent magnets, because they skip the gearbox. Cleaner energy, more rare earths.</td></tr>
+    <tr><td><strong>China: most of the mining, far more of the separation</strong></td><td>Roughly 60-70% of mining, and something like 85-90%+ of separation and magnet manufacturing. <em>The gap between those two figures is the entire point.</em></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>The monopoly is in refining, not mining.</strong> A country can open a mine in a few
+    years. Building the separation plants, and — harder — acquiring the operational know-how to run them
+    at yield, takes much longer. Western mines have repeatedly opened and then shipped their ore to China
+    to be separated, which does not solve the problem at all.</li>
+    <li><strong>The environmental cost is real and it is why the West let it go.</strong> Rare earth ores
+    usually contain thorium and uranium. The waste is mildly radioactive and the separation uses large
+    volumes of acid. That is not a story China invented — it is a cost other countries chose not to
+    carry.</li>
+    <li><strong>It has been used as a lever, openly.</strong> China has restricted exports of gallium,
+    germanium, graphite and rare-earth processing technology. Once demonstrated, a lever does not need to
+    be pulled again to have an effect.</li>
+    <li><strong>Substitution is possible and worse.</strong> Motors can be built without permanent
+    magnets. They are heavier, less efficient, or both. Engineers can route around this — at a cost.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Rare earths aren't rare. They're just never found concentrated, and separating them is brutally
+  hard."</p>
+  <p>"The choke point isn't the mine, it's the refinery. That's true of lithium and cobalt too."</p>
+  <p>"The West didn't lose this industry. It decided not to want the waste."</p>
+</div>
+
+<header class="mod" id="s3">
+  <span class="mn">How it works 03</span>
+  <h2>Lithium</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Lithium is the light metal that shuttles back and forth inside a rechargeable
+  battery.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>The water in a water wheel. It is what moves to do the work — and it is not used up. It goes one way
+  when you charge and back the other way when you discharge, thousands of times.</p>
+  <p>Which is also why battery recycling is genuinely possible: the lithium is still there at the end. It
+  has not been burned.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works · two completely different ways to get it</div>
+<pre><code>ROUTE A · BRINE — South America
+  Chile, Argentina, Bolivia — the "lithium triangle"
+  ① pump salty water from under a salt flat into
+    enormous shallow ponds
+  ② let the sun evaporate it. FOR TWELVE TO EIGHTEEN
+    MONTHS. You can see the ponds from space; they are
+    turquoise and green
+  ③ what is left is concentrated enough to process into
+    lithium carbonate
+  ⇒ cheap, very slow, and it consumes water in one of
+    the driest places on earth
+
+ROUTE B · HARD ROCK — Australia, and now Africa
+  ① mine spodumene ore — ordinary open-pit mining
+  ② crush it
+  ③ ROAST IT at about 1,050°C. This changes the crystal
+    structure so acid can get at the lithium
+  ④ leach with acid, purify
+  ⇒ faster, more energy-hungry, and MOST OF THE ROCK IS
+    SHIPPED TO CHINA FOR THE CHEMICAL STEP
+
+THEN, EITHER WAY
+  Convert to battery-grade lithium carbonate or
+  hydroxide. The purity required is extreme — parts per
+  million of the wrong thing ruins a battery.
+  ⭐ AND THIS LAST STEP IS WHERE THE CONCENTRATION IS.
+    Australia digs the most. Chile evaporates a lot.
+    China does most of the chemistry.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:40%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>~8-10 kg per electric car</strong></td><td>Lithium content in a typical EV battery. Less than people imagine — the battery's weight is mostly other things.</td></tr>
+    <tr><td><strong>Up roughly tenfold, then down again</strong></td><td>The lithium price in 2021-22, then the collapse that followed. This is not a malfunction. It is what mined commodities do.</td></tr>
+    <tr><td><strong>5-10+ years to open a new mine</strong></td><td>From discovery to production, including permits. Demand forecasts change in months. <em>That mismatch is the price cycle, and it will happen again.</em></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>Water in the Atacama.</strong> Brine extraction uses enormous volumes of water in one of
+    the driest inhabited places on earth, next to communities who were not consulted early and whose
+    objections are reasonable. The industry's answer is direct lithium extraction, which uses far less
+    water, and which is mostly still being proven.</li>
+    <li><strong>The price whipsaw destroys planning.</strong> When lithium is expensive everyone announces
+    mines. By the time the mines open the price has collapsed and half of them are cancelled. Then supply
+    is short again.</li>
+    <li><strong>There is not much to recycle yet</strong>, because the first big wave of electric cars is
+    still on the road. Recycling is real and growing and cannot meet demand until those cars retire —
+    which is roughly a decade of lag built into the system.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Australia digs it, Chile evaporates it, China refines it. The refining is the part that matters."</p>
+  <p>"Lithium went up tenfold and then collapsed. That's normal for mining — you order a mine ten years
+  before you get it."</p>
+</div>
+
+<header class="part" id="moving">
+  <span class="pn">Part III · The moving</span>
+  <h2>How things and information actually travel</h2>
+  <p class="lede">Two systems. Both are far more physical, and far more concentrated, than almost anyone
+  assumes.</p>
+</header>
+
+<header class="mod" id="s4">
+  <span class="mn">How it works 04</span>
+  <h2>Container shipping, and the six narrow places</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Almost everything you own arrived in a steel box on a ship.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>A postal system where the envelope is the same size everywhere in the world — so nobody has to open
+  it until the very end.</p>
+  <p>That is the entire invention. Before the container, loading a ship meant men carrying sacks and
+  crates by hand, which was slow, expensive and easy to steal from. Malcolm McLean standardised the box in
+  1956 and loading costs fell by something like ninety-five percent.</p>
+  <p><strong>Globalisation is not mainly a political event. It is a consequence of a steel box.</strong>
+  Once moving goods became almost free, it stopped mattering where you made them.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works, and where it can be squeezed</div>
+<pre><code>THE SYSTEM
+  ① the box is standard — TEU means "twenty-foot
+    equivalent unit", the counting unit for everything
+  ② the largest ships carry about 24,000 of them
+  ③ hub and spoke: giant ships run between a few huge
+    ports, smaller "feeder" ships serve everywhere else
+  ④ a ship is ordered about two to three years before
+    it is delivered
+    ⇒ REMEMBER THAT LAG. It is why freight rates are
+      always either far too high or far too low, and
+      almost never right
+
+⭐ THE CHOKEPOINTS — six narrow places, and the reason
+  the shipping news is really geography news
+
+  STRAIT OF HORMUZ
+    a narrow gap between Iran and Oman. Roughly a fifth
+    of the world's oil passes through it. There is no
+    alternative route for most of it.
+
+  SUEZ CANAL
+    roughly 12-15% of global trade. When it was blocked
+    by one grounded ship in 2021, the world noticed.
+    Since 2023, attacks in the Red Sea have pushed much
+    traffic around the bottom of Africa instead —
+    adding about ten to fourteen days and a great deal
+    of fuel.
+
+  PANAMA CANAL
+    ⭐ and this one is strange: IT IS LIMITED BY RAIN.
+    The canal lifts ships over a hill using fresh water
+    from Gatún Lake, and every ship that passes spends
+    lake water. In a drought, the canal cuts the number
+    of daily crossings. A drought in Panama is a global
+    logistics event.
+
+  STRAIT OF MALACCA
+    the narrow way between Asia and the Indian Ocean. A
+    very large share of China's imported oil goes
+    through it, which is a fact Chinese strategy thinks
+    about constantly.
+
+  BAB EL-MANDEB · the entrance to the Red Sea
+  THE BOSPORUS   · grain out of the Black Sea</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:40%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>80-90% of world trade by volume</strong></td><td>Moves by sea. Air freight is fast, expensive and tiny by weight.</td></tr>
+    <tr><td><strong>~30-40 days Asia to Europe</strong></td><td>Normally, via Suez. Around Africa instead, add about ten to fourteen days — and that extra time also removes ships from the market, which pushes rates up for everyone.</td></tr>
+    <tr><td><strong>$1,500 → $14,000 → back</strong></td><td>Roughly what one container cost on the main Asia-Europe route through 2020-22. Tenfold, and back. If you have ever wondered why logistics people are fatalistic, this is why.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>Chokepoints are few and narrow, and the alternatives are longer rather than
+    impossible.</strong> That is the important nuance: a closed strait usually means expensive and slow,
+    not stopped. But expensive and slow, applied to everything at once, is enough to move inflation.</li>
+    <li><strong>The three-year ordering lag guarantees overshoot.</strong> Rates spike, everyone orders
+    ships, the ships arrive together three years later into a weak market, rates collapse. This cycle has
+    run for a century and will run again.</li>
+    <li><strong>Ports are a constraint too</strong> — depth for the biggest ships, cranes, and labour. A
+    strike at a handful of ports backs up a continent.</li>
+    <li><strong>Shipping is about 3% of global CO2</strong> and is hard to clean up, because a battery
+    big enough to cross the Pacific does not exist. Hence the interest in ammonia and methanol as fuels —
+    which loops back to <a href="11-energy-and-water.html">file 11</a>.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Eighty to ninety percent of world trade goes by sea, and it funnels through about six narrow
+  places."</p>
+  <p>"The Panama Canal is limited by rainfall. It's a freshwater canal — every ship that crosses spends
+  lake water."</p>
+  <p>"Freight rates went up tenfold and came back down. Shipping always overbuilds, because you order a
+  ship three years before you get it."</p>
+</div>
+
+<header class="mod" id="s5">
+  <span class="mn">How it works 05</span>
+  <h2>Undersea cables</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Nearly all international internet traffic travels through glass cables lying on the
+  seabed.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>Not a cloud. A few hundred garden hoses on the bottom of the ocean.</p>
+  <p>This is the single most useful correction in this file. People picture the internet as satellites and
+  air. It is not. <strong>Satellites carry a tiny fraction of international traffic.</strong> When you
+  video-call another continent, your voice goes down a cable on the seabed and comes up on a beach
+  somewhere.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① THE CABLE ITSELF
+   Inside: a few pairs of glass fibres, each thinner
+   than a human hair. Around them: steel wires for
+   strength, a copper conductor, and plastic.
+   In deep water it is about as thick as a garden hose.
+   Near shore, where anchors and trawlers are, it is
+   armoured and much thicker.
+
+② LIGHT CARRIES THE DATA
+   Pulses of laser light travel down the glass. The
+   glass is so pure that the light can go 50 to 100 km
+   before it fades too much.
+
+③ ⭐ REPEATERS — and how they are powered
+   Every 50-100 km sits an amplifier that boosts the
+   light. It needs electricity, and it is at the bottom
+   of the ocean.
+   So: a few thousand volts of direct current is pushed
+   along the copper conductor FROM THE SHORE, sometimes
+   across an entire ocean, to feed them.
+
+④ LANDING STATIONS
+   The cable comes ashore into an unremarkable building.
+   There are not many of these buildings, and they are
+   listed on public maps.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:40%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>~550 cables, ~1.4 million km</strong></td><td>That is the entire physical internet between continents. It is a surprisingly short list.</td></tr>
+    <tr><td><strong>100-200 faults a year</strong></td><td>Worldwide. The overwhelming majority are fishing gear and ship anchors, not sabotage.</td></tr>
+    <tr><td><strong>Hundreds of terabits per second</strong></td><td>On one modern cable. Capacity has grown enormously without laying many more cables, because the equipment at each end keeps improving.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>Anchors and trawlers.</strong> Most breaks are accidents. Repair means sending a ship,
+    finding the fault, grappling the cable up from the seabed, cutting out the bad section, splicing in
+    new cable, and lowering it back. Days to weeks.</li>
+    <li><strong>The repair fleet is small and old.</strong> There are only a few dozen cable ships in the
+    world and many are near the end of their lives. This is a genuine and underdiscussed fragility.</li>
+    <li><strong>Some corridors carry far too much.</strong> The Red Sea route and the Luzon Strait each
+    carry a large share of traffic between regions. Several cuts in one corridor is a different event
+    from several cuts spread around.</li>
+    <li><strong>Sabotage is now a live concern</strong>, after cable and pipeline incidents in the Baltic.
+    The difficulty is that a dragged anchor and a deliberately dragged anchor look identical on the
+    seabed.</li>
+    <li><strong>Ownership has quietly changed.</strong> Cables used to be built by consortia of telecoms
+    companies. Now Google, Meta, Amazon and Microsoft own or co-own a large share of new capacity. The
+    physical layer of the internet is moving into the hands of a few content companies, and almost nobody
+    is discussing it.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"The cloud is a few hundred cables on the seabed. Satellites carry almost none of the internet."</p>
+  <p>"Most cable breaks are anchors and fishing boats. The worrying part isn't sabotage — it's that the
+  repair fleet is tiny and ageing."</p>
+</div>
+
+<header class="part" id="invisible">
+  <span class="pn">Part IV · The invisible</span>
+  <h2>Three systems nobody thinks about</h2>
+  <p class="lede">One tells the world what time it is. One is rewriting who owns the sky. One feeds half
+  the planet.</p>
+</header>
+
+<header class="mod" id="s6">
+  <span class="mn">How it works 06</span>
+  <h2>GPS — and why it is really a clock</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>GPS tells you where you are by telling you, extremely precisely, what time it is.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>Thunder and lightning. You see the flash, then you hear the bang. The gap tells you how far away the
+  storm is, because you know how fast sound travels.</p>
+  <p>GPS does exactly that with radio instead of sound, and with clocks accurate to billionths of a
+  second. That is the whole idea. Everything else is arithmetic.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① EACH SATELLITE CARRIES AN ATOMIC CLOCK
+   And it broadcasts, continuously: "I am satellite
+   number X, my position is Y, and the time right now
+   is exactly Z."
+
+② YOUR PHONE RECEIVES THAT MESSAGE, SLIGHTLY LATE
+   The signal travelled at the speed of light, so it
+   arrived a fraction of a second after it was sent.
+   That delay × the speed of light = your distance from
+   that satellite.
+
+③ ONE SATELLITE PUTS YOU ON A SPHERE
+   Two satellites: a circle. Three: two possible points,
+   one of which is absurd. Four: your position, AND a
+   correction for the fact that your phone's own clock
+   is cheap and slightly wrong.
+   ⇒ that fourth satellite is why your phone does not
+     need an atomic clock in it.
+
+④ ⭐ AND RELATIVITY IS NOT OPTIONAL HERE
+   The satellite clocks run FAST compared to clocks on
+   the ground — because gravity is weaker up there —
+   and SLOW because they are moving quickly. The two
+   effects do not cancel. Net result: about 38
+   MICROSECONDS PER DAY fast.
+   Uncorrected, your position would drift by roughly
+   TEN KILOMETRES after a single day.
+   ⇒ GPS is the most ordinary, everyday proof of
+     Einstein's theories that exists. It is in your
+     pocket and it would not work without them.
+
+⭐ THE PART ALMOST NOBODY KNOWS
+  GPS IS MAINLY A TIMING SYSTEM, NOT A MAP.
+    · banks timestamp trades with it
+    · power grids synchronise with it
+    · mobile networks use it to hand your call from one
+      tower to the next
+    · data centres use it to keep logs in order
+  ⇒ if GPS stopped, losing your way in the car would be
+    nowhere near the biggest problem.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:40%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>~31 satellites, ~20,200 km up</strong></td><td>Enough that four are visible from almost anywhere, almost always.</td></tr>
+    <tr><td><strong>A few metres, or a few centimetres</strong></td><td>Ordinary phone accuracy versus surveying accuracy with a correction signal. The difference is not better satellites — it is a second receiver at a known fixed point.</td></tr>
+    <tr><td><strong>Four systems, not one</strong></td><td>GPS (US), Galileo (EU), GLONASS (Russia), BeiDou (China), plus regional ones. Your phone quietly uses several at once, which is why it works better than it used to.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>The signal is extraordinarily weak.</strong> It has come 20,000 km from a transmitter the
+    power of a light bulb. By the time it reaches you it is below the background noise, and your phone
+    digs it out with clever maths. <strong>Which means it is easy to overpower.</strong></li>
+    <li><strong>Jamming</strong> means drowning it in noise so you get nothing. <strong>Spoofing</strong>
+    means broadcasting a convincing fake so you confidently get the <em>wrong</em> answer, which is far
+    worse. Both now happen routinely around conflict zones, and civil aircraft have been affected.</li>
+    <li><strong>The timing dependence is a systemic risk nobody has priced.</strong> Many systems that
+    quietly rely on GPS time have no backup, and the backups that exist — like ground-based timing
+    networks — have been allowed to decay.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"GPS works by telling you the time. Your position is just arithmetic on top of that."</p>
+  <p>"It's mostly a timing system. Banks and power grids depend on it more than drivers do."</p>
+  <p>"The satellite clocks run about 38 microseconds a day fast because of relativity. Without that
+  correction you'd be ten kilometres out by tomorrow."</p>
+</div>
+
+<header class="mod" id="s7">
+  <span class="mn">How it works 07</span>
+  <h2>Satellite constellations</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Thousands of small satellites flying low and fast, so internet from space stops being
+  slow.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>Old satellite internet was one enormous radio mast, very far away — 36,000 km up. It covered a third
+  of the planet from a single point, which is wonderful, except that the signal had to travel 36,000 km
+  up and 36,000 km back down. That round trip takes half a second, and half a second ruins a phone call.</p>
+  <p>The new approach: thousands of much shorter masts, much closer, all moving. One is always overhead.
+  Your dish just has to keep handing you from one to the next.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① THE OLD WAY — GEOSTATIONARY, 35,786 km
+   At exactly that height, one orbit takes 24 hours, so
+   the satellite appears to hang still above one spot.
+   Brilliant for television. Round trip of 500+
+   milliseconds, which is fine for broadcasting and
+   useless for a conversation.
+
+② THE NEW WAY — LOW EARTH ORBIT, about 550 km
+   Round trip: 25-50 milliseconds. Comparable to a
+   normal broadband connection.
+   ⚠ BUT at that height the satellite crosses the whole
+     sky in a few minutes. So you need thousands of them
+     for anyone to have continuous service. That is why
+     these systems are all-or-nothing: a hundred
+     satellites is useless, four thousand is a product.
+
+③ YOUR DISH DOES NOT MOVE
+   It is a "phased array": a flat panel of many small
+   antennas. By changing the timing of each one very
+   slightly, it steers its beam electronically, with no
+   moving parts. Same trick as modern radar.
+
+④ THE NEWER SATELLITES TALK TO EACH OTHER BY LASER
+   So data can hop across the constellation without
+   coming down to the ground. Which means service over
+   oceans, and fewer ground stations.
+
+⭐ AND THE THING THAT ACTUALLY MADE IT POSSIBLE
+  Not the satellites — REUSABLE ROCKETS. Launch got
+  cheap enough that putting thousands of objects in
+  orbit stopped being absurd. The enabling invention is
+  underneath, not above.</code></pre>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>Space is getting crowded.</strong> One operator now accounts for the majority of all
+    active satellites. The worry has a name — <strong>Kessler syndrome</strong> — where one collision
+    creates debris that causes more collisions, and a useful orbit becomes unusable for decades.</li>
+    <li><strong>Astronomy.</strong> The satellites leave bright streaks across long-exposure images and
+    interfere with radio telescopes. Operators have made real efforts to darken them; it helps and does
+    not solve it.</li>
+    <li><strong>They are designed to burn up on re-entry</strong>, which is good for debris. At these
+    numbers, what all that vaporised aluminium does to the upper atmosphere is an open scientific
+    question with no settled answer yet.</li>
+    <li><strong>A new kind of dependence.</strong> When a single private company supplies connectivity to
+    a country at war, and can switch it on or off, that is a form of power that has no precedent and no
+    established rules.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Old satellite internet was slow because the satellite was 36,000 km up. The fix wasn't better radio.
+  It was flying lower, and using thousands of them."</p>
+  <p>"The thing that made it possible was cheap launch, not the satellites."</p>
+</div>
+
+<header class="mod" id="s8">
+  <span class="mn">How it works 08</span>
+  <h2>Fertiliser — the process that feeds half the world</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Haber-Bosch pulls nitrogen out of the air and turns it into fertiliser — and roughly half the
+  people alive are fed because of it.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>Being surrounded by food you cannot open.</p>
+  <p>The air is 78% nitrogen. Plants need nitrogen to grow. And plants cannot use the nitrogen in the
+  air — because the two nitrogen atoms are held together by one of the strongest bonds in chemistry, and
+  breaking it is very hard.</p>
+  <p>So for all of history, farming was limited by how much usable nitrogen you could find — manure,
+  clover, bird droppings shipped from Peru. Haber-Bosch is the key that opens the air. It is probably the
+  most consequential chemical process ever invented, and almost nobody has heard of it.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① THE PROBLEM IS ONE BOND
+   Nitrogen in air is two atoms locked together by a
+   TRIPLE bond. Very strong. Very stable. That stability
+   is exactly why the air is not constantly reacting
+   with everything.
+
+② YOU NEED HYDROGEN
+   And today, almost all of it comes from NATURAL GAS.
+   ⇒ this is the "grey hydrogen" from file 11, and it is
+     the single most important fact in this entry.
+
+③ FORCE THEM TOGETHER
+   Nitrogen + hydrogen, at about 400-500°C and 150-300
+   times atmospheric pressure, over an iron catalyst.
+   Out comes ammonia.
+   The heat and pressure are why this needs an enormous
+   plant and not a laboratory.
+
+④ AMMONIA BECOMES FERTILISER
+   Urea, ammonium nitrate, and the rest. It is also the
+   feedstock for explosives, which is how the process
+   was first funded.
+
+⭐ WHY IT MATTERS SO MUCH
+  Roughly HALF of the world's food production depends on
+  synthetic fertiliser. Commonly cited estimates say
+  about half the nitrogen atoms in your own body passed
+  through a Haber-Bosch plant.
+  ⇒ you are, in a real and literal sense, partly made of
+    natural gas.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:40%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>1-2% of all the energy humans use</strong></td><td>Goes into this one process. For one product.</td></tr>
+    <tr><td><strong>~1.5-2% of global CO2</strong></td><td>Ammonia production. Almost all of it from the hydrogen step, not the reaction itself.</td></tr>
+    <tr><td><strong>Half the world's food</strong></td><td>Depends on it. There is no gradual substitute — organic farming at global scale would not feed the current population.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>Fertiliser is made from natural gas, so fertiliser prices follow gas prices.</strong> When
+    European gas prices spiked in 2022, ammonia plants across Europe simply shut down — it was cheaper to
+    stop than to run. That is how an energy crisis in one region becomes a food price crisis everywhere.
+    <em>If you take one thing from this entry, take this chain.</em></li>
+    <li><strong>Runoff.</strong> Excess nitrogen washes off fields into rivers, feeds algae, and the algae
+    die and consume the oxygen — creating dead zones where nothing lives. The one at the mouth of the
+    Mississippi is thousands of square kilometres.</li>
+    <li><strong>Nitrous oxide</strong> released from fertilised soil is a greenhouse gas far more potent
+    than CO2, molecule for molecule.</li>
+    <li><strong>Concentration again.</strong> Russia and Belarus are among the largest exporters of
+    nitrogen and potash fertilisers. Sanctions and export restrictions on them land, eventually, on food
+    prices in countries with no connection to the conflict.</li>
+    <li><strong>Green ammonia</strong> — made with green hydrogen instead of gas — is the decarbonisation
+    route, and it is currently expensive. It is also one of the few genuinely strong cases for hydrogen.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Haber-Bosch takes nitrogen out of the air and turns it into fertiliser. Roughly half the people
+  alive are fed because of it."</p>
+  <p>"Fertiliser is made from natural gas. That's why a European gas crisis turns into a global food
+  crisis."</p>
+</div>
+
+<header class="mod" id="words">
+  <span class="mn">Reference</span>
+  <h2>The words, in plain words</h2>
+</header>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:25%">When they say…</th><th>They mean</th></tr></thead>
+  <tbody>
+    <tr><td><strong>TEU</strong></td><td>Twenty-foot equivalent unit. One standard shipping container. The counting unit for everything at sea.</td></tr>
+    <tr><td><strong>Chokepoint</strong></td><td>A narrow place that a lot of trade must pass through, with no cheap alternative.</td></tr>
+    <tr><td><strong>The bullwhip effect</strong></td><td>A small change in customer demand causes a bigger swing at the retailer, a bigger one at the wholesaler, and an enormous one at the factory. Each layer over-reacts to protect itself. It is the central phenomenon of supply chains.</td></tr>
+    <tr><td><strong>Lead time</strong></td><td>How long between ordering something and having it. Long lead times are what make the bullwhip worse.</td></tr>
+    <tr><td><strong>Fab</strong></td><td>A semiconductor factory. Costs tens of billions.</td></tr>
+    <tr><td><strong>Yield</strong></td><td>The share of chips off the line that actually work. The entire economics of a fab.</td></tr>
+    <tr><td><strong>Node</strong> (3nm, 5nm)</td><td>A marketing name for a generation of chip manufacturing. It has not literally meant a measured size for years.</td></tr>
+    <tr><td><strong>Lithography</strong></td><td>The printing step in chipmaking. EUV is the advanced kind.</td></tr>
+    <tr><td><strong>Fabless</strong></td><td>A company that designs chips and pays someone else to make them. Nvidia, Apple, Qualcomm.</td></tr>
+    <tr><td><strong>Foundry</strong></td><td>A company that makes chips other people designed. TSMC.</td></tr>
+    <tr><td><strong>Critical minerals</strong></td><td>A political term, not a geological one. It means "materials we would struggle to get if a particular country stopped selling."</td></tr>
+    <tr><td><strong>Onshoring / friend-shoring</strong></td><td>Moving production home, or to allies. Expensive, slow, and the current direction of policy in most of the West.</td></tr>
+    <tr><td><strong>Just-in-time</strong></td><td>Holding almost no stock and relying on deliveries arriving exactly when needed. Extremely efficient and extremely fragile, as 2020-22 demonstrated to everyone at once.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<header class="mod" id="ten">
+  <span class="mn">Reference</span>
+  <h2>Your ten sentences</h2>
+</header>
+
+<div class="good">
+  <span class="tag">If you learn nothing else, learn these</span>
+  <div class="tw" style="margin-top:8px">
+  <table>
+    <tbody>
+      <tr><td style="width:34px"><strong>1</strong></td><td>"There's one company in the world that makes the machines that print advanced chips. It's Dutch."</td></tr>
+      <tr><td><strong>2</strong></td><td>"They make the light by firing a laser at molten tin fifty thousand times a second."</td></tr>
+      <tr><td><strong>3</strong></td><td>"The chip fight isn't about chips. It's about who's allowed to buy the machines."</td></tr>
+      <tr><td><strong>4</strong></td><td>"Rare earths aren't rare. Separating them is the hard part, and that's where the monopoly is."</td></tr>
+      <tr><td><strong>5</strong></td><td>"Australia digs the lithium, Chile evaporates it, China refines it. Refining is the part that matters."</td></tr>
+      <tr><td><strong>6</strong></td><td>"Eighty to ninety percent of world trade goes by sea, through about six narrow places."</td></tr>
+      <tr><td><strong>7</strong></td><td>"The Panama Canal is limited by rainfall. Every ship that crosses spends lake water."</td></tr>
+      <tr><td><strong>8</strong></td><td>"The cloud is a few hundred cables on the seabed. Satellites carry almost none of it."</td></tr>
+      <tr><td><strong>9</strong></td><td>"GPS is mostly a timing system. Banks and power grids depend on it more than drivers do."</td></tr>
+      <tr><td><strong>10</strong></td><td>"Fertiliser is made from natural gas. That's why a gas crisis becomes a food crisis."</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<header class="mod" id="t2">
+  <span class="mn">Reference</span>
+  <h2>What next</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">The one pattern, stated once more</div>
+<pre><code>⭐ THE CHOKE POINT IS ALMOST NEVER THE RAW MATERIAL.
+  IT IS THE PROCESSING STEP.
+
+  sand            → the machine that prints it (one
+                    company, Netherlands)
+  rare earth ore  → the separation plants (China)
+  lithium rock    → the chemical refining (China)
+  the whole ocean → six narrow straits
+  the internet    → a few hundred cables and a small,
+                    ageing repair fleet
+  the air itself  → a handful of ammonia plants running
+                    on natural gas
+
+⇒ SO WHEN YOU READ ABOUT A SHORTAGE, ASK:
+  ① IS THE SHORTAGE IN THE GROUND, OR IN THE FACTORY?
+    (almost always the factory)
+  ② HOW LONG DOES IT TAKE TO BUILD ANOTHER ONE?
+    (mines 5-10 years, fabs 3-5, ships 2-3, cable
+     repair ships basically nobody is building)
+  ③ WHO ELSE COULD MAKE IT, AND WHY DON'T THEY?
+    (usually: they could, it would be expensive, and
+     they decided not to want the waste or the risk)
+
+⭐ AND THE HONEST SUMMARY OF THE LAST FIVE YEARS:
+  the world optimised every one of these systems for
+  cost, which meant concentrating them, which meant
+  removing the slack. That worked extremely well until
+  it did not, and "resilience" is the word for buying
+  the slack back.</code></pre>
+</div>
+
+<p>This file is also the most directly useful one in the library for supply chain work — the vocabulary
+above, particularly the bullwhip effect, lead times and just-in-time, is the language of the job. The
+deeper treatment is in <a href="../../supply-chain/README.md">supply-chain/</a>.</p>
+
+<p>Next: <strong>file 13</strong> is medicine and biology — mRNA, the GLP-1 drugs, CRISPR, antibiotic
+resistance and what a diagnostic AI is actually doing. <strong>File 14</strong> is computing and AI,
+including a plain-English account of what a language model is doing when it answers you.</p>
+
+<div class="disclaimer">
+  <p><strong>On the figures.</strong> Market shares, prices and capacity figures here are typical
+  reported values and they move — particularly the China share figures, which are estimated differently
+  by different sources and which are themselves politically contested. They are here for order of
+  magnitude and for the shape of the argument. Where something is genuinely disputed or fast-moving —
+  cable sabotage attribution, the atmospheric effect of satellite re-entry, the exact split of rare earth
+  processing — the text says so rather than choosing a confident number.</p>
+</div>
+
+<div class="band" style="margin-top:34px;">
+<a class="vol" href="index.html"><span class="vn">Back to</span><b>Sharp Mind index</b><em>All sixteen handbooks</em></a>
+<a class="vol" href="11-energy-and-water.html"><span class="vn">Previous · 11</span><b>Energy and Water</b><em>Eight technologies</em></a>
+<a class="vol" href="13-medicine-and-biology.html"><span class="vn">Next · 13</span><b>Medicine and Biology</b><em>Eight breakthroughs</em></a>
+</div>
+
+</main>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var map = {}, targets = [];
+  links.forEach(function (a) {
+    var h = a.getAttribute('href');
+    if (!h || h.charAt(0) !== '#') return;
+    var el = document.getElementById(h.slice(1));
+    if (el) { map[el.id] = a; targets.push(el); }
+  });
+  var current = null;
+  function mark(id) {
+    if (id === current) return;
+    current = id;
+    links.forEach(function (a) { a.classList.remove('on'); });
+    if (map[id]) map[id].classList.add('on');
+  }
+  var io = new IntersectionObserver(function (entries) {
+    var vis = entries.filter(function (e) { return e.isIntersecting; });
+    if (vis.length) {
+      vis.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+      mark(vis[0].target.id);
+    }
+  }, { rootMargin: '-8% 0px -72% 0px', threshold: 0 });
+  targets.forEach(function (t) { io.observe(t); });
+})();
+
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

@@ -1,0 +1,730 @@
+<title>Physics — How the Universe Behaves</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">A cultured mind · Volume 25 of 54 · science</p>
+  <h1>Physics. <span class="thin">How the universe behaves, without a single number.</span></h1>
+  <p class="lede">Physics has a reputation for being the subject where the equations live, and that
+  reputation hides how few ideas are actually doing the work. There are perhaps a dozen, and every one
+  of them can be understood in plain language by anybody. This volume explains what is actually
+  happening — in a falling object, a magnet, a hot cup of tea, a beam of light — and contains no
+  mathematics whatsoever.</p>
+  <div class="hero-meta">
+    <span><b>No formulas</b> · not one</span>
+    <span><b>Covers</b> · motion, heat, light, the very small</span>
+    <span><b>Aim</b> · understanding, not calculation</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="17-ancient-world.html"><span class="vn">Vol 17</span><b>Ancient world</b></a>
+<a class="vol" href="18-empires-of-faith.html"><span class="vn">Vol 18</span><b>Faith &amp; trade</b></a>
+<a class="vol" href="19-the-world-opens.html"><span class="vn">Vol 19</span><b>The world opens</b></a>
+<a class="vol" href="20-age-of-revolutions.html"><span class="vn">Vol 20</span><b>Revolutions</b></a>
+<a class="vol" href="21-the-world-at-war.html"><span class="vn">Vol 21</span><b>The world at war</b></a>
+<a class="vol" href="22-the-long-shadow.html"><span class="vn">Vol 22</span><b>The long shadow</b></a>
+<a class="vol" href="23-disasters.html"><span class="vn">Vol 23</span><b>Disasters</b></a>
+<a class="vol" href="24-discoveries.html"><span class="vn">Vol 24</span><b>Discoveries</b></a>
+<div class="vol here"><span class="vn">Vol 25 · here</span><b>Physics</b></div>
+<a class="vol" href="26-chemistry.html"><span class="vn">Vol 26</span><b>Chemistry</b></a>
+<a class="vol" href="27-life.html"><span class="vn">Vol 27</span><b>Life</b></a>
+<a class="vol" href="28-medicine.html"><span class="vn">Vol 28</span><b>Medicine</b></a>
+<a class="vol" href="29-the-sky.html"><span class="vn">Vol 29</span><b>The sky</b></a>
+<a class="vol" href="30-the-earth.html"><span class="vn">Vol 30</span><b>The Earth</b></a>
+<a class="vol" href="31-what-to-remember.html"><span class="vn">Vol 31</span><b>What to remember</b></a>
+<a class="vol" href="32-everyday-science.html"><span class="vn">Vol 32</span><b>Everyday science</b></a>
+<a class="vol" href="33-your-body.html"><span class="vn">Vol 33</span><b>Your body</b></a>
+<a class="vol" href="34-when-things-go-wrong.html"><span class="vn">Vol 34</span><b>Emergencies</b></a>
+<a class="vol" href="35-the-mind.html"><span class="vn">Vol 35</span><b>The mind</b></a>
+<a class="vol" href="36-people.html"><span class="vn">Vol 36</span><b>People</b></a>
+<a class="vol" href="37-the-dark-side.html"><span class="vn">Vol 37</span><b>The dark side</b></a>
+<a class="vol" href="38-money.html"><span class="vn">Vol 38</span><b>Money</b></a>
+<a class="vol" href="39-chance.html"><span class="vn">Vol 39</span><b>Chance</b></a>
+<a class="vol" href="40-right-and-wrong.html"><span class="vn">Vol 40</span><b>Right &amp; wrong</b></a>
+<a class="vol" href="41-whats-in-things.html"><span class="vn">Vol 41</span><b>What's in things</b></a>
+<a class="vol" href="42-your-health.html"><span class="vn">Vol 42</span><b>Your health</b></a>
+<a class="vol" href="43-mind-and-mood.html"><span class="vn">Vol 43</span><b>Mind &amp; mood</b></a>
+<a class="vol" href="44-medicines.html"><span class="vn">Vol 44</span><b>Medicines</b></a>
+<a class="vol" href="45-the-conditions.html"><span class="vn">Vol 45</span><b>The conditions</b></a>
+<a class="vol" href="46-home-and-kitchen.html"><span class="vn">Vol 46</span><b>Home &amp; kitchen</b></a>
+<a class="vol" href="47-not-being-fooled.html"><span class="vn">Vol 47</span><b>Not being fooled</b></a>
+<a class="vol" href="48-dont-do-that.html"><span class="vn">Vol 48</span><b>Don't do that</b></a>
+<a class="vol" href="49-ai-honestly.html"><span class="vn">Vol 49</span><b>AI, honestly</b></a>
+<a class="vol" href="50-whats-coming.html"><span class="vn">Vol 50</span><b>What's coming</b></a>
+<a class="vol" href="51-the-novels.html"><span class="vn">Vol 51</span><b>The novels</b></a>
+<a class="vol" href="52-philosophy-originals.html"><span class="vn">Vol 52</span><b>Philosophy</b></a>
+<a class="vol" href="53-ideas-that-changed.html"><span class="vn">Vol 53</span><b>Ideas</b></a>
+<a class="vol" href="54-the-anthology.html"><span class="vn">Vol 54</span><b>The anthology</b></a>
+</div>
+
+<header class="part" id="p1">
+  <span class="pn">Part I</span>
+  <h2>Things that move</h2>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The idea that took two thousand years</h2>
+</header>
+
+<p>Watch a rolling ball and it slows down and stops. Watch a pushed cart and it stops when you stop
+pushing. The obvious conclusion — and Aristotle drew it, and it went unchallenged for two millennia —
+is that motion needs a cause. Things naturally come to rest.</p>
+
+<p>It is wrong, and it is wrong in an interesting way. The ball stops because of friction and air, and
+if you remove those it does not stop. But you cannot remove them on Earth, so the truth is hidden
+behind the very thing that makes it look false.</p>
+
+<p>What is actually true is the opposite. <strong>Things keep doing what they are doing.</strong>
+Something moving keeps moving, in a straight line, at the same speed, forever, unless something pushes
+it. Something still stays still until something pushes it. Motion does not need a cause. <em>Change</em>
+in motion needs a cause.</p>
+
+<p>That is why you lurch forward when a bus brakes. You were moving; the bus stopped; nothing stopped
+you. You are not thrown forward — you are simply continuing, and the bus has stopped cooperating.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Why heavy things do not fall faster</h2>
+</header>
+
+<p>Drop a hammer and a feather and the hammer lands first, which seems to settle the matter. It does
+not. Take them to the Moon, where there is no air, and they land together — an astronaut did this on
+camera precisely to show it.</p>
+
+<p>The feather loses because air resistance affects it enormously relative to its weight, not because it
+is lighter. Strip the air away and everything falls at exactly the same rate.</p>
+
+<p>Why? Because a heavier object is pulled harder, and is also harder to get moving, and those two
+effects cancel exactly. Double the mass and you double the pull, but you also double the reluctance to
+accelerate. The result is the same fall for everything.</p>
+
+<p>Why they cancel so precisely was an unexplained coincidence for two hundred years, and the man who
+explained it is in the next chapter.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Gravity is not a force pulling you down</h2>
+</header>
+
+<p>Newton described what gravity <em>does</em> superbly and admitted he had no idea what it <em>was</em>.
+Action at a distance across empty space, instantly, with no visible connection, bothered him
+considerably.</p>
+
+<p>Einstein's answer was that there is no pull at all. Instead, <strong>mass bends space and time
+around it</strong>, and things moving through bent space follow curved paths — not because something is
+tugging them, but because that is now what "straight ahead" means there.</p>
+
+<p>The usual picture is a heavy ball on a stretched rubber sheet, making a dip that a rolling marble
+curves into. It is a decent picture with one serious flaw: it explains gravity by using gravity to pull
+the ball into the sheet. Take it as a hint rather than an explanation.</p>
+
+<p>The better way in is this. You cannot tell the difference between standing on Earth and standing in a
+sealed room being accelerated upwards in deep space. Everything falls the same way in both. If no
+experiment can distinguish them, perhaps they are the same thing — and gravity is not a force but what
+you feel when the floor pushes you off the path you would otherwise take.</p>
+
+<p>This sounds like philosophy and it is testable. Bent space bends light, and starlight passing the Sun
+during an eclipse is deflected by exactly the predicted amount. Clocks run measurably slower lower down
+in a gravitational field, which is not a quirk — your phone's satellite navigation corrects for it
+constantly, and would drift by kilometres a day if it did not.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Why nothing goes faster than light</h2>
+</header>
+
+<p>The strange fact underneath relativity is this: however fast you are moving, light always passes you
+at the same speed. Chase a light beam at almost light speed and it still recedes from you at full
+speed.</p>
+
+<p>That should be impossible. If I run after a train at half its speed, it pulls away at half speed.
+Light does not do this.</p>
+
+<p>Einstein took the observation seriously and asked what would have to be true for it to work. The
+answer is that <strong>space and time must adjust instead.</strong> If everyone must measure the same
+speed for light, and speed is distance divided by time, then people moving differently must disagree
+about distances and about durations.</p>
+
+<p>So a fast-moving clock genuinely runs slow, as seen from here. This is not an illusion and it is not
+theoretical: particles created in the upper atmosphere that should decay long before reaching the
+ground arrive anyway, because at their speed their internal clock is running slow enough to survive the
+trip.</p>
+
+<p>And the speed limit follows. The faster something goes, the harder it becomes to speed it up further
+— the resistance grows without limit as you approach light speed, so reaching it would take infinite
+effort. Light manages it only because it has no mass at all.</p>
+
+<header class="part" id="p2">
+  <span class="pn">Part II</span>
+  <h2>Heat, light and electricity</h2>
+</header>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Heat is just jiggling</h2>
+</header>
+
+<p>Temperature is not a substance. Everything is made of particles, and those particles are always
+moving — vibrating in a solid, sliding past each other in a liquid, flying about in a gas.
+<strong>Temperature is how vigorously they are moving.</strong> That is all it is.</p>
+
+<p>So heating something means making its particles move faster, and cooling means slowing them. Touch
+something hot and its fast particles knock into yours and speed them up, which you experience as heat
+flowing in.</p>
+
+<p>Several everyday puzzles dissolve at once. A metal spoon feels colder than a wooden one at the same
+temperature because metal conducts — it takes heat out of your hand quickly — while wood does not, so
+it is a statement about your hand, not the object. Ice cools your drink not mainly by being cold but by
+melting, because breaking the solid structure apart absorbs a surprisingly large amount of energy. And
+there is a coldest possible temperature, where the jiggling stops, and nothing can be colder because
+there is no slower than stopped.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Why your tea never spontaneously reheats</h2>
+</header>
+
+<p>Heat always flows from hot to cold and never the other way. Nothing forbids the reverse — the
+particles could all happen to knock energy back into the cup — it is simply overwhelmingly unlikely.</p>
+
+<p>Here is the reason, and it is one of the deepest ideas in science. There are very few arrangements of
+particles we would call ordered and an unimaginably larger number we would call disordered. Shuffle at
+random and you land in the huge group essentially every time. <strong>Things run down not because of a
+force pushing them, but because there are vastly more ways to be messy than tidy.</strong></p>
+
+<p>That is why a broken cup never reassembles, why smoke never gathers back into the cigarette, and why
+you can tell a film is running backwards. It is also the only law of physics that distinguishes past
+from future — everything else works equally well in either direction.</p>
+
+<p>Life appears to violate it, building order out of disorder. It does not: a living thing maintains its
+own tidiness by making a larger mess outside itself, which is what eating and breathing are for.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Electricity and magnetism are the same thing</h2>
+</header>
+
+<p>Electric current is charged particles flowing, normally electrons drifting through metal. Voltage is
+the push behind them. Resistance is how much the material obstructs them, and obstruction makes heat,
+which is how a kettle and a light bulb work.</p>
+
+<p>The surprising discovery — made when a lecturer noticed a compass needle twitch near a wire — is that
+<strong>a moving charge creates magnetism, and a moving magnet creates current.</strong> They are two
+faces of one phenomenon.</p>
+
+<p>Almost all electrical technology is those two sentences. A motor puts current into a magnetic field
+to make something turn. A generator turns something in a magnetic field to make current. Spin a magnet
+near a coil and you have a power station, whether the thing spinning it is steam, falling water or
+wind.</p>
+
+<p>And when a charge wobbles, the disturbance travels outward as a wave of electricity and magnetism
+taking turns — which turns out to be light. Radio waves, microwaves, visible colours, X-rays: all the
+same phenomenon, differing only in how rapidly they wobble. Your eyes detect one narrow band of it, and
+your radio another.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Why the sky is blue and sunsets are red</h2>
+</header>
+
+<p>Sunlight contains all colours together. As it passes through the air it strikes molecules and
+scatters off them — and the shorter, bluer wavelengths scatter far more than the longer, redder
+ones.</p>
+
+<p>So blue light gets bounced around the sky in all directions, and when you look up at any part of the
+sky away from the Sun, the light reaching you is that scattered blue. The sky is blue because you are
+seeing sunlight that has been knocked sideways.</p>
+
+<p>At sunset the light comes in at a shallow angle through far more air. By the time it reaches you
+almost all the blue has been scattered out of it, leaving the reds and oranges that survive the
+journey. <strong>Sunsets are red for exactly the same reason the sky is blue</strong> — you are seeing
+what is left after the blue has been taken away.</p>
+
+<header class="part" id="p3">
+  <span class="pn">Part III</span>
+  <h2>The very small</h2>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Why the quantum world is strange</h2>
+</header>
+
+<p>At everyday scales, things have a definite position and speed. Very small things do not behave this
+way, and the difference is not a limitation of our instruments.</p>
+
+<p>Two ideas carry most of it.</p>
+
+<p>The first is <strong>lumpiness</strong>. Energy does not come in a smooth continuum but in
+indivisible steps, like coins rather than liquid. An electron in an atom cannot sit between two allowed
+levels any more than you can have half a penny. This is where the word quantum comes from, and it
+explains why atoms emit only specific colours — each colour corresponds to a particular jump.</p>
+
+<p>The second is <strong>spread-outness</strong>. Before it is measured, a small particle does not have
+a single location. It has a range of possibilities, all genuinely there at once, and measuring forces
+one of them.</p>
+
+<p>The classic demonstration fires particles one at a time at a barrier with two slits. Each arrives as
+a single dot. But over thousands of arrivals a striped pattern builds up that can only happen if each
+particle somehow went through both slits and interfered with itself. Put a detector on the slits to
+catch it doing this, and the stripes vanish and it behaves like an ordinary particle. Looking changes
+the outcome.</p>
+
+<p>Nobody has an agreed explanation of <em>why</em> this is so. The mathematics predicts experiments to
+extraordinary precision and physicists disagree fundamentally about what it means. That is an honest
+state of affairs and worth knowing: this is not a topic where you are failing to understand something
+everyone else has grasped.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>What everything is made of</h2>
+</header>
+
+<p>Matter is made of atoms. Atoms have a tiny dense nucleus with a cloud of electrons around it, and
+they are overwhelmingly empty — if the nucleus were a marble on a football pitch, the electrons would be
+somewhere around the stands.</p>
+
+<p>Which raises a fair question: if atoms are mostly nothing, why is a table solid? Not because the
+particles are packed tight. It is because electrons repel other electrons, and because they refuse to
+occupy the same state as each other. <strong>You are not resting on matter. You are hovering on
+electrical repulsion, a tiny distance above the chair.</strong> Nothing you touch have you ever
+actually touched.</p>
+
+<p>The nucleus is made of protons and neutrons, and those are made of quarks, and so far as anyone can
+tell quarks and electrons are not made of anything further. There are a handful of such fundamental
+particles and four fundamental forces — gravity, electromagnetism, and two that act only inside the
+nucleus, one holding it together and one responsible for certain kinds of radioactive decay.</p>
+
+<p>Three of those four are described by one theory and gravity by another, and the two do not fit
+together. Making them fit is the largest unsolved problem in physics, and the candidate answers —
+strings, loops, and others — currently have no experimental evidence deciding between them. Another
+honest gap, and one to be suspicious of anyone claiming to have closed.</p>
+
+<header class="mod" id="recap">
+  <span class="mn">Reference</span>
+  <h2>What to carry forward</h2>
+</header>
+
+<div class="sen">
+  <div class="b knows"><span class="k">Motion and gravity</span>
+    <p>Things keep doing what they are doing; <strong>change</strong> needs a cause, not motion. Heavy
+    and light objects fall together once air is removed. And gravity is not a pull — it is <strong>mass
+    bending space and time</strong>, with things following what counts as straight in bent space.</p></div>
+  <div class="b"><span class="k">Heat and the arrow of time</span>
+    <p>Temperature is how hard particles are jiggling. Things run down because <strong>there are vastly
+    more disordered arrangements than ordered ones</strong> — which is the only law that tells past from
+    future, and the reason a film running backwards looks wrong.</p></div>
+  <div class="b"><span class="k">Light and electricity</span>
+    <p>Moving charge makes magnetism; moving magnets make current. That is the motor, the generator and
+    the power station. A wobbling charge sends out a wave — <strong>light, radio and X-rays are the same
+    thing at different speeds of wobble.</strong> Blue sky and red sunset are one phenomenon.</p></div>
+  <div class="b check"><span class="k">The small and the honest gaps</span>
+    <p>Energy comes in steps, and unmeasured particles are genuinely spread out until looked at — nobody
+    agrees what that <em>means</em>. Solidity is electrical repulsion, not contact. And gravity still
+    does not fit with the other three forces. <strong>Knowing which questions are open is part of
+    understanding the subject.</strong></p></div>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · Chemistry</h4><p>What those atoms do when they meet each other — which is the whole of chemistry, and also of cooking, rust, batteries and you.</p></div>
+  <div class="card"><h4>Related · Discoveries</h4><p>Volume 24 tells how several of these were found: gravity, radioactivity, and the sum that did not add up in Berlin in 1938.</p></div>
+</div>
+</main>
+</div>
+
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

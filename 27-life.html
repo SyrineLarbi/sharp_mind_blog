@@ -1,0 +1,691 @@
+<title>Life — The Cell, the Body, the Brain</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">A cultured mind · Volume 27 of 54 · science</p>
+  <h1>Life. <span class="thin">The cell, the code, the body, and the three pounds of tissue reading this.</span></h1>
+  <p class="lede">Every living thing on Earth is built the same way, runs on the same code, and is
+  descended from the same ancestor. That is not a poetic flourish — it is the single most striking
+  finding in biology, and everything in this volume follows from it. No formulas, no Latin you have to
+  memorise, just what is actually happening.</p>
+  <div class="hero-meta">
+    <span><b>One ancestor</b> · everything alive</span>
+    <span><b>One code</b> · shared by all of it</span>
+    <span><b>Covers</b> · cells, genes, evolution, the body, the brain</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="17-ancient-world.html"><span class="vn">Vol 17</span><b>Ancient world</b></a>
+<a class="vol" href="18-empires-of-faith.html"><span class="vn">Vol 18</span><b>Faith &amp; trade</b></a>
+<a class="vol" href="19-the-world-opens.html"><span class="vn">Vol 19</span><b>The world opens</b></a>
+<a class="vol" href="20-age-of-revolutions.html"><span class="vn">Vol 20</span><b>Revolutions</b></a>
+<a class="vol" href="21-the-world-at-war.html"><span class="vn">Vol 21</span><b>The world at war</b></a>
+<a class="vol" href="22-the-long-shadow.html"><span class="vn">Vol 22</span><b>The long shadow</b></a>
+<a class="vol" href="23-disasters.html"><span class="vn">Vol 23</span><b>Disasters</b></a>
+<a class="vol" href="24-discoveries.html"><span class="vn">Vol 24</span><b>Discoveries</b></a>
+<a class="vol" href="25-physics.html"><span class="vn">Vol 25</span><b>Physics</b></a>
+<a class="vol" href="26-chemistry.html"><span class="vn">Vol 26</span><b>Chemistry</b></a>
+<div class="vol here"><span class="vn">Vol 27 · here</span><b>Life</b></div>
+<a class="vol" href="28-medicine.html"><span class="vn">Vol 28</span><b>Medicine</b></a>
+<a class="vol" href="29-the-sky.html"><span class="vn">Vol 29</span><b>The sky</b></a>
+<a class="vol" href="30-the-earth.html"><span class="vn">Vol 30</span><b>The Earth</b></a>
+<a class="vol" href="31-what-to-remember.html"><span class="vn">Vol 31</span><b>What to remember</b></a>
+<a class="vol" href="32-everyday-science.html"><span class="vn">Vol 32</span><b>Everyday science</b></a>
+<a class="vol" href="33-your-body.html"><span class="vn">Vol 33</span><b>Your body</b></a>
+<a class="vol" href="34-when-things-go-wrong.html"><span class="vn">Vol 34</span><b>Emergencies</b></a>
+<a class="vol" href="35-the-mind.html"><span class="vn">Vol 35</span><b>The mind</b></a>
+<a class="vol" href="36-people.html"><span class="vn">Vol 36</span><b>People</b></a>
+<a class="vol" href="37-the-dark-side.html"><span class="vn">Vol 37</span><b>The dark side</b></a>
+<a class="vol" href="38-money.html"><span class="vn">Vol 38</span><b>Money</b></a>
+<a class="vol" href="39-chance.html"><span class="vn">Vol 39</span><b>Chance</b></a>
+<a class="vol" href="40-right-and-wrong.html"><span class="vn">Vol 40</span><b>Right &amp; wrong</b></a>
+<a class="vol" href="41-whats-in-things.html"><span class="vn">Vol 41</span><b>What's in things</b></a>
+<a class="vol" href="42-your-health.html"><span class="vn">Vol 42</span><b>Your health</b></a>
+<a class="vol" href="43-mind-and-mood.html"><span class="vn">Vol 43</span><b>Mind &amp; mood</b></a>
+<a class="vol" href="44-medicines.html"><span class="vn">Vol 44</span><b>Medicines</b></a>
+<a class="vol" href="45-the-conditions.html"><span class="vn">Vol 45</span><b>The conditions</b></a>
+<a class="vol" href="46-home-and-kitchen.html"><span class="vn">Vol 46</span><b>Home &amp; kitchen</b></a>
+<a class="vol" href="47-not-being-fooled.html"><span class="vn">Vol 47</span><b>Not being fooled</b></a>
+<a class="vol" href="48-dont-do-that.html"><span class="vn">Vol 48</span><b>Don't do that</b></a>
+<a class="vol" href="49-ai-honestly.html"><span class="vn">Vol 49</span><b>AI, honestly</b></a>
+<a class="vol" href="50-whats-coming.html"><span class="vn">Vol 50</span><b>What's coming</b></a>
+<a class="vol" href="51-the-novels.html"><span class="vn">Vol 51</span><b>The novels</b></a>
+<a class="vol" href="52-philosophy-originals.html"><span class="vn">Vol 52</span><b>Philosophy</b></a>
+<a class="vol" href="53-ideas-that-changed.html"><span class="vn">Vol 53</span><b>Ideas</b></a>
+<a class="vol" href="54-the-anthology.html"><span class="vn">Vol 54</span><b>The anthology</b></a>
+</div>
+
+<header class="part" id="p1">
+  <span class="pn">Part I</span>
+  <h2>The unit</h2>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Everything alive is made of the same thing</h2>
+</header>
+
+<p>Bacteria, oak trees, mushrooms and people are all built from cells — small bags of watery chemistry
+wrapped in a membrane. You are somewhere around thirty trillion of them, cooperating.</p>
+
+<p>A cell has to do a small number of jobs and every cell does all of them: keep the outside out and the
+inside in, take in fuel, get energy from it, build the parts it needs, hold instructions, and copy
+itself.</p>
+
+<p>The membrane deserves a moment because it is beautifully simple. It is made of molecules with a
+water-loving head and a water-hating tail — exactly like the soap of the previous volume. Drop them in
+water and they spontaneously arrange into a double sheet, tails tucked inward away from the water, heads
+facing out on both sides. Nobody assembles it. <strong>The chemistry of the pieces makes the structure
+build itself</strong>, and that is probably how the first cells came about.</p>
+
+<p>Bigger cells — yours, a plant's, a fungus's — also contain compartments doing specialised work.
+The one that releases energy from food has its own separate DNA and divides on its own schedule,
+because it is the descendant of a free-living bacterium that was swallowed and never digested. Two
+organisms became one, permanently, and every complex organism on Earth is a result of that merger.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The code, and why it is the same everywhere</h2>
+</header>
+
+<p>DNA is a long molecule made of four units repeated in some order. The order is the information, the
+way letters make a sentence.</p>
+
+<p>The molecule is two strands twisted together, and the units pair in a fixed way — each one always
+opposite one particular partner. That single rule does two jobs at once. It means each strand contains
+enough information to rebuild the other, so copying is straightforward: unzip, and build a new partner
+against each half. And it means the information is stored twice, which helps with repair.</p>
+
+<p>What the code actually specifies is proteins. Read three units at a time, and each triplet names an
+amino acid; string the named amino acids together and they fold into a shape; the shape does a job.
+Proteins are the machinery — they digest your food, carry oxygen, build your hair, fight infection and
+read the DNA itself.</p>
+
+<p>Here is the remarkable part. <strong>The same triplets mean the same amino acids in a bacterium, a
+banana and you.</strong> There is no chemical reason it had to come out this way; many other
+assignments would work. The only sensible explanation for one shared code is one shared ancestor.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Evolution, in four sentences</h2>
+</header>
+
+<p>Individuals vary, and some of the variation is inherited. More offspring are produced than can
+survive. Variations that happen to help an individual survive and reproduce become more common in the
+next generation. Repeat for an extremely long time.</p>
+
+<p>That is the entire mechanism. Nothing is choosing, nothing is aiming, and no individual evolves — a
+population does, across generations.</p>
+
+<p>Two misunderstandings are worth clearing. Evolution is not about the strongest; it is about whatever
+fits the current circumstances, which might be smallest, or dullest, or best at hiding. And it has no
+goal and no upward direction — organisms have lost eyes, legs and complexity when those cost more than
+they returned.</p>
+
+<p>The evidence is not one line but several that agree. Fossils appear in a consistent order. Anatomy
+shows the same underlying bone arrangement modified for entirely different uses — a bat's wing, a
+whale's flipper and your hand have the same bones in the same order, which makes sense as
+modification and no sense as design. And DNA comparison independently produces the same family tree
+that fossils and anatomy suggested, which is a genuinely severe test that it passed.</p>
+
+<div class="note">
+  <span class="tag">The leftovers</span>
+  <p>You get goosebumps, which fluff up fur you no longer have. You have an appendix, muscles for moving
+  ears that do not move, and the remnants of a tail. Whales have hip bones inside them, connected to
+  nothing. <strong>These make sense as inherited leftovers and make no sense otherwise</strong>, which
+  is why they are some of the most persuasive evidence there is.</p>
+</div>
+
+<header class="part" id="p2">
+  <span class="pn">Part II</span>
+  <h2>The body</h2>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>What your organs are actually for</h2>
+</header>
+
+<p>Almost every organ is solving one of four problems: getting fuel in, getting oxygen in, moving both
+around, or getting waste out.</p>
+
+<p>Digestion is chemical dismantling. Food is made of molecules too large to cross into your blood, so
+the gut takes them apart — stomach acid and enzymes breaking proteins, fats and starches into pieces
+small enough to absorb through the intestine wall, which is folded and refolded until its surface area
+is roughly that of a tennis court.</p>
+
+<p>Lungs are surface area too. Their job is to put air next to blood with the thinnest possible barrier
+between, and they do it by branching into hundreds of millions of tiny sacs. Oxygen crosses into the
+blood and carbon dioxide crosses out, purely because each moves from where it is plentiful to where it
+is scarce. No pumping is involved — it is simply spreading.</p>
+
+<p>The heart is a pump with two circuits, one sending blood to the lungs to collect oxygen and one
+sending it round the body to deliver it. And the kidneys are a filter with a clever design: they dump
+almost everything out of the blood and then carefully reabsorb what is worth keeping, which sounds
+wasteful and is far easier to regulate than picking out individual poisons.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>How your body defends itself</h2>
+</header>
+
+<p>There are two systems and they work quite differently.</p>
+
+<p>The first is general-purpose and immediate. Skin and mucus keep things out. If something gets in,
+cells that eat intruders arrive within minutes, and the area becomes hot, red and swollen — which is
+not the infection but your response to it, widening blood vessels to bring more defenders.</p>
+
+<p>The second is specific and slow, and it is the interesting one. Your body carries an enormous variety
+of cells, each shaped to recognise one particular intruder. Almost all of them will never meet theirs.
+When one does, it multiplies rapidly into an army tailored to that exact threat.</p>
+
+<p>That takes days, which is why you are ill for a week. But afterwards some of those cells remain,
+<strong>and the second time they respond so quickly you never notice.</strong> That is immunity, and it
+is why you get chickenpox once.</p>
+
+<p>A vaccine is simply a way of showing your immune system the shape of a threat without the threat —
+a fragment, or a disabled version, or instructions for your own cells to make one harmless piece of it.
+The memory forms, and the first real encounter is met with the second-time response.</p>
+
+<p>Two things go wrong. Sometimes the system attacks the body's own tissue, which is autoimmune disease.
+Sometimes it reacts violently to something harmless — pollen, peanuts — which is allergy, an immune
+system fighting extremely hard against a threat that is not there.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The passengers</h2>
+</header>
+
+<p>You are carrying roughly as many bacterial cells as human ones, mostly in your gut, and they are not
+freeloaders.</p>
+
+<p>They digest fibre you cannot, manufacture certain vitamins, crowd out dangerous species by occupying
+the space, and train your immune system about what is harmless. Animals raised entirely germ-free are
+not healthier; they are distinctly unwell.</p>
+
+<p>The population varies with diet, and it shifts within days of changing what you eat. It is disrupted
+by antibiotics, which cannot distinguish the bacteria making you ill from the ones helping you, and
+recovery takes weeks or months.</p>
+
+<p>There is good evidence connecting gut bacteria to digestion, immunity and weight, and suggestive but
+much less settled evidence connecting them to mood and behaviour. The field is genuinely exciting and
+currently oversold, and a reasonable position is interested scepticism.</p>
+
+<header class="part" id="p3">
+  <span class="pn">Part III</span>
+  <h2>The brain</h2>
+</header>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>How a thought physically happens</h2>
+</header>
+
+<p>A neuron is a cell with a long tail and a bushy end, and it works electrically along its own length
+and chemically between itself and the next one.</p>
+
+<p>A signal travels down the tail as a wave of electrical change, arrives at the end, and causes
+chemical messengers to be released into the small gap before the next neuron. Those messengers cross
+and either encourage or discourage the next cell from firing. Each neuron sits collecting thousands of
+these votes, and fires when the encouragement outweighs the discouragement.</p>
+
+<p>There are something like eighty-six billion of them, each connected to thousands of others. The
+connections are where everything is: <strong>you are not your neurons so much as the pattern of
+strength between them.</strong></p>
+
+<p>Which is also what learning is. Connections that are used repeatedly become stronger and easier to
+trigger; ones that are not used weaken. Practising a skill is physically thickening certain routes.
+This continues for life, though more readily when young.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Why you cannot trust what you see</h2>
+</header>
+
+<p>It feels as though your eyes deliver a picture and you watch it. That is not remotely what
+happens.</p>
+
+<p>Your eye has a blind spot where the nerve leaves, and you never see a hole because your brain fills
+it in with a guess based on the surroundings. Only a small central patch of your vision is detailed;
+the rest is vague, and you do not notice because your eyes dart constantly and the brain assembles the
+impression of a complete sharp scene that you never actually received.</p>
+
+<p>Colour is constructed too. A white shirt looks white in warm evening light and in blue daylight, even
+though the light reaching your eye is completely different, because your brain corrects for the
+illumination. That correction is a decision, and when two people's brains make different decisions about
+an ambiguously lit photograph they will disagree furiously about its colours — as one notorious dress
+once demonstrated.</p>
+
+<p>So perception is not recording. <strong>It is your brain's best running hypothesis about what is out
+there</strong>, built from fragments and heavily edited. Usually it is right. When it is wrong, it is
+wrong with total confidence, which is exactly why eyewitness testimony is far less reliable than juries
+assume, and why the psychology volume on the shelf next to this one matters.</p>
+
+<header class="mod" id="recap">
+  <span class="mn">Reference</span>
+  <h2>What to carry forward</h2>
+</header>
+
+<div class="sen">
+  <div class="b knows"><span class="k">The finding that organises everything</span>
+    <p>Every living thing uses the <strong>same genetic code</strong> — the same triplets meaning the
+    same building blocks in a bacterium, a banana and you. There is no chemical necessity to it. One
+    shared code means one shared ancestor.</p></div>
+  <div class="b"><span class="k">Copying, and evolution</span>
+    <p>DNA's fixed pairing rule means each strand can rebuild the other, which is how copying works.
+    Evolution is four sentences: <strong>variation, more born than survive, helpful variations spread,
+    repeat.</strong> Nothing aims at anything, and the leftovers — goosebumps, whale hip bones — are the
+    giveaway.</p></div>
+  <div class="b"><span class="k">The body, and the defence</span>
+    <p>Most organs are surface area or filtration solving one of four problems. Immunity works by keeping
+    a huge variety of cells that each recognise one threat — and <strong>remembering</strong>, which is
+    all a vaccine exploits.</p></div>
+  <div class="b check"><span class="k">The brain</span>
+    <p>You are the pattern of connection strengths, and learning physically thickens the routes you use.
+    And perception is <strong>not recording but hypothesis</strong> — filled in, corrected, edited, and
+    confidently wrong when it is wrong.</p></div>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · Medicine</h4><p>What goes wrong with all of this, and the long fight to do something about it — from handwashing to antibiotics to a vaccine designed in a weekend.</p></div>
+  <div class="card"><h4>Related · Discoveries</h4><p>Volume 24 tells how the structure of DNA was found, and whose photograph made it possible.</p></div>
+</div>
+</main>
+</div>
+
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

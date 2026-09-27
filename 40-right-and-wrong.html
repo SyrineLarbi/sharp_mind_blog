@@ -1,0 +1,708 @@
+<title>Right and Wrong</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">A cultured mind · Volume 40 of 54 · philosophy</p>
+  <h1>Right and wrong. <span class="thin">Ethics you can use, and arguments you can take apart.</span></h1>
+  <p class="lede">Two thousand years of moral philosophy comes down to a small number of genuinely
+  different answers to one question, and knowing them changes how you argue — because most
+  disagreements are not about the facts but about which of these frameworks each side is standing in
+  without saying so. Then the other half: how an argument works, and the specific ways they fail.</p>
+  <div class="hero-meta">
+    <span><b>Pairs with</b> · Volumes 35–37</span>
+    <span><b>Covers</b> · the three ethical frameworks, dilemmas, logic, fallacies</span>
+    <span><b>Aim</b> · to argue better, not to win</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="17-ancient-world.html"><span class="vn">Vol 17</span><b>Ancient world</b></a>
+<a class="vol" href="18-empires-of-faith.html"><span class="vn">Vol 18</span><b>Faith &amp; trade</b></a>
+<a class="vol" href="19-the-world-opens.html"><span class="vn">Vol 19</span><b>The world opens</b></a>
+<a class="vol" href="20-age-of-revolutions.html"><span class="vn">Vol 20</span><b>Revolutions</b></a>
+<a class="vol" href="21-the-world-at-war.html"><span class="vn">Vol 21</span><b>The world at war</b></a>
+<a class="vol" href="22-the-long-shadow.html"><span class="vn">Vol 22</span><b>The long shadow</b></a>
+<a class="vol" href="23-disasters.html"><span class="vn">Vol 23</span><b>Disasters</b></a>
+<a class="vol" href="24-discoveries.html"><span class="vn">Vol 24</span><b>Discoveries</b></a>
+<a class="vol" href="25-physics.html"><span class="vn">Vol 25</span><b>Physics</b></a>
+<a class="vol" href="26-chemistry.html"><span class="vn">Vol 26</span><b>Chemistry</b></a>
+<a class="vol" href="27-life.html"><span class="vn">Vol 27</span><b>Life</b></a>
+<a class="vol" href="28-medicine.html"><span class="vn">Vol 28</span><b>Medicine</b></a>
+<a class="vol" href="29-the-sky.html"><span class="vn">Vol 29</span><b>The sky</b></a>
+<a class="vol" href="30-the-earth.html"><span class="vn">Vol 30</span><b>The Earth</b></a>
+<a class="vol" href="31-what-to-remember.html"><span class="vn">Vol 31</span><b>What to remember</b></a>
+<a class="vol" href="32-everyday-science.html"><span class="vn">Vol 32</span><b>Everyday science</b></a>
+<a class="vol" href="33-your-body.html"><span class="vn">Vol 33</span><b>Your body</b></a>
+<a class="vol" href="34-when-things-go-wrong.html"><span class="vn">Vol 34</span><b>Emergencies</b></a>
+<a class="vol" href="35-the-mind.html"><span class="vn">Vol 35</span><b>The mind</b></a>
+<a class="vol" href="36-people.html"><span class="vn">Vol 36</span><b>People</b></a>
+<a class="vol" href="37-the-dark-side.html"><span class="vn">Vol 37</span><b>The dark side</b></a>
+<a class="vol" href="38-money.html"><span class="vn">Vol 38</span><b>Money</b></a>
+<a class="vol" href="39-chance.html"><span class="vn">Vol 39</span><b>Chance</b></a>
+<div class="vol here"><span class="vn">Vol 40 · here</span><b>Right &amp; wrong</b></div>
+<a class="vol" href="41-whats-in-things.html"><span class="vn">Vol 41</span><b>What's in things</b></a>
+<a class="vol" href="42-your-health.html"><span class="vn">Vol 42</span><b>Your health</b></a>
+<a class="vol" href="43-mind-and-mood.html"><span class="vn">Vol 43</span><b>Mind &amp; mood</b></a>
+<a class="vol" href="44-medicines.html"><span class="vn">Vol 44</span><b>Medicines</b></a>
+<a class="vol" href="45-the-conditions.html"><span class="vn">Vol 45</span><b>The conditions</b></a>
+<a class="vol" href="46-home-and-kitchen.html"><span class="vn">Vol 46</span><b>Home &amp; kitchen</b></a>
+<a class="vol" href="47-not-being-fooled.html"><span class="vn">Vol 47</span><b>Not being fooled</b></a>
+<a class="vol" href="48-dont-do-that.html"><span class="vn">Vol 48</span><b>Don't do that</b></a>
+<a class="vol" href="49-ai-honestly.html"><span class="vn">Vol 49</span><b>AI, honestly</b></a>
+<a class="vol" href="50-whats-coming.html"><span class="vn">Vol 50</span><b>What's coming</b></a>
+<a class="vol" href="51-the-novels.html"><span class="vn">Vol 51</span><b>The novels</b></a>
+<a class="vol" href="52-philosophy-originals.html"><span class="vn">Vol 52</span><b>Philosophy</b></a>
+<a class="vol" href="53-ideas-that-changed.html"><span class="vn">Vol 53</span><b>Ideas</b></a>
+<a class="vol" href="54-the-anthology.html"><span class="vn">Vol 54</span><b>The anthology</b></a>
+</div>
+
+<header class="part" id="p1">
+  <span class="pn">Part I</span>
+  <h2>Three answers</h2>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Judge by the outcome</h2>
+</header>
+
+<p>The first answer is the one most people reach for when pressed: an action is right if it produces the
+best results. Count up the good and the harm, and choose the option with the better total.</p>
+
+<p>Its appeal is obvious. It is impartial — nobody's suffering counts for more because they are closer
+to you. It is practical. And it takes seriously the thing that surely must matter: whether people are
+actually better or worse off.</p>
+
+<p>Its problems are equally serious and they cluster in one place. <strong>If only the total matters,
+then anything at all is permitted provided the total comes out right.</strong> Punishing an innocent
+person to prevent a riot. Harvesting one person's organs to save five. Most people recoil, and the
+recoil is itself evidence about morality that the framework has trouble accommodating.</p>
+
+<p>There is also the practical difficulty that you cannot actually calculate it. Consequences ripple
+outward indefinitely, you do not know them in advance, and the comparison of one person's suffering with
+another's happiness has no honest unit.</p>
+
+<p>Where it is at its strongest is exactly where intuition is weakest: policy, and large numbers. When
+you are deciding how to spend a health budget across a population, <strong>refusing to count is not a
+moral stance, it is an abdication</strong> — someone is affected either way.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Judge by the duty</h2>
+</header>
+
+<p>The second answer says some things are simply wrong regardless of outcome. There are duties, and you
+do not get to breach them because the sums looked favourable.</p>
+
+<p>Two tests give it teeth. <strong>Could everyone do this?</strong> — not "what if everyone did",
+loosely, but whether the rule you are acting on would still make sense if universal. Lying fails
+immediately: a world where everyone lies when convenient is one where lying no longer works, so the
+practice destroys its own conditions. And: <strong>are you treating this person as a person, or only as
+a means to your end?</strong> Using people is permitted — you use the shopkeeper — provided you are not
+treating them <em>merely</em> as an instrument, with their own purposes discounted.</p>
+
+<p>The strength is that it protects individuals. Rights make sense here in a way they never quite do
+under pure outcome-counting; a person is not an input to a calculation.</p>
+
+<p>The weakness appears at the edges. Duties conflict, and the framework is not good at telling you
+which wins. The classic case is blunt: someone is hiding in your house, a murderer asks where they are,
+and the rule against lying appears to require you to tell the truth. Refusing to lie in that situation
+strikes almost everyone as monstrous, and rescuing the framework from that conclusion takes considerable
+work.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Judge by the person</h2>
+</header>
+
+<p>The third answer is the oldest and asks a different question entirely. Not <em>what should I do</em>
+but <strong>what kind of person should I be</strong> — and it holds that acting well flows from being a
+certain sort of person rather than from consulting a rule.</p>
+
+<p>The virtues are the traits that make a life go well: courage, honesty, generosity, justice, temperance,
+practical wisdom. And each one sits between two failures rather than at an extreme. Courage lies between
+cowardice and recklessness. Generosity between meanness and profligacy. There is no formula for where
+the middle is, and finding it is exactly the skill being described.</p>
+
+<p>This has the great advantage of matching how moral development actually happens. Nobody becomes
+trustworthy by deriving trustworthiness; they become trustworthy by practising, until it stops requiring
+a decision — which is the habit chapter from the psychology volume, arriving at the same conclusion from
+the other direction.</p>
+
+<p>Its weakness is that it gives poor guidance in a hard case. Told to do what a person of good character
+would do, you are back where you started when the honest and the kind response point different ways.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>What to do with three frameworks</h2>
+</header>
+
+<p>The temptation is to pick one and apply it consistently. Almost nobody manages this, including
+professional philosophers, and the failure is informative.</p>
+
+<p>The more honest use is as <strong>three lenses on the same decision</strong>. What are the
+consequences, all of them, including the ones on people you will never meet? What duties are in play,
+and would I accept this rule if I were on the other end of it? And what does this choice make me into if
+I keep making it?</p>
+
+<p>When all three agree, the case is easy. When they diverge, you have located the actual difficulty
+instead of arguing past it — and most public moral arguments are exactly this: one side counting
+outcomes, the other invoking a right, neither noticing that they are answering different questions.</p>
+
+<p>One further test is worth more than its simplicity suggests. <strong>Would you be comfortable if this
+were published, with your name on it?</strong> It catches most of the self-justification from the dark
+side volume, because the self-justifying machinery works best in private.</p>
+
+<header class="part" id="p2">
+  <span class="pn">Part II</span>
+  <h2>The hard cases</h2>
+</header>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The dilemmas, and what they are for</h2>
+</header>
+
+<p>The famous runaway-trolley problems are often dismissed as artificial, and they are — deliberately.
+Their purpose is not realism; it is to hold everything constant except one variable, so you can find out
+what you actually think.</p>
+
+<p>Diverting a runaway vehicle so it kills one person instead of five: most people say yes. Pushing one
+person into its path to stop it, saving the same five: most people say no. The outcome is identical. So
+whatever is producing the difference, it is not the outcome — it is something about using a person as
+the instrument, and about doing versus allowing.</p>
+
+<p>That gap between the two answers is the real finding, and it is stable across cultures. It tells you
+that people's actual moral psychology is not outcome-counting, whatever they say when asked abstractly.</p>
+
+<p>Two other distinctions do real work in practice. <strong>Doing versus allowing</strong>: most systems
+of morality treat causing harm as worse than failing to prevent it, though the consequences may be the
+same — and this is why a failure to donate does not feel like a killing, which is either a deep insight
+or a convenient one depending on who you ask. And <strong>intending versus foreseeing</strong>: a harm
+you aim at is judged more harshly than an equal harm you knew would follow from something else you
+aimed at. That distinction underpins a great deal of medical and military ethics, and it is doing
+enormous work in arguments where nobody names it.</p>
+
+<header class="part" id="p3">
+  <span class="pn">Part III</span>
+  <h2>How to argue</h2>
+</header>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>What an argument is</h2>
+</header>
+
+<p>An argument is a set of claims offered in support of another claim. That is all. It is not a
+disagreement, and being good at it is not the same as being persuasive.</p>
+
+<p>Two things must both be true for an argument to work, and separating them is most of the skill.</p>
+
+<p><strong>Does the conclusion follow?</strong> — if the supporting claims were true, would the
+conclusion have to be true, or at least be well supported? This can be assessed without knowing whether
+anything is true, and it is where formal reasoning lives.</p>
+
+<p><strong>Are the supporting claims actually true?</strong> — a perfectly constructed argument from
+false premises is worthless, and this is the more common failure by a wide margin.</p>
+
+<p>Most real disagreements are about an unstated premise rather than about logic. Which gives the single
+most productive move available in an argument: <strong>state the other side's position back to them,
+better than they stated it, until they agree that is what they think.</strong> Half the time the
+disagreement dissolves; the other half, you are now arguing about the real thing.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The fallacies worth knowing by name</h2>
+</header>
+
+<p>A fallacy is a move that looks like reasoning and is not. Learning them is not a debating trick — it
+is a way of noticing when you have been moved by something that should not have moved you.</p>
+
+<p><strong>Attacking the person</strong> instead of the claim. Their motives, their character, their
+hypocrisy. Worth noting that a person's unreliability is legitimate grounds for discounting their
+testimony — but it is never grounds for rejecting their argument, which stands or falls on its own.</p>
+
+<p><strong>Rebuilding their position as something weaker</strong> and defeating that. Extremely common,
+usually unconscious, and the direct opposite of the restate-it-better move above.</p>
+
+<p><strong>Offering only two options</strong> when more exist. Almost all political framing works this
+way.</p>
+
+<p><strong>Claiming one step leads inevitably to a distant one</strong>, without showing the mechanism.
+Sometimes there really is a slope; the question is always whether the intermediate steps were argued or
+asserted.</p>
+
+<p><strong>Appealing to an authority</strong> outside their field, or to popularity, or to tradition, or
+to novelty. Expert consensus within a field is genuine evidence; a famous person's opinion outside
+theirs is not, and neither is "everyone knows" or "we have always done it this way".</p>
+
+<p><strong>Assuming what you are trying to prove</strong>, usually hidden inside the phrasing of the
+question. And <strong>loading the question</strong> itself, so any answer concedes the point.</p>
+
+<p><strong>Treating a correlation as a cause</strong>, or treating one event following another as the
+second having been caused by the first. The chance volume is the long version of why this fails.</p>
+
+<p><strong>Appealing to consequences</strong> — arguing that a claim must be false because it would be
+terrible if true. Reality is not obliged to be convenient.</p>
+
+<p><strong>Demanding certainty selectively</strong>, or shifting the burden so that the other side must
+disprove something never established. And the <strong>moving target</strong>: a claim that quietly
+weakens each time it is challenged, while the speaker behaves as though nothing has changed.</p>
+
+<div class="note">
+  <span class="tag">The point of all this</span>
+  <p>Naming fallacies at other people is an unpleasant habit and rarely persuades anyone. The value is
+  internal: <strong>use them on your own arguments first.</strong> The question that matters is not "did
+  they commit a fallacy" but "would I accept this reasoning if it pointed the other way" — which is the
+  confirmation-bias test from Volume 35, wearing a philosopher's coat.</p>
+</div>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Disagreeing well</h2>
+</header>
+
+<p>Everything in this library about persuasion says that argument rarely changes minds in the moment.
+That is true, and it is not a reason to give up — it is a reason to change what you are trying to do.</p>
+
+<p>The things that measurably help are few. <strong>Ask how something works rather than asserting that
+it does not.</strong> People asked to explain a policy in mechanical detail reliably become less
+confident about it, because the explanation reveals the gap; people simply told they are wrong become
+more confident. Concede the strongest point on the other side out loud, which costs nothing and changes
+the temperature. Separate the claim from the person holding it, in both directions. And leave people a
+way to change their mind without losing face — the humiliation finding from the dark side volume applies
+here exactly.</p>
+
+<p>And be honest about which disagreements are which. Some are factual and resolvable. Some are about
+values, where both sides may be reasoning perfectly from different starting points, and the achievable
+goal is understanding rather than agreement. <strong>Mistaking the second kind for the first produces
+most of the bitterness in public life</strong>, because each side concludes the other must be stupid or
+lying, when in fact they are counting different things.</p>
+
+<header class="mod" id="recap">
+  <span class="mn">Reference</span>
+  <h2>What to carry forward</h2>
+</header>
+
+<div class="sen">
+  <div class="b knows"><span class="k">Three frameworks</span>
+    <p><strong>Outcomes</strong> — best total result, strongest for policy, weakest when it permits
+    anything. <strong>Duties</strong> — some things are simply wrong, protects individuals, struggles
+    when duties conflict. <strong>Character</strong> — what kind of person this makes me, matches how
+    morality is actually learned, vague in hard cases.</p></div>
+  <div class="b"><span class="k">Use them as lenses</span>
+    <p>Run a decision through all three. When they agree it is easy; <strong>when they diverge you have
+    found the real difficulty</strong> instead of arguing past it. And ask whether you would be
+    comfortable if it were published under your name.</p></div>
+  <div class="b junior"><span class="k">Arguments</span>
+    <p>Two separate questions: <strong>does the conclusion follow, and are the premises true?</strong>
+    Most disagreements are about an unstated premise. Restate the other side's view better than they
+    did before responding to it.</p></div>
+  <div class="b check"><span class="k">Disagreeing well</span>
+    <p>Ask how it works rather than asserting it does not — explaining a position in detail reduces
+    overconfidence; being contradicted increases it. And <strong>distinguish factual disagreements from
+    disagreements about values</strong>; confusing the two is where the bitterness comes from.</p></div>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Back to · The dark side</h4><p>The self-justifying machinery in Volume 37 is what these frameworks are up against. Ethics is mostly the work of not letting it run unchecked.</p></div>
+  <div class="card"><h4>Next · What's in things</h4><p>From reasoning to the kitchen cupboard: practical chemistry — food, labels, water, and the products you use every day.</p></div>
+</div>
+</main>
+</div>
+
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

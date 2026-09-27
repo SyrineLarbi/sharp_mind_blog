@@ -1,0 +1,1178 @@
+<title>Having Something to Say</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F1;
+  --ground-2: #FCFBFA;
+  --panel:    #EAE9E6;
+  --panel-2:  #E0DEDA;
+
+  --ink:   #16181B;
+  --ink-2: #3D4048;
+  --ink-3: #71757E;
+
+  --rule:   #D5D3CF;
+  --rule-2: #E4E2DE;
+
+  --accent:      #8A3A6B;
+  --accent-soft: #F4E9F0;
+  --accent-deep: #5E2447;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #8A3A6B;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #111215;
+    --ground-2: #181A1E;
+    --panel:    #202329;
+    --panel-2:  #292C33;
+
+    --ink:   #EAEAE8;
+    --ink-2: #BEC1C7;
+    --ink-3: #858992;
+
+    --rule:   #32353C;
+    --rule-2: #292C33;
+
+    --accent:      #DB94C4;
+    --accent-soft: #26161F;
+    --accent-deep: #EBB3D8;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #DB94C4;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #111215;
+  --ground-2: #181A1E;
+  --panel:    #202329;
+  --panel-2:  #292C33;
+
+  --ink:   #EAEAE8;
+  --ink-2: #BEC1C7;
+  --ink-3: #858992;
+
+  --rule:   #32353C;
+  --rule-2: #292C33;
+
+  --accent:      #DB94C4;
+  --accent-soft: #26161F;
+  --accent-deep: #EBB3D8;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #DB94C4;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #8A3A6B;
+  --accent-soft: #F4EAE7;
+  --accent-deep: #5E2447;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: grid; grid-template-columns: 252px minmax(0, 1fr); max-width: none; margin: 0; }
+.rail {
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+.rail-title { font-family: var(--display); font-weight: 700; font-size: 15.4px; margin: 0 0 2px; }
+.rail-sub { color: var(--ink-3); font-size: 10.8px; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 6px; }
+.rail-vol { display: inline-block; font-size: 10.3px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 1px 5px; border-radius: 2px; margin-bottom: 16px; }
+.rail-group { color: var(--ink-3); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin: 16px 0 5px; padding-bottom: 4px; border-bottom: 1px solid var(--rule-2); }
+.rail a { display: block; color: var(--ink-2); text-decoration: none; padding: 3px 6px 3px 8px; border-left: 2px solid transparent; margin-left: -2px; }
+.rail a:hover { color: var(--ink); background: var(--panel); }
+.rail a.on { color: var(--accent); border-left-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+.rail a .n { color: var(--ink-3); margin-right: 5px; }
+.rail a.on .n { color: var(--accent); }
+
+.doc { padding: 38px 56px 100px; max-width: none; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--rule); padding: 18px 20px 22px; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + path band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 16.5px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+.rail, .tw, pre, .ascii, .doc { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+.rail::-webkit-scrollbar, .rail::-webkit-scrollbar-track { background: var(--ground); }
+.rail::-webkit-scrollbar-thumb { border-color: var(--ground); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<nav class="rail" aria-label="Contents">
+  <p class="rail-title">Having Something to Say</p>
+  <p class="rail-sub">Knowledge you can actually use</p>
+  <span class="rail-vol">Sharp Mind · 06 of 10</span>
+  <a href="#open"><span class="n">—</span>Open</a>
+
+  <div class="rail-group">I · The supply problem</div>
+  <a href="#s1"><span class="n">01</span>It is supply, not personality</a>
+  <a href="#s2"><span class="n">02</span>The repertoire</a>
+  <a href="#s3"><span class="n">03</span>What travels, what kills</a>
+
+  <div class="rail-group">II · The craft</div>
+  <a href="#c1"><span class="n">04</span>Turning a fact into a story</a>
+  <a href="#c2"><span class="n">05</span>A topic you half know</a>
+  <a href="#c3"><span class="n">06</span>Making others interesting</a>
+
+  <div class="rail-group">III · Stocking the shelf</div>
+  <a href="#f1"><span class="n">07</span>Depth and breadth</a>
+  <a href="#f2"><span class="n">08</span>Mining the culture library</a>
+  <a href="#f3"><span class="n">09</span>The news, without drowning</a>
+  <a href="#f4"><span class="n">10</span>The drills</a>
+
+  <div class="rail-group">Reference</div>
+  <a href="#t1"><span class="n">—</span>Term bank</a>
+  <a href="#t2"><span class="n">—</span>What next</a>
+</nav>
+
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind 06 · substance</p>
+  <h1>Having something to say. <span class="thin">Being interesting is a supply problem, not a personality problem.</span></h1>
+  <p class="lede">You have been in the conversation where everyone else has something and you have
+  nothing. The standard explanation is that you are not naturally interesting, which is both false and
+  useless. The real explanation is boring and fixable: the people who always have something to say have
+  <em>stocked the shelf</em>, usually on purpose, and you can see exactly how if you watch them for a
+  week. This handbook is how to stock yours.</p>
+  <div class="hero-meta">
+    <span><b>Assumes</b> · file 02</span>
+    <span><b>Covers</b> · 10 sections, 3 parts</span>
+    <span><b>Builds</b> · a 20-topic repertoire</span>
+    <span><b>Feeds into</b> · files 11–16</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="05-reading-the-room.html"><span class="vn">Previous · 05</span><b>Reading the Room</b><em>Applied EQ</em></a>
+<div class="vol here"><span class="vn">You are here · 06</span><b>Having Something to Say</b><em>Knowledge you can use</em></div>
+<a class="vol" href="07-books-thinking-and-judgment.html"><span class="vn">Next · 07</span><b>The book extracts</b><em>32 books, already mined</em></a>
+</div>
+
+<div class="proj">
+  <span class="tag">The same thesis as file 01, pointed somewhere else</span>
+  <p>File 01 argued that speed in conversation is retrieval rather than processing — the quick person is
+  not computing faster, they are pulling something off a shelf you have not stocked.</p>
+  <p>This handbook is that argument applied to <em>content</em> instead of to answers. The person who
+  always has something interesting to say is not more curious than you in the moment. They read
+  something three weeks ago, told someone about it once, and now it is retrievable. That is the entire
+  mechanism, and it is the good news.</p>
+</div>
+
+<header class="part" id="supply">
+  <span class="pn">Part I · The supply problem</span>
+  <h2>Stock, not talent</h2>
+  <p class="lede">Three sections on what you are actually short of, what a full shelf looks like, and
+  which kinds of material are worth putting on it.</p>
+</header>
+
+<header class="mod" id="s1">
+  <span class="mn">Something to Say 01</span>
+  <h2>It is supply, not personality</h2>
+</header>
+
+<p>Two people stand in the same group at the same event. One contributes four times, the other twice.
+The difference is almost never willingness, and almost never intelligence. It is <strong>whether
+anything is loaded</strong>.</p>
+
+<p>And the most important distinction in this handbook is the one people never draw:</p>
+
+<div class="ascii">INPUT IS NOT STOCK
+
+  INPUT                          STOCK
+  ─────                          ─────
+  an article you read            a thing you have SAID
+  a video you watched            OUT LOUD at least once
+  a podcast in the car
+  forty headlines scrolled       ⇒ retrievable under
+                                   social pressure
+  ⇒ produces the FEELING of      ⇒ has a shape: hook,
+    being informed                  middle, handoff
+  ⇒ produces almost nothing      ⇒ survives being
+    retrievable when someone        interrupted
+    is looking at you
+
+  ⭐ NOTHING BECOMES STOCK UNTIL YOU HAVE SAID IT OUT LOUD.
+    Not written down. Said. The first telling is where a
+    pile of facts turns into a thing with an order, and
+    the second telling is where it gets good.
+
+  ⇒ WHICH MEANS THE FIX IS NOT "READ MORE".
+    Most people who feel they have nothing to say are
+    consuming plenty. They are converting none of it.</div>
+
+<p>This also explains a common and demoralising experience: reading a great deal and still feeling
+empty in conversation. You are not failing to learn. You are failing to <em>convert</em>, and
+conversion is a separate ten-second step that nobody tells you to do.</p>
+
+<div class="good">
+  <span class="tag">The conversion step, in full</span>
+  <p>You read something interesting. Before you close the tab, say it out loud — to a person, to the
+  room, to yourself in the car — in about <strong>forty seconds</strong>, in this shape: <em>here's what
+  everyone assumes · here's the surprising bit · here's why it matters.</em></p>
+  <p>That is it. Ten seconds of effort converts an input into stock. Skip it and the article is gone
+  within a week, which you already know from experience.</p>
+</div>
+
+<header class="mod" id="s2">
+  <span class="mn">Something to Say 02</span>
+  <h2>The repertoire — twenty topics</h2>
+</header>
+
+<p>A working repertoire is about twenty topics you can <strong>open, hold for four or five minutes, and
+hand back</strong>. Not twenty subjects you are expert in. Twenty things you can start and pass on.</p>
+
+<div class="sheet">
+  <div class="cap">The shape of a full shelf</div>
+<pre><code>5 · FROM YOUR OWN DOMAIN
+    Things you know because of what you do, that a
+    normal person does not know and finds genuinely
+    interesting. ⭐ THE MOST UNDERVALUED CATEGORY BY FAR.
+    You are bored of it; nobody else has ever heard it.
+    e.g. why a delivery is late in a way that has
+    nothing to do with the driver; what actually happens
+    to a returned item; why shops run out of one size.
+
+5 · CURRENT
+    Things in the news this quarter that you understand
+    one level deeper than the headline. Not opinions —
+    MECHANISMS. ⇒ this is what files 11–16 are for.
+
+5 · EVERGREEN CURIOSITIES
+    How something works; a historical episode; a
+    surprising number. These never go stale, which is
+    why they are the backbone of the shelf.
+    ⇒ this is what ../culture/ is for (§08).
+
+3 · PERSONAL
+    Something you are doing, learning, failed at, or
+    changed your mind about. Costs nothing to maintain
+    and does more warmth work (file 04 §01) than any
+    other category.
+
+2 · RELIABLE QUESTIONS
+    Topics you open by ASKING rather than telling.
+    The safety net for when you have nothing: §06.
+
+  ⇒ TWENTY. And you will use about six of them ninety
+    percent of the time.</code></pre>
+</div>
+
+<h3>What one topic actually looks like</h3>
+
+<div class="sheet">
+  <div class="cap">A topic card · three lines, no more</div>
+<pre><code>TOPIC · Desalination
+
+  HOOK    "Most of the Gulf drinks the sea. Israel gets
+           the majority of its household water that way
+           too — it's not exotic any more, it's plumbing."
+
+  MIDDLE  "The bit I didn't expect: the hard part isn't
+           removing the salt. It's the energy and the
+           leftover brine. You push seawater against a
+           membrane at enormous pressure, about half
+           comes through fresh — and the other half
+           leaves twice as salty as the sea, and has to
+           go somewhere."
+
+  HANDOFF "Which makes it basically a power-price
+           question. Do you know if anywhere is doing
+           this at scale without cheap energy?"
+
+⭐ THREE LINES. ABOUT FORTY SECONDS.
+  HOOK      one sentence that creates a question
+  MIDDLE    a mechanism, a number, or a turn — the part
+            that is not obvious
+  HANDOFF   a question that puts it back in the room
+
+⚠ THE HANDOFF IS NOT OPTIONAL. A topic without one is a
+  monologue, and a monologue is the single most common
+  way an interesting person becomes tiring. It is also
+  what makes a card REUSABLE — it ends in a place where
+  someone else speaks.</code></pre>
+</div>
+
+<div class="proj">
+  <span class="tag">Maintenance</span>
+  <p>Add two a month, retire two a month. The <em>current</em> five go stale fastest — a topic more than
+  a quarter old has usually stopped being current and has not yet become evergreen, which is the worst
+  of both. The domain five and the evergreen five barely need touching.</p>
+  <p>Keep the cards in the same file as your answer bank (<a href="01-thinking-fast.html">file 01,
+  §11</a>). Same habit, same file, different section.</p>
+</div>
+
+<header class="mod" id="s3">
+  <span class="mn">Something to Say 03</span>
+  <h2>What travels, and what kills</h2>
+</header>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:44%"><span class="ok">Travels — works at almost any table</span></th><th><span class="no">Kills — costs you the room</span></th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>How something works.</strong> Mechanisms are universally interesting and require no prior knowledge from the listener.</td>
+      <td><strong>The monologue.</strong> Anything over ninety seconds without a handoff. The most common failure, and the speaker is always the last to notice.</td>
+    </tr>
+    <tr>
+      <td><strong>Origin stories.</strong> Why a thing is the way it is. Why keyboards are QWERTY, why shipping containers are that size.</td>
+      <td><strong>Correcting people.</strong> Being right about a small detail someone got slightly wrong buys you nothing and costs real warmth.</td>
+    </tr>
+    <tr>
+      <td><strong>A surprising exact number.</strong> One number, scaled to something human, beats five adjectives.</td>
+      <td><strong>Topics needing an opinion they don't have.</strong> If they have no way in, you have made them a spectator.</td>
+    </tr>
+    <tr>
+      <td><strong>Things you changed your mind about.</strong> Rare, warm, and it makes everything else you say more credible (<a href="04-presence-and-status.html">file 04, §06</a>).</td>
+      <td><strong>Grievances.</strong> Your commute, your colleague, your landlord. Fine for two sentences with a friend; corrosive anywhere else.</td>
+    </tr>
+    <tr>
+      <td><strong>What you are bad at.</strong> Almost impossible to overuse, and it does more for how you are received than any display of competence.</td>
+      <td><strong>One-upping.</strong> Following someone's story with a better version of it. Reads as competition even when it was enthusiasm.</td>
+    </tr>
+    <tr>
+      <td><strong>Local and specific knowledge.</strong> The thing you know because of where you are or what you do. See §02.</td>
+      <td><strong>Anything that tests them.</strong> "Have you read—?" "You know about X, right?" Makes people defensive in one sentence.</td>
+    </tr>
+    <tr>
+      <td><strong>Other people's expertise.</strong> Asking about it is a topic in itself, and the strongest one you have (§06).</td>
+      <td><strong>Health detail, money detail, and politics with the wrong room.</strong> Not never — but know the room, and never lead with them.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="sheet">
+  <div class="cap">Two rules that do most of the filtering</div>
+<pre><code>① THE WAY-IN TEST — the single best filter
+   "Does the other person have a way into this?"
+
+   Can they contribute something — a question, an
+   experience, a disagreement — without having read
+   what you read?
+
+   ✗ "Have you seen the new export figures?"
+     → they either have or they haven't. Dead end either
+       way, and slightly embarrassing if they haven't.
+   ✓ "Do you know why so much stuff still moves by sea
+      even when it's urgent? I always assumed it was
+      just cheaper."
+     → anyone can engage with that. It offers them a
+       guess, which is the friendliest possible opening.
+
+② THE ASYMMETRY RULE
+   Talk about what you find INTERESTING, not about what
+   you think is IMPRESSIVE.
+
+   Genuine interest is contagious and unfakeable, and it
+   licenses the other person to be enthusiastic too.
+   Impressiveness invites evaluation, and people who feel
+   evaluated go quiet.
+
+   ⇒ THE TELL: if you are monitoring how it is landing
+     while you say it, you picked the impressive one.</code></pre>
+</div>
+
+<header class="part" id="craft">
+  <span class="pn">Part II · The craft</span>
+  <h2>Turning material into contribution</h2>
+  <p class="lede">Having stock is most of it. These three sections are the handling.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Something to Say 04</span>
+  <h2>Turning a fact into a story</h2>
+</header>
+
+<p>A fact stated is forgettable. The same fact in a three-beat shape is repeatable — and repeatable is
+the actual standard, because the compliment you are aiming at is someone telling <em>your</em> thing to
+someone else next week.</p>
+
+<div class="sheet">
+  <div class="cap">The three beats</div>
+<pre><code>① SETUP    — what everyone assumes
+   Say the ordinary belief out loud. This is the step
+   people skip, and skipping it is why their interesting
+   fact lands flat: WITHOUT THE ASSUMPTION STATED, THERE
+   IS NOTHING FOR THE TURN TO OVERTURN.
+
+② TURN     — the thing that is not obvious
+   The surprise. One beat. Do not bury it in a clause.
+
+③ SO-WHAT  — why it matters, or what it means for us
+   Connects it to something the listener already cares
+   about. Then hand off.
+
+WORKED — the flat version and the shaped version
+
+  ✗ FLAT
+    "Desalination uses about 3 to 4 kilowatt-hours per
+     cubic metre."
+    → true, inert, and impossible to respond to
+
+  ✓ SHAPED
+    ① "You'd think the hard part of making seawater
+       drinkable is getting the salt out."
+    ② "It isn't, really — that's a membrane and a very
+       big pump. The hard parts are the electricity bill
+       and the brine: you get fresh water out of about
+       half of it, and the other half comes back out
+       twice as salty as the sea."
+    ③ "Which is why it's really an energy story. Every
+       country that does this at scale is one that has
+       cheap power or no choice."
+    → and then the handoff.
+
+⭐ THE NUMBER THAT LANDS — one, exact, scaled to a human
+  ✗ "it uses a lot of energy"                — nothing
+  ✗ "3.4 kWh per cubic metre"                — nobody
+                                                feels this
+  ✓ "about a tenth of what it took in the 1970s"
+  ✓ "roughly what your kettle uses in three hours,
+     for a tonne of drinking water"
+  ⇒ ONE number, and give it something to lean on.
+
+⚠ AND THE DISCIPLINE THAT MATTERS MOST: LENGTH.
+  Forty seconds. The single most common way a genuinely
+  interesting thing fails is that it ran for four
+  minutes. If it needs longer, it is a conversation, not
+  a card — so hand off at forty seconds and let them
+  pull you further.</code></pre>
+</div>
+
+<header class="mod" id="c2">
+  <span class="mn">Something to Say 05</span>
+  <h2>Entering a topic you only half know</h2>
+</header>
+
+<p>Most of what you will want to talk about, you half know. That is normal and it is fine. The only
+thing that is not fine is pretending otherwise, and there is a clean way to do this that actually
+<em>gains</em> you standing.</p>
+
+<div class="sheet">
+  <div class="cap">State your model and invite correction</div>
+<pre><code>⭐ THE MOVE
+  "My mental model of this is [the model]. Is that
+   roughly right, or am I missing something?"
+
+  WHY IT WORKS SO WELL
+    · people LOVE correcting a well-formed model and
+      find it tedious to correct a vague gesture. You
+      are giving them something good to work with.
+    · a wrong model stated clearly gets fixed in one
+      sentence. A vague one never gets fixed at all.
+    · it is the fastest learning mechanism available in
+      any room, and it costs you nothing — because you
+      already flagged it as a model rather than a fact.
+
+WORKED
+  "My model of desalination is: big pump, fine membrane,
+   half comes through fresh, and the whole economics is
+   really the power price. Is that about right?"
+  → an expert will now tell you three things you did not
+    know, warmly, because you have made it easy and
+    signalled that you respect what they know.
+
+THE HONEST SCALE — say which one you are on
+  "I only know the outline of this —"
+  "As I understand it, though I'm second-hand on this —"
+  "I read one thing about this, so treat it accordingly —"
+
+  ⚠ THIS IS BOUNDING, NOT HEDGING. File 04 §04 tells you
+    to cut apologetic hedges; marking the edge of what
+    you know is the opposite of that — it is precision,
+    and it makes everything inside the boundary more
+    credible, not less.
+
+⚠ NEVER BLUFF. The cost is retroactive: the moment
+  someone finds one confident thing you invented, every
+  other confident thing you have said comes under
+  review. Nothing in this handbook is worth that.
+
+⭐ THE ONE-LEVEL RULE
+  Know ONE level deeper than the conversation needs.
+  Not three. One level down means you can answer the
+  first follow-up, which is all that is ever asked.
+  Three levels down means you will over-explain, which
+  is §04's failure mode.</code></pre>
+</div>
+
+<header class="mod" id="c3">
+  <span class="mn">Something to Say 06</span>
+  <h2>Making other people interesting</h2>
+</header>
+
+<p>The fastest route to being thought interesting is not to be interesting. It is to be
+<strong>interested</strong>, specifically and persistently, in a way almost nobody bothers with.</p>
+
+<p>This is the social application of the second-question discipline from
+<a href="02-the-question-bank.html">file 02, §08</a>: the first answer is the rehearsed one, and the
+second question is what gets you the real one — and gets you remembered.</p>
+
+<div class="sheet">
+  <div class="cap">The questions that work on anyone</div>
+<pre><code>⭐ THE UNIVERSAL ONE
+  "What's the part of your job that people always get
+   wrong?"
+
+  Works on a surgeon, a plumber, a teacher, an auditor.
+  Everyone has an answer, everyone enjoys giving it, and
+  the answer is ALWAYS interesting because it is the gap
+  between the public story and the real one.
+  ⇒ if you remember one sentence from this handbook,
+    this is a strong candidate.
+
+THE OTHERS, IN ROUGH ORDER OF RELIABILITY
+  "What got you into it?"
+     origin story — warm, easy, always available
+  "What's changed about it in the last five years?"
+     invites expertise without demanding a thesis
+  "What's the hardest part that isn't obvious?"
+     goes straight past the rehearsed answer
+  "What would you be doing if you weren't doing that?"
+     good late in a conversation, never as an opener
+  "Who's good at this that you learn from?"
+     generous, and you often get a real recommendation
+
+THEN THE SECOND QUESTION — where the value actually is
+  Q1 "What got you into architecture?"
+  A1 "I sort of fell into it after uni."     ← rehearsed
+  Q2 "What made you stay?"
+  A2 [the real answer, and they are now enjoying this]
+
+⭐ AIRTIME
+  In a good conversation you should be talking somewhere
+  under half the time, and in a conversation with someone
+  who knows something you do not, well under.
+  ⚠ people remember how a conversation FELT, and it felt
+    good if they got to be interesting. Being the most
+    informative person present is a worse outcome than
+    being the person they enjoyed talking to.
+
+⭐ THE RECALL MOVE — the highest-return thing in this file
+  Write down one thing afterwards. Ask about it next time.
+  "Did the extension ever get approved?"
+  Almost nobody does this. It is remembered for years.</code></pre>
+</div>
+
+<header class="part" id="stock">
+  <span class="pn">Part III · Stocking the shelf</span>
+  <h2>Where the material comes from</h2>
+  <p class="lede">The supply chain. One subject deep, many shallow, a route into the library next door,
+  and a way of following the world that does not consist of scrolling.</p>
+</header>
+
+<header class="mod" id="f1">
+  <span class="mn">Something to Say 07</span>
+  <h2>Depth and breadth</h2>
+</header>
+
+<div class="ascii">THE SHAPE YOU ARE AIMING FOR
+
+  ────────────────────────────────────────────────
+   BREADTH — enough to ask a good question about
+   almost anything. Not enough to hold forth.
+  ────────────────────────────────────────────────
+                      │
+                      │  DEPTH — one subject you
+                      │  know a level deeper than
+                      │  an interested amateur
+                      │
+                      ▼
+
+  WHY YOU NEED BOTH, AND WHAT EACH ONE BUYS
+
+  BREADTH buys ENTRY. It is what lets you join any
+  conversation rather than waiting for your subject to
+  come up. The target is low: enough to ask one good
+  question and follow the answer.
+
+  DEPTH buys CREDIBILITY, and it is also what you TRADE.
+  Conversations run on exchange. If you only ever receive,
+  you are an audience. One subject you genuinely know
+  makes you a participant everywhere, because every field
+  has an analogue of every other field's problems.
+
+  ⚠ THE COMMON MISTAKE IS CHASING BREADTH ONLY.
+    It produces someone who has heard of everything and
+    can say nothing about anything, which is a worse
+    conversational position than knowing one thing well.</div>
+
+<p>Your depth subject is usually your work — and if it is, the five domain topics from §02 are already
+sitting there unused. If it is not your work, it can be anything with real internal structure: a sport,
+a period of history, cooking, a city. The only requirement is that you know it a level past the
+interested amateur, because that is exactly where the interesting material lives.</p>
+
+<header class="mod" id="f2">
+  <span class="mn">Something to Say 08</span>
+  <h2>Mining the culture library</h2>
+</header>
+
+<p>You already own 247 chapters of general knowledge in
+<a href="../../culture/README.md">culture/</a>, written as narrative with an <em>In a Nutshell</em> summary
+at the end of each one. It is the single best source you have for the evergreen five, and it is
+currently sitting there unconverted.</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:36%">Best for conversation</th><th>Why</th></tr></thead>
+  <tbody>
+    <tr><td><a href="../../culture/20-great-inventions-and-discoveries/">20 · Great inventions and discoveries</a></td><td>The richest seam by a distance. Origin stories, accidental discoveries, materials that changed history — all three-beat shaped already.</td></tr>
+    <tr><td><a href="../../culture/01-history/">01 · History</a> — the disasters and turning points</td><td>Titanic, Chernobyl, the Great Fire, Bhopal, Challenger. Everyone half-knows these, which means your one extra detail lands perfectly.</td></tr>
+    <tr><td><a href="../../culture/16-daily-life-and-practical-knowledge/">16 · Daily life</a></td><td>How things work, kitchen science, statistics in the news. Maximum way-in: everybody has the referent already.</td></tr>
+    <tr><td><a href="../../culture/08-technology/">08 · Technology</a></td><td>How the internet, phones, chips and AI models actually work. Universally relevant, and almost nobody knows the mechanism.</td></tr>
+    <tr><td><a href="../../culture/06-astronomy-and-space/">06 · Astronomy and space</a></td><td>Reliably delightful, zero prerequisites, and nobody has ever objected to a fact about the sun.</td></tr>
+    <tr><td><a href="../../culture/05-medicine-and-health/">05 · Medicine and health</a></td><td>How medicines work, imaging, vaccines. High interest — just keep it mechanical, not personal.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">Which parts are for you rather than for the table</span>
+  <p><a href="../../culture/10-philosophy/">Philosophy</a>, <a href="../../culture/15-mathematics/">mathematics</a>
+  and <a href="../../culture/12-psychology/">psychology</a> are excellent reading and much harder to place
+  in conversation — philosophy because it invites disagreement rather than curiosity, mathematics
+  because the way-in test usually fails, psychology because it slides toward diagnosing the people
+  present. Read them for yourself. Convert selectively.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">The conversion routine · one chapter, ten minutes</div>
+<pre><code>① PICK a chapter from the list above. Read it properly
+   once — they are narrative, not reference.
+
+② TAKE the "In a Nutshell" at the end. That is your
+   raw material, already compressed.
+
+③ WRITE ONE CARD — hook, middle, handoff (§02).
+   ⚠ ONE. Not four. A chapter with four cards in it
+     will produce zero, because you will not remember
+     which was which.
+
+④ SAY IT OUT LOUD ONCE. To anyone, or to nobody.
+   ⇒ THIS IS THE STEP THAT CREATES THE STOCK (§01).
+     Skipping it means you read a chapter, which is
+     pleasant and produces nothing.
+
+⭐ ONE CHAPTER A WEEK = 50 CARDS A YEAR.
+  You need twenty. So you can be selective, and you can
+  retire freely.
+
+⇒ AND FOR THE *CURRENT* FIVE, THE SOURCE IS THIS LIBRARY:
+  FILES 11 TO 16 are the technology and process briefings
+  — desalination, semiconductors, mRNA, batteries,
+  shipping chokepoints, LLMs and the rest — each one
+  written with how it works, who controls it, why it is
+  in the news, and THE LINE TO SAY, which is a finished
+  card you do not have to write yourself.</code></pre>
+</div>
+
+<header class="mod" id="f3">
+  <span class="mn">Something to Say 09</span>
+  <h2>Following the world without drowning in it</h2>
+</header>
+
+<p>Most people confuse <em>being current</em> with <em>being informed</em>. They are different, they age
+differently, and only one of them gives you anything to say.</p>
+
+<div class="ascii">TWO WAYS TO FOLLOW THE WORLD
+
+  HEADLINES                       MECHANISMS
+  ─────────                       ──────────
+  what happened today             how the thing works
+  actors without a system         a system that explains
+                                  many days of headlines
+  ⇒ stale in a week               ⇒ useful for years
+  ⇒ produces OPINIONS you         ⇒ produces UNDERSTANDING
+    cannot defend                   you can extend
+  ⇒ high volume, no stock         ⇒ low volume, high stock
+
+  ⭐ ONE MECHANISM IS WORTH ABOUT A HUNDRED HEADLINES.
+    Understand how LNG shipping works and you can read
+    three years of energy news without being told what
+    to think about any of it.
+
+  ⚠ AND SCROLLING IS THE WORST CASE OF ALL: it delivers
+    the FEELING of being informed with none of the
+    retrievable structure. You will have absorbed forty
+    fragments and be unable to say one sentence about
+    any of them an hour later.</div>
+
+<div class="sheet">
+  <div class="cap">A weekly rhythm that actually produces stock</div>
+<pre><code>ONE LONG READ        one properly reported piece, start
+  (30–40 min)        to finish, on anything
+ONE MECHANISM        one "how does this actually work"
+  (20 min)           explainer — files 11–16, or culture/
+ONE CARD             convert ONE of the two into a card
+  (10 min)           and say it out loud (§01)
+
+  ⇒ ABOUT AN HOUR A WEEK. That is the whole system, and
+    it beats an hour a day of scrolling by a wide margin.
+
+THREE SOURCES, NOT THIRTY
+  ① one that reports rather than reacts
+  ② one specialist source in your own field
+  ③ ⭐ one that disagrees with you, read charitably
+     Not for balance as a virtue — for the practical
+     reason that you cannot defend a position you have
+     only ever heard defended.
+
+THE SIX-MONTH TEST — apply it before you spend attention
+  "Will this matter in six months?"
+  Most headlines fail. Most mechanisms pass. This one
+  question cuts reading volume enormously with almost
+  no loss.
+
+THE QUESTIONS FILE — the habit that compounds
+  Keep a running list titled "things I don't understand".
+  Every time you nod along to a word you could not
+  actually define — basis points, feedstock, tokenisation,
+  capacity factor, FOB — write it down. Do not look it
+  up in the moment.
+  Then work through two a week.
+  ⇒ within a year this list, not the news, is where most
+    of your genuinely interesting material comes from.
+  ⇒ and it converts a small daily embarrassment into a
+    queue, which is a much better place for it.</code></pre>
+</div>
+
+<div class="good">
+  <span class="tag">The permission you probably need</span>
+  <p>You are allowed to not follow most things. A person who understands eight systems properly is far
+  better company, and far better informed, than one who has skimmed four hundred stories. Depth in a few
+  places plus honest ignorance elsewhere is a completely respectable position — and <em>"I don't know
+  anything about that, what's the shape of it?"</em> is one of the better sentences available to you
+  (<a href="04-presence-and-status.html">file 04, §05</a>).</p>
+</div>
+
+<header class="mod" id="f4">
+  <span class="mn">Something to Say 10</span>
+  <h2>The drills</h2>
+</header>
+
+<div class="grid2">
+  <div class="card">
+    <h4>1 · The conversion · whenever you read something ⭐</h4>
+    <p>Before closing the tab: say it out loud in forty seconds — assumption, turn, so-what. Ten seconds
+    of work. This single habit is the difference between reading a lot and having something to say, and
+    no other drill here matters if you skip it.</p>
+  </div>
+  <div class="card">
+    <h4>2 · Build the twenty · this month</h4>
+    <p>Write the cards. Five domain, five current, five evergreen, three personal, two questions. Three
+    lines each. It takes about two hours total and you will draw on it for years.</p>
+  </div>
+  <div class="card">
+    <h4>3 · One chapter a week</h4>
+    <p>One <a href="../../culture/README.md">culture/</a> chapter, one card, said out loud once. Fifty cards
+    a year from a library you already own.</p>
+  </div>
+  <div class="card">
+    <h4>4 · The universal question · weekly</h4>
+    <p>Ask someone <em>"what's the part of your job people always get wrong?"</em> and then ask the
+    second question. Watch what happens. It has an unusually high hit rate.</p>
+  </div>
+  <div class="card">
+    <h4>5 · The questions file · daily</h4>
+    <p>Write down every word you nodded at without being able to define. Look up two a week. Within a
+    year this is your best source of material.</p>
+  </div>
+  <div class="card">
+    <h4>6 · The recall · after any real conversation</h4>
+    <p>One line about what they told you. Ask about it next time. Costs thirty seconds, remembered for
+    years, and almost nobody does it.</p>
+  </div>
+</div>
+
+<div class="good">
+  <span class="tag">The minimum viable version</span>
+  <p>Drill <strong>1</strong> and drill <strong>4</strong>. The conversion habit fills your shelf;
+  the universal question means you are never dependent on the shelf being full. Between them you
+  will not be the person standing in the group with nothing to say again.</p>
+</div>
+
+<header class="mod" id="t1">
+  <span class="mn">Reference</span>
+  <h2>Term bank</h2>
+</header>
+
+<div class="terms">
+  <div class="cap">The vocabulary from this handbook</div>
+  <dl>
+    <dt>supply problem</dt>
+    <dd>Having nothing to say is a shortage of stock, not a deficit of personality. The fix is stocking, and stocking is mechanical.</dd>
+
+    <dt>input vs stock</dt>
+    <dd>An article you read is input. A thing you have said out loud once is stock. Only stock is retrievable under social pressure.</dd>
+
+    <dt>the conversion step</dt>
+    <dd>Forty seconds out loud before you close the tab — assumption, turn, so-what. Ten seconds of effort turns input into stock.</dd>
+
+    <dt>the repertoire</dt>
+    <dd>Twenty topics you can open, hold five minutes and hand back. Five domain, five current, five evergreen, three personal, two questions.</dd>
+
+    <dt>topic card</dt>
+    <dd>Hook · middle · handoff. Three lines, about forty seconds. The handoff is what stops it being a monologue.</dd>
+
+    <dt>the way-in test</dt>
+    <dd>Can the other person contribute without having read what you read? The single best filter on whether a topic will work.</dd>
+
+    <dt>the asymmetry rule</dt>
+    <dd>Talk about what you find interesting, not what you think is impressive. If you are monitoring how it lands while you say it, you chose wrong.</dd>
+
+    <dt>the three beats</dt>
+    <dd>Setup (what everyone assumes) · turn (the surprise) · so-what. Skipping the setup is why interesting facts land flat — the turn has nothing to overturn.</dd>
+
+    <dt>state your model</dt>
+    <dd>"My mental model is X — is that roughly right?" People correct a well-formed model gladly and a vague gesture never. The fastest learning move available in any room.</dd>
+
+    <dt>the one-level rule</dt>
+    <dd>Know one level deeper than the conversation needs — enough to answer the first follow-up. Three levels down produces over-explaining.</dd>
+
+    <dt>the universal question</dt>
+    <dd>"What's the part of your job that people always get wrong?" Works on anyone, and the answer is always the gap between the public story and the real one.</dd>
+
+    <dt>airtime</dt>
+    <dd>Under half, and well under when they know something you don't. People remember how a conversation felt, and it felt good if they got to be interesting.</dd>
+
+    <dt>the recall move</dt>
+    <dd>Write one thing down afterwards; ask about it next time. Thirty seconds, remembered for years.</dd>
+
+    <dt>mechanisms over headlines</dt>
+    <dd>One mechanism is worth about a hundred headlines. Headlines are stale in a week; how a thing works stays useful for years.</dd>
+
+    <dt>the questions file</dt>
+    <dd>A running list of words you nodded at without being able to define. Two a week. Within a year it is your best source of material.</dd>
+  </dl>
+</div>
+
+<header class="mod" id="t2">
+  <span class="mn">Reference</span>
+  <h2>What next</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">This handbook in one card</div>
+<pre><code>⭐ IT IS SUPPLY, NOT PERSONALITY
+  The person who always has something to say read it
+  three weeks ago and told someone once.
+
+⭐ INPUT IS NOT STOCK
+  Nothing is stock until you have SAID IT OUT LOUD.
+  Forty seconds before you close the tab. Ten seconds
+  of effort; it is the whole difference.
+
+⭐ TWENTY TOPICS
+  5 domain (undervalued — you are bored of it, nobody
+  else has heard it) · 5 current · 5 evergreen ·
+  3 personal · 2 questions
+  → each one: HOOK · MIDDLE · HANDOFF. Three lines.
+
+⭐ THE WAY-IN TEST
+  Can they contribute without having read what you read?
+  → and talk about what you find INTERESTING, not what
+    you think is IMPRESSIVE
+
+⭐ THREE BEATS
+  what everyone assumes → the turn → why it matters
+  ⚠ never skip beat one, and never run past 40 seconds
+
+⭐ HALF-KNOWN IS FINE. BLUFFING IS NOT.
+  "My mental model is X — is that roughly right?"
+  Bounding the edge of your knowledge is precision.
+  Inventing inside it is retroactively expensive.
+
+⭐ BE INTERESTED, NOT INTERESTING
+  "What's the part of your job people always get wrong?"
+  then the SECOND question. Airtime under half.
+  → and write one thing down. Ask next time.
+
+⭐ MECHANISMS, NOT HEADLINES
+  one long read + one mechanism + one card = an hour
+  a week, and it beats an hour a day of scrolling
+  → keep the questions file. Two a week.</code></pre>
+</div>
+
+<p>That completes the six skills: diagnose, ask, structure, deliver, read the room, and have something
+worth saying. What remains is fuel and practice. <strong>Files 07, 08 and 09</strong> are thirty-two
+books stripped to what is usable in them, so you can stop wondering which ones to read.
+<strong>File 10</strong> is the eight-week programme that turns all of this from things you know into
+things you do. And <strong>files 11 to 16</strong> are the technology and process briefings — how
+desalination, chips, mRNA, batteries and the rest actually work, who controls them and why they are in
+the news — which is where your <em>current</em> five come from, already written as cards.</p>
+
+<div class="disclaimer">
+  <p><strong>On sourcing.</strong> This handbook is craft rather than research — there is no experimental
+  literature on how to be good company, and anyone claiming otherwise is overselling. What is here is
+  drawn from the parts of the conversation and rhetoric literature that survive contact with practice,
+  reorganised around one testable claim: that the binding constraint is usually stock rather than
+  ability. Test that claim on yourself for a month. The adjacent researched material — social anxiety,
+  the mechanics of small talk, active listening — is in
+  <a href="../../master-yourself/phase-11-conversation-confidence/02-conversation-skills-and-finding-words.md">master-yourself/phase-11, file 02</a>
+  and is not restated here.</p>
+</div>
+
+<div class="band" style="margin-top:34px;">
+<a class="vol" href="index.html"><span class="vn">Back to</span><b>Sharp Mind index</b><em>All ten handbooks</em></a>
+<a class="vol" href="05-reading-the-room.html"><span class="vn">Previous · 05</span><b>Reading the Room</b><em>Applied EQ</em></a>
+<a class="vol" href="07-books-thinking-and-judgment.html"><span class="vn">Next · 07</span><b>Books: thinking</b><em>Ten books, extracted</em></a>
+</div>
+
+</main>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var map = {}, targets = [];
+  links.forEach(function (a) {
+    var h = a.getAttribute('href');
+    if (!h || h.charAt(0) !== '#') return;
+    var el = document.getElementById(h.slice(1));
+    if (el) { map[el.id] = a; targets.push(el); }
+  });
+  var current = null;
+  function mark(id) {
+    if (id === current) return;
+    current = id;
+    links.forEach(function (a) { a.classList.remove('on'); });
+    if (map[id]) map[id].classList.add('on');
+  }
+  var io = new IntersectionObserver(function (entries) {
+    var vis = entries.filter(function (e) { return e.isIntersecting; });
+    if (vis.length) {
+      vis.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+      mark(vis[0].target.id);
+    }
+  }, { rootMargin: '-8% 0px -72% 0px', threshold: 0 });
+  targets.forEach(function (t) { io.observe(t); });
+})();
+
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

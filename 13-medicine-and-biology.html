@@ -1,0 +1,1371 @@
+<title>How It Works: Medicine and Biology</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F1;
+  --ground-2: #FCFBFA;
+  --panel:    #EAE9E6;
+  --panel-2:  #E0DEDA;
+
+  --ink:   #16181B;
+  --ink-2: #3D4048;
+  --ink-3: #71757E;
+
+  --rule:   #D5D3CF;
+  --rule-2: #E4E2DE;
+
+  --accent:      #0F5C6E;
+  --accent-soft: #E0EFF3;
+  --accent-deep: #0A3B47;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #0F5C6E;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #111215;
+    --ground-2: #181A1E;
+    --panel:    #202329;
+    --panel-2:  #292C33;
+
+    --ink:   #EAEAE8;
+    --ink-2: #BEC1C7;
+    --ink-3: #858992;
+
+    --rule:   #32353C;
+    --rule-2: #292C33;
+
+    --accent:      #5FBFD4;
+    --accent-soft: #10222A;
+    --accent-deep: #8AD5E6;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #5FBFD4;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #111215;
+  --ground-2: #181A1E;
+  --panel:    #202329;
+  --panel-2:  #292C33;
+
+  --ink:   #EAEAE8;
+  --ink-2: #BEC1C7;
+  --ink-3: #858992;
+
+  --rule:   #32353C;
+  --rule-2: #292C33;
+
+  --accent:      #5FBFD4;
+  --accent-soft: #10222A;
+  --accent-deep: #8AD5E6;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #5FBFD4;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #0F5C6E;
+  --accent-soft: #E9EEE9;
+  --accent-deep: #0A3B47;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: grid; grid-template-columns: 252px minmax(0, 1fr); max-width: none; margin: 0; }
+.rail {
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+.rail-title { font-family: var(--display); font-weight: 700; font-size: 15.4px; margin: 0 0 2px; }
+.rail-sub { color: var(--ink-3); font-size: 10.8px; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 6px; }
+.rail-vol { display: inline-block; font-size: 10.3px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 1px 5px; border-radius: 2px; margin-bottom: 16px; }
+.rail-group { color: var(--ink-3); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin: 16px 0 5px; padding-bottom: 4px; border-bottom: 1px solid var(--rule-2); }
+.rail a { display: block; color: var(--ink-2); text-decoration: none; padding: 3px 6px 3px 8px; border-left: 2px solid transparent; margin-left: -2px; }
+.rail a:hover { color: var(--ink); background: var(--panel); }
+.rail a.on { color: var(--accent); border-left-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+.rail a .n { color: var(--ink-3); margin-right: 5px; }
+.rail a.on .n { color: var(--accent); }
+
+.doc { padding: 38px 56px 100px; max-width: none; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--rule); padding: 18px 20px 22px; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + path band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 16.5px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 46px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+.byline { font-family: var(--mono); font-size: 12.6px; color: var(--ink-3); letter-spacing: .04em; margin: 0 0 14px; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+.rail, .tw, pre, .ascii, .doc { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+.rail::-webkit-scrollbar, .rail::-webkit-scrollbar-track { background: var(--ground); }
+.rail::-webkit-scrollbar-thumb { border-color: var(--ground); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<nav class="rail" aria-label="Contents">
+  <p class="rail-title">Medicine &amp; Biology</p>
+  <p class="rail-sub">How it works · why it's in the news</p>
+  <span class="rail-vol">Sharp Mind · 13 of 16</span>
+  <a href="#open"><span class="n">—</span>Open</a>
+
+  <div class="rail-group">I · Teaching the body</div>
+  <a href="#m1"><span class="n">01</span>mRNA vaccines</a>
+  <a href="#m2"><span class="n">02</span>GLP-1 drugs</a>
+
+  <div class="rail-group">II · Editing and targeting</div>
+  <a href="#m3"><span class="n">03</span>CRISPR</a>
+  <a href="#m4"><span class="n">04</span>Monoclonal antibodies</a>
+  <a href="#m5"><span class="n">05</span>DNA sequencing</a>
+
+  <div class="rail-group">III · The hard problems</div>
+  <a href="#m6"><span class="n">06</span>Antibiotic resistance</a>
+  <a href="#m7"><span class="n">07</span>Imaging and diagnostic AI</a>
+  <a href="#m8"><span class="n">08</span>Transplants and pig organs</a>
+
+  <div class="rail-group">Reference</div>
+  <a href="#words"><span class="n">—</span>The words, in plain words</a>
+  <a href="#ten"><span class="n">—</span>Your ten sentences</a>
+  <a href="#t2"><span class="n">—</span>What next</a>
+</nav>
+
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind 13 · how the world works</p>
+  <h1>Medicine and biology. <span class="thin">Eight things people talk about, explained simply.</span></h1>
+  <p class="lede">Medicine is the subject people most often discuss with strong feelings and no mechanism.
+  This file gives you the mechanism. Same eight parts per topic as files 11 and 12, same short sentences,
+  every new word explained before it is used. You will not be a doctor at the end. You will know what is
+  actually happening, which is more than most of the room.</p>
+  <div class="hero-meta">
+    <span><b>Covers</b> · 8 topics</span>
+    <span><b>Assumes</b> · no biology</span>
+    <span><b>Ends with</b> · 10 sentences</span>
+    <span><b>Not</b> · medical advice</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="12-the-physical-supply-chain.html"><span class="vn">Previous · 12</span><b>The Physical Supply Chain</b><em>Chips, ships and cables</em></a>
+<div class="vol here"><span class="vn">You are here · 13</span><b>Medicine and Biology</b><em>Eight breakthroughs</em></div>
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All sixteen handbooks</em></a>
+</div>
+
+<div class="warn">
+  <span class="tag">Read this line before anything else</span>
+  <p><strong>Nothing here is medical advice, and none of it should change what you do about your own
+  health.</strong> It exists so you can follow a conversation or a news story. If something here is
+  relevant to you personally, that is a reason to talk to a doctor — not a reason to act on a handbook
+  written to make you good at dinner.</p>
+</div>
+
+<header class="part" id="teaching">
+  <span class="pn">Part I · Teaching the body</span>
+  <h2>Two drugs that work by sending a message</h2>
+  <p class="lede">Neither one attacks anything. Both work by giving the body an instruction it already
+  knows how to follow.</p>
+</header>
+
+<header class="mod" id="m1">
+  <span class="mn">How it works 01</span>
+  <h2>mRNA vaccines</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>An mRNA vaccine sends your own cells a recipe, and your cells make the practice target
+  themselves.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>Older vaccines show your immune system a photograph of the criminal. A dead virus, a weakened one, or
+  one piece of one — grown in a factory, purified, injected.</p>
+  <p>An mRNA vaccine does not bring the photograph. <strong>It brings the instructions for drawing
+  it</strong>, and your own cells do the drawing.</p>
+  <p>That is the whole difference, and it is why these could be designed in days rather than years. You
+  are not growing anything. You are writing a message.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① FIRST, WHAT mRNA IS
+   Your DNA is the master copy of every recipe your body
+   knows. It stays locked in the nucleus at the centre of
+   the cell, and never leaves.
+   When a cell needs to make something, it copies out ONE
+   recipe onto a short, disposable working note and sends
+   that to the factory floor.
+   That note is mRNA. Messenger RNA.
+   ⇒ YOUR CELLS DO THIS MILLIONS OF TIMES A SECOND, ALL
+     DAY, YOUR WHOLE LIFE. It is not exotic. It is the
+     most ordinary process in biology.
+
+② SCIENTISTS WRITE ONE RECIPE
+   For COVID: the recipe for the "spike", the knobbly
+   protein on the outside of the virus. That one piece.
+   Not the virus.
+
+③ ⭐ THE HARD PART — GETTING IT INSIDE A CELL
+   Naked mRNA in your blood is destroyed in minutes. It
+   is MEANT to be disposable.
+   So it is wrapped in a microscopic bubble of fat: a
+   LIPID NANOPARTICLE.
+   ⇒ THE FAT BUBBLE IS THE INVENTION. Decades of work
+     went into it. The mRNA part was comparatively easy.
+     Almost every story about this gets it backwards.
+
+④ INJECTED INTO THE MUSCLE
+   The fat bubble merges with a cell's outer membrane —
+   because that membrane is also made of fat — and drops
+   the recipe inside.
+
+⑤ THE CELL READS IT AND MAKES THE SPIKE
+   Which on its own is harmless. It is a shape. It cannot
+   infect anything. It is one bolt from a car.
+
+⑥ THE IMMUNE SYSTEM SEES THE SHAPE AND LEARNS IT
+   Antibodies, memory cells, the usual response.
+
+⑦ THE mRNA IS DESTROYED WITHIN DAYS
+   ⚠ AND IT NEVER ENTERS THE NUCLEUS. It cannot reach
+     your DNA, and human cells have no machinery to write
+     RNA back into DNA. That is not a reassurance, it is
+     a structural fact about how a cell is built.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:40%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>The sequence was designed in about two days</strong></td><td>Once the virus genome was published in January 2020. The rest of that year was trials and manufacturing — not invention. That is the real significance of a platform technology.</td></tr>
+    <tr><td><strong>-20°C to -70°C</strong></td><td>Storage. mRNA falls apart at room temperature. A logistics problem, not a safety one — and the reason the rollout was much harder in hot countries with weak cold chains.</td></tr>
+    <tr><td><strong>The 2023 Nobel Prize</strong></td><td>To Katalin Karikó and Drew Weissman, for the finding that made it work at all: unmodified mRNA triggers a violent inflammatory reaction, and swapping one of its four building blocks for a slightly altered version avoids it. Karikó spent years unable to get funding for this work.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>The cold chain.</strong> The biggest practical limit, and the source of a lot of the
+    global inequity in who got these first.</li>
+    <li><strong>Side effects are real and mostly short.</strong> Sore arm, fever, tiredness for a day or
+    two — that is the immune response, which is the entire point of the product. Rare myocarditis
+    (inflammation of the heart muscle) occurred mainly in younger males, usually mild and self-limiting.
+    Better to say that plainly than to dodge it: the risk was real, small, and smaller than the equivalent
+    risk from the infection itself.</li>
+    <li><strong>It needs a good target.</strong> The approach only works where there is one protein worth
+    teaching the immune system about. For many diseases there is not.</li>
+    <li><strong>The big bet now is cancer.</strong> Because swapping the recipe is easy, you can sequence
+    a patient's own tumour, find the mutations unique to it, and write a personalised vaccine teaching the
+    immune system to hunt exactly those. In trials, genuinely promising, not proven.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"An mRNA vaccine doesn't put the virus in you. It sends a recipe, and your own cells make one
+  harmless piece for your immune system to practise on."</p>
+  <p>"The hard part was never the mRNA. It was the fat bubble that gets it into the cell."</p>
+  <p>"It can't touch your DNA. It never goes near the nucleus, and it's gone in days."</p>
+</div>
+
+<header class="mod" id="m2">
+  <span class="mn">How it works 02</span>
+  <h2>GLP-1 drugs — Ozempic, Wegovy, Mounjaro</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>These are copies of a gut hormone that tells your brain you have eaten enough — redesigned to
+  last a week instead of two minutes.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>Your gut already sends this message. When food arrives, it releases a hormone meaning roughly:
+  <em>enough, slow down, you are full.</em></p>
+  <p>The problem is that the natural message is deleted almost immediately — an enzyme in your blood chops
+  it up within about two minutes. It was built to be a brief signal after a meal, not a mood.</p>
+  <p><strong>These drugs are the same message, altered so the enzyme cannot cut it.</strong> One
+  injection, and the message keeps arriving for a week.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① GLP-1 IS A REAL HORMONE YOU ALREADY MAKE
+   Glucagon-like peptide-1, released by your gut when
+   food arrives.
+
+② IT DOES THREE THINGS AT ONCE
+   ⓐ tells the pancreas to release insulin — but ONLY
+     when blood sugar is actually high
+     ⇒ which is why these rarely cause the dangerous
+       low-blood-sugar episodes older diabetes drugs
+       could
+   ⓑ slows the stomach emptying, so food sits longer and
+     you feel full longer
+   ⓒ acts on the appetite centres in the BRAIN, so you
+     want less
+   ⇒ ⓒ IS THE ONE PEOPLE DESCRIBE AS LIFE-CHANGING.
+     Patients often say the constant background noise
+     about food simply goes quiet. That is a brain
+     effect, not a stomach effect, and it is why this
+     worked where appetite advice did not.
+
+③ THE NATURAL VERSION LASTS ABOUT TWO MINUTES
+   An enzyme called DPP-4 cuts it up.
+
+④ THE DRUG IS BUILT TO SURVIVE
+   Two changes: the cutting site is altered so the enzyme
+   cannot grip it, and a fatty chain is added so it
+   sticks to albumin, a protein already circulating in
+   your blood. It rides along instead of being filtered
+   out.
+   ⇒ result: one injection a week instead of a hormone
+     lasting minutes.
+
+⑤ THE NEWEST ONES COPY TWO HORMONES
+   Tirzepatide adds a second gut hormone, GIP. It appears
+   to work better still, and nobody is entirely sure why.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:40%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>~15%, and ~20%+ of body weight</strong></td><td>Average loss in trials over roughly a year and a half, for semaglutide and tirzepatide. Weight-loss drugs before these managed about 5%. That gap is why this became a global story.</td></tr>
+    <tr><td><strong>Roughly a quarter to a third can be lean mass</strong></td><td>Of the weight lost. A genuine concern, and why protein and resistance training are now part of serious treatment rather than an afterthought.</td></tr>
+    <tr><td><strong>~20% fewer major cardiac events</strong></td><td>In the SELECT trial, in people with obesity and existing heart disease. <em>This is the result that moved these drugs from a cosmetic story to a cardiovascular one</em> — the single most important number here.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>The weight comes back when you stop.</strong> In trials most of it returned within about a
+    year. This is what most reporting gets wrong: it is a treatment, not a cure — the same relationship
+    you have with blood pressure medication. Nobody expects blood pressure to stay down after stopping
+    the tablets.</li>
+    <li><strong>Nausea, vomiting and constipation are common</strong>, especially while the dose is being
+    increased. Most people manage by going up slowly. Some cannot tolerate it at all.</li>
+    <li><strong>Cost and supply.</strong> Shortages have been persistent, and the price puts them out of
+    reach of most people who would benefit — a compounding unfairness, since obesity is more common in
+    poorer populations.</li>
+    <li><strong>The long-term data is still arriving.</strong> Enormous numbers of people are taking these
+    for years, and some effects only appear at that scale. Not a reason for alarm; a reason to be honest
+    that "we know the ten-year picture" is not yet a true statement.</li>
+    <li><strong>And the genuinely new part:</strong> the effect is large enough that food companies have
+    revised forecasts and the economics of bariatric surgery has shifted. A drug changing a food
+    industry's outlook is unusual.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"It's a copy of a gut hormone that tells your brain you're full. The trick was making it last a week
+  instead of two minutes."</p>
+  <p>"The weight comes back when you stop. It's a treatment, not a cure — same as blood pressure pills."</p>
+  <p>"It stopped being a cosmetic story when the heart trial came out. Twenty percent fewer cardiac
+  events."</p>
+</div>
+
+<header class="part" id="editing">
+  <span class="pn">Part II · Editing and targeting</span>
+  <h2>Three tools that built modern biology</h2>
+  <p class="lede">Cutting DNA, reading it, and making molecules that stick to exactly one thing.</p>
+</header>
+
+<header class="mod" id="m3">
+  <span class="mn">How it works 03</span>
+  <h2>CRISPR</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>CRISPR is a pair of molecular scissors you can aim at one exact spot in DNA.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>Find-and-replace in a document.</p>
+  <p>Editing DNA was possible before CRISPR. But the "find" part meant custom-building a new protein for
+  every single sequence you wanted to locate — months of laboratory work and a lot of money, for one
+  target.</p>
+  <p><strong>CRISPR made the "find" part programmable.</strong> You type the address. That is the whole
+  revolution, and it is why this went from a 2012 paper to being in every biology lab in the world within
+  about three years.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① IT IS BORROWED FROM BACTERIA
+   Bacteria get attacked by viruses too. So they keep a
+   scrapbook: when a virus attacks and the bacterium
+   survives, it files a snippet of that virus's code
+   into its own DNA.
+   If the virus returns, the bacterium uses the filed
+   snippet to recognise and cut it.
+   ⇒ IT IS A BACTERIAL IMMUNE SYSTEM, running for about
+     a billion years before anyone noticed. Those filed
+     regions are what CRISPR is named after.
+
+② TWO PARTS
+   THE GUIDE    a short piece of RNA matching the DNA you
+                want to find. THIS IS THE PART YOU WRITE
+   THE SCISSORS a protein, Cas9, that does the cutting
+
+③ THE GUIDE FINDS THE MATCH, CAS9 CUTS
+   Both strands, at that exact spot.
+
+④ ⭐ THEN THE CELL REPAIRS IT — AND WHICH REPAIR YOU GET
+   DECIDES WHAT YOU CAN DO
+   SLOPPY REPAIR   the cell glues the ends back and
+                   usually loses or gains a few letters
+                   ⇒ this BREAKS the gene. Useful to
+                     switch something OFF. Easy, reliable
+   TEMPLATE REPAIR supply a replacement sequence and the
+                   cell may copy it in
+                   ⇒ this EDITS the gene. Much harder,
+                     much less efficient
+
+⑤ THE NEWER VERSIONS ARE GENTLER
+   BASE EDITING   changes one single letter chemically,
+                  without cutting both strands
+   PRIME EDITING  writes a short new sequence in place
+   ⇒ both avoid the double-strand break, which is where
+     most of the mess comes from. This is the direction
+     everything is moving.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:40%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>2012 paper → 2020 Nobel</strong></td><td>To Jennifer Doudna and Emmanuelle Charpentier. Eight years is extraordinarily fast, and it reflects how quickly the technique spread.</td></tr>
+    <tr><td><strong>First approved CRISPR therapy: late 2023</strong></td><td>Casgevy, for sickle cell disease and beta thalassaemia. The method: take the patient's own bone marrow stem cells <em>out</em>, edit them in a dish to switch fetal haemoglobin back on, wipe the marrow with chemotherapy, put them back.</td></tr>
+    <tr><td><strong>Roughly $2-3 million per patient</strong></td><td>And this, not the biology, is now the central problem. Sickle cell is most common in populations with the least access to a two-million-dollar therapy. A cure nobody can buy is a strange kind of cure.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>Off-target edits</strong> — cutting somewhere that resembles your target but is not it.
+    Much improved with better guides and better scissors. Not zero, and hard to prove zero.</li>
+    <li><strong>Delivery. Again.</strong> Exactly as with mRNA: getting the machinery into the right cells
+    <em>inside a living body</em> is the unsolved part. Which is precisely why blood disorders came first
+    — you can take those cells out, edit them on a bench where everything is easy, and put them back.</li>
+    <li><strong>The germline question.</strong> Editing an embryo changes every cell of the resulting
+    person <em>and</em> is passed to their children. Banned almost everywhere. He Jiankui did it anyway in
+    2018, producing edited babies, and went to prison. The line between treating a patient and editing the
+    species is the defining ethical question of the field, and it has been deferred rather than
+    resolved.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"CRISPR is find-and-replace for DNA. The breakthrough wasn't the cutting — it was making the 'find'
+  part programmable."</p>
+  <p>"It's a bacterial immune system. Bacteria have used it for a billion years; we borrowed it in 2012."</p>
+  <p>"The first approved therapy cures sickle cell and costs about two million dollars. That price is the
+  real problem now, not the science."</p>
+</div>
+
+<header class="mod" id="m4">
+  <span class="mn">How it works 04</span>
+  <h2>Monoclonal antibodies</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>A monoclonal antibody is one single immune molecule, chosen because it sticks to one exact
+  target, then copied billions of times.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>A key ring with millions of keys.</p>
+  <p>Your immune system makes an enormous variety of antibodies, hoping one of them happens to fit whatever
+  has invaded. It is brute force, and it works.</p>
+  <p>A monoclonal antibody is: find the one key that fits, throw away the rest of the ring, and manufacture
+  billions of copies of that single key. <em>Mono</em> = one. <em>Clonal</em> = copies.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① AN ANTIBODY IS A Y-SHAPED PROTEIN
+   The two tips of the Y are the variable part — the bit
+   that grips one specific shape. The stem is the handle
+   the rest of the immune system grabs.
+
+② FIND OR DESIGN ONE THAT GRIPS YOUR TARGET
+   A protein on a cancer cell. An inflammatory signal.
+   A virus.
+
+③ ⭐ GROW IT IN LIVING CELLS
+   Usually Chinese hamster ovary cells, in enormous
+   sterile tanks, for weeks.
+   ⇒ THIS IS WHY THEY COST WHAT THEY COST. You are not
+     doing chemistry, you are FARMING. An ordinary pill
+     is a small molecule you synthesise in a vat. An
+     antibody is a large, delicate protein that only
+     living cells know how to fold correctly.
+
+④ IT HAS TO BE INJECTED
+   Swallow it and you digest it — because it is a
+   protein, and that is what your gut does to proteins.
+
+⑤ ONCE ATTACHED, IT DOES ONE OF THREE THINGS
+   BLOCK    sit on a signal so it cannot be received
+   FLAG     mark the cell so the immune system kills it
+   DELIVER  carry a chemotherapy drug attached to it, so
+            the poison only lands where the antibody
+            sticks ("antibody-drug conjugate")
+
+⭐ THE NAME TELLS YOU WHAT IT IS
+  Look at the ending:
+    -ximab  part mouse ("chimeric")
+    -zumab  humanised
+    -umab   fully human
+  adalimumab · pembrolizumab · trastuzumab
+  ⇒ a small thing, and suddenly a wall of drug names
+    becomes readable.</code></pre>
+</div>
+
+<div class="proj">
+  <span class="tag">The one to know about · checkpoint inhibitors</span>
+  <p>Some cancers survive by sending your immune system a "stand down" signal — pressing a brake your own
+  T-cells are built to obey.</p>
+  <p><strong>A checkpoint inhibitor does not attack the tumour at all.</strong> It is an antibody that sits
+  on that brake so the signal cannot be received. Your own immune system, released, does the work.</p>
+  <p>This won the 2018 Nobel Prize for James Allison and Tasuku Honjo, and it genuinely changed outcomes in
+  melanoma and some lung cancers — from months to, for some patients, years. It is the clearest example of
+  a whole category: <em>medicine that removes an obstacle instead of adding a weapon.</em></p>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>Cost, driven entirely by the manufacturing.</strong> Typically thousands to tens of
+    thousands a year.</li>
+    <li><strong>And they do not go generic — they go "biosimilar".</strong> You cannot make an identical
+    copy of a protein grown in living cells, only one that is highly similar and proven to behave the
+    same. So prices fall far less than when an ordinary pill loses its patent. This is one of the quiet
+    reasons health budgets are under pressure everywhere.</li>
+    <li><strong>Your immune system can attack the drug</strong>, since it is itself a foreign protein —
+    which is why the mouse-to-human progression in the naming above happened.</li>
+    <li><strong>Checkpoint inhibitors release the brakes generally, not selectively.</strong> So a
+    meaningful share of patients develop autoimmune side effects — inflammation of bowel, thyroid, lungs
+    or skin. Often manageable, occasionally severe. The price of releasing an immune system is that it is
+    released.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"A monoclonal antibody is one immune key, copied billions of times, that sticks to one exact
+  target."</p>
+  <p>"They're expensive because you grow them in living cells. It's farming, not chemistry."</p>
+  <p>"Checkpoint inhibitors don't attack the tumour. They take the brakes off your own immune system."</p>
+</div>
+
+<header class="mod" id="m5">
+  <span class="mn">How it works 05</span>
+  <h2>DNA sequencing</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Sequencing means reading the order of the four letters DNA is written in.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>Reading a book of three billion letters with no spaces, no punctuation and no page numbers — by taking
+  a thousand copies of it, shredding all of them, and reassembling the text from where the pieces
+  overlap.</p>
+  <p>That sounds absurd and it is exactly what happens. It works because you have a thousand copies
+  shredded differently, so every join is covered by some other fragment.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works · the industrial standard, and the interesting alternative</div>
+<pre><code>SHORT READS — the dominant method
+  ① chop the DNA into millions of short fragments
+  ② stick them to a glass slide, and copy each fragment
+    many times ON THE SPOT, making a little cluster of
+    identical copies
+    ⇒ because one molecule is too dim to see. A thousand
+      copies is bright enough to photograph
+  ③ add ONE DNA letter at a time. Each of the four
+    carries a different coloured fluorescent tag, and a
+    chemical block stopping a second letter attaching
+  ④ PHOTOGRAPH THE WHOLE SLIDE. Every cluster flashes
+    the colour of the letter it just took
+  ⑤ chemically remove the block and the tag
+  ⑥ repeat, about 150 times
+  ⑦ a computer lines the millions of short reads up
+    against a reference and reconstructs the sequence
+  ⇒ extremely accurate, extremely cheap per letter, and
+    bad at long repetitive stretches — a short read from
+    inside a repeat could have come from anywhere in it
+
+LONG READS — nanopore, the one that sounds invented
+  Pull a single strand of DNA through a hole in a
+  protein, one letter at a time, and measure the tiny
+  change in electrical current as each letter squeezes
+  through. Each letter disturbs the current differently.
+  ⇒ reads thousands of times longer, which solves the
+    repeat problem
+  ⇒ and the device can be the size of a USB stick —
+    which means sequencing in a field hospital, a
+    jungle, or on the space station. All three have
+    happened.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:40%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>13 years and ~$3 billion</strong></td><td>The first human genome, finished 2003. An international effort involving thousands of people.</td></tr>
+    <tr><td><strong>About a day, and a few hundred dollars</strong></td><td>The same job today. <em>That fall is steeper and longer-sustained than the famous one in computing</em> — and almost nobody outside the field knows it happened.</td></tr>
+    <tr><td><strong>3 billion letters, ~20,000 genes</strong></td><td>Your genome. Only about 1-2% of it directly codes for proteins; most of the rest is regulation, structure, and material we understand poorly.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>Reading is solved. Understanding is not.</strong> We can read everything and interpret a
+    modest fraction. The most common result of a genetic test is a <em>"variant of uncertain
+    significance"</em> — we found a difference, we do not know whether it matters. That helps nobody and
+    frightens some people, and it is far more common than television suggests.</li>
+    <li><strong>Privacy, and it is not like other privacy.</strong> Your DNA identifies you permanently
+    and cannot be changed after a leak. It also identifies your siblings, parents and children, none of
+    whom consented. Consumer genetics companies have been sold, have gone bankrupt with the database as an
+    asset, and have handed data to law enforcement.</li>
+    <li><strong>Reference bias.</strong> The reference genomes everything was compared against were built
+    largely from people of European ancestry, which quietly made results less accurate for everyone else.
+    Now being fixed with "pangenome" references covering many populations — a good example of a technical
+    problem that was really a sampling problem.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"The first human genome took thirteen years and three billion dollars. Now it's a day and a few
+  hundred."</p>
+  <p>"Reading DNA is solved. Understanding it isn't — most findings come back as 'we don't know what this
+  means'."</p>
+  <p>"Your DNA is the one password you can never change. And it isn't only yours — it's your family's."</p>
+</div>
+
+<header class="part" id="hard">
+  <span class="pn">Part III · The hard problems</span>
+  <h2>Three things that will not be solved soon</h2>
+  <p class="lede">One is economic, one is statistical, one is a shortage. None of them is mainly a science
+  problem, which is what makes them interesting.</p>
+</header>
+
+<header class="mod" id="m6">
+  <span class="mn">How it works 06</span>
+  <h2>Antibiotic resistance</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Bacteria evolve to survive our antibiotics, and we are not making new ones fast
+  enough.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>A lock where the locks change themselves.</p>
+  <p>Every time you use an antibiotic you kill the bacteria it works on. The handful that happened to
+  survive are now the entire population — and they breed every twenty minutes.</p>
+  <p><strong>This is not a flaw in the drug, and it is not misuse alone.</strong> It is evolution doing
+  precisely what evolution does, on a clock fast enough to watch. Resistance was always coming. The only
+  questions were how fast, and what we would have ready.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works · and the part that makes it dangerous</div>
+<pre><code>① IN ANY LARGE POPULATION, A FEW ARE ACCIDENTALLY
+   DIFFERENT
+   A pump that happens to eject the drug. An enzyme that
+   happens to destroy it. A slightly changed shape the
+   drug no longer fits.
+
+② THE ANTIBIOTIC KILLS EVERYTHING ELSE
+   Which is a wonderful outcome for those few survivors.
+   They now have the whole territory and no competition.
+
+③ ⭐ AND HERE IS WHAT MAKES IT DANGEROUS
+   BACTERIA SWAP GENES SIDEWAYS.
+   Resistance genes sit on small loose rings of DNA
+   called PLASMIDS, and bacteria hand these to each
+   other — INCLUDING ACROSS DIFFERENT SPECIES.
+   ⇒ so resistance does not only pass down from parent
+     to offspring. It spreads across the room. A
+     harmless gut bacterium can hand a resistance gene
+     to a dangerous one.
+   ⇒ this is why resistance appears faster and in more
+     places than simple inheritance predicts, and it is
+     the most under-known fact in this entry.
+
+④ TWO DRIVERS, AND ONE IS BIGGER THAN PEOPLE THINK
+   HUMAN USE  unnecessary prescriptions, unfinished
+              courses
+   FARMING    enormous routine use in healthy farmed
+              animals, for growth and to prevent disease
+              in crowded conditions
+   ⇒ in many countries, more antibiotics by weight go
+     into animals than into people.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:40%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>~1.3 million deaths a year</strong></td><td>Directly attributable to resistant infections, with several million more associated, on the most-cited global estimate. Already one of the larger causes of death worldwide — and it does not feel like one, because the deaths get attributed to the underlying illness.</td></tr>
+    <tr><td><strong>Genuinely new classes are rare</strong></td><td>Most recently approved antibiotics are variations on existing families, so resistance to them arrives faster. There have been gaps of decades between genuinely new classes for some bacteria.</td></tr>
+    <tr><td><strong>The market is upside down</strong></td><td>A brilliant new antibiotic is used sparingly, for short courses, and held in reserve precisely <em>because</em> it is brilliant. So the better the drug, the less money it makes. Several companies have gone bankrupt shortly after getting one approved. <em>This is the core of the problem, and it is not a science problem.</em></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>The broken market above.</strong> Fixing it means paying differently — subscription models
+    where a health system pays to have the drug <em>available</em> rather than per dose. A few countries
+    are trying it. Unglamorous, and the actual answer.</li>
+    <li><strong>Agricultural use</strong> is politically difficult to reduce and enormously effective to
+    reduce.</li>
+    <li><strong>And here is what people miss about the stakes.</strong> Antibiotics are not only a
+    treatment for infections. <em>Surgery, chemotherapy, transplants, intensive care and childbirth all
+    depend on being able to prevent infection reliably.</em> Losing antibiotics does not mean going back to
+    1930 — it means much of modern medicine becoming unsafe. That is the real argument, and it is far
+    stronger than the one usually made.</li>
+    <li><strong>Alternatives are promising and not ready.</strong> Bacteriophages (viruses that eat
+    bacteria), antibodies, better vaccines. All real, none at scale.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Resistance isn't a failure of the drug. It's evolution working exactly as expected, on a fast
+  clock."</p>
+  <p>"Bacteria swap resistance genes sideways, between species. That's why it spreads faster than you'd
+  expect."</p>
+  <p>"The problem isn't mainly science, it's economics. A great new antibiotic is one you're told not to
+  use."</p>
+</div>
+
+<header class="mod" id="m7">
+  <span class="mn">How it works 07</span>
+  <h2>Medical imaging, and diagnostic AI</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Four different ways of seeing inside a body, and software trained to spot patterns in what
+  they show.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>Four different senses, not four versions of the same camera. Each sees something the others cannot.</p>
+  <p><strong>X-ray and CT are shadows</strong> — dense things block the beam.
+  <strong>MRI is a magnet nudging the water in you</strong> and listening to it settle.
+  <strong>Ultrasound is echo</strong>, exactly like a bat.
+  <strong>PET watches where sugar goes</strong>, because busy tissue is hungry tissue.</p>
+  <p>Knowing which is which explains most of what you hear about waiting lists, costs and radiation.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">The four, and what each is for</div>
+<pre><code>X-RAY AND CT · a shadow
+  X-rays pass through you; dense tissue absorbs more, so
+  bone is white and air is black. A CT takes hundreds of
+  X-rays from all around and computes cross-sections.
+  ✓ fast, cheap, available, excellent for bone, bleeding
+    and chest
+  ⚠ uses ionising radiation — a real, small, cumulative
+    risk. Which is why nobody scans "just to check"
+
+MRI · a magnet, and water
+  A very strong magnet lines up the hydrogen atoms in
+  your body's water. A radio pulse knocks them out of
+  line. As they settle back they emit a faint signal —
+  and DIFFERENT TISSUES SETTLE AT DIFFERENT RATES, which
+  is where the contrast comes from.
+  ✓ no radiation, extraordinary soft-tissue detail —
+    brain, spine, ligaments, tumours
+  ⚠ slow, deafening, expensive, impossible with some
+    metal implants
+
+ULTRASOUND · echo
+  Send sound pulses in, listen for the echoes, time them.
+  ✓ cheap, portable, real-time, no radiation, safe in
+    pregnancy
+  ⚠ cannot see through bone or air, and quality depends
+    enormously on the skill of the person holding it
+
+PET · activity, not structure
+  Inject sugar tagged with a weak radioactive tracer.
+  Metabolically busy cells take up more — and tumours
+  are busy.
+  ✓ shows what is ACTIVE rather than what is SHAPED,
+    which is why it is used for staging cancer
+  ⚠ expensive, and the tracer must be made nearby
+    because it decays within hours</code></pre>
+</div>
+
+<div class="sheet">
+  <div class="cap">And the AI part — where it works, and how it actually fails</div>
+<pre><code>WHERE IT WORKS TODAY, IN REAL CLINICS
+  · screening eyes for diabetic damage — huge volume of
+    routine images, one clear finding
+  · triaging mammograms so suspicious ones are read
+    first
+  · spotting a large stroke on a CT within seconds, so
+    the patient goes straight to treatment. MINUTES ARE
+    BRAIN TISSUE HERE — this one saves real function
+  · flagging a collapsed lung on a chest X-ray
+
+⚠ HOW IT FAILS — specific documented failures, not
+  general worries
+
+  DISTRIBUTION SHIFT
+    A model trained at one hospital, on one brand of
+    scanner, with one population, often degrades badly
+    somewhere else. The maths did not change. The
+    pictures did.
+
+  ⭐ SHORTCUT LEARNING — the famous one
+    Models have been found keying on things that
+    CORRELATE with the answer rather than the disease.
+    The best-known example: a chest X-ray model that had
+    partly learned to spot the marker left by a PORTABLE
+    scanner — because sicker patients, who cannot walk
+    to the radiology department, get portable scans.
+    ⇒ it was not detecting illness. It was detecting
+      "too ill to walk". It scored brilliantly until it
+      met a different hospital.
+
+  AUTOMATION BIAS
+    Show a human a confident machine answer and they
+    become less likely to disagree — including when the
+    machine is wrong. So a model right 95% of the time
+    can make the whole system WORSE, if the remaining
+    5% now go unchallenged.
+
+  THE REGULATORY GAP
+    Approval mostly asks "does the model perform?"
+    The question that matters is "does DOCTOR PLUS MODEL
+    beat DOCTOR?"
+    ⇒ different studies. The second is much rarer.</code></pre>
+</div>
+
+<div class="warn">
+  <span class="tag">And one cost nobody counts</span>
+  <p><strong>Better imaging finds more things.</strong> Many are harmless — a small nodule, a cyst,
+  something that would never have caused trouble. But once seen it must be followed up: more scans, a
+  biopsy, months of worry, occasionally a complication from a procedure that was never needed.</p>
+  <p>This is <strong>overdiagnosis</strong>, and it is a genuine harm of a genuinely good technology.
+  Detecting more is not automatically helping more, and anyone who discusses screening without mentioning
+  it is giving you half the picture.</p>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"CT is a shadow. MRI is a magnet nudging the water in you. Ultrasound is echo. PET watches where the
+  sugar goes."</p>
+  <p>"The question about medical AI isn't whether it beats a radiologist in a test. It's whether
+  radiologist-plus-AI beats radiologist — and that's a different study, and it's rarer."</p>
+  <p>"One famous model turned out to be detecting portable scanners, not disease. Sicker patients get
+  portable scans."</p>
+</div>
+
+<header class="mod" id="m8">
+  <span class="mn">How it works 08</span>
+  <h2>Transplants, and pig organs</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Moving a working organ from one body into another — and, now, from a pig.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>An ID badge system with no exceptions.</p>
+  <p>Your immune system checks every cell it meets for a badge. Your own cells carry your badge and are
+  waved through. A donated organ carries someone else's, and the immune system does exactly what it is
+  built to do: attacks it.</p>
+  <p><strong>Every single thing in transplant medicine is about managing that one fact.</strong> The
+  surgery, remarkably, is the easier half.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① THE BADGE HAS A NAME — HLA
+   A set of proteins on your cell surfaces. The closer
+   the match, the less violent the attack. Siblings
+   often match well. Strangers rarely match perfectly.
+
+② MATCH, THEN CROSSMATCH
+   Matching compares badges. Crossmatching mixes the
+   recipient's blood with the donor's cells to check the
+   recipient does not ALREADY have antibodies waiting —
+   from a pregnancy, a transfusion, or a previous
+   transplant.
+
+③ THE CLOCK STARTS THE MOMENT IT COMES OUT
+   Flushed with cold preservation fluid and chilled.
+   Rough limits:  heart and lungs   4-6 hours
+                  liver             8-12 hours
+                  kidney            up to 24-36 hours
+   ⇒ which is why transplant logistics involves police
+     escorts and chartered aircraft, and why there is a
+     geographic radius around every organ.
+
+④ ⭐ MACHINE PERFUSION — the quiet recent change
+   Instead of putting the organ on ice, keep it WARM and
+   pumped with oxygenated blood or fluid in a machine.
+   Three consequences, all large:
+     · more time
+     · you can ASSESS it — watch a liver make bile,
+       watch a kidney make urine — before committing
+     · you can sometimes IMPROVE a marginal organ
+   ⇒ organs that would have been discarded get used. It
+     is unglamorous and it is one of the biggest
+     practical advances in the field.
+
+⑤ THEN IMMUNOSUPPRESSION, FOR LIFE
+   Drugs holding the immune system back permanently.
+   Which means permanently raised risk of infection and
+   of some cancers.
+   ⇒ THAT IS THE TRADE. A working organ, and a
+     deliberately weakened immune system, for life.</code></pre>
+</div>
+
+<div class="proj">
+  <span class="tag">Pig organs · xenotransplantation</span>
+  <p>Pigs are roughly the right size, breed quickly, and are already farmed at scale. The idea is old. What
+  changed is gene editing — because there were three specific obstacles, and CRISPR made it possible to
+  remove them.</p>
+  <ul>
+    <li><strong>A sugar called alpha-gal</strong> sits on pig cells. Humans have strong pre-existing
+    antibodies against it, so a pig organ was destroyed within minutes. <em>Edited out.</em></li>
+    <li><strong>Viruses written into the pig genome itself</strong> (porcine endogenous retroviruses),
+    which cannot be bred out because they are part of the DNA. <em>Edited out.</em></li>
+    <li><strong>Slower rejection, and a mismatch in how pig and human blood clotting interact.</strong>
+    <em>Human genes added to compensate.</em></li>
+  </ul>
+  <p>The first pig heart into a living person was in 2022; the patient survived about two months. Pig
+  kidneys into living patients followed. <strong>This is early, working better than anyone expected a
+  decade ago, and not yet a routine option.</strong> One of the fastest-moving areas in medicine right
+  now, and worth watching.</p>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>The shortage is the whole problem.</strong> Waiting lists exceed donors everywhere and
+    people die waiting. Every other issue is downstream of this one.</li>
+    <li><strong>Opt-out systems help less than people claim.</strong> Countries with presumed consent
+    generally do better, but the effect is smaller than the headline suggests — Spain's famously high
+    rates owe more to having a trained transplant coordinator in every hospital than to the legal default.
+    <em>The law gets the credit; the infrastructure does the work.</em> That is a pattern worth
+    recognising well beyond transplants.</li>
+    <li><strong>Xenotransplantation carries an unknown infection risk</strong> — a virus crossing from pig
+    to human, in a patient whose immune system has deliberately been switched off, deserves the caution it
+    gets.</li>
+    <li><strong>And allocation is a genuinely hard ethical question.</strong> Who gets the organ: the
+    sickest, the one who will live longest with it, the one who waited longest, the youngest? Every answer
+    is defensible and every answer is unfair to somebody. There is no clean solution, and it is worth
+    knowing that before having a confident opinion about it.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Your immune system checks every cell for an ID badge. A transplanted organ has someone else's badge
+  — that's the entire problem, and the surgery is the easy half."</p>
+  <p>"They're putting pig organs into people now. They edited out the sugar we reject and the viruses in
+  the pig's own DNA."</p>
+  <p>"Spain's transplant rate isn't about the opt-out law. It's about a trained coordinator in every
+  hospital."</p>
+</div>
+
+<header class="mod" id="words">
+  <span class="mn">Reference</span>
+  <h2>The words, in plain words</h2>
+</header>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:25%">When they say…</th><th>They mean</th></tr></thead>
+  <tbody>
+    <tr><td><strong>DNA / RNA</strong></td><td>DNA is the master copy, locked in the nucleus. RNA is a disposable working copy sent out to be used.</td></tr>
+    <tr><td><strong>Gene / genome</strong></td><td>A gene is one recipe. The genome is the whole cookbook.</td></tr>
+    <tr><td><strong>Protein</strong></td><td>What recipes make. Proteins do essentially all the work in your body — structure, signals, enzymes, antibodies.</td></tr>
+    <tr><td><strong>In vitro / in vivo</strong></td><td>In glass (a dish) / in a living body. An enormous number of exciting results are in vitro, and most do not survive the journey.</td></tr>
+    <tr><td><strong>Phase 1 / 2 / 3</strong></td><td>Trial stages. Phase 1 = is it safe, a few dozen people. Phase 2 = does it seem to work, a few hundred. Phase 3 = does it really work, thousands, against a comparison. <em>Most drugs die in phase 2.</em></td></tr>
+    <tr><td><strong>Randomised controlled trial</strong></td><td>People assigned by chance to treatment or comparison, so the groups differ only by luck. Without it you cannot tell a real effect from the fact that people who choose a treatment differ from those who do not.</td></tr>
+    <tr><td><strong>Double blind</strong></td><td>Neither patient nor doctor knows who got which — because both unconsciously shade their judgement if they do.</td></tr>
+    <tr><td><strong>Placebo</strong></td><td>A dummy treatment. The point isn't that placebos are powerful — it's that <em>getting better anyway</em> is powerful, and you need a comparison to see past it.</td></tr>
+    <tr><td><strong>Relative vs absolute risk</strong></td><td>⭐ The most important one here. "Halves your risk" is relative. If the risk was 2 in 10,000 and is now 1 in 10,000, that is a 50% reduction and also almost nothing. <em>Headlines use relative; decisions need absolute.</em></td></tr>
+    <tr><td><strong>Efficacy vs effectiveness</strong></td><td>How well it works in a trial, versus how well it works in real life with real people who miss doses.</td></tr>
+    <tr><td><strong>Biologic / biosimilar</strong></td><td>A drug grown in living cells / a near-copy of one. Not a generic, because an exact copy isn't possible.</td></tr>
+    <tr><td><strong>Off-label</strong></td><td>Prescribing an approved drug for something it wasn't approved for. Legal, common, and how a lot of medicine actually advances.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<header class="mod" id="ten">
+  <span class="mn">Reference</span>
+  <h2>Your ten sentences</h2>
+</header>
+
+<div class="good">
+  <span class="tag">If you learn nothing else, learn these</span>
+  <div class="tw" style="margin-top:8px">
+  <table>
+    <tbody>
+      <tr><td style="width:34px"><strong>1</strong></td><td>"An mRNA vaccine doesn't put the virus in you. It sends a recipe and your own cells make one harmless piece of it."</td></tr>
+      <tr><td><strong>2</strong></td><td>"The hard part was never the mRNA. It was the fat bubble that gets it into the cell."</td></tr>
+      <tr><td><strong>3</strong></td><td>"GLP-1 drugs copy a gut hormone that tells your brain you're full. The weight comes back when you stop — it's a treatment, not a cure."</td></tr>
+      <tr><td><strong>4</strong></td><td>"CRISPR is find-and-replace for DNA. The breakthrough was making the 'find' part programmable."</td></tr>
+      <tr><td><strong>5</strong></td><td>"Checkpoint inhibitors don't attack the tumour. They take the brakes off your own immune system."</td></tr>
+      <tr><td><strong>6</strong></td><td>"Antibodies are expensive because you grow them in living cells. It's farming, not chemistry."</td></tr>
+      <tr><td><strong>7</strong></td><td>"Reading DNA is solved. Understanding it isn't — most results come back as 'we don't know what this means'."</td></tr>
+      <tr><td><strong>8</strong></td><td>"Bacteria swap resistance genes sideways, between species. And the problem isn't science — a great antibiotic is one you're told not to use."</td></tr>
+      <tr><td><strong>9</strong></td><td>"The question about medical AI isn't whether it beats a radiologist. It's whether radiologist-plus-AI beats radiologist."</td></tr>
+      <tr><td><strong>10</strong></td><td>"Halving a risk sounds enormous until you ask what the risk was. Relative for headlines, absolute for decisions."</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<header class="mod" id="t2">
+  <span class="mn">Reference</span>
+  <h2>What next</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">The three threads running through all eight</div>
+<pre><code>⭐ ① DELIVERY IS ALMOST ALWAYS THE HARD PART
+  mRNA        the fat bubble, not the message
+  CRISPR      getting the scissors into the right cells
+              inside a living body — which is exactly
+              why blood diseases came first
+  antibodies  must be injected, because you would
+              digest them
+  ⇒ when you read about a biological breakthrough, ask
+    "how does it get to where it needs to be?" That one
+    question separates a press release from a product
+    more reliably than anything else.
+
+⭐ ② THE BIOLOGY IS OFTEN SOLVED AND THE ECONOMICS IS NOT
+  a CRISPR cure that costs $2-3 million
+  antibiotics that make no money BECAUSE they work
+  antibodies that never get cheap, because you cannot
+    copy a grown protein exactly
+  ⇒ "we can do it, and nobody can pay for it" is the
+    characteristic modern medical problem. It is not a
+    science story and science will not fix it.
+
+⭐ ③ MORE DETECTION IS NOT AUTOMATICALLY MORE HEALTH
+  overdiagnosis · variants of uncertain significance ·
+  automation bias
+  ⇒ finding more things only helps if finding them
+    changes what happens. Often it does not.
+
+⇒ SO WHEN YOU MEET A NEW MEDICAL STORY, ASK:
+  ① HOW DOES IT GET WHERE IT NEEDS TO GO?
+  ② WHO PAYS, AND WHAT DOES IT COST PER PATIENT?
+  ③ IS THAT RISK NUMBER RELATIVE OR ABSOLUTE?</code></pre>
+</div>
+
+<p>Next: <strong>file 14</strong> is computing and AI — what a language model is actually doing when it
+answers you, why data centres suddenly became an electricity story, and what a quantum computer would do
+to encryption. <strong>File 15</strong> is materials, food and industry. <strong>File 16</strong> is how
+to follow any of this over time without drowning in headlines.</p>
+
+<div class="disclaimer">
+  <p><strong>On the figures, and once more on what this is.</strong> Trial results, prices and approval
+  dates are as reported and will move; treat them as orders of magnitude and as the shape of an argument.
+  Where something is genuinely uncertain — long-term GLP-1 data, xenotransplant outcomes, the true scale
+  of resistance deaths — the text says so rather than choosing a confident number. And nothing here is
+  medical advice: it is written so you can follow a conversation, not so you can make a decision about
+  your own treatment.</p>
+</div>
+
+<div class="band" style="margin-top:34px;">
+<a class="vol" href="index.html"><span class="vn">Back to</span><b>Sharp Mind index</b><em>All sixteen handbooks</em></a>
+<a class="vol" href="12-the-physical-supply-chain.html"><span class="vn">Previous · 12</span><b>The Physical Supply Chain</b><em>Chips, ships and cables</em></a>
+<a class="vol" href="14-computing-and-ai.html"><span class="vn">Next · 14</span><b>Computing and AI</b><em>What a model is doing</em></a>
+</div>
+
+</main>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var map = {}, targets = [];
+  links.forEach(function (a) {
+    var h = a.getAttribute('href');
+    if (!h || h.charAt(0) !== '#') return;
+    var el = document.getElementById(h.slice(1));
+    if (el) { map[el.id] = a; targets.push(el); }
+  });
+  var current = null;
+  function mark(id) {
+    if (id === current) return;
+    current = id;
+    links.forEach(function (a) { a.classList.remove('on'); });
+    if (map[id]) map[id].classList.add('on');
+  }
+  var io = new IntersectionObserver(function (entries) {
+    var vis = entries.filter(function (e) { return e.isIntersecting; });
+    if (vis.length) {
+      vis.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+      mark(vis[0].target.id);
+    }
+  }, { rootMargin: '-8% 0px -72% 0px', threshold: 0 });
+  targets.forEach(function (t) { io.observe(t); });
+})();
+
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

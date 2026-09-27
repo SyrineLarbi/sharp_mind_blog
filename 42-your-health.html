@@ -1,0 +1,725 @@
+<title>Your Health, Practically</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">A cultured mind · Volume 42 of 54 · practical medicine</p>
+  <h1>Your health, practically. <span class="thin">Tests, teeth, skin, allergy, ageing — and how to talk to a doctor.</span></h1>
+  <p class="lede">Volume 28 covered what medicine is and Volume 33 covered your body. This one covers
+  the encounters: what a test result means, whether a screening programme is worth joining, why teeth
+  matter more than anyone tells you, what actually happens under anaesthetic, and how to be the kind of
+  patient who gets a better answer.</p>
+  <div class="hero-meta">
+    <span><b>Follows</b> · Volumes 28, 33, 39</span>
+    <span><b>Covers</b> · tests, screening, dental, skin, allergy, ageing, surgery</span>
+    <span><b>Not</b> · a substitute for a doctor</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="17-ancient-world.html"><span class="vn">Vol 17</span><b>Ancient world</b></a>
+<a class="vol" href="18-empires-of-faith.html"><span class="vn">Vol 18</span><b>Faith &amp; trade</b></a>
+<a class="vol" href="19-the-world-opens.html"><span class="vn">Vol 19</span><b>The world opens</b></a>
+<a class="vol" href="20-age-of-revolutions.html"><span class="vn">Vol 20</span><b>Revolutions</b></a>
+<a class="vol" href="21-the-world-at-war.html"><span class="vn">Vol 21</span><b>The world at war</b></a>
+<a class="vol" href="22-the-long-shadow.html"><span class="vn">Vol 22</span><b>The long shadow</b></a>
+<a class="vol" href="23-disasters.html"><span class="vn">Vol 23</span><b>Disasters</b></a>
+<a class="vol" href="24-discoveries.html"><span class="vn">Vol 24</span><b>Discoveries</b></a>
+<a class="vol" href="25-physics.html"><span class="vn">Vol 25</span><b>Physics</b></a>
+<a class="vol" href="26-chemistry.html"><span class="vn">Vol 26</span><b>Chemistry</b></a>
+<a class="vol" href="27-life.html"><span class="vn">Vol 27</span><b>Life</b></a>
+<a class="vol" href="28-medicine.html"><span class="vn">Vol 28</span><b>Medicine</b></a>
+<a class="vol" href="29-the-sky.html"><span class="vn">Vol 29</span><b>The sky</b></a>
+<a class="vol" href="30-the-earth.html"><span class="vn">Vol 30</span><b>The Earth</b></a>
+<a class="vol" href="31-what-to-remember.html"><span class="vn">Vol 31</span><b>What to remember</b></a>
+<a class="vol" href="32-everyday-science.html"><span class="vn">Vol 32</span><b>Everyday science</b></a>
+<a class="vol" href="33-your-body.html"><span class="vn">Vol 33</span><b>Your body</b></a>
+<a class="vol" href="34-when-things-go-wrong.html"><span class="vn">Vol 34</span><b>Emergencies</b></a>
+<a class="vol" href="35-the-mind.html"><span class="vn">Vol 35</span><b>The mind</b></a>
+<a class="vol" href="36-people.html"><span class="vn">Vol 36</span><b>People</b></a>
+<a class="vol" href="37-the-dark-side.html"><span class="vn">Vol 37</span><b>The dark side</b></a>
+<a class="vol" href="38-money.html"><span class="vn">Vol 38</span><b>Money</b></a>
+<a class="vol" href="39-chance.html"><span class="vn">Vol 39</span><b>Chance</b></a>
+<a class="vol" href="40-right-and-wrong.html"><span class="vn">Vol 40</span><b>Right &amp; wrong</b></a>
+<a class="vol" href="41-whats-in-things.html"><span class="vn">Vol 41</span><b>What's in things</b></a>
+<div class="vol here"><span class="vn">Vol 42 · here</span><b>Your health</b></div>
+<a class="vol" href="43-mind-and-mood.html"><span class="vn">Vol 43</span><b>Mind &amp; mood</b></a>
+<a class="vol" href="44-medicines.html"><span class="vn">Vol 44</span><b>Medicines</b></a>
+<a class="vol" href="45-the-conditions.html"><span class="vn">Vol 45</span><b>The conditions</b></a>
+<a class="vol" href="46-home-and-kitchen.html"><span class="vn">Vol 46</span><b>Home &amp; kitchen</b></a>
+<a class="vol" href="47-not-being-fooled.html"><span class="vn">Vol 47</span><b>Not being fooled</b></a>
+<a class="vol" href="48-dont-do-that.html"><span class="vn">Vol 48</span><b>Don't do that</b></a>
+<a class="vol" href="49-ai-honestly.html"><span class="vn">Vol 49</span><b>AI, honestly</b></a>
+<a class="vol" href="50-whats-coming.html"><span class="vn">Vol 50</span><b>What's coming</b></a>
+<a class="vol" href="51-the-novels.html"><span class="vn">Vol 51</span><b>The novels</b></a>
+<a class="vol" href="52-philosophy-originals.html"><span class="vn">Vol 52</span><b>Philosophy</b></a>
+<a class="vol" href="53-ideas-that-changed.html"><span class="vn">Vol 53</span><b>Ideas</b></a>
+<a class="vol" href="54-the-anthology.html"><span class="vn">Vol 54</span><b>The anthology</b></a>
+</div>
+
+<header class="part" id="p1">
+  <span class="pn">Part I</span>
+  <h2>Tests and what they mean</h2>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A result is a probability, not a verdict</h2>
+</header>
+
+<p>The chance volume already did the hard work here, and this is where it pays. Every test has two ways
+of being wrong: it can miss something that is there, and it can find something that is not. Both happen
+routinely, in good tests, run correctly.</p>
+
+<p>Which is why <strong>a positive result on a test for something rare usually means you probably do not
+have it</strong> — the false positives outnumber the true ones, because there are so many more people
+without the condition. This is not a flaw in the test; it is the arithmetic of rarity, and it explains
+why an abnormal result is so often followed by a second, more specific test rather than by treatment.</p>
+
+<p>Two more things worth knowing about ordinary blood results. The "normal range" printed beside your
+number is defined so that a small percentage of perfectly healthy people fall outside it — so on a panel
+of twenty measurements, having one outside the range is the expected outcome, not a finding. And
+<strong>a single value matters far less than a trend</strong>; one reading is a snapshot of a day that
+included what you ate, how you slept, and whether you were anxious in the waiting room.</p>
+
+<p>Blood pressure deserves a specific mention because it is the most commonly misread number in
+medicine. It varies through the day, it rises in clinical settings for many people, and a single high
+reading is not a diagnosis. Repeated measurement, often at home, is how it is properly assessed.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Screening, and why more is not always better</h2>
+</header>
+
+<p>Screening means testing people who have no symptoms, in the hope of catching something early. It
+saves lives. It also causes harm, and the harm is invisible in a way the benefit is not, which is why
+the debates about it are so strange.</p>
+
+<p>Three effects make screening harder to judge than it looks.</p>
+
+<p><strong>Overdiagnosis.</strong> Some conditions found by screening would never have caused a problem
+in that person's lifetime. They are real, they are correctly identified, and treating them delivers no
+benefit while carrying the full cost of treatment. Nobody can tell which ones at the time.</p>
+
+<p><strong>The lead-time illusion.</strong> Finding a disease earlier makes survival time from diagnosis
+longer even if the person dies on exactly the same day they would have anyway. Survival statistics after
+screening therefore look better automatically, whether or not anything was gained.</p>
+
+<p><strong>The cascade.</strong> An abnormal result leads to further tests, each with its own risks, its
+own false alarms, and a considerable amount of fear along the way.</p>
+
+<p>None of this means screening is bad — for several conditions the evidence of benefit is strong and
+the programmes are unambiguously worth joining. It means the honest question is specific:
+<strong>for this condition, at my age, with my history, does this programme prevent more harm than it
+causes?</strong> That is a question with a real answer, and it differs by programme. It is also exactly
+the question to ask a doctor rather than a search engine.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Scans, and what each one sees</h2>
+</header>
+
+<p>The imaging alphabet confuses people unnecessarily. Each method sees a different property, which is
+why a doctor chooses between them rather than ordering the "best" one.</p>
+
+<p><strong>X-rays</strong> pass through soft tissue and are stopped by dense material, so they show bone
+and lungs well and soft tissue poorly. Fast, cheap, small radiation dose.</p>
+
+<p><strong>CT</strong> is many X-rays from many angles, assembled into slices. Excellent for injury,
+bleeding and detail — and a substantially larger radiation dose than a single X-ray, which is why it is
+not ordered casually.</p>
+
+<p><strong>Ultrasound</strong> bounces sound off tissue and listens to the echo. No radiation at all,
+which is why it is used in pregnancy. Good for soft tissue, fluid, and anything moving; useless through
+bone or air.</p>
+
+<p><strong>MRI</strong> uses a powerful magnet and radio waves to map how water sits in different
+tissues. No radiation, superb soft-tissue detail — and slow, loud, expensive, and impossible for people
+with certain implants.</p>
+
+<p>The practical point: <strong>radiation dose is a real consideration for the X-ray family and a
+non-issue for ultrasound and MRI.</strong> A scan that will not change what anyone does is a scan worth
+questioning, which is the single most useful thing a patient can ask — not "can I have a scan" but
+"what would this change?"</p>
+
+<header class="part" id="p2">
+  <span class="pn">Part II</span>
+  <h2>The parts people neglect</h2>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Teeth and gums</h2>
+</header>
+
+<p>Dentistry is treated as cosmetic and separate, and it is neither. Two processes are worth
+understanding because both are preventable and neither hurts until late.</p>
+
+<p><strong>Decay</strong> happens because bacteria on the tooth turn sugar into acid, and the acid
+dissolves mineral out of the enamel. The tooth can repair this in the early stages, drawing mineral back
+in from saliva — which means the critical variable is not how much sugar but <strong>how often</strong>.
+Sipping a sweet drink through an afternoon keeps the surface under acid attack continuously and does far
+more damage than the same sugar eaten at once. Between attacks, saliva repairs; without gaps, it cannot.</p>
+
+<p><strong>Gum disease</strong> is inflammation from bacteria at the gum line. It begins as bleeding when
+brushing — which is a sign of disease rather than of brushing too hard, and the usual response of
+brushing that spot less gently is precisely backwards. Left alone it progresses to destroy the bone
+holding the teeth, and that part is not reversible. It is the leading cause of tooth loss in adults, and
+it is painless until it is severe.</p>
+
+<p>What actually works is dull: clean between the teeth as well as on them, since a brush cannot reach
+where decay and gum disease mostly start; use fluoride toothpaste and spit rather than rinsing, so it
+stays on the teeth; wait after acidic food or vomiting before brushing, because the enamel is temporarily
+softened; and keep the gaps between sugary moments long. Also worth knowing: gum inflammation is
+associated with problems well beyond the mouth, and mouth ulcers or patches lasting more than a few
+weeks should be looked at rather than waited out.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Skin, sun and moles</h2>
+</header>
+
+<p>Sunlight damages skin in two ways that behave differently. One kind of ultraviolet penetrates deeper
+and drives ageing — the leathering, the loss of elasticity, the pigmentation — and it passes through
+cloud and window glass, so it is working on ordinary overcast days and while driving. The other kind
+causes burning, and burning is the part most clearly linked to the dangerous cancers.</p>
+
+<p>Which gives one of the clearest cost-benefit calculations in personal health: <strong>the great
+majority of visible skin ageing is sun exposure rather than time</strong>, and protection is cheap. The
+usual failure is quantity — most people apply a fraction of what the product was tested with, which
+converts high protection into modest protection.</p>
+
+<p>On moles, the worth-knowing pattern is about change and asymmetry. A spot that is <strong>uneven in
+shape, ragged at the edge, mixed in colour, larger than a pencil eraser, or — most importantly —
+changing</strong> deserves a look. Change over months is the signal that matters most, and the skin
+cancer with the worst reputation is also among the most curable when caught early, which is what makes
+the check worth doing.</p>
+
+<p>Two everyday additions. A tan is damage, by definition — it is the skin's response to injury, not a
+sign of health. And the common advice to worry only in summer or only in hot countries mismatches the
+mechanism: altitude, water, snow and reflection all increase exposure regardless of temperature.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Allergy, intolerance and the difference that matters</h2>
+</header>
+
+<p>These two words are used interchangeably and describe completely different things, with completely
+different stakes.</p>
+
+<p><strong>An allergy is the immune system reacting</strong> to something harmless as though it were
+dangerous. It can be triggered by a trace amount, it tends to involve hives, swelling, breathing
+difficulty, and it can escalate. The severe form — swelling of the airway, a sudden drop in blood
+pressure, collapse — is a medical emergency, it can occur within minutes, and the treatment is
+adrenaline given promptly followed by an ambulance regardless of improvement, because a second wave can
+follow hours later.</p>
+
+<p><strong>An intolerance is a digestive problem.</strong> The classic is lactose, where the enzyme that
+breaks down milk sugar declines after childhood in most of the world's adults — which makes it the
+normal human condition rather than a disorder. It is dose-dependent, unpleasant, and not dangerous. A
+small amount is usually tolerated; the immune system is not involved.</p>
+
+<p>Coeliac disease sits between the two and belongs in neither box: an immune reaction to gluten that
+damages the gut lining over time. It requires strict avoidance, and — importantly — it must be
+diagnosed <strong>before</strong> removing gluten, because the tests depend on the reaction still being
+present.</p>
+
+<p>Two practical notes. Most food reactions people self-diagnose are not allergies, and cutting foods out
+without testing can both mask a real diagnosis and cause nutritional gaps. And allergies change across
+a life — children often outgrow some, and adults can develop new ones, which surprises people who assume
+the pattern is fixed.</p>
+
+<header class="part" id="p3">
+  <span class="pn">Part III</span>
+  <h2>Time, and the medical system</h2>
+</header>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>What actually changes as you age</h2>
+</header>
+
+<p>Ageing is not one process and not uniform, and separating what is inevitable from what is modifiable
+is the point of this chapter.</p>
+
+<p>Muscle declines steadily from middle age unless it is used, and the decline is a leading cause of the
+falls that end independence — which makes <strong>strength, not cardio, the exercise most worth
+protecting in later life.</strong> Bone thins, more sharply in women after menopause, and responds to
+loading and to adequate nutrition. Balance degrades quietly and trains easily. Eyes lose their close
+focus for mechanical reasons, essentially universally. Hearing fades at the high frequencies first,
+which is why consonants blur before volume becomes a problem, and hearing loss is strongly associated
+with later cognitive decline — making it one of the more worthwhile things to address early rather than
+tolerate.</p>
+
+<p>On the mind: some slowing is normal, and <strong>forgetting a name is not dementia</strong>. What
+warrants attention is a change in function rather than in speed — getting lost somewhere familiar,
+difficulty with a task once routine, personality change, or repetition within a single conversation.
+The distinction is between forgetting where you put the keys and forgetting what the keys are for.</p>
+
+<p>And the honest headline from the evidence: the things that most reliably protect the ageing brain and
+body are not supplements or puzzles. They are <strong>physical activity, sleep, hearing and vision
+correction, blood pressure control, not smoking, and sustained social connection</strong> — with social
+isolation carrying a risk comparable to well-known physical risk factors. That list is unglamorous and
+it is what the evidence keeps returning.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Anaesthesia, surgery and consent</h2>
+</header>
+
+<p>General anaesthesia is not sleep and not unconsciousness in the ordinary sense. It is a controlled
+state combining loss of awareness, loss of memory formation, loss of pain response and often muscle
+relaxation — each produced separately, adjusted continuously, with breathing and circulation supported
+throughout. That continuous management is why an anaesthetist stays with you the whole time, and it is
+why the field became one of the great safety successes of modern medicine.</p>
+
+<p>Local and regional anaesthesia block nerves instead, leaving you awake. For many procedures this is
+safer, and being offered it is not a lesser option.</p>
+
+<p>Around any procedure, consent is the part patients under-use. Real consent means understanding what is
+proposed, what the alternatives are, what happens if you do nothing, and what could go wrong. <strong>You
+may ask for time, ask for it in writing, ask for another opinion, and change your mind</strong> — and
+none of these are difficult or unusual requests.</p>
+
+<p>Which leads to the four questions that improve almost any medical conversation, and they are the
+closing practical gift of this library. <strong>What else could this be? What happens if we do nothing
+or wait? What would this test or treatment change about the plan? And what are the risks and the
+alternatives?</strong> Asked calmly, they are welcomed by good clinicians, because they are the
+questions a good clinician is already asking.</p>
+
+<div class="warn">
+  <span class="tag">Scope, stated plainly</span>
+  <p>This volume explains concepts so you can follow a conversation and ask better questions. It is
+  <strong>not medical advice and cannot know your situation.</strong> Nothing here should delay seeing
+  someone about symptoms — and the specific things that always warrant urgent attention regardless of
+  anything in this book: sudden severe chest pain, sudden weakness or drooping on one side or difficulty
+  speaking, difficulty breathing, sudden severe headache unlike any before, and any bleeding that will
+  not stop.</p>
+</div>
+
+<header class="mod" id="recap">
+  <span class="mn">Reference</span>
+  <h2>What to carry forward</h2>
+</header>
+
+<div class="sen">
+  <div class="b knows"><span class="k">Results and screening</span>
+    <p>A test result is a probability. <strong>On a twenty-item blood panel, one value outside the
+    normal range is expected</strong>, and a trend beats a single reading. Screening genuinely saves
+    lives and genuinely overdiagnoses — the question is always about a specific programme at your age,
+    not about screening in general.</p></div>
+  <div class="b"><span class="k">Teeth and skin</span>
+    <p>Decay depends on <strong>how often</strong> sugar arrives, not how much — the tooth repairs
+    between attacks. Bleeding gums mean disease, not over-brushing. And most visible skin ageing is sun
+    exposure; watch moles for <em>change</em>, which is the signal that matters most.</p></div>
+  <div class="b junior"><span class="k">Allergy vs intolerance</span>
+    <p>An allergy is the <strong>immune system</strong> — triggered by traces, can escalate, adrenaline
+    then ambulance. An intolerance is <strong>digestion</strong> — dose-dependent and not dangerous.
+    Coeliac must be tested before gluten is removed.</p></div>
+  <div class="b check"><span class="k">The four questions</span>
+    <p><strong>What else could this be? What if we wait? What would this change? What are the risks and
+    alternatives?</strong> — and for ageing well, the evidence keeps returning to strength training,
+    sleep, hearing and vision, blood pressure, not smoking, and staying connected.</p></div>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>The end of the shelf</h4><p>Forty-two volumes: thinking, history, science, the body, the mind, money, chance, ethics, and the practical chemistry and medicine of an ordinary week.</p></div>
+  <div class="card"><h4>Start again at · Volume 31</h4><p>What to Remember is the compression of the whole science track, and the best place to return when the details fade.</p></div>
+</div>
+</main>
+</div>
+
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

@@ -1,0 +1,1112 @@
+<title>How It Works: Staying Updated</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F1;
+  --ground-2: #FCFBFA;
+  --panel:    #EAE9E6;
+  --panel-2:  #E0DEDA;
+
+  --ink:   #16181B;
+  --ink-2: #3D4048;
+  --ink-3: #71757E;
+
+  --rule:   #D5D3CF;
+  --rule-2: #E4E2DE;
+
+  --accent:      #0F5C6E;
+  --accent-soft: #E0EFF3;
+  --accent-deep: #0A3B47;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #0F5C6E;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #111215;
+    --ground-2: #181A1E;
+    --panel:    #202329;
+    --panel-2:  #292C33;
+
+    --ink:   #EAEAE8;
+    --ink-2: #BEC1C7;
+    --ink-3: #858992;
+
+    --rule:   #32353C;
+    --rule-2: #292C33;
+
+    --accent:      #5FBFD4;
+    --accent-soft: #10222A;
+    --accent-deep: #8AD5E6;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #5FBFD4;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #111215;
+  --ground-2: #181A1E;
+  --panel:    #202329;
+  --panel-2:  #292C33;
+
+  --ink:   #EAEAE8;
+  --ink-2: #BEC1C7;
+  --ink-3: #858992;
+
+  --rule:   #32353C;
+  --rule-2: #292C33;
+
+  --accent:      #5FBFD4;
+  --accent-soft: #10222A;
+  --accent-deep: #8AD5E6;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #5FBFD4;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #0F5C6E;
+  --accent-soft: #E9EEE9;
+  --accent-deep: #0A3B47;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: grid; grid-template-columns: 252px minmax(0, 1fr); max-width: none; margin: 0; }
+.rail {
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+.rail-title { font-family: var(--display); font-weight: 700; font-size: 15.4px; margin: 0 0 2px; }
+.rail-sub { color: var(--ink-3); font-size: 10.8px; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 6px; }
+.rail-vol { display: inline-block; font-size: 10.3px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 1px 5px; border-radius: 2px; margin-bottom: 16px; }
+.rail-group { color: var(--ink-3); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin: 16px 0 5px; padding-bottom: 4px; border-bottom: 1px solid var(--rule-2); }
+.rail a { display: block; color: var(--ink-2); text-decoration: none; padding: 3px 6px 3px 8px; border-left: 2px solid transparent; margin-left: -2px; }
+.rail a:hover { color: var(--ink); background: var(--panel); }
+.rail a.on { color: var(--accent); border-left-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+.rail a .n { color: var(--ink-3); margin-right: 5px; }
+.rail a.on .n { color: var(--accent); }
+
+.doc { padding: 38px 56px 100px; max-width: none; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--rule); padding: 18px 20px 22px; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + path band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 16.5px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 46px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+.byline { font-family: var(--mono); font-size: 12.6px; color: var(--ink-3); letter-spacing: .04em; margin: 0 0 14px; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+.rail, .tw, pre, .ascii, .doc { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+.rail::-webkit-scrollbar, .rail::-webkit-scrollbar-track { background: var(--ground); }
+.rail::-webkit-scrollbar-thumb { border-color: var(--ground); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<nav class="rail" aria-label="Contents">
+  <p class="rail-title">Staying Updated</p>
+  <p class="rail-sub">Following the world without drowning</p>
+  <span class="rail-vol">Sharp Mind · 16 of 16</span>
+  <a href="#open"><span class="n">—</span>Open</a>
+
+  <div class="rail-group">I · The problem</div>
+  <a href="#u1"><span class="n">01</span>Why headlines don't work</a>
+  <a href="#u2"><span class="n">02</span>Follow stories, not headlines</a>
+
+  <div class="rail-group">II · Reading properly</div>
+  <a href="#u3"><span class="n">03</span>How to read a number</a>
+  <a href="#u4"><span class="n">04</span>Spotting hype</a>
+  <a href="#u5"><span class="n">05</span>Choosing sources</a>
+
+  <div class="rail-group">III · The habits</div>
+  <a href="#u6"><span class="n">06</span>The questions file</a>
+  <a href="#u7"><span class="n">07</span>Changing your mind</a>
+  <a href="#u8"><span class="n">08</span>The weekly system</a>
+
+  <div class="rail-group">Reference</div>
+  <a href="#words"><span class="n">—</span>The words, in plain words</a>
+  <a href="#ten"><span class="n">—</span>Your ten sentences</a>
+  <a href="#t2"><span class="n">—</span>The whole library, in one card</a>
+</nav>
+
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind 16 · how the world works</p>
+  <h1>Staying updated. <span class="thin">The last file, and the only one about method.</span></h1>
+  <p class="lede">Files 11 to 15 gave you forty technologies. This one is different: it is how to keep
+  going after the handbooks run out. How to follow a story over months instead of reading headlines for
+  years. How to tell a real advance from a press release. How to read a number without being led by it.
+  And how to change your mind without it costing you anything.</p>
+  <div class="hero-meta">
+    <span><b>Covers</b> · 8 habits</span>
+    <span><b>Costs</b> · about an hour a week</span>
+    <span><b>Ends</b> · the whole library, one card</span>
+    <span><b>Last file</b> · of 16</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="15-materials-food-and-industry.html"><span class="vn">Previous · 15</span><b>Materials, Food and Industry</b><em>How things get made</em></a>
+<div class="vol here"><span class="vn">You are here · 16</span><b>Staying Updated</b><em>Following a story</em></div>
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All sixteen handbooks</em></a>
+</div>
+
+<header class="part" id="problem">
+  <span class="pn">Part I · The problem</span>
+  <h2>Why reading the news does not work</h2>
+  <p class="lede">And it genuinely does not. This is not a complaint about media bias. It is a complaint
+  about shape.</p>
+</header>
+
+<header class="mod" id="u1">
+  <span class="mn">Staying Updated 01</span>
+  <h2>Why headlines don't work</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>News is shaped like events. The world is shaped like processes. That mismatch is why you can
+  read the news every day for ten years and still not know how anything works.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>Watching one frame of a film every day — and a different film each time.</p>
+  <p>At the end of a year you have watched three hundred and sixty-five frames. You could not tell anyone
+  what happened in a single one of those films, because you never saw two frames of the same one in
+  a row.</p>
+  <p>That is the daily news, and it is not a criticism of journalists. It is what the format is for.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">Five things the format does, structurally, regardless of who is writing</div>
+<pre><code>① IT SELECTS FOR WHAT CHANGED TODAY
+   But most important things change SLOWLY. Aquifers
+   emptying, a currency weakening, resistance spreading,
+   a skill becoming obsolete.
+   ⇒ so they are never today's news — until one day they
+     are, and it is called a crisis, and it took thirty
+     years.
+
+② IT SELECTS FOR THE UNUSUAL
+   That is what "news" means. Which systematically
+   distorts your sense of how common things are — the
+   availability effect from file 07. You will fear the
+   rare vivid thing and ignore the common dull one.
+
+③ THE HEADLINE IS OFTEN NOT WRITTEN BY THE REPORTER
+   It is written to be clicked. It routinely overstates
+   the article beneath it, and sometimes contradicts it.
+   ⚠ so a headline you disagree with may sit above an
+     article you would agree with entirely.
+
+④ EVERYTHING IS PRESENTED AT THE SAME VOLUME
+   A genuine breakthrough and a funding announcement get
+   the same typeface and the same excitement. The format
+   has no way to say "this one matters and this one does
+   not".
+
+⑤ ⭐ NOTHING IS EVER FOLLOWED UP
+   The cure announced three years ago — what happened to
+   it? The battery that would change everything?
+   Nobody will tell you, because a follow-up is not
+   news. So you accumulate hundreds of unfinished
+   stories and never learn which ones were real.
+   ⇒ THIS IS THE BIGGEST ONE. Your picture of the world
+     is built almost entirely from beginnings, with the
+     endings withheld.</code></pre>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"News is shaped like events. The world is shaped like processes. That's why reading a lot of it
+  leaves you knowing very little."</p>
+  <p>"You only ever get the beginnings. Nobody publishes the follow-up, because a follow-up isn't news."</p>
+</div>
+
+<header class="mod" id="u2">
+  <span class="mn">Staying Updated 02</span>
+  <h2>Follow stories, not headlines</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Pick four or five things you actually care about, and follow those over months.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>The difference between watching one football match and following a team for a season.</p>
+  <p>Same sport. Same ninety minutes. But if you have followed the team, you know why that substitution
+  mattered, what the manager is under pressure about, and which of those players is playing for a
+  transfer.</p>
+  <p>Everyone else is watching a match. You are watching a season. <strong>The information is the
+  same — the context is what you built.</strong></p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How to actually do it · the story file</div>
+<pre><code>① PICK 3 TO 5 — AND PICK STORIES, NOT TOPICS
+   ✗ "water"              → a topic. Infinite. No end.
+   ✓ "desalination in Tunisia" → a story. Actors, a
+     timeline, and a question that will eventually be
+     answered.
+   ✗ "AI"
+   ✓ "whether the EU AI Act actually gets enforced"
+   ⇒ A STORY HAS AN ENDING IT IS HEADING TOWARDS. That
+     is what makes it followable.
+
+② ONE PAGE PER STORY, WITH FOUR SECTIONS
+   ⓐ WHAT IS ACTUALLY HAPPENING — the mechanism, five
+     lines. Not opinions. How the thing works.
+   ⓑ WHO THE ACTORS ARE AND WHAT THEY WANT
+     ⇒ "how is this person paid?" — the Munger question
+       from file 07. It predicts behaviour better than
+       anything about personality.
+   ⓒ WHAT I EXPECT TO HAPPEN, AND HOW SURE I AM
+     With a percentage. "I'm about 60% that the 2030
+     target slips."
+   ⓓ ⭐ WHAT WOULD CHANGE MY MIND
+     Written down BEFORE it happens.
+
+③ ADD ONE DATED LINE WHEN SOMETHING HAPPENS
+   Not an essay. A line and a date.
+
+④ REREAD THE PAGE EVERY FEW MONTHS
+   ⇒ AND SECTION ⓓ IS THE ONE THAT MAKES YOU HONEST.
+     Without it you will quietly rewrite what you used
+     to think. Everyone does. It is not dishonesty, it
+     is memory — and a dated page is the only defence.
+
+⭐ WHY THIS WORKS SO WELL
+  After three months you know more about those four
+  things than almost anyone you will meet. Not because
+  you are cleverer. Because you were there for the whole
+  season and they saw one match.
+  ⇒ and four things is enough. You are not trying to
+    know everything. Nobody knows everything. You are
+    trying to know five things properly, which almost
+    nobody does.</code></pre>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"I follow about four stories properly instead of skimming forty. After a few months you know more
+  about those four than almost anyone in the room."</p>
+  <p>"I write down in advance what would change my mind. Otherwise I'd quietly rewrite what I used to
+  think — everyone does."</p>
+</div>
+
+<header class="part" id="reading">
+  <span class="pn">Part II · Reading properly</span>
+  <h2>Three defences</h2>
+  <p class="lede">Against numbers designed to lead you, announcements dressed as achievements, and your
+  own feed.</p>
+</header>
+
+<header class="mod" id="u3">
+  <span class="mn">Staying Updated 03</span>
+  <h2>How to read a number</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Most numbers in the news are technically true and arranged to mislead.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>A photograph. Everything in it is real. Somebody still chose where to stand, what to include, and what
+  to leave just outside the frame.</p>
+  <p>Almost no statistic in the news is a lie. Almost every one is a choice.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">Seven checks, in order of how often they catch something</div>
+<pre><code>① RELATIVE OR ABSOLUTE?
+   "Doubles your risk" — of what, from what?
+   2 in 10,000 → 4 in 10,000 is a doubling and is almost
+   nothing.
+   ⇒ headlines use relative because it is bigger.
+     Decisions need absolute. (file 13)
+
+② WHAT IS THE DENOMINATOR?
+   "500 incidents last year" — out of how many? A large
+   number with no base is not information, it is a
+   feeling.
+
+③ WHO COUNTED, AND WHY?
+   A figure from an industry body about its own industry
+   is not a lie and is not neutral. Neither is one from a
+   campaign group. Both are selecting.
+
+④ IS IT A RATE OR A LEVEL?
+   ⚠ THE MOST COMMON CONFUSION IN ECONOMIC NEWS.
+   "Inflation is falling" does NOT mean prices are
+   falling. It means they are rising more slowly.
+   Emissions growth slowing is not emissions falling.
+
+⑤ COMPARED TO WHAT?
+   "Record high" — against what baseline? Adjusted for
+   inflation? For population? For the fact that we
+   measure more things than we used to?
+   ⇒ a "record number of cases" often means a record
+     amount of TESTING.
+
+⑥ IS IT A FORECAST WEARING A FACT'S CLOTHES?
+   A number for 2040 is a guess with good formatting.
+   Treat it as a scenario, never as a measurement.
+
+⑦ DOES THE HEADLINE NUMBER MATCH THE ARTICLE'S NUMBER?
+   Surprisingly often, it does not. Check.
+
+⭐ AND THE ONE HABIT THAT DOES MOST OF THE WORK
+  WHEN SOMEONE GIVES YOU A PERCENTAGE, ASK FOR THE TWO
+  RAW NUMBERS IT CAME FROM.
+  "Up 40%" — from what to what?
+  ⇒ most misleading statistics simply do not survive
+    that one question, and it is polite, and it works on
+    your own reasoning too.</code></pre>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"When someone gives me a percentage I ask what the two numbers were. Most misleading statistics don't
+  survive that."</p>
+  <p>"Inflation falling doesn't mean prices are falling. It means they're rising more slowly."</p>
+</div>
+
+<header class="mod" id="u4">
+  <span class="mn">Staying Updated 04</span>
+  <h2>Spotting hype</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>There is a short, reliable list of tells that separate a real advance from a press
+  release.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>The difference between a recipe and a photograph of a meal.</p>
+  <p>The photograph proves someone made it once, beautifully, under perfect light, probably with
+  professional help. The recipe tells you whether <em>you</em> could make it, in your kitchen, on a
+  Tuesday, for a price you would pay.</p>
+  <p>Most technology announcements are photographs.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">The hype checklist · eight questions</div>
+<pre><code>① IS THERE A NUMBER, WITH UNITS, AND A COMPARISON?
+   Hype is adjectival. "Revolutionary", "game-changing",
+   "unprecedented". Real work says "3.2 kWh per cubic
+   metre, down from 10."
+
+② LAB, OR PRODUCT?
+   file 13's vocabulary generalises: IN VITRO means in a
+   dish. Every field has its version — a demo, a pilot,
+   a prototype, a single unit.
+   ⇒ the gap between "works once in a lab" and "works
+     every day at scale" is where almost everything dies.
+
+③ WHAT SCALE? HOW MANY ORDERS OF MAGNITUDE FROM USEFUL?
+   A breakthrough at milligram scale is not a
+   breakthrough at tonne scale. Ask how many zeros are
+   missing. Three is a hard decade. Six is a career.
+
+④ WHO BENEFITS FROM YOU BELIEVING THIS?
+   A company raising money. A university press office
+   justifying a grant. A minister announcing.
+   ⇒ none of them lying. All of them selecting. Again:
+     how is this person paid?
+
+⑤ HAS ANYONE INDEPENDENT REPRODUCED IT?
+   One striking study is a hypothesis. (file 07)
+
+⑥ IS THE WORD "COULD" DOING ALL THE WORK?
+   "Could revolutionise" means "has not". Count the
+   conditionals in the first paragraph.
+
+⑦ ⭐ FOR ANYTHING INDUSTRIAL — IS THERE A FINAL
+   INVESTMENT DECISION?
+   ANNOUNCEMENTS ARE FREE. An FID means somebody
+   actually committed the money.
+   ⇒ a very large share of announced hydrogen, carbon
+     capture and battery projects never reach FID and
+     quietly disappear. This single filter will save you
+     from most energy-transition hype, in both
+     directions.
+
+⑧ DOES IT QUIETLY VIOLATE SOMETHING THAT DOES NOT BEND?
+   You cannot get more energy out than you put in. You
+   cannot beat the thermodynamic minimum. You cannot
+   separate something without spending energy.
+   ⇒ perpetual motion arrives every few years in a new
+     costume and better graphic design.
+
+⭐ AND THE TIMESCALE RULE, WHICH PEOPLE GET WRONG
+  CONSTANTLY
+  SOFTWARE can go from prototype to millions of users in
+  months.
+  ANYTHING REQUIRING NEW PHYSICAL PLANT takes TEN YEARS
+  OR MORE from working prototype to meaningful scale.
+  Factories, permits, supply chains, trained people.
+  ⇒ applying software timescales to steel, or steel
+    timescales to software, is the single most common
+    forecasting error there is — and it is made in both
+    directions by serious people.</code></pre>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Announcements are free. For anything industrial I wait for the final investment decision — that's
+  when someone actually committed money."</p>
+  <p>"Software moves in months. Anything needing a new factory moves in decades. Most bad predictions mix
+  those two up."</p>
+</div>
+
+<header class="mod" id="u5">
+  <span class="mn">Staying Updated 05</span>
+  <h2>Choosing sources</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>A small number of good sources beats a large number of fast ones.</strong></p>
+</div>
+
+<div class="sheet">
+  <div class="cap">Three, plus one</div>
+<pre><code>① ONE THAT REPORTS RATHER THAN REACTS
+   Has its own correspondents, publishes corrections,
+   and is willing to be slower than everyone else.
+   ⇒ the correction policy is the tell. An outlet that
+     never corrects anything is not more accurate.
+
+② ONE SPECIALIST IN YOUR OWN FIELD
+   ⭐ TRADE PRESS IS ENORMOUSLY BETTER THAN GENERAL
+     PRESS ON ITS OWN SUBJECT, and almost nobody outside
+     the industry reads it. It assumes you know the
+     basics, so it skips the padding and goes to what
+     changed. For supply chain, energy, shipping,
+     pharma — the trade publication is where the actual
+     information is.
+
+③ ⭐ ONE THAT DISAGREES WITH YOU, READ CHARITABLY
+   Not because balance is a virtue. For a practical
+   reason: YOU CANNOT DEFEND A POSITION YOU HAVE ONLY
+   EVER HEARD DEFENDED.
+   ⇒ and read it looking for the strongest version of
+     their argument, not the weakest. (The steelman,
+     file 05 §06.)
+
+④ AND PRIMARY SOURCES, WHEN IT MATTERS
+   The actual report. The paper's own abstract. The
+   company's own filing. The regulation's own text.
+   ⇒ IT IS USUALLY ONE CLICK AWAY AND ALMOST NOBODY
+     CLICKS IT. Doing so once on a story you care about
+     is genuinely startling — the gap between what a
+     report says and what is reported about it is often
+     enormous, and not always in the direction you
+     expect.
+
+⚠ WHAT TO DISTRUST
+  · aggregators with no reporters of their own
+  · any piece where the headline and the body disagree
+  · a single striking study, especially a small one
+  · ⭐ YOUR OWN FEED. Algorithms optimise for
+    engagement, and the most engaging emotion is anger.
+    A feed is not a source. It is a slot machine that
+    occasionally dispenses information.
+
+⭐ AND BE HONEST ABOUT THIS ONE:
+  EVERY SOURCE HAS A SLANT, INCLUDING THE GOOD ONES AND
+  INCLUDING THE ONES YOU AGREE WITH.
+  The aim is not to find a neutral source. There isn't
+  one. The aim is to know which way each one leans and
+  read accordingly — which is a skill, and it is
+  learnable, and it is more useful than the search for
+  neutrality.</code></pre>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Three sources, and one of them disagrees with me. When it matters I read the actual report — it's
+  usually one click away and almost nobody clicks it."</p>
+  <p>"Trade press is far better than general press on its own subject, and nobody outside the industry
+  reads it."</p>
+</div>
+
+<header class="part" id="habits">
+  <span class="pn">Part III · The habits</span>
+  <h2>What to actually do</h2>
+  <p class="lede">Two habits and a schedule. Together they cost about an hour a week.</p>
+</header>
+
+<header class="mod" id="u6">
+  <span class="mn">Staying Updated 06</span>
+  <h2>The questions file</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Write down every word you nodded at without being able to define.</strong></p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works, and why it beats reading more</div>
+<pre><code>① SOMEONE SAYS A WORD YOU DO NOT ACTUALLY KNOW
+   "basis points" · "feedstock" · "capacity factor" ·
+   "Scope 3" · "FID" · "tokenisation" · "FOB" ·
+   "working capital" · "the spread"
+
+② YOU NOD. EVERYONE NODS.
+   This is not a personal failing. Everyone in the room
+   is nodding, and some of them do not know either.
+
+③ WRITE IT DOWN. DO NOT LOOK IT UP IN THE MOMENT.
+   Looking it up mid-conversation means you stop
+   listening, and you will forget it by evening anyway.
+
+④ LOOK UP TWO A WEEK.
+
+⭐ WHY THIS BEATS SIMPLY READING MORE
+  THE LIST IS GENERATED BY YOUR ACTUAL LIFE.
+  Every single item on it is something you have already
+  met and will meet again — otherwise it would not be on
+  the list.
+  ⇒ it is a personalised curriculum, built from the gaps
+    you actually have, rather than from what somebody
+    else thought you should know. No course can do that.
+
+⇒ AND AFTER A YEAR IT IS THE BEST SOURCE OF
+  CONVERSATION MATERIAL YOU OWN, because you learned
+  each item at the precise moment it mattered — which is
+  also why each one stuck.</code></pre>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"I keep a list of words I nodded at without knowing. Two a week. It's the best reading list I've ever
+  had, because I didn't write it — my life did."</p>
+</div>
+
+<header class="mod" id="u7">
+  <span class="mn">Staying Updated 07</span>
+  <h2>Changing your mind cleanly</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>You will be wrong about some of this. The skill is updating without drama.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>A weather forecast.</p>
+  <p>Nobody is embarrassed that today's forecast differs from yesterday's. Yesterday's was the best
+  estimate with yesterday's data. New data arrived. New forecast.</p>
+  <p><strong>Nobody thinks the forecaster has lost credibility. They think the forecaster is doing their
+  job.</strong> That is the entire attitude, and it is available to you.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">Five things that make it easy</div>
+<pre><code>① HOLD OPINIONS WITH A NUMBER ATTACHED
+   "I'm about 70% on this" is revisable without anyone
+   losing anything.
+   "This is obviously true" is not — and now changing
+   your mind requires admitting you were foolish, which
+   nobody wants to do. (file 07, Duke)
+
+② ⭐ WRITE DOWN IN ADVANCE WHAT WOULD CHANGE YOUR MIND
+   The hardest and most valuable habit here.
+   Because when it happens, YOU HAVE ALREADY AGREED TO
+   UPDATE. The argument with yourself took place months
+   earlier, calmly, when nothing was at stake.
+
+③ UPDATE OUT LOUD, ONCE, AND FLATLY
+   "I thought X. The new data says otherwise. I now
+   think Y."
+   No apology, no performance, no extended explanation
+   of how understandable the old view was.
+   ⇒ the same shape as the public correction in file 04
+     §06: flat, early, once, then move.
+
+④ DO NOT LET THE BELIEF BECOME YOUR IDENTITY
+   "I believe X" is cheap to revise.
+   "I am an X person" is expensive, because now updating
+   costs you something that has nothing to do with the
+   evidence.
+   ⇒ watch for the moment a position starts appearing in
+     how you describe yourself. That is when it gets
+     hard to drop.
+
+⑤ KNOW THE ASYMMETRY, BECAUSE YOU CANNOT REMOVE IT
+   You will examine evidence AGAINST your view far more
+   carefully than evidence FOR it. Everyone does. It is
+   not a character flaw and it does not go away with
+   effort.
+   ⇒ the only working defence is to know it, and to
+     deliberately spend longer on the source that
+     disagrees. Not to try to be unbiased. To
+     COMPENSATE for a bias you know you have.
+
+⭐ AND THE THING THAT SURPRISES PEOPLE
+  SOMEONE WHO VISIBLY UPDATES IS TRUSTED MORE, NOT LESS.
+  Because it means their agreement is contingent on
+  evidence — which means when they DO agree with you, it
+  is worth something.
+  ⇒ if you never change your mind, your agreement is
+    worthless. It was going to happen anyway.</code></pre>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"I try to put a number on an opinion. Seventy percent is something I can revise. 'Obviously' isn't."</p>
+  <p>"I thought X. The new numbers say otherwise. I think Y now." — said flatly, once, and then move
+  on.</p>
+</div>
+
+<header class="mod" id="u8">
+  <span class="mn">Staying Updated 08</span>
+  <h2>The weekly system</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>About one hour a week, and it beats an hour a day of scrolling by a wide margin.</strong></p>
+</div>
+
+<div class="sheet">
+  <div class="cap">The whole system, on one card</div>
+<pre><code>ONE LONG READ            30-40 min
+  One properly reported piece, start to finish, on
+  anything at all. Not skimmed. Finished.
+
+ONE MECHANISM            20 min
+  One "how does this actually work". Files 11-15, a
+  chapter of ../../culture/, or a good explainer.
+  ⇒ ONE MECHANISM IS WORTH ABOUT A HUNDRED HEADLINES,
+    because it explains all the headlines that come
+    after it.
+
+ONE CARD                 10 min
+  Turn one of the two into a topic card — hook, middle,
+  handoff — AND SAY IT OUT LOUD ONCE. (file 06)
+  ⚠ THIS IS THE STEP EVERYONE SKIPS AND IT IS THE STEP
+    THAT MAKES THE OTHER FIFTY MINUTES COUNT. Reading
+    is input. Saying is stock.
+
+PLUS, WHEN SOMETHING HAPPENS
+  · one dated line in the relevant story file (§02)
+  · two words from the questions file (§06)
+
+⇒ TOTAL: ABOUT AN HOUR.
+
+⭐ AND THE PERMISSION YOU PROBABLY NEED
+  YOU ARE ALLOWED TO NOT FOLLOW MOST THINGS.
+  Someone who understands eight systems properly is
+  better company, and better informed, than someone who
+  has skimmed four hundred stories.
+  Depth in a few places plus honest ignorance elsewhere
+  is a completely respectable position — and "I don't
+  know anything about that, what's the shape of it?" is
+  one of the better sentences available to you.
+  (file 04 §05)</code></pre>
+</div>
+
+<header class="mod" id="words">
+  <span class="mn">Reference</span>
+  <h2>The words, in plain words</h2>
+</header>
+
+<p>The vocabulary that appears in news about numbers, and that almost nobody explains.</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:25%">When they say…</th><th>They mean</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Basis point</strong></td><td>One hundredth of a percent. "Fifty basis points" is half a percent. Used because "a quarter of a percent" is ambiguous about a quarter of what.</td></tr>
+    <tr><td><strong>Year on year</strong></td><td>Compared with the same month last year, not with last month. Avoids seasonal effects — December always beats November.</td></tr>
+    <tr><td><strong>Seasonally adjusted</strong></td><td>The predictable yearly pattern has been mathematically removed, so you can see the underlying trend. A real and necessary adjustment, and also somewhere assumptions hide.</td></tr>
+    <tr><td><strong>Real vs nominal</strong></td><td>⭐ Adjusted for inflation, or not. "Record high wages" in nominal terms can be a fall in real terms. Always ask which one.</td></tr>
+    <tr><td><strong>Median vs mean</strong></td><td>The middle one vs the average. For anything with a long tail — income, house prices, waiting times — the median is far more honest, and the mean is often chosen for that reason.</td></tr>
+    <tr><td><strong>Per capita</strong></td><td>Per person. A big country doing a big thing is not news; a big country doing it per person might be.</td></tr>
+    <tr><td><strong>Correlation</strong></td><td>Two things move together. That is all it means. It does not tell you which causes which, or whether a third thing causes both.</td></tr>
+    <tr><td><strong>Statistically significant</strong></td><td>Unlikely to be pure chance. ⚠ It does <em>not</em> mean large, or important, or practically meaningful. A tiny effect can be highly significant in a big enough study.</td></tr>
+    <tr><td><strong>Confidence interval</strong></td><td>The range the true answer probably sits in. When it is wide, the headline number is not really a number.</td></tr>
+    <tr><td><strong>CAGR</strong></td><td>Compound annual growth rate — the smooth yearly rate that would get you from start to end. Hides everything that happened in between, including a crash.</td></tr>
+    <tr><td><strong>FID</strong></td><td>Final investment decision. The moment a project stops being an announcement and becomes money. The most useful three letters in industrial news.</td></tr>
+    <tr><td><strong>MoU</strong></td><td>Memorandum of understanding. A signed statement that two parties are interested. Almost entirely non-binding, and frequently reported as if it were a deal.</td></tr>
+    <tr><td><strong>Order book / backlog</strong></td><td>Work that has been sold but not yet delivered. A good forward indicator, and one that can be inflated with soft orders.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<header class="mod" id="ten">
+  <span class="mn">Reference</span>
+  <h2>Your ten sentences</h2>
+</header>
+
+<div class="good">
+  <span class="tag">If you learn nothing else, learn these</span>
+  <div class="tw" style="margin-top:8px">
+  <table>
+    <tbody>
+      <tr><td style="width:34px"><strong>1</strong></td><td>"News is shaped like events. The world is shaped like processes. That's why reading a lot of it leaves you knowing very little."</td></tr>
+      <tr><td><strong>2</strong></td><td>"You only ever get the beginnings. Nobody publishes the follow-up, because a follow-up isn't news."</td></tr>
+      <tr><td><strong>3</strong></td><td>"I follow four stories properly instead of skimming forty."</td></tr>
+      <tr><td><strong>4</strong></td><td>"When someone gives me a percentage, I ask what the two numbers were."</td></tr>
+      <tr><td><strong>5</strong></td><td>"Inflation falling doesn't mean prices are falling. It means they're rising more slowly."</td></tr>
+      <tr><td><strong>6</strong></td><td>"Announcements are free. For anything industrial, I wait for the final investment decision."</td></tr>
+      <tr><td><strong>7</strong></td><td>"Software moves in months. Anything needing a new factory moves in decades. Most bad predictions mix those up."</td></tr>
+      <tr><td><strong>8</strong></td><td>"Three sources, one of which disagrees with me — because you can't defend a position you've only heard defended."</td></tr>
+      <tr><td><strong>9</strong></td><td>"I write down in advance what would change my mind. Otherwise I'd quietly rewrite what I used to think."</td></tr>
+      <tr><td><strong>10</strong></td><td>"One mechanism is worth about a hundred headlines."</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<header class="mod" id="t2">
+  <span class="mn">Reference</span>
+  <h2>The whole library, in one card</h2>
+</header>
+
+<p>That is the end of the sixteen. Here is all of it compressed as far as it will go.</p>
+
+<div class="sheet">
+  <div class="cap">Sharp Mind · everything, on one card</div>
+<pre><code>THINK (01-03)
+  ⭐ SPEED IS RETRIEVAL, NOT PROCESSING
+    The quick person pre-loaded. Name the CATEGORY of
+    problem before answering. Pause three seconds, out
+    loud.
+  ⭐ THE BEST ANSWER BELONGS TO THE MOST SENIOR PERSON.
+    THE BEST QUESTION IS AVAILABLE TO ANYONE.
+    "What would have to be true?" · "What would make us
+    regret this?" · and always climb from WHAT to SO
+    WHAT.
+  ⭐ ANSWER FIRST, THEN THE SUPPORT
+    Two or three reasons, never seven. Say the structure
+    before the content — it buys you nine seconds and
+    sounds organised.
+
+THE ROOM (04-06)
+  ⭐ TWO AXES: WARMTH AND COMPETENCE
+    Warmth is judged first. Capable people under-invest
+    in it and land in the envied quadrant — respected,
+    not trusted, not warned.
+  ⭐ CUT THE PADDING, KEEP THE CALIBRATION
+    Bounding what you know is precision. Apologising for
+    saying it is cost.
+    "I don't know" + what I'll do + WHEN.
+  ⭐ EVERYONE IS ASKING THREE QUESTIONS
+    Am I safe with you · do you see me · are you
+    competent. Friction that doesn't add up is one of
+    these.
+  ⭐ BEING INTERESTING IS A SUPPLY PROBLEM
+    Input is not stock. Nothing is stock until you have
+    SAID IT OUT LOUD.
+
+THE BOOKS (07-09)
+  ⭐ Most non-fiction is one essay at three hundred
+    pages. The outside view · resulting · kind vs wicked
+    · "how is this person paid?" · impact not intentions
+    · the third story.
+
+THE WORLD (11-16)
+  ⭐ MOST TECHNOLOGY STORIES ARE ENERGY STORIES
+  ⭐ THE CHOKE POINT IS THE PROCESSING STEP, NOT THE
+    RAW MATERIAL
+  ⭐ THE CO2 OFTEN COMES FROM THE CHEMISTRY, NOT THE
+    FUEL
+  ⭐ EVERY DETECTOR CHOOSES WHICH ERROR TO MAKE
+  ⭐ THE UNGLAMOROUS FIX IS USUALLY BEST AND NEVER
+    GETS FUNDED
+  ⭐ ONE MECHANISM IS WORTH A HUNDRED HEADLINES
+
+AND THE ONE INSTRUCTION UNDERNEATH ALL SIXTEEN FILES
+  ⭐⭐ SAY IT OUT LOUD ONCE.
+    Everything in this library is input until you have
+    said it. That is the difference between having read
+    something and being able to use it, and it takes
+    ten seconds.</code></pre>
+</div>
+
+<p><strong>The track is finished.</strong> If you want to go further on any of it: the psychology under
+the first six files is in <a href="../../master-yourself/README.md">master-yourself/</a>, the general
+knowledge to draw conversation from is in <a href="../../culture/README.md">culture/</a>'s 247 chapters,
+and the work-domain depth is in <a href="../../supply-chain/README.md">supply-chain/</a>. And the thing
+that turns all of it from reading into behaviour is <a href="10-the-program.html">file 10</a> — the
+eight-week drill.</p>
+
+<div class="disclaimer">
+  <p><strong>On this file specifically.</strong> Everything here is craft rather than research — there is
+  no experimental literature on how to follow the news well. It is assembled from what survives contact
+  with practice, and from the parts of the forecasting and calibration literature (Tetlock, Duke) that
+  generalise. Test it for a month rather than believing it. And note the obvious thing: a file telling you
+  to be sceptical of confident advice is itself confident advice.</p>
+</div>
+
+<div class="band" style="margin-top:34px;">
+<a class="vol" href="index.html"><span class="vn">Back to</span><b>Sharp Mind index</b><em>All sixteen handbooks</em></a>
+<a class="vol" href="15-materials-food-and-industry.html"><span class="vn">Previous · 15</span><b>Materials, Food and Industry</b><em>How things get made</em></a>
+<a class="vol" href="11-energy-and-water.html"><span class="vn">Start the track again · 11</span><b>Energy and Water</b><em>Eight technologies</em></a>
+</div>
+
+</main>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var map = {}, targets = [];
+  links.forEach(function (a) {
+    var h = a.getAttribute('href');
+    if (!h || h.charAt(0) !== '#') return;
+    var el = document.getElementById(h.slice(1));
+    if (el) { map[el.id] = a; targets.push(el); }
+  });
+  var current = null;
+  function mark(id) {
+    if (id === current) return;
+    current = id;
+    links.forEach(function (a) { a.classList.remove('on'); });
+    if (map[id]) map[id].classList.add('on');
+  }
+  var io = new IntersectionObserver(function (entries) {
+    var vis = entries.filter(function (e) { return e.isIntersecting; });
+    if (vis.length) {
+      vis.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+      mark(vis[0].target.id);
+    }
+  }, { rootMargin: '-8% 0px -72% 0px', threshold: 0 });
+  targets.forEach(function (t) { io.observe(t); });
+})();
+
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

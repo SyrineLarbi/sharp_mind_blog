@@ -1,0 +1,714 @@
+<title>Your Body, In Practice</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">A cultured mind · Volume 33 of 54 · practical</p>
+  <h1>Your body, in practice. <span class="thin">Sleep, food, movement and medicine — what the evidence actually supports.</span></h1>
+  <p class="lede">Health advice is the most crowded and least reliable information environment most
+  people deal with. This volume sticks to the things where the evidence is genuinely strong, says
+  plainly where it is weak, and explains the mechanism in each case — because knowing <em>why</em>
+  something works is what makes it stick when the next confident headline arrives.</p>
+  <div class="hero-meta">
+    <span><b>No numbers to memorise</b> · mechanisms instead</span>
+    <span><b>Covers</b> · sleep, food, movement, medicines</span>
+    <span><b>Says plainly</b> · what is not known</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="17-ancient-world.html"><span class="vn">Vol 17</span><b>Ancient world</b></a>
+<a class="vol" href="18-empires-of-faith.html"><span class="vn">Vol 18</span><b>Faith &amp; trade</b></a>
+<a class="vol" href="19-the-world-opens.html"><span class="vn">Vol 19</span><b>The world opens</b></a>
+<a class="vol" href="20-age-of-revolutions.html"><span class="vn">Vol 20</span><b>Revolutions</b></a>
+<a class="vol" href="21-the-world-at-war.html"><span class="vn">Vol 21</span><b>The world at war</b></a>
+<a class="vol" href="22-the-long-shadow.html"><span class="vn">Vol 22</span><b>The long shadow</b></a>
+<a class="vol" href="23-disasters.html"><span class="vn">Vol 23</span><b>Disasters</b></a>
+<a class="vol" href="24-discoveries.html"><span class="vn">Vol 24</span><b>Discoveries</b></a>
+<a class="vol" href="25-physics.html"><span class="vn">Vol 25</span><b>Physics</b></a>
+<a class="vol" href="26-chemistry.html"><span class="vn">Vol 26</span><b>Chemistry</b></a>
+<a class="vol" href="27-life.html"><span class="vn">Vol 27</span><b>Life</b></a>
+<a class="vol" href="28-medicine.html"><span class="vn">Vol 28</span><b>Medicine</b></a>
+<a class="vol" href="29-the-sky.html"><span class="vn">Vol 29</span><b>The sky</b></a>
+<a class="vol" href="30-the-earth.html"><span class="vn">Vol 30</span><b>The Earth</b></a>
+<a class="vol" href="31-what-to-remember.html"><span class="vn">Vol 31</span><b>What to remember</b></a>
+<a class="vol" href="32-everyday-science.html"><span class="vn">Vol 32</span><b>Everyday science</b></a>
+<div class="vol here"><span class="vn">Vol 33 · here</span><b>Your body</b></div>
+<a class="vol" href="34-when-things-go-wrong.html"><span class="vn">Vol 34</span><b>Emergencies</b></a>
+<a class="vol" href="35-the-mind.html"><span class="vn">Vol 35</span><b>The mind</b></a>
+<a class="vol" href="36-people.html"><span class="vn">Vol 36</span><b>People</b></a>
+<a class="vol" href="37-the-dark-side.html"><span class="vn">Vol 37</span><b>The dark side</b></a>
+<a class="vol" href="38-money.html"><span class="vn">Vol 38</span><b>Money</b></a>
+<a class="vol" href="39-chance.html"><span class="vn">Vol 39</span><b>Chance</b></a>
+<a class="vol" href="40-right-and-wrong.html"><span class="vn">Vol 40</span><b>Right &amp; wrong</b></a>
+<a class="vol" href="41-whats-in-things.html"><span class="vn">Vol 41</span><b>What's in things</b></a>
+<a class="vol" href="42-your-health.html"><span class="vn">Vol 42</span><b>Your health</b></a>
+<a class="vol" href="43-mind-and-mood.html"><span class="vn">Vol 43</span><b>Mind &amp; mood</b></a>
+<a class="vol" href="44-medicines.html"><span class="vn">Vol 44</span><b>Medicines</b></a>
+<a class="vol" href="45-the-conditions.html"><span class="vn">Vol 45</span><b>The conditions</b></a>
+<a class="vol" href="46-home-and-kitchen.html"><span class="vn">Vol 46</span><b>Home &amp; kitchen</b></a>
+<a class="vol" href="47-not-being-fooled.html"><span class="vn">Vol 47</span><b>Not being fooled</b></a>
+<a class="vol" href="48-dont-do-that.html"><span class="vn">Vol 48</span><b>Don't do that</b></a>
+<a class="vol" href="49-ai-honestly.html"><span class="vn">Vol 49</span><b>AI, honestly</b></a>
+<a class="vol" href="50-whats-coming.html"><span class="vn">Vol 50</span><b>What's coming</b></a>
+<a class="vol" href="51-the-novels.html"><span class="vn">Vol 51</span><b>The novels</b></a>
+<a class="vol" href="52-philosophy-originals.html"><span class="vn">Vol 52</span><b>Philosophy</b></a>
+<a class="vol" href="53-ideas-that-changed.html"><span class="vn">Vol 53</span><b>Ideas</b></a>
+<a class="vol" href="54-the-anthology.html"><span class="vn">Vol 54</span><b>The anthology</b></a>
+</div>
+
+<header class="part" id="p1">
+  <span class="pn">Part I</span>
+  <h2>Sleep</h2>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>What sleep is for</h2>
+</header>
+
+<p>Sleep is not the absence of activity. Several things happen during it that do not happen otherwise,
+which is why you cannot simply do without.</p>
+
+<p>Memories from the day are replayed and consolidated — moved from temporary into more durable
+storage, and connected to what you already knew. This is why studying then sleeping beats studying
+then staying up, and why a problem sometimes resolves itself overnight.</p>
+
+<p>The brain also clears metabolic waste during sleep considerably more effectively than when awake.
+And various repair and regulatory processes run on a schedule tied to the sleep cycle rather than to
+the clock.</p>
+
+<p>Sleep runs in cycles of roughly an hour and a half, moving through light sleep, deep sleep and the
+dreaming stage. Deep sleep dominates the early cycles and dreaming sleep the later ones — which has a
+direct practical consequence. <strong>Cutting your night short does not remove a uniform slice; it
+removes disproportionately the dreaming sleep at the end</strong>, which is the part most associated
+with emotional regulation and memory. A short night is worse than its length suggests.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The things that actually help</h2>
+</header>
+
+<p>Two systems govern when you sleep. One is a pressure that builds the longer you are awake. The other
+is a daily rhythm set largely by light. Most sleep problems are one of these being fought.</p>
+
+<p><strong>Light in the morning</strong> is the strongest signal for setting the rhythm, and it is
+under-used. Getting outside reasonably soon after waking does more for the following night than most
+bedtime routines.</p>
+
+<p><strong>A consistent wake time</strong> matters more than a consistent bedtime, because the wake
+time anchors the rhythm and the pressure system will handle the rest.</p>
+
+<p><strong>Caffeine</strong> works by blocking the molecule that signals accumulated tiredness. It does
+not remove the tiredness — it hides it, and it is still hiding it many hours later, because half of a
+dose is typically still present around five to six hours on. An afternoon coffee is affecting your
+night whether or not you feel it.</p>
+
+<p><strong>Alcohol</strong> makes you fall asleep faster and substantially damages the quality,
+particularly suppressing the dreaming sleep that the previous chapter said matters most. It is a
+sedative, not a sleep aid, and the difference is real.</p>
+
+<p><strong>If you cannot sleep, get up.</strong> Lying awake teaches your brain that the bed is a place
+for being awake and frustrated. Leave, do something dull in dim light, return when sleepy. This is the
+central move of the therapy that works best for insomnia, and it is more effective long-term than
+medication.</p>
+
+<header class="part" id="p2">
+  <span class="pn">Part II</span>
+  <h2>Food</h2>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>What is actually well established</h2>
+</header>
+
+<p>Nutrition research is difficult — you cannot lock people in a room for thirty years — so most of it
+is observational and confounded. That is why advice changes and why people become cynical.</p>
+
+<p>But a small core has survived decades of scrutiny and agreement across nearly all dietary traditions.
+<strong>Eat mostly plants, in a variety. Eat enough protein. Include fibre. Keep ultra-processed food
+limited. Do not drink your calories.</strong> That is close to the whole of it, and the arguments that
+fill bookshelves are about the margins.</p>
+
+<p>Fibre deserves a note because it is the one most people are short of and the mechanism is
+interesting: you cannot digest it, so it feeds the gut bacteria from the life volume, adds bulk that
+slows sugar absorption, and produces fullness without calories.</p>
+
+<p>The two macronutrient wars have largely resolved into the same place. Fat is not intrinsically
+fattening and the low-fat era was a mistake, because removing fat from food usually meant adding sugar.
+Equally, carbohydrate is not poison. What matters more than the ratio is the processing: whole foods in
+roughly their original structure behave very differently in the body from the same nutrients ground,
+refined and reassembled.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Why processing matters more than ingredients</h2>
+</header>
+
+<p>An apple and apple juice contain similar sugar. They do not behave similarly.</p>
+
+<p>The apple's sugar is locked inside cell structures with fibre, so it is released slowly, and the
+chewing and bulk signal fullness. The juice arrives as a fast load with nothing to slow it and no
+fullness signal at all. <strong>The same molecules, arranged differently, produce a different
+outcome</strong> — which is the arrangement-versus-composition idea from the chemistry volume, applied
+to lunch.</p>
+
+<p>This is also the most plausible explanation for why heavily processed food is associated with eating
+more. It is engineered to be easy — soft, calorie-dense, fast to eat, and combining fat, sugar and salt
+in proportions that rarely occur naturally. You can consume a great deal before any fullness signal
+catches up.</p>
+
+<p>The practical version needs no calorie counting: <strong>favour food that still looks like what it
+came from</strong>, and treat a long ingredient list of things you would not have in your kitchen as a
+signal rather than a verdict.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Supplements, honestly</h2>
+</header>
+
+<p>For most people eating a varied diet, most supplements do nothing measurable, and the industry
+selling them is regulated far more lightly than medicines.</p>
+
+<p>The genuine exceptions are specific and worth knowing. <strong>Vitamin D</strong> if you live
+somewhere with weak winter sun or spend little time outdoors, because it is made in skin from sunlight
+and food sources are limited. <strong>Folate</strong> before and during early pregnancy, where the
+evidence is very strong. <strong>Vitamin B12</strong> if you eat no animal products at all, because
+there is no reliable plant source. And <strong>iron</strong> where a deficiency has actually been
+diagnosed — not speculatively, because excess iron is harmful.</p>
+
+<p>Beyond those, the pattern in large trials has been consistently disappointing: nutrients that look
+protective in food repeatedly fail to help when extracted into a pill, and a few have done harm at high
+doses. The likely explanation is that the benefit came from the whole food or from whatever else
+characterises people who eat it.</p>
+
+<p>The general rule: <strong>a supplement is worth taking when it corrects a deficiency you actually
+have.</strong> Otherwise you are buying expensive urine.</p>
+
+<header class="part" id="p3">
+  <span class="pn">Part III</span>
+  <h2>Movement</h2>
+</header>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The most reliable intervention there is</h2>
+</header>
+
+<p>If exercise were a drug it would be the most prescribed one in existence. Its evidence base across
+heart disease, diabetes, several cancers, depression, anxiety, sleep and dementia risk is stronger and
+broader than almost any medicine.</p>
+
+<p>The mechanisms are not mysterious. Muscles that contract regularly become better at pulling sugar
+out of the blood, which addresses the diabetes mechanism directly. The heart, being a muscle, gets
+stronger and does the same work with fewer beats. Loading bones signals them to maintain density.
+Blood flow to the brain increases and growth factors are released that support the connections from the
+life volume. And it reliably improves mood by several routes at once.</p>
+
+<p>Two findings are worth holding onto because they contradict common assumptions.</p>
+
+<p><strong>The largest benefit is at the bottom of the scale.</strong> The step from nothing to a small
+amount is worth far more than the step from a lot to more. If you do nothing, almost anything is a
+large win.</p>
+
+<p><strong>Sitting is a separate risk from not exercising.</strong> A person who trains for an hour and
+sits for eleven is not in the same position as someone who moves throughout the day. Breaking up long
+sitting appears to matter independently.</p>
+
+<p>Strength work deserves a mention because it is the one most often skipped and the one whose
+importance rises with age. From your thirties onward muscle is lost steadily unless it is used, and
+muscle is what keeps you able to get out of a chair, carry things, and survive a fall in later life.</p>
+
+<header class="part" id="p4">
+  <span class="pn">Part IV</span>
+  <h2>Medicines</h2>
+</header>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>How to read a medicine</h2>
+</header>
+
+<p>From the chemistry volume: a drug is a molecule shaped to fit a receptor, and side effects happen
+because similar receptors exist elsewhere. Several practical things follow.</p>
+
+<p><strong>The dose interval is not arbitrary.</strong> It is set by how fast your body removes the
+drug, to keep the amount in a useful band. Taking more sooner pushes you towards the toxic end rather
+than working faster.</p>
+
+<p><strong>Paracetamol is in a great many combination products</strong> — cold remedies, painkillers,
+flu powders — and overdose damages the liver in a way that can be delayed and irreversible. Taking a
+branded cold remedy alongside plain paracetamol is a genuinely common and genuinely dangerous mistake.
+Check the ingredients of everything you take at once.</p>
+
+<p><strong>Finish an antibiotic course as prescribed and never keep leftovers.</strong> Stopping early
+selects for exactly the bacteria that survived it. And they do nothing for a cold or flu, because those
+are viruses with no separate machinery to attack.</p>
+
+<p><strong>Grapefruit interacts with a surprising number of medicines</strong> by blocking the enzyme
+that clears them, which can raise the effective dose considerably. If a label mentions it, it is not
+being fussy.</p>
+
+<p>And the general rule for anything new: <strong>tell whoever prescribes it everything else you take,
+including supplements and herbal products</strong>, which are pharmacologically active whatever the
+packaging implies.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Why bad treatments feel like they work</h2>
+</header>
+
+<p>This is the most useful chapter in the volume, because it protects you from everything not covered
+in the others.</p>
+
+<p>Most conditions fluctuate, and most acute illnesses resolve by themselves. People tend to try a
+remedy when they feel worst — which is, statistically, the point from which they were most likely to
+improve anyway. Whatever was taken at that moment gets the credit. This single effect is enough to
+sustain an entire industry.</p>
+
+<p>On top of it sits the placebo response, which is real and measurable, particularly for pain, nausea
+and anything with a large subjective component. Expecting relief genuinely produces some. That is a
+fact about people, not a trick, and it is exactly why a treatment must be compared against a convincing
+dummy rather than against nothing.</p>
+
+<p>So the question to ask of any health claim is the one from the medicine volume: <strong>compared
+with what?</strong> Testimonials cannot answer it, because the people who did not improve do not write
+in. Before-and-after cannot answer it, because you have no idea what after would have looked like
+anyway.</p>
+
+<div class="warn">
+  <span class="tag">Where this matters most</span>
+  <p>An ineffective remedy for a cold costs you money. An ineffective remedy taken <em>instead of</em>
+  an effective one for a serious condition costs considerably more, and that is the real harm in this
+  area — not the useless product itself but the delay and the substitution. Complementary alongside real
+  treatment is a different proposition from alternative to it, and the distinction is worth being firm
+  about.</p>
+</div>
+
+<header class="mod" id="recap">
+  <span class="mn">Reference</span>
+  <h2>What actually has the evidence</h2>
+</header>
+
+<div class="sen">
+  <div class="b knows"><span class="k">Sleep</span>
+    <p>Consolidates memory and clears waste — it is active, not idle. <strong>Cutting the night short
+    removes mostly the dreaming sleep at the end.</strong> Morning light and a consistent wake time beat
+    any bedtime ritual. Caffeine hides tiredness for longer than you think; alcohol is a sedative, not a
+    sleep aid. If you cannot sleep, get up.</p></div>
+  <div class="b"><span class="k">Food</span>
+    <p>Mostly plants, varied, enough protein, plenty of fibre, limited ultra-processed food, don't drink
+    your calories. <strong>Processing matters more than the ingredient list</strong> — an apple and apple
+    juice are not the same event. Supplements are worth it when they fix a deficiency you have.</p></div>
+  <div class="b"><span class="k">Movement</span>
+    <p>The broadest evidence base of any intervention. <strong>The biggest gain is from nothing to
+    something</strong>, sitting is a separate risk from not exercising, and strength work matters more
+    the older you get.</p></div>
+  <div class="b check"><span class="k">The protective habit</span>
+    <p>Conditions fluctuate and illnesses resolve — so anything taken at the worst moment gets credit for
+    the recovery that was coming anyway. <strong>Ask "compared with what?"</strong> And check what else
+    contains paracetamol before you take two things at once.</p></div>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · When Something Goes Wrong</h4><p>First aid that actually matters, what to do in an emergency, and how to read a risk statistic in the news without being misled.</p></div>
+  <div class="card"><h4>Back · Medicine</h4><p>Volume 28 covers what illness is and why the controlled comparison mattered so much — the theory behind Chapter 08 here.</p></div>
+</div>
+</main>
+</div>
+
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

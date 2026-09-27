@@ -1,0 +1,740 @@
+<title>AI, Honestly</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">A cultured mind · Volume 49 of 54 · technology</p>
+  <h1>AI, honestly. <span class="thin">What it is actually doing, why it invents things, and how to use it without being fooled.</span></h1>
+  <p class="lede">There is a version of this subject written for meetings — it lives in the How It Works
+  handbooks on the other side of this library. This is the version written for you as a person who uses
+  these things, is affected by them, and has to judge what people claim about them. No hype in either
+  direction: what the machinery does, what follows from that, and where the honest uncertainty is.</p>
+  <div class="hero-meta">
+    <span><b>Pairs with</b> · Volumes 39, 40, 47</span>
+    <span><b>Covers</b> · what a model does, why it errs, what it's good at, bias, the arguments</span>
+    <span><b>Tone</b> · neither salesman nor doomsayer</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="17-ancient-world.html"><span class="vn">Vol 17</span><b>Ancient world</b></a>
+<a class="vol" href="18-empires-of-faith.html"><span class="vn">Vol 18</span><b>Faith &amp; trade</b></a>
+<a class="vol" href="19-the-world-opens.html"><span class="vn">Vol 19</span><b>The world opens</b></a>
+<a class="vol" href="20-age-of-revolutions.html"><span class="vn">Vol 20</span><b>Revolutions</b></a>
+<a class="vol" href="21-the-world-at-war.html"><span class="vn">Vol 21</span><b>The world at war</b></a>
+<a class="vol" href="22-the-long-shadow.html"><span class="vn">Vol 22</span><b>The long shadow</b></a>
+<a class="vol" href="23-disasters.html"><span class="vn">Vol 23</span><b>Disasters</b></a>
+<a class="vol" href="24-discoveries.html"><span class="vn">Vol 24</span><b>Discoveries</b></a>
+<a class="vol" href="25-physics.html"><span class="vn">Vol 25</span><b>Physics</b></a>
+<a class="vol" href="26-chemistry.html"><span class="vn">Vol 26</span><b>Chemistry</b></a>
+<a class="vol" href="27-life.html"><span class="vn">Vol 27</span><b>Life</b></a>
+<a class="vol" href="28-medicine.html"><span class="vn">Vol 28</span><b>Medicine</b></a>
+<a class="vol" href="29-the-sky.html"><span class="vn">Vol 29</span><b>The sky</b></a>
+<a class="vol" href="30-the-earth.html"><span class="vn">Vol 30</span><b>The Earth</b></a>
+<a class="vol" href="31-what-to-remember.html"><span class="vn">Vol 31</span><b>What to remember</b></a>
+<a class="vol" href="32-everyday-science.html"><span class="vn">Vol 32</span><b>Everyday science</b></a>
+<a class="vol" href="33-your-body.html"><span class="vn">Vol 33</span><b>Your body</b></a>
+<a class="vol" href="34-when-things-go-wrong.html"><span class="vn">Vol 34</span><b>Emergencies</b></a>
+<a class="vol" href="35-the-mind.html"><span class="vn">Vol 35</span><b>The mind</b></a>
+<a class="vol" href="36-people.html"><span class="vn">Vol 36</span><b>People</b></a>
+<a class="vol" href="37-the-dark-side.html"><span class="vn">Vol 37</span><b>The dark side</b></a>
+<a class="vol" href="38-money.html"><span class="vn">Vol 38</span><b>Money</b></a>
+<a class="vol" href="39-chance.html"><span class="vn">Vol 39</span><b>Chance</b></a>
+<a class="vol" href="40-right-and-wrong.html"><span class="vn">Vol 40</span><b>Right &amp; wrong</b></a>
+<a class="vol" href="41-whats-in-things.html"><span class="vn">Vol 41</span><b>What's in things</b></a>
+<a class="vol" href="42-your-health.html"><span class="vn">Vol 42</span><b>Your health</b></a>
+<a class="vol" href="43-mind-and-mood.html"><span class="vn">Vol 43</span><b>Mind &amp; mood</b></a>
+<a class="vol" href="44-medicines.html"><span class="vn">Vol 44</span><b>Medicines</b></a>
+<a class="vol" href="45-the-conditions.html"><span class="vn">Vol 45</span><b>The conditions</b></a>
+<a class="vol" href="46-home-and-kitchen.html"><span class="vn">Vol 46</span><b>Home &amp; kitchen</b></a>
+<a class="vol" href="47-not-being-fooled.html"><span class="vn">Vol 47</span><b>Not being fooled</b></a>
+<a class="vol" href="48-dont-do-that.html"><span class="vn">Vol 48</span><b>Don't do that</b></a>
+<div class="vol here"><span class="vn">Vol 49 · here</span><b>AI, honestly</b></div>
+<a class="vol" href="50-whats-coming.html"><span class="vn">Vol 50</span><b>What's coming</b></a>
+<a class="vol" href="51-the-novels.html"><span class="vn">Vol 51</span><b>The novels</b></a>
+<a class="vol" href="52-philosophy-originals.html"><span class="vn">Vol 52</span><b>Philosophy</b></a>
+<a class="vol" href="53-ideas-that-changed.html"><span class="vn">Vol 53</span><b>Ideas</b></a>
+<a class="vol" href="54-the-anthology.html"><span class="vn">Vol 54</span><b>The anthology</b></a>
+</div>
+
+<header class="part" id="p1">
+  <span class="pn">Part I</span>
+  <h2>What the machine is doing</h2>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Learning from examples rather than rules</h2>
+</header>
+
+<p>The older approach to making computers do clever things was to write down the rules. If the
+temperature is above this and the pressure below that, do the following. It works beautifully where the
+rules can be stated and fails completely where they cannot — and nobody can write the rules for
+recognising a cat, because you do not know them either.</p>
+
+<p>The modern approach gives up on rules entirely. You show the system enormous numbers of examples and
+let it find the patterns itself, by adjusting millions of internal values until its outputs match the
+examples better. Nobody writes the rules; nobody can read them afterwards either.</p>
+
+<p>That second point matters more than it sounds. <strong>The knowledge ends up distributed across a
+vast number of numerical settings</strong>, not stored as statements anywhere. You cannot open it up and
+find the part that knows about Paris. This is why these systems are hard to debug, hard to explain, and
+hard to correct precisely — and it is a property of the approach, not a temporary limitation.</p>
+
+<p>The word "learning" is doing some rhetorical work here, and it is worth deflating. What happens is
+closer to <strong>fitting an extremely flexible shape to a great many examples</strong> than to what a
+person does when they learn something. The system is not understanding; it is finding structure that
+reproduces the examples well.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>What a language model actually does</h2>
+</header>
+
+<p>Here is the whole thing, and it is simpler and stranger than most people assume.</p>
+
+<p>A language model is trained to do one task: <strong>given some text, predict what comes next.</strong>
+That is all. It was shown a colossal quantity of written material and adjusted until its predictions got
+good. Then, to produce an answer, it predicts the next fragment, adds it, predicts the next one from the
+result, and continues.</p>
+
+<p>The genuinely surprising empirical fact — and it surprised the people building them — is how much
+capability falls out of that. To predict text well across everything humans have written, a system ends
+up having to represent an enormous amount: grammar, facts, styles, the structure of arguments, something
+like the ability to follow a chain of reasoning. <strong>Capabilities nobody designed emerged from
+making the prediction better</strong>, and this remains only partly understood.</p>
+
+<p>But the objective is still prediction. The model is producing text that is <em>likely</em> given
+everything it has seen — and likely is not the same as true. That single gap is the source of nearly
+every failure mode in the next chapter.</p>
+
+<p>Two further things worth knowing. There is a second training stage where humans rate outputs and the
+model is adjusted toward what they prefer — which is what makes it helpful and conversational rather
+than merely a text continuation engine, and which also bakes in the preferences of the people doing the
+rating. And <strong>it does not, by default, remember you</strong> between conversations; what looks
+like memory is either the visible conversation being fed back in each time, or a deliberate feature
+storing things separately.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Why it invents things, and why it sounds so sure</h2>
+</header>
+
+<p>The polite word is hallucination and it is somewhat misleading, because it suggests a malfunction.
+<strong>It is the system working exactly as designed.</strong></p>
+
+<p>Asked for a citation, the model produces text that looks like a citation — plausible author, plausible
+title, plausible year — because that is what the pattern calls for. It has no separate store of facts to
+check against and no mechanism that distinguishes remembering from generating. The confident invented
+answer and the confident correct answer are produced by <strong>the same process, in the same way, with
+the same fluency.</strong></p>
+
+<p>Which explains the property that makes this genuinely hazardous: <strong>there is no confidence
+signal in the writing.</strong> A human expert who is unsure sounds unsure. A model that is fabricating
+sounds precisely like a model that is right. The usual cue you use to calibrate trust in a text — how
+hedged and careful it is — has been severed from accuracy.</p>
+
+<p>Where it is worst is predictable and worth memorising: <strong>specific facts, numbers, dates,
+citations, quotations, legal and medical specifics, anything recent, and anything obscure</strong>.
+Obscurity is the aggravating factor — on well-covered topics the likely answer and the true answer
+mostly coincide; at the edges they diverge, and that is exactly where you were consulting it because you
+did not know.</p>
+
+<p>Two structural biases are worth adding. These systems are trained to be agreeable, which makes them
+<strong>prone to going along with you</strong> — push back on a correct answer and it may well fold,
+which means agreement is weak evidence. And a model has a training cutoff, so unless it is actually
+searching, its picture of the world stops at a date it may not state.</p>
+
+<header class="part" id="p2">
+  <span class="pn">Part II</span>
+  <h2>Using it</h2>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>What it is genuinely good and bad at</h2>
+</header>
+
+<p>The pattern is consistent once you see it. These systems are strong where the answer is a
+<strong>transformation of material in front of them</strong> and weak where it requires
+<strong>retrieval of specific truth or genuine reasoning about consequences</strong>.</p>
+
+<p>So they do well at: rewriting, summarising and restructuring text you supply; changing tone or
+register; explaining a concept at a chosen level; drafting a first version of something you will edit;
+translating; generating many options to react to; and acting as a tireless thing to think out loud at.
+They are excellent at getting you off a blank page.</p>
+
+<p>They do badly at: anything requiring a fact you cannot verify; arithmetic and precise counting, unless
+using a tool; keeping track of long chains of constraints; knowing what they do not know; and — the most
+important one — <strong>judging what matters.</strong> They will produce a competent, average, plausible
+answer, and average is often exactly what you did not want.</p>
+
+<p>The practical rule that follows: <strong>use them where you can check the output, and not where you
+cannot.</strong> If you could verify or would recognise a wrong answer, the leverage is real. If you are
+asking precisely because you have no way to evaluate the response, you are trusting a system with no
+mechanism for distinguishing truth from plausibility — and doing it in the one situation where you are
+least able to notice.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>How to actually work with one</h2>
+</header>
+
+<p>A short set of habits that make the difference between usefulness and nonsense.</p>
+
+<p><strong>Give it the material.</strong> Its weakest mode is recalling facts from training; its
+strongest is working with text you provide. Pasting the document and asking about that is a different
+and far more reliable activity than asking what it remembers.</p>
+
+<p><strong>Say who it is for and what it is for.</strong> Audience, length, format and purpose. Without
+them you get the average of everything ever written on the topic, which is what makes the output feel
+generic.</p>
+
+<p><strong>Ask for the reasoning, then check the reasoning rather than the answer.</strong> A visible
+chain of steps is inspectable in a way that a conclusion is not. Be aware the stated reasoning is not
+necessarily what produced the answer — but it usually exposes a bad assumption.</p>
+
+<p><strong>Iterate rather than perfecting the request.</strong> React to a draft; that is where the
+information is.</p>
+
+<p><strong>Ask it to argue against itself</strong>, or to state what would make its answer wrong. This
+counteracts the agreeableness and is the Volume 40 technique applied to a machine.</p>
+
+<p><strong>Verify anything load-bearing, independently.</strong> Every name, number, date, quotation,
+citation and legal or medical specific. Not by asking it whether it is sure — it will confirm either
+way — but by going to a source.</p>
+
+<div class="warn">
+  <span class="tag">Two things not to do</span>
+  <p><strong>Do not paste confidential material</strong> — personal data about other people, medical
+  records, client information, unreleased work, credentials — into a service without knowing its terms.
+  Assume anything you send may be retained and may be used for training unless you have specifically
+  established otherwise.</p>
+  <p><strong>Do not treat it as a professional.</strong> It has no licence, no duty of care, no liability,
+  and no knowledge of your circumstances. It is genuinely useful for understanding your situation well
+  enough to ask better questions — which is what much of this library is for — and it is not a doctor, a
+  lawyer or a financial adviser.</p>
+</div>
+
+<header class="part" id="p3">
+  <span class="pn">Part III</span>
+  <h2>The arguments</h2>
+</header>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Bias, and where it comes from</h2>
+</header>
+
+<p>A system trained on human output reproduces human patterns, including the ones nobody wanted. This is
+not a matter of bad intent anywhere; it is a mechanical consequence of learning from examples.</p>
+
+<p>It arrives by several routes. <strong>The training material carries historical patterns</strong> —
+who appears in which roles, whose writing was published, which languages and places are well
+represented. <strong>The data is not a neutral sample</strong> of humanity; it over-represents the
+online, the English-speaking and the recent. <strong>Feedback bakes in preferences</strong> of the
+particular people who rated outputs. And where a system is trained on past decisions — who was hired,
+who was approved, who was policed — <strong>it learns to reproduce those decisions</strong>, including
+the discriminatory ones, while wearing the appearance of objectivity.</p>
+
+<p>That last point is the one with teeth, and it connects to Volume 37: discrimination does not require
+anyone to hold a prejudice. A system can produce systematically worse outcomes for a group while every
+person involved sincerely intended fairness, and the aggregate handling makes it invisible.</p>
+
+<p>Removing the obvious attribute does not fix it, because other variables stand in as proxies —
+postcode for ethnicity, employment gaps for parenthood. And the failures are not evenly distributed:
+facial recognition and speech recognition have both performed measurably worse on groups
+under-represented in their training data, which is not a philosophical concern when the system decides
+who gets stopped or understood.</p>
+
+<p>The reasonable posture: <strong>a system that seems objective because it is a machine is the most
+dangerous kind</strong>, because the appearance of neutrality removes the scrutiny a human decision
+would face. The right question about any automated decision is what it was trained on, whether anyone
+measured how it performs across groups, and whether a person can be appealed to.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Work, and the honest uncertainty</h2>
+</header>
+
+<p>Every previous wave of automation produced the same two confident predictions — mass permanent
+unemployment, and no real change — and both were wrong in the same way. What actually happened: specific
+tasks were automated, jobs were restructured around what remained, some occupations shrank badly, new
+ones appeared that nobody had predicted, and the transition was genuinely painful for the people in the
+middle of it even where the long-run aggregate was fine.</p>
+
+<p>What is different this time is the direction. Previous automation hit physical and routine work; this
+targets <strong>cognitive and creative</strong> tasks, including in professions that assumed themselves
+safe. Whether that difference is fundamental or merely another instance of the pattern is genuinely
+unsettled, and anyone stating it confidently in either direction is going beyond the evidence.</p>
+
+<p>The more robust framing is about <strong>tasks rather than jobs</strong>. Few roles are entirely
+automatable; most contain some tasks that are. Which means the realistic effect is jobs changing shape,
+with the value moving toward what the systems are bad at — judgement about what matters, responsibility
+for outcomes, physical and interpersonal work, and knowing enough to tell when the output is wrong.</p>
+
+<p>And a caution that applies to this whole field, drawn from Volume 39: <strong>the loudest predictions
+come from people with a stake in them.</strong> Companies selling these systems benefit from both
+extremes — from "this changes everything" and from "this is so powerful it is dangerous", which are both
+claims of enormous capability. Discount accordingly, in both directions.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>What to actually worry about</h2>
+</header>
+
+<p>The public conversation is dominated by the most speculative risks, which is unfortunate, because
+several concrete ones are already here and better worth your attention.</p>
+
+<p><strong>Convincing fabrication at scale.</strong> Text, voice and video are now cheap to fake well,
+which is the mechanism behind the scams in Volume 47 and behind a corrosion of evidence generally. The
+second-order effect is the more serious one: when anything can be faked, <strong>genuine recordings
+become deniable</strong>.</p>
+
+<p><strong>Automated decisions without recourse.</strong> Systems deciding on loans, jobs, benefits,
+insurance and policing, with the reasoning unavailable and no person to appeal to. This is happening
+now, and the absence of an appeal route is a policy choice rather than a technical necessity.</p>
+
+<p><strong>Concentration.</strong> Training these systems requires resources only a few organisations
+possess, which places considerable influence over a general-purpose technology in very few hands.</p>
+
+<p><strong>Degraded information.</strong> Enormous volumes of plausible generated text, including
+subtly wrong text, entering the same channels you use to check things — which makes the verification
+habits in this volume harder rather than easier over time.</p>
+
+<p><strong>And the quiet one: your own skills.</strong> Capabilities you stop exercising decline. Using
+these systems to avoid thinking rather than to think faster is a real trade, and it is the one entirely
+within your control.</p>
+
+<p>On the long-range existential arguments: they are made seriously by serious people and disputed
+seriously by other serious people, the disagreement is about things nobody can currently resolve, and
+the honest description is <strong>genuine uncertainty rather than consensus in either direction.</strong>
+Treating that as settled — in either direction — is the confident-explanation failure from Volume 35.</p>
+
+<header class="mod" id="recap">
+  <span class="mn">Reference</span>
+  <h2>What to carry forward</h2>
+</header>
+
+<div class="sen">
+  <div class="b knows"><span class="k">The mechanism</span>
+    <p>A language model <strong>predicts what text comes next</strong> — that is the whole objective, and
+    the capabilities emerged from doing it well. But likely is not true, and the knowledge is spread
+    across millions of numerical settings rather than stored as statements anywhere.</p></div>
+  <div class="b"><span class="k">Why it invents</span>
+    <p>Fabrication is <strong>the system working as designed</strong>, not malfunctioning. The confident
+    wrong answer and the confident right one are produced identically — so <strong>there is no
+    confidence signal in the writing.</strong> Worst on specifics, citations, numbers, recent and
+    obscure things.</p></div>
+  <div class="b junior"><span class="k">Using it well</span>
+    <p><strong>Use it where you can check the output, not where you cannot.</strong> Give it the
+    material rather than asking what it remembers; say who and what it is for; ask it to argue against
+    itself; verify anything load-bearing at a source, not by asking if it is sure.</p></div>
+  <div class="b check"><span class="k">The arguments</span>
+    <p>Bias arrives mechanically from the data and the feedback — and <strong>a system that seems
+    objective because it is a machine is the most dangerous kind.</strong> Think in tasks rather than
+    jobs. And discount the loudest predictions in <em>both</em> directions: hype and doom are both
+    claims of enormous capability, sold by people with a stake.</p></div>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Pairs with · Volume 47</h4><p>Cheap convincing fabrication is why verification moved from your eyes and ears to a second channel.</p></div>
+  <div class="card"><h4>Next · What's actually coming</h4><p>The last volume: gene editing, fusion, quantum, robots and longevity — sorted by whether there is a demo, an engineering problem, a physics problem, or a press release.</p></div>
+</div>
+</main>
+</div>
+
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

@@ -1,0 +1,994 @@
+<title>Sharp Mind Library</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F1;
+  --ground-2: #FCFBFA;
+  --panel:    #EBE9E5;
+  --panel-2:  #E1DED8;
+
+  --ink:   #17181A;
+  --ink-2: #3E4147;
+  --ink-3: #71757C;
+
+  --rule:   #D6D3CD;
+  --rule-2: #E5E2DC;
+
+  --accent:      #2C3138;
+  --accent-soft: #E7E6E3;
+
+  /* track colours — each set's spine, used as the card stripe */
+  --t-think: #2D4E8C;
+  --t-room:  #8A3A6B;
+  --t-book:  #1F6B57;
+  --t-drill: #9C5A12;
+  --t-cult:  #8A5A24;
+  --t-world: #0F5C6E;
+
+  --focus: #2C3138;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121315;
+    --ground-2: #191A1D;
+    --panel:    #212328;
+    --panel-2:  #2A2D33;
+
+    --ink:   #EBEAE7;
+    --ink-2: #BFC1C6;
+    --ink-3: #868A91;
+
+    --rule:   #33363C;
+    --rule-2: #2A2D33;
+
+    --accent:      #D6D9DE;
+    --accent-soft: #22252A;
+
+    --t-think: #8FAEE8;
+    --t-room:  #DB94C4;
+    --t-book:  #6DC3A6;
+    --t-drill: #DFAE6A;
+    --t-world: #5FBFD4;
+
+    --focus: #D6D9DE;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121315;
+  --ground-2: #191A1D;
+  --panel:    #212328;
+  --panel-2:  #2A2D33;
+
+  --ink:   #EBEAE7;
+  --ink-2: #BFC1C6;
+  --ink-3: #868A91;
+
+  --rule:   #33363C;
+  --rule-2: #2A2D33;
+
+  --accent:      #D6D9DE;
+  --accent-soft: #22252A;
+
+  --t-think: #8FAEE8;
+  --t-room:  #DB94C4;
+  --t-book:  #6DC3A6;
+  --t-drill: #DFAE6A;
+  --t-world: #5FBFD4;
+
+  --focus: #D6D9DE;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #2C3138;
+  --accent-soft: #EDE9E0;
+  --t-think: #2D4E8C;
+  --t-room: #8A3A6B;
+  --t-book: #1F6B57;
+  --t-drill: #9C5A12;
+  --t-cult:  #8A5A24;
+  --t-world: #0F5C6E;
+  --focus: #8A4B2A;
+  --t-cult:  #7A4E1E;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+a { color: var(--ink); }
+strong { font-weight: 600; }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.018em; }
+p { margin: 0 0 12px; }
+code { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+.wrap { max-width: 1500px; margin: 0 auto; padding: 46px 56px 110px; }
+@media (max-width: 720px) { .wrap { padding: 28px 20px 70px; } }
+
+/* ===== hero ===== */
+.hero { border-bottom: 3px solid var(--ink); padding-bottom: 30px; margin-bottom: 34px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 14px; }
+.hero h1 { font-size: clamp(38px, 6vw, 68px); font-weight: 800; line-height: 1.0; margin: 0 0 18px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 20.5px; color: var(--ink-2); margin: 0; max-width: 78ch; }
+
+.stats { display: flex; flex-wrap: wrap; gap: 0; margin-top: 28px; border: 1px solid var(--rule); border-radius: 3px; overflow: hidden; }
+.stat { flex: 1 1 150px; padding: 12px 16px 13px; border-right: 1px solid var(--rule); background: var(--ground-2); }
+.stat:last-child { border-right: 0; }
+.stat b { display: block; font-family: var(--display); font-weight: 700; font-size: 27px; line-height: 1.1; }
+.stat span { font-family: var(--mono); font-size: 10.8px; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-3); }
+
+/* ===== the path ===== */
+.pathbox { margin: 34px 0 8px; }
+.path { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin: 16px 0 0; }
+.step { border: 1px solid var(--rule); border-top: 3px solid var(--stripe, var(--ink-3)); border-radius: 3px; padding: 15px 17px 17px; background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.step:hover { background: var(--panel); }
+.step .sn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--stripe, var(--ink-3)); margin-bottom: 6px; }
+.step b { display: block; font-family: var(--display); font-weight: 700; font-size: 21px; line-height: 1.15; color: var(--ink); margin-bottom: 6px; }
+.step p { font-size: 16.5px; margin: 0; }
+.step.s1 { --stripe: var(--t-think); }
+.step.s2 { --stripe: var(--t-room); }
+.step.s3 { --stripe: var(--t-book); }
+.step.s4 { --stripe: var(--t-world); }
+
+/* ===== groups ===== */
+.group { margin: 52px 0 0; }
+.group > h2 { font-size: 26px; font-weight: 700; margin: 0 0 4px; padding-bottom: 9px; border-bottom: 2px solid var(--stripe, var(--ink)); display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.group > h2 .gn { font-family: var(--mono); font-size: 11.4px; letter-spacing: .13em; text-transform: uppercase; color: var(--stripe, var(--ink-3)); font-weight: 400; }
+.group > p.gd { font-size: 17.7px; color: var(--ink-2); margin: 11px 0 0; max-width: 84ch; }
+.group.g-think { --stripe: var(--t-think); }
+.group.g-room  { --stripe: var(--t-room); }
+.group.g-book  { --stripe: var(--t-book); }
+.group.g-drill { --stripe: var(--t-drill); }
+.group.g-cult  { --stripe: var(--t-cult); }
+.group.g-world { --stripe: var(--t-world); }
+
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 12px; margin: 18px 0 0; }
+.doc {
+  border: 1px solid var(--rule); border-left: 4px solid var(--stripe, var(--ink-3));
+  border-radius: 3px; padding: 14px 16px 15px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); display: flex; flex-direction: column; gap: 7px;
+}
+.doc:hover { background: var(--panel); }
+.doc .dn { font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--stripe, var(--ink-3)); }
+.doc h3 { font-size: 19.4px; font-weight: 600; margin: 0; color: var(--ink); line-height: 1.2; }
+.doc p { font-size: 16.5px; margin: 0; }
+.doc .meta { font-family: var(--mono); font-size: 11.4px; color: var(--ink-3); margin-top: auto; padding-top: 4px; }
+.doc .after { font-size: 15.4px; color: var(--ink-3); font-style: italic; margin: 0; }
+
+/* ===== routes table ===== */
+.tw { overflow-x: auto; margin: 20px 0 0; border: 1px solid var(--rule); border-radius: 3px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 560px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 13px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td.route { font-family: var(--mono); font-size: 13.7px; color: var(--ink-2); }
+
+/* ===== notes ===== */
+.note { border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 3px; padding: 13px 16px 14px; margin: 22px 0 0; background: var(--ground-2); font-size: 17.7px; }
+.note .tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.note p:last-child { margin-bottom: 0; }
+.note ul { margin: 8px 0 0; padding-left: 22px; }
+.note li { margin-bottom: 5px; }
+.shelf { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 11px; margin: 18px 0 0; }
+.shelfcard { border: 1px solid var(--rule); border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.shelfcard:hover { background: var(--panel); }
+.shelfcard b { display: block; font-family: var(--display); font-weight: 700; font-size: 18.2px; color: var(--ink); margin-bottom: 4px; }
+.shelfcard span { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 6px; }
+.shelfcard p { font-size: 15.9px; margin: 0; }
+.foot { margin-top: 52px; padding-top: 20px; border-top: 1px solid var(--rule); font-size: 15.4px; color: var(--ink-3); }
+.foot p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+.tw { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="eyebrow">Sharp Mind · judgement, presence, conversation and how the world works</p>
+  <h1>Think fast. Ask better. Be believed. <span class="thin">Sixteen handbooks, one path.</span></h1>
+  <p class="lede">This library exists to make you a specific kind of person: someone who answers quickly
+  without answering badly, who asks the one question nobody else thought of, who is believed when they
+  speak — and who always has something worth saying, because they understand how the actual world works.
+  None of that is personality. All of it is <strong>trainable technique</strong>, and every technique here
+  is written as a move you can make on Monday morning.</p>
+  <div class="stats">
+    <div class="stat"><b>54</b><span>handbooks</span></div>
+    <div class="stat"><b>6</b><span>skills</span></div>
+    <div class="stat"><b>70</b><span>books extracted</span></div>
+    <div class="stat"><b>40</b><span>technologies explained</span></div>
+    <div class="stat"><b>8</b><span>week drill program</span></div>
+    <div class="stat"><b>38</b><span>the world</span></div>
+  </div>
+</header>
+
+<section class="note">
+  <span class="tag">Read this part first</span>
+  <p>Most advice on being sharper is really advice on <em>being a different person</em> — be more
+  confident, be more curious, be more present. That is unusable. This library takes the opposite position:
+  <strong>the people who seem quick are not processing faster than you.</strong> They have pre-loaded more,
+  they know a small number of question shapes that unlock almost any situation, they put their answer first
+  so their thinking sounds organised, and they have practised the four or five sentences that get them out
+  of trouble.</p>
+  <p>Every one of those is a mechanism, and a mechanism can be learned. If you want the psychology
+  <em>underneath</em> them, that lives in
+  <a href="../../master-yourself/README.md"><code>master-yourself/</code></a>, and this library points at it
+  constantly rather than repeating it.</p>
+</section>
+
+<section class="pathbox">
+  <h2 style="font-size:23px;font-weight:700;margin:34px 0 4px;">Start here — the four-step path</h2>
+  <p style="font-size:17.7px;color:var(--ink-2);margin:0;max-width:84ch;">Read in this order the first time
+  through. Step 1 changes what happens in your head, step 2 changes what happens in the room, step 3 gives
+  you the raw material, and step 4 is the part that makes any of it permanent.</p>
+  <div class="path">
+    <a class="step s1" href="01-thinking-fast.html">
+      <span class="sn">Step 1 · 3 handbooks</span>
+      <b>Think</b>
+      <p>Where speed actually comes from, the question shapes that unlock any situation, and how to
+      structure an answer so it lands the first time.</p>
+    </a>
+    <a class="step s2" href="04-presence-and-status.html">
+      <span class="sn">Step 2 · 3 handbooks</span>
+      <b>The room</b>
+      <p>Being believed, reading people accurately and adjusting to them, and never again being the person
+      with nothing to say.</p>
+    </a>
+    <a class="step s3" href="11-energy-and-water.html">
+      <span class="sn">Step 3 · 9 handbooks</span>
+      <b>Fuel</b>
+      <p>Thirty-two books stripped to their usable core, and forty technologies explained plainly — from
+      desalination to what a language model is actually doing.</p>
+    </a>
+    <a class="step s4" href="10-the-program.html">
+      <span class="sn">Step 4 · 8 weeks</span>
+      <b>Drill</b>
+      <p>Fifteen minutes a day that turns all of the above from things you know into things you do without
+      deciding to.</p>
+    </a>
+  </div>
+</section>
+
+<section class="group g-think">
+  <h2><span class="gn">Track 1 · think</span> The head</h2>
+  <p class="gd">The three handbooks that change how you process a question before you open your mouth.
+  Read in order — 02 depends on the problem-categories in 01, and 03 is what you do with what 02 finds.</p>
+  <div class="cards">
+    <a class="doc" href="01-thinking-fast.html">
+      <span class="dn">01 · the foundation</span>
+      <h3>Thinking Fast Without Thinking Badly</h3>
+      <p>Why speed is chunking and not processing · how experts decide in seconds · naming the
+      <em>category</em> of a problem before answering it · the three-second pause · why you go blank, and
+      why it is not anxiety · the five-second answer skeleton.</p>
+      <p class="after">After this: you stop confusing "fast" with "rushed", and you know what to do in the
+      three seconds after a hard question.</p>
+      <span class="meta">12 sections · 3 parts</span>
+    </a>
+    <a class="doc" href="02-the-question-bank.html">
+      <span class="dn">02 · the core skill</span>
+      <h3>The Question Bank</h3>
+      <p>Seven question types sorted by <em>purpose</em> · <strong>"What would have to be true?"</strong>
+      built out in full · inversion · the What → So what → Now what ladder · forcing an order of magnitude ·
+      "who actually decides?" · the second-question discipline · when <em>not</em> to ask.</p>
+      <p class="after">After this: you have a bank you can draw from cold, and one question that reliably
+      exposes a weak plan.</p>
+      <span class="meta">11 sections · 40 banked questions</span>
+    </a>
+    <a class="doc" href="03-answer-first.html">
+      <span class="dn">03 · the delivery</span>
+      <h3>Answer First</h3>
+      <p>The Minto Pyramid · SCQA and BLUF · the <strong>"two things —" opener</strong> and why announcing
+      structure buys you thinking time · MECE without the jargon · the same answer at 30 seconds, 3 minutes
+      and 30 minutes · email, Slack and the one-pager in pyramid order.</p>
+      <p class="after">After this: you sound organised even when thinking on your feet, because the
+      structure comes out before the content.</p>
+      <span class="meta">11 sections · 12 rewrites</span>
+    </a>
+  </div>
+</section>
+
+<section class="group g-room">
+  <h2><span class="gn">Track 2 · land it</span> The room</h2>
+  <p class="gd">Thinking well is invisible until it survives contact with other people. These three cover
+  being believed, reading who is in front of you, and having material worth bringing.</p>
+  <div class="cards">
+    <a class="doc" href="04-presence-and-status.html">
+      <span class="dn">04 · credibility</span>
+      <h3>Presence and Status</h3>
+      <p>Warmth × competence — and why capable people default to the "envied" quadrant · charisma as
+      behaviour · <strong>the hedging audit</strong> with a full cut/keep table ·
+      <strong>"I don't know — I'll have an answer by Thursday"</strong> · being wrong in public without
+      losing credibility · retaking the floor after an interruption · credit.</p>
+      <p class="after">After this: your sentences stop apologising for themselves, and a question you
+      cannot answer stops being a threat.</p>
+      <span class="meta">9 sections · the hedging table</span>
+    </a>
+    <a class="doc" href="05-reading-the-room.html">
+      <span class="dn">05 · people</span>
+      <h3>Reading the Room</h3>
+      <p>The three unspoken questions everyone asks you · reading state versus content · headline-people
+      versus detail-people · <strong>managing up</strong> and the forwardable update · stakeholder mapping ·
+      disagreeing without damage · political intelligence without being political · repair.</p>
+      <p class="after">After this: you can tell what a room needs before it tells you, and disagreement
+      stops costing you relationships.</p>
+      <span class="meta">9 sections · 6 stakeholder roles</span>
+    </a>
+    <a class="doc" href="06-having-something-to-say.html">
+      <span class="dn">06 · substance</span>
+      <h3>Having Something to Say</h3>
+      <p>Being interesting is a <strong>supply problem, not a personality problem</strong>. Input is not
+      stock · building a repertoire of 20 topics · which subjects travel and which kill a conversation ·
+      the three-beat shape · entering a topic you half know without bluffing · a worked route into
+      <a href="../../culture/README.md">culture/</a>'s 247 chapters.</p>
+      <p class="after">After this: you never again stand in a group with nothing to contribute, because you
+      stocked the shelf in advance.</p>
+      <span class="meta">10 sections · 20-topic repertoire</span>
+    </a>
+  </div>
+</section>
+
+<section class="group g-world">
+  <h2><span class="gn">Track 3 · the world</span> How things actually work</h2>
+  <p class="gd">Forty technologies and processes, explained in short sentences with no assumed knowledge.
+  Every entry has the same eight parts — <em>in one sentence · think of it like… · how it works · the
+  numbers · what goes wrong · who controls it · where you meet it · <strong>say this</strong></em> — and
+  every file ends with ten sentences you can say out loud.</p>
+  <div class="cards">
+    <a class="doc" href="11-energy-and-water.html">
+      <span class="dn">11 · 8 technologies</span>
+      <h3>Energy and Water</h3>
+      <p>Desalination · solar panels · wind turbines · nuclear and SMRs · grid batteries · green hydrogen ·
+      carbon capture · heat pumps.</p>
+      <p class="after">The thread: almost every technology story is an energy story wearing different
+      clothes.</p>
+      <span class="meta">links to the Tunisia desalination report</span>
+    </a>
+    <a class="doc" href="12-the-physical-supply-chain.html">
+      <span class="dn">12 · 8 systems</span>
+      <h3>The Physical Supply Chain</h3>
+      <p>Chips and the EUV machine that prints them · rare earths · lithium · containers and the six
+      chokepoints · undersea cables · GPS and timing · satellite constellations · fertiliser.</p>
+      <p class="after">The thread: the choke point is almost never the raw material — it is the processing
+      step.</p>
+      <span class="meta">the most useful file for supply chain work</span>
+    </a>
+    <a class="doc" href="13-medicine-and-biology.html">
+      <span class="dn">13 · 8 topics</span>
+      <h3>Medicine and Biology</h3>
+      <p>mRNA vaccines · GLP-1 drugs · CRISPR · monoclonal antibodies · DNA sequencing · antibiotic
+      resistance · imaging and diagnostic AI · transplants and pig organs.</p>
+      <p class="after">The thread: delivery is always the hard part, and the biology is often solved while
+      the economics is not.</p>
+      <span class="meta">8 topics · not medical advice</span>
+    </a>
+    <a class="doc" href="14-computing-and-ai.html">
+      <span class="dn">14 · 8 topics</span>
+      <h3>Computing and AI</h3>
+      <p>What a language model actually does · GPUs and the memory wall · data centres and why AI became an
+      electricity story · cloud economics · encryption and what quantum would break · ransomware · digital
+      payments · biometrics.</p>
+      <p class="after">The thread: the bottleneck is never where the headline says it is.</p>
+      <span class="meta">8 topics · §05 is the hardest and worth it</span>
+    </a>
+    <a class="doc" href="15-materials-food-and-industry.html">
+      <span class="dn">15 · 8 topics</span>
+      <h3>Materials, Food and Industry</h3>
+      <p>Steel · cement · plastics and why most recycling is not · precision fermentation · vertical
+      farming · the cold chain · water treatment · battery recycling.</p>
+      <p class="after">The thread: the CO2 often comes from the chemistry, not the fuel — which is what
+      "hard to abate" actually means.</p>
+      <span class="meta">8 topics · ~15% of global emissions</span>
+    </a>
+    <a class="doc" href="16-staying-updated.html">
+      <span class="dn">16 · the method</span>
+      <h3>Staying Updated</h3>
+      <p>Why headlines structurally don't work · following stories rather than topics · seven checks on any
+      number · the hype checklist and the final-investment-decision filter · choosing sources · the
+      questions file · changing your mind cleanly · an hour a week.</p>
+      <p class="after">Ends with the whole library compressed onto one card.</p>
+      <span class="meta">8 habits · about an hour a week</span>
+    </a>
+  </div>
+</section>
+
+<section class="group g-book">
+  <h2><span class="gn">Track 4 · fuel</span> The books, already extracted</h2>
+  <p class="gd">Thirty-two books stripped to what is usable. These files <em>are</em> the extraction —
+  every framework written out in full with examples, so opening the original is optional. Each entry ends
+  with a verdict: <strong>read fully</strong> · <strong>extract only</strong> · <strong>skip</strong>, with
+  the reason. Ten are green. Two are red.</p>
+  <div class="cards">
+    <a class="doc" href="07-books-thinking-and-judgment.html">
+      <span class="dn">07 · 10 books</span>
+      <h3>Thinking and Judgment</h3>
+      <p>Kahneman <em>Thinking, Fast and Slow</em> · Munger <em>Poor Charlie's Almanack</em> · Duke
+      <em>Thinking in Bets</em> · Minto <em>The Pyramid Principle</em> · Klein <em>Sources of Power</em> ·
+      Taleb · Dobelli · Epstein <em>Range</em> · Ericsson <em>Peak</em> · <em>Super Thinking</em>.</p>
+      <span class="meta">10 entries · don't-bother panel</span>
+    </a>
+    <a class="doc" href="08-books-people-and-influence.html">
+      <span class="dn">08 · 11 books</span>
+      <h3>People and Influence</h3>
+      <p>Voss <em>Never Split the Difference</em> · Cialdini <em>Influence</em> · <em>Difficult
+      Conversations</em> · <em>Crucial Conversations</em> · <em>Getting to Yes</em> · Rosenberg · Carnegie ·
+      Scott <em>Radical Candor</em> · Grant · Goleman · Gottman.</p>
+      <span class="meta">11 entries · don't-bother panel</span>
+    </a>
+    <a class="doc" href="09-books-confidence-and-self-command.html">
+      <span class="dn">09 · 11 books + the table</span>
+      <h3>Confidence and Self-Command</h3>
+      <p>Marcus Aurelius · Seneca · Frankl · Dweck · Clear <em>Atomic Habits</em> · Newport · Burns
+      <em>Feeling Good</em> · Cabane · Holiday · Jiang · Johnstone <em>Impro</em>. Ends with the
+      <strong>master verdict table for all thirty-two</strong>.</p>
+      <span class="meta">11 entries · the master table</span>
+    </a>
+  </div>
+</section>
+
+<section class="group g-drill">
+  <h2><span class="gn">Track 5 · drill</span> Making it permanent</h2>
+  <p class="gd">Reading this library changes nothing on its own. This is the part that does.</p>
+  <div class="cards">
+    <a class="doc" href="10-the-program.html">
+      <span class="dn">10 · 8 weeks</span>
+      <h3>The Program</h3>
+      <p>The daily fifteen minutes · <strong>building your own answer bank</strong> — 20 questions you
+      actually face, the hard four written first · the weekly recording, the hardest and most valuable
+      thing here · a six-skill scorecard · week by week · and a seven-minute minimum version for when you
+      will not do fifteen.</p>
+      <p class="after">After this: the techniques stop being things you know and start being things you do
+      without deciding to.</p>
+      <span class="meta">8 weeks · 6-skill rubric</span>
+    </a>
+  </div>
+</section>
+
+<section class="group g-cult">
+  <h2><span class="gn">Track 6 · the world</span> History, science, the practical stuff &mdash; and the shelf</h2>
+  <p class="gd">The other half of being worth listening to: having something to say. Eight volumes of
+  history written to be read like a novel, six of science explained without a single number or formula,
+  three on the mind and one on right and wrong, two on money and chance — and eleven on the medicine,
+  chemistry and technology you actually use in an ordinary week. Then the shelf itself: four volumes of
+  <strong>the great books, passage first</strong> &mdash; the novels, the philosophers in their own
+  words, the arguments that changed minds, and an anthology arranged by what you need it for. No
+  sidebars, just the page.</p>
+  <div class="cards">
+    <a class="doc" href="17-ancient-world.html">
+      <span class="dn">17 · history</span>
+      <h3>The Ancient World</h3>
+      <p>Why civilisation began beside rivers, and why the answer is mud · surplus and the birth of
+      specialisation · writing as an accountant's problem · Greece's quarrelling cities and the invention
+      of arguing in public · Rome's two habits · and the morning Vesuvius kept a whole town.</p>
+      <span class="meta">11 chapters · 3000 BCE–476 CE</span>
+    </a>
+    <a class="doc" href="18-empires-of-faith.html">
+      <span class="dn">18 · history</span>
+      <h3>Empires of Faith and Trade</h3>
+      <p><strong>The thousand years Europe spent as the quiet corner.</strong> Baghdad's House of Wisdom ·
+      the Silk Road · the Mongols and the peace that followed the slaughter · Mansa Musa breaking the
+      gold price · the cities of the Americas · Magna Carta · and the plague that dissolved serfdom.</p>
+      <span class="meta">10 chapters · 500–1450</span>
+    </a>
+    <a class="doc" href="19-the-world-opens.html">
+      <span class="dn">19 · history</span>
+      <h3>The World Opens</h3>
+      <p>Printing and the collapse of authority · why the Renaissance happened in Italy · the quiet
+      revolution in how to settle a question · the ships — and honestly, what the crossing meant for the
+      people already on the other side · and how every cuisine on Earth was rewritten.</p>
+      <span class="meta">8 chapters · 1400–1700</span>
+    </a>
+    <a class="doc" href="20-age-of-revolutions.html">
+      <span class="dn">20 · history</span>
+      <h3>The Age of Revolutions</h3>
+      <p>America, France, and <strong>Haiti — the one usually left out</strong> · why the same ideas
+      produced a constitution in one place and the Terror in another · the revolution with no battles, in
+      the cotton mills · abolition and the vote, and how both were actually won.</p>
+      <span class="meta">8 chapters · 1750–1900</span>
+    </a>
+    <a class="doc" href="21-the-world-at-war.html">
+      <span class="dn">21 · history</span>
+      <h3>The World at War</h3>
+      <p>How a murder became a continental war in five weeks · why the trenches, and why the generals were
+      not simply fools · the peace that set up the next one · <strong>how a democracy votes itself
+      away</strong> · the Holocaust as a bureaucratic process · and two mornings in August.</p>
+      <span class="meta">8 chapters · 1914–1945</span>
+    </a>
+    <a class="doc" href="22-the-long-shadow.html">
+      <span class="dn">22 · history</span>
+      <h3>The Long Shadow</h3>
+      <p>Weapons too terrible to use · the thirteen days, and the one man in a submarine who said no ·
+      partition's line drawn in five weeks · Africa's inherited borders · Rwanda · the night the wall
+      opened by administrative accident · and the network built to have no centre.</p>
+      <span class="meta">8 chapters · 1945–now</span>
+    </a>
+    <a class="doc" href="23-disasters.html">
+      <span class="dn">23 · history</span>
+      <h3>Disasters, and What They Taught Us</h3>
+      <p>Titanic, Chernobyl, Fukushima, Challenger, Bhopal, the 2004 tsunami, Katrina and two pandemics —
+      read as <strong>a short course in how complicated systems actually fail.</strong> Chains not causes,
+      normalisation of deviance, and backups that share a vulnerability.</p>
+      <span class="meta">8 failures · the lessons that stuck</span>
+    </a>
+    <a class="doc" href="24-discoveries.html">
+      <span class="dn">24 · history</span>
+      <h3>The Moments We Learned Something</h3>
+      <p>Gravity, the telescope, evolution, radioactivity, fission, penicillin, flight and DNA — told as
+      what they were at the time, which is mostly confusion. <strong>Almost nobody found what they were
+      looking for</strong>, and the record of who got credited is its own story.</p>
+      <span class="meta">8 discoveries · how they really happened</span>
+    </a>
+    <a class="doc" href="25-physics.html">
+      <span class="dn">25 · science</span>
+      <h3>Physics — How the Universe Behaves</h3>
+      <p>Why motion needs no cause · why heavy things do not fall faster · gravity as bent space · why
+      nothing outruns light · heat as jiggling · why your tea never reheats itself · why the sky is blue ·
+      and why a table is solid when atoms are mostly empty.</p>
+      <span class="meta">10 chapters · not one formula</span>
+    </a>
+    <a class="doc" href="26-chemistry.html">
+      <span class="dn">26 · science</span>
+      <h3>Chemistry — What Everything Is Made Of</h3>
+      <p>The one thing you need to know about an atom · the periodic table as a seating plan · why
+      burning, rusting and breathing are the same reaction · why soap works · what a battery actually is ·
+      and why a medicine's side effects come from the same thing that makes it work.</p>
+      <span class="meta">10 chapters · no equations</span>
+    </a>
+    <a class="doc" href="27-life.html">
+      <span class="dn">27 · science</span>
+      <h3>Life — The Cell, the Body, the Brain</h3>
+      <p>Why everything alive shares one genetic code, and what that proves · evolution in four sentences ·
+      the leftovers that give it away · how your immune system remembers · the passengers in your gut ·
+      and why <strong>perception is hypothesis, not recording.</strong></p>
+      <span class="meta">8 chapters · one ancestor</span>
+    </a>
+    <a class="doc" href="28-medicine.html">
+      <span class="dn">28 · science</span>
+      <h3>Medicine — Fighting to Stay Alive</h3>
+      <p>Two thousand years of confident nonsense, and the idea that fixed it · the doctor nobody believed ·
+      why antibiotics do nothing to a virus · the one number that governs an epidemic · what cancer is ·
+      and why <strong>sewers saved more lives than surgeons.</strong></p>
+      <span class="meta">8 chapters · prevention beat cure</span>
+    </a>
+    <a class="doc" href="29-the-sky.html">
+      <span class="dn">29 · science</span>
+      <h3>The Sky — Astronomy and Space</h3>
+      <p>How starlight carries a fingerprint · why looking out is looking back · what a star is and why
+      big ones die young · black holes, and the two things everyone gets wrong · why we think it began ·
+      and the <strong>ninety-five per cent we cannot account for.</strong></p>
+      <span class="meta">8 chapters · reading light</span>
+    </a>
+    <a class="doc" href="30-the-earth.html">
+      <span class="dn">30 · science</span>
+      <h3>The Earth — Rock, Water, Weather</h3>
+      <p>The idea everyone laughed at, and the sea floor that proved it · why an earthquake is something
+      stuck letting go · weather as one engine · why Britain is mild at the latitude of frozen Canada ·
+      and the climate, plainly — <strong>including exactly which parts are uncertain.</strong></p>
+      <span class="meta">8 chapters · one planet</span>
+    </a>
+    <a class="doc" href="31-what-to-remember.html">
+      <span class="dn">31 · the close</span>
+      <h3>What to Remember</h3>
+      <p>The ten patterns that appeared in more than one volume · the corrections worth carrying · ten
+      anchors that other facts hang off · how to judge a claim when you are not an expert · and why saying
+      <strong>"I don't know" is part of understanding a subject</strong>, not a gap in it.</p>
+      <span class="meta">the whole set · in one line each</span>
+    </a>
+    <a class="doc" href="32-everyday-science.html">
+      <span class="dn">32 · practical</span>
+      <h3>Everyday Science</h3>
+      <p><strong>The physics and chemistry you use before breakfast.</strong> Why browned food tastes
+      better and why a crowded pan steams · the three things salt does · how a microwave really works ·
+      <strong>why you must never put water on a pan fire</strong> · why a fridge warms the room · the
+      cleaning products never to mix · reading the weather · and why doubling your speed quadruples your
+      stopping distance.</p>
+      <span class="meta">10 chapters · things that change what you do</span>
+    </a>
+    <a class="doc" href="33-your-body.html">
+      <span class="dn">33 · practical</span>
+      <h3>Your Body, In Practice</h3>
+      <p>Sleep, food, movement and medicines — <strong>what the evidence actually supports and where it
+      is weak.</strong> Why a short night costs you more than its length · morning light over bedtime
+      rituals · why processing matters more than ingredients · which supplements are genuinely worth it ·
+      how to read a medicine label · and <strong>why bad treatments feel like they work.</strong></p>
+      <span class="meta">8 chapters · mechanisms, not fads</span>
+    </a>
+    <a class="doc" href="34-when-things-go-wrong.html">
+      <span class="dn">34 · practical</span>
+      <h3>When Something Goes Wrong</h3>
+      <p>The few things that genuinely change outcomes, to read <em>before</em> you need them. The first
+      thirty seconds of any emergency · compressions and choking · bleeding, burns and the recovery
+      position · <strong>the signs of stroke and heart attack, where minutes decide</strong> · carbon
+      monoxide · and how to read a risk figure in the news.</p>
+      <span class="meta">8 chapters · read before, not during</span>
+    </a>
+    <a class="doc" href="35-the-mind.html">
+      <span class="dn">35 · psychology</span>
+      <h3>The Mind, and How It Misleads You</h3>
+      <p>The science under everything Track 1 asks you to do. <strong>Fast thinking answers an easier question and never marks it as a guess</strong> · the six biases worth knowing · why losses hurt twice as much as gains please · memory as reconstruction rather than playback · and why knowing all of this does <em>not</em> protect you — only procedures do.</p>
+      <span class="meta">10 chapters · the machinery</span>
+    </a>
+    <a class="doc" href="36-people.html">
+      <span class="dn">36 · psychology</span>
+      <h3>People — Influence, Groups, Belonging</h3>
+      <p>The six levers used on you daily · the small-yes technique · the line experiment, and why <strong>one dissenter collapses conformity</strong> · obedience and what the variations really showed · why a crowd makes help less likely, and the one sentence that fixes it · and what body language actually tells you, which is less than you were sold.</p>
+      <span class="meta">9 chapters · you, in a room</span>
+    </a>
+    <a class="doc" href="37-the-dark-side.html">
+      <span class="dn">37 · psychology</span>
+      <h3>The Dark Side</h3>
+      <p>How the history track&rsquo;s atrocities were carried out by ordinary people. <strong>Almost nobody thinks they are the villain</strong> · the language that reliably precedes violence · hot and cold cruelty · the three traits that travel together · how manipulation actually works, slowly and deniably · and addiction without the moralising.</p>
+      <span class="meta">8 chapters · honest, not lurid</span>
+    </a>
+    <a class="doc" href="38-money.html">
+      <span class="dn">38 · money</span>
+      <h3>Money — How It Actually Works</h3>
+      <p>The subject everyone navigates and nobody is taught. Where new money comes from — <strong>banks create it when they lend</strong> · inflation as a silent transfer · the doubling rule, and why it runs in reverse on debt · what a share price already contains · why bubbles always end the same way · and the short list of things that genuinely matter.</p>
+      <span class="meta">8 chapters · mechanisms, not advice</span>
+    </a>
+    <a class="doc" href="39-chance.html">
+      <span class="dn">39 · reasoning</span>
+      <h3>Chance — Probability Without Arithmetic</h3>
+      <p>No mathematics, one habit: <strong>count people instead of using percentages.</strong> Why a positive test for something rare usually means nothing · why random does not look random · why extremes are followed by less extreme results with no cause required · the returning aircraft · and the question &ldquo;from what, to what?&rdquo;</p>
+      <span class="meta">8 chapters · natural frequencies</span>
+    </a>
+    <a class="doc" href="40-right-and-wrong.html">
+      <span class="dn">40 · philosophy</span>
+      <h3>Right and Wrong</h3>
+      <p>Three genuinely different answers to one question — <strong>outcomes, duties, character</strong> — and how to use all three as lenses rather than picking one. What the trolley problems are actually for · doing versus allowing · what an argument is · the fallacies worth knowing by name · and how to disagree in a way that changes something.</p>
+      <span class="meta">8 chapters · to argue better, not to win</span>
+    </a>
+    <a class="doc" href="41-whats-in-things.html">
+      <span class="dn">41 · practical</span>
+      <h3>What's In Things</h3>
+      <p>The chemistry you touch every day. Three different ways food goes off, and why <strong>dangerous bacteria change nothing you can smell</strong> · use-by versus best-before · how to read an ingredients list, where the order is the information · what the frightening words are doing · and <strong>the cleaning products that must never meet.</strong></p>
+      <span class="meta">8 chapters · the dose makes the poison</span>
+    </a>
+    <a class="doc" href="42-your-health.html">
+      <span class="dn">42 · practical</span>
+      <h3>Your Health, Practically</h3>
+      <p>The medical encounters. Why a result is a probability and one odd value on a blood panel is expected · what screening gains and what it costs · what each kind of scan actually sees · teeth and gums, where <strong>how often beats how much</strong> · moles, and watching for change · allergy versus intolerance · what really changes with age · and <strong>the four questions to ask any doctor.</strong></p>
+      <span class="meta">8 chapters · ask better questions</span>
+    </a>
+    <a class="doc" href="43-mind-and-mood.html">
+      <span class="dn">43 · health</span>
+      <h3>Mind and Mood</h3>
+      <p>Mental health, described accurately. Where the line sits between a bad week and a condition · why depression is more often <strong>flatness than sadness</strong>, and generates convincing evidence for its own conclusions · why anxiety cannot be reasoned with and <strong>avoidance is what sustains it</strong> · burnout as a condition of the job, not of your resilience · what each kind of therapy does · medication without the mythology · and how to help someone without the three usual mistakes.</p>
+      <span class="meta">9 chapters · the biggest gap, now filled</span>
+    </a>
+    <a class="doc" href="44-medicines.html">
+      <span class="dn">44 · health</span>
+      <h3>Medicines, and How to Judge a Health Claim</h3>
+      <p>What is in the cupboard and how to read what people say about it. Which painkiller for what · <strong>the paracetamol problem — narrow margin, hidden in cold remedies, symptoms delayed a day</strong> · why antibiotics do nothing for colds · grapefruit, St John&rsquo;s wort and alcohol · then <strong>why bad treatments feel like they work</strong>, what makes evidence good, and how to read a health headline.</p>
+      <span class="meta">8 chapters · and a lifelong instinct</span>
+    </a>
+    <a class="doc" href="45-the-conditions.html">
+      <span class="dn">45 · health</span>
+      <h3>The Conditions That Matter</h3>
+      <p>The few things that cause most of the deaths, and they share their causes. Why blood pressure is called silent · what cholesterol actually is, and the two things everyone gets wrong · <strong>how a heart attack really happens — a plaque ruptures and a clot forms in minutes</strong> · Face, Arms, Speech, Time · what insulin resistance means · and the roots they all share.</p>
+      <span class="meta">8 chapters · silent for decades, then sudden</span>
+    </a>
+    <a class="doc" href="46-home-and-kitchen.html">
+      <span class="dn">46 · practical</span>
+      <h3>Your Home and Your Kitchen</h3>
+      <p>What can hurt you in a house, and the chemistry of cooking well. <strong>Why water on a burning pan throws it across the room</strong> · carbon monoxide, which has no smell and whose symptoms include the confusion that stops you leaving · damp, radon, asbestos, lithium batteries · then why searing works, what salt really does, smoke points, and caffeine and alcohol chemically.</p>
+      <span class="meta">8 chapters · the hazards, then the pleasure</span>
+    </a>
+    <a class="doc" href="47-not-being-fooled.html">
+      <span class="dn">47 · technology</span>
+      <h3>Not Being Fooled</h3>
+      <p>Volume 36&rsquo;s persuasion levers, industrialised. The four-part shape every scam shares, and why <strong>urgency is the one element always present</strong> · the variants worth knowing by name · what to actually look at in a phishing message now that spelling tells you nothing · passwords, and why the old advice was wrong · which kind of two-factor defeats phishing outright · and what to do when your eyes and ears can be faked.</p>
+      <span class="meta">8 chapters · behaviour, not software</span>
+    </a>
+    <a class="doc" href="48-dont-do-that.html">
+      <span class="dn">48 · practical</span>
+      <h3>Don&rsquo;t Do That</h3>
+      <p>Everything here shares one property: the dangerous thing does not look dangerous, or the instinct is wrong. <strong>Drowning is silent</strong> — upright, head back, no waving, under a minute · swim parallel to the beach, not toward it · the signs people talk themselves out of · heatstroke&rsquo;s real tell · and the three rules underneath all of it: <strong>silence is the danger signal, the delayed presentation is what kills, and the instinct is often wrong.</strong></p>
+      <span class="meta">8 chapters · read once, now</span>
+    </a>
+    <a class="doc" href="49-ai-honestly.html">
+      <span class="dn">49 · technology</span>
+      <h3>AI, Honestly</h3>
+      <p>Written for you as a person, not for a meeting. What a language model is really doing — <strong>predicting what text comes next, which is not the same as true</strong> · why fabrication is the system working as designed, and why <strong>there is no confidence signal in the writing</strong> · what it is genuinely good and bad at · where bias comes from mechanically · and what is actually worth worrying about, which is not what dominates the conversation.</p>
+      <span class="meta">8 chapters · neither salesman nor doomsayer</span>
+    </a>
+    <a class="doc" href="50-whats-coming.html">
+      <span class="dn">50 · technology</span>
+      <h3>What&rsquo;s Actually Coming</h3>
+      <p>Not ranked by excitement — sorted by <strong>what kind of problem is left</strong>: deployed, an engineering problem, a physics problem, or a press release. Gene editing, longevity, fusion, quantum, robots, Mars, brain interfaces and climate tech, each placed honestly · and the method for reading the next announcement, since this volume will date and the method will not.</p>
+      <span class="meta">8 chapters · the last volume</span>
+    </a>
+    <a class="doc" href="51-the-novels.html">
+      <span class="dn">51 · the shelf</span>
+      <h3>The Novels</h3>
+      <p>The other shelf, and it works the opposite way to volumes 07&ndash;09: <strong>the passage comes first.</strong> Sixteen novels &mdash; Tolstoy, Dostoevsky, Austen, Orwell, Huxley, Kafka, Camus, Achebe, Morrison &mdash; with the best part of each, what it is really doing, and an honest verdict: <strong>read it whole, read this part, or just know of it.</strong> Levin in the hayfield · the Grand Inquisitor · Elizabeth Bennet discovering her own bias in 1813.</p>
+      <span class="meta">16 books · not all worth your evenings</span>
+    </a>
+    <a class="doc" href="52-philosophy-originals.html">
+      <span class="dn">52 · the shelf</span>
+      <h3>Philosophy in the Original</h3>
+      <p>Nearly all public domain, so these are <strong>real extended extracts, not summaries.</strong> Marcus Aurelius rehearsing tomorrow&rsquo;s irritations · Epictetus on what is and is not in our control · Seneca on time · Montaigne discovering in 1580 that <strong>we are all patchwork</strong> · Pascal on distraction · Machiavelli, Mill and Nietzsche. With the corrections, since most of these are quoted in fragments that reverse their meaning.</p>
+      <span class="meta">10 thinkers · read the paragraph, not the quote</span>
+    </a>
+    <a class="doc" href="53-ideas-that-changed.html">
+      <span class="dn">53 · the shelf</span>
+      <h3>Ideas That Changed Minds</h3>
+      <p>Not the books that sold &mdash; the books after which something could not be said the same way again. Darwin&rsquo;s one-sentence mechanism · Douglass, whose owner <strong>explained the mechanism of literacy aloud and handed him the plan</strong> · Wollstonecraft on the circularity of denied education · Du Bois naming double-consciousness · and <strong>Orwell on political language, designed to make murder respectable.</strong></p>
+      <span class="meta">11 works · could this have been said before?</span>
+    </a>
+    <a class="doc" href="54-the-anthology.html">
+      <span class="dn">54 · the shelf</span>
+      <h3>The Anthology</h3>
+      <p>The volume to keep near a chair, arranged by <strong>what you need it for</strong> rather than by author: mortality, time, love, grief, doubt, work, power, wonder. Macbeth against Dylan Thomas · Montaigne on friendship · Feynman on not fooling yourself · and the corrections, because <strong>Beckett&rsquo;s &ldquo;fail better&rdquo; is bleak, not motivational</strong>, and Socrates never said he knew that he knew nothing.</p>
+      <span class="meta">8 subjects · open it anywhere</span>
+    </a>
+  </div>
+</section>
+
+<section class="group" style="--stripe: var(--ink)">
+  <h2><span class="gn">Routes</span> If you have less time than that</h2>
+  <p class="gd">The full path is fifty-four handbooks. These are the shortcuts, by situation — the first group for Tracks 1&ndash;5, the second for Track 6.</p>
+  <div class="tw">
+  <table>
+    <thead><tr><th style="width:28%">Your situation</th><th style="width:24%">Read, in this order</th><th>Why this order</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>An interview or a big meeting next week</strong></td>
+        <td class="route">04 → 03 → 02 → 10</td>
+        <td>Credibility language first — fastest to change, and it changes every sentence. Then answer-first structure so your content lands. Then the question bank, for when they turn it around. Then build the answer bank from file 10; that is the actual preparation.</td>
+      </tr>
+      <tr>
+        <td><strong>You freeze when put on the spot</strong></td>
+        <td class="route">01 → 04 → 10</td>
+        <td>01 explains the freeze mechanically and gives you the three-second pause; 04 gives you the sentences that buy time legitimately; 10 drills them until they arrive on their own.</td>
+      </tr>
+      <tr>
+        <td><strong>You have nothing to say socially</strong></td>
+        <td class="route">06 → 11 → 02</td>
+        <td>Stock the shelf first — that is a supply problem with a supply fix. Then file 11 for material that is actually interesting. Then the questions that keep a conversation alive without you carrying it.</td>
+      </tr>
+      <tr>
+        <td><strong>You want to understand the news</strong></td>
+        <td class="route">16 → 11 → 12 → 14</td>
+        <td><strong>Method first.</strong> File 16 teaches you to follow a story and spot hype; then energy, supply chains and computing, which between them explain most of what is in the news on any given day.</td>
+      </tr>
+      <tr>
+        <td><strong>People don't take your ideas seriously</strong></td>
+        <td class="route">03 → 04 → 05</td>
+        <td>Almost always a packaging problem before it is an idea problem. Answer-first fixes the packaging, the hedging audit fixes the delivery, and 05 fixes who you are packaging it for.</td>
+      </tr>
+      <tr>
+        <td><strong>Supply chain or operations work</strong></td>
+        <td class="route">12 → 15 → 11 → 05</td>
+        <td>12 is the vocabulary of the job — bullwhip, lead times, chokepoints, just-in-time. 15 is what your suppliers actually do. 11 is the energy cost underneath all of it. 05 is managing up while it goes wrong.</td>
+      </tr>
+      <tr>
+        <td><strong>You just want the books</strong></td>
+        <td class="route">09 → 07 → 08</td>
+        <td>Start at 09 and read the <strong>master verdict table</strong> at the end first. It covers all thirty-two in one page and tells you which ten are worth your evenings.</td>
+      </tr>
+      <tr>
+        <td><strong>You want to change permanently</strong></td>
+        <td class="route">01 → 10 → everything else</td>
+        <td>Start the eight-week programme in week one, in parallel with the reading. Reading without the drill produces someone who knows about this; the drill is what produces someone who does it.</td>
+      </tr>
+      <tr>
+        <td><strong>Track 6 · the short way in</strong></td>
+        <td class="route">31 → 35 → 39 → 32</td>
+        <td>31 compresses the whole science track into one volume. 35 is how your own thinking works. 39 is the reasoning that makes 35 usable. 32 is the science of an ordinary Tuesday. Four volumes, and you have the spine of the track.</td>
+      </tr>
+      <tr>
+        <td><strong>Track 6 · history, in order</strong></td>
+        <td class="route">17 → 18 → 19 → 20 → 21 → 22</td>
+        <td>Written to be read like a novel, and genuinely sequential — each volume assumes the one before it. 23 and 24 sit outside the chronology and can be read any time.</td>
+      </tr>
+      <tr>
+        <td><strong>Track 6 · science, in order</strong></td>
+        <td class="route">25 → 26 → 27 → 28 → 29 → 30 → 31</td>
+        <td>No numbers, no formulas. Physics underpins chemistry, chemistry underpins life, life underpins medicine. 31 is the compression of all six and the one to reread when the details fade.</td>
+      </tr>
+      <tr>
+        <td><strong>Track 6 · the useful-on-Monday route</strong></td>
+        <td class="route">32 → 33 → 41 → 42 → 34</td>
+        <td>The daily-life track, ending where it should: 34 is the emergency volume, and it is the one to read <em>before</em> you need it rather than during.</td>
+      </tr>
+      <tr>
+        <td><strong>Track 6 · people and judgement</strong></td>
+        <td class="route">35 → 36 → 37 → 40</td>
+        <td>How a mind reaches a conclusion, what a room does to it, what happens when nothing restrains it, and then how to argue about any of it. 37 explains the atrocities in 21 and 22, which is why it comes after the history if you are reading everything.</td>
+      </tr>
+      <tr>
+        <td><strong>Track 6 · money and risk</strong></td>
+        <td class="route">38 → 39</td>
+        <td>A pair. Almost every bad money decision is a mis-read of probability, and 39 needs no arithmetic to fix it. Read 38 first and 39 will keep correcting it.</td>
+      </tr>
+      <tr>
+        <td><strong>Track 6 · if you read only one thing</strong></td>
+        <td class="route">48</td>
+        <td>Don&rsquo;t Do That. Every item in it is something where the dangerous thing does not look dangerous or the instinct is wrong, and its whole value is in having read it beforehand. Twenty minutes.</td>
+      </tr>
+      <tr>
+        <td><strong>Track 6 · health, in order</strong></td>
+        <td class="route">42 → 45 → 44 → 43</td>
+        <td>42 is how to handle a medical encounter, 45 is what the conditions actually are, 44 is your cupboard plus how to judge any claim, 43 is the one nobody covers. Read in this order because each assumes the one before.</td>
+      </tr>
+      <tr>
+        <td><strong>Track 6 · the house and the kitchen</strong></td>
+        <td class="route">41 → 46 → 48 → 34</td>
+        <td>Food and cleaning chemistry, then the hazards in the structure and the cooking science, then the dangers to avoid, then the emergencies. 34 last, and before you need it.</td>
+      </tr>
+      <tr>
+        <td><strong>Track 6 · technology, as a person</strong></td>
+        <td class="route">36 → 47 → 49 → 50</td>
+        <td>Start at 36 for the persuasion levers, because every scam in 47 is one of them. Then 49 for what an AI model is really doing, and 50 for how to read any claim about the future.</td>
+      </tr>
+      <tr>
+        <td><strong>The shelf · one evening each</strong></td>
+        <td class="route">54 → 52 → 51</td>
+        <td>Start at 54 and open it anywhere &mdash; it is arranged by subject, not by author. Then Epictetus in 52 (forty pages, complete). Then the novels, beginning with the two short ones: <em>The Stranger</em> and <em>Things Fall Apart</em>.</td>
+      </tr>
+      <tr>
+        <td><strong>The shelf · if you have thirty minutes</strong></td>
+        <td class="route">53 → 51</td>
+        <td>Orwell&rsquo;s <em>Politics and the English Language</em> is fifteen pages and will change how you read every official statement afterwards. Then <em>The Grand Inquisitor</em>: thirty pages, and the best thirty pages on the whole shelf.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="group" style="--stripe: var(--ink)">
+  <h2><span class="gn">Where this sits</span> The other shelves</h2>
+  <p class="gd">This library is the <em>applied</em> layer. Three neighbouring folders carry the rest, and
+  every handbook here links into them rather than duplicating them.</p>
+  <div class="shelf">
+    <a class="shelfcard" href="../../master-yourself/README.md">
+      <span>12 phases · 33 lessons</span>
+      <b>master-yourself/</b>
+      <p>The psychology underneath: System 1 and 2, cognitive biases, the four domains of emotional
+      intelligence, active listening, nonviolent communication, tactical empathy, exposure and
+      self-efficacy, deliberate practice, decision journals. <em>Sharp Mind cites this constantly and never
+      re-teaches it.</em></p>
+    </a>
+    <a class="shelfcard" href="../../culture/README.md">
+      <span>20 categories · 247 chapters</span>
+      <b>culture/</b>
+      <p>The knowledge to speak from — history, physics, space, technology, art, economics — each chapter
+      written as narrative with an "In a Nutshell" summary. The raw material handbook 06 teaches you to
+      convert into conversation.</p>
+    </a>
+    <a class="shelfcard" href="../../supply-chain/README.md">
+      <span>10 phases</span>
+      <b>supply-chain/</b>
+      <p>The domain curriculum and interview preparation. File 10's answer bank is built from the canonical
+      stories and numbers in this folder, so the drilling and the job search are the same piece of work.</p>
+    </a>
+    <a class="shelfcard" href="../handbooks/index.html">
+      <span>45 handbooks · 13 tracks</span>
+      <b>handbooks/</b>
+      <p>The technical library next door — software engineering, this project's stack, the senior track,
+      data analysis, data science, AI engineering, and the interview banks. Same format; different
+      subject.</p>
+    </a>
+  </div>
+  <div class="note">
+    <span class="tag">One rule about overlap</span>
+    <p>If a concept is taught properly next door, this library <strong>names it, links it and moves
+    on</strong>. So when you see a line like <em>"labelling is covered in master-yourself/phase-9, file 02
+    — what follows is only what it does not say"</em>, that is deliberate. It keeps these sixteen handbooks
+    about the part nobody wrote down for you: what to actually do, in the room, in real time.</p>
+  </div>
+</section>
+
+<div class="foot">
+  <p><strong>Sharp Mind</strong> · sixteen handbooks on judgement, presence, conversation and how the world
+  actually works. Every file is self-contained, navigable, and works offline with no build step — open any
+  of them directly in a browser.</p>
+  <p>Start with <a href="01-thinking-fast.html">01 · Thinking Fast Without Thinking Badly</a>, or take a
+  route from the table above. And whichever you read — <strong>say one thing from it out loud</strong>.
+  That is the whole difference between having read this and being able to use it.</p>
+</div>
+
+</div>
+
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

@@ -1,0 +1,1625 @@
+<title>Books: Thinking and Judgment</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F1;
+  --ground-2: #FCFBFA;
+  --panel:    #EAE9E6;
+  --panel-2:  #E0DEDA;
+
+  --ink:   #16181B;
+  --ink-2: #3D4048;
+  --ink-3: #71757E;
+
+  --rule:   #D5D3CF;
+  --rule-2: #E4E2DE;
+
+  --accent:      #1F6B57;
+  --accent-soft: #E3F0EA;
+  --accent-deep: #124035;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #1F6B57;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #111215;
+    --ground-2: #181A1E;
+    --panel:    #202329;
+    --panel-2:  #292C33;
+
+    --ink:   #EAEAE8;
+    --ink-2: #BEC1C7;
+    --ink-3: #858992;
+
+    --rule:   #32353C;
+    --rule-2: #292C33;
+
+    --accent:      #6DC3A6;
+    --accent-soft: #13211C;
+    --accent-deep: #94D8C0;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #6DC3A6;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #111215;
+  --ground-2: #181A1E;
+  --panel:    #202329;
+  --panel-2:  #292C33;
+
+  --ink:   #EAEAE8;
+  --ink-2: #BEC1C7;
+  --ink-3: #858992;
+
+  --rule:   #32353C;
+  --rule-2: #292C33;
+
+  --accent:      #6DC3A6;
+  --accent-soft: #13211C;
+  --accent-deep: #94D8C0;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #6DC3A6;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #1F6B57;
+  --accent-soft: #EBEEE4;
+  --accent-deep: #124035;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: grid; grid-template-columns: 252px minmax(0, 1fr); max-width: none; margin: 0; }
+.rail {
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+.rail-title { font-family: var(--display); font-weight: 700; font-size: 15.4px; margin: 0 0 2px; }
+.rail-sub { color: var(--ink-3); font-size: 10.8px; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 6px; }
+.rail-vol { display: inline-block; font-size: 10.3px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 1px 5px; border-radius: 2px; margin-bottom: 16px; }
+.rail-group { color: var(--ink-3); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin: 16px 0 5px; padding-bottom: 4px; border-bottom: 1px solid var(--rule-2); }
+.rail a { display: block; color: var(--ink-2); text-decoration: none; padding: 3px 6px 3px 8px; border-left: 2px solid transparent; margin-left: -2px; }
+.rail a:hover { color: var(--ink); background: var(--panel); }
+.rail a.on { color: var(--accent); border-left-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+.rail a .n { color: var(--ink-3); margin-right: 5px; }
+.rail a.on .n { color: var(--accent); }
+
+.doc { padding: 38px 56px 100px; max-width: none; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--rule); padding: 18px 20px 22px; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + path band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 16.5px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 46px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+.byline { font-family: var(--mono); font-size: 12.6px; color: var(--ink-3); letter-spacing: .04em; margin: 0 0 14px; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+.rail, .tw, pre, .ascii, .doc { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+.rail::-webkit-scrollbar, .rail::-webkit-scrollbar-track { background: var(--ground); }
+.rail::-webkit-scrollbar-thumb { border-color: var(--ground); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<nav class="rail" aria-label="Contents">
+  <p class="rail-title">Books · Thinking</p>
+  <p class="rail-sub">Ten books, already mined</p>
+  <span class="rail-vol">Sharp Mind · 07 of 10</span>
+  <a href="#open"><span class="n">—</span>Open</a>
+  <a href="#how"><span class="n">—</span>How to use this</a>
+
+  <div class="rail-group">I · Judgement under uncertainty</div>
+  <a href="#k1"><span class="n">01</span>Thinking, Fast and Slow</a>
+  <a href="#k2"><span class="n">02</span>Poor Charlie's Almanack</a>
+  <a href="#k3"><span class="n">03</span>Thinking in Bets</a>
+  <a href="#k4"><span class="n">04</span>Taleb · randomness</a>
+
+  <div class="rail-group">II · Structure and expertise</div>
+  <a href="#k5"><span class="n">05</span>The Pyramid Principle</a>
+  <a href="#k6"><span class="n">06</span>Sources of Power</a>
+  <a href="#k7"><span class="n">07</span>Peak</a>
+  <a href="#k8"><span class="n">08</span>Range</a>
+
+  <div class="rail-group">III · The catalogues</div>
+  <a href="#k9"><span class="n">09</span>The Art of Thinking Clearly</a>
+  <a href="#k10"><span class="n">10</span>Super Thinking</a>
+
+  <div class="rail-group">Reference</div>
+  <a href="#dont"><span class="n">—</span>Don't bother</a>
+  <a href="#t2"><span class="n">—</span>What next</a>
+</nav>
+
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind 07 · the book extracts, part one</p>
+  <h1>Thinking and judgment. <span class="thin">Ten books, stripped to what is usable.</span></h1>
+  <p class="lede">This file is not a reading list. It is the extraction — the frameworks written out in
+  full, with the examples, so that opening the original is optional rather than necessary. Each entry
+  ends with a verdict that tells you plainly whether the book is worth your time, which chapters to
+  open if it partly is, and where the same material already sits in a folder you own.</p>
+  <div class="hero-meta">
+    <span><b>Contains</b> · 10 books</span>
+    <span><b>Verdicts</b> · colour-coded</span>
+    <span><b>Also</b> · a don't-bother panel</span>
+    <span><b>Master table</b> · in file 09</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="06-having-something-to-say.html"><span class="vn">Previous · 06</span><b>Having Something to Say</b><em>Knowledge you can use</em></a>
+<div class="vol here"><span class="vn">You are here · 07</span><b>Books · Thinking</b><em>Ten books, extracted</em></div>
+<a class="vol" href="08-books-people-and-influence.html"><span class="vn">Next · 08</span><b>Books · People</b><em>Eleven books, extracted</em></a>
+</div>
+
+<header class="mod" id="how">
+  <span class="mn">Before you start</span>
+  <h2>How to use this file</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">The six fields, and the colour of the verdict</div>
+<pre><code>EVERY ENTRY HAS THE SAME SHAPE
+
+  THE ONE IDEA        two or three lines
+  WHAT IT ACTUALLY    the frameworks, lists and moves written
+    GIVES YOU         out in full — the bulk of the entry
+  USE IT TOMORROW     two to four concrete actions
+  WORTH MEMORISING    the lines that carry the book
+  VERDICT             colour-coded, see below
+  ALREADY YOURS?      where this sits in a folder you own
+
+THE THREE VERDICTS
+  ● GREEN   WORTH READING FULLY — short, operational, and
+            the whole thing earns its length
+  ● AMBER   EXTRACT ONLY / OPEN THESE CHAPTERS — one good
+            idea inside a long book. The extract is enough,
+            or the named chapters are
+  ● RED     SKIP — and the reason why, plus what to read
+            instead
+
+⭐ OUT OF THE TEN BOOKS HERE, EXACTLY TWO ARE GREEN.
+  That is not cynicism. Most non-fiction is one essay
+  expanded to three hundred pages by a publisher who cannot
+  sell an essay. Knowing which two is the point of this file.
+
+⚠ AND ONE HONEST WARNING ABOUT READING EXTRACTS
+  A summary you read is INPUT, not stock (file 06 §01).
+  If you want any of this to be available to you in a
+  conversation, say it out loud once. Otherwise you will
+  have read this file and retained almost none of it,
+  which is exactly the failure mode it is trying to fix.</code></pre>
+</div>
+
+<header class="part" id="uncertainty">
+  <span class="pn">Part I · Judgement under uncertainty</span>
+  <h2>Four books on being wrong</h2>
+  <p class="lede">How your mind misleads you, how to hold a view in probabilities, and how much of what
+  happens is luck.</p>
+</header>
+
+<header class="mod" id="k1">
+  <span class="mn">Book 01</span>
+  <h2>Thinking, Fast and Slow</h2>
+</header>
+<p class="byline">Daniel Kahneman · 2011 · ~500 pages</p>
+
+<div class="proj">
+  <span class="tag">The one idea</span>
+  <p>You run two systems. System 1 is fast, automatic and always on; System 2 is slow, effortful and
+  lazy. Most errors are not System 1 being stupid — they are System 1 confidently answering a question
+  that System 2 never checked.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">What the book actually gives you</div>
+<pre><code>⭐ WYSIATI — "WHAT YOU SEE IS ALL THERE IS"
+  The most useful idea in the book and the least famous.
+  Your mind builds the best possible story from the
+  information AVAILABLE, and never registers what is
+  missing. Coherence feels like truth. So a tidy story
+  built on two facts feels MORE certain than a messy one
+  built on ten.
+  ⇒ the question that operationalises it:
+    "What would I need to know that I don't, before this
+     confidence is justified?"
+
+⭐ SUBSTITUTION — answering an easier question
+  Faced with a hard question, you silently swap it for an
+  easy one and answer that.
+    "Is this a good investment?"   → "Do I like the
+                                      company?"
+    "Is this candidate any good?"  → "Do they remind me
+                                      of someone good?"
+    "How happy am I with my life?" → "What mood am I in
+                                      right now?"
+  ⇒ the tell: your answer arrived instantly and you
+    cannot say what it was based on.
+
+ANCHORING
+  Any number present moves your estimate, INCLUDING a
+  number you know to be irrelevant. Negotiators, price
+  tags and first offers all exploit this.
+  ⇒ defence: write your own number down BEFORE hearing
+    theirs. It is the only defence that reliably works.
+
+AVAILABILITY
+  You judge how common something is by how easily an
+  example comes to mind — so vivid, recent and frightening
+  things feel frequent. Plane crashes over car journeys.
+  ⇒ defence: ask for the base rate, or at least "how
+    would I know if this were rare?"
+
+BASE-RATE NEGLECT / REPRESENTATIVENESS
+  You judge by resemblance to a stereotype rather than by
+  probability. The famous "Linda" problem: given a
+  description of a thoughtful activist, people rate
+  "Linda is a bank teller AND a feminist" as more likely
+  than "Linda is a bank teller" — which is impossible,
+  because a subset cannot be larger than its set.
+  ⇒ resemblance is not probability. Ask "how many of
+    these are there in the world?" first.
+
+PROSPECT THEORY AND LOSS AVERSION
+  Losses hurt roughly twice as much as equivalent gains
+  please. And the asymmetry has a direction people miss:
+    facing GAINS  → risk-averse (take the sure thing)
+    facing LOSSES → risk-SEEKING (gamble to get back to
+                    even)
+  ⇒ which is precisely why people double down on failing
+    projects, bad hires and sunk investments. It is not
+    stubbornness. It is the shape of the curve.
+
+FRAMING
+  Identical facts, different words, different decision.
+  "90% survival" and "10% mortality" are the same number
+  and produce different choices FROM DOCTORS.
+  ⇒ before deciding, restate the option in the opposite
+    frame and see if you still prefer it.
+
+⭐ THE PLANNING FALLACY AND THE OUTSIDE VIEW
+  Your estimate of how long your project will take is
+  built from your plan. It should be built from what
+  happened to SIMILAR PROJECTS.
+    INSIDE VIEW  · "here's our plan, six weeks"
+    OUTSIDE VIEW · "the last four things like this took
+                    four months each"
+  ⇒ the outside view is almost always right and almost
+    never used, because it feels like it ignores what is
+    special about your case. It does. That is the point.
+
+REGRESSION TO THE MEAN — the one that changes how you manage
+  Kahneman's flight instructors insisted that praising a
+  good landing produced a worse next landing, and shouting
+  at a bad one produced a better next landing. They had
+  observed this for years and it was real.
+  It was also pure regression: an exceptional performance
+  is usually followed by a more average one whatever you
+  say. The instructors had learned, from genuine evidence,
+  that punishment works and praise does not.
+  ⇒ EXTREME PERFORMANCE IS FOLLOWED BY LESS EXTREME
+    PERFORMANCE FOR STATISTICAL REASONS. Do not build a
+    theory of causation on top of it.</code></pre>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Use it tomorrow</h4>
+    <p>Before any estimate, ask what happened to the last three similar things — the outside view, and
+    it is the single highest-return habit in the book. Write your own number before hearing theirs.
+    When an answer arrives instantly, ask which easier question you just answered.</p>
+  </div>
+  <div class="card">
+    <h4>Worth memorising</h4>
+    <p><em>"What you see is all there is."</em></p>
+    <p><em>"Nothing in life is as important as you think it is while you are thinking about it."</em></p>
+  </div>
+</div>
+
+<div class="warn">
+  <span class="tag">● Amber · extract only, or open Part I</span>
+  <p>Five hundred pages, and the extract above is most of the usable content. If you open it, read
+  <strong>Part I</strong> (the two systems) and <strong>the chapter on the outside view</strong>; the
+  final third, on the experiencing versus remembering self, is interesting but not actionable.</p>
+  <p><strong>The honest caveat:</strong> the chapters on priming — where an unnoticed cue supposedly
+  shifts your later behaviour — are the part of this book most damaged by the replication crisis.
+  Kahneman himself wrote publicly in 2017 that he had placed too much faith in underpowered priming
+  studies. The core work on heuristics, framing and prospect theory is not in question; the priming
+  material should be read as a hypothesis, not a finding.</p>
+  <p><strong>Already yours:</strong> System 1 and 2, twelve biases, prospect theory and the outside view
+  are all in <a href="../../master-yourself/phase-1-psychology/01-cognitive-and-behavioral-psychology.md">master-yourself/phase-1, file 01</a>,
+  and the evaluation subset is in <a href="../../master-yourself/phase-0-orientation/03-critical-thinking-and-evidence.md">phase-0, file 03</a>.</p>
+</div>
+
+<header class="mod" id="k2">
+  <span class="mn">Book 02</span>
+  <h2>Poor Charlie's Almanack</h2>
+</header>
+<p class="byline">Charlie Munger · collected talks, 1994–2005 · ~550 pages</p>
+
+<div class="proj">
+  <span class="tag">The one idea</span>
+  <p>Carry a latticework of big models from many disciplines, and attack problems backwards. A person
+  with one discipline's tools will force every problem into that discipline's shape.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">What the book actually gives you</div>
+<pre><code>⭐ THE LATTICEWORK
+  "To the man with only a hammer, every problem looks
+   like a nail."
+  Take the three or four BIG ideas from each big
+  discipline and carry them permanently:
+    physics      · critical mass, equilibrium
+    biology      · evolution, incentives, selection
+    psychology   · the misjudgments below
+    maths        · compounding, probability, permutations
+    economics    · scale, competition, opportunity cost
+    engineering  · redundancy, margin of safety,
+                   backup systems
+  ⇒ the value is in the CROSSING. Most good insights are
+    one field's standard idea applied where it is not
+    standard.
+
+⭐ INVERT, ALWAYS INVERT
+  "All I want to know is where I'm going to die, so I'll
+   never go there."
+  Do not ask how to succeed. Ask how you would guarantee
+  failure, then avoid that.
+  ⇒ built out as a technique in sharp-mind file 02 §04.
+
+⭐ THE 25 CAUSES OF HUMAN MISJUDGMENT
+  From the 1995 Harvard talk, revised in the book. The
+  ones that actually earn their place:
+
+  ① INCENTIVE-CAUSED BIAS — the big one
+     "Never, ever think about something else when you
+      should be thinking about the power of incentives."
+     People are not lying to you. They genuinely believe
+     the thing they are paid to believe. This is far
+     more common and far harder to detect than deceit.
+     ⇒ the question: "how is this person paid?"
+
+  ② THE LOLLAPALOOZA EFFECT — Munger's own contribution
+     Several biases acting in the SAME DIRECTION at once
+     produce results far beyond their sum. An auction,
+     a cult, a bubble, a bad hire everybody liked.
+     ⇒ any one bias you can usually catch. Four at once
+       you will not.
+
+  ③ DEPRIVAL SUPER-REACTION — losing hurts disproportionately,
+     including ALMOST getting something and losing it
+  ④ SOCIAL PROOF — strongest under uncertainty and stress,
+     which is exactly when you most need to think alone
+  ⑤ AUTHORITY MISINFLUENCE — people follow a confident
+     senior person off a cliff, and afterwards cannot
+     explain why
+  ⑥ CONSISTENCY AND COMMITMENT — once said out loud,
+     a position becomes yours to defend
+     ⇒ so do NOT state a position publicly before you
+       have thought, if you want to stay able to change
+  ⑦ ENVY AND JEALOUSY — "it's not greed that drives the
+     world, it's envy". Almost never admitted, and it
+     explains a surprising share of workplace behaviour
+  ⑧ BIAS FROM ASSOCIATION — liking the message because
+     you like the messenger, and the reverse
+
+⭐ CIRCLE OF COMPETENCE
+  The value is not its size. It is knowing where the EDGE
+  is. Inside it, act. Outside it, say so (file 04 §05).
+  "You don't have to be brilliant, only a little wiser
+   than the other guys, on average, for a long time."
+
+TWO-TRACK ANALYSIS — the practical routine
+  ① What are the rational factors here?
+  ② What subconscious influences are pushing me — which
+     of the 25 is operating right now, on me?
+  ⇒ run both tracks explicitly on any large decision.</code></pre>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Use it tomorrow</h4>
+    <p>On any recommendation you receive, ask how the recommender is paid. On your next decision, invert
+    it. And when you notice you are about to state a position publicly that you have not thought
+    through — don't, because commitment will make it yours to defend.</p>
+  </div>
+  <div class="card">
+    <h4>Worth memorising</h4>
+    <p><em>"Show me the incentive and I will show you the outcome."</em></p>
+    <p><em>"Invert, always invert."</em></p>
+    <p><em>"It's not greed that drives the world, it's envy."</em></p>
+  </div>
+</div>
+
+<div class="warn">
+  <span class="tag">● Amber · open one talk only</span>
+  <p>Read <strong>"The Psychology of Human Misjudgment"</strong> — the 1995 Harvard speech, revised
+  version in the book, about forty pages. That talk is the entire value. The rest of the almanack is
+  tributes, photographs, repeated speeches and hagiography, and the physical book is large and
+  expensive for what it contains. The talk circulates freely as a transcript.</p>
+  <p><strong>Already yours:</strong> inversion is built out in <a href="02-the-question-bank.html">file
+  02, §04</a>; Munger appears in one clause of
+  <a href="../../master-yourself/phase-10-wealth-success/03-systems-thinking-and-long-term-success.md">master-yourself/phase-10, file 03</a>.</p>
+</div>
+
+<header class="mod" id="k3">
+  <span class="mn">Book 03</span>
+  <h2>Thinking in Bets</h2>
+</header>
+<p class="byline">Annie Duke · 2018 · ~250 pages</p>
+
+<div class="proj">
+  <span class="tag">The one idea</span>
+  <p>Every decision is a bet on an uncertain future. So judge the quality of the decision, not the
+  quality of the outcome — because luck sits in between them and breaks the link.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">What the book actually gives you</div>
+<pre><code>⭐ "RESULTING" — the name is the tool
+  Judging a decision by how it turned out. Once the
+  behaviour has a name you catch yourself doing it, which
+  is most of the benefit.
+
+  THE GRID THAT MAKES IT CONCRETE
+
+                    GOOD OUTCOME      BAD OUTCOME
+                 ┌────────────────┬────────────────┐
+  GOOD DECISION  │   DESERVED     │   BAD LUCK     │
+                 │                │  ⚠ do not      │
+                 │                │    change the  │
+                 │                │    process     │
+                 ├────────────────┼────────────────┤
+  BAD DECISION   │  ⭐ DUMB LUCK  │  JUST DESERTS  │
+                 │  THE DANGEROUS │                │
+                 │  CELL — it     │                │
+                 │  TEACHES YOU   │                │
+                 │  THE WRONG     │                │
+                 │  LESSON        │                │
+                 └────────────────┴────────────────┘
+
+  ⇒ OUTCOME = DECISION QUALITY + LUCK
+  ⇒ the top-right cell is where good people abandon good
+    processes. The bottom-left is where bad processes get
+    promoted. Both are expensive; the second is worse
+    because it is invisible and it compounds.
+
+⭐ SAY A NUMBER OUT LOUD
+  Not "I think it'll work" but "I'm about 60% on this."
+  Three things happen:
+    · you become calibratable — you can be scored later,
+      and scoring is how calibration improves
+    · disagreement gets cheaper — 60 vs 40 is a smaller
+      fight than yes vs no
+    · you stop having to defend certainty you never had
+  ⇒ this is the single most portable habit in the book.
+
+⭐ THE "WANNA BET?" TEST
+  When someone states something confidently — including
+  you — imagine being offered a real bet on it. Confidence
+  collapses instantly and accurately.
+  ⇒ you do not have to say it out loud. Running it
+    silently on your own claims is the useful version.
+
+MOTIVATED REASONING — why smart people are not immune
+  We are not truth-seekers by default. We are
+  "be-right"-seekers, and intelligence mostly buys a
+  better ability to construct the defence.
+  THE SELF-SERVING ASYMMETRY, stated plainly:
+    my wins   → skill        your wins   → luck
+    my losses → luck         your losses → skill
+  ⇒ catch it by asking, after any outcome: "if the same
+    thing had happened to a colleague, what would I say
+    caused it?"
+
+TRUTH-SEEKING GROUPS
+  A group with an explicit norm of accuracy over comfort.
+  The charter Duke proposes:
+    · focus on accuracy over confirmation
+    · accountability — you may be asked for your reasoning
+    · openness to views you dislike
+  ⇒ and one practical rule: WHEN ASKING FOR AN OPINION,
+    DO NOT GIVE YOURS FIRST, and do not say the outcome
+    before describing the decision. Both contaminate.
+
+BACKCASTING AND THE PRE-MORTEM
+  BACKCAST  · stand in a future where it WORKED and tell
+              the story of how
+  PRE-MORTEM· stand in a future where it FAILED and tell
+              that story
+  ⇒ do both. The second finds more.</code></pre>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Use it tomorrow</h4>
+    <p>Attach a percentage to your next prediction, out loud. After the next bad outcome, ask whether
+    the decision was wrong or whether it was variance — and answer honestly. When asking someone for
+    their view, give yours last.</p>
+  </div>
+  <div class="card">
+    <h4>Worth memorising</h4>
+    <p><em>"Life is poker, not chess."</em></p>
+    <p><em>"Resulting."</em> — one word, and the most useful vocabulary item in this file.</p>
+  </div>
+</div>
+
+<div class="good">
+  <span class="tag">● Green · worth reading fully</span>
+  <p>Short, operational, and it repeats itself less than almost anything else in this file. If you read
+  one book from these three handbooks cover to cover, this is a defensible choice — it is written by a
+  professional poker player turned decision researcher, and the poker framing does real work rather than
+  being decoration.</p>
+  <p>That said, the extract above is genuinely sufficient. Read it fully because you enjoy it, not
+  because you need to.</p>
+  <p><strong>Already yours:</strong> resulting, the decision journal, probabilistic thinking and the
+  pre-mortem are covered in full in
+  <a href="../../master-yourself/phase-8-peak-performance/02-decision-making-and-resilience.md">master-yourself/phase-8, file 02</a>.</p>
+</div>
+
+<header class="mod" id="k4">
+  <span class="mn">Book 04</span>
+  <h2>Fooled by Randomness · Antifragile</h2>
+</header>
+<p class="byline">Nassim Nicholas Taleb · 2001 and 2012 · ~350 and ~500 pages</p>
+
+<div class="proj">
+  <span class="tag">The one idea</span>
+  <p>You systematically underestimate how much of what happens is randomness, and you build things that
+  are brittle to it. Stop trying to predict; change your exposure instead.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">What the books actually give you</div>
+<pre><code>⭐ SURVIVORSHIP BIAS, PROPERLY UNDERSTOOD
+  You only ever see the winners. The people who did the
+  same things and failed are not writing books, not being
+  interviewed, and not in your sample.
+  "The cemetery is silent."
+  ⇒ before copying anyone's strategy: how many people ran
+    this strategy, and where are they now?
+
+⭐ ALTERNATIVE HISTORIES
+  Judge a decision by the DISTRIBUTION OF WORLDS it could
+  have produced, not the one that happened to occur.
+  Someone who bet everything on one outcome and won made
+  a bad decision with a good result.
+  ⇒ this is the same conclusion as Duke's "resulting",
+    reached from a completely different direction — which
+    is itself a reason to take it seriously.
+
+NARRATIVE FALLACY
+  We convert noise into stories, compulsively and
+  retrospectively. Market commentary is the purest form:
+  the same 0.3% move is explained by whichever headline
+  is nearest to hand.
+  ⇒ when an explanation arrives AFTER the event and
+    fits perfectly, suspect it.
+
+⭐ FRAGILE · ROBUST · ANTIFRAGILE — the triad
+  FRAGILE      breaks under stress and volatility
+  ROBUST       resists it, unchanged
+  ANTIFRAGILE  IMPROVES because of it
+  Muscles, immune systems, careers with varied experience
+  and reputations that survived a scandal are antifragile.
+  A single-client business, a body that never trains, and
+  a CV with one employer are fragile.
+  ⇒ ask of anything you depend on: WHICH OF THE THREE IS
+    THIS? It is a better question than "is this risky?"
+
+BARBELL STRATEGY
+  Extreme safety on most of it, extreme risk on a small
+  part, NOTHING in the middle — because the middle is
+  where you take real risk for unremarkable reward.
+    money   · mostly very safe, a little very speculative
+    career  · a stable base plus small wild bets
+    reading · ancient books and brand-new ideas, little
+              of this year's bestsellers
+  ⇒ the shape caps your downside while leaving the
+    upside open.
+
+OPTIONALITY
+  Prefer things with capped downside and uncapped upside.
+  With that shape you do not need to be right often —
+  you need to be exposed when you are.
+  ⇒ "is my downside capped?" is a better pre-decision
+    question than "will this work?"
+
+VIA NEGATIVA — improvement by removal
+  What to STOP doing usually beats what to start. We know
+  far more about what harms than about what helps, and
+  the knowledge of harm is more robust.
+  ⇒ the strongest single application: remove one thing
+    from a process rather than adding a check to it.
+
+SKIN IN THE GAME
+  Do not take advice from someone who bears no cost if
+  they are wrong. Symmetry of exposure is the only
+  reliable filter on advice, and it is cheap to check.</code></pre>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Use it tomorrow</h4>
+    <p>Ask of your next commitment whether the downside is capped. Ask, of anyone giving you confident
+    advice, what happens to them if they are wrong. And classify one thing you depend on as fragile,
+    robust or antifragile — the answer is usually uncomfortable.</p>
+  </div>
+  <div class="card">
+    <h4>Worth memorising</h4>
+    <p><em>"The cemetery is silent."</em></p>
+    <p><em>"Don't tell me what you think. Tell me what you have in your portfolio."</em></p>
+  </div>
+</div>
+
+<div class="warn">
+  <span class="tag">● Amber · extract only, and be selective</span>
+  <p>Taleb is right about several important things and the ratio of insight to page count is poor. The
+  prose is combative, the digressions are long, and the same point returns many times in different
+  costume. <em>Fooled by Randomness</em> is the best-argued of the set; <em>Antifragile</em> has the best
+  single idea — the triad — and the most padding around it.</p>
+  <p>Read the extract. If one of the ideas above grips you, read the twenty pages where he develops
+  it and stop.</p>
+  <p><strong>Already yours:</strong> survivorship bias is in
+  <a href="../../master-yourself/phase-0-orientation/03-critical-thinking-and-evidence.md">master-yourself/phase-0, file 03</a>;
+  the fragile–robust–antifragile triad is in
+  <a href="../../master-yourself/phase-8-peak-performance/02-decision-making-and-resilience.md">phase-8, file 02</a>.</p>
+</div>
+
+<header class="part" id="structure">
+  <span class="pn">Part II · Structure and expertise</span>
+  <h2>Four books on getting good</h2>
+  <p class="lede">How to organise a thought, how experts actually decide, how skill is built — and the
+  honest limit on the last of those.</p>
+</header>
+
+<header class="mod" id="k5">
+  <span class="mn">Book 05</span>
+  <h2>The Pyramid Principle</h2>
+</header>
+<p class="byline">Barbara Minto · 1987 · ~180 pages</p>
+
+<div class="proj">
+  <span class="tag">The one idea</span>
+  <p>Put the answer first and group the support beneath it, because the reader assembles understanding
+  top-down whether you wrote that way or not. Writing in the order you thought of things makes the
+  reader do your work.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">What the book actually gives you</div>
+<pre><code>⭐ THE PYRAMID AND ITS THREE RULES
+  One governing thought at the top, supported by a group
+  beneath it, each of which may be supported in turn.
+
+  ① IDEAS AT ANY LEVEL SUMMARISE THE IDEAS BELOW
+     if the three supports do not add up to the claim,
+     the claim is wrong or a support is missing
+  ② IDEAS IN A GROUP ARE THE SAME KIND OF THING
+     three reasons, or three steps, or three options.
+     Never two reasons and a step — the most common
+     structural error people make and the hardest to
+     see in your own writing
+  ③ IDEAS IN A GROUP ARE LOGICALLY ORDERED
+     by importance, by time, by structure, or by
+     comparison. Never "the order they occurred to me"
+
+⭐ SCQA — the introduction, in four sentences
+  SITUATION     something the reader already agrees with
+                ⚠ MUST CONTAIN NO NEWS. Its only job is
+                  shared ground for the next part to
+                  disturb
+  COMPLICATION  what changed, or what is now wrong
+  QUESTION      the question now live in the reader's head
+  ANSWER        your governing thought
+  ⇒ the point: you MANUFACTURE the question your answer
+    answers. An answer to a question the reader is
+    actually holding is received completely differently.
+
+DEDUCTIVE VS INDUCTIVE ORDER — and which to use
+  DEDUCTIVE  all managers need X · this team lacks X ·
+             therefore this team needs X
+             ⚠ forces the reader to hold a chain, and if
+               they lose one link the conclusion is gone
+  INDUCTIVE  three parallel reasons supporting one claim
+             ⇒ USE THIS IN BUSINESS WRITING ALMOST ALWAYS.
+               Each support stands alone, so an
+               interruption costs you one reason instead
+               of the argument.
+
+MECE — mutually exclusive, collectively exhaustive
+  no overlaps, no gaps. In practice you rarely need
+  perfect exhaustiveness; you need to not CLAIM more than
+  you covered. One word fixes it: "the three MAIN
+  reasons".
+
+HEADINGS AS ASSERTIONS
+  ✗ "Background" · "Analysis" · "Next steps"
+  ✓ "Damage has tripled and has not recovered"
+  ⇒ THE TEST: read only the headings. If they form an
+    argument, the document works. If they form a table
+    of contents, you have wasted the one part of the
+    document that is certain to be read.
+
+THE "SO WHAT?" TEST
+  Apply to every group: if these three things are true,
+  SO WHAT? The answer is the box above them — and if
+  there is no clean answer, the group is not a group.</code></pre>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Use it tomorrow</h4>
+    <p>Put your conclusion in the email subject line. Rewrite every heading in your next document as a
+    claim rather than a topic. Before sending anything over two lines, check the conclusion is in the
+    first sentence.</p>
+  </div>
+  <div class="card">
+    <h4>Worth memorising</h4>
+    <p><em>"The reader can only absorb one idea at a time."</em></p>
+    <p>And the heading test — if the headings do not make the argument, rewrite them.</p>
+  </div>
+</div>
+
+<div class="good">
+  <span class="tag">● Green · worth reading fully — with one condition</span>
+  <p>This is the most <em>useful</em> book in this file by a distance, and the ideas in it will change
+  your writing permanently. It is also dry, oddly expensive, and written as a corporate training manual
+  rather than as a book to enjoy.</p>
+  <p><strong>So: read <a href="03-answer-first.html">file 03</a> of this library first</strong> — it is
+  a compressed, worked version of the same material with twelve rewrites. Buy Minto only if you write
+  documents for senior audiences regularly and want the full treatment of grouping and logical order.</p>
+  <p><strong>Already yours:</strong> <a href="03-answer-first.html">file 03</a> is built on this book.
+  Nothing in master-yourself covers it.</p>
+</div>
+
+<header class="mod" id="k6">
+  <span class="mn">Book 06</span>
+  <h2>Sources of Power</h2>
+</header>
+<p class="byline">Gary Klein · 1998 · ~330 pages</p>
+
+<div class="proj">
+  <span class="tag">The one idea</span>
+  <p>Experts under time pressure do not compare options. They recognise the situation, one workable
+  option surfaces, they run it forward in their head, and they act. All the expertise is in the
+  recognition.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">What the book actually gives you</div>
+<pre><code>⭐ THE RECOGNITION-PRIMED DECISION MODEL
+  Klein set out to document how fireground commanders
+  compare options under pressure. He found they did not.
+  They reported "just knowing" what to do.
+
+    ① SIZE UP     "this is a ____ kind of situation"
+    ② ONE OPTION  surfaces, typical for that situation
+       SURFACES
+    ③ SIMULATE    run it forward: "and then what?"
+    ④ ACT         if it holds. If not, modify it, or
+                  take the next option that comes
+
+  THREE VARIATIONS HE DOCUMENTS
+    SIMPLE MATCH      recognise, act
+    DIAGNOSE          the situation is unclear; work out
+                      which type it is first
+    EVALUATE A COURSE the option is clear; the simulation
+                      is where the work happens
+
+  ⇒ A NOVICE RUNS THE SAME LOOP. The difference is that
+    the option surfacing for them is a bad one, because
+    the size-up was wrong. So "consider more options" is
+    the wrong training. BETTER SIZE-UP is the training.
+
+MENTAL SIMULATION, AND HOW IT FAILS
+  The quality check that separates fast from reckless —
+  and it has a specific failure mode. When an anomaly
+  appears that contradicts the simulation, people EXPLAIN
+  IT AWAY to preserve the story, one small excuse at a
+  time, until the situation is unrecognisable.
+  ⇒ the defence: when you find yourself explaining away
+    the SECOND anomaly, stop and re-run the size-up from
+    scratch. Two explained anomalies is the threshold.
+
+CUES — expertise is different perception, not more data
+  Experienced NICU nurses could identify babies becoming
+  septic before the tests showed it, and could not say
+  how. Klein's interviews recovered the cues: subtle
+  changes in colour, tone, feeding, alertness — a pattern
+  nobody had written down.
+  ⇒ EXPERTS DO NOT HAVE MORE INFORMATION. THEY SEE
+    DIFFERENT INFORMATION. Which is why asking an expert
+    for their RULES gets you little, and asking for their
+    STORIES gets you a lot.
+
+STORIES AS THE STORAGE FORMAT OF EXPERTISE
+  Expertise is held and transmitted as cases, not
+  principles. The practical consequence for you:
+  ⇒ when learning from someone experienced, ask "tell me
+    about a time this went wrong" — never "what are the
+    principles?" The first gets you cues; the second gets
+    you platitudes they half-believe.
+
+WHY DECISION-ANALYSIS TRAINING CAN MAKE EXPERTS WORSE
+  Teaching an experienced person to enumerate and score
+  options replaces a fast working process with a slow
+  one. Useful for novices and for genuinely novel
+  decisions; harmful applied to routine expert judgement.</code></pre>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Use it tomorrow</h4>
+    <p>Name the situation type before answering. Run one step of simulation — "and then what?" — before
+    committing. And when learning from someone experienced, ask for a story about a failure rather than
+    for their principles.</p>
+  </div>
+  <div class="card">
+    <h4>Worth memorising</h4>
+    <p><em>"Experts see the world differently. They see things the rest of us cannot."</em></p>
+    <p>And the two-anomaly rule: explaining away the second one is the signal to re-run the size-up.</p>
+  </div>
+</div>
+
+<div class="warn">
+  <span class="tag">● Amber · extract only</span>
+  <p>The model is in the first few chapters and you now have it. The rest is case studies — genuinely
+  interesting ones, from firegrounds, intensive care units and military command — but they illustrate
+  rather than extend. The writing is careful and slightly academic.</p>
+  <p>One honest limit worth carrying: this is <strong>field observation</strong>, not controlled
+  experiment. It is a well-supported description of how experienced people report deciding. It is not a
+  demonstration that recognition beats deliberation, and Klein and Kahneman later wrote a joint paper
+  agreeing that expert intuition is trustworthy only in domains with regular patterns and fast, accurate
+  feedback — which leads directly to the next two books.</p>
+  <p><strong>Already yours:</strong> RPD is in <a href="01-thinking-fast.html">file 01, §03</a>; the
+  pre-mortem, which is Klein's, is in
+  <a href="../../master-yourself/phase-8-peak-performance/02-decision-making-and-resilience.md">master-yourself/phase-8, file 02</a>.</p>
+</div>
+
+<header class="mod" id="k7">
+  <span class="mn">Book 07</span>
+  <h2>Peak</h2>
+</header>
+<p class="byline">Anders Ericsson &amp; Robert Pool · 2016 · ~330 pages</p>
+
+<div class="proj">
+  <span class="tag">The one idea</span>
+  <p>Expertise comes from deliberate practice, which is a narrow and demanding thing that almost
+  nothing people call "practice" actually is. Experience alone produces almost no improvement.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">What the book actually gives you</div>
+<pre><code>⭐ THE DEFINITION, IN FULL — all six, not three
+  ① A SPECIFIC GOAL aimed at a WEAKNESS
+     not "get better at presenting" but "stop trailing
+     off at the end of sentences"
+  ② FULL ATTENTION — not background repetition
+  ③ IMMEDIATE FEEDBACK — the binding constraint. Without
+     it, hours produce nothing at all
+  ④ REPETITION WITH REFINEMENT — same thing again,
+     adjusted, not the same thing again
+  ⑤ AT THE EDGE OF CURRENT ABILITY — uncomfortable by
+     construction. If it is comfortable it is not this
+  ⑥ USUALLY A TEACHER, or at minimum a clear model of
+     what good looks like
+
+  PURPOSEFUL vs DELIBERATE — Ericsson's own distinction
+    PURPOSEFUL  has ① to ⑤. Available to anyone
+    DELIBERATE  adds an established field with known
+                benchmarks and real teachers — music,
+                chess, surgery
+  ⇒ most of what you want to improve has no such field,
+    so PURPOSEFUL practice is your realistic target. Say
+    so honestly rather than pretending otherwise.
+
+⭐ MENTAL REPRESENTATIONS — the actual currency
+  Practice does not build muscle memory so much as it
+  builds better internal models of the domain. Better
+  models let you NOTICE more, PLAN further ahead, and
+  SELF-CORRECT without a coach.
+  ⇒ this is the same finding as the chess chunking work
+    in sharp-mind file 01 §02, from the other side: the
+    expert's advantage is representational, and it is
+    domain-specific.
+
+⭐ THE OK PLATEAU
+  You reach "good enough", the skill becomes automatic,
+  and automatic means no further improvement — forever.
+  Twenty years of driving does not make you a better
+  driver.
+  ⇒ improvement requires DELIBERATELY LEAVING
+    AUTOMATICITY: a harder target, a new constraint, a
+    feedback source you did not have.
+
+⭐ THE 10,000-HOUR RULE IS NOT ERICSSON'S, AND HE DISOWNS IT
+  The number came from Gladwell's reading of Ericsson's
+  violinist study. In the study it was an AVERAGE for the
+  best students by age twenty — not a threshold, not a
+  guarantee, and not the finding. Ericsson wrote a chapter
+  objecting to the popularisation.
+  ⇒ THE REAL CLAIM IS ABOUT QUALITY, NOT QUANTITY. Ten
+    thousand hours of ④-less repetition produces a
+    twenty-year plateau, which is the common case.
+
+EXPERIENCE IS NOT EXPERTISE
+  Doctors often perform WORSE the more years since
+  training, on measures where feedback is absent or
+  delayed. Years accumulate; skill does not, unless the
+  loop is closed.
+  ⇒ so the question about any activity is not "how long
+    have I done this?" but "WHERE IS MY FEEDBACK COMING
+    FROM?" If the answer is nowhere, the years are not
+    accruing anything.</code></pre>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Use it tomorrow</h4>
+    <p>Pick one specific weakness, not a general skill. Then find the feedback loop — that is the part
+    people skip, and without it the rest is decoration. The weekly recording drill in
+    <a href="04-presence-and-status.html">file 04</a> is exactly this applied to how you speak.</p>
+  </div>
+  <div class="card">
+    <h4>Worth memorising</h4>
+    <p><em>"The right sort of practice carried out over a sufficient period of time leads to
+    improvement. Nothing else."</em></p>
+    <p>And: where is my feedback coming from?</p>
+  </div>
+</div>
+
+<div class="warn">
+  <span class="tag">● Amber · extract only</span>
+  <p>The six-part definition, mental representations and the OK plateau are the book, and they are
+  above. The remainder is case studies and an extended argument against innate talent that you probably
+  do not need to be persuaded of — and which is, in fairness, the most contested part of the book.
+  Later meta-analyses found deliberate practice explains a substantial but far from complete share of
+  performance variance, and less in some domains than others.</p>
+  <p>Which is exactly the limitation the next book is about.</p>
+  <p><strong>Already yours:</strong> covered in full, including the 10,000-hour correction, in
+  <a href="../../master-yourself/phase-8-peak-performance/01-flow-and-deliberate-practice.md">master-yourself/phase-8, file 01</a>.</p>
+</div>
+
+<header class="mod" id="k8">
+  <span class="mn">Book 08</span>
+  <h2>Range</h2>
+</header>
+<p class="byline">David Epstein · 2019 · ~350 pages</p>
+
+<div class="proj">
+  <span class="tag">The one idea</span>
+  <p>Early specialisation and deliberate practice win in <em>kind</em> learning environments. Most of
+  real life is <em>wicked</em>, and there breadth, late specialisation and analogical thinking win
+  instead.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">What the book actually gives you</div>
+<pre><code>⭐ KIND vs WICKED LEARNING ENVIRONMENTS
+  Robin Hogarth's distinction, and the most valuable idea
+  in the book by a wide margin.
+
+  KIND                          WICKED
+  ────                          ──────
+  rules are fixed and known     rules change, or are hidden
+  feedback is immediate and     feedback is delayed,
+    accurate                      noisy, or misleading
+  the same situation recurs     situations rarely repeat
+  ⇒ chess, golf, firefighting   ⇒ hiring, strategy, most
+    music, surgery                 of medicine, careers,
+                                   investing, management
+
+  ⇒ DELIBERATE PRACTICE AND EXPERT INTUITION WORK IN KIND
+    ENVIRONMENTS. IN WICKED ONES THEY CAN MAKE YOU
+    CONFIDENTLY WRONG — because you are learning patterns
+    from feedback that is not telling you the truth.
+
+  ⭐ SO THE FIRST QUESTION ABOUT ANY DOMAIN IS: WHICH IS
+    THIS? And the honest answer for most professional
+    work is "wicked", which means your intuition there
+    deserves less trust than it feels like it deserves.
+    This is the necessary qualifier on Klein and Ericsson,
+    and all three authors broadly agree on it.
+
+ANALOGICAL THINKING
+  Solving a new problem by mapping it onto a distant one.
+  Kepler worked out planetary motion largely through
+  analogies — to light, to magnets, to boats — because he
+  had no precedent to imitate.
+  ⭐ AND THE KEY FINDING: MULTIPLE ANALOGIES BEAT ONE.
+    A single analogy anchors you to its source. Two or
+    three from unrelated domains force you to extract
+    what is actually structural.
+  ⇒ practical: "what else works like this?" and do not
+    stop at the first answer.
+
+⭐ DESIRABLE DIFFICULTIES — practice that feels worse and works
+  SPACING       leave gaps between sessions
+  INTERLEAVING  mix problem types rather than blocking
+                them ("massed" practice)
+  TESTING       retrieve rather than review — self-testing
+                beats rereading by a wide margin
+  GENERATION    attempt the answer BEFORE being told it,
+                even when you will get it wrong
+
+  ⭐ ALL FOUR MAKE PRACTICE FEEL LESS EFFECTIVE AND MAKE
+    LEARNING MORE DURABLE. Blocked, immediate, re-read
+    practice produces fast visible progress and poor
+    retention — which is why almost everyone chooses it.
+  ⇒ if your studying feels smooth and satisfying, that
+    is evidence against it working.
+
+MATCH QUALITY
+  Switching fields is frequently not a failure but an
+  improvement in fit, and late specialisers often
+  outperform early ones over a career. The early
+  specialiser wins the first decade; the "sampler" tends
+  to end up better matched.
+
+THE OUTSIDER ADVANTAGE
+  On the InnoCentive platform, problems companies could
+  not solve internally were disproportionately solved by
+  people from OUTSIDE the relevant field — which is the
+  analogical point, institutionally.</code></pre>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Use it tomorrow</h4>
+    <p>Before trusting a gut read, ask whether the domain is kind or wicked. Interleave your practice
+    instead of blocking it. And on your next hard problem, deliberately find two analogies from
+    unrelated fields rather than one.</p>
+  </div>
+  <div class="card">
+    <h4>Worth memorising</h4>
+    <p><em>Kind or wicked?</em> — four words, and it tells you how much to trust your own intuition.</p>
+    <p>And: if practice feels smooth, that is evidence against it.</p>
+  </div>
+</div>
+
+<div class="warn">
+  <span class="tag">● Amber · extract only</span>
+  <p>Kind versus wicked, desirable difficulties and multiple analogies are the whole book, and all three
+  are above. The rest is a very readable procession of anecdotes — Federer versus Tiger Woods, the
+  Challenger disaster, jazz musicians — assembled to support the thesis. Enjoyable; not additionally
+  informative.</p>
+  <p>One caution in the book's own spirit: it is built largely from selected cases, which is a method
+  that can support almost any thesis. The kind/wicked distinction stands on its own research footing
+  (Hogarth, and the Kahneman–Klein agreement); the broader "generalists win" claim is more loosely
+  supported than the narrative suggests.</p>
+  <p><strong>Already yours:</strong> nothing in master-yourself covers kind versus wicked, which is
+  precisely why it earns its place here.</p>
+</div>
+
+<header class="part" id="catalogues">
+  <span class="pn">Part III · The catalogues</span>
+  <h2>Two reference books, and how to use them</h2>
+  <p class="lede">Both are lists. Lists are useful to look things up in and useless to read, and
+  treating them as books is why most people get nothing from either.</p>
+</header>
+
+<header class="mod" id="k9">
+  <span class="mn">Book 09</span>
+  <h2>The Art of Thinking Clearly</h2>
+</header>
+<p class="byline">Rolf Dobelli · 2011 · 99 chapters of two pages each</p>
+
+<div class="proj">
+  <span class="tag">The one idea</span>
+  <p>Ninety-nine cognitive errors, one per chapter, each with an example and an instruction. The
+  <em>format</em> is the contribution — it is a checklist, not an argument.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">The entries actually worth having</div>
+<pre><code>⭐ THE SWIMMER'S BODY ILLUSION — the best entry in the book
+  Professional swimmers do not have those bodies because
+  they swim. They swim at that level BECAUSE they have
+  those bodies. Selection, mistaken for treatment.
+  ⇒ the general form: whenever you see a trait in a
+    successful group, ask whether the activity produced
+    the trait or SELECTED for it. This one question
+    invalidates a large share of self-improvement advice,
+    including some in books on this very list.
+
+⭐ CHAUFFEUR KNOWLEDGE — Munger's distinction, well put
+  Two kinds of knowledge: real understanding, and the
+  ability to talk fluently about something. Planck's
+  chauffeur could deliver the lecture; he could not
+  answer a question.
+  ⇒ the test is a follow-up question. It is also why
+    sharp-mind file 06 §05 insists on stating your model
+    rather than performing fluency.
+
+ACTION BIAS
+  Doing something when doing nothing is better. Football
+  goalkeepers dive on penalties far more often than
+  staying centre would justify — because standing still
+  and conceding FEELS worse than diving and conceding.
+  ⇒ in a crisis, "what happens if we wait a day?" is an
+    underused question.
+
+OMISSION BIAS — the mirror of the above
+  We judge harm caused by action more harshly than
+  identical harm caused by inaction. Which is why
+  organisations tolerate ongoing damage they would never
+  actively choose.
+
+STORY BIAS, HINDSIGHT, OVERCONFIDENCE, SUNK COST,
+SOCIAL PROOF, AUTHORITY, CONTRAST EFFECT, AVAILABILITY,
+SELF-SELECTION, FORECAST ILLUSION, NEWS ILLUSION
+  — all present, all correct, all two pages, and all
+  covered more carefully elsewhere in this library.</code></pre>
+</div>
+
+<div class="bad">
+  <span class="tag">● Red · skip as a book · keep as a lookup</span>
+  <p>Do not read this front to back. Ninety-nine chapters of identical shape is numbing, and by chapter
+  thirty the effect is that every bias feels equally important, which is the opposite of useful.</p>
+  <p>It is also, substantially, other people's work — Kahneman, Cialdini, Taleb — and Dobelli was
+  criticised on publication for how lightly he attributed it. Take the swimmer's body illusion and
+  chauffeur knowledge, which are genuinely well-framed here, and use the contents page as a checklist
+  when you suspect you are fooling yourself.</p>
+  <p><strong>Read instead:</strong> <a href="../../master-yourself/phase-1-psychology/01-cognitive-and-behavioral-psychology.md">master-yourself/phase-1, file 01</a>
+  for the twelve biases that matter with real explanation, and
+  <a href="../../master-yourself/phase-0-orientation/03-critical-thinking-and-evidence.md">phase-0, file 03</a>
+  for the evaluation subset.</p>
+</div>
+
+<header class="mod" id="k10">
+  <span class="mn">Book 10</span>
+  <h2>Super Thinking</h2>
+</header>
+<p class="byline">Gabriel Weinberg &amp; Lauren McCann · 2019 · ~350 pages, ~300 models</p>
+
+<div class="proj">
+  <span class="tag">The one idea</span>
+  <p>A survey of roughly three hundred mental models from across the disciplines, grouped into themed
+  chapters. Munger's latticework, assembled for you.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">The models worth taking out of it</div>
+<pre><code>⭐ GOODHART'S LAW — the most useful single model here
+  "When a measure becomes a target, it ceases to be a
+   good measure."
+  Because people optimise the number rather than the
+  thing the number was standing in for. Call-centre
+  handle times, story points, lines of code, exam
+  results, response-time SLAs — all of them.
+  ⇒ when proposing any metric, ask: "how would someone
+    hit this number without doing the actual work?"
+    Then assume someone will.
+
+⭐ CHESTERTON'S FENCE
+  Do not remove a fence until you know why it was put
+  there. The obviously-pointless process usually has an
+  incident behind it that nobody wrote down.
+  ⇒ "what was this for?" before "let's kill this". It is
+    also the single best first question when you inherit
+    anything.
+
+SECOND-ORDER THINKING
+  "And then what?" — one more step than everyone else
+  takes. Most bad plans are first-order correct.
+
+HANLON'S RAZOR
+  Never attribute to malice what is adequately explained
+  by carelessness, overload, or not knowing. In
+  organisations this is right the overwhelming majority
+  of the time, and assuming it is right also happens to
+  be the better strategy when it is not.
+
+THE MAP IS NOT THE TERRITORY
+  Your model is a simplification and it will fail at the
+  edges. The dashboard is not the business.
+
+THE MOST RESPECTFUL INTERPRETATION
+  Respond to the most generous reading of what someone
+  said. Cheap, and it defuses an enormous amount.
+
+LOCAL vs GLOBAL OPTIMUM
+  Climbing the nearest hill can prevent you reaching the
+  mountain. Applies to careers as much as to algorithms.
+
+PARKINSON'S LAW      work expands to fill the time given
+PATH DEPENDENCE      today's options are constrained by
+                     decisions made long ago, often by
+                     people who are gone
+LINDY EFFECT         for non-perishable things, the
+                     longer it has survived, the longer
+                     it is likely to last. A good filter
+                     for what to read
+LEVERAGE             find the small input with the
+                     disproportionate output — and note
+                     it is almost never the thing you
+                     enjoy doing most</code></pre>
+</div>
+
+<div class="warn">
+  <span class="tag">● Amber · lookup only, never front to back</span>
+  <p>A model catalogue read linearly produces nothing. Models only stick when you attach one to a live
+  problem — read three hundred in a week and you will retain none, which is the standard experience with
+  this book and not your fault.</p>
+  <p><strong>How to actually use it:</strong> when you are stuck on something real, open the index, find
+  two or three models that might apply, and try them on the actual problem. That is what the book is
+  for. <em>The Great Mental Models</em> series by Shane Parrish is the same idea with fewer models and
+  more depth per model, and is the better choice if you want to read rather than reference.</p>
+</div>
+
+<header class="mod" id="dont">
+  <span class="mn">Reference</span>
+  <h2>Don't bother — and what to read instead</h2>
+</header>
+
+<div class="bad">
+  <span class="tag">● Red · the thinking-and-judgment shelf</span>
+  <ul>
+    <li><strong>Outliers</strong> — Malcolm Gladwell. The source of the 10,000-hour rule, which is a
+    misreading of Ericsson's violinist study; Ericsson said so himself. Enjoyable storytelling with
+    causal claims the evidence does not carry. <em>Instead:</em> the Peak extract above, which contains
+    the correction.</li>
+
+    <li><strong>Blink</strong> — Malcolm Gladwell. Argues that snap judgements are often excellent —
+    roughly the opposite of what Kahneman shows — and leans heavily on priming and thin-slicing research
+    that is among the worst affected by replication failures. <em>Instead:</em> Klein's RPD above, which
+    is the defensible version of the same intuition, with the conditions attached.</li>
+
+    <li><strong>The 48 Laws of Power</strong> — Robert Greene. Historically loose, entertaining, and a
+    genuinely poor operating manual: a substantial share of the advice would, applied literally, get you
+    fired or divorced. <em>Instead:</em> Johnstone's <em>Impro</em> in
+    <a href="09-books-confidence-and-self-command.html">file 09</a> for how status actually works, and
+    <a href="05-reading-the-room.html">file 05</a> for the version that does not require you to be
+    unpleasant.</li>
+
+    <li><strong>Any book whose entire thesis fits in its title.</strong> <em>Grit</em>, <em>Deep
+    Work</em>, <em>Essentialism</em>, <em>The One Thing</em> — the ideas are real and each is one good
+    essay. If a colleague can tell you the thesis in a sentence and nothing is lost, that was the
+    book.</li>
+
+    <li><strong>Rich Dad Poor Dad</strong> — the specific financial claims range from unverifiable to
+    actively bad, and the central biography has never been substantiated. <em>Instead:</em>
+    <a href="../../master-yourself/phase-10-wealth-success/01-financial-literacy-and-investing.md">master-yourself/phase-10, file 01</a>.</li>
+
+    <li><strong>The Secret</strong>, and the manifestation shelf generally — the central claim is
+    false, and the corollary that people attract their own misfortune is harmful. <em>Instead:</em>
+    <a href="../../master-yourself/phase-5-manifestation-mindset/03-placebo-and-expectation-effects.md">master-yourself/phase-5, file 03</a>,
+    which covers what expectation effects genuinely do and do not do.</li>
+  </ul>
+</div>
+
+<div class="note">
+  <span class="tag">A note on the replication crisis, since it comes up three times above</span>
+  <p>A large number of famous psychology findings from roughly 1995 to 2012 have failed to replicate in
+  larger, pre-registered studies. The hardest-hit areas are <strong>social priming</strong> (unnoticed
+  cues changing behaviour), <strong>ego depletion</strong> (willpower as a finite fuel), and
+  <strong>power posing</strong> (postures changing hormones) — which matters because all three are
+  popular in exactly this genre.</p>
+  <p>What has held up well: the heuristics and biases programme, prospect theory and framing, loss
+  aversion, and the basic structure of social judgement. Where a claim in this library rests on shaky
+  ground, the entry says so. If a book you are reading rests its argument on one striking study,
+  treat that as a hypothesis.</p>
+</div>
+
+<header class="mod" id="t2">
+  <span class="mn">Reference</span>
+  <h2>What next</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">The ten, in one card</div>
+<pre><code>● GREEN — worth reading fully
+  THINKING IN BETS     Duke. Short, operational, and
+                       "resulting" alone earns it.
+  THE PYRAMID PRINCIPLE Minto. But read file 03 first —
+                       it is the worked version.
+
+● AMBER — extract only, or the named part
+  THINKING, FAST AND SLOW   Part I + the outside view.
+                            ⚠ priming chapters shaky.
+  POOR CHARLIE'S ALMANACK   one talk: "The Psychology of
+                            Human Misjudgment", ~40 pages
+  TALEB                     the extract. Fooled by
+                            Randomness is the best-argued
+  SOURCES OF POWER          chapters 1–3; rest is cases
+  PEAK                      the six-part definition +
+                            mental representations
+  RANGE                     kind vs wicked + desirable
+                            difficulties
+  SUPER THINKING            index only, on a live problem
+
+● RED — skip
+  THE ART OF THINKING CLEARLY  keep as a checklist, do
+                               not read it
+
+⭐ THE FOUR IDEAS FROM THIS FILE THAT DO THE MOST WORK
+  ① THE OUTSIDE VIEW — what happened to similar things,
+    not what your plan says
+  ② RESULTING — outcome = decision quality + luck, and
+    the dumb-luck cell teaches you the wrong lesson
+  ③ KIND OR WICKED — how much should I trust my gut here
+  ④ "HOW IS THIS PERSON PAID?" — incentive-caused bias
+    is more common than dishonesty and harder to see
+
+⚠ AND SAY ONE OF THEM OUT LOUD TODAY, OR YOU WILL HAVE
+  READ THIS FILE AND KEPT NOTHING (file 06 §01).</code></pre>
+</div>
+
+<p><strong>File 08</strong> does the same for eleven books on people and influence — Voss, Cialdini,
+<em>Difficult Conversations</em>, <em>Getting to Yes</em>, Carnegie, Goleman and the rest — and it has
+more green verdicts than this one, because the books in that field tend to be shorter and more
+operational. <strong>File 09</strong> covers confidence and self-command, and ends with the master
+verdict table for all thirty-two.</p>
+
+<div class="disclaimer">
+  <p><strong>On these extractions.</strong> Each entry is a compression of the book's argument in this
+  library's own words, not a substitute for the author's reasoning or a quotation of it beyond the short
+  lines marked as such. Where a book's evidence is contested — priming in Kahneman, the talent argument
+  in Ericsson, the case-selection method in Epstein — the entry says so rather than passing the claim
+  along. Verdicts are judgements about usefulness per hour of your attention, not about quality; a book
+  can be excellent and still be an amber, and two of the ambers here are better books than one of the
+  greens.</p>
+</div>
+
+<div class="band" style="margin-top:34px;">
+<a class="vol" href="index.html"><span class="vn">Back to</span><b>Sharp Mind index</b><em>All ten handbooks</em></a>
+<a class="vol" href="06-having-something-to-say.html"><span class="vn">Previous · 06</span><b>Having Something to Say</b><em>Knowledge you can use</em></a>
+<a class="vol" href="08-books-people-and-influence.html"><span class="vn">Next · 08</span><b>Books · People</b><em>Eleven books, extracted</em></a>
+</div>
+
+</main>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var map = {}, targets = [];
+  links.forEach(function (a) {
+    var h = a.getAttribute('href');
+    if (!h || h.charAt(0) !== '#') return;
+    var el = document.getElementById(h.slice(1));
+    if (el) { map[el.id] = a; targets.push(el); }
+  });
+  var current = null;
+  function mark(id) {
+    if (id === current) return;
+    current = id;
+    links.forEach(function (a) { a.classList.remove('on'); });
+    if (map[id]) map[id].classList.add('on');
+  }
+  var io = new IntersectionObserver(function (entries) {
+    var vis = entries.filter(function (e) { return e.isIntersecting; });
+    if (vis.length) {
+      vis.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+      mark(vis[0].target.id);
+    }
+  }, { rootMargin: '-8% 0px -72% 0px', threshold: 0 });
+  targets.forEach(function (t) { io.observe(t); });
+})();
+
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

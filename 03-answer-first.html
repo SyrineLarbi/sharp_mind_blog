@@ -1,0 +1,1239 @@
+<title>Answer First</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F1;
+  --ground-2: #FCFBFA;
+  --panel:    #EAE9E6;
+  --panel-2:  #E0DEDA;
+
+  --ink:   #16181B;
+  --ink-2: #3D4048;
+  --ink-3: #71757E;
+
+  --rule:   #D5D3CF;
+  --rule-2: #E4E2DE;
+
+  --accent:      #2D4E8C;
+  --accent-soft: #E6EAF3;
+  --accent-deep: #1B3560;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #2D4E8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #111215;
+    --ground-2: #181A1E;
+    --panel:    #202329;
+    --panel-2:  #292C33;
+
+    --ink:   #EAEAE8;
+    --ink-2: #BEC1C7;
+    --ink-3: #858992;
+
+    --rule:   #32353C;
+    --rule-2: #292C33;
+
+    --accent:      #8FAEE8;
+    --accent-soft: #151C2A;
+    --accent-deep: #B0C6F0;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #8FAEE8;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #111215;
+  --ground-2: #181A1E;
+  --panel:    #202329;
+  --panel-2:  #292C33;
+
+  --ink:   #EAEAE8;
+  --ink-2: #BEC1C7;
+  --ink-3: #858992;
+
+  --rule:   #32353C;
+  --rule-2: #292C33;
+
+  --accent:      #8FAEE8;
+  --accent-soft: #151C2A;
+  --accent-deep: #B0C6F0;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #8FAEE8;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #2D4E8C;
+  --accent-soft: #ECEBE9;
+  --accent-deep: #1B3560;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: grid; grid-template-columns: 252px minmax(0, 1fr); max-width: none; margin: 0; }
+.rail {
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+.rail-title { font-family: var(--display); font-weight: 700; font-size: 15.4px; margin: 0 0 2px; }
+.rail-sub { color: var(--ink-3); font-size: 10.8px; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 6px; }
+.rail-vol { display: inline-block; font-size: 10.3px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 1px 5px; border-radius: 2px; margin-bottom: 16px; }
+.rail-group { color: var(--ink-3); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin: 16px 0 5px; padding-bottom: 4px; border-bottom: 1px solid var(--rule-2); }
+.rail a { display: block; color: var(--ink-2); text-decoration: none; padding: 3px 6px 3px 8px; border-left: 2px solid transparent; margin-left: -2px; }
+.rail a:hover { color: var(--ink); background: var(--panel); }
+.rail a.on { color: var(--accent); border-left-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+.rail a .n { color: var(--ink-3); margin-right: 5px; }
+.rail a.on .n { color: var(--accent); }
+
+.doc { padding: 38px 56px 100px; max-width: none; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--rule); padding: 18px 20px 22px; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + path band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 16.5px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+.rail, .tw, pre, .ascii, .doc { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+.rail::-webkit-scrollbar, .rail::-webkit-scrollbar-track { background: var(--ground); }
+.rail::-webkit-scrollbar-thumb { border-color: var(--ground); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<nav class="rail" aria-label="Contents">
+  <p class="rail-title">Answer First</p>
+  <p class="rail-sub">Structuring what you say</p>
+  <span class="rail-vol">Sharp Mind · 03 of 10</span>
+  <a href="#open"><span class="n">—</span>Open</a>
+
+  <div class="rail-group">I · The principle</div>
+  <a href="#p1"><span class="n">01</span>Why suspense fails</a>
+  <a href="#p2"><span class="n">02</span>The pyramid</a>
+  <a href="#p3"><span class="n">03</span>Grouping that holds</a>
+  <a href="#p4"><span class="n">04</span>SCQA — earning attention</a>
+
+  <div class="rail-group">II · Speaking</div>
+  <a href="#s1"><span class="n">05</span>The "two things" opener</a>
+  <a href="#s2"><span class="n">06</span>30 seconds · 3 min · 30 min</a>
+  <a href="#s3"><span class="n">07</span>Signposting</a>
+  <a href="#s4"><span class="n">08</span>Surviving interruption</a>
+
+  <div class="rail-group">III · Writing</div>
+  <a href="#w1"><span class="n">09</span>Email, Slack, one-pager</a>
+  <a href="#w2"><span class="n">10</span>Twelve rewrites</a>
+  <a href="#w3"><span class="n">11</span>The drills</a>
+
+  <div class="rail-group">Reference</div>
+  <a href="#t1"><span class="n">—</span>Term bank</a>
+  <a href="#t2"><span class="n">—</span>What next</a>
+</nav>
+
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind 03 · the delivery</p>
+  <h1>Answer first. <span class="thin">Sounding organised is a structure, not a talent.</span></h1>
+  <p class="lede">Most people tell you how they got there and then what they concluded. That order is
+  natural, generous, and wrong — it spends your listener's attention on the journey and delivers the
+  destination after they have stopped paying for it. Reverse it and two things happen at once: you
+  become markedly easier to follow, and you become able to think while you speak, because the shape
+  came out of your mouth before the content did.</p>
+  <div class="hero-meta">
+    <span><b>Assumes</b> · files 01 and 02</span>
+    <span><b>Covers</b> · 11 sections, 3 parts</span>
+    <span><b>Contains</b> · 12 full rewrites</span>
+    <span><b>Based on</b> · Minto's pyramid</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="02-the-question-bank.html"><span class="vn">Previous · 02</span><b>The Question Bank</b><em>Asking what nobody asks</em></a>
+<div class="vol here"><span class="vn">You are here · 03</span><b>Answer First</b><em>Structuring what you say</em></div>
+<a class="vol" href="04-presence-and-status.html"><span class="vn">Next · 04</span><b>Presence and Status</b><em>Being believed</em></a>
+</div>
+
+<div class="proj">
+  <span class="tag">Why this handbook is worth the most per page</span>
+  <p>File 01 gave you the fifteen-second emergency skeleton — position, reason, qualifier, handback.
+  This handbook is that skeleton scaled up until it works for a Slack message, a written recommendation,
+  a thirty-minute case interview and a board update, all from one underlying shape.</p>
+  <p>It is also the handbook with the fastest visible payoff. The techniques in 01 change what happens
+  in your head, and nobody can see that. This one changes the first sentence out of your mouth, and
+  everybody can.</p>
+</div>
+
+<header class="part" id="principle">
+  <span class="pn">Part I · The principle</span>
+  <h2>Why the answer goes first</h2>
+  <p class="lede">Four sections on the underlying structure. It comes from Barbara Minto, who built it
+  at McKinsey in the 1960s and wrote it up as <em>The Pyramid Principle</em> — the full extraction of
+  that book is in <a href="07-books-thinking-and-judgment.html">file 07</a>.</p>
+</header>
+
+<header class="mod" id="p1">
+  <span class="mn">Answer First 01</span>
+  <h2>Why suspense fails in professional communication</h2>
+</header>
+
+<p>Here is how almost everyone answers a question they have thought about carefully:</p>
+
+<div class="bad">
+  <span class="tag">The natural order — and why it costs you</span>
+  <p><em>"So I looked at the last three months of returns data, and I also spoke to the warehouse team,
+  and there were a few things going on — some of it was the packaging change, some of it was that one
+  courier, and I compared it against last year as well, which was complicated because the volumes were
+  different, and... so I think we should probably switch couriers."</em></p>
+</div>
+
+<p>Every word of that is true and the conclusion is sound. It still fails, for a mechanical reason: by
+the time the recommendation arrives, the listener has spent forty seconds holding unlabelled fragments
+in working memory with no idea what they are for. They cannot file anything, because they do not yet
+know what the file is called.</p>
+
+<p>This is the same working-memory constraint from <a href="01-thinking-fast.html">file 01, §02</a>,
+seen from the other side. There you were the one holding four chunks. Here you are the one
+<em>handing</em> someone four chunks — and if you hand them over without a label, they fall on the
+floor.</p>
+
+<div class="ascii">THE SAME CONTENT, TWO ORDERS
+
+  SUSPENSE ORDER                    ANSWER-FIRST ORDER
+  ──────────────                    ──────────────────
+  evidence ─┐                       CONCLUSION ─┐
+  evidence ─┤ ← listener holds       │           │ ← listener now has
+  evidence ─┤   all of this with     │           │   a container. Every
+  evidence ─┘   no container         │           │   fact that follows
+       │                             ▼           ▼   goes straight into it
+       ▼                            evidence
+  CONCLUSION                        evidence
+       │                            evidence
+       ▼                                 │
+  listener re-runs the                   ▼
+  whole thing to see if              listener is evaluating
+  it supported the point             AS THEY GO
+  (they will not bother)
+
+  ⇒ SAME WORDS. THE SECOND ONE IS UNDERSTOOD, THE FIRST
+    ONE IS ENDURED.</div>
+
+<p>There is a second reason, and in practice it is the more important one: <strong>you will be
+interrupted.</strong> Meetings run over, someone has a hard stop, your manager gets a message. If your
+conclusion is at the end, an interruption at minute two means it was never said at all. If your
+conclusion was first, an interruption at minute two means they got the whole point and missed some
+supporting detail. Section 08 is entirely about this.</p>
+
+<div class="warn">
+  <span class="tag">The one exception</span>
+  <p>Suspense is right when the conclusion will be <em>rejected on sight</em> and the reasoning is what
+  earns it a hearing — some bad news, some genuinely unpopular recommendations. Even then the fix is
+  not full suspense; it is the SCQA opening in section 04, which builds the case in three sentences and
+  then still delivers the answer early. Full suspense is almost never correct in working life, and
+  people reach for it far more often than the exception justifies.</p>
+</div>
+
+<header class="mod" id="p2">
+  <span class="mn">Answer First 02</span>
+  <h2>The pyramid</h2>
+</header>
+
+<p>Minto's structure is one idea, applied recursively. Every communication is a pyramid: a single
+governing statement at the top, supported by a small group of statements beneath it, each of which may
+itself be supported by a group beneath <em>it</em>.</p>
+
+<div class="ascii">THE PYRAMID
+
+                  ┌──────────────────────────┐
+                  │   THE ANSWER — one       │
+                  │   sentence, said first   │
+                  └────────────┬─────────────┘
+                    ┌──────────┼──────────┐
+                    ▼          ▼          ▼
+              ┌─────────┐ ┌─────────┐ ┌─────────┐
+              │ reason  │ │ reason  │ │ reason  │
+              │    1    │ │    2    │ │    3    │
+              └────┬────┘ └────┬────┘ └────┬────┘
+                   │           │           │
+              ┌────┴───┐  ┌────┴───┐  ┌────┴───┐
+              ▼        ▼  ▼        ▼  ▼        ▼
+            fact     fact  fact  fact  fact   fact
+
+  THREE RULES THAT MAKE IT WORK
+
+  ① EVERY BOX SUMMARISES THE BOXES BELOW IT
+     If the three reasons do not add up to the answer,
+     the answer is wrong or a reason is missing.
+
+  ② BOXES IN A GROUP ARE THE SAME KIND OF THING
+     Three reasons, or three steps, or three options.
+     Never two reasons and a step — that is the most
+     common structural error people make.
+
+  ③ A GROUP HAS A LOGICAL ORDER
+     by importance · by time · by structure.
+     Never "the order I thought of them in".</div>
+
+<p>You do not need to draw a pyramid to use it. In speech it collapses to something very simple:
+<strong>say the top box, say how many boxes are underneath, then say them.</strong> That is the whole
+technique, and it is section 05.</p>
+
+<h3>Finding the top box</h3>
+
+<p>The hard part is not the structure. It is that most people do not know what their own top box is —
+they have five things to say and no view about which one governs. The test is a single question:</p>
+
+<div class="good">
+  <span class="tag">The top-box test</span>
+  <p><strong>"If they only hear one sentence, which one do I want it to be?"</strong></p>
+  <p>Not the most interesting sentence. Not the most defensible. The one that, on its own, would change
+  what they do. If you cannot answer this, you are not ready to speak yet — and the honest move is one
+  of the stalls from <a href="01-thinking-fast.html">file 01, §09</a> rather than starting to talk and
+  hoping the point arrives.</p>
+</div>
+
+<header class="mod" id="p3">
+  <span class="mn">Answer First 03</span>
+  <h2>Grouping that holds — MECE without the jargon</h2>
+</header>
+
+<p>The supports under your answer have to be a proper group. Consultants call the standard
+<strong>MECE</strong> — mutually exclusive, collectively exhaustive — which is off-putting jargon for
+two ordinary requirements.</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:26%">The requirement</th><th style="width:30%">In plain words</th><th>What it fails like</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Mutually exclusive</strong></td>
+      <td>The items do not overlap. Nothing is counted twice.</td>
+      <td><em>"Three reasons: cost, budget, and the price."</em> The listener senses padding even if they cannot name why, and the argument feels thinner than it is.</td>
+    </tr>
+    <tr>
+      <td><strong>Collectively exhaustive</strong></td>
+      <td>Together they cover the ground you claimed to cover.</td>
+      <td><em>"There are two ways to fix this"</em> — when there are four. Someone names the third, and your whole structure looks careless.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<p>In practice you rarely need perfect exhaustiveness. What you need is to <strong>not claim more than
+you have covered</strong>. The fix is a single word:</p>
+
+<div class="sheet">
+  <div class="cap">Hedging the claim, not the content</div>
+<pre><code>❌ "There are three reasons."
+   → invites: "what about X?" and now you are on the back foot
+
+✓  "There are three main reasons."
+✓  "The three that matter most are —"
+✓  "There are a few; the two big ones are —"
+
+⇒ ONE WORD ("main", "biggest", "that matter") CONVERTS AN
+  EXHAUSTIVE CLAIM INTO A PRIORITISED ONE. You keep the
+  structure and drop the exposure.
+
+⚠ NOTE THE DIFFERENCE FROM HEDGING YOUR CONTENT.
+  "I think maybe there are possibly three reasons" weakens
+  the ANSWER — that is the hedging file 04 tells you to cut.
+  "The three main reasons" bounds the CLAIM. Bounding a claim
+  is precision. Hedging a position is weakness. They look
+  similar on paper and land in completely opposite ways.</code></pre>
+</div>
+
+<h3>How many boxes</h3>
+
+<p>Two or three. Occasionally four. Never seven.</p>
+
+<p>This is not a stylistic preference — it is the working-memory limit again. Your listener can hold
+about four chunks (<a href="01-thinking-fast.html">file 01, §02</a>). Give them three reasons and they
+retain the structure. Give them seven and they retain a general impression that you had a lot of
+reasons, which is a strictly worse outcome than having given three.</p>
+
+<p>And as file 01 §07 noted from the other direction: a long list is judged near its weakest member,
+because the weakest is the one that gets attacked.</p>
+
+<header class="mod" id="p4">
+  <span class="mn">Answer First 04</span>
+  <h2>SCQA — the four sentences that earn attention first</h2>
+</header>
+
+<p>Answer-first has one real weakness: dropped cold, a conclusion can land on someone who is not yet
+holding the problem it solves. <em>"We should switch couriers"</em> said to someone who did not know
+there was a courier issue produces confusion, not clarity.</p>
+
+<p>Minto's fix is a four-part opening that builds the question in the listener's head so that your
+answer arrives as a resolution rather than an announcement. It takes about twenty seconds.</p>
+
+<div class="sheet">
+  <div class="cap">SCQA · situation · complication · question · answer</div>
+<pre><code>① SITUATION     something they already agree with
+                "We've been with the same courier for four years."
+                ⇒ must be uncontroversial. This is not information,
+                  it is common ground. If they nod, it worked.
+
+② COMPLICATION  what changed, or what is now wrong
+                "Since the March packaging change, our damage
+                 rate on their route has tripled."
+                ⇒ this is where the tension enters. One sentence.
+
+③ QUESTION      the question now live in their head
+                "So: do we fix it with them, or move?"
+                ⇒ often left implicit in speech. Say it out loud
+                  when the room is distracted or the stakes are
+                  high — it forces everyone onto the same question.
+
+④ ANSWER        your position — and now it lands
+                "I think we move, and I'd start the tender
+                 this month."
+
+⭐ THE WHOLE THING IS FOUR SENTENCES AND ABOUT 20 SECONDS.
+  Then the pyramid: "Two reasons —" and you are away.
+
+⇒ WHY IT WORKS: you have manufactured the question that your
+  answer answers. An answer to a question the listener is
+  actually holding is heard completely differently from an
+  answer to nothing.
+
+WHEN TO USE IT
+  ✓ writing to someone senior who lacks your context
+  ✓ opening a meeting you called
+  ✓ a recommendation that will be resisted
+  ✗ a quick verbal answer — too slow, use the skeleton
+    from file 01 §07 instead</code></pre>
+</div>
+
+<div class="warn">
+  <span class="tag">The most common SCQA mistake</span>
+  <p>Putting real information in the Situation. The Situation must be something the listener already
+  knows and would nod at — its entire job is to establish shared ground so the Complication has
+  something to disrupt. If your Situation contains news, the Complication has nothing to push against
+  and the structure collapses into an ordinary list of facts.</p>
+</div>
+
+<header class="part" id="speaking">
+  <span class="pn">Part II · Speaking</span>
+  <h2>Out loud, in real time</h2>
+  <p class="lede">Written structure is easy — you can revise. The skill is producing the structure live,
+  under pressure, in the two seconds after someone asks you something.</p>
+</header>
+
+<header class="mod" id="s1">
+  <span class="mn">Answer First 05</span>
+  <h2>The "two things" opener</h2>
+</header>
+
+<p>This is the single most useful verbal habit in this library, and it does two entirely different jobs
+at once.</p>
+
+<div class="sheet">
+  <div class="cap">Announcing the shape before you have the content</div>
+<pre><code>THE MOVE
+  "Two things —"        then say the first one
+  "Three quick things." then say them
+  "One thing, then a question."
+
+JOB ONE · IT MAKES YOU EASY TO FOLLOW
+  The listener now has a container and a length. They know
+  when you will be finished, which means they stop half-
+  listening for an exit and start actually listening.
+
+JOB TWO · IT BUYS YOU THE FIRST ITEM'S WORTH OF THINKING
+  ⭐ THIS IS THE PART NOBODY NOTICES.
+  You commit to "two things" while knowing only the first.
+  Saying "Two things —" takes about a second, and saying the
+  first one takes eight more. That is nine seconds in which
+  to find the second, while sounding completely composed.
+
+  It works because you are not stalling — you are structuring.
+  Nobody can tell the difference from outside, including
+  people who use the technique themselves.
+
+⚠ THE ONE RULE: COMMIT TO A NUMBER YOU CAN LAND.
+  Say "two" and produce one, and the trick reverses on you —
+  everyone is waiting for a second thing that never comes.
+  When genuinely unsure, "a couple of things" or "two, maybe
+  three" is honest and buys the same time.
+
+⚠ AND DO NOT SAY "TWO THINGS" AND THEN SAY FIVE. That is
+  worse than no structure at all, because you promised one
+  and delivered another.</code></pre>
+</div>
+
+<div class="good">
+  <span class="tag">Variants worth having</span>
+  <ul>
+    <li><em>"Short answer, then the caveat —"</em> (perfect when the honest answer needs a boundary)</li>
+    <li><em>"I'll give you the headline and you can pull on whichever bit you want."</em> (excellent upwards; it hands them control of the depth)</li>
+    <li><em>"There's a version of this that's thirty seconds and a version that's ten minutes — which do you want?"</em> (the scope check from file 01 §09, doing double duty as structure)</li>
+    <li><em>"One thing, then a question for you."</em> (guarantees you end on a handback rather than trailing off)</li>
+  </ul>
+</div>
+
+<header class="mod" id="s2">
+  <span class="mn">Answer First 06</span>
+  <h2>Thirty seconds, three minutes, thirty minutes</h2>
+</header>
+
+<p>Anything worth being able to say, you should be able to say at three lengths. Not three different
+speeches — <strong>the same pyramid, cut at three depths.</strong> That is the point of the structure:
+each level down is more detail on the same skeleton, so the versions cannot contradict each other and
+you never have to prepare them separately.</p>
+
+<div class="sheet">
+  <div class="cap">One pyramid, three cuts — worked all the way through</div>
+<pre><code>THE 30-SECOND VERSION — top box + the reason count
+────────────────────────────────────────────────────
+  "I think we should switch couriers, mainly because the
+   damage rate on their main route has tripled since March
+   and they've missed two remediation dates. I'd start the
+   tender this month."
+
+  ⇒ answer · one reason · next action. This is the version
+    you give in a corridor, in a lift, or when someone asks
+    "what's the headline?"
+
+THE 3-MINUTE VERSION — top box + all reasons + one fact each
+─────────────────────────────────────────────────────────────
+  "I think we should switch couriers. Two reasons.
+
+   First, the damage rate. It went from 1.1% to 3.4% after
+   the March packaging change and it hasn't come back down —
+   that's about 60k a quarter at current volume.
+
+   Second, the response. We raised it in April, they
+   committed to a fix by June, and we're now on the second
+   missed date with no root cause.
+
+   The main argument against is switching cost, which I'd
+   put at one quarter of the saving — so it pays back fast.
+
+   I'd start the tender this month. Do you want to see the
+   damage numbers before I do?"
+
+  ⇒ answer · two reasons · a number in each · the strongest
+    counter-argument handled · a next step · a handback.
+    This is the default. Most things are three minutes.
+
+THE 30-MINUTE VERSION — the same shape, one level deeper
+────────────────────────────────────────────────────────
+  same top box · same two reasons · but now each reason gets
+  its own supporting group: the data by route and month, what
+  the warehouse team observed, the contract terms, the tender
+  timeline, the migration risk, the two alternatives
+  considered and why they lost.
+
+  ⇒ NOTHING NEW IS INTRODUCED AT THE TOP. If the 30-minute
+    version has a different conclusion from the 30-second
+    version, you did not have a pyramid — you had a pile.
+
+⭐ THE TEST THAT MATTERS
+  Can you cut it at any of the three lengths WITHOUT
+  REWRITING? If yes, it is structured. If the short version
+  needs different words rather than fewer words, it is not.</code></pre>
+</div>
+
+<div class="proj">
+  <span class="tag">Prepare the 30-second version, always</span>
+  <p>Whatever you are walking into, know your thirty-second version cold. It is what you will actually
+  be asked for — <em>"give me the short version"</em> is the most common request in professional life —
+  and it is the one people are least ready for, because preparation instinctively goes into the long
+  version. The three-minute and thirty-minute versions can be improvised from a well-built pyramid. The
+  thirty-second version really cannot; it has to be cut in advance.</p>
+</div>
+
+<header class="mod" id="s3">
+  <span class="mn">Answer First 07</span>
+  <h2>Signposting — saying where you are</h2>
+</header>
+
+<p>In writing, structure is visible: headings, paragraphs, white space. In speech it is invisible
+unless you say it. Signposting is speaking the punctuation out loud.</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:23%">Signpost</th><th style="width:34%">Say</th><th>What it does</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Opening the count</strong></td><td><em>"Two things —"</em></td><td>Sets the container and the length</td></tr>
+    <tr><td><strong>Moving between items</strong></td><td><em>"That's the first. Second —"</em></td><td>Tells them one box closed and another opened. Prevents everything blurring into one long paragraph</td></tr>
+    <tr><td><strong>Changing level</strong></td><td><em>"One level down on that —"</em> · <em>"Stepping back —"</em></td><td>Signals you are moving down or up the pyramid rather than sideways. Very strong; almost nobody does it</td></tr>
+    <tr><td><strong>Flagging the caveat</strong></td><td><em>"The honest caveat is —"</em></td><td>Marks the boundary of what you know as deliberate rather than as a wobble</td></tr>
+    <tr><td><strong>Landing</strong></td><td><em>"So, net: —"</em> · <em>"Bottom line —"</em></td><td>Tells them the conclusion is arriving, which pulls attention back for the sentence that matters most</td></tr>
+    <tr><td><strong>Closing</strong></td><td><em>"That's it from me. What's your read?"</em></td><td>Ends deliberately instead of trailing off. Trailing off undoes a good answer — see <a href="04-presence-and-status.html">file 04</a></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="good">
+  <span class="tag">The highest-value signpost</span>
+  <p><strong>"Stepping back —"</strong> is the one that changes how you are perceived. It signals that
+  you know which altitude you are at and that you are choosing to change it. It is also genuinely useful
+  when a conversation has descended into detail and someone needs to lift it — and the person who lifts
+  it is remembered as the one who could see the whole thing.</p>
+</div>
+
+<header class="mod" id="s4">
+  <span class="mn">Answer First 08</span>
+  <h2>Surviving interruption</h2>
+</header>
+
+<p>Answer-first is not primarily a clarity technique. It is a <strong>robustness</strong> technique. Its
+real value shows up when things go wrong — when you are cut off, when the meeting overruns, when
+someone's attention leaves halfway through.</p>
+
+<div class="ascii">WHAT AN INTERRUPTION AT 40 SECONDS COSTS YOU
+
+  SUSPENSE ORDER                  ANSWER-FIRST ORDER
+  ──────────────                  ──────────────────
+  0:00 context                    0:00 ⭐ THE ANSWER
+  0:20 evidence                   0:10 reason one
+  0:40 evidence                   0:30 reason two
+       ✂ INTERRUPTED                   ✂ INTERRUPTED
+  1:10 evidence                   0:50 the caveat
+  1:30 THE ANSWER                 1:10 next step
+       (never said)
+
+  THEY LEAVE WITH:                THEY LEAVE WITH:
+  some facts, no point            the point, most of the
+  → and a vague sense that        support, and a clear
+    you did not get to it         sense you were on top
+                                  of it
+
+  ⇒ THE STRUCTURE IS INSURANCE. You pay a small cost in
+    naturalness for a large reduction in variance.</div>
+
+<h3>Three recoveries</h3>
+
+<div class="grid2">
+  <div class="card">
+    <h4>When you are cut off mid-item</h4>
+    <p>Do not restart. Land the current box and stop: <em>"— just to close that one: it's about 60k a
+    quarter. Happy to come back to the second point whenever."</em> You have finished a unit rather than
+    abandoning a fragment, which reads as control rather than being steamrolled.</p>
+  </div>
+  <div class="card">
+    <h4>When time is called early</h4>
+    <p><em>"Then let me give you the one-line version: I'd switch couriers, and I need a decision by
+    Friday to hit the tender window."</em> You always have the thirty-second cut available — that is
+    what section 06 was for.</p>
+  </div>
+  <div class="card">
+    <h4>When the room goes off on item one</h4>
+    <p>Let it. Then reclaim: <em>"Before we move on — there was a second thing, and it's the shorter
+    one."</em> Because you announced two, the second one is <em>owed</em> to you. That is the quiet
+    structural benefit of the count: it reserves your slot.</p>
+  </div>
+  <div class="card">
+    <h4>When you realise mid-sentence you were wrong</h4>
+    <p>Say so and re-top: <em>"Actually — scrap that, I think the real answer is X."</em> Delivered
+    flatly, this reads as thinking rather than floundering. Delivered apologetically it reads as
+    collapse. Which is <a href="04-presence-and-status.html">file 04</a>'s subject.</p>
+  </div>
+</div>
+
+<header class="part" id="writing">
+  <span class="pn">Part III · Writing</span>
+  <h2>On the page</h2>
+  <p class="lede">The same pyramid, where you get to revise — which means there is no excuse. Written
+  communication is also where the habit is easiest to build, because you can see the structure fail.</p>
+</header>
+
+<header class="mod" id="w1">
+  <span class="mn">Answer First 09</span>
+  <h2>Email, Slack, and the one-pager</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">Three formats, one shape</div>
+<pre><code>EMAIL — the answer is the subject line
+──────────────────────────────────────
+  Subject: Recommend switching couriers — need a decision
+           by Fri
+
+  Hi ___,
+
+  Short version: I think we should move couriers, and I
+  need a yes/no by Friday to hit the tender window.
+
+  Two reasons:
+  · Damage rate tripled after March (1.1% → 3.4%), ~60k
+    a quarter at current volume.
+  · Two missed remediation dates, no root cause given.
+
+  Switching cost is roughly one quarter of the saving.
+
+  Happy to send the full analysis — say the word.
+  ___
+
+  ⭐ THE SUBJECT LINE CARRIES THE ANSWER AND THE ASK.
+    Most people write "Courier update" and bury the request
+    in paragraph four. The subject line is the top of the
+    pyramid, and it is the only part guaranteed to be read.
+
+SLACK — one message, answer first, detail in the thread
+────────────────────────────────────────────────────────
+  ✗ "hey — quick q"
+    [30 seconds of typing indicator]
+    "so I was looking at the courier data..."
+
+  ✓ "Recommend we switch couriers — need a call by Fri.
+     Damage rate tripled since March (~60k/qtr) and they've
+     missed two fix dates. Detail in thread 🧵"
+
+  ⇒ ONE MESSAGE. NEVER SPLIT A THOUGHT ACROSS FIVE PINGS —
+    each one interrupts them again, and the answer arrives
+    in the one they read last.
+
+ONE-PAGER — headings ARE the pyramid
+─────────────────────────────────────
+  TITLE       the recommendation, as a sentence, not a topic
+              ✓ "Switch couriers before the Q3 peak"
+              ✗ "Courier review"
+  ¶1          the answer and the ask, four lines
+  HEADING 1   reason one — as an assertion, not a label
+              ✓ "Damage has tripled and has not recovered"
+              ✗ "Damage analysis"
+  HEADING 2   reason two — same rule
+  HEADING 3   "What we'd give up" — the counter-case, owned
+  LAST ¶      the decision needed, from whom, by when
+
+  ⭐ THE HEADING RULE IS THE WHOLE TECHNIQUE:
+    IF SOMEONE READS ONLY YOUR HEADINGS, THEY SHOULD GET
+    YOUR ARGUMENT. Headings that are topics ("Background",
+    "Analysis", "Next steps") tell the reader nothing and
+    waste the one thing they will definitely look at.</code></pre>
+</div>
+
+<div class="good">
+  <span class="tag">The heading test, applied to anything you write</span>
+  <p>Read only your headings, top to bottom. Do they form an argument? If they form a table of contents
+  instead, rewrite each one as a claim. This single edit is the difference between a document that gets
+  skimmed and dismissed and one that gets skimmed and <em>acted on</em> — and skimming is what actually
+  happens to your documents, whatever you would prefer.</p>
+</div>
+
+<header class="mod" id="w2">
+  <span class="mn">Answer First 10</span>
+  <h2>Twelve rewrites</h2>
+</header>
+
+<p>Structure is learned by rewriting, not by reading about it. Here are twelve real shapes, before and
+after. Read the before, cover the after, write your own, then compare.</p>
+
+<div class="sheet">
+  <div class="cap">Rewrites 1–4 · the status update</div>
+<pre><code>① ✗ "Just wanted to give you an update on where we are with
+     the integration — we've had a few blockers this week
+     and the team's been working through them, and there's
+     been some back and forth with the vendor..."
+  ✓ "Integration slips a week. The vendor's auth change
+     landed late; we've absorbed three days of it and I
+     can't absorb the rest. New date is the 22nd."
+
+② ✗ "I don't know if this is a problem or not but I noticed
+     something in the numbers that seemed a bit off?"
+  ✓ "I think we have a data problem. Returns and refunds
+     disagree by about 8% for October. Worth an hour to
+     find out which is right before the board pack."
+
+③ ✗ "Everything's on track!"
+  ✓ "On track for the 22nd. The one thing I'm watching is
+     the vendor's auth change — if that slips again we lose
+     the date, and I'd know by Thursday."
+     ⇒ "on track" tells your manager nothing and costs you
+       credibility later. Naming the one risk is what a
+       trustworthy update looks like.
+
+④ ✗ "Sorry for the delay in getting back to you! I've been
+     meaning to look at this but things have been busy..."
+  ✓ "I haven't got to this yet — it's behind the migration.
+     I can have it Thursday, or I can drop the migration
+     for a day. Which do you want?"
+     ⇒ no apology, a date, and a trade-off they can decide.</code></pre>
+</div>
+
+<div class="sheet">
+  <div class="cap">Rewrites 5–8 · the recommendation</div>
+<pre><code>⑤ ✗ "There are lots of options here and they all have
+     pros and cons, so I've laid them out for you."
+  ✓ "I'd go with option B. Two reasons — it's reversible,
+     and it doesn't need Legal. A and C are in the appendix
+     if you want them."
+     ⇒ handing someone an unranked list of options is
+       handing them your job. A recommendation with the
+       alternatives attached is doing it.
+
+⑥ ✗ "I think we should probably maybe consider possibly
+     moving the deadline."
+  ✓ "I'd move the deadline two weeks. If we don't, we ship
+     without the reconciliation step, and that's the part
+     Finance actually needs."
+
+⑦ ✗ "This is going to be really difficult and expensive
+     and I'm not sure we should do it."
+  ✓ "I'd say no. It's roughly two engineer-months for a
+     feature three customers asked for. If those three are
+     strategic, tell me and I'll change my answer."
+     ⇒ a number and a named condition under which you would
+       change your mind. Both raise your credibility;
+       adjectives lower it.
+
+⑧ ✗ "As discussed in our meeting last Tuesday with the
+     wider team, following on from the analysis that was
+     circulated, I wanted to follow up regarding the..."
+  ✓ "Following Tuesday: I recommend we cancel the pilot."
+     ⇒ context is not an opening. It is a subordinate clause.</code></pre>
+</div>
+
+<div class="sheet">
+  <div class="cap">Rewrites 9–12 · the hard ones</div>
+<pre><code>⑨ DELIVERING BAD NEWS
+  ✗ "So there have been a few developments and I want to
+     walk you through the timeline of what happened..."
+  ✓ "We've lost the Denver data for October. It's not
+     recoverable. Here's what it affects, and here's what
+     I need from you."
+     ⇒ people can handle bad news. What they cannot handle
+       is realising, ninety seconds in, that bad news is
+       coming and they are being eased into it. The easing
+       is what costs you their trust, not the news.
+
+⑩ SAYING NO
+  ✗ "I'd love to help but I'm quite stretched right now
+     and I've got a lot on, although maybe I could try to
+     find some time..."
+  ✓ "I can't take this on this month. If it moves to
+     November I can. Or if it's urgent, tell me what to
+     drop."
+     ⇒ a clean no with a lever. No apology, no explanation
+       of your workload, no false maybe.
+
+⑪ DISAGREEING WITH SOMEONE SENIOR
+  ✗ "That's a really interesting point and I think there's
+     a lot of merit in it, although I wonder whether
+     perhaps we might also want to consider..."
+  ✓ "I see it differently, and I might be missing context.
+     My read is that the cost lands on the warehouse team
+     rather than on us. What would have to be true for it
+     to work the way you're describing?"
+     ⇒ position stated · humility that is real rather than
+       decorative · and the question from file 02 §03 doing
+       the actual work.
+
+⑫ ADMITTING YOU DO NOT KNOW
+  ✗ "Um, that's a good question, I think it might be
+     something to do with... I'd have to check but possibly
+     it's related to..."
+  ✓ "I don't know. I'll find out and come back to you
+     Thursday morning."
+     ⇒ four seconds, and it raises your credibility rather
+       than lowering it. Why that is true, and why almost
+       nobody believes it, is file 04 §05.</code></pre>
+</div>
+
+<header class="mod" id="w3">
+  <span class="mn">Answer First 11</span>
+  <h2>The drills</h2>
+</header>
+
+<div class="grid2">
+  <div class="card">
+    <h4>1 · The top-box check · every message, all week</h4>
+    <p>Before sending anything longer than two lines, ask: is my conclusion in the first sentence? If
+    not, move it. Do this for one week and it stops being a check and becomes how you write.</p>
+  </div>
+  <div class="card">
+    <h4>2 · Subject lines as answers · daily</h4>
+    <p>Every email subject this week states a conclusion or an ask, never a topic. "Courier review"
+    becomes "Recommend switching couriers — decision needed by Fri". The fastest-feedback drill here:
+    reply rates change visibly.</p>
+  </div>
+  <div class="card">
+    <h4>3 · The thirty-second cut · before each meeting</h4>
+    <p>Write the thirty-second version of whatever you are bringing. Out loud, timed. If it runs over
+    forty seconds you have not found your top box yet.</p>
+  </div>
+  <div class="card">
+    <h4>4 · "Two things" · once a day, on purpose</h4>
+    <p>Use the opener at least once a day even when you do not need it. The goal is for it to arrive
+    automatically when you <em>do</em> — which is precisely when you will be too rattled to remember it.</p>
+  </div>
+  <div class="card">
+    <h4>5 · The heading test · on anything over a page</h4>
+    <p>Read your headings alone. Do they make the argument? Rewrite every topic-heading as a claim.</p>
+  </div>
+  <div class="card">
+    <h4>6 · Rewrite one thing you already sent · weekly</h4>
+    <p>Take one message from your sent folder and restructure it answer-first. Seeing your own words
+    improve teaches more than any example written by someone else — including the twelve above.</p>
+  </div>
+</div>
+
+<div class="good">
+  <span class="tag">The minimum viable version</span>
+  <p>Drill <strong>1</strong> and drill <strong>4</strong>. The top-box check fixes your writing, which
+  is most of how people who are not in the room form their view of you. "Two things" fixes your
+  speaking, and it is the one that also buys you thinking time — so it pays twice.</p>
+</div>
+
+<header class="mod" id="t1">
+  <span class="mn">Reference</span>
+  <h2>Term bank</h2>
+</header>
+
+<div class="terms">
+  <div class="cap">The vocabulary from this handbook</div>
+  <dl>
+    <dt>the pyramid</dt>
+    <dd>Minto's structure: one governing statement on top, supported by a small group beneath it, each of which may be supported in turn. Every box summarises the boxes below it.</dd>
+
+    <dt>the top box</dt>
+    <dd>Your single governing sentence. Found by asking: if they hear only one sentence, which one changes what they do?</dd>
+
+    <dt>answer-first</dt>
+    <dd>Conclusion before reasoning. Gives the listener a container to file evidence into, and makes your point survive an interruption.</dd>
+
+    <dt>MECE</dt>
+    <dd>Mutually exclusive, collectively exhaustive. Items in a group must not overlap and must cover what you claimed. In practice, bound the claim with one word — "the three <em>main</em> reasons".</dd>
+
+    <dt>bounding vs hedging</dt>
+    <dd>"The three main reasons" bounds a claim — precision. "I think maybe there are possibly three" hedges a position — weakness. They look similar and land opposite.</dd>
+
+    <dt>SCQA</dt>
+    <dd>Situation · complication · question · answer. Four sentences that build the question in the listener's head so your answer lands as a resolution. The Situation must contain no news.</dd>
+
+    <dt>the three cuts</dt>
+    <dd>Thirty seconds, three minutes, thirty minutes — the same pyramid at three depths. If the short version needs different words rather than fewer, it is not structured.</dd>
+
+    <dt>signposting</dt>
+    <dd>Speaking the punctuation out loud: "two things", "that's the first", "stepping back", "so, net". Structure is invisible in speech unless you say it.</dd>
+
+    <dt>the heading test</dt>
+    <dd>Read only the headings. If they form a table of contents rather than an argument, rewrite each as a claim.</dd>
+
+    <dt>reserving your slot</dt>
+    <dd>The structural side-benefit of announcing a count: having said "two things", the second is owed to you and you can reclaim it after a digression.</dd>
+  </dl>
+</div>
+
+<header class="mod" id="t2">
+  <span class="mn">Reference</span>
+  <h2>What next</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">This handbook in one card</div>
+<pre><code>⭐ ANSWER FIRST, ALWAYS
+  Without a container, evidence falls on the floor. And the
+  conclusion you saved for the end is the one that gets cut.
+
+⭐ THE PYRAMID
+  one top box · 2-3 supports · same kind of thing · logical
+  order. Every box summarises the boxes below it.
+
+⭐ FIND THE TOP BOX FIRST
+  "If they hear one sentence, which one changes what they do?"
+  Cannot answer it? Then stall (file 01 §09) — do not start
+  talking and hope the point arrives.
+
+⭐ BOUND THE CLAIM, DON'T HEDGE THE POSITION
+  "the three MAIN reasons" = precision
+  "I think maybe possibly three" = weakness
+
+⭐ SCQA WHEN THEY LACK CONTEXT
+  situation (no news in it) · complication · question · answer
+  ~20 seconds, and your answer arrives as a resolution
+
+⭐ "TWO THINGS —"
+  makes you followable AND buys nine seconds to find the
+  second one. Commit only to a number you can land.
+
+⭐ THREE CUTS OF ONE PYRAMID
+  30 sec · 3 min · 30 min — same conclusion, more depth.
+  Prepare the 30-second one; it is what you get asked for.
+
+⭐ SIGNPOST OUT LOUD
+  "that's the first" · "stepping back" · "so, net"
+  → "stepping back" is the one that changes how you're read
+
+⭐ HEADINGS ARE ASSERTIONS, NOT TOPICS
+  ✓ "Damage has tripled and has not recovered"
+  ✗ "Damage analysis"</code></pre>
+</div>
+
+<p>You can now diagnose (01), open (02) and structure (03). What none of that controls is whether the
+room <em>believes</em> you — and the same sentence, delivered two ways, gets two different receptions.
+<strong>File 04</strong> is the delivery layer: warmth and competence, the hedging audit that strips
+the apologies out of your sentences, what to do with a question you cannot answer, and how to be wrong
+in public without paying for it.</p>
+
+<div class="disclaimer">
+  <p><strong>On sourcing.</strong> The pyramid, SCQA and MECE are Barbara Minto's, developed at
+  McKinsey from 1963 and published as <em>The Pyramid Principle</em> in 1987 — the extraction is in
+  <a href="07-books-thinking-and-judgment.html">file 07</a>, and it is one of the few books in this
+  library whose verdict is <em>worth reading fully</em>. The working-memory reasoning behind the
+  two-or-three rule is the Miller/Cowan research cited in
+  <a href="01-thinking-fast.html">file 01</a>. The signposts, the three cuts and the twelve rewrites are
+  craft rather than research: widely used, field-tested, and to be judged by whether they work for you.</p>
+</div>
+
+<div class="band" style="margin-top:34px;">
+<a class="vol" href="index.html"><span class="vn">Back to</span><b>Sharp Mind index</b><em>All ten handbooks</em></a>
+<a class="vol" href="02-the-question-bank.html"><span class="vn">Previous · 02</span><b>The Question Bank</b><em>Asking what nobody asks</em></a>
+<a class="vol" href="04-presence-and-status.html"><span class="vn">Next · 04</span><b>Presence and Status</b><em>Being believed</em></a>
+</div>
+
+</main>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var map = {}, targets = [];
+  links.forEach(function (a) {
+    var h = a.getAttribute('href');
+    if (!h || h.charAt(0) !== '#') return;
+    var el = document.getElementById(h.slice(1));
+    if (el) { map[el.id] = a; targets.push(el); }
+  });
+  var current = null;
+  function mark(id) {
+    if (id === current) return;
+    current = id;
+    links.forEach(function (a) { a.classList.remove('on'); });
+    if (map[id]) map[id].classList.add('on');
+  }
+  var io = new IntersectionObserver(function (entries) {
+    var vis = entries.filter(function (e) { return e.isIntersecting; });
+    if (vis.length) {
+      vis.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+      mark(vis[0].target.id);
+    }
+  }, { rootMargin: '-8% 0px -72% 0px', threshold: 0 });
+  targets.forEach(function (t) { io.observe(t); });
+})();
+
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

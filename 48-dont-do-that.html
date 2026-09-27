@@ -1,0 +1,744 @@
+<title>Don't Do That</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">A cultured mind · Volume 48 of 54 · practical</p>
+  <h1>Don't do that. <span class="thin">The everyday dangers that are counterintuitive — and the ones people walk into calmly.</span></h1>
+  <p class="lede">Everything in this volume shares one property: the dangerous thing does not look
+  dangerous, or the instinctive response is the wrong one. That is why these particular items kill
+  ordinary, careful people. Each entry is short — the rule, why it is not obvious, and where the full
+  mechanism lives — because the value here is in having read it <em>before</em>, not in looking it up
+  after.</p>
+  <div class="hero-meta">
+    <span><b>Draws on</b> · Volumes 34, 41, 42, 44, 46, 47</span>
+    <span><b>Format</b> · the rule, and why the instinct is wrong</span>
+    <span><b>Read</b> · once, now</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="17-ancient-world.html"><span class="vn">Vol 17</span><b>Ancient world</b></a>
+<a class="vol" href="18-empires-of-faith.html"><span class="vn">Vol 18</span><b>Faith &amp; trade</b></a>
+<a class="vol" href="19-the-world-opens.html"><span class="vn">Vol 19</span><b>The world opens</b></a>
+<a class="vol" href="20-age-of-revolutions.html"><span class="vn">Vol 20</span><b>Revolutions</b></a>
+<a class="vol" href="21-the-world-at-war.html"><span class="vn">Vol 21</span><b>The world at war</b></a>
+<a class="vol" href="22-the-long-shadow.html"><span class="vn">Vol 22</span><b>The long shadow</b></a>
+<a class="vol" href="23-disasters.html"><span class="vn">Vol 23</span><b>Disasters</b></a>
+<a class="vol" href="24-discoveries.html"><span class="vn">Vol 24</span><b>Discoveries</b></a>
+<a class="vol" href="25-physics.html"><span class="vn">Vol 25</span><b>Physics</b></a>
+<a class="vol" href="26-chemistry.html"><span class="vn">Vol 26</span><b>Chemistry</b></a>
+<a class="vol" href="27-life.html"><span class="vn">Vol 27</span><b>Life</b></a>
+<a class="vol" href="28-medicine.html"><span class="vn">Vol 28</span><b>Medicine</b></a>
+<a class="vol" href="29-the-sky.html"><span class="vn">Vol 29</span><b>The sky</b></a>
+<a class="vol" href="30-the-earth.html"><span class="vn">Vol 30</span><b>The Earth</b></a>
+<a class="vol" href="31-what-to-remember.html"><span class="vn">Vol 31</span><b>What to remember</b></a>
+<a class="vol" href="32-everyday-science.html"><span class="vn">Vol 32</span><b>Everyday science</b></a>
+<a class="vol" href="33-your-body.html"><span class="vn">Vol 33</span><b>Your body</b></a>
+<a class="vol" href="34-when-things-go-wrong.html"><span class="vn">Vol 34</span><b>Emergencies</b></a>
+<a class="vol" href="35-the-mind.html"><span class="vn">Vol 35</span><b>The mind</b></a>
+<a class="vol" href="36-people.html"><span class="vn">Vol 36</span><b>People</b></a>
+<a class="vol" href="37-the-dark-side.html"><span class="vn">Vol 37</span><b>The dark side</b></a>
+<a class="vol" href="38-money.html"><span class="vn">Vol 38</span><b>Money</b></a>
+<a class="vol" href="39-chance.html"><span class="vn">Vol 39</span><b>Chance</b></a>
+<a class="vol" href="40-right-and-wrong.html"><span class="vn">Vol 40</span><b>Right &amp; wrong</b></a>
+<a class="vol" href="41-whats-in-things.html"><span class="vn">Vol 41</span><b>What's in things</b></a>
+<a class="vol" href="42-your-health.html"><span class="vn">Vol 42</span><b>Your health</b></a>
+<a class="vol" href="43-mind-and-mood.html"><span class="vn">Vol 43</span><b>Mind &amp; mood</b></a>
+<a class="vol" href="44-medicines.html"><span class="vn">Vol 44</span><b>Medicines</b></a>
+<a class="vol" href="45-the-conditions.html"><span class="vn">Vol 45</span><b>The conditions</b></a>
+<a class="vol" href="46-home-and-kitchen.html"><span class="vn">Vol 46</span><b>Home &amp; kitchen</b></a>
+<a class="vol" href="47-not-being-fooled.html"><span class="vn">Vol 47</span><b>Not being fooled</b></a>
+<div class="vol here"><span class="vn">Vol 48 · here</span><b>Don't do that</b></div>
+<a class="vol" href="49-ai-honestly.html"><span class="vn">Vol 49</span><b>AI, honestly</b></a>
+<a class="vol" href="50-whats-coming.html"><span class="vn">Vol 50</span><b>What's coming</b></a>
+<a class="vol" href="51-the-novels.html"><span class="vn">Vol 51</span><b>The novels</b></a>
+<a class="vol" href="52-philosophy-originals.html"><span class="vn">Vol 52</span><b>Philosophy</b></a>
+<a class="vol" href="53-ideas-that-changed.html"><span class="vn">Vol 53</span><b>Ideas</b></a>
+<a class="vol" href="54-the-anthology.html"><span class="vn">Vol 54</span><b>The anthology</b></a>
+</div>
+
+<header class="part" id="p1">
+  <span class="pn">Part I</span>
+  <h2>Water, heat and the house</h2>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Drowning does not look like drowning</h2>
+</header>
+
+<p>This is the most under-known fact in the volume and it changes what you watch for at every beach and
+pool for the rest of your life.</p>
+
+<p>The splashing, shouting, arm-waving drowning of film is <strong>almost never what happens</strong>.
+A drowning person usually cannot call out, because the mouth is barely at the surface and breathing
+takes absolute priority over speech. They cannot wave, because the arms are instinctively pressing down
+on the water to lift the mouth clear. They are upright in the water, making no progress, with their head
+tilted back and mouth open, and they are <strong>quiet.</strong></p>
+
+<p>It lasts perhaps twenty to sixty seconds before submersion. And it happens routinely within a few
+metres of other people who simply do not recognise it, often with a parent nearby watching, because
+everyone is looking for thrashing.</p>
+
+<p>What to watch for: a head low in the water with the mouth at surface level, head tilted back, eyes
+glassy or closed, vertical in the water, hair over the face, trying to swim and going nowhere, and
+silence. <strong>If a child playing in water suddenly goes quiet, that is the signal to act.</strong>
+Ask them if they are alright — someone who can answer you is probably fine; a blank look means you have
+seconds.</p>
+
+<p>Two additions. <strong>Rip currents</strong> pull outward, not under, and the instinct to swim
+straight back to shore exhausts even strong swimmers against a flow faster than they can swim. The
+answer is to <strong>swim parallel to the beach</strong> until out of the pull, or to float and signal.
+And cold water causes an involuntary gasp on entry that inhales water and can incapacitate strong
+swimmers within a minute — jumping into cold water is far more dangerous than it looks on a hot day.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The house rules people learn too late</h2>
+</header>
+
+<p>Each of these has its mechanism in Volume 46; here is the short form, because the short form is what
+you need in the moment.</p>
+
+<p><strong>Never put water on a burning pan.</strong> It flashes to steam beneath the oil and throws
+burning fat across the room. Turn off the heat, smother it, and leave it where it is. Do not carry it
+outside.</p>
+
+<p><strong>Never bring anything that burns fuel indoors</strong> — barbecue, camping stove, patio
+heater, generator — including into a garage, tent or caravan, and including a barbecue brought in to
+cool down. Carbon monoxide has no smell and its symptoms are indistinguishable from flu, with confusion
+among them, so it removes the judgement you would need to leave.</p>
+
+<p><strong>If you smell gas, do not touch a switch.</strong> Not the light, not the extractor, not the
+doorbell, not your phone indoors. A spark is the ignition source. Open doors, leave, call from outside.</p>
+
+<p><strong>Do not charge things on a bed or sofa, or in the hallway.</strong> Lithium batteries can
+enter a runaway reaction that generates its own oxygen — it cannot be smothered and it reignites. A
+charging e-bike in the hall blocks the exit you would need.</p>
+
+<p><strong>Button batteries swallowed are an emergency within hours, not days.</strong> They burn
+through tissue chemically, often with no early symptoms. Go immediately.</p>
+
+<p><strong>Close internal doors at night.</strong> Smoke kills far more people than flames, mostly in
+sleep, and a closed door buys a remarkable amount of time.</p>
+
+<p><strong>Never decant anything into a drinks bottle.</strong> This is how children and adults drink
+chemicals. Original containers, original labels.</p>
+
+<header class="part" id="p2">
+  <span class="pn">Part II</span>
+  <h2>The body</h2>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Medicines that do not behave as expected</h2>
+</header>
+
+<p><strong>Paracetamol has a narrow margin and delayed symptoms.</strong> It hides in cold and flu
+remedies, night-time medicines and hot drink sachets — so taking a cold remedy plus a painkiller, both
+as directed, can exceed the safe amount. Someone who has taken too much may feel fine for a day while
+irreversible liver damage proceeds. Suspected excess is an immediate medical matter regardless of how
+well they feel, and there is an antidote that works best early.</p>
+
+<p><strong>Alcohol with sedatives or strong painkillers</strong> is the combination that most often kills
+accidentally. Both suppress breathing, and the effect together is greater than either alone.</p>
+
+<p><strong>Do not take someone else's medication</strong> or leftover antibiotics, and tell your doctor
+about herbal products and supplements — St John's wort in particular accelerates the clearance of a long
+list of essential medicines, including contraceptives, and grapefruit blocks a pathway that raises the
+level of many others for hours.</p>
+
+<p><strong>Never give aspirin to a child</strong> unless a doctor specifically directs it.</p>
+
+<p><strong>Do not stop a prescribed medicine because you feel better.</strong> Blood pressure medication
+in particular is working <em>because</em> the numbers look normal, and stopping abruptly is dangerous
+for several classes of drug.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Signs people talk themselves out of</h2>
+</header>
+
+<p>The common thread here is that the correct response feels like an overreaction, and the delay is what
+causes the harm.</p>
+
+<p><strong>Chest discomfort.</strong> Often pressure or tightness rather than dramatic pain, and
+frequently dismissed as indigestion. In women, older people and people with diabetes it may present
+without chest pain at all — as breathlessness, unusual fatigue, nausea, or jaw and back discomfort. Call
+an ambulance rather than driving, and do not wait to see whether it passes.</p>
+
+<p><strong>Stroke signs.</strong> Face drooping, arm weakness, speech difficulty — and note the time
+symptoms started, because it determines which treatments remain possible. Symptoms that resolve within
+an hour are <strong>not a relief</strong>: they signal a substantially raised risk of a full stroke in
+the following days and are an emergency in their own right.</p>
+
+<p><strong>A sudden severe headache unlike any before</strong> — described as the worst of someone's
+life, arriving in seconds — needs immediate assessment.</p>
+
+<p><strong>A head injury followed by lucidity.</strong> Someone can be knocked out, recover, seem
+completely fine, and deteriorate hours later from bleeding inside the skull. Worsening headache,
+repeated vomiting, confusion, drowsiness, unequal pupils or a seizure after any head injury means
+emergency care, even if they seemed fine.</p>
+
+<p><strong>A swollen, painful calf after a long journey or period of immobility</strong>, and
+particularly if followed by sudden breathlessness or chest pain, needs urgent attention.</p>
+
+<p><strong>Severe allergic reaction</strong> — swelling of the lips, tongue or throat, difficulty
+breathing, collapse. Adrenaline first, then ambulance regardless of improvement, because a second wave
+can follow hours later.</p>
+
+<p>And a general rule that covers cases not listed: <strong>sudden and severe, in anything, is the
+pattern that warrants urgency.</strong> Emergency departments are not annoyed by false alarms of this
+kind, and being wrong costs you an evening.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Heat, cold, and choking</h2>
+</header>
+
+<p><strong>Never leave a person or an animal in a parked car.</strong> The interior heats far faster and
+far higher than people expect, shade and a cracked window do not prevent it, and children overheat
+considerably faster than adults. "Only a few minutes" is exactly how this happens.</p>
+
+<p><strong>Heatstroke is distinct from heat exhaustion and is a medical emergency.</strong> The
+distinguishing signs are <strong>confusion, loss of coordination, and skin that has stopped
+sweating</strong> — at that point the body's cooling has failed. Cool them aggressively and call an
+ambulance. Heat exhaustion — heavy sweating, weakness, nausea — responds to shade, rest and fluids, and
+must not be allowed to progress.</p>
+
+<p><strong>Choking.</strong> Someone who can cough forcefully should be encouraged to cough — coughing
+is more effective than anything you can do. Someone who cannot speak, cough or breathe needs immediate
+back blows and abdominal thrusts. Silence is the danger sign, as in the water. The foods that most often
+do this to children are round and firm — grapes, nuts, cherry tomatoes, hard sweets — and cutting round
+food lengthways rather than into discs genuinely matters.</p>
+
+<p><strong>Burns.</strong> Cool running water for a long time — considerably longer than feels
+necessary, twenty minutes — and nothing else. No ice, no butter, no cream, no oil. Remove jewellery and
+loose clothing near the area before swelling, and do not burst blisters.</p>
+
+<header class="part" id="p3">
+  <span class="pn">Part III</span>
+  <h2>Out in the world</h2>
+</header>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Roads and vehicles</h2>
+</header>
+
+<p>Road danger is badly distributed relative to how people feel about it, which is the risk perception
+problem from Volume 39 in its most consequential form.</p>
+
+<p><strong>Tiredness at the wheel behaves like alcohol</strong> and is not something you can decide to
+override. Microsleeps of a few seconds happen without the person knowing, and the classic defences —
+opening the window, loud music, coffee — do essentially nothing. The only real remedies are stopping and
+sleeping, and not starting a long drive already tired.</p>
+
+<p><strong>Reversing vehicles</strong> are a specific and under-appreciated hazard, particularly to
+small children in driveways, and particularly with large vehicles that have substantial blind zones.</p>
+
+<p><strong>The door of a parked car</strong> kills cyclists. Opening with the far hand forces your body
+to turn and look — a small habit with a genuinely large effect.</p>
+
+<p><strong>Aquaplaning and black ice</strong> both remove grip suddenly, and the instinctive responses
+— braking hard, steering sharply — make both worse. Ease off the accelerator, keep the steering steady,
+and do not brake abruptly. Black ice is most likely where roads are shaded, on bridges, and in the early
+morning after a clear cold night.</p>
+
+<p>And two boring ones that outperform almost everything else: <strong>seatbelts in the back matter as
+much as in the front</strong> — an unrestrained rear passenger is lethal to the person in front — and
+child seats are very commonly fitted incorrectly, which removes much of the protection.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The social and financial traps</h2>
+</header>
+
+<p>Different kind of danger, same structure: the correct response feels rude, and the pressure not to be
+rude is the mechanism.</p>
+
+<p><strong>Anything urgent, secret or guaranteed is a fraud.</strong> The urgency exists specifically to
+prevent the twenty-four hours that would defeat it. Volume 47 has the full catalogue; the compressed
+rule is to hang up and call back on a number you already had, and to note that objecting to that is
+itself the tell.</p>
+
+<p><strong>Never read out a code that was sent to you</strong>, to anyone, for any reason. And there is
+no such thing as a safe account to move your money to.</p>
+
+<p><strong>Do not sign what you have not read</strong>, and be specific about three things people
+routinely miss: what happens when an introductory rate ends, whether it renews automatically, and what
+the cancellation terms are. A free trial requiring card details is a subscription with a delay.</p>
+
+<p><strong>Guaranteeing someone else's loan means agreeing to repay it</strong>, not agreeing to help if
+things go badly. People agree to this as a gesture of support without understanding that the obligation
+is unconditional.</p>
+
+<p><strong>Do not leave a drink unattended</strong>, and if someone becomes disproportionately impaired
+for what they drank, treat it as a medical situation and stay with them.</p>
+
+<p>And the social one that underlies several of the above, which Volume 36 explains: <strong>the
+discomfort of seeming rude is a smaller cost than almost anything it prevents.</strong> Leaving a
+situation that feels wrong requires no justification, and people who make leaving difficult are telling
+you something.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The three rules underneath all of it</h2>
+</header>
+
+<p>If you retain nothing else from this volume, retain these — because they generate the right answer in
+cases this chapter never listed.</p>
+
+<p><strong>Silence and stillness are the danger signals, not noise.</strong> The drowning person is
+quiet. The choking person cannot cough. The carbon monoxide victim is drowsy. The quiet child in the
+water. Human attention is drawn to commotion, and the serious situations are frequently the still
+ones.</p>
+
+<p><strong>The delayed presentation is what kills.</strong> Paracetamol, head injuries, allergic
+reactions, transient stroke symptoms, a burning plaque of an artery — the common structure is a period
+of feeling fine that persuades everyone the danger passed. <strong>Feeling better is not evidence in
+these specific situations</strong>, and knowing which ones they are is most of this chapter's value.</p>
+
+<p><strong>The instinctive response is often the wrong one.</strong> Water on burning oil. Swimming
+straight back to shore against a rip. Braking hard on ice. Waving off a false alarm to avoid making a
+fuss. In each case the instinct is strong and wrong, which is why these must be learned in advance —
+you will not reason your way there in the moment.</p>
+
+<div class="warn">
+  <span class="tag">Scope, and the one thing to actually do</span>
+  <p>This is a reference to have read, not a substitute for training. <strong>A few hours on a first aid
+  course is worth more than every word here</strong>, because compressions, the recovery position and
+  choking response are physical skills that reading cannot install. Volume 34 covers the emergency
+  procedures; this volume covers the avoidance. And nothing here should delay calling emergency
+  services.</p>
+</div>
+
+<header class="mod" id="recap">
+  <span class="mn">Reference</span>
+  <h2>What to carry forward</h2>
+</header>
+
+<div class="sen">
+  <div class="b knows"><span class="k">Water</span>
+    <p><strong>Drowning is silent.</strong> Upright, head back, mouth at the surface, no waving, no
+    shouting, twenty to sixty seconds. If a child in water goes quiet, act. In a rip current, <strong>swim
+    parallel to the beach</strong>, not toward it.</p></div>
+  <div class="b"><span class="k">House</span>
+    <p>No water on a pan fire · nothing that burns fuel indoors, ever · no switches if you smell gas ·
+    no charging on beds or in hallways · <strong>a swallowed button battery is an emergency within
+    hours</strong> · close doors at night · never decant into a drinks bottle.</p></div>
+  <div class="b junior"><span class="k">Body</span>
+    <p><strong>Paracetamol hides in cold remedies and its symptoms are delayed a day.</strong> Chest
+    pressure and stroke signs are talked out of, not missed. A head injury followed by lucidity can still
+    bleed. Heatstroke's tell is confusion and skin that has <em>stopped</em> sweating. Burns: cool water,
+    twenty minutes, nothing else.</p></div>
+  <div class="b check"><span class="k">The three rules</span>
+    <p><strong>Silence and stillness are the danger signals.</strong> <strong>The delayed presentation is
+    what kills</strong> — feeling better is not evidence in these specific cases. And <strong>the
+    instinctive response is often the wrong one</strong>, which is exactly why this had to be read
+    beforehand.</p></div>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Pairs with · Volume 34</h4><p>That volume is what to do during an emergency — compressions, choking, bleeding, the recovery position. This one is how not to arrive there.</p></div>
+  <div class="card"><h4>Next · AI, honestly</h4><p>The last two volumes: what a language model is really doing, and what is genuinely coming.</p></div>
+</div>
+</main>
+</div>
+
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

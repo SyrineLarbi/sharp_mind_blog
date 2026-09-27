@@ -1,0 +1,1418 @@
+<title>How It Works: Energy and Water</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F1;
+  --ground-2: #FCFBFA;
+  --panel:    #EAE9E6;
+  --panel-2:  #E0DEDA;
+
+  --ink:   #16181B;
+  --ink-2: #3D4048;
+  --ink-3: #71757E;
+
+  --rule:   #D5D3CF;
+  --rule-2: #E4E2DE;
+
+  --accent:      #0F5C6E;
+  --accent-soft: #E0EFF3;
+  --accent-deep: #0A3B47;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #0F5C6E;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #111215;
+    --ground-2: #181A1E;
+    --panel:    #202329;
+    --panel-2:  #292C33;
+
+    --ink:   #EAEAE8;
+    --ink-2: #BEC1C7;
+    --ink-3: #858992;
+
+    --rule:   #32353C;
+    --rule-2: #292C33;
+
+    --accent:      #5FBFD4;
+    --accent-soft: #10222A;
+    --accent-deep: #8AD5E6;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #5FBFD4;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #111215;
+  --ground-2: #181A1E;
+  --panel:    #202329;
+  --panel-2:  #292C33;
+
+  --ink:   #EAEAE8;
+  --ink-2: #BEC1C7;
+  --ink-3: #858992;
+
+  --rule:   #32353C;
+  --rule-2: #292C33;
+
+  --accent:      #5FBFD4;
+  --accent-soft: #10222A;
+  --accent-deep: #8AD5E6;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #5FBFD4;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #0F5C6E;
+  --accent-soft: #E9EEE9;
+  --accent-deep: #0A3B47;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: grid; grid-template-columns: 252px minmax(0, 1fr); max-width: none; margin: 0; }
+.rail {
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+.rail-title { font-family: var(--display); font-weight: 700; font-size: 15.4px; margin: 0 0 2px; }
+.rail-sub { color: var(--ink-3); font-size: 10.8px; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 6px; }
+.rail-vol { display: inline-block; font-size: 10.3px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 1px 5px; border-radius: 2px; margin-bottom: 16px; }
+.rail-group { color: var(--ink-3); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin: 16px 0 5px; padding-bottom: 4px; border-bottom: 1px solid var(--rule-2); }
+.rail a { display: block; color: var(--ink-2); text-decoration: none; padding: 3px 6px 3px 8px; border-left: 2px solid transparent; margin-left: -2px; }
+.rail a:hover { color: var(--ink); background: var(--panel); }
+.rail a.on { color: var(--accent); border-left-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+.rail a .n { color: var(--ink-3); margin-right: 5px; }
+.rail a.on .n { color: var(--accent); }
+
+.doc { padding: 38px 56px 100px; max-width: none; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--rule); padding: 18px 20px 22px; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + path band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 16.5px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 46px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+.byline { font-family: var(--mono); font-size: 12.6px; color: var(--ink-3); letter-spacing: .04em; margin: 0 0 14px; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+.rail, .tw, pre, .ascii, .doc { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+.rail::-webkit-scrollbar, .rail::-webkit-scrollbar-track { background: var(--ground); }
+.rail::-webkit-scrollbar-thumb { border-color: var(--ground); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<nav class="rail" aria-label="Contents">
+  <p class="rail-title">Energy &amp; Water</p>
+  <p class="rail-sub">How it works · why it's in the news</p>
+  <span class="rail-vol">Sharp Mind · 11 of 16</span>
+  <a href="#open"><span class="n">—</span>Open</a>
+  <a href="#how"><span class="n">—</span>How to use this</a>
+
+  <div class="rail-group">I · Water</div>
+  <a href="#e1"><span class="n">01</span>Desalination</a>
+
+  <div class="rail-group">II · Making electricity</div>
+  <a href="#e2"><span class="n">02</span>Solar panels</a>
+  <a href="#e3"><span class="n">03</span>Wind turbines</a>
+  <a href="#e4"><span class="n">04</span>Nuclear and SMRs</a>
+
+  <div class="rail-group">III · Storing and moving it</div>
+  <a href="#e5"><span class="n">05</span>Grid batteries</a>
+  <a href="#e6"><span class="n">06</span>Green hydrogen</a>
+
+  <div class="rail-group">IV · The carbon problem</div>
+  <a href="#e7"><span class="n">07</span>Carbon capture</a>
+  <a href="#e8"><span class="n">08</span>Heat pumps</a>
+
+  <div class="rail-group">Reference</div>
+  <a href="#words"><span class="n">—</span>The words, in plain words</a>
+  <a href="#ten"><span class="n">—</span>Your ten sentences</a>
+  <a href="#t2"><span class="n">—</span>What next</a>
+</nav>
+
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind 11 · how the world works</p>
+  <h1>Energy and water. <span class="thin">Eight things people talk about, explained simply.</span></h1>
+  <p class="lede">This file is written in short sentences and easy words. Every new word is explained
+  before it is used. The goal is not to make you an engineer. The goal is that when someone says
+  "desalination" or "green hydrogen" at a dinner or in a meeting, you know what it is, you know why it
+  is in the news, and you have one good sentence to say.</p>
+  <div class="hero-meta">
+    <span><b>Covers</b> · 8 technologies</span>
+    <span><b>Assumes</b> · no science</span>
+    <span><b>Ends with</b> · 10 sentences to learn</span>
+    <span><b>Feeds</b> · file 06, the repertoire</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All sixteen handbooks</em></a>
+<div class="vol here"><span class="vn">You are here · 11</span><b>Energy and Water</b><em>Eight technologies</em></div>
+<a class="vol" href="06-having-something-to-say.html"><span class="vn">Why this exists · 06</span><b>Having Something to Say</b><em>Stocking the shelf</em></a>
+</div>
+
+<header class="mod" id="how">
+  <span class="mn">Before you start</span>
+  <h2>How to use this file</h2>
+</header>
+
+<p>Every technology here has the same eight parts. Always the same. So it is easy to follow, and easy
+to skip the parts you do not need.</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:27%">The part</th><th>What it gives you</th></tr></thead>
+  <tbody>
+    <tr><td><strong>1 · In one sentence</strong></td><td>The short definition. Learn this first. If you learn nothing else, learn this.</td></tr>
+    <tr><td><strong>2 · Think of it like…</strong></td><td>A simple thing from normal life that works the same way.</td></tr>
+    <tr><td><strong>3 · How it works</strong></td><td>The steps, in order. No maths.</td></tr>
+    <tr><td><strong>4 · The numbers</strong></td><td>Three or four real figures. One exact number is worth five adjectives.</td></tr>
+    <tr><td><strong>5 · What goes wrong</strong></td><td>The problems and the arguments. This is the interesting part, and it is the part most people do not know.</td></tr>
+    <tr><td><strong>6 · Who controls it</strong></td><td>Which countries and companies. This is where the politics is.</td></tr>
+    <tr><td><strong>7 · Where you meet it</strong></td><td>Where this already touches your life.</td></tr>
+    <tr><td><strong>8 · Say this</strong></td><td>Two or three short lines you can say out loud, without stopping.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="good">
+  <span class="tag">The most important instruction in this file</span>
+  <p>The green boxes are short on purpose. <strong>Say them out loud once.</strong> Not in your head —
+  out loud. A sentence you have never said is not available to you when someone is looking at you.</p>
+  <p>This is the whole argument of <a href="06-having-something-to-say.html">file 06</a>: reading is
+  input, saying is stock. Ten seconds per technology. If you skip it, you will have read this file and
+  kept almost nothing, which happens to nearly everyone who reads nearly everything.</p>
+</div>
+
+<div class="note">
+  <span class="tag">A note on the numbers</span>
+  <p>Figures move. Costs fall, capacity grows, and anything here that is a price or a total will be a
+  little out of date within a year or two. That is fine — <strong>the shape is the useful part</strong>.
+  "About three to four kilowatt-hours per tonne of water, down from about ten in the 1990s" stays true
+  in shape long after the exact number moves. Where a number is doing real work in an argument, the
+  source is named.</p>
+</div>
+
+<header class="part" id="water">
+  <span class="pn">Part I · Water</span>
+  <h2>Making seawater drinkable</h2>
+  <p class="lede">One technology, and it is the one you asked about. It is also the clearest example of
+  a rule that runs through this whole file: most "technology" stories are really energy stories.</p>
+</header>
+
+<header class="mod" id="e1">
+  <span class="mn">How it works 01</span>
+  <h2>Desalination</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Desalination means taking the salt out of seawater so people can drink it.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>A coffee filter — but for salt.</p>
+  <p>You push water through a filter with holes so small that water gets through and salt does not.</p>
+  <p>There is one problem, and the whole industry is built around it. <strong>Salt water does not want to
+  go that way.</strong> Nature pulls fresh water <em>toward</em> salt, not away from it. That pull is
+  called osmosis. So to go the other way you have to push. Hard.</p>
+  <p>That pushing is the cost. Everything else is plumbing.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works · seawater reverse osmosis, about 70% of the world's plants</div>
+<pre><code>① TAKE IN SEAWATER
+   Screens keep out fish, seaweed and sand.
+
+② PRE-TREATMENT — filter out the small stuff
+   Sand, tiny organisms, oil. Skip this and the membranes
+   clog. Clogged membranes are the number one cause of a
+   plant running badly, and the number one reason a cheap
+   plant turns out expensive.
+
+③ THE HIGH-PRESSURE PUMP
+   Push the water to about 55-80 bar. That is roughly 60
+   to 80 times the pressure in a car tyre.
+   ⇒ THIS PUMP IS WHERE ALMOST ALL THE ELECTRICITY GOES.
+
+④ THE MEMBRANE
+   A plastic sheet rolled up inside a tube. The holes are
+   far smaller than a salt particle with its water coat.
+   Water passes. Salt does not.
+   About 40-45% of what you pushed in comes out fresh.
+   That share is called the RECOVERY RATE.
+
+⑤ ⭐ THE ENERGY RECOVERY DEVICE — the invention that
+   changed everything
+   The 55% that did not pass through leaves the membrane
+   STILL AT HIGH PRESSURE. In old plants that pressure was
+   simply thrown away.
+   An energy recovery device catches it and uses it to
+   help push the next batch of incoming seawater.
+   ⇒ this one idea cut the energy from over 10 units to
+     about 3 units for the same water. Not an
+     improvement — a different industry.
+
+⑥ POST-TREATMENT
+   The water is now TOO pure. It would slowly eat the
+   pipes, and it tastes flat. So minerals are added back.
+
+⑦ THE BRINE GOES BACK TO THE SEA
+   What is left is about twice as salty as the sea it
+   came from. Where it goes is the real argument (below).</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:44%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>~3.2 kWh per cubic metre</strong></td><td>A modern plant with energy recovery. A cubic metre is 1,000 litres — a tonne of drinking water. Roughly what a kettle uses in three hours.</td></tr>
+    <tr><td><strong>~10 kWh in the 1990s</strong></td><td>The same water used about three times more electricity thirty years ago. This fall is the whole story of the industry.</td></tr>
+    <tr><td><strong>~1 kWh is the floor</strong></td><td>Physics says you cannot go below roughly this. So we are at about three times the theoretical minimum — which means there is real room left, but not enormous room.</td></tr>
+    <tr><td><strong>~91.5 million m³ per day</strong></td><td>World installed capacity in 2024, with about 105 million contracted, across more than 16,000 plants in 177 countries. Capacity grew about 40% between 2020 and 2025. <span style="color:var(--ink-3)">(IDRA / Global Water Intelligence)</span></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>Energy is the whole economics.</strong> Desalination is really electricity turned into
+    water. Where power is expensive, the water is expensive. Where power is cheap, it is cheap. That is
+    almost the entire story of which countries do this and which do not.</li>
+    <li><strong>The brine.</strong> Half of what you take in leaves twice as salty, often a little warm,
+    and carrying the chemicals used to stop the membranes scaling. Dumped in one spot with no mixing, it
+    sinks and kills life on the seabed near the outfall. Spread through diffusers into moving water, the
+    effect is local and manageable. <em>This is the main environmental fight, and it is a fight about
+    engineering the outfall, not about whether to desalinate.</em></li>
+    <li><strong>The intake kills sea life.</strong> Fish get trapped on the screens; eggs and larvae get
+    pulled through. Taking water from under the seabed instead of from open water largely fixes this and
+    costs more.</li>
+    <li><strong>It does not fix leaks.</strong> A network losing a third of its water to broken pipes
+    gains less from a new plant than from repairing the pipes — and the pipes are cheaper. New plants are
+    announced at ribbon-cuttings; repaired pipes are not.</li>
+  </ul>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Who controls it</h4>
+    <p>The Gulf states use the most — Saudi Arabia and the UAE run the largest plants in the world.
+    Israel gets a large share of its household water this way. Spain, Australia and California all have
+    big plants.</p>
+    <p>The membranes themselves come from a small number of makers (DuPont, Toray, Nitto, LG Chem), and
+    the big builders are a short list too — Veolia, Acciona, IDE, Metito. It is a concentrated industry.</p>
+  </div>
+  <div class="card">
+    <h4>Where you meet it</h4>
+    <p>If you have drunk tap water in Dubai, Malta or most of the Gulf, you have drunk seawater.</p>
+    <p>It is also why, in those places, the water bill follows the electricity price. Water and power
+    stop being separate questions.</p>
+    <p><strong>Tunisia:</strong> the stated goal is to go from about 6% of drinking water from
+    desalination to about 30% by 2030. There is a full report on this already in this project —
+    <a href="../../dessalement/rapport-dessalement-tunisie.html">dessalement/rapport-dessalement-tunisie.html</a>
+    — with the local plants, the solar coupling maths and the regulatory limits.</p>
+  </div>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Desalination is really an energy story. Taking the salt out is easy. Paying for the pressure is
+  the hard part."</p>
+  <p>"Half of what goes in comes back out twice as salty. Where that brine goes is the real argument."</p>
+  <p>"A country with a coastline and cheap solar has a completely different water problem from one
+  without."</p>
+</div>
+
+<header class="part" id="electricity">
+  <span class="pn">Part II · Making electricity</span>
+  <h2>Three ways to make power</h2>
+  <p class="lede">Sun, wind and splitting atoms. Each one has exactly one hard problem, and knowing
+  which problem is which is most of understanding the energy news.</p>
+</header>
+
+<header class="mod" id="e2">
+  <span class="mn">How it works 02</span>
+  <h2>Solar panels</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>A solar panel turns sunlight straight into electricity, with nothing moving.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>A leaf. A leaf catches light and turns it into something it can use. A panel does the same job, but
+  what comes out is electric current instead of sugar.</p>
+  <p>The important difference from every other power station: <strong>nothing spins.</strong> No fuel, no
+  steam, no turbine, no moving parts. That is why a panel can sit on a roof for twenty-five years and
+  need almost nothing done to it.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① A PANEL IS MOSTLY SILICON
+   Which is sand, purified to an extreme degree. That
+   purifying is the expensive, energy-hungry part of
+   making one.
+
+② THE SILICON IS IN TWO LAYERS, TREATED DIFFERENTLY
+   One layer has a few extra loose electrons. The other
+   is slightly short of them. Where the two meet, this
+   creates a permanent one-way electric push.
+
+③ LIGHT KNOCKS AN ELECTRON LOOSE
+   Light arrives in small packets called photons. A photon
+   hits the silicon and knocks one electron free.
+
+④ THE ONE-WAY PUSH SENDS IT IN ONE DIRECTION
+   Electrons moving in one direction IS electricity.
+   Do this with a very large number of photons and you
+   have a useful current.
+
+⑤ AN INVERTER CONVERTS IT
+   The panel makes direct current (DC). The grid and your
+   plugs use alternating current (AC). The inverter
+   changes one into the other, and it is usually the first
+   thing in the system to fail.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:44%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>20-23% efficient</strong></td><td>A normal panel turns about a fifth of the light that hits it into electricity. That sounds poor and does not matter — sunlight is free and the roof is already there.</td></tr>
+    <tr><td><strong>Cost fell roughly 90%</strong></td><td>In the decade to about 2020. One of the fastest cost falls of any technology in history. This single fact explains most of what has happened in energy since.</td></tr>
+    <tr><td><strong>~1,650 kWh per kWp per year</strong></td><td>What a kilowatt of panels actually produces in a year in Tunisia. Northern Europe gets roughly half that. This ratio is why the same panel is a good investment in one country and a poor one in another.</td></tr>
+    <tr><td><strong>~1.3-1.5 hectares per MW</strong></td><td>Ground-mounted land use. Useful when someone says "we'll just build solar" — it tells you how much land they are talking about.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>The sun sets.</strong> This is not a detail, it is the entire problem. A solar plant with
+    no storage covers the middle of the day and nothing else.</li>
+    <li><strong>The grid needs supply to match demand second by second.</strong> Electricity is almost
+    the only product that must be made at the exact moment it is used. Solar does not care what time you
+    need it.</li>
+    <li><strong>The duck curve.</strong> Where there is a lot of solar, midday power becomes nearly
+    worthless and evening power becomes expensive — because everyone's panels produce at the same moment
+    and stop at the same moment. Plotted over a day, the shape looks like a duck. You will hear this word.</li>
+    <li><strong>Land and grid connection are usually the real bottleneck</strong>, not panels. Panels are
+    cheap and available. Permission and a cable to connect to are not.</li>
+    <li><strong>Old panels.</strong> Recycling them at scale is not really solved yet. It is a small
+    problem now and a large one in about fifteen years.</li>
+  </ul>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Who controls it</h4>
+    <p>China. Not partly — overwhelmingly. A very large majority of the world's polysilicon, wafers,
+    cells and finished panels are made there, and the share has grown rather than shrunk.</p>
+    <p>That concentration is itself a political story: Europe and the US have both tried to build
+    domestic manufacturing and have found it very hard to compete on cost.</p>
+  </div>
+  <div class="card">
+    <h4>Where you meet it</h4>
+    <p>It is why electricity in the middle of a sunny day is getting cheaper, and why some countries now
+    have hours of negative power prices — moments when it is worth paying someone to take the
+    electricity away.</p>
+  </div>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Solar is now the cheapest electricity ever built, in sunny places. The problem was never the panel.
+  The problem is the night."</p>
+  <p>"Almost all of it is made in one country. That is a supply chain question as much as an energy one."</p>
+</div>
+
+<header class="mod" id="e3">
+  <span class="mn">How it works 03</span>
+  <h2>Wind turbines</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>A wind turbine lets moving air spin a shaft, and the spinning shaft makes electricity.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>A fan running backwards.</p>
+  <p>A fan uses electricity to move air. A turbine lets moving air make electricity. Same machine, opposite
+  direction.</p>
+  <p>One surprise: the blades do not get <em>pushed</em> by the wind like a sail. They are shaped like
+  aircraft wings, and they get <em>pulled</em> — the same lift that holds up a plane. That is why the
+  blade tips can move much faster than the wind itself.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① THE BLADES ARE WINGS
+   Air moving over the curved side has to travel further,
+   which creates lift — a pull, not a push. The blade is
+   pulled around.
+
+② THE SLOW SHAFT TURNS
+   Only about 10-20 turns a minute. Slower than it looks.
+
+③ A GEARBOX SPEEDS IT UP
+   The generator needs fast rotation. The gearbox raises
+   the speed about a hundredfold — and it is the part
+   most likely to break. Some modern turbines skip the
+   gearbox entirely (direct drive) to avoid exactly this.
+
+④ THE GENERATOR MAKES ELECTRICITY
+   A magnet spinning inside coils of wire. Same principle
+   as a bicycle dynamo, much larger.
+
+⑤ ⭐ POWER GOES WITH THE CUBE OF WIND SPEED
+   This is the single most important fact about wind.
+   DOUBLE the wind speed → EIGHT TIMES the power.
+   ⇒ so a site with slightly better wind is not slightly
+     better. It is dramatically better. Where you put a
+     turbine matters far more than which turbine you buy.
+
+⑥ IT TURNS ITSELF TO FACE THE WIND, AND SHUTS DOWN IN STORMS
+   Above roughly 25 metres per second the blades are
+   feathered and it stops. Too much wind is as useless
+   as none.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:44%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>3-6 MW onshore, 8-15 MW offshore</strong></td><td>One modern turbine. Offshore machines are far larger because there is nobody to object to the size and the wind is better.</td></tr>
+    <tr><td><strong>Blades over 100 metres</strong></td><td>On the largest offshore machines, one blade is longer than a football pitch. Moving them by road is its own industry.</td></tr>
+    <tr><td><strong>Capacity factor 25-40% onshore</strong></td><td>How much it actually produces over a year against its maximum. Offshore reaches 40-55%. A number below 100% here is normal, not a failure — the wind is not always blowing.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>The wind is not on your schedule.</strong> Same problem as solar, different shape — wind
+    often blows at night, which is useful, and sometimes does not blow for a week, which is not.</li>
+    <li><strong>Offshore got expensive again.</strong> For years costs fell. Then interest rates rose and
+    steel and cable prices rose, and several large projects were cancelled or renegotiated. Offshore wind
+    is very capital-heavy, so it is unusually sensitive to the cost of borrowing. <em>This is the current
+    news story, and it is a finance story, not a technology story.</em></li>
+    <li><strong>Grid connection queues.</strong> In several countries the wait to connect a finished
+    project to the grid is now longer than the wait to build it.</li>
+    <li><strong>Blades are hard to recycle.</strong> They are glued composite, made not to come apart.</li>
+    <li><strong>People do not want to look at them</strong>, and that is a real constraint, not a
+    frivolous one.</li>
+  </ul>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Who controls it</h4>
+    <p>Vestas (Denmark), Siemens Gamesa (Germany/Spain) and GE have been the traditional big three.
+    Chinese makers — Goldwind, Envision, Mingyang — now build a large share of the world's turbines and
+    have started to win projects outside China.</p>
+  </div>
+  <div class="card">
+    <h4>Where you meet it</h4>
+    <p>On a windy night in a country with a lot of wind, wholesale electricity prices can go to zero or
+    below. If you have a tariff that follows the market, that is why.</p>
+  </div>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Power goes with the cube of the wind speed. Double the wind, eight times the power. That is why
+  where you put it matters more than what you buy."</p>
+  <p>"Offshore wind's problem right now is not the technology. It is interest rates."</p>
+</div>
+
+<header class="mod" id="e4">
+  <span class="mn">How it works 04</span>
+  <h2>Nuclear power, and SMRs</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>A nuclear plant boils water using the heat from splitting atoms, and the steam spins a
+  turbine.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>A kettle. A very expensive, very heavily guarded kettle.</p>
+  <p>This sounds like a joke and it is the most useful thing to know about nuclear power. Everything
+  after the heat — the steam, the turbine, the generator — is completely ordinary power station
+  equipment, the same as in a coal or gas plant. <strong>The only unusual part is the heat source.</strong></p>
+  <p>Nuclear plants are not complicated because making the electricity is complicated. They are
+  complicated because of what happens if the heat source misbehaves.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① THE FUEL IS URANIUM
+   Natural uranium is mostly a type that will not split.
+   ENRICHMENT increases the share of the type that will
+   (U-235) from under 1% to about 3-5% for a power plant.
+   ⚠ the same machines, run longer, produce weapons-grade
+     material. THIS IS WHY ENRICHMENT IS A POLITICAL
+     SUBJECT and not a technical one.
+
+② A NEUTRON SPLITS AN ATOM
+   A neutron is a particle inside the nucleus. Fire one at
+   a U-235 atom and the atom splits in two. This releases
+   heat AND two or three more neutrons.
+
+③ THOSE NEUTRONS SPLIT MORE ATOMS — the chain reaction
+   Left alone it grows. So it is not left alone.
+
+④ CONTROL RODS KEEP IT STEADY
+   Rods of a material that soaks up neutrons slide in and
+   out. In = fewer splits. Out = more. This is the
+   throttle, and it is the whole safety story in one
+   sentence.
+   A MODERATOR — usually ordinary water — slows the
+   neutrons down, because slow neutrons split atoms more
+   reliably than fast ones.
+
+⑤ THE HEAT BOILS WATER · STEAM SPINS A TURBINE
+   From here it is a normal power station.
+
+⑥ THE USED FUEL STAYS HOT AND RADIOACTIVE
+   It sits in a pool of water for years to cool, then goes
+   into sealed dry casks of steel and concrete.
+
+⭐ WHAT AN SMR IS
+   SMR = Small Modular Reactor. Smaller (roughly 50-300 MW
+   instead of 1,000-1,600), built in a factory, shipped in
+   pieces, assembled on site.
+   THE BET: that building the same thing a hundred times in
+   a factory is cheaper than building one enormous
+   bespoke thing on a muddy field.
+   ⚠ it is a reasonable bet. It is also, so far, mostly a
+     bet — very few are operating.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:44%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Capacity factor above 90%</strong></td><td>The highest of any power source. A nuclear plant runs nearly all the time, which is exactly what solar and wind cannot do.</td></tr>
+    <tr><td><strong>Very low CO2 per unit</strong></td><td>Counting mining, building and decommissioning, lifetime emissions are in the same low range as wind. This is not seriously disputed.</td></tr>
+    <tr><td><strong>10+ years, and over budget</strong></td><td>Recent Western megaprojects — Flamanville in France, Hinkley Point C in Britain, Vogtle in the US — all ran many years late and billions over. <em>This is the fact that decides whether nuclear grows.</em></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>Cost and schedule. This is the problem.</strong> Not safety, not physics — project
+    management. The same reactor design has been built in South Korea and China for a fraction of the
+    Western cost and time. The difference is building the same thing repeatedly with a team that stays
+    together, versus building one every twenty years with a workforce that has to be reassembled.</li>
+    <li><strong>The waste is technically manageable and politically stuck.</strong> The volume is small
+    and the engineering is understood. Finding a country willing to host the final store is the hard
+    part. Finland's Onkalo is the first deep repository in the world to actually be built.</li>
+    <li><strong>Chernobyl and Fukushima.</strong> Whatever the statistics say about deaths per unit of
+    energy — and they are favourable to nuclear — a serious accident makes an area uninhabitable for a
+    long time, and people weight that differently from a spread-out harm. That is not irrational.</li>
+    <li><strong>SMRs have almost no track record.</strong> Treat cost claims for something not yet built
+    at scale as a forecast, not a fact.</li>
+  </ul>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h4>Who controls it</h4>
+    <p>Russia's Rosatom and China build most of the world's new reactors and export them aggressively,
+    often with financing attached. Enrichment capacity is concentrated in few hands, and Russia holds a
+    large share of it — which became a live problem for Europe and the US after 2022.</p>
+  </div>
+  <div class="card">
+    <h4>Where you meet it</h4>
+    <p>France gets most of its electricity this way, which is why French power is unusually low-carbon
+    and why a bad year for French reactor maintenance raises electricity prices across Europe.</p>
+  </div>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Nuclear's problem in the West is not physics. It is project management. The same design costs
+  several times more here than in Korea."</p>
+  <p>"An SMR is a bet that factory-building beats one-off megaprojects. It is a sensible bet with almost
+  no track record yet."</p>
+</div>
+
+<header class="part" id="storing">
+  <span class="pn">Part III · Storing and moving it</span>
+  <h2>The night problem</h2>
+  <p class="lede">Solar stops at sunset and wind stops when it stops. Everything in this part exists
+  because of that one sentence.</p>
+</header>
+
+<header class="mod" id="e5">
+  <span class="mn">How it works 05</span>
+  <h2>Grid batteries</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>A grid battery stores electricity when there is too much and gives it back when there is
+  too little.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>A water tank on a roof.</p>
+  <p>The pump fills it when water is available. You draw on it when you need it. The tank does not make
+  any water — it only <strong>moves water in time</strong>, from a moment when there was plenty to a
+  moment when there is not.</p>
+  <p>A battery does exactly this with electricity. And, like the tank, it holds a certain amount and
+  then it is empty. Remember the size of the tank. It is the whole limitation.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① IT IS LITHIUM-ION, INCREASINGLY "LFP"
+   LFP = lithium iron phosphate. Cheaper, safer, contains
+   no cobalt, and slightly heavier for the same energy.
+   ⇒ weight does not matter when the battery is sitting
+     in a field, which is why LFP has taken over grid
+     storage faster than it took over cars.
+
+② CHARGING MOVES LITHIUM FROM ONE SIDE TO THE OTHER
+   Two electrodes with a liquid between them. Charging
+   pushes lithium ions across. Discharging lets them move
+   back. That movement IS the current.
+   Nothing is burned and nothing is used up — which is why
+   it can be done thousands of times.
+
+③ THE PHYSICAL THING IS A ROW OF CONTAINERS
+   Cells in racks, plus inverters, plus cooling, plus
+   control software. It looks like shipping containers in
+   a field, because that is what it is.
+
+④ IT HOLDS HOURS, NOT DAYS
+   A typical grid battery stores 1 to 4 hours at full
+   output. Remember this number. It decides everything
+   below.
+
+⭐ AND HERE IS THE PART ALMOST NOBODY KNOWS
+   The main money is NOT "storing solar for the evening".
+   It is:
+     FREQUENCY RESPONSE · the grid must stay at exactly
+       50 or 60 cycles per second. When a big generator
+       trips, something must respond in under a second.
+       A battery responds in milliseconds. A steam
+       turbine cannot. Batteries are simply the fastest
+       thing on the grid, and that speed is worth money.
+     ARBITRAGE · charge when power is cheap, sell when
+       it is expensive.
+     AVOIDING NEW CABLES · a battery near a bottleneck
+       can be cheaper than upgrading the line.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:44%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Prices fell around 90%</strong></td><td>Battery pack prices, from about 2010 to the early 2020s. The same fall that made electric cars possible made grid storage possible as a side effect.</td></tr>
+    <tr><td><strong>85-90% round trip</strong></td><td>Put 100 units in, get 85-90 back. Good — compare hydrogen below, which returns about a third.</td></tr>
+    <tr><td><strong>2-4 hours</strong></td><td>Normal storage duration. Not days. Not a week.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>Duration is the whole limitation.</strong> Lithium is excellent for hours, poor for days,
+    and useless for seasons. A still, cloudy week in winter is not a battery problem — it is a completely
+    different problem, and it is the honest weak point of a renewables-heavy grid. Anyone who tells you
+    batteries solve it is describing a battery a hundred times bigger than any that exists.</li>
+    <li><strong>Fire.</strong> A damaged or badly made lithium cell can go into thermal runaway — it
+    heats itself, faster and faster, and is very hard to put out. Real, manageable, and much less likely
+    with LFP.</li>
+    <li><strong>The supply chain.</strong> Lithium is not actually rare. <em>Refining</em> it is
+    concentrated, and heavily in China. The bottleneck is processing, not geology — which is true of
+    almost every "critical mineral" story you will read.</li>
+    <li><strong>It wears out.</strong> Every charge cycle costs a little capacity.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"A battery does not make energy. It moves energy in time — and only by a few hours."</p>
+  <p>"The real money in grid batteries is not storing solar. It is being the fastest thing on the grid."</p>
+  <p>"Lithium is not rare. Refining it is concentrated. That is a different problem with a different
+  fix."</p>
+</div>
+
+<header class="mod" id="e6">
+  <span class="mn">How it works 06</span>
+  <h2>Green hydrogen</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Green hydrogen is hydrogen gas made by using renewable electricity to split water.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>A rechargeable fuel. You put electricity in and you get a gas you can store, move and burn later.</p>
+  <p>But there is a catch, and it is large: <strong>you get back much less than you put in.</strong> Think
+  of a bucket you carry across a yard that leaks the whole way. It still works — but only if there is no
+  shorter route.</p>
+  <p>That is the entire hydrogen argument in one image. Wherever you could simply use the electricity
+  directly, hydrogen is the worse answer. Where you cannot, it may be the only answer.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works, and the colours you will hear</div>
+<pre><code>① AN ELECTROLYSER SPLITS WATER
+   Run electricity through water and it separates into
+   hydrogen and oxygen. This is simply burning, run
+   backwards.
+
+② THERE ARE THREE MAIN KINDS
+   ALKALINE      old, cheap, likes steady power
+   PEM           more expensive, copes well with power
+                 that goes up and down — which matters
+                 if you are running it off solar
+   SOLID OXIDE   very efficient, runs hot, still immature
+
+③ THEN YOU HAVE TO MOVE IT, WHICH IS THE HARD PART
+   Compress it to high pressure, or chill it to -253°C to
+   make it liquid, or convert it into ammonia and move
+   that instead. All three cost energy.
+
+④ TO USE IT: burn it, or run it through a fuel cell to
+   turn it back into electricity.
+
+⭐ THE COLOURS — this is vocabulary, not chemistry.
+  The gas is identical. The colour describes how it was
+  made.
+    GREY   made from natural gas, CO2 released to the
+           air. ⚠ THIS IS ABOUT 95% OF ALL HYDROGEN USED
+           TODAY. When someone says "we already use a lot
+           of hydrogen", this is what they mean.
+    BLUE   made from natural gas, CO2 captured instead
+           of released
+    GREEN  made by electrolysis using renewable power</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:44%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>~30-40% round trip</strong></td><td>Electricity → hydrogen → electricity. You lose roughly two thirds. Compare a battery at 85-90%. This single comparison settles most hydrogen arguments.</td></tr>
+    <tr><td><strong>~50-55 kWh per kilogram</strong></td><td>Electricity needed to make one kilo of hydrogen today. So the cost of green hydrogen is mostly the cost of electricity, multiplied.</td></tr>
+    <tr><td><strong>Several times the price of grey</strong></td><td>Green hydrogen currently costs a multiple of the gas-made kind. Closing that gap is the whole industry's project.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>The losses.</strong> For anything you can electrify directly — cars, buses, home heating
+    — hydrogen loses to a battery or a heat pump and will keep losing, because the physics does not
+    improve much.</li>
+    <li><strong>It is the smallest molecule there is.</strong> It leaks through seals that hold other
+    gases, and it makes some steels brittle over time. Existing gas pipes cannot simply be filled with
+    it.</li>
+    <li><strong>The hype problem.</strong> Hydrogen has been "five years away" for about fifty years. A
+    great many announced projects quietly do not reach a final investment decision. When you read a
+    hydrogen announcement, the question is whether anyone has committed money.</li>
+    <li><strong>But there is a real case, and it is worth knowing:</strong> fertiliser, steel and
+    refining already use enormous amounts of hydrogen, made from gas, emitting CO2. Replacing that is a
+    huge, genuine, unglamorous market. Steel made with hydrogen instead of coal is a real thing being
+    built now. <em>The case for hydrogen is industry. It was never cars.</em></li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Hydrogen is not an energy source. It is a way to carry energy, and you lose most of it on the
+  way."</p>
+  <p>"It makes sense for steel and fertiliser. It does not make sense for cars — a battery beats it."</p>
+  <p>"Ninety-five percent of the hydrogen we use today is made from natural gas. The green part is still
+  tiny."</p>
+</div>
+
+<header class="part" id="carbon">
+  <span class="pn">Part IV · The carbon problem</span>
+  <h2>Cleaning up, and heating up</h2>
+  <p class="lede">One technology everybody argues about, and one that almost nobody understands but
+  everybody will eventually own.</p>
+</header>
+
+<header class="mod" id="e7">
+  <span class="mn">How it works 07</span>
+  <h2>Carbon capture</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>Carbon capture means catching CO2 so it does not reach the air, and putting it somewhere it
+  will stay.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>A filter on a chimney — versus a vacuum cleaner for the whole sky.</p>
+  <p>These are two completely different jobs, and they are constantly given the same name, which is why
+  the subject is so confusing.</p>
+  <p>At a chimney, CO2 is about 10 to 15 out of every 100 parts of the gas. In open air it is about 4
+  parts in <em>ten thousand</em>. So pulling it from the air means moving hundreds of times more air for
+  the same result. Same chemistry. Wildly different bill.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">Three different things with one name</div>
+<pre><code>① POINT SOURCE CAPTURE (often written CCS)
+   Catch it at the chimney of a power station, cement
+   works or steel plant. The concentrated one. Doable.
+
+② DIRECT AIR CAPTURE (DAC)
+   Catch it from open air. Works anywhere, costs far more,
+   currently exists at very small scale.
+
+③ ⚠ ENHANCED OIL RECOVERY
+   Pump CO2 into an old oil field to push more oil out.
+   THIS IS HISTORICALLY THE MAJORITY OF ALL "CARBON
+   CAPTURE" EVER DONE, and it produces more oil.
+   ⇒ when you read a capture figure, the first question
+     is which of these three it is. Very often nobody
+     says.
+
+HOW THE STANDARD METHOD WORKS — amine scrubbing
+  ① the exhaust gas passes through a liquid (an amine)
+    that chemically grabs CO2 and lets everything else
+    through
+  ② heat that liquid. It releases the CO2, now pure and
+    concentrated. The liquid is reused
+    ⇒ ⚠ THAT HEATING IS THE ENERGY PENALTY. You are
+      burning more fuel in order to capture
+  ③ compress the CO2 until it behaves almost like a
+    liquid
+  ④ pipe it and inject it a kilometre or more underground
+    into porous rock with a solid sealing layer above it,
+    which is the same geology that held oil and gas in
+    place for millions of years</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:44%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>15-30% energy penalty</strong></td><td>The share of a plant's output consumed by capturing its own CO2. You need a bigger plant to deliver the same power.</td></tr>
+    <tr><td><strong>Chimney capture is far cheaper than air capture</strong></td><td>Point-source costs are typically in the tens of dollars per tonne upward; direct air capture today is several hundred. The gap is the concentration difference, and it will not close entirely.</td></tr>
+    <tr><td><strong>Global capture is tiny</strong></td><td>Total capacity is in the low tens of millions of tonnes a year, against roughly 37 billion tonnes of CO2 emitted annually. It is about one part in a thousand. <em>This is the number that most changes how people talk about it.</em></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>It costs energy to save energy's emissions.</strong> That is not fatal but it is
+    inescapable.</li>
+    <li><strong>The track record is poor.</strong> Several flagship projects captured far less than
+    promised or shut down. This matters when judging new announcements.</li>
+    <li><strong>The moral hazard argument.</strong> Critics say the promise of future capture is used to
+    justify emitting now. This is a fair criticism of how it is sometimes used politically, and it is not
+    an argument about the chemistry.</li>
+    <li><strong>But here is the honest case for it.</strong> In cement, the CO2 does not mainly come from
+    the fuel — it comes out of the limestone itself as a chemical consequence of making cement. You
+    cannot avoid it by switching to clean power, because it is not about the power. For cement, and to a
+    degree steel, capture may be the only route there is. <em>If you want one defensible thing to say
+    about carbon capture, say that.</em></li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"Catching CO2 at a chimney is chemistry. Catching it from open air is chemistry plus an enormous
+  fan bill."</p>
+  <p>"Most of the CO2 ever captured has been used to push more oil out of the ground."</p>
+  <p>"For cement it might be the only option, because the CO2 comes out of the rock, not the fuel."</p>
+</div>
+
+<header class="mod" id="e8">
+  <span class="mn">How it works 08</span>
+  <h2>Heat pumps</h2>
+</header>
+
+<div class="proj">
+  <span class="tag">In one sentence</span>
+  <p><strong>A heat pump moves heat from outside into your house, instead of making heat by burning
+  something.</strong></p>
+</div>
+
+<div class="note">
+  <span class="tag">Think of it like…</span>
+  <p>A fridge running backwards. You already own one.</p>
+  <p>A fridge takes heat <em>out</em> of the food compartment and dumps it into the room — go and feel the
+  warm grille at the back. It does not make cold. It moves heat.</p>
+  <p>A heat pump does the same thing to your house: it takes heat from the outside air and dumps it
+  inside. The outside gets slightly colder. You get warm.</p>
+  <p>And yes — cold air still has heat in it. "Cold" only means less heat than you would like. There is
+  heat in air all the way down to -273°C, which is where there genuinely is none left.</p>
+</div>
+
+<div class="sheet">
+  <div class="cap">How it works</div>
+<pre><code>① A LIQUID THAT BOILS AT A VERY LOW TEMPERATURE
+   flows through a coil outside. It is called a
+   refrigerant. It can boil at temperatures well below
+   freezing.
+
+② IT ABSORBS HEAT FROM THE OUTSIDE AIR AND BOILS
+   Even at 0°C outside, there is enough heat to boil this
+   liquid into gas.
+
+③ A COMPRESSOR SQUEEZES THE GAS
+   Squeezing a gas makes it hot. This is not magic — it is
+   why a bicycle pump gets warm while you use it. Now the
+   gas is hotter than your house.
+
+④ INSIDE, IT GIVES UP ITS HEAT
+   The hot gas passes through a coil indoors, warms your
+   radiators or your air, and condenses back to liquid.
+
+⑤ IT EXPANDS, GETS COLD AGAIN, AND GOES ROUND
+   Forever, or until something breaks.
+
+⭐ WHY IT BEATS BURNING — the one fact to keep
+  You are not MAKING heat. You are MOVING it. So the
+  electricity is only paying for the pump, not for the
+  heat itself.
+  ⇒ THAT IS WHY YOU CAN GET 3 OR 4 UNITS OF HEAT FOR
+    1 UNIT OF ELECTRICITY.
+  ⇒ a gas boiler can never beat 1 unit of heat per unit
+    of fuel. Ever. It is making the heat.
+  This ratio has a name you will hear: COP, the
+  coefficient of performance. A COP of 3.5 means 3.5
+  units of heat per unit of electricity.
+  ⚠ AND NO, "350% EFFICIENT" DOES NOT BREAK PHYSICS.
+    Nothing is being created. It is being carried.</code></pre>
+</div>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:44%">The number</th><th>What it means</th></tr></thead>
+  <tbody>
+    <tr><td><strong>COP of 3-4 in mild weather</strong></td><td>Three to four units of heat per unit of electricity. This is the number the whole case rests on.</td></tr>
+    <tr><td><strong>Falling toward 2 or below in hard cold</strong></td><td>The colder outside, the less heat there is to move and the harder the compressor works. So performance drops exactly when you most need heat.</td></tr>
+    <tr><td><strong>The gas-to-electricity price ratio</strong></td><td>Whether it saves you money is almost entirely this. If electricity costs four times what gas costs per unit, a COP of 3.5 barely breaks even. If it costs three times, you save. <em>This is a policy and tax question, not an engineering one.</em></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="warn">
+  <span class="tag">What goes wrong</span>
+  <ul>
+    <li><strong>It prefers to run warm-ish and steady, not hot and short.</strong> A gas boiler sends
+    water round at 60-70°C in bursts. A heat pump is most efficient at 35-45°C, running gently for
+    longer. Fitted to a house designed around a hot boiler, with small radiators, it will either
+    underperform or run at a poor COP.</li>
+    <li><strong>Which is why most complaints are about bad installations</strong>, not bad technology.
+    The heat pump is usually fine; the radiators were never resized and nobody did the heat-loss
+    calculation.</li>
+    <li><strong>It costs a lot upfront</strong>, and the saving depends on the price ratio above.</li>
+    <li><strong>The refrigerant itself is often a strong greenhouse gas</strong> if it leaks, which is
+    why newer systems are moving to propane and CO2 as refrigerants.</li>
+  </ul>
+</div>
+
+<div class="good">
+  <span class="tag">Say this</span>
+  <p>"A heat pump is a fridge running backwards. It does not make heat, it moves it — that is why it can
+  be three hundred percent efficient without breaking physics."</p>
+  <p>"Whether it saves you money depends almost entirely on the ratio between the electricity price and
+  the gas price."</p>
+  <p>"Most heat pump complaints are bad installations, not bad heat pumps."</p>
+</div>
+
+<header class="mod" id="words">
+  <span class="mn">Reference</span>
+  <h2>The words, in plain words</h2>
+</header>
+
+<p>These are the terms you will hear. None of them is complicated once someone tells you what it means,
+and nobody ever does.</p>
+
+<div class="tw">
+<table>
+  <thead><tr><th style="width:25%">When they say…</th><th>They mean</th></tr></thead>
+  <tbody>
+    <tr><td><strong>kWh</strong></td><td>A unit of energy. One kilowatt running for one hour. A kettle uses roughly one over an hour.</td></tr>
+    <tr><td><strong>MW / GW</strong></td><td>A rate, not an amount. Megawatt = how fast, kilowatt-hour = how much. A tap versus a bucket.</td></tr>
+    <tr><td><strong>Capacity factor</strong></td><td>What a plant actually produced over a year, divided by what it could have produced running flat out. Solar ~15-25%, wind ~25-50%, nuclear ~90%.</td></tr>
+    <tr><td><strong>Baseload</strong></td><td>Power that runs all the time. Traditionally coal, gas and nuclear.</td></tr>
+    <tr><td><strong>Intermittent</strong></td><td>Comes and goes on its own schedule. Solar and wind.</td></tr>
+    <tr><td><strong>Dispatchable</strong></td><td>You can turn it on when you choose. The thing intermittent sources are not.</td></tr>
+    <tr><td><strong>The duck curve</strong></td><td>The daily shape of demand in a place with lots of solar — a dip at midday, a steep climb at sunset. Looks like a duck.</td></tr>
+    <tr><td><strong>Curtailment</strong></td><td>Switching off a wind or solar farm that <em>could</em> be producing, because there is nowhere to put the power. Wasting free electricity, and increasingly common.</td></tr>
+    <tr><td><strong>LCOE</strong></td><td>Levelised cost of energy. Total lifetime cost divided by total lifetime output. Useful for comparison, and it hides the fact that midday solar and 6pm solar are not worth the same.</td></tr>
+    <tr><td><strong>Brine</strong></td><td>The very salty water left over from desalination.</td></tr>
+    <tr><td><strong>Electrolyser</strong></td><td>The machine that splits water into hydrogen and oxygen.</td></tr>
+    <tr><td><strong>COP</strong></td><td>Heat pumps. Units of heat out per unit of electricity in.</td></tr>
+    <tr><td><strong>Grid inertia</strong></td><td>Big spinning generators resist sudden change simply because they are heavy, which steadies the grid. Solar and batteries have no spinning mass, so this has to be replaced with fast electronics. A real and underdiscussed engineering problem.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<header class="mod" id="ten">
+  <span class="mn">Reference</span>
+  <h2>Your ten sentences</h2>
+</header>
+
+<div class="good">
+  <span class="tag">If you learn nothing else, learn these</span>
+  <div class="tw" style="margin-top:8px">
+  <table>
+    <tbody>
+      <tr><td style="width:34px"><strong>1</strong></td><td>"Desalination is really an energy story. Taking the salt out is easy — paying for the pressure is the hard part."</td></tr>
+      <tr><td><strong>2</strong></td><td>"Half of what goes into a desalination plant comes back out twice as salty. Where that brine goes is the real argument."</td></tr>
+      <tr><td><strong>3</strong></td><td>"Solar is the cheapest electricity ever built, in sunny places. The problem was never the panel. It's the night."</td></tr>
+      <tr><td><strong>4</strong></td><td>"Power goes with the cube of wind speed. Double the wind, eight times the power."</td></tr>
+      <tr><td><strong>5</strong></td><td>"Offshore wind's problem right now isn't technology. It's interest rates."</td></tr>
+      <tr><td><strong>6</strong></td><td>"Nuclear's problem in the West isn't physics. It's project management."</td></tr>
+      <tr><td><strong>7</strong></td><td>"A battery doesn't make energy. It moves energy in time — and only by a few hours."</td></tr>
+      <tr><td><strong>8</strong></td><td>"Hydrogen isn't an energy source. It's a way to carry energy, and you lose most of it on the way. It's for steel and fertiliser, not cars."</td></tr>
+      <tr><td><strong>9</strong></td><td>"Most of the CO2 ever captured has been used to push more oil out of the ground."</td></tr>
+      <tr><td><strong>10</strong></td><td>"A heat pump is a fridge running backwards. It doesn't make heat, it moves it."</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<div class="proj">
+  <span class="tag">Now do the ten seconds</span>
+  <p>Pick three of those and say them out loud, once, now. Not in your head.</p>
+  <p>You will feel silly. It takes ten seconds. And it is the difference between having read this file and
+  being able to use it — which is the entire argument of
+  <a href="06-having-something-to-say.html">file 06</a>, and the reason this library exists.</p>
+</div>
+
+<header class="mod" id="t2">
+  <span class="mn">Reference</span>
+  <h2>What next</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">The one thread running through all eight</div>
+<pre><code>⭐ ALMOST EVERY "TECHNOLOGY" STORY HERE IS AN ENERGY STORY
+  WEARING DIFFERENT CLOTHES.
+
+  desalination   = electricity turned into water
+  solar & wind   = cheap energy at the wrong time
+  batteries      = moving energy a few hours in time
+  hydrogen       = moving energy badly, but to places
+                   nothing else reaches
+  nuclear        = steady energy, priced by how well you
+                   manage a construction project
+  carbon capture = spending energy to undo energy
+  heat pumps     = using a little energy to move a lot
+                   of heat
+
+⇒ SO WHEN YOU MEET A NEW ONE, ASK THREE QUESTIONS:
+  ① HOW MUCH ENERGY DOES IT TAKE, AND WHERE FROM?
+  ② WHAT DOES IT DO WITH THE LEFTOVER?
+    (brine, waste, CO2, old panels, dead blades)
+  ③ WHO MAKES THE CRITICAL PART, AND WHERE?
+
+  Those three questions will get you further into almost
+  any technology conversation than a year of headlines.</code></pre>
+</div>
+
+<p>The next five files do the same job for other parts of the world. <strong>File 12</strong> is the
+physical supply chain — chips and the machines that make them, rare earths, lithium, shipping
+chokepoints, undersea cables, GPS and fertiliser. <strong>File 13</strong> is medicine and biology.
+<strong>File 14</strong> is computing and AI, including what an LLM is actually doing.
+<strong>File 15</strong> is materials, food and industry. <strong>File 16</strong> is how to follow a
+story over time without drowning in headlines.</p>
+
+<div class="disclaimer">
+  <p><strong>On the figures.</strong> The desalination capacity and Tunisian policy numbers come from the
+  report in this project at
+  <a href="../../dessalement/rapport-dessalement-tunisie.html">dessalement/</a>, which cites IDRA and Global
+  Water Intelligence. The energy, efficiency and cost figures elsewhere are typical values for current
+  commercial technology and will drift; they are here to give you the right order of magnitude, not to be
+  quoted as precise. Where a number is genuinely contested or moving fast — offshore wind costs, direct
+  air capture costs, green hydrogen prices — the text says so rather than picking a confident figure.</p>
+</div>
+
+<div class="band" style="margin-top:34px;">
+<a class="vol" href="index.html"><span class="vn">Back to</span><b>Sharp Mind index</b><em>All sixteen handbooks</em></a>
+<a class="vol" href="06-having-something-to-say.html"><span class="vn">Why this exists · 06</span><b>Having Something to Say</b><em>Stocking the shelf</em></a>
+<a class="vol" href="12-the-physical-supply-chain.html"><span class="vn">Next · 12</span><b>The Physical Supply Chain</b><em>Chips, ships and cables</em></a>
+</div>
+
+</main>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+  var map = {}, targets = [];
+  links.forEach(function (a) {
+    var h = a.getAttribute('href');
+    if (!h || h.charAt(0) !== '#') return;
+    var el = document.getElementById(h.slice(1));
+    if (el) { map[el.id] = a; targets.push(el); }
+  });
+  var current = null;
+  function mark(id) {
+    if (id === current) return;
+    current = id;
+    links.forEach(function (a) { a.classList.remove('on'); });
+    if (map[id]) map[id].classList.add('on');
+  }
+  var io = new IntersectionObserver(function (entries) {
+    var vis = entries.filter(function (e) { return e.isIntersecting; });
+    if (vis.length) {
+      vis.sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top; });
+      mark(vis[0].target.id);
+    }
+  }, { rootMargin: '-8% 0px -72% 0px', threshold: 0 });
+  targets.forEach(function (t) { io.observe(t); });
+})();
+
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

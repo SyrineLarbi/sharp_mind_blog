@@ -1,0 +1,752 @@
+<title>Medicines, and How to Judge a Health Claim</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">A cultured mind · Volume 44 of 54 · health</p>
+  <h1>Medicines, and how to judge a health claim. <span class="thin">What's in the cupboard, and how to read what people say about it.</span></h1>
+  <p class="lede">Two halves that belong together. The first is the practical knowledge about the
+  medicines almost everyone has at home — which painkiller for what, the one that is uniquely dangerous
+  in ways people do not expect, what must not be combined. The second is more durable: the instinct for
+  telling a real health claim from a plausible one, which you will use every week for the rest of your
+  life.</p>
+  <div class="hero-meta">
+    <span><b>Follows</b> · Volumes 39, 42</span>
+    <span><b>Covers</b> · painkillers, antibiotics, interactions, labels, evidence, supplements</span>
+    <span><b>Not</b> · dosing advice — read your packet</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="17-ancient-world.html"><span class="vn">Vol 17</span><b>Ancient world</b></a>
+<a class="vol" href="18-empires-of-faith.html"><span class="vn">Vol 18</span><b>Faith &amp; trade</b></a>
+<a class="vol" href="19-the-world-opens.html"><span class="vn">Vol 19</span><b>The world opens</b></a>
+<a class="vol" href="20-age-of-revolutions.html"><span class="vn">Vol 20</span><b>Revolutions</b></a>
+<a class="vol" href="21-the-world-at-war.html"><span class="vn">Vol 21</span><b>The world at war</b></a>
+<a class="vol" href="22-the-long-shadow.html"><span class="vn">Vol 22</span><b>The long shadow</b></a>
+<a class="vol" href="23-disasters.html"><span class="vn">Vol 23</span><b>Disasters</b></a>
+<a class="vol" href="24-discoveries.html"><span class="vn">Vol 24</span><b>Discoveries</b></a>
+<a class="vol" href="25-physics.html"><span class="vn">Vol 25</span><b>Physics</b></a>
+<a class="vol" href="26-chemistry.html"><span class="vn">Vol 26</span><b>Chemistry</b></a>
+<a class="vol" href="27-life.html"><span class="vn">Vol 27</span><b>Life</b></a>
+<a class="vol" href="28-medicine.html"><span class="vn">Vol 28</span><b>Medicine</b></a>
+<a class="vol" href="29-the-sky.html"><span class="vn">Vol 29</span><b>The sky</b></a>
+<a class="vol" href="30-the-earth.html"><span class="vn">Vol 30</span><b>The Earth</b></a>
+<a class="vol" href="31-what-to-remember.html"><span class="vn">Vol 31</span><b>What to remember</b></a>
+<a class="vol" href="32-everyday-science.html"><span class="vn">Vol 32</span><b>Everyday science</b></a>
+<a class="vol" href="33-your-body.html"><span class="vn">Vol 33</span><b>Your body</b></a>
+<a class="vol" href="34-when-things-go-wrong.html"><span class="vn">Vol 34</span><b>Emergencies</b></a>
+<a class="vol" href="35-the-mind.html"><span class="vn">Vol 35</span><b>The mind</b></a>
+<a class="vol" href="36-people.html"><span class="vn">Vol 36</span><b>People</b></a>
+<a class="vol" href="37-the-dark-side.html"><span class="vn">Vol 37</span><b>The dark side</b></a>
+<a class="vol" href="38-money.html"><span class="vn">Vol 38</span><b>Money</b></a>
+<a class="vol" href="39-chance.html"><span class="vn">Vol 39</span><b>Chance</b></a>
+<a class="vol" href="40-right-and-wrong.html"><span class="vn">Vol 40</span><b>Right &amp; wrong</b></a>
+<a class="vol" href="41-whats-in-things.html"><span class="vn">Vol 41</span><b>What's in things</b></a>
+<a class="vol" href="42-your-health.html"><span class="vn">Vol 42</span><b>Your health</b></a>
+<a class="vol" href="43-mind-and-mood.html"><span class="vn">Vol 43</span><b>Mind &amp; mood</b></a>
+<div class="vol here"><span class="vn">Vol 44 · here</span><b>Medicines</b></div>
+<a class="vol" href="45-the-conditions.html"><span class="vn">Vol 45</span><b>The conditions</b></a>
+<a class="vol" href="46-home-and-kitchen.html"><span class="vn">Vol 46</span><b>Home &amp; kitchen</b></a>
+<a class="vol" href="47-not-being-fooled.html"><span class="vn">Vol 47</span><b>Not being fooled</b></a>
+<a class="vol" href="48-dont-do-that.html"><span class="vn">Vol 48</span><b>Don't do that</b></a>
+<a class="vol" href="49-ai-honestly.html"><span class="vn">Vol 49</span><b>AI, honestly</b></a>
+<a class="vol" href="50-whats-coming.html"><span class="vn">Vol 50</span><b>What's coming</b></a>
+<a class="vol" href="51-the-novels.html"><span class="vn">Vol 51</span><b>The novels</b></a>
+<a class="vol" href="52-philosophy-originals.html"><span class="vn">Vol 52</span><b>Philosophy</b></a>
+<a class="vol" href="53-ideas-that-changed.html"><span class="vn">Vol 53</span><b>Ideas</b></a>
+<a class="vol" href="54-the-anthology.html"><span class="vn">Vol 54</span><b>The anthology</b></a>
+</div>
+
+<header class="part" id="p1">
+  <span class="pn">Part I</span>
+  <h2>How a medicine works at all</h2>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Lock and key, and why side effects are unavoidable</h2>
+</header>
+
+<p>Almost every medicine works by binding to something in the body — a receptor, an enzyme, a channel —
+and either switching it on, blocking it, or getting in the way of something else that would have bound
+there. Shape is what determines where a molecule goes.</p>
+
+<p>Which immediately explains side effects, and explains why they are not a sign of a badly made drug.
+<strong>The same target usually exists in more than one place</strong>, and no molecule fits only one
+shape perfectly. A drug that calms an overactive process where you want it calmed will also reach
+everywhere else that process happens. Side effects are the drug doing exactly what it does, somewhere
+you did not need it.</p>
+
+<p>Three further consequences follow, and they cover most of what confuses people about taking
+medicines.</p>
+
+<p><strong>Dose is everything.</strong> Too little does nothing; too much overwhelms the systems that
+clear it. The useful range between those is called the therapeutic window, and it is wide for some drugs
+and alarmingly narrow for others — which is why some medicines are sold freely and others require
+monitoring.</p>
+
+<p><strong>Timing is not arbitrary.</strong> A drug is cleared continuously, mostly by the liver and the
+kidneys, and dosing intervals are calculated to keep the amount in the useful range. Skipping and then
+doubling up does not average out.</p>
+
+<p><strong>"With food" means something specific</strong> — usually either that food slows absorption to
+avoid a spike, or that the drug irritates the stomach lining. "On an empty stomach" usually means food
+blocks absorption. Neither is a suggestion.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The painkillers, and the one that is genuinely different</h2>
+</header>
+
+<p>The common over-the-counter painkillers are not interchangeable, and knowing which does what is
+genuinely useful.</p>
+
+<p><strong>Paracetamol</strong> — acetaminophen in some countries — treats pain and fever and does
+essentially nothing for inflammation. It is gentle on the stomach, which is why it is the usual first
+choice, and it is the single most dangerous thing in most medicine cupboards for the reason in the box
+below.</p>
+
+<p><strong>Ibuprofen</strong> and the related anti-inflammatories treat pain, fever <em>and</em>
+inflammation, which makes them better for injuries, swelling, period pain, dental pain and arthritis.
+The cost is that they irritate the stomach lining and can cause bleeding with regular use, they strain
+the kidneys, and they are a poor idea for people with certain heart, kidney or stomach conditions, or
+during much of pregnancy. Taking them with food helps a little; taking them for weeks on end without
+advice does not.</p>
+
+<p><strong>Aspirin</strong> is in the same family with an additional effect on blood clotting, which is
+why low doses are prescribed long-term to some people for entirely different reasons. It should not be
+given to children because of a rare but severe liver and brain complication.</p>
+
+<p>Two practical notes that matter more than the choice. <strong>Paracetamol and ibuprofen work by
+different mechanisms and can generally be used together or alternated</strong> — a genuinely useful
+thing to know for bad pain. And for most acute pain, taking a proper dose promptly works better than
+waiting until the pain is severe, because it is easier to prevent than to catch up with.</p>
+
+<div class="warn">
+  <span class="tag">The paracetamol problem — the most important paragraph in this volume</span>
+  <p>Paracetamol is extremely safe at the right dose and <strong>has an unusually narrow margin</strong>
+  above it. Moderate excess — not a dramatic overdose, just consistently a bit too much over a couple of
+  days — can cause severe liver damage.</p>
+  <p>The danger is that it is <strong>hidden in a great many combination products</strong>: cold and flu
+  remedies, hot lemon sachets, night-time medicines, some prescription painkillers. Taking a cold remedy
+  and paracetamol together, both as directed, can exceed the limit without either packet being
+  misused. <strong>Read every packet for it before combining anything.</strong></p>
+  <p>And the part that kills people: <strong>the symptoms are delayed.</strong> Someone can take a
+  dangerous amount, feel more or less fine for a day, and have irreversible liver damage underway. There
+  is an antidote and it works best early. Suspected excess is an immediate medical matter regardless of
+  how well the person feels. Alcohol makes all of this considerably worse.</p>
+</div>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Antibiotics, and why the advice changed</h2>
+</header>
+
+<p>Antibiotics kill bacteria. They do nothing whatsoever to viruses — so they do nothing for colds,
+influenza, most sore throats, most coughs and most sinus infections, which are overwhelmingly viral.
+Taking one anyway carries the side effects with none of the benefit, and contributes to the larger
+problem.</p>
+
+<p>That problem is straightforward and serious. Bacteria vary; a few survive any given exposure; those
+few reproduce. <strong>Resistance is evolution happening on a timescale you can watch</strong>, and it
+is driven by every unnecessary course taken anywhere, including in farmed animals. The endpoint is
+routine infections and routine surgery becoming dangerous again, which is the world described in Volume
+28 before antibiotics existed.</p>
+
+<p>Two pieces of practical advice worth updating. The instruction to <strong>always finish the
+course</strong> has softened — for several common infections the evidence now favours shorter courses,
+and the right answer is what your prescriber specifies for that infection rather than a universal rule.
+Do not stop early on your own judgement, and do not assume longer is safer either.</p>
+
+<p>And never take leftover antibiotics, or someone else's. The drug must match the organism, the dose
+must match the infection, and a partial course from last year is the ideal way to breed something
+resistant without treating anything.</p>
+
+<p>On the side that does affect you immediately: antibiotics disrupt the useful bacteria in the gut,
+which is why they commonly cause digestive upset, and they can interact with other medicines — including
+reducing the effectiveness of some contraceptives, which is worth asking about rather than assuming.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Interactions, generics, storage and dates</h2>
+</header>
+
+<p>The practical housekeeping, briefly, because each item causes real problems.</p>
+
+<p><strong>Interactions</strong> happen when one substance changes how another is absorbed or cleared.
+The liver processes many drugs through the same machinery, so anything that speeds it up or slows it
+down changes the level of everything else. Grapefruit is the famous example and it is not a myth — it
+blocks one of those pathways and can substantially raise the level of a long list of medicines, for
+many hours. <strong>Alcohol</strong> is the most common and most underestimated interaction: with
+sedatives and strong painkillers it is genuinely dangerous, and with paracetamol it compounds the liver
+risk. And herbal products are not exempt — St John's wort in particular accelerates the clearance of a
+wide range of drugs, including contraceptives and several essential medications. <strong>Tell your
+doctor and pharmacist everything you take, including supplements and herbal remedies.</strong></p>
+
+<p><strong>Generics</strong> contain the same active ingredient at the same dose and must demonstrate
+that they behave the same way in the body. The differences are in the inactive ingredients, the shape
+and the price. The confusion they cause is real and worth guarding against: the same drug appears under
+several names, and taking a branded and a generic version of the same thing is a straightforward way to
+double a dose by accident.</p>
+
+<p><strong>Storage.</strong> Heat, light and humidity degrade medicines, which makes the bathroom
+cabinet — the warmest, dampest room in the house — the worst possible location. A cool, dry, dark place
+out of children's reach is the answer.</p>
+
+<p><strong>Expiry dates</strong> mark the point up to which full potency is guaranteed. For most solid
+tablets, modest expiry means gradually reduced strength rather than danger. For liquids, eye drops,
+anything refrigerated, antibiotics, insulin and adrenaline injectors, the date should be respected
+strictly — and for anything where reduced potency would itself be an emergency, there is no argument at
+all. Dispose of old medicines through a pharmacy rather than the bin or the toilet.</p>
+
+<header class="part" id="p2">
+  <span class="pn">Part II</span>
+  <h2>Judging a claim</h2>
+</header>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Why bad treatments feel like they work</h2>
+</header>
+
+<p>This is the foundation, and it has nothing to do with the treatment. Four things conspire to make
+anything at all look effective.</p>
+
+<p><strong>Most things get better anyway.</strong> Colds end, backs settle, headaches pass. Whatever you
+took shortly beforehand receives the credit, and a treatment that does nothing at all will appear to
+work in the great majority of self-limiting conditions.</p>
+
+<p><strong>You try remedies at your worst.</strong> Which is precisely when regression to the mean from
+Volume 39 guarantees improvement. This is the single most powerful generator of false belief in
+ineffective treatments, and it is invisible from inside.</p>
+
+<p><strong>The placebo effect is real</strong>, and more interesting than "it is all in your head".
+Expectation genuinely reduces perceived pain and produces measurable physiological changes. What it does
+not do is shrink a tumour or clear an infection. It is strongest exactly where symptoms are subjective —
+pain, nausea, fatigue, mood — which is exactly where alternative remedies claim their successes.</p>
+
+<p><strong>You remember the hits.</strong> The times it worked are stories; the times it did not are
+forgotten, or explained by not having used it properly. This is the availability bias and the
+confirmation bias from Volume 35, operating on your own body.</p>
+
+<p>Put together, these mean that <strong>personal experience cannot distinguish an effective treatment
+from an ineffective one.</strong> That is not a slight on anyone's intelligence — it is why controlled
+trials had to be invented, and why the entire apparatus of comparison groups and blinding exists.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>What makes evidence good</h2>
+</header>
+
+<p>You do not need to read studies to use this. You need to know what the words in the headline imply.</p>
+
+<p><strong>A comparison group</strong> is the minimum. Without one, you cannot tell the treatment from
+the four effects in the last chapter.</p>
+
+<p><strong>Random allocation</strong> is what stops the healthier, wealthier or more motivated people
+ending up in one group. If people chose their group, any difference may be about them rather than the
+treatment.</p>
+
+<p><strong>Blinding</strong> — neither the participant nor ideally the assessor knowing who got what —
+stops expectation affecting both the experience and the measurement.</p>
+
+<p><strong>Size and duration.</strong> Small samples produce extreme results, exactly as Volume 39
+described. Short trials cannot see long-term harms.</p>
+
+<p><strong>Replication</strong> is the one that matters most and gets the least coverage. A single
+striking study is a hypothesis. A finding that several independent groups reproduce is knowledge. A
+great many famous results have failed to replicate, and the failure rarely makes the news.</p>
+
+<p>The hierarchy, roughly: a systematic review pooling many good trials sits at the top; a single large
+randomised trial below it; observational studies below that, because they show association and cannot
+establish cause; then animal and laboratory work, which is where most exciting headlines actually come
+from; and anecdote at the bottom, however vivid.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Reading a health headline</h2>
+</header>
+
+<p>A short set of questions handles almost everything you will meet.</p>
+
+<p><strong>Was it in people?</strong> An enormous share of "X causes cancer" and "Y cures Z" stories are
+cells in a dish or mice. Findings in those settings frequently fail in humans, and the headline rarely
+says which it was.</p>
+
+<p><strong>From what, to what?</strong> The relative-risk question from Volume 39. A doubled risk of
+something that affects one person in a hundred thousand is a different story from a doubled risk of
+something common. Any figure given only as a percentage change is incomplete.</p>
+
+<p><strong>Correlation or cause?</strong> Observational studies find associations, and the honest
+language is "associated with" or "linked to". When a headline converts that into "causes", the
+conversion was done by the journalist. Ask what else might explain it — people who do X often also do
+Y, and often differ in wealth, age and health to begin with.</p>
+
+<p><strong>Who paid, and who is selling?</strong> Funding does not make a result wrong, and it does
+predictably shift what gets studied and what gets published. A study funded by an industry with a stake
+warrants the extra scrutiny you would apply to any interested testimony.</p>
+
+<p><strong>Does one study overturn a field?</strong> Almost never. When a single result contradicts a
+large body of work, the prior probability is that the single result is wrong.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Supplements and alternative remedies</h2>
+</header>
+
+<p>The honest position has three parts, and most arguments about this go wrong by holding only one.</p>
+
+<p><strong>Some supplements have real evidence for specific people.</strong> Vitamin D where sunlight is
+limited, folic acid before and during early pregnancy, iron in diagnosed deficiency, B12 for those who
+do not eat animal products, and specific clinical situations. These are genuine and worth taking
+seriously.</p>
+
+<p><strong>Most supplements, in people who are not deficient, do nothing.</strong> Large trials of
+multivitamins and antioxidants in well-nourished populations have repeatedly failed to show benefit, and
+several have found harm at high doses — beta-carotene in smokers being the most sobering example. More
+is not better; the dose principle from Volume 41 does not stop applying because something is marketed
+as natural.</p>
+
+<p><strong>The regulation is much lighter than for medicines.</strong> In most places supplements need
+not demonstrate effectiveness before sale, and testing has repeatedly found products containing less
+than stated, more than stated, or substances not on the label at all.</p>
+
+<p>On alternative medicine specifically, the useful distinction is between <em>unproven</em> and
+<em>disproven</em>. Some herbal preparations have real pharmacological activity — which also means real
+interactions and real side effects, and being plant-derived confers no safety. Some practices have
+modest evidence for subjective symptoms, consistent with the mechanisms in Chapter 05. And homeopathy
+is a special case that deserves naming plainly: the preparations are diluted past the point where any
+original substance remains, its claimed mechanism contradicts basic chemistry, and it has been tested
+extensively with no effect beyond placebo.</p>
+
+<p>The real harm is rarely the remedy itself. <strong>It is delay</strong> — treatable conditions
+becoming untreatable while something ineffective is tried — and money, and interactions that nobody
+knew about because the patient did not think a herbal product counted as medicine.</p>
+
+<header class="mod" id="recap">
+  <span class="mn">Reference</span>
+  <h2>What to carry forward</h2>
+</header>
+
+<div class="sen">
+  <div class="b knows"><span class="k">The cupboard</span>
+    <p>Paracetamol for pain and fever; ibuprofen when inflammation is involved; they work differently and
+    can be combined. <strong>Paracetamol is hidden in cold and flu remedies, its margin is narrow, and
+    the symptoms of excess are delayed by a day</strong> — check every packet before combining.</p></div>
+  <div class="b"><span class="k">Antibiotics</span>
+    <p>Useless against viruses, which is most coughs, colds and sore throats. <strong>Resistance is
+    evolution you can watch.</strong> Never use leftovers or someone else's, and follow the course your
+    prescriber specified rather than a universal rule.</p></div>
+  <div class="b junior"><span class="k">Interactions and housekeeping</span>
+    <p>Tell them <strong>everything</strong> you take, herbal included — St John's wort and grapefruit
+    both alter drug levels substantially. Alcohol is the most underestimated interaction. Store cool,
+    dry and dark, not in the bathroom.</p></div>
+  <div class="b check"><span class="k">Judging claims</span>
+    <p><strong>Personal experience cannot distinguish an effective treatment from an ineffective
+    one</strong> — things improve anyway, you try remedies at your worst, expectation is real, and you
+    remember the hits. So ask: in people or in mice? From what, to what? Correlation or cause? Has
+    anyone replicated it?</p></div>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Back to · Volume 39</h4><p>Regression to the mean is why every remedy tried at the worst moment appears to work. It is the single most useful idea in this volume and it is not about medicine at all.</p></div>
+  <div class="card"><h4>Next · The conditions that matter</h4><p>Heart, blood pressure, cholesterol, diabetes and stroke — what they actually are, and the risk factors they share.</p></div>
+</div>
+</main>
+</div>
+
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

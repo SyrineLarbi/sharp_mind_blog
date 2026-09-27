@@ -1,0 +1,786 @@
+<title>Empires of Faith and Trade</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">A cultured mind · Volume 18 of 54 · history</p>
+  <h1>Empires of faith and trade. <span class="thin">The thousand years Europe spent being the quiet corner.</span></h1>
+  <p class="lede">School histories tend to go straight from Rome to the Renaissance, as though the
+  intervening millennium were a waiting room. It was not. While western Europe was poor and
+  fragmented, Baghdad was the largest city on Earth, Mali's king was handing out so much gold he
+  wrecked an economy, Chinese merchants were using paper money, and a cavalry army out of Mongolia
+  assembled the largest land empire there has ever been. This is that story.</p>
+  <div class="hero-meta">
+    <span><b>Covers</b> · roughly 500 to 1450</span>
+    <span><b>Corrects</b> · the idea of a "dark age"</span>
+    <span><b>Read it</b> · as the world, not just Europe</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="17-ancient-world.html"><span class="vn">Vol 17</span><b>Ancient world</b></a>
+<div class="vol here"><span class="vn">Vol 18 · here</span><b>Faith &amp; trade</b></div>
+<a class="vol" href="19-the-world-opens.html"><span class="vn">Vol 19</span><b>The world opens</b></a>
+<a class="vol" href="20-age-of-revolutions.html"><span class="vn">Vol 20</span><b>Revolutions</b></a>
+<a class="vol" href="21-the-world-at-war.html"><span class="vn">Vol 21</span><b>The world at war</b></a>
+<a class="vol" href="22-the-long-shadow.html"><span class="vn">Vol 22</span><b>The long shadow</b></a>
+<a class="vol" href="23-disasters.html"><span class="vn">Vol 23</span><b>Disasters</b></a>
+<a class="vol" href="24-discoveries.html"><span class="vn">Vol 24</span><b>Discoveries</b></a>
+<a class="vol" href="25-physics.html"><span class="vn">Vol 25</span><b>Physics</b></a>
+<a class="vol" href="26-chemistry.html"><span class="vn">Vol 26</span><b>Chemistry</b></a>
+<a class="vol" href="27-life.html"><span class="vn">Vol 27</span><b>Life</b></a>
+<a class="vol" href="28-medicine.html"><span class="vn">Vol 28</span><b>Medicine</b></a>
+<a class="vol" href="29-the-sky.html"><span class="vn">Vol 29</span><b>The sky</b></a>
+<a class="vol" href="30-the-earth.html"><span class="vn">Vol 30</span><b>The Earth</b></a>
+<a class="vol" href="31-what-to-remember.html"><span class="vn">Vol 31</span><b>What to remember</b></a>
+<a class="vol" href="32-everyday-science.html"><span class="vn">Vol 32</span><b>Everyday science</b></a>
+<a class="vol" href="33-your-body.html"><span class="vn">Vol 33</span><b>Your body</b></a>
+<a class="vol" href="34-when-things-go-wrong.html"><span class="vn">Vol 34</span><b>Emergencies</b></a>
+<a class="vol" href="35-the-mind.html"><span class="vn">Vol 35</span><b>The mind</b></a>
+<a class="vol" href="36-people.html"><span class="vn">Vol 36</span><b>People</b></a>
+<a class="vol" href="37-the-dark-side.html"><span class="vn">Vol 37</span><b>The dark side</b></a>
+<a class="vol" href="38-money.html"><span class="vn">Vol 38</span><b>Money</b></a>
+<a class="vol" href="39-chance.html"><span class="vn">Vol 39</span><b>Chance</b></a>
+<a class="vol" href="40-right-and-wrong.html"><span class="vn">Vol 40</span><b>Right &amp; wrong</b></a>
+<a class="vol" href="41-whats-in-things.html"><span class="vn">Vol 41</span><b>What's in things</b></a>
+<a class="vol" href="42-your-health.html"><span class="vn">Vol 42</span><b>Your health</b></a>
+<a class="vol" href="43-mind-and-mood.html"><span class="vn">Vol 43</span><b>Mind &amp; mood</b></a>
+<a class="vol" href="44-medicines.html"><span class="vn">Vol 44</span><b>Medicines</b></a>
+<a class="vol" href="45-the-conditions.html"><span class="vn">Vol 45</span><b>The conditions</b></a>
+<a class="vol" href="46-home-and-kitchen.html"><span class="vn">Vol 46</span><b>Home &amp; kitchen</b></a>
+<a class="vol" href="47-not-being-fooled.html"><span class="vn">Vol 47</span><b>Not being fooled</b></a>
+<a class="vol" href="48-dont-do-that.html"><span class="vn">Vol 48</span><b>Don't do that</b></a>
+<a class="vol" href="49-ai-honestly.html"><span class="vn">Vol 49</span><b>AI, honestly</b></a>
+<a class="vol" href="50-whats-coming.html"><span class="vn">Vol 50</span><b>What's coming</b></a>
+<a class="vol" href="51-the-novels.html"><span class="vn">Vol 51</span><b>The novels</b></a>
+<a class="vol" href="52-philosophy-originals.html"><span class="vn">Vol 52</span><b>Philosophy</b></a>
+<a class="vol" href="53-ideas-that-changed.html"><span class="vn">Vol 53</span><b>Ideas</b></a>
+<a class="vol" href="54-the-anthology.html"><span class="vn">Vol 54</span><b>The anthology</b></a>
+</div>
+
+<header class="part" id="p1">
+  <span class="pn">Part I</span>
+  <h2>After Rome</h2>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>What actually went dark</h2>
+</header>
+
+<p>When the western empire stopped functioning, something real was lost, and it is worth being precise
+about what.</p>
+
+<p>The roads stopped being repaired. Long-distance trade shrank, so a village that had once bought
+pottery from three hundred miles away now made its own, worse. Cities emptied — Rome itself fell from
+perhaps a million people to maybe thirty thousand. Literacy collapsed outside the church. Coinage got
+scarce. Buildings got smaller and were made of wood.</p>
+
+<p>Those are genuine losses, and for the people living through them life did get harder and poorer and
+more local. But calling the whole period a "dark age" smuggles in two errors. The first is that it
+describes one region — western Europe — as though it were the world. The second is that "dark" often
+just means <em>we have fewer written records</em>, which says more about our sources than about their
+lives.</p>
+
+<p>And what replaced Rome was not chaos but a different arrangement. With no state to provide safety,
+people obtained it privately: a local strongman offered protection, and in exchange you worked his land
+and could not leave it. That bargain, repeated everywhere and formalised over centuries, is what we
+call feudalism. It is not a system anybody designed. It is what happens when a state stops answering
+and everybody has to arrange their own security.</p>
+
+<div class="note">
+  <span class="tag">The institution that kept the thread</span>
+  <p>The one organisation that survived the collapse intact was the Church — the only body with
+  literate staff, a network across the whole former empire, and a reason to copy old books. Monks
+  copying manuscripts in damp scriptoria are the reason we still have any Latin literature at all. They
+  were not preserving it for us; they were preserving it because a text was valuable and copying was
+  what you did with valuable texts. We are the accidental beneficiaries.</p>
+</div>
+
+<header class="part" id="p2">
+  <span class="pn">Part II</span>
+  <h2>The house of wisdom</h2>
+</header>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Baghdad, and the translation of everything</h2>
+</header>
+
+<p>In the eighth century, a new capital was laid out on the Tigris — a perfect circle, built from
+nothing, called the City of Peace and known to everyone as Baghdad. Within a century it was probably
+the largest and certainly the richest city in the world.</p>
+
+<p>Its rulers did something with consequences far beyond their reach. They decided to collect and
+translate every book they could find — Greek, Persian, Indian, Syriac — and they paid extremely well
+for it. Manuscripts were hunted across the known world. Translators became wealthy men. The institution
+that grew around this effort is remembered as the House of Wisdom.</p>
+
+<p>What came out of it was not merely preservation, though that mattered enormously — a great deal of
+Aristotle reached Europe centuries later only because it had gone into Arabic first and come back. What
+came out of it was new work.</p>
+
+<p>Scholars working in Arabic gave us the word <em>algebra</em>, from a book about "restoring and
+balancing" equations, and <em>algorithm</em>, from the name of the man who wrote it. They took a
+place-value number system with a symbol for nothing from India and made it usable, which is why you are
+reading these numerals and not Roman ones — try multiplying MCMXLVII by XXIII and you will see
+immediately why the change mattered. Ibn al-Haytham worked out that we see because light enters the
+eye, rather than because the eye emits something, and insisted that claims be tested by experiment. A
+physician called Ibn Sina wrote a medical encyclopaedia that was still a standard European textbook
+five hundred years later.</p>
+
+<div class="good">
+  <span class="tag">Why it happened there, then</span>
+  <p>The same conditions keep recurring in this book. <strong>Wealth from trade, a state willing to pay
+  for knowledge, a common language across an enormous area, and a genuine mixing of traditions</strong>
+  — Greek logic, Indian mathematics, Persian administration, all in one library, in one language, with
+  money behind it. Ideas get invented where different ideas are forced to meet.</p>
+</div>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The road that was not a road</h2>
+</header>
+
+<p>The Silk Road was never a road, and almost nobody travelled its full length. It was a chain of
+overlapping journeys — a merchant carrying goods a few hundred miles to a market, selling to another
+merchant who carried them a few hundred more — running from China through Central Asia to the
+Mediterranean.</p>
+
+<p>Silk went west, which is where the name comes from, because for centuries only China knew how to
+make it and guarded the method ferociously. Paper went west too, and that mattered more. Spices, glass,
+horses and silver went in various directions.</p>
+
+<p>But the cargo that changed the most was the cargo nobody was carrying deliberately. Religions
+travelled these routes — Buddhism walked from India into China along them. Technologies travelled.
+Ideas travelled. And so did disease, which is the subject of a later chapter and the reason this
+network eventually became lethal.</p>
+
+<header class="part" id="p3">
+  <span class="pn">Part III</span>
+  <h2>The empire of the horse</h2>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Temüjin</h2>
+</header>
+
+<p>He was born to a minor clan on the Mongolian steppe. His father was poisoned when he was a boy; his
+family was abandoned by their clan and survived on roots and small game. He was captured and kept in a
+wooden collar. By any reasonable expectation he should have died anonymous.</p>
+
+<p>Instead he spent twenty years welding the steppe tribes into one people, and in doing so broke the
+thing that had always kept them weak: he promoted by ability rather than birth, and he deliberately
+mixed the old clans into new units so that a man's loyalty ran to his commander and to Temüjin rather
+than to his relatives. The tribes acclaimed him Genghis Khan — universal ruler.</p>
+
+<p>What he then commanded was, in its moment, the most effective military instrument in the world.
+Every man could ride before he could properly walk, and shoot a bow accurately from a moving horse.
+Each warrior travelled with several remounts and could cover distances nobody believed possible.
+The army was organised in tens, hundreds and thousands with a discipline that European armies would not
+match for centuries. And it used terror deliberately and explicitly as policy — a city that surrendered
+was taxed, a city that resisted was destroyed utterly, and word was allowed to travel ahead. It meant
+most cities surrendered.</p>
+
+<p>At its greatest extent the Mongol empire ran from Korea to Hungary. It is the largest contiguous land
+empire there has ever been, and it was assembled in a single lifetime and the one following it.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The peace that followed the slaughter</h2>
+</header>
+
+<p>The destruction was real and enormous. Baghdad was sacked in 1258; the libraries were destroyed, and
+it is said the Tigris ran black with ink. Whole regions lost most of their population and some never
+recovered.</p>
+
+<p>And then, having conquered everything between China and the Black Sea, the Mongols made it safe to
+travel. One authority, one set of rules, protection for merchants, no borders. It became possible for
+goods and people and letters to move from one end of Asia to the other in a way that had never been
+possible before and would not be again for a long time. Historians call it the Mongol peace.</p>
+
+<p>This is why a Venetian named Marco Polo could travel to the court of Kublai Khan and come back with
+stories nobody believed. It is why paper money, gunpowder and printing — all Chinese — began their long
+journey west. It is also why, in the next century, a disease carried by fleas on rats in the trading
+caravans could travel from central Asia to the ports of Italy, and from there kill something like a
+third of everyone in Europe.</p>
+
+<div class="warn">
+  <span class="tag">The pattern worth noticing</span>
+  <p><strong>Connection is not a neutral good.</strong> The same network that carries goods, ideas and
+  money carries disease, and it carries it at exactly the speed of the trade. Every increase in human
+  connection in this book — the Silk Road, the Atlantic crossing, the steamship, the aeroplane — brings
+  both, and the second one is always a surprise to the people who built the first.</p>
+</div>
+
+<header class="part" id="p4">
+  <span class="pn">Part IV</span>
+  <h2>The worlds Europe had not met</h2>
+</header>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Mali, and the man who broke the gold price</h2>
+</header>
+
+<p>In 1324 the ruler of Mali went on pilgrimage to Mecca. Mansa Musa travelled with an entourage that
+contemporaries numbered in the thousands, with camels carrying gold, and he gave it away as he went —
+to the poor, to officials, to anyone who impressed him.</p>
+
+<p>He passed through Cairo and spent so freely that he <strong>depressed the value of gold in Egypt for
+roughly a decade.</strong> One man's generosity, on one journey, distorted a regional economy. It is
+the only time in history anyone has managed it by accident.</p>
+
+<p>Mali's wealth came from sitting astride the trade in West African gold and Saharan salt — two
+commodities that were, weight for weight, of comparable value in their respective markets, which tells
+you how much people will pay for something they cannot live without. Timbuktu, at the desert's edge,
+became a city of scholars with libraries of manuscripts, some of which survive.</p>
+
+<p>It is worth saying plainly that a medieval European hearing about this would not have been surprised.
+Mali appears on European maps of the period, with its king drawn holding a lump of gold. The idea that
+Africa had no history before Europeans arrived is not an old prejudice inherited from the Middle Ages.
+It is a much more recent invention, manufactured largely to justify what came later.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Cities on a lake</h2>
+</header>
+
+<p>Across the Atlantic, entirely unaware of any of this, other people were building other things.</p>
+
+<p>The Maya had cities in the rainforest with stepped pyramids, a fully developed writing system, and
+astronomy accurate enough to predict eclipses and track Venus across decades. They worked out a concept
+of zero independently. Their cities were largely abandoned centuries before any European arrived, for
+reasons still argued over — drought, exhausted soil, war, or all three.</p>
+
+<p>The Inca ran an empire down the spine of the Andes, held together by thousands of miles of engineered
+road, with relay runners who could carry a message hundreds of miles in a day, and terraced farming that
+turned mountainsides into fields. They did it without the wheel, which is useless in that terrain, and
+without writing as we would recognise it — they kept records on knotted cords, and we can still only
+partly read them.</p>
+
+<p>And in the Valley of Mexico, the Aztecs built Tenochtitlan on an island in a lake, with causeways,
+aqueducts, floating gardens and a market that astonished the Spanish soldiers who first saw it. One of
+them wrote that some of the men who had been to Constantinople and Rome said they had never seen a
+market so large and so orderly. It held perhaps two hundred thousand people. Almost no European city
+was close.</p>
+
+<p>Every one of these societies was doing sophisticated work on problems that mattered to them. Volume
+19 is partly about what happened when the two halves of the world finally met, and it is not a happy
+chapter.</p>
+
+<header class="part" id="p5">
+  <span class="pn">Part V</span>
+  <h2>Three hinges</h2>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The document that was meant to fail</h2>
+</header>
+
+<p>In 1215 a group of English barons, thoroughly fed up with a king who had lost their French lands and
+taxed them to pay for losing them, cornered John in a meadow and made him seal a list of their
+grievances.</p>
+
+<p>Magna Carta was not a charter of liberties for the people. It was a peace treaty between a king and
+about forty aristocrats, most of its clauses concerned fish weirs and debts to moneylenders and the
+rights of widows, and John repudiated it within weeks. The pope annulled it. The war resumed. As an
+immediate political settlement it was a complete failure.</p>
+
+<p>But buried in it were two sentences saying that no free man could be imprisoned or stripped of his
+property except by the lawful judgement of his peers or the law of the land, and that justice would not
+be sold or delayed.</p>
+
+<p>Those sentences were reissued, argued over, forgotten, rediscovered by lawyers four hundred years
+later looking for a weapon against a different king, and eventually written into the constitutions of
+countries that did not exist when the ink dried. The principle that matters is not any of the specific
+clauses. It is the precedent that <strong>the ruler is inside the law rather than above it</strong> —
+and that a written document can be produced later to prove it.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The year a third of Europe died</h2>
+</header>
+
+<p>It arrived at the Sicilian port of Messina in 1347, on ships from the Black Sea whose crews were
+mostly dead. Within three years it had reached almost every part of Europe.</p>
+
+<p>The Black Death killed somewhere between a third and a half of the population. There is no modern
+comparison; nothing in any recent war approaches it. Whole villages were emptied and never resettled —
+you can still see their outlines in English fields from the air. Nobody understood what caused it, and
+the explanations people reached for were the ones available to them: divine punishment, bad air,
+planetary conjunction, and, hideously, poisoning by Jews, which produced massacres across the Rhineland
+that had nothing to do with the disease and everything to do with what frightened people do.</p>
+
+<p>And then something unexpected happened, and it is the reason this chapter is here rather than in the
+disasters volume. <strong>The survivors found themselves better off.</strong></p>
+
+<p>With a third of the workforce dead, labour was suddenly scarce and therefore valuable. Peasants who
+had been legally tied to land could now simply walk to the next estate, where somebody would pay them.
+Wages rose. Rents fell. Landowners passed laws to freeze wages and the laws did not hold, because a
+landlord with empty fields will quietly break the rules rather than lose his harvest. The bargain that
+had held western Europe together for six hundred years came apart, not because anybody argued against
+it, but because the arithmetic changed.</p>
+
+<div class="note">
+  <span class="tag">A hard idea, stated carefully</span>
+  <p>Nothing about this makes the plague good. Tens of millions of individual deaths are not redeemed
+  by a change in the labour market. But it is a genuine and uncomfortable historical pattern that
+  <strong>catastrophes reshuffle arrangements that had seemed permanent</strong>, and that the people
+  who benefit are never the people who paid. You will see the same shape again after both world
+  wars.</p>
+</div>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The walls that had held for a thousand years</h2>
+</header>
+
+<p>Constantinople had been the capital of the surviving Roman empire since the western half stopped
+functioning. Its walls had turned back every attacker for a thousand years. By 1453 the empire behind
+them had shrunk to little more than the city itself — a capital with almost no country left.</p>
+
+<p>The Ottoman sultan Mehmed II was twenty-one. He brought an enormous cannon, cast by a Hungarian
+engineer who had offered it first to the defenders and been told they could not afford him. It fired a
+stone ball the size of a man and it took hours to reload, and the walls that had held for a millennium
+came down in weeks.</p>
+
+<p>The last emperor is said to have stripped off his imperial insignia and died fighting in the breach
+as an ordinary soldier. Whether or not that is exactly true, it is how it was remembered, and it is the
+end of the Roman world — not in 476, but here, in 1453, with gunpowder.</p>
+
+<p>Two consequences ran outward from it. Greek scholars fled west carrying manuscripts, arriving in
+Italian cities just as those cities were getting rich enough to be interested — one of the sparks of the
+Renaissance. And the overland trade routes to Asia now ran through a power that Europe was hostile to,
+which made the sea routes suddenly worth enormous risk. Within forty years men were sailing west across
+an empty ocean hoping to find Asia on the other side.</p>
+
+<p>Which is where the next volume begins.</p>
+
+<header class="mod" id="recap">
+  <span class="mn">Reference</span>
+  <h2>What to carry forward</h2>
+</header>
+
+<div class="sen">
+  <div class="b knows"><span class="k">The correction</span>
+    <p>There was no global dark age. While western Europe was poor and local, <strong>Baghdad,
+    Chang'an, Timbuktu and Tenochtitlan were among the largest and richest cities on Earth.</strong>
+    "Dark" mostly means we have fewer records.</p></div>
+  <div class="b"><span class="k">Where new ideas come from</span>
+    <p>The same conditions recur: <strong>wealth from trade, a patron willing to pay, a shared language
+    over a wide area, and different traditions forced to meet.</strong> Baghdad had all four. So, later,
+    will Renaissance Italy.</p></div>
+  <div class="b"><span class="k">The double edge of connection</span>
+    <p>The Mongol peace let goods, letters and ideas cross Asia safely — and let a flea-borne disease do
+    the same. Every leap in connection in this book carries both, and the second is always
+    unforeseen.</p></div>
+  <div class="b check"><span class="k">The two hinges</span>
+    <p><strong>Magna Carta</strong> failed immediately and left behind the idea that a ruler sits inside
+    the law. <strong>The Black Death</strong> killed a third of Europe and, by making labour scarce,
+    dissolved serfdom — a reminder that catastrophes reshuffle arrangements argument never could.</p></div>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · The World Opens</h4><p>Printing, the Renaissance, and the ships. Also the part usually left out: what the opening of the Atlantic meant for the people already living on the other side of it.</p></div>
+  <div class="card"><h4>Back · The Ancient World</h4><p>If the fall of Constantinople surprised you as the end of Rome, Chapter 11 of Volume 17 explains why the empire had two halves and only one of them fell.</p></div>
+</div>
+</main>
+</div>
+
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>

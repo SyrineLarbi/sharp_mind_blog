@@ -1,0 +1,748 @@
+<title>The Conditions That Matter</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">A cultured mind · Volume 45 of 54 · health</p>
+  <h1>The conditions that matter. <span class="thin">Blood pressure, cholesterol, diabetes, heart attack, stroke — what they actually are.</span></h1>
+  <p class="lede">A small number of conditions account for most of the deaths and most of the disability
+  in the world, they share most of their causes, they develop silently over decades, and almost everyone
+  can describe them only in slogans. This volume explains the actual mechanism of each — because once
+  you can see the mechanism, the advice stops being a list of rules and starts being obvious.</p>
+  <div class="hero-meta">
+    <span><b>Follows</b> · Volumes 28, 33, 42</span>
+    <span><b>Covers</b> · pressure, cholesterol, plaque, heart attack, stroke, diabetes, cancer</span>
+    <span><b>Theme</b> · silent for decades, then sudden</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="17-ancient-world.html"><span class="vn">Vol 17</span><b>Ancient world</b></a>
+<a class="vol" href="18-empires-of-faith.html"><span class="vn">Vol 18</span><b>Faith &amp; trade</b></a>
+<a class="vol" href="19-the-world-opens.html"><span class="vn">Vol 19</span><b>The world opens</b></a>
+<a class="vol" href="20-age-of-revolutions.html"><span class="vn">Vol 20</span><b>Revolutions</b></a>
+<a class="vol" href="21-the-world-at-war.html"><span class="vn">Vol 21</span><b>The world at war</b></a>
+<a class="vol" href="22-the-long-shadow.html"><span class="vn">Vol 22</span><b>The long shadow</b></a>
+<a class="vol" href="23-disasters.html"><span class="vn">Vol 23</span><b>Disasters</b></a>
+<a class="vol" href="24-discoveries.html"><span class="vn">Vol 24</span><b>Discoveries</b></a>
+<a class="vol" href="25-physics.html"><span class="vn">Vol 25</span><b>Physics</b></a>
+<a class="vol" href="26-chemistry.html"><span class="vn">Vol 26</span><b>Chemistry</b></a>
+<a class="vol" href="27-life.html"><span class="vn">Vol 27</span><b>Life</b></a>
+<a class="vol" href="28-medicine.html"><span class="vn">Vol 28</span><b>Medicine</b></a>
+<a class="vol" href="29-the-sky.html"><span class="vn">Vol 29</span><b>The sky</b></a>
+<a class="vol" href="30-the-earth.html"><span class="vn">Vol 30</span><b>The Earth</b></a>
+<a class="vol" href="31-what-to-remember.html"><span class="vn">Vol 31</span><b>What to remember</b></a>
+<a class="vol" href="32-everyday-science.html"><span class="vn">Vol 32</span><b>Everyday science</b></a>
+<a class="vol" href="33-your-body.html"><span class="vn">Vol 33</span><b>Your body</b></a>
+<a class="vol" href="34-when-things-go-wrong.html"><span class="vn">Vol 34</span><b>Emergencies</b></a>
+<a class="vol" href="35-the-mind.html"><span class="vn">Vol 35</span><b>The mind</b></a>
+<a class="vol" href="36-people.html"><span class="vn">Vol 36</span><b>People</b></a>
+<a class="vol" href="37-the-dark-side.html"><span class="vn">Vol 37</span><b>The dark side</b></a>
+<a class="vol" href="38-money.html"><span class="vn">Vol 38</span><b>Money</b></a>
+<a class="vol" href="39-chance.html"><span class="vn">Vol 39</span><b>Chance</b></a>
+<a class="vol" href="40-right-and-wrong.html"><span class="vn">Vol 40</span><b>Right &amp; wrong</b></a>
+<a class="vol" href="41-whats-in-things.html"><span class="vn">Vol 41</span><b>What's in things</b></a>
+<a class="vol" href="42-your-health.html"><span class="vn">Vol 42</span><b>Your health</b></a>
+<a class="vol" href="43-mind-and-mood.html"><span class="vn">Vol 43</span><b>Mind &amp; mood</b></a>
+<a class="vol" href="44-medicines.html"><span class="vn">Vol 44</span><b>Medicines</b></a>
+<div class="vol here"><span class="vn">Vol 45 · here</span><b>The conditions</b></div>
+<a class="vol" href="46-home-and-kitchen.html"><span class="vn">Vol 46</span><b>Home &amp; kitchen</b></a>
+<a class="vol" href="47-not-being-fooled.html"><span class="vn">Vol 47</span><b>Not being fooled</b></a>
+<a class="vol" href="48-dont-do-that.html"><span class="vn">Vol 48</span><b>Don't do that</b></a>
+<a class="vol" href="49-ai-honestly.html"><span class="vn">Vol 49</span><b>AI, honestly</b></a>
+<a class="vol" href="50-whats-coming.html"><span class="vn">Vol 50</span><b>What's coming</b></a>
+<a class="vol" href="51-the-novels.html"><span class="vn">Vol 51</span><b>The novels</b></a>
+<a class="vol" href="52-philosophy-originals.html"><span class="vn">Vol 52</span><b>Philosophy</b></a>
+<a class="vol" href="53-ideas-that-changed.html"><span class="vn">Vol 53</span><b>Ideas</b></a>
+<a class="vol" href="54-the-anthology.html"><span class="vn">Vol 54</span><b>The anthology</b></a>
+</div>
+
+<header class="part" id="p1">
+  <span class="pn">Part I</span>
+  <h2>The plumbing</h2>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Blood pressure, and why it is called the silent one</h2>
+</header>
+
+<p>Blood pressure is the force the blood exerts against the artery walls. The higher number is the push
+during a heartbeat; the lower number is the pressure that remains between beats, when the vessels are
+merely holding the column of blood. Both matter, and the lower one is often the more informative in
+younger people.</p>
+
+<p>Pressure is not inherently bad — you need it to move blood. What causes damage is pressure that stays
+high for years, because arteries are not rigid pipes. They are living, elastic tubes with a delicate
+inner lining, and sustained excess force does three things: it thickens and stiffens the vessel walls,
+it injures that inner lining in a way that starts the process in the next chapter, and it makes the
+heart work against greater resistance until the muscle thickens and eventually fails at the job.</p>
+
+<p>The reason it kills so many people is entirely in one word. <strong>It produces no symptoms.</strong>
+Not usually a headache, not dizziness, not a flushed face — those are folklore. For decades it does
+quiet damage to arteries, to the heart, to the kidneys and to the small vessels in the brain and the
+eyes, and the first sign is frequently the event it caused.</p>
+
+<p>Which means the only way to know is to measure. And measurement has its own subtleties worth
+knowing: it varies through the day, it rises in medical settings for a great many people, one high
+reading is not a diagnosis, and the readings that best predict outcomes are the ones taken repeatedly,
+at rest, often at home.</p>
+
+<p>What moves it: weight, salt intake, alcohol, activity, sleep — including untreated sleep apnoea,
+which is a common and badly under-recognised cause — and stress, though less than people assume.
+Medication works well, and the widespread habit of stopping it once the numbers look good is exactly
+backwards: the numbers look good <em>because</em> of it.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Cholesterol — the part everyone gets wrong</h2>
+</header>
+
+<p>Cholesterol is not a poison and not a waste product. It is an essential building material: your cell
+membranes are made partly of it, several hormones are built from it, and your liver manufactures most of
+what you have because it is that important. You could not live without it.</p>
+
+<p>The problem is transport. Cholesterol does not dissolve in blood, so it travels wrapped in particles,
+and it is the <strong>particles</strong> rather than the cholesterol that matter. Some of them deliver
+cholesterol out to tissues; some carry excess back to the liver. The popular "bad" and "good" labels
+are a rough shorthand for those two directions, and the shorthand causes more confusion than it
+resolves.</p>
+
+<p>The delivering particles become a problem when there are too many and when the artery lining is
+already injured — by high pressure, by smoking, by high blood sugar, by inflammation. Damaged lining
+lets particles into the wall, where they are trapped, oxidised, and attacked by immune cells that
+arrive to clear them and then die there. The accumulating mess of fat, dead cells and debris is a
+<strong>plaque</strong>.</p>
+
+<p>Two corrections worth making explicitly, because both are widely believed and both are wrong.
+<strong>Cholesterol in food is not the main driver of cholesterol in blood</strong> for most people —
+the liver adjusts its production in response, which is why eggs were exonerated. And the danger is not
+simply "high cholesterol"; it is the combination of particle burden with injured arteries, which is why
+the same number means different things in different people and why doctors calculate overall risk rather
+than treating a number in isolation.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>How a heart attack actually happens</h2>
+</header>
+
+<p>The intuitive picture is a pipe slowly blocking until nothing gets through. That is not usually what
+happens, and the real mechanism explains a great deal that the intuitive one cannot.</p>
+
+<p>A plaque grows in the artery wall over years, covered by a fibrous cap. Large, stable plaques can
+narrow an artery considerably and cause chest pain on exertion — the heart muscle asking for more blood
+than a narrowed vessel can supply — which is a warning, and a treatable one.</p>
+
+<p>But a heart attack usually begins when <strong>a plaque ruptures</strong>. The cap tears, the
+contents are exposed to flowing blood, and the body does exactly what it does with any injury: it forms
+a clot. The clot, not the plaque, blocks the artery — and it does so in minutes.</p>
+
+<p>Which explains the thing that confuses everyone: why people who "had no warning" have heart attacks.
+<strong>The plaques most likely to rupture are often not the largest ones</strong>, and a modest plaque
+that tears is more dangerous than a big one that holds. A clear stress test last year is not a
+guarantee.</p>
+
+<p>Downstream of the blockage, heart muscle starts dying within minutes. It does not grow back — the
+scar is permanent — which is why the entire emergency system is built around time, and why the phrase
+used in cardiology is that time is muscle.</p>
+
+<div class="warn">
+  <span class="tag">What it actually feels like — and why people wait</span>
+  <p>The Hollywood version — sudden, dramatic, clutching the chest — is one presentation. Many are a
+  <strong>heavy pressure, tightness or squeezing</strong> in the centre of the chest, building over
+  minutes, often spreading to the arm, jaw, neck or back, with sweating, nausea, or breathlessness. It is
+  frequently described as discomfort rather than pain, which is precisely why it gets dismissed.</p>
+  <p><strong>Women, older people and people with diabetes more often present without classic chest
+  pain</strong> — instead with breathlessness, unusual fatigue, nausea or jaw and back discomfort — and
+  are consequently diagnosed later and treated worse. This is a well documented failure and worth
+  knowing about in advance.</p>
+  <p>Call an ambulance rather than driving. Do not wait to see if it passes. The most common reason
+  people die is <strong>delay caused by not wanting to make a fuss</strong>, and no emergency department
+  is annoyed by a false alarm of this kind.</p>
+</div>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Stroke — the same disease, in the brain</h2>
+</header>
+
+<p>A stroke is the brain's version of the same event, and it comes in two kinds that look identical from
+outside and require opposite treatments — which is why nobody should ever be given anything at home and
+why imaging comes first in hospital.</p>
+
+<p>The common kind is <strong>a blockage</strong>: a clot, often thrown from elsewhere, stops blood
+reaching part of the brain. The less common kind is <strong>a bleed</strong>: a vessel ruptures, often
+because of long-standing high pressure. Roughly four in five are blockages.</p>
+
+<p>Brain tissue is exquisitely intolerant of losing blood supply, and cells begin dying quickly. Around
+the dying core is a zone of tissue that is starved but not yet dead, and everything in emergency stroke
+care is aimed at saving that zone — which is only possible within a window of hours, and the window
+narrows continuously.</p>
+
+<p>The recognition test is deliberately crude so that anyone can apply it under stress. <strong>Face —
+has one side drooped, can they smile evenly? Arms — can they raise both and hold them? Speech — is it
+slurred, are the words wrong, can they repeat a simple sentence? Time — if any of these, call emergency
+services immediately and note when symptoms started</strong>, because that time determines which
+treatments are possible.</p>
+
+<p>Also worth knowing: sudden numbness or weakness on one side, sudden confusion, sudden loss of vision,
+sudden severe unexplained headache, or sudden loss of balance. And a <strong>transient episode</strong>
+— symptoms that resolve within minutes or an hour — is not a relief. It is a warning that a full stroke
+is substantially more likely in the following days, and it is an emergency in its own right.</p>
+
+<header class="part" id="p2">
+  <span class="pn">Part II</span>
+  <h2>The metabolic side</h2>
+</header>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Diabetes, and what insulin resistance means</h2>
+</header>
+
+<p>Glucose in the blood is fuel, and it must be kept in a fairly narrow range: too little starves the
+brain, too much damages vessels and nerves. Insulin is the hormone that tells cells to take glucose in,
+and both types of diabetes are failures of that system in completely different ways.</p>
+
+<p><strong>Type 1</strong> is an autoimmune condition: the immune system destroys the cells that make
+insulin. It usually appears young, it is not caused by diet or lifestyle, and insulin is not a treatment
+choice but a requirement for life. The persistent public confusion between the two types causes real
+harm to people with type 1, who are routinely blamed for a condition they could not have prevented.</p>
+
+<p><strong>Type 2</strong> is different. Insulin is still produced, but cells respond to it poorly —
+insulin resistance — so the body produces more and more to achieve the same effect. For years the
+compensation works and blood sugar stays normal, which is why the condition develops silently over a
+decade or more. Eventually the insulin-producing cells cannot keep up, and blood sugar rises.</p>
+
+<p>The damage is done by <strong>sugar in the blood behaving as a slow corrosive</strong>. It harms the
+smallest vessels first — in the eyes, the kidneys and the nerves, which is why the classic complications
+are sight loss, kidney failure and the nerve damage that leads to unnoticed foot injuries. And it
+damages the large vessels too, which is why diabetes is a major cardiovascular condition: people with
+type 2 are far more likely to have a heart attack or stroke, and that is what most of them actually die
+of.</p>
+
+<p>Two things worth carrying. The warning signs — <strong>unusual thirst, passing urine frequently,
+unexplained weight loss, persistent fatigue, blurred vision, wounds healing slowly</strong> — are easily
+attributed to being busy or getting older. And type 2 is, in many people, substantially reversible in
+its earlier stages through weight loss and activity, which is one of the more hopeful findings in
+modern medicine and not widely enough known.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Cancer, in one chapter</h2>
+</header>
+
+<p>Volume 28 covered this; here is the practical distillation. Cancer is not one disease. It is what
+happens when a cell accumulates enough damage to its control instructions that it divides without
+stopping, ignores the signals telling it to die, recruits a blood supply, and eventually invades
+elsewhere. Different tissues produce different diseases with different behaviour, which is why "a cure
+for cancer" is not a coherent target.</p>
+
+<p>Most of it is <strong>accumulated random damage plus time</strong>, which is why age is by far the
+largest risk factor and why the number of cases rises as populations live longer. Some is inherited.
+Some is caused by specific exposures — tobacco above all, and by a wide margin — and some by infections
+that are now vaccine-preventable.</p>
+
+<p>The practical part is the warning signs, which are unglamorous and worth knowing: <strong>a lump that
+persists, a mole that changes, unexplained weight loss, unusual bleeding, a cough or hoarseness lasting
+weeks, a change in bowel habit lasting weeks, difficulty swallowing, a sore that does not heal.</strong>
+Almost all of these turn out to be something else — which is the point, because the cost of checking is
+small and the benefit of catching something early is enormous.</p>
+
+<header class="part" id="p3">
+  <span class="pn">Part III</span>
+  <h2>What actually helps</h2>
+</header>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The shared roots</h2>
+</header>
+
+<p>The striking thing about everything in this volume is how much of it has the same causes. These are
+not six separate problems requiring six separate strategies; they are largely one problem expressed in
+different organs.</p>
+
+<p><strong>Smoking</strong> is the largest single avoidable cause of nearly all of them — it damages
+artery lining, raises pressure, promotes clotting and causes cancer directly. Stopping produces
+measurable benefit within weeks and substantial benefit within years, at any age.</p>
+
+<p><strong>Weight, and particularly abdominal fat</strong>, drives insulin resistance, pressure and
+inflammation together. Fat around the organs behaves differently from fat under the skin, which is why
+waist measurement predicts risk better than weight alone.</p>
+
+<p><strong>Activity</strong> improves insulin sensitivity, pressure, cholesterol particles and mood
+simultaneously, and the largest benefit is in the step from doing nothing to doing something — not in
+the step from a lot to more.</p>
+
+<p><strong>Sleep</strong> affects all of it, and untreated sleep apnoea in particular drives high
+pressure and is frequently missed.</p>
+
+<p><strong>Diet</strong> matters most in its overall pattern rather than in any single ingredient, and
+the pattern that keeps performing well in evidence is unglamorous: plenty of vegetables, legumes, whole
+grains, nuts and fish; limited ultra-processed food, refined sugar and processed meat. Alcohol is worth
+naming honestly — the old story about moderate drinking being protective has not held up well, and the
+current evidence points toward less being better.</p>
+
+<p><strong>And the one people forget:</strong> chronic stress and social isolation both show up as
+measurable cardiovascular risk, at a size comparable to the well-known physical factors.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Numbers to know, and what to ask</h2>
+</header>
+
+<p>You do not need to memorise thresholds — they differ by country, by age and by your other risks, and
+they get revised. What is worth knowing is <strong>which numbers exist</strong> and that you are
+entitled to know yours.</p>
+
+<p>Blood pressure. A cholesterol panel, including the particle breakdown rather than only the total.
+Blood sugar, ideally the measure that reflects the last few months rather than a single morning. Waist
+measurement. And your family history, which you can only get by asking relatives and which changes what
+any of the other numbers mean.</p>
+
+<p>The crucial framing is that <strong>these are not pass or fail marks.</strong> Risk is continuous,
+calculated from all of them together, and a single value outside a range is not a verdict — a point
+Volume 42 made and which applies here especially, because these are the numbers people most often panic
+about in isolation.</p>
+
+<p>So the questions to bring: <strong>what is my overall risk, not just this number? What would change
+it most, in my case? What happens if we wait and measure again? And what are the alternatives to
+starting a medication now?</strong> A good clinician will welcome all four, because they are the
+questions they are already weighing.</p>
+
+<div class="warn">
+  <span class="tag">Scope</span>
+  <p>This volume explains mechanisms so you can follow a conversation and ask better questions. It is
+  not medical advice, does not know your situation, and contains no dosing or threshold guidance
+  deliberately. <strong>Nothing here should delay calling emergency services</strong> for chest
+  discomfort, stroke signs, difficulty breathing or sudden severe headache.</p>
+</div>
+
+<header class="mod" id="recap">
+  <span class="mn">Reference</span>
+  <h2>What to carry forward</h2>
+</header>
+
+<div class="sen">
+  <div class="b knows"><span class="k">The mechanism</span>
+    <p>High pressure injures the artery lining; particles enter the wall and build a <strong>plaque</strong>;
+    the plaque <strong>ruptures</strong> and a clot forms in minutes. That is a heart attack, and it is
+    why people with no warning have one — the dangerous plaques are often not the biggest.</p></div>
+  <div class="b"><span class="k">The two silent ones</span>
+    <p><strong>Blood pressure causes no symptoms</strong> — not headaches, not dizziness — and does
+    decades of damage before the event it causes. Type 2 diabetes is silent for years while the body
+    compensates, and the damage is <strong>sugar acting as a slow corrosive</strong> on small vessels
+    first.</p></div>
+  <div class="b junior"><span class="k">Recognition</span>
+    <p>Stroke: <strong>Face, Arms, Speech, Time</strong> — and note when symptoms started. Heart attack:
+    often pressure rather than pain, and frequently <strong>without classic chest pain in women, older
+    people and people with diabetes.</strong> A transient episode is a warning, not a reprieve.</p></div>
+  <div class="b check"><span class="k">The shared roots</span>
+    <p>These are largely one problem in different organs: <strong>smoking, abdominal weight, inactivity,
+    poor sleep, dietary pattern — plus chronic stress and isolation.</strong> Know your pressure,
+    cholesterol panel, blood sugar, waist and family history, and ask for overall risk rather than
+    reacting to one number.</p></div>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Back to · Volume 42</h4><p>Why a single reading is not a diagnosis, and how screening trades benefit against overdiagnosis. Both apply directly here.</p></div>
+  <div class="card"><h4>Next · Home and kitchen</h4><p>Out of the clinic and into the house: fire, carbon monoxide, damp, batteries — and the chemistry of cooking.</p></div>
+</div>
+</main>
+</div>
+
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
