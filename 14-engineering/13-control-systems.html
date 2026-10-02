@@ -1,0 +1,900 @@
+<!doctype html>
+<!--@HEAD-SRC title="Control Systems" desc="How control systems keep machines, aircraft, power grids and factories on target: feedback, PID, stability, what goes wrong when control fails, and where learning-based control is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Control Systems</title>
+<meta name="description" content="How control systems keep machines, aircraft, power grids and factories on target: feedback, PID, stability, what goes wrong when control fails, and where learning-based control is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Engineering · Topic 13 of 20</p>
+  <h1>Control systems. <span class="thin">Measure, compare, correct, and do it again a thousand times a second.</span></h1>
+  <p class="lede">Almost every machine you trust is quietly arguing with the world. A fridge measures
+  its temperature and switches the compressor on when it drifts too warm. A car's engine computer
+  adjusts the fuel many times per second. A modern airliner would be hard to fly without software
+  that corrects the controls continuously. The idea behind all of them is the same and it is very
+  old: look at what is actually happening, compare it with what you wanted, and push in the
+  direction that closes the gap. That simple loop is called feedback control. It is one of the most
+  powerful ideas engineering ever had, and when it is badly designed it can shake a machine to
+  pieces.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Engineering</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="12-automation.html"><span class="vn">Engineering · 12</span><b>Automation</b><em>The bigger picture</em></a>
+<a class="vol" href="../01-technology/05-robotics.html"><span class="vn">Technology · 05</span><b>Robotics</b><em>Control with arms and legs</em></a>
+<a class="vol" href="14-renewable-energy-engineering.html"><span class="vn">Engineering · 14</span><b>Renewable-energy engineering</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first full treatment of control engineering. The nearest neighbours are
+  the Chernobyl chapter in Volume 23 (<a href="../23-disasters.html#c2">a safety test that destroyed
+  a reactor</a>), which is at heart a story about a feedback loop that pushed the wrong way, and
+  <a href="12-automation.html">Engineering · Automation</a>, which looks at whole factories rather
+  than the single loop inside each machine.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The science of making things behave</h2>
+  <p class="lede">A control system is anything that keeps some quantity where you want it, despite
+  a world that keeps pushing it somewhere else. The quantity can be a temperature, a speed, a
+  height, a voltage or the level of water in a tank.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Two spinning balls and a steam engine</h2>
+</header>
+
+<p>In the 1780s James Watt and his business partner Matthew Boulton had a problem. Their steam
+engines were driving mills, and the load on a mill changes all the time. When the load dropped the
+engine raced. When it rose the engine slowed. Millers wanted a steady speed. The answer Watt adapted
+from windmills was the <strong>centrifugal governor</strong>, often called the flyball governor.</p>
+
+<p>Picture two heavy metal balls on hinged arms, spun by the engine itself. When the engine speeds
+up, the balls fly outward. The arms are linked to the steam valve, so as they swing out they
+partly close it. Less steam means less speed. When the engine slows, the balls drop and the valve
+opens again. <strong>The machine measures its own speed and corrects
+itself.</strong></p>
+
+<p>Governors spread across the industrial world, and so did a puzzle. Some of them "hunted": the
+engine speed swung up and down instead of settling. In 1868 the physicist James Clerk Maxwell, better
+known for his work on electricity and magnetism, published a paper called "On Governors". He wrote
+down the mathematics of the machine and showed when it would settle and when it would swing. That
+paper is often treated as the start of control theory as a science, not only a craft.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Open loop and closed loop</h2>
+</header>
+
+<p>There are two basic ways to control something. A cheap toaster uses <strong>open-loop
+control</strong>. You set a timer and it heats for that long. It never checks whether the bread is
+actually brown. If the bread was frozen, you get pale toast. If it was thin, you get charcoal. The
+toaster carries out its instructions and has no idea whether they worked.</p>
+
+<p>A thermostat uses <strong>closed-loop control</strong>, also called feedback control. It measures
+the room temperature, compares it with the temperature you asked for, and turns the heating on or
+off depending on the difference. Open a window and it notices and works harder. The information
+about the result "feeds back" into the decision, which closes a loop.</p>
+
+<p>Open loop is cheap, simple and cannot become unstable, and it works when the world is
+predictable. But <strong>whenever
+the world is uncertain, closed loop wins</strong>, because it does not need to predict the
+disturbance. It only needs to notice its effect.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The six words engineers use</h2>
+</header>
+
+<p>Every feedback loop, from a toilet cistern to a rocket, has the same parts. Learn these six and
+you can describe any of them.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Word</th><th>What it means</th><th>In a home heating system</th></tr></thead>
+<tbody>
+<tr><td><strong>Plant</strong></td><td>The thing being controlled. Engineers use this word even when it is not a factory.</td><td>The house and its air</td></tr>
+<tr><td><strong>Setpoint</strong></td><td>The value you want</td><td>21 °C on the dial</td></tr>
+<tr><td><strong>Sensor</strong></td><td>What measures the real value</td><td>The thermometer in the thermostat</td></tr>
+<tr><td><strong>Error</strong></td><td>Setpoint minus measured value: how far off you are</td><td>Room at 19 °C means an error of 2 °C</td></tr>
+<tr><td><strong>Controller</strong></td><td>The logic that turns the error into an action</td><td>The thermostat's circuit or chip</td></tr>
+<tr><td><strong>Actuator</strong></td><td>The part that physically acts on the plant</td><td>The boiler, or a valve on a radiator</td></tr>
+</tbody></table></div>
+
+<p>There is a seventh word that explains why any of this is needed: the <strong>disturbance</strong>.
+It is everything outside your control that pushes the plant away from the setpoint. Cold weather, an
+open door, a crowd of guests giving off body heat. Control engineering is the art of rejecting
+disturbances you cannot predict.</p>
+
+<div class="sheet">
+  <div class="cap">The feedback loop</div>
+<pre>
+              disturbance (cold wind)
+                        |
+                        v
+ setpoint --&gt;(+)--&gt; [controller] --&gt; [actuator] --&gt; [  plant  ] --+--&gt; result
+   21 C      ^ -     error  "heat!"     boiler      house air    |
+             |                                                   |
+             +---------------- [ sensor ] &lt;----------------------+
+                              measured 19 C
+</pre>
+</div>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>How hard to push, and when to stop</h2>
+  <p class="lede">Knowing which way to push is easy. The whole difficulty is knowing how hard,
+  because every real system responds late, and a late response combined with a strong push makes
+  things swing.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The hotel shower: delay is the enemy</h2>
+</header>
+
+<p>You step into an unfamiliar hotel shower. The water is cold, so you turn the tap toward hot.
+Nothing happens, because the hot water takes a few seconds to travel up the pipe. You turn it
+further. Then the hot water arrives all at once and scalds you. You turn it sharply back toward cold,
+and a few seconds later you are freezing again. You have just built an unstable control system with
+your own hands.</p>
+
+<p>Your aim was fine and your direction was right. The problem was the combination of two things:
+a <strong>delay</strong> between action and result, and a <strong>strong reaction</strong> to the
+error. Each correction arrived after the situation had already changed, so it overshot. This is
+called <strong>oscillation</strong>, and if the corrections get bigger each time it becomes
+<strong>instability</strong>. The experienced shower user does the right thing without thinking:
+small turns, then waiting.</p>
+
+<p>The loop described so far uses <strong>negative feedback</strong>. "Negative" does not mean bad.
+It means the correction opposes the error: too hot leads to cooler. <strong>Positive
+feedback</strong> does the opposite, so a change causes more of the same change. A microphone held
+next to its own speaker produces a howl that grows until something saturates. In a control loop it is usually a disaster.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>PID: the three questions every controller asks</h2>
+</header>
+
+<p>The single most common controller in industry is called <strong>PID</strong>, for proportional,
+integral, derivative. Surveys of process plants have long found that the large majority of their
+control loops are PID or a simpler version of it. The name sounds mathematical, but each part
+answers a plain question. Think of a car's cruise control trying to hold 100 km/h.</p>
+
+<div class="grid3">
+  <div class="card"><h4>P · How far off am I now?</h4><p>Push in proportion to the current error. At
+  90 km/h, press the accelerator a lot. At 99, press it a little. Simple and fast, but on a hill P
+  alone settles slightly below the target, because it only pushes while there is still an
+  error.</p></div>
+  <div class="card"><h4>I · How long have I been off?</h4><p>Add up the error over time. If the car has
+  been one km/h slow for a whole minute, this term keeps growing until the throttle is opened
+  enough to remove the gap entirely. It fixes the steady error that P leaves behind.</p></div>
+  <div class="card"><h4>D · How fast is it changing?</h4><p>Look at the rate of change. If the speed is
+  rushing up toward 100, ease off early so you do not overshoot. It acts like a brake on enthusiasm,
+  and makes the loop calmer.</p></div>
+</div>
+
+<p>The controller's output is the three answers added together, each multiplied by a number called
+a <strong>gain</strong>. Choosing those three gains is called <strong>tuning</strong>. Too little gain
+and the system is sluggish. Too much and it oscillates like the hotel shower. A well-tuned loop
+reaches its target quickly, overshoots a little or not at all, and shrugs off disturbances. </p>
+
+<div class="note">
+  <span class="tag">A detail that bites</span>
+  <p>If the actuator hits its limit, for example the throttle is already fully open on a steep hill,
+  the integral term can keep growing even though nothing more can be done. When the hill ends, all
+  that stored-up push is released and the car overshoots badly. Engineers call this <strong>integral
+  windup</strong> and add logic to stop the integral growing while the actuator is maxed out.</p>
+</div>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Stability: the question that matters most</h2>
+</header>
+
+<p>A control engineer's first question about any design is not "is it fast?" but "is it
+stable?". A stable system, when disturbed, comes back to its setpoint. An unstable one swings
+further and further away, or runs off to a limit and stays there.</p>
+
+<p>In the 1920s to 1940s, engineers working on telephone amplifiers and military equipment, among
+them Harold Black, Harry Nyquist and Hendrik Bode at Bell Labs, developed tools that let them judge
+stability from how a system responds to vibrations of different speeds. The key idea is simple
+enough to state in words. <strong>Every loop has a frequency at which its delay turns a correction
+into a push in the wrong direction.</strong> If the loop still amplifies at that frequency, it will
+oscillate. Designers therefore leave a safety margin, often called gain margin and phase margin, so
+that the system stays stable even when the real machine differs from the model on paper.</p>
+
+<p>That margin matters because <strong>the model is always wrong somewhere</strong>. Loads change and
+parts wear. A design that is perfect on paper but unstable for a slightly heavier machine is a bad
+design. The field calls this property robustness.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Beyond PID: prediction, estimation and computers</h2>
+</header>
+
+<p>PID only reacts to errors that have already happened. Several other ideas go further.</p>
+
+<p><strong>Feedforward</strong> acts on a disturbance before it shows up in the output. If a sensor
+sees a load of cold material arriving on a conveyor, the furnace can add heat in advance instead of
+waiting for the temperature to fall. </p>
+
+<p><strong>Model predictive control</strong> (MPC) uses a mathematical model of the plant to simulate
+the next few minutes for many possible plans, picks the best plan that respects limits such as
+maximum pressure, applies only the first step, then repeats the whole calculation. It became
+standard in oil refineries and chemical plants from the 1980s and is now used in cars, buildings and
+power electronics.</p>
+
+<p><strong>State estimation</strong> deals with the fact that sensors are noisy and some quantities
+cannot be measured at all. The best-known tool is the <strong>Kalman filter</strong>, published by
+Rudolf Kálmán in 1960. It blends a prediction from a model with noisy measurements, weighting each by
+how much it can be trusted. A version of it helped the Apollo spacecraft work out where they were on
+the way to the Moon, and descendants of it run inside phone navigation and drones today.</p>
+
+<p>Finally, almost all control is now <strong>digital</strong>: a chip samples the sensor and updates
+the actuator in a fixed rhythm, often thousands of times a second. In factories this runs on rugged
+computers called <strong>PLCs</strong> (programmable logic controllers), first built for the car
+industry in the late 1960s.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>The invisible layer that holds modern life steady</h2>
+  <p class="lede">Control loops are rarely noticed because, when they work, nothing happens. They are
+  the reason aircraft fly smoothly, power stays at the right frequency, and chemical plants do not
+  explode.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Where loops hide in everyday life</h2>
+</header>
+
+<p>Your own body is the oldest example. It holds core temperature near 37 °C, keeps blood sugar in a
+narrow band using insulin and glucagon, and adjusts breathing to the carbon dioxide in your blood.
+Biologists call this <strong>homeostasis</strong>. Type 1 diabetes is, in this language, a broken
+loop, and an automated insulin pump with a glucose sensor is an attempt to close it again.</p>
+
+<p>A modern car contains dozens of loops. The engine computer adjusts fuel and ignition timing using
+an oxygen sensor in the exhaust. <strong>Anti-lock brakes</strong> sense when a wheel is about to
+lock and release and reapply the brake many times a second, so the driver can still steer.
+<strong>Electronic stability control</strong> compares where the driver is steering with where the
+car is actually going and brakes individual wheels to correct a skid. Studies in several countries
+have credited stability control with a large reduction in fatal single-vehicle crashes.</p>
+
+<p>In aviation, the Airbus A320, which entered service in 1988, was the first airliner with fully
+digital <strong>fly-by-wire</strong> controls. The pilot's side-stick does not move the control
+surfaces directly. It tells a computer what the pilot wants, and the computer moves the surfaces,
+keeping the aircraft inside safe limits. Many military jets go further: they are built
+unstable on purpose for agility and can only be flown with a computer correcting them constantly.
+The most spectacular public example is a
+rocket booster landing upright on a pad, which SpaceX first achieved with a Falcon 9 in December
+2015. That is a control problem solved in real time, with fuel running out.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The biggest machine on Earth: the power grid</h2>
+</header>
+
+<p>An electricity grid is a gigantic control system. Supply and demand must match every moment, and
+the signal that tells everyone whether they match is the <strong>frequency</strong>: 50 cycles per
+second in Europe and most of the world, 60 in North America and parts of other regions. When demand
+rises faster than supply, the big spinning generators slow down very slightly and the frequency
+drops. Power stations sense this and automatically open their throttles. Grid operators then add
+slower layers of control on top, scheduling extra plants over minutes and hours.</p>
+
+<p>Wind, solar and batteries connect through electronics instead of spinning masses, which strains
+this design. Keeping the grid stable with them is the subject of the
+<a href="14-renewable-energy-engineering.html">next topic</a>.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>When the loop itself is the danger</h2>
+</header>
+
+<p>Because control systems act on their own, a mistake in their design acts on its own too. Three
+cases show three different ways it happens.</p>
+
+<p><strong>Bad sensor data.</strong> The Boeing 737 MAX had a system called MCAS that pushed the
+nose down automatically if it judged the nose was pitched too high. In the two crashes, Lion Air in
+October 2018 and Ethiopian Airlines in March 2019, the system acted on a faulty reading from a single
+angle-of-attack sensor and repeatedly pushed the nose down. In total 346 people died. <strong>A controller is only as good
+as the sensor it believes.</strong> The fix included comparing two sensors and limiting how much
+authority the system had.</p>
+
+<p><strong>The wrong sign.</strong> At Chernobyl in 1986, the RBMK reactor's design meant that, in the
+conditions of that night, rising steam in the cooling water made the reaction stronger, which made
+more steam. That is positive feedback in the physics of the plant itself, and the control rods could
+not overcome it in time (<a href="../23-disasters.html#c2">Volume 23 tells the full story</a>).</p>
+
+<p><strong>The handover.</strong> On Air France flight 447 in 2009, ice blocked the airspeed sensors
+over the Atlantic. The autopilot, now without reliable data, disconnected and handed a confused
+situation to the pilots, who did not recover the aircraft. All 228 people on board died. It is studied as a case of automation failing suddenly onto people
+who were not actively flying.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Tireless precision, with new ways to fail</h2>
+  <p class="lede">Feedback control lets cheap, imperfect parts perform like precise ones. The price
+  is a set of failure modes that only exist because the loop is there.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The balance sheet</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Property</th><th>What it gives you</th><th>What it costs or risks</th></tr></thead>
+<tbody>
+<tr><td><strong>Corrects for the unknown</strong></td><td class="ok">Rejects disturbances nobody predicted: wind gusts, load changes, worn parts.</td><td class="no">Only if it can sense them. A blind or lying sensor makes it confidently wrong.</td></tr>
+<tr><td><strong>Fast and tireless</strong></td><td class="ok">Reacts in milliseconds, around the clock, far beyond human speed and attention.</td><td class="no">Errors also happen in milliseconds, before any person can intervene.</td></tr>
+<tr><td><strong>Precision from imperfect parts</strong></td><td class="ok">A rough motor with good feedback can position a part to a fraction of a millimetre.</td><td class="mid">Precision depends on careful tuning that can drift as equipment ages.</td></tr>
+<tr><td><strong>Enables unstable designs</strong></td><td class="ok">Agile fighter jets, rocket landings, balancing robots.</td><td class="no">Total dependence: if the controller fails, the machine cannot be held by hand.</td></tr>
+<tr><td><strong>Efficiency</strong></td><td class="ok">Engines, buildings and chemical plants run closer to their best point, saving fuel.</td><td class="mid">Running close to limits leaves less margin when something unusual happens.</td></tr>
+<tr><td><strong>Software-defined</strong></td><td class="ok">Behaviour can be improved by an update rather than new hardware.</td><td class="no">Software bugs and cyberattacks on control systems become physical risks.</td></tr>
+</tbody></table></div>
+
+<p>The last row is real. The Stuxnet malware, discovered in 2010, targeted the controllers of
+uranium centrifuges in Iran and is widely reported to have damaged them. <strong>An attack on a
+control system can break physical machines.</strong></p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The irony of automation</h2>
+</header>
+
+<p>In 1983 the psychologist Lisanne Bainbridge published a short paper called "Ironies of
+Automation" that is still widely cited. Her point was that automating a task does not remove the
+human. It changes the human's job into monitoring, which people are poor at, and leaves them with
+only the hardest cases, the ones the automation could not handle. And their manual skill fades exactly when it is most needed.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Good loop design</h4><p>Makes clear what the automation is doing and why,
+  fails gradually rather than suddenly, warns early, and keeps people practised. Pilots train for
+  manual flight in simulators for this reason.</p></div>
+  <div class="card"><h4>Poor loop design</h4><p>Hides its own state, switches modes silently, and
+  hands over control at the worst moment. Many accident reports describe crews asking, in effect,
+  "what is it doing now?"</p></div>
+</div>
+
+<p>The lesson: <strong>control engineering is also human-factors engineering</strong>. The people
+supervising the loop are part of it.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Controllers that learn, and loops that must be proven safe</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>More model predictive control everywhere</strong></td><td>Cheap computing has moved MPC from refineries into car powertrains, building heating and cooling, and battery management.</td><td class="ok">Fairly sure: it will keep spreading, because optimising within limits is exactly what energy-constrained systems need.</td></tr>
+<tr><td><strong>Learning-based controllers</strong></td><td>Reinforcement learning, where software improves by trial and error in simulation, has controlled real systems in research. In 2022 DeepMind and the Swiss Plasma Center at EPFL reported using it to shape the plasma in a fusion research reactor. Google has reported large savings in data-centre cooling from machine-learning control.</td><td class="mid">Plausible: wide use where mistakes are cheap or a classical safety layer sits underneath. Hard to certify for aircraft or reactors, because nobody can fully explain why a learned controller acts as it does.</td></tr>
+<tr><td><strong>Fully self-tuning, self-repairing systems</strong></td><td>Research on controllers that detect their own faults, redesign themselves and prove their own safety on the fly.</td><td class="no">Speculative: pieces exist, but a general version that regulators would trust is not in sight.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The real bottleneck: proving it is safe</h2>
+</header>
+
+<p>The hardest open problem is not making controllers clever. It is <strong>showing, before
+deployment, that they will behave</strong>. Classical control comes with mathematics that guarantees
+stability within known margins. Learned controllers mostly come with test results. One promising pattern lets a learned controller propose actions while a
+simple, verifiable "safety filter" vetoes any action that would leave a proven-safe region.</p>
+
+<p>The second shift is scale. As homes gain heat pumps, batteries and electric cars, millions of small
+controllers will respond to grid signals. Coordinating them is tied to <a href="17-smart-buildings.html">smart
+buildings</a> and <a href="../20-future-tech/04-autonomous-systems.html">autonomous systems</a>.
+<strong>The future of control is less about one brilliant loop and more about billions of ordinary
+ones working together without fighting each other.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A control system <strong>measures</strong> a result, <strong>compares</strong> it with a
+    setpoint, and <strong>acts</strong> to shrink the error, over and over. Feedback makes systems
+    robust to the unknown, but <strong>delay plus strong correction causes oscillation</strong>, so
+    every design must first be stable.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Maxwell's "On Governors", the founding paper of control theory: <strong>1868</strong>.</li>
+      <li>Most industrial loops are <strong>PID</strong>, a design many decades old.</li>
+      <li>Grids run at <strong>50 Hz</strong> (Europe, most of the world) or <strong>60 Hz</strong>
+      (North America).</li>
+      <li>The two 737 MAX crashes in 2018 and 2019 killed <strong>346</strong> people.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking more aggressive correction always means better control. <strong>Pushing harder
+    against a delayed system makes it swing</strong>, like the hotel shower.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain what each of P, I and D does for a car's cruise control on a hill, and why the
+    I term alone can cause overshoot when the hill ends?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Feedback control</dt><dd>Using a measurement of the result to decide the next action. Also called closed-loop control.</dd>
+    <dt>Open-loop control</dt><dd>Acting on a fixed plan without checking the result, like a timer.</dd>
+    <dt>Setpoint</dt><dd>The value the system is trying to hold.</dd>
+    <dt>Error</dt><dd>The gap between the setpoint and what is actually measured.</dd>
+    <dt>Plant</dt><dd>Whatever is being controlled: an engine, a room, a reactor, an aircraft.</dd>
+    <dt>Actuator</dt><dd>The part that physically changes the plant: a valve, a motor, a heater.</dd>
+    <dt>Disturbance</dt><dd>Any outside influence that pushes the plant away from its setpoint.</dd>
+    <dt>Negative feedback</dt><dd>A correction that opposes the error. The normal, stabilising kind.</dd>
+    <dt>Positive feedback</dt><dd>A response that reinforces a change, so it grows. Usually dangerous in control.</dd>
+    <dt>PID controller</dt><dd>A controller combining the current error, its accumulated history and its rate of change.</dd>
+    <dt>Stability</dt><dd>The property of returning to the setpoint after a disturbance instead of swinging away.</dd>
+    <dt>Model predictive control</dt><dd>A controller that simulates the near future, picks the best plan within limits, and replans constantly.</dd>
+    <dt>Kalman filter</dt><dd>A method that combines a model's prediction with noisy measurements to estimate the true state.</dd>
+    <dt>PLC</dt><dd>Programmable logic controller: a rugged industrial computer that runs factory control loops.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Feedback is simple: measure, compare, correct. The hard part is how hard to correct when
+    the system answers late."</li>
+    <li>"A badly tuned controller behaves like someone in a hotel shower, always overshooting."</li>
+    <li>"Most industrial control still runs on PID, which just asks how far off we are, for how long,
+    and how fast it's changing."</li>
+    <li>"A controller is only as good as the sensor it trusts. The 737 MAX crashes showed that."</li>
+    <li>"Automation doesn't remove the human. It turns them into a monitor who gets only the hardest
+    cases."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="14-renewable-energy-engineering.html">Renewable-energy
+  engineering</a></h4><p>How grids built around spinning generators are being re-engineered for wind,
+  solar and batteries, and why frequency control is at the centre of it.</p></div>
+  <div class="card"><h4>Related · <a href="12-automation.html">Automation</a></h4><p>The wider story:
+  how whole factories, warehouses and processes are automated, and what that does to work.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

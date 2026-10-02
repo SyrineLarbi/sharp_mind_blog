@@ -1,0 +1,889 @@
+<!doctype html>
+<!--@HEAD-SRC title="Biomedical Engineering" desc="How engineers build machines, materials and software that work inside and alongside the human body, why that is harder than any other engineering, and where the field is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biomedical Engineering</title>
+<meta name="description" content="How engineers build machines, materials and software that work inside and alongside the human body, why that is harder than any other engineering, and where the field is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Engineering · Topic 07 of 20</p>
+  <h1>Biomedical engineering. <span class="thin">Building machines for a customer who is alive, unique, and fights back.</span></h1>
+  <p class="lede">Most engineers design for a world they can measure. A bridge engineer knows the
+  strength of steel and the weight of a lorry. A biomedical engineer designs for the human body,
+  which varies from person to person, changes over a lifetime, heals, inflames, and treats almost
+  anything foreign as an enemy. The field gave us the pacemaker, the artificial hip, dialysis, the
+  pulse oximeter and the insulin pump. It also gave us some of the most instructive failures in
+  engineering history. This file explains what the field is, how its devices actually work, and why
+  "it works on the bench" is only the start.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Engineering</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../13-medicine-and-biology.html#m7"><span class="vn">Vol 13 · ch 07</span><b>Medical imaging, and diagnostic AI</b><em>The scanners</em></a>
+<a class="vol" href="../07-neuroscience/17-brain-computer-interfaces.html"><span class="vn">Neuroscience · 17</span><b>Brain-computer interfaces</b><em>The neural frontier</em></a>
+<a class="vol" href="08-materials-engineering.html"><span class="vn">Engineering · 08</span><b>Materials engineering</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 13 explains two neighbouring subjects in one chapter each:
+  <a href="../13-medicine-and-biology.html#m7">Medical imaging, and diagnostic AI</a> and
+  <a href="../13-medicine-and-biology.html#m8">Transplants, and pig organs</a>. This file does not
+  repeat how scanners work. It covers the engineering discipline behind every device that touches a
+  patient: sensors, implants, artificial organs, and the rules that decide whether a device may be
+  sold at all.</p>
+</div>
+
+<div class="warn">
+  <span class="tag">Please note</span>
+  <p>This file is general education about how medical technology is designed. It is not medical
+  advice. Decisions about any device or treatment belong with a qualified clinician.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Engineering where the material is a person</h2>
+  <p class="lede">Biomedical engineering applies the methods of mechanical, electrical, chemical and
+  software engineering to diagnosing, treating and supporting the human body.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A heart that ran on a battery</h2>
+</header>
+
+<p>In 1958 a Swedish engineer called Arne Larsson was dying. His heart's own electrical signal kept
+failing, and he was fainting many times a day. His wife pressed the doctors at the Karolinska
+Hospital in Stockholm to try something that had never been done. The surgeon Åke Senning and the
+engineer Rune Elmqvist built a small device, sealed in resin, that sent a regular electrical pulse
+to the heart. They implanted it under the skin of his abdomen. The first unit failed within hours,
+and they put in a second one.</p>
+
+<p>Larsson lived until 2001. Over those 43 years he received more than twenty replacement pacemakers
+as batteries ran down and designs improved. He outlived both the surgeon and the engineer.
+<strong>His story contains the whole field in miniature: an engineering idea, a medical need, a
+first version that barely worked, and decades of patient iteration.</strong></p>
+
+<p>A modern pacemaker is smaller than a matchbox. It fires only when the heart misses a beat,
+speeds up when you climb stairs, and reports its status wirelessly to a clinic.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The map of the field</h2>
+</header>
+
+<p>"Biomedical engineering" is an umbrella. Under it sit several specialities that often have their
+own journals, degree courses and companies.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Branch</th><th>What it does</th><th>Everyday example</th></tr></thead>
+<tbody>
+<tr><td><strong>Medical devices</strong></td><td>Designs machines that diagnose or treat</td><td>Pacemakers, infusion pumps, ventilators</td></tr>
+<tr><td><strong>Bioinstrumentation</strong></td><td>Measures signals from the body</td><td>ECG machines, pulse oximeters, glucose sensors</td></tr>
+<tr><td><strong>Biomaterials</strong></td><td>Develops materials the body will tolerate</td><td>Titanium screws, hip joints, stents, contact lenses</td></tr>
+<tr><td><strong>Biomechanics</strong></td><td>Applies the physics of forces to bones, joints and blood flow</td><td>Running shoes, crash-test dummies, artificial knees</td></tr>
+<tr><td><strong>Imaging</strong></td><td>Builds ways to see inside the body</td><td>X-ray, CT, MRI, ultrasound</td></tr>
+<tr><td><strong>Rehabilitation engineering</strong></td><td>Restores function after injury or disability</td><td>Prosthetic limbs, wheelchairs, hearing aids</td></tr>
+<tr><td><strong>Tissue engineering</strong></td><td>Grows living tissue on scaffolds</td><td>Skin grafts for burns, early lab-grown cartilage</td></tr>
+<tr><td><strong>Neural engineering</strong></td><td>Connects electronics to the nervous system</td><td>Cochlear implants, deep brain stimulators</td></tr>
+</tbody></table></div>
+
+<p>What unites them is a way of working. An engineer starts from a <strong>requirement</strong>, a
+precise statement of what the thing must do, then designs and tests until it is proved.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Why the body is the hardest customer</h2>
+</header>
+
+<p>Three things make this engineering unusually difficult.</p>
+
+<p>First, <strong>variation</strong>. Steel behaves the same every time. People differ in size,
+age, skin colour, bone density and disease. A device tested on healthy young adults may behave
+differently in an eighty-year-old with kidney failure.</p>
+
+<p>Second, <strong>the body responds</strong>. Metal in a bridge just sits there. In a person, proteins coat it within seconds, the immune
+system attacks it, and scar tissue may wall it off. The device changes the
+body, and the body changes the device.</p>
+
+<p>Third, <strong>you cannot test freely</strong>. An aircraft engineer can break a wing on purpose
+to find its limit. A biomedical engineer cannot do that with patients. Testing moves from lab
+benches and computer models to animals and finally controlled human trials. <strong>This is why a medical device often takes many years and a
+large budget to reach the market, even when the engineering idea is simple.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Sense, support, replace, and prove it</h2>
+  <p class="lede">Almost every biomedical device does one of three jobs. It measures the body, it
+  supports a part that is failing, or it replaces a part entirely. Behind all three sits a fourth
+  job that consumes most of the effort: proving that it is safe.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Measuring the body: turning life into a signal</h2>
+</header>
+
+<p>Your body is full of physical signals. Every heartbeat starts with an electrical wave that
+spreads through the heart muscle. Muscles produce electrical activity when they contract. Blood
+changes colour depending on how much oxygen it carries. A <strong>sensor</strong> is a device that
+turns one of these physical changes into an electrical signal a machine can read.</p>
+
+<p>The electrocardiogram, or <strong>ECG</strong>, is the classic example. Electrodes on the skin
+pick up tiny voltages, about a thousandth of a volt, as the heart's electrical wave passes. The hard part is separating that from noise: mains hum, breathing, a twitching chest muscle.
+Much of bioinstrumentation is <strong>signal processing</strong>, the mathematics of pulling a weak
+pattern out of a loud background.</p>
+
+<p>The <strong>pulse oximeter</strong>, the clip you put on a finger, is a lovely piece of physics.
+It was developed by the Japanese engineer Takuo Aoyagi in the early 1970s. It shines red and infrared
+light through the fingertip. Blood rich in oxygen absorbs these two colours differently from blood
+poor in oxygen. By comparing how much of each colour gets through, and by looking only at the part of
+the signal that pulses with each heartbeat (so it measures arterial blood, not skin and bone), the
+device estimates the oxygen level. No needle, no blood sample, a reading in seconds.</p>
+
+<div class="sheet">
+  <div class="cap">How a pulse oximeter reads oxygen</div>
+<pre>
+   red LED  ----&gt;  [ fingertip: skin, bone, blood ]  ----&gt;  light detector
+   infrared ----&gt;                                    ----&gt;
+                         |
+     oxygen-rich blood:  absorbs more infrared, lets more red through
+     oxygen-poor blood:  absorbs more red, lets more infrared through
+                         |
+   keep only the part that pulses with each heartbeat (arterial blood)
+                         |
+   ratio of red to infrared  --&gt;  calibration table  --&gt;  "SpO2 = 97%"
+</pre>
+</div>
+
+<p>Notice the last step. The ratio is turned into a number using a <strong>calibration</strong>
+table, a set of measurements made on real volunteers. If those volunteers were not representative, the
+device will be less accurate for the people who were missing. Chapter 11 returns to this.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Materials the body will accept</h2>
+</header>
+
+<p>The central idea in implants is <strong>biocompatibility</strong>. It does not mean "harmless".
+It means the material produces an acceptable response in the specific place and job it is used for.
+A material that is fine for a few days in a catheter may be a disaster in a hip for twenty years.</p>
+
+<p>One of the field's great discoveries was an accident. In the early 1950s the Swedish researcher
+Per-Ingvar Brånemark put small titanium chambers into rabbit bone to watch blood flow. When he tried
+to remove them, he could not. The bone had grown tightly onto the titanium. He called this
+<strong>osseointegration</strong>, the direct bonding of living bone to an implant surface. In 1965 he
+placed titanium dental implants in a human patient, and the modern dental implant industry grew from
+that work.</p>
+
+<p>Hip replacement followed a similar path of careful trial and error. In the 1960s the English
+surgeon John Charnley developed the "low-friction" hip: a small metal ball moving in a plastic socket,
+fixed to bone with an acrylic cement. The engineering insight was about friction and wear. A smaller
+ball rubs over less area, so less material wears away. Wear matters because tiny worn particles
+trigger inflammation that slowly loosens the implant from the bone. <strong>In implants, the enemy is
+often not sudden breakage but slow wear and the body's reaction to the debris.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Machines that stand in for organs</h2>
+</header>
+
+<p>Some devices take over an organ's job, either for a few hours or for life.</p>
+
+<p><strong>Dialysis</strong> replaces the kidney's filtering. During the Second World War, in the
+occupied Netherlands, the doctor Willem Kolff built an artificial kidney from sausage casing wrapped
+around a rotating drum in a bath of fluid. The casing was a <strong>semi-permeable membrane</strong>:
+small waste molecules could pass through into the bath, while blood cells and large proteins stayed
+in. Most early patients died, but in 1945 one survived. Modern machines use the same principle
+with thousands of hollow fibres and keep millions of people alive.</p>
+
+<p>The <strong>heart-lung machine</strong> lets surgeons stop the heart and operate on it. It pumps
+blood and adds oxygen outside the body. The American surgeon John Gibbon spent about two decades on it
+and first used it successfully in 1953. The challenge was to move blood through pumps without
+crushing its cells or letting it clot.</p>
+
+<p>The <strong>cochlear implant</strong> replaces part of the inner ear. A microphone picks up sound,
+a processor splits it into frequency bands, and a thin array of electrodes threaded into the cochlea
+stimulates the hearing nerve directly. The Australian surgeon Graeme Clark implanted an early
+multi-channel version in 1978. By the early 2020s roughly a million devices had been implanted
+worldwide. It is the most successful connection ever made between electronics and the nervous system.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Proving it: design controls and regulators</h2>
+</header>
+
+<p>A consumer gadget can ship with bugs and get an update. A medical device that fails can kill. So
+every serious market regulates devices, and the rules shape engineering from the first sketch.</p>
+
+<p>Regulators sort devices by risk. In the United States the Food and Drug Administration (FDA) uses
+three classes. <strong>Class I</strong> covers low-risk items such as bandages and tongue depressors.
+<strong>Class II</strong> covers moderate risk, such as infusion pumps and many scanners. Most Class
+II devices reach the market through a route called the 510(k), which requires showing the new device
+is "substantially equivalent" to one already on sale. <strong>Class III</strong> covers devices that
+sustain life or are implanted, such as pacemakers and heart valves. These usually need full premarket
+approval with clinical evidence.</p>
+
+<p>The European Union uses a similar risk-based system. Its Medical Device Regulation, adopted in
+2017 and applied from 2021, tightened the rules after scandals including faulty breast implants.
+Details vary by country.</p>
+
+<p>Inside the company, regulation means <strong>design controls</strong>. Every requirement is
+written down. Every design decision is traced back to a requirement. Every requirement has a test
+that proves it is met. A <strong>risk analysis</strong> lists what could go wrong, how bad it would
+be, and what reduces it. This paperwork is not bureaucracy for its own sake. <strong>It is how an
+organisation remembers why each decision was made, so that a change years later does not quietly
+break something.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Longer lives, and lessons written in harm</h2>
+  <p class="lede">The field has turned fatal conditions into manageable ones. Its failures have
+  taught every other branch of engineering how software, materials and people fail together.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>What was fatal is now routine</h2>
+</header>
+
+<p>Before dialysis, kidney failure was a death sentence. Before the heart-lung machine, most heart
+defects could not be repaired. Before joint replacement, severe hip arthritis often meant a
+wheelchair.</p>
+
+<p>A stent, a small mesh tube pushed into a blocked artery on a thin wire, restores blood flow
+without opening the chest. An artificial lens replaces the clouded one in cataract surgery.
+<strong>A large share of the gains in quality of life in old age come from devices, not
+pills.</strong></p>
+
+<p>Diabetes shows the direction of travel. People with type 1 diabetes once pricked a finger several times a day and injected by hand.
+Today many use a
+<strong>continuous glucose monitor</strong>, a small sensor under the skin that reads sugar levels
+every few minutes, linked to an insulin pump. In 2016 the FDA approved the first "hybrid closed-loop"
+system, in which software adjusts insulin delivery automatically based on the sensor. It is sometimes
+called an artificial pancreas, though the user still tells it about meals.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Therac-25: when the software was the weak point</h2>
+</header>
+
+<p>Between 1985 and 1987 a radiation therapy machine called the Therac-25 massively overdosed at
+least six patients in the United States and Canada. Several died. The machine could deliver a
+low-power electron beam or a much stronger beam meant to be spread out by a metal target. Earlier
+models had physical safety interlocks, mechanical parts that made a dangerous combination impossible.
+The Therac-25 relied on software instead.</p>
+
+<p>The software had a flaw that appeared only when a skilled operator typed quickly. If she corrected
+an entry within a few seconds, the machine could end up in an inconsistent state: high power, with
+the spreading target out of the way. The screen showed a cryptic error. Operators had learned that
+such errors were usually harmless and pressed a key to continue. Patients received doses many times
+the intended amount.</p>
+
+<p>Investigators found no single villain, but a recurring pattern:
+<strong>hardware safeguards removed because software "would handle it", software reused without
+re-testing, error messages nobody understood, and reports of harm dismissed as impossible.</strong>
+The case is now taught in software courses worldwide.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Implants that wore out too fast</h2>
+</header>
+
+<p>Materials can fail as badly as software. In the 2000s, several hip designs used a metal ball
+moving in a metal socket. The idea was that metal would wear less than plastic, which suited younger,
+active patients. In practice some designs shed metal particles and released metal ions into the
+body. These caused tissue damage around the joint, and many patients needed a second, harder
+operation. Major products were recalled from 2010 onward, and lawsuits followed.</p>
+
+<p>A design can look excellent on a laboratory wear machine and still behave differently in
+thousands of real bodies. That is why many countries now keep <strong>joint registries</strong>, national databases
+that follow every implant over years. Registries spotted the problems with some metal-on-metal hips
+earlier than individual surgeons could have. <strong>Long-term tracking of real patients is the only
+way to see failures that take years to appear.</strong></p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Who the device was designed for</h2>
+</header>
+
+<p>Return to the pulse oximeter and its calibration table. During the COVID-19 pandemic, a 2020
+study in the <em>New England Journal of Medicine</em> compared finger readings with direct blood tests
+in hospital patients. It found that dangerously low oxygen levels went undetected by the oximeter
+roughly three times as often in Black patients as in white patients. Darker skin pigment absorbs some
+of the light, and many devices had been calibrated mostly on lighter-skinned volunteers.</p>
+
+<p>Regulators, including the FDA, began reviewing how oximeters are tested. The general rule is simple. <strong>A device embodies assumptions about its users, and the people
+missing from testing are the people most likely to be failed.</strong> The same applies to algorithms trained on data from a few hospitals, and to equipment designed for
+hospitals with stable electricity.</p>
+
+<p>That last point matters. Donated equipment in poorer countries often sits unused for lack of
+spare parts, training or power. A branch of the field, sometimes called global health engineering,
+designs for those conditions from the start: robust, cheap and easy to repair.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Enormous benefit, slow and costly to prove</h2>
+  <p class="lede">The same caution that protects patients also slows innovation and raises prices.
+  There is no setting of the dial that removes both problems.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Weighing the field honestly</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>The benefit</th><th>The cost</th></tr></thead>
+<tbody>
+<tr><td><strong>Devices replace failing organs</strong></td><td class="ok">Dialysis, pacemakers and joint replacements add years of life and mobility.</td><td class="no">Many are lifelong commitments: batteries to replace, implants that wear, ongoing clinic visits.</td></tr>
+<tr><td><strong>Strict risk-based regulation</strong></td><td class="ok">Dangerous designs are more likely to be caught before they harm people.</td><td class="no">Slow and expensive. Small firms struggle, and patients wait for improvements.</td></tr>
+<tr><td><strong>Fast-track routes such as the 510(k)</strong></td><td class="ok">Incremental improvements reach patients quickly.</td><td class="mid">Critics argue a device can be cleared by resemblance to an older one with little new clinical data.</td></tr>
+<tr><td><strong>Software and connectivity</strong></td><td class="ok">Remote monitoring, automatic dosing, updates without surgery.</td><td class="no">New failure modes: bugs, hacking, dependence on networks and companies.</td></tr>
+<tr><td><strong>High-tech, high-price devices</strong></td><td class="ok">State-of-the-art care in well-funded hospitals.</td><td class="no">Out of reach for much of the world and a growing share of health budgets.</td></tr>
+<tr><td><strong>Data from implanted and wearable sensors</strong></td><td class="ok">Problems caught early, care personalised to the individual.</td><td class="mid">Privacy questions, false alarms, and anxiety from constant numbers.</td></tr>
+</tbody></table></div>
+
+<p>The deepest tension is between <strong>speed and certainty</strong>. Approve quickly and some
+harmful devices get through, as the metal-on-metal hips did. Approve slowly and patients go without
+useful ones. Countries strike the balance differently, and the argument is ongoing.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Closing the loop, growing tissue, reading the nerves</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three horizons</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Closed-loop and continuous monitoring</strong></td><td>Automated insulin delivery is in wide use. Wearable heart-rhythm detection is in consumer watches. Remote monitoring of implants is routine in rich countries.</td><td class="ok">Fairly sure: more conditions will be managed by sensor-plus-software loops, with fewer clinic visits. The bottleneck is validation and reimbursement, not the electronics.</td></tr>
+<tr><td><strong>Neural interfaces for paralysis</strong></td><td>Small numbers of people with paralysis have used implanted electrode arrays to move cursors, type, or produce synthesised speech in research trials.</td><td class="mid">Plausible: approved devices for specific severe conditions within the coming years. Mass-market brain implants are far off. See <a href="../07-neuroscience/17-brain-computer-interfaces.html">Brain-computer interfaces</a>.</td></tr>
+<tr><td><strong>Engineered tissues and organs</strong></td><td>Lab-grown skin and cartilage have clinical uses. Simple hollow structures such as bladders have been grown in a few patients. Solid organs with dense blood vessels remain out of reach.</td><td class="no">Speculative: complex printed or grown organs that replace transplants. See <a href="../20-future-tech/08-lab-grown-organs.html">Lab-grown organs</a>.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The software turn, and its risks</h2>
+</header>
+
+<p>The biggest change already under way is that more and more of a device's behaviour lives in
+software. Regulators now approve <strong>software as a medical device</strong>, programs that
+diagnose or guide treatment with no special hardware at all. Hundreds of AI-based tools, mostly for reading images, had FDA clearance by the mid-2020s.</p>
+
+<p>Software brings a problem that the Therac-25 only hinted at: <strong>cybersecurity</strong>.
+Researchers have shown that some older pacemakers and insulin pumps could, in principle, be
+reprogrammed wirelessly by an attacker. Manufacturers issued fixes, and since 2023 the United States
+has required new connected devices to include a cybersecurity plan before approval. An update for a device inside someone's chest must be tested as carefully as the original.</p>
+
+<p><strong>The engineering questions will increasingly be about trust: who checks the algorithm, who owns the data, and who
+supports the device for the twenty years it stays in a body.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Biomedical engineering builds devices that <strong>measure</strong>, <strong>support</strong>
+    or <strong>replace</strong> parts of the body. Its special difficulty is that the body
+    <strong>varies</strong>, <strong>reacts</strong> to anything foreign, and <strong>cannot be
+    tested freely</strong>. So most of the work is proving safety, and the worst failures come from
+    assumptions nobody checked.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>First implanted pacemaker: <strong>1958</strong>, Stockholm. The patient lived 43 more years.</li>
+      <li>The US sorts devices into <strong>three risk classes</strong>. Implants that sustain life are Class III.</li>
+      <li>Roughly <strong>a million</strong> cochlear implants worldwide by the early 2020s.</li>
+      <li>Undetected low oxygen about <strong>three times</strong> as common in Black patients in a 2020 oximeter study.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking a device that works in the lab works in patients. <strong>Bodies vary and respond,
+    and many failures appear only after years and thousands of users</strong>, which is why
+    registries and long-term follow-up matter.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a pulse oximeter could be less accurate for some people, using the words
+    "calibration" and "light absorption"? If so, you understand both how sensors work and why who is
+    tested matters.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Biomedical engineering</dt><dd>Engineering applied to diagnosing, treating and supporting the human body.</dd>
+    <dt>Medical device</dt><dd>Any instrument, implant, machine or software used for a medical purpose that does not work mainly through chemistry, as a drug does.</dd>
+    <dt>Sensor</dt><dd>A part that turns a physical change, such as voltage, light or pressure, into a signal a machine can read.</dd>
+    <dt>ECG</dt><dd>Electrocardiogram: a recording of the heart's electrical activity from electrodes on the skin.</dd>
+    <dt>Pulse oximeter</dt><dd>A finger clip that estimates blood oxygen by comparing how red and infrared light pass through tissue.</dd>
+    <dt>Calibration</dt><dd>Tuning a device's output against known reference measurements.</dd>
+    <dt>Biocompatibility</dt><dd>A material's ability to cause only an acceptable response from the body in a specific use.</dd>
+    <dt>Osseointegration</dt><dd>Living bone bonding directly to an implant surface, usually titanium.</dd>
+    <dt>Closed loop</dt><dd>A system that measures, decides and acts automatically, such as a sensor-driven insulin pump.</dd>
+    <dt>Design controls</dt><dd>The documented process linking every requirement to a design decision and a test.</dd>
+    <dt>Joint registry</dt><dd>A national database that tracks implanted joints over years to spot failures early.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"The hard part of a medical device usually isn't the idea. It's proving it is safe in bodies
+    that all differ."</li>
+    <li>"The body isn't a passive container. It attacks, coats and walls off anything you put in
+    it."</li>
+    <li>"Therac-25 is the classic warning: take away the hardware safety catch and trust the
+    software, and one bug can kill."</li>
+    <li>"A sensor is only as fair as the people it was calibrated on. The pulse oximeter story shows
+    that."</li>
+    <li>"Many of the biggest gains in later life come from devices such as new hips, lenses and
+    stents, not from pills."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="08-materials-engineering.html">Materials engineering</a></h4><p>Why
+  materials behave as they do, and how engineers choose and design them, from titanium implants to
+  jet-engine blades.</p></div>
+  <div class="card"><h4>Related · <a href="../07-neuroscience/17-brain-computer-interfaces.html">Brain-computer
+  interfaces</a></h4><p>The most ambitious corner of the field: reading and writing signals in the
+  nervous system directly.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

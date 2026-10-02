@@ -1,0 +1,870 @@
+<!doctype html>
+<!--@HEAD-SRC title="Planet Formation" desc="How planets form from the disc of gas and dust around a young star: from dust grains to planetesimals, giant planets racing the vanishing gas, migrating orbits, and the open questions about where Earth's water came from."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Planet Formation</title>
+<meta name="description" content="How planets form from the disc of gas and dust around a young star: from dust grains to planetesimals, giant planets racing the vanishing gas, migrating orbits, and the open questions about where Earth&#x27;s water came from.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Astronomy &amp; Space · Topic 04 of 20</p>
+  <h1>Planet formation. <span class="thin">How dust around a newborn star becomes worlds, in a few million years.</span></h1>
+  <p class="lede">Every planet, including the one under your feet, began as dust: grains smaller than
+  a particle of smoke, drifting in a flat disc of gas around a young star. Somehow, those grains
+  became rocks, the rocks became mountain-sized bodies, and those collided and grew into planets.
+  Astronomers agree on the broad story. Several of the steps in the middle are still genuinely
+  puzzling, and the planets found around other stars have forced the story to be rewritten more
+  than once.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Astronomy &amp; Space</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="01-the-solar-system.html"><span class="vn">Astronomy · 01</span><b>The Solar System</b><em>The finished result</em></a>
+<a class="vol" href="07-exoplanets.html"><span class="vn">Astronomy · 07</span><b>Exoplanets</b><em>The test of the theory</em></a>
+<a class="vol" href="05-galaxies.html"><span class="vn">Astronomy · 05</span><b>Galaxies</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first treatment of how planets form. The nearest neighbours are Volume 29's
+  short chapter on where the elements come from (<a href="../29-the-sky.html#c4">How stars die, and why
+  it matters to you</a>), which explains where the dust itself was made, and Volume 30's chapter on why
+  Earth ended up habitable (<a href="../30-the-earth.html#c6">Why the planet is habitable at
+  all</a>).</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The building of worlds from leftovers</h2>
+  <p class="lede">Planet formation is what happens to the material a new star does not swallow. It
+  is fast by cosmic standards, messy, and now something astronomers can actually watch.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The picture that surprised everyone</h2>
+</header>
+
+<p>In 2014 a new radio telescope array in Chile's Atacama Desert, called ALMA, released an image of
+a young star named HL Tauri, about 450 light-years away. The star is thought to be only around a
+million years old, an infant compared with the Sun's 4.6 billion. Around it was a flat orange disc
+marked with sharp, dark, concentric rings, like a target or the grooves of a record.</p>
+
+<p>Astronomers had expected a smooth disc. The most natural explanation for the gaps is that
+<strong>young planets are already clearing paths through the material</strong>, sweeping up dust
+along their orbits. If so, planets start forming much earlier than many models had assumed. Later
+ALMA surveys found that rings and gaps are common in such discs. The picture changed planet formation
+from a subject studied mainly with equations and meteorites into one studied with photographs.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>An eighteenth-century idea that survived</h2>
+</header>
+
+<p>The basic idea is old. In 1755 the German philosopher Immanuel Kant suggested that the solar
+system formed from a rotating cloud of material. Around 1796 the French mathematician Pierre-Simon
+Laplace developed a similar proposal. This became known as the <strong>nebular hypothesis</strong>,
+from <em>nebula</em>, Latin for cloud or mist.</p>
+
+<p>The hypothesis fell in and out of favour for two centuries, mainly because nobody could explain
+the details. Its broad outline is now accepted. A star and its planets form together from one
+collapsing cloud, and the planets are built in the disc around the star. That disc is called a
+<strong>protoplanetary disc</strong>: "proto" means early, so it is the disc that comes before the
+planets.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>What any theory has to explain</h2>
+</header>
+
+<p>A good theory of planet formation must account for some stubborn facts about our own solar system,
+and now about thousands of others.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Observed fact</th><th>What it suggests</th></tr></thead>
+<tbody>
+<tr><td>All the planets orbit in the same direction, in nearly the same plane</td><td>They formed in one flat, spinning disc</td></tr>
+<tr><td>Small rocky planets close in, giants farther out</td><td>Temperature in the disc decided what solid material was available</td></tr>
+<tr><td>The oldest meteorite grains are about 4.57 billion years old</td><td>A precise start date for the whole process</td></tr>
+<tr><td>Craters cover almost every solid surface</td><td>Collisions were central to building planets</td></tr>
+<tr><td>Many other stars have giant planets very close in</td><td>Planets can move far from where they formed</td></tr>
+<tr><td>Discs around young stars fade within a few million years</td><td>Giant planets must grab their gas quickly</td></tr>
+</tbody></table></div>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Six steps, from smoke to planets</h2>
+  <p class="lede">The process climbs an enormous ladder of sizes, from a thousandth of a millimetre to
+  tens of thousands of kilometres. Each rung works differently, and one of them nearly broke the
+  theory.</p>
+</header>
+
+<div class="sheet">
+  <div class="cap">The ladder of planet building, roughly</div>
+<pre>
+ cloud collapses         a disc forms around the new star     tens of thousands of years
+ dust grains stick       micrometres  ->  centimetres         thousands of years
+ pebbles clump           centimetres  ->  ~100 km bodies      the hard step (Chapter 06)
+ planetesimals collide   100 km       ->  Moon/Mars-sized     up to a few million years
+ giants grab gas         ~10 Earth masses -> Jupiter          before the gas disappears
+ giant impacts           embryos      ->  Earth, Venus        tens of millions of years
+</pre>
+</div>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>From cloud to disc</h2>
+</header>
+
+<p>Stars are born in cold, dark clouds of gas and dust, mostly hydrogen. When a dense patch of such a
+cloud begins to collapse under its own gravity, it is always turning slightly. As it shrinks, it spins
+faster, for the same reason a figure skater spins faster by pulling in her arms. Physicists call
+this the <strong>conservation of angular momentum</strong>: a spinning thing keeps its total "amount
+of spin" unless something takes it away.</p>
+
+<p>That spin stops most of the material from falling straight into the centre. It flattens into a
+disc, in the same way a spinning ball of pizza dough flattens. Most of the mass still ends up in the
+central star. A small fraction, perhaps around a hundredth of the star's mass in a typical case,
+remains in the disc. <strong>The planets are built from that small leftover.</strong> About 99 per
+cent of it is gas. Only about 1 per cent is dust, and the dust is what rocky planets are made from.</p>
+
+<p>Where did the dust come from? Every element heavier than hydrogen and helium was made in earlier
+generations of stars and spread by their deaths, as <a href="10-supernovae.html">Supernovae</a>
+explains. <strong>Planets are recycled stars.</strong></p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Dust to pebbles: easy at first</h2>
+</header>
+
+<p>The first step is gentle. Dust grains drift through the gas and bump into each other at walking
+speed or slower. Like dust bunnies under a bed, they stick together through weak electrical forces
+between their surfaces. Fluffy clumps grow to the size of sand, then to pebbles a few centimetres
+across.</p>
+
+<p>The disc also has a temperature gradient. Close to the star it is hot. Farther out, beyond the
+<strong>frost line</strong>, water vapour freezes into ice. Ice is sticky and plentiful, so beyond the
+frost line there is several times more solid material to build with. This is the main reason the
+giant planets formed in the outer solar system, as <a href="01-the-solar-system.html">The Solar
+System</a> describes.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The metre barrier, and how nature gets past it</h2>
+</header>
+
+<p>The next step, from pebbles and boulders to bodies kilometres wide, is where the theory ran into
+trouble. Two problems appear at roughly the size of a boulder a metre across.</p>
+
+<p>First, bigger objects collide faster, and at those speeds they tend to <strong>shatter or bounce
+rather than stick</strong>. Second, the gas in the disc orbits slightly slower than solid objects
+would on their own, because it is partly supported by its own pressure. So boulders feel a constant
+headwind. The drag robs them of speed and makes them spiral inward towards the star. Calculations
+suggested that a metre-sized body could fall into the star in a few hundred years or less, much faster
+than it could grow. This became known as the <strong>metre-size barrier</strong>.</p>
+
+<p>The most popular solution today is called the <strong>streaming instability</strong>, proposed in
+the mid-2000s. Pebbles drifting through the gas tend to bunch up, a little like cyclists drafting
+behind each other in a race. Where they bunch, they feel less headwind, so more pebbles catch up and
+the clump grows denser. Eventually a clump becomes dense enough for its own gravity to pull it
+together into a single body, perhaps a hundred kilometres across, <strong>skipping the dangerous
+in-between sizes altogether</strong>.</p>
+
+<p>In January 2019 NASA's New Horizons spacecraft flew past Arrokoth, a small, ancient object in the
+Kuiper belt. It turned out to be two rounded lobes stuck together so gently that there is no sign of a
+violent crash. Many researchers see it as support for gentle gravitational collapse. These bodies,
+from a few kilometres to a few hundred across, are called <strong>planetesimals</strong>, the seeds of
+planets.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Giant planets: a race against the vanishing gas</h2>
+</header>
+
+<p>Once there are planetesimals, gravity takes over. The biggest ones pull in neighbours and grow
+fastest, a runaway effect where the rich get richer. Within perhaps a million years or so, a region can
+contain a few dominant <strong>planetary embryos</strong>, bodies roughly the size of the Moon or
+Mars. Many researchers now think embryos also grow quickly by sweeping up pebbles still drifting
+through the gas, a process called <strong>pebble accretion</strong>.</p>
+
+<p>The leading explanation for giant planets is <strong>core accretion</strong>. An embryo beyond the
+frost line grows into a solid core of roughly ten Earth masses. At that point its gravity is strong
+enough to start pulling in the surrounding hydrogen and helium. The more gas it gathers, the stronger
+its pull, until it runs away and builds a planet like Jupiter, hundreds of Earth masses, mostly gas.</p>
+
+<p>But there is a deadline. Observations of young star clusters show that most discs lose their gas
+within a few million years, blown away by the young star's radiation. <strong>A giant planet must be
+finished before the gas is gone.</strong> Evidence from meteorites suggests Jupiter's core formed very
+early, perhaps within the first million or two years. A rival idea, <strong>disc instability</strong>,
+proposes that some giants form directly and very fast when part of a heavy disc collapses under its
+own gravity. It may explain some giant planets found very far from their stars, but most researchers
+see it as the less common route.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Rocky planets: the age of giant impacts</h2>
+</header>
+
+<p>In the inner solar system there was less solid material and no time to grab gas. Rocky planets
+grew more slowly and more violently. After the gas cleared, dozens of embryos crossed each other's
+orbits and smashed together over tens of millions of years. Each collision could melt a planet's
+surface into an ocean of magma.</p>
+
+<p>The most famous of these collisions made our Moon. According to the <strong>giant-impact
+hypothesis</strong>, a body roughly the size of Mars, often called Theia, struck the young Earth about
+4.5 billion years ago. Debris thrown into orbit gathered into the Moon. The idea explains why the Moon
+has a small iron core and why Moon rocks brought back by Apollo are so similar to Earth's mantle. The
+details are still debated, especially why Earth and Moon rocks are <em>so</em> similar, which some
+versions of the impact struggle to reproduce.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Planets that wander</h2>
+</header>
+
+<p>For a long time, astronomers assumed planets stayed where they formed. Then, in 1995, the first
+planet found around a Sun-like star turned out to be a giant orbiting in four days, far too close to
+its star to have formed there. It must have moved.</p>
+
+<p>It is now accepted that planets <strong>migrate</strong>. A young planet's gravity creates ripples
+in the gas disc, and the ripples push or pull back on the planet, slowly changing its orbit. After the
+gas is gone, planets can still shift by scattering planetesimals or by pulling on each other.</p>
+
+<p>Our own giants probably moved too. In the <strong>Nice model</strong>, named after the French city
+where it was developed in the mid-2000s, the giant planets started closer together and later spread out,
+with Uranus and Neptune pushed outward through a disc of icy bodies. A related idea, the <strong>Grand
+Tack</strong>, proposes that Jupiter first drifted inward to roughly where Mars is now, then reversed
+outward with Saturn, like a sailing boat tacking. That would explain why Mars is so small: Jupiter
+cleared away much of the material it would have grown from. Both models are influential, and both
+remain debated.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Water, life, and the variety of worlds</h2>
+  <p class="lede">How a planet forms decides what it is made of, where it ends up, and whether it has
+  water. Those are the first questions to ask about any planet that might host life, including our
+  own.</p>
+</header>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Where did Earth's water come from?</h2>
+</header>
+
+<p>Earth formed inside the frost line, where it was too hot for ice. So where did the oceans come
+from? This is one of the central open questions of planetary science, and the answer is
+<strong>genuinely contested</strong>.</p>
+
+<p>The main tool is a chemical fingerprint. Water contains hydrogen, and a small share of hydrogen is
+a heavier form called deuterium. The ratio of deuterium to ordinary hydrogen differs between sources.
+Comets were long the favourite delivery service, but when Europe's Rosetta mission measured the comet
+67P in 2014, its water had a ratio about three times Earth's ocean value. A certain class of
+water-rich asteroids, the parent bodies of <strong>carbonaceous chondrite</strong> meteorites, matches
+Earth much better. That makes asteroids the leading candidate today.</p>
+
+<p>Other researchers argue that some of Earth's water was already in the rocks that built it, or was
+made when hydrogen gas from the early disc reacted with magma. The likely answer is a mix of sources.
+<strong>The share from each is still argued over.</strong></p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Why exoplanets look the way they do</h2>
+</header>
+
+<p>Thousands of planets are now known around other stars, and formation theory has to explain all of
+them. The commonest kinds found so far are planets between Earth and Neptune in size, often orbiting
+very close to their stars. Our solar system has none of these. Migration, which can carry planets
+inward through the gas disc, is the usual explanation, but the details are under active debate.</p>
+
+<p>Planet formation also explains who wins and who loses. Stars richer in heavy elements are more
+likely to have giant planets, which fits core accretion: more dust means faster-growing cores. And
+some planets are thrown out entirely. Gravitational encounters can eject a planet from its system to
+wander alone through the galaxy, a <strong>rogue planet</strong>. Surveys suggest such planets exist in
+large numbers, though estimates of how many vary widely. The <a href="07-exoplanets.html">Exoplanets</a>
+topic covers the discoveries themselves.</p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Meteorites: the solar system's own fossils</h2>
+</header>
+
+<p>Most asteroids never became part of a planet. Fragments of them fall to Earth as meteorites, and
+some have barely changed since the solar system formed. They contain small white grains called
+CAIs (calcium-aluminium-rich inclusions), the oldest known solids, dated to about 4.567 billion years.
+That date is effectively <strong>the birthday of the solar system</strong>, and it is measured to within
+about a million years.</p>
+
+<p>Meteorites also contain tiny melted droplets called chondrules, whose origin is still not fully
+understood, and traces of radioactive elements that decayed quickly. Those short-lived elements suggest
+the young solar system was seeded with fresh material from a nearby dying star, though how and when are
+debated.</p>
+
+<p>Sample-return missions have made the fossils cleaner. Japan's Hayabusa2 brought material from the
+asteroid Ryugu in 2020, and NASA's OSIRIS-REx brought material from Bennu in 2023, both untouched by
+Earth's air. Analyses published in 2025 reported that the Bennu samples contain many of the amino acids
+used by life and all five of the bases used in DNA and RNA. <strong>That does not mean asteroids carried
+life.</strong> It shows that the raw ingredients of biology formed naturally in the early solar system
+and were delivered to young planets.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A theory that works in outline and wobbles in the middle</h2>
+  <p class="lede">Read as strengths and weaknesses of what scientists currently understand: the big
+  picture is solid, the middle steps are partly patched, and the history of the field is a lesson in
+  overconfidence.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>What the theory gets right, and where it strains</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Part of the story</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Collapse into a star and a disc</strong></td><td class="ok">Seen directly in many young systems. Explains the flat, same-direction orbits.</td><td class="mid">How discs move material inward and lose their gas is understood only in outline.</td></tr>
+<tr><td><strong>Dust to pebbles</strong></td><td class="ok">Reproduced in laboratory and space-station experiments.</td><td class="mid">Sticking, bouncing and shattering depend on details of grain material.</td></tr>
+<tr><td><strong>Pebbles to planetesimals</strong></td><td class="mid">The streaming instability works in simulations, and Arrokoth fits it.</td><td class="no">Not observed directly. It needs fairly specific conditions to start.</td></tr>
+<tr><td><strong>Giant planets</strong></td><td class="ok">Core accretion explains most giants and why metal-rich stars have more.</td><td class="mid">Tight timing. Some distant giants may need a different route.</td></tr>
+<tr><td><strong>Migration</strong></td><td class="ok">Explains hot Jupiters and many compact systems.</td><td class="no">Models can be tuned to fit almost anything, which makes them hard to test.</td></tr>
+<tr><td><strong>Our own solar system</strong></td><td class="ok">Nice and Grand Tack explain several oddities, such as small Mars.</td><td class="mid">Both remain debated. Our system may be an unusual case.</td></tr>
+</tbody></table></div>
+
+<p>The deepest weakness is historical. <strong>For two centuries, the theory was designed to produce
+one system, ours, and it confidently predicted that other systems would look similar.</strong> They
+do not. The lesson the field took from this is to treat any single example, however familiar, as one
+possible outcome rather than a template.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Watching planets being born</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Imaging planets while they form</strong></td><td>In 2018–2019 astronomers imaged two young giant planets, PDS 70 b and c, still gathering material inside the gap of their disc. The James Webb Space Telescope is measuring the chemistry of discs, including water and carbon compounds.</td><td class="ok">Fairly sure: many more forming planets imaged directly, especially once very large ground telescopes such as Europe's ELT begin observing around the end of the decade.</td></tr>
+<tr><td><strong>Settling the water question</strong></td><td>Asteroid samples from Ryugu and Bennu are still being analysed. Future missions may sample comets directly.</td><td class="mid">Plausible: a much better estimate of how much of Earth's water came from where, within one or two decades.</td></tr>
+<tr><td><strong>A predictive theory of planetary systems</strong></td><td>Simulations can reproduce many observed systems, but not yet predict from a disc what planets it will make.</td><td class="no">Speculative: a theory that, given a young star and its disc, reliably predicts its planets. This may need computing and data well beyond today's.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>How common are Earths?</h2>
+</header>
+
+<p>The question everyone eventually asks is whether planets like Earth, rocky, temperate and wet,
+form often. Formation theory gives mixed signals. Rocky planets seem to form easily: small planets are
+abundant around other stars. But the conditions that made Earth particular, its water supply, its large
+Moon and its giant neighbours, depend on chance events such as which collisions happened and where
+Jupiter wandered.</p>
+
+<p>Answering it will take both better theory and better counting. Future space telescopes designed to
+study Earth-like planets around Sun-like stars, such as NASA's proposed Habitable Worlds Observatory, are
+aimed at exactly this. Until then, the fair summary is that <strong>planet formation is common, rocky
+planets are common, and whether true Earth twins are common is still open</strong>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A collapsing cloud spins into a <strong>star and a flat disc</strong>. In the disc, dust sticks
+    into pebbles, pebbles clump into <strong>planetesimals</strong>, and those grow into embryos.
+    Beyond the frost line, cores grab gas and become giants before the gas vanishes. Closer in, giant
+    impacts build rocky planets. Planets can then <strong>migrate</strong> far from where they were born.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>The solar system's oldest solids are about <strong>4.567 billion</strong> years old.</li>
+      <li>Gas discs typically last only <strong>a few million years</strong>.</li>
+      <li>A giant planet's core needs roughly <strong>ten Earth masses</strong> to start pulling in gas.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Assuming planets form where they are now. <strong>Planets move</strong>, sometimes dramatically,
+    and the arrangement we see today is the end of a long rearrangement.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why the metre-size barrier is a problem and how the streaming instability might
+    solve it? If so, you understand the hardest step in the story.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Nebular hypothesis</dt><dd>The idea that a star and its planets form together from one collapsing, spinning cloud.</dd>
+    <dt>Protoplanetary disc</dt><dd>The flat disc of gas and dust around a young star, where planets are built.</dd>
+    <dt>Angular momentum</dt><dd>The "amount of spin" an object has, which stays the same unless something removes it.</dd>
+    <dt>Frost line</dt><dd>The distance from a young star beyond which water freezes into ice.</dd>
+    <dt>Metre-size barrier</dt><dd>The problem that boulder-sized bodies should shatter or spiral into the star before they grow.</dd>
+    <dt>Streaming instability</dt><dd>A process in which drifting pebbles bunch up until gravity pulls them into one body.</dd>
+    <dt>Planetesimal</dt><dd>A solid body from about a kilometre to a few hundred kilometres across, the seed of planets.</dd>
+    <dt>Planetary embryo</dt><dd>A Moon- to Mars-sized body that grows from planetesimals.</dd>
+    <dt>Core accretion</dt><dd>The main theory of giant planets: a solid core grows big enough to pull in gas.</dd>
+    <dt>Disc instability</dt><dd>A rival theory in which part of a heavy disc collapses directly into a giant planet.</dd>
+    <dt>Migration</dt><dd>The change of a planet's orbit over time, caused by the disc or by other bodies.</dd>
+    <dt>Giant-impact hypothesis</dt><dd>The idea that the Moon formed from debris after a Mars-sized body hit the young Earth.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Planets are built from the leftovers of star formation: about one per cent dust in a disc
+    that's mostly gas."</li>
+    <li>"The hard part isn't sticking dust together. It's getting past boulder size without shattering
+    or falling into the star."</li>
+    <li>"Giant planets have a deadline. They have to grab their gas in the few million years before the
+    disc disappears."</li>
+    <li>"The Moon is probably the debris of a collision between the young Earth and a Mars-sized
+    planet."</li>
+    <li>"We used to think planets stayed where they were born. Other solar systems taught us that they
+    wander."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="05-galaxies.html">Galaxies</a></h4><p>Zooming out by a factor
+  of billions: the great star systems that build stars and planets in the first place.</p></div>
+  <div class="card"><h4>Related · <a href="07-exoplanets.html">Exoplanets</a></h4><p>The thousands of
+  planets found around other stars, how they were found, and what they reveal about how common worlds
+  like ours might be.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

@@ -1,0 +1,866 @@
+<!doctype html>
+<!--@HEAD-SRC title="Renewable-Energy Engineering" desc="How engineers fit wind, solar and storage into power grids built for spinning generators: balancing, inertia, inverters, transmission, flexibility, and what a mostly renewable grid needs next."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Renewable-Energy Engineering</title>
+<meta name="description" content="How engineers fit wind, solar and storage into power grids built for spinning generators: balancing, inertia, inverters, transmission, flexibility, and what a mostly renewable grid needs next.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Engineering · Topic 14 of 20</p>
+  <h1>Renewable-energy engineering. <span class="thin">The panels are the easy part. The grid is the hard part.</span></h1>
+  <p class="lede">A solar panel is a mature, cheap, mass-produced product. A wind turbine is close
+  behind. Building them is no longer the difficult step. The difficult step is fitting them into a
+  power system that was designed over a century around large, controllable, spinning machines.
+  Electricity has to be produced at the exact moment it is used, at the right frequency and voltage,
+  everywhere on a continent-sized network. Renewable-energy engineering is the work of keeping that
+  promise when the main sources follow the weather instead of an operator's command.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Engineering</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../11-energy-and-water.html#e2"><span class="vn">Vol 11 · ch 02</span><b>Solar panels</b><em>How the devices work</em></a>
+<a class="vol" href="../11-energy-and-water.html#e5"><span class="vn">Vol 11 · ch 05</span><b>Grid batteries</b><em>Storage, briefly</em></a>
+<a class="vol" href="../20-future-tech/16-advanced-batteries.html"><span class="vn">Future · 16</span><b>Advanced batteries</b><em>What comes after lithium-ion</em></a>
+<a class="vol" href="17-smart-buildings.html"><span class="vn">Engineering · 17</span><b>Smart buildings</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 11 explains the machines themselves: <a href="../11-energy-and-water.html#e2">solar
+  panels</a>, <a href="../11-energy-and-water.html#e3">wind turbines</a>,
+  <a href="../11-energy-and-water.html#e5">grid batteries</a> and
+  <a href="../11-energy-and-water.html#e6">green hydrogen</a>, including the duck curve and
+  capacity factors. This file does not repeat them. It is about the system those machines plug into:
+  how the grid stays balanced and stable, and what has to be built around the panels and turbines.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Engineering a power system, not a power plant</h2>
+  <p class="lede">The discipline covers generation, conversion, transmission, storage, control and
+  markets together, because a weakness in any one of them limits all the others.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A sunny Monday in Spain</h2>
+</header>
+
+<p>Just after half past twelve on 28 April 2025, almost the whole of mainland Spain and Portugal
+lost electricity within a few seconds. Trains stopped between stations, traffic lights went dark and
+tens of millions of people were without power. Most supply returned within about a day. It was one
+of the largest blackouts in Europe in decades.</p>
+
+<p>At the moment it started, solar was producing a large share of Spain's electricity, and early
+commentary blamed renewables. The official investigations told a more specific story. They pointed
+mainly to a failure of <strong>voltage control</strong>: voltage rose in parts of the network, a
+chain of generators disconnected to protect themselves, and each disconnection made the next more
+likely. The investigators described a system that did not have enough resources actively holding
+voltage steady that day, and the role of the generation mix remained a point of debate.</p>
+
+<p>The useful lesson is not "renewables cause blackouts" or "renewables were innocent". It is this:
+<strong>a grid is a single machine, and its stability depends on services that nobody sees until
+they are missing</strong>. Renewable-energy engineering is mostly about providing those services in
+a new way.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The five jobs a grid must always do</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Job</th><th>What it means</th><th>Who traditionally did it</th></tr></thead>
+<tbody>
+<tr><td><strong>Balancing</strong></td><td>Supply equals demand every second</td><td>Power stations raising and lowering output</td></tr>
+<tr><td><strong>Frequency control</strong></td><td>Keeping the alternating current at 50 or 60 cycles per second</td><td>Spinning generators and their governors</td></tr>
+<tr><td><strong>Voltage control</strong></td><td>Keeping the electrical "pressure" within limits everywhere on the network</td><td>Generators and devices that supply or absorb reactive power</td></tr>
+<tr><td><strong>Adequacy</strong></td><td>Having enough capacity for the worst hour of the year</td><td>Fuel stockpiles and plants that could run on demand</td></tr>
+<tr><td><strong>Restart</strong></td><td>Bringing the system back after a total blackout</td><td>A few plants able to start without outside power ("black start")</td></tr>
+</tbody></table></div>
+
+<p>Two terms need a word. <strong>Reactive power</strong> is the part of the electrical flow that
+does no useful work but is needed to keep voltages up, a little like the pressure in a water
+system as opposed to the water you drink. <strong>Dispatchable</strong> means a plant that runs
+when an operator tells it to. Coal, gas, hydro and nuclear plants are dispatchable. Wind and solar
+are not: they produce when the weather allows, which engineers call <strong>variable</strong>
+generation.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>How far the shift has gone</h2>
+</header>
+
+<p>Wind and solar together produced roughly 15 percent of the world's electricity in 2024, according
+to energy think tanks that track it, and their share has been rising every year. Including hydro
+and other renewables, the total was about a third. In some places the share is far higher. Denmark
+gets around half of its electricity from wind in a typical year. The Australian state of South
+Australia has run for whole days on wind and solar alone and gets well over half its annual
+electricity from them.</p>
+
+<p>These places matter because they are where the engineering problems appeared first, before the
+rest of the world. <strong>Every challenge in this file was a theory twenty years ago and is now an
+operating problem somewhere.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Electronics, wires and flexibility</h2>
+  <p class="lede">Integrating renewables rests on three pillars: power electronics that let panels
+  and turbines behave like good grid citizens, transmission that moves power from where the weather
+  is to where people are, and flexibility that fills the gaps in time.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The inverter: a box that decides how the grid behaves</h2>
+</header>
+
+<p>A solar panel produces direct current (DC), which flows one way. The grid uses alternating
+current (AC), which reverses direction 50 or 60 times a second. The device in between is an
+<strong>inverter</strong>. Modern wind turbines and batteries connect through similar power
+electronics. Engineers call all of these <strong>inverter-based resources</strong>.</p>
+
+<p>A spinning generator is physically locked to the grid's rhythm. If the grid slows, the heavy rotor
+resists the change just by being heavy. That resistance is called <strong>inertia</strong>, and it
+buys the grid a few precious seconds after a big power station trips. An inverter has no rotor. Its
+behaviour is decided entirely by its software.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Grid-following inverters</h4><p>The common type today. They measure the
+  grid's existing rhythm and inject current in step with it, like a dancer following a partner. They
+  are efficient and cheap, but they need a strong grid to follow. With too many of them and too few
+  "leaders", the system becomes weak.</p></div>
+  <div class="card"><h4>Grid-forming inverters</h4><p>A newer approach. These create their own
+  voltage and frequency reference and respond instantly to disturbances, imitating the stabilising
+  behaviour of a spinning machine. They can help hold the grid steady and even help restart it.
+  Several grid operators now require or reward them for new batteries.</p></div>
+</div>
+
+<p>This is why engineers say that <strong>the stability of a future grid is a software design
+question</strong>. The same hardware can weaken or strengthen the system depending on how its
+control code is written, which links this topic directly to
+<a href="13-control-systems.html">control systems</a>.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Replacing inertia with speed</h2>
+</header>
+
+<p>When a large power station trips offline, frequency starts to fall. With lots of inertia it falls
+slowly, giving governors time to respond. With little inertia it falls fast, and if it drops past a
+threshold, automatic protection starts disconnecting customers to save the rest of the system.</p>
+
+<p>Engineers have several answers. <strong>Fast frequency response</strong> from batteries can
+inject power within a fraction of a second, faster than any turbine. <strong>Synchronous
+condensers</strong> are large spinning machines that generate no energy at all; they spin on the grid
+purely to provide inertia and voltage support, and some are converted from old power-station
+generators. Operators also set limits. Ireland's grid operator, for example, has a rule capping the
+share of instantaneous demand that can be met by non-synchronous sources such as wind, and it has
+raised that cap step by step as new stabilising tools proved themselves.</p>
+
+<p>The pattern is worth noticing. <strong>Each time a limit was reached, it was raised by
+engineering, not abandoned.</strong> But each raise required real equipment and testing, not only
+optimism.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Wires: the slow, unglamorous bottleneck</h2>
+</header>
+
+<p>The windiest and sunniest places are rarely where people live. North Sea wind must reach
+southern Germany. Solar from deserts in western China must reach cities on the east coast. That
+requires new <strong>transmission lines</strong>, and they are slow to build. A wind farm can be
+built in two or three years. A major new power line can take a decade, mostly because of planning
+permission, land rights and local opposition.</p>
+
+<p>For long distances engineers increasingly use <strong>HVDC</strong>, high-voltage direct current.
+AC lines lose more energy over very long distances and are hard to run under the sea. HVDC lines
+lose less, can link grids that are not synchronised with each other, and are the standard choice for
+offshore wind and undersea links between countries. China has built the largest network of
+ultra-high-voltage lines in the world, some of them running thousands of kilometres.</p>
+
+<p>In the United States, a large backlog of projects waits for permission to connect.
+Researchers at Lawrence Berkeley National Laboratory found that the capacity waiting in these
+"interconnection queues" at the end of 2023 exceeded the size of the entire existing US power fleet,
+most of it solar, wind and storage. Many of those projects will never be built, but the queue shows
+where the bottleneck is. <strong>In many countries the scarce resource is no longer panels, it is
+permission to plug them in.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The flexibility toolbox</h2>
+</header>
+
+<p>Variable generation leaves gaps in time: evenings, calm weeks, winter. Engineers fill them with a
+mix of tools, each suited to a different length of gap.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Tool</th><th>Time scale it covers</th><th>Main limitation</th></tr></thead>
+<tbody>
+<tr><td><strong>Lithium-ion batteries</strong></td><td>Seconds to a few hours</td><td>Expensive for long durations</td></tr>
+<tr><td><strong>Pumped hydro</strong> (pump water uphill, release it later)</td><td>Hours to days</td><td>Needs suitable hills and reservoirs; slow to build</td></tr>
+<tr><td><strong>Demand response</strong> (shift when people and machines use power)</td><td>Minutes to hours</td><td>Needs smart devices and willing users</td></tr>
+<tr><td><strong>Interconnectors</strong> to neighbouring grids</td><td>Hours to days</td><td>Neighbours may face the same weather</td></tr>
+<tr><td><strong>Overbuilding</strong> and accepting curtailment</td><td>Covers poor days by building extra</td><td>Wastes energy on good days</td></tr>
+<tr><td><strong>Dispatchable backup</strong> (gas, hydro, nuclear, perhaps hydrogen)</td><td>Days to seasons</td><td>Carbon emissions or high cost if rarely used</td></tr>
+</tbody></table></div>
+
+<p>Pumped hydro is old technology and still holds most of the world's stored electrical energy,
+although batteries now add more new capacity each year. Spreading wind farms over a wide area also
+helps, because the wind is rarely calm everywhere at once. No single tool is enough. <strong>A
+reliable renewable grid is a portfolio, with each tool covering the gaps the others leave.</strong></p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Forecasting and markets: running the system day to day</h2>
+</header>
+
+<p>Operators cannot command the wind, but they can predict it. Weather forecasts for wind and solar
+output a day ahead have become accurate enough to plan around, and forecasts minutes ahead keep
+improving. Most of the integration problem is not surprise but scheduling: knowing tomorrow will be
+cloudy and arranging enough backup.</p>
+
+<p>Markets do much of that arranging. In many countries, generators bid to supply power for each
+hour or half hour. Because wind and solar have almost no fuel cost, they bid low and push expensive
+plants out. On very sunny or windy days, prices can fall below zero, meaning producers pay to keep
+running. <strong>Negative prices are a signal that the system needs more storage, more flexible
+demand or more wires</strong>, and they create the business case for building them.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Cost, climate and security, all running through the grid</h2>
+  <p class="lede">Electricity is becoming the main carrier of energy for cars, heating and industry,
+  so how well renewables integrate decides how fast whole economies can change.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Cheap to build, costly to integrate</h2>
+</header>
+
+<p>The price of solar modules fell by roughly nine-tenths during the 2010s, and agencies such as the
+International Energy Agency describe new solar and onshore wind as among the cheapest sources of
+new electricity in much of the world. That is the good news, and it is real.</p>
+
+<p>The complication is that <strong>the cost of a kilowatt-hour at the plant is not the cost of a
+reliable kilowatt-hour at your socket</strong>. As the renewable share grows, extra costs rise:
+storage, backup, new lines, stability services and curtailed output. Economists call these
+<strong>system costs</strong> or integration costs. How large they become at very high shares is
+genuinely contested, and estimates depend heavily on assumptions about storage prices, weather and
+how much flexible demand appears. Honest analysts on both sides agree that the first large slice of
+renewables is cheap to integrate and the last few percent are the expensive part.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Three grids that taught everyone else</h2>
+</header>
+
+<div class="grid3">
+  <div class="card"><h4>South Australia</h4><p>After a statewide blackout during violent storms in
+  September 2016, the state installed one of the world's first large grid batteries in 2017 and
+  later added synchronous condensers. It now regularly runs with very high wind and solar shares
+  and has become a test case for low-inertia operation.</p></div>
+  <div class="card"><h4>Denmark</h4><p>Gets around half its electricity from wind, but leans on strong
+  links to Norway's and Sweden's hydro and to Germany. Its lesson: <strong>a small grid with
+  powerful neighbours can go much further</strong> than an isolated one.</p></div>
+  <div class="card"><h4>Texas (ERCOT)</h4><p>Has added wind and solar fast through a competitive market.
+  In the February 2021 winter storm, failures across gas, coal, nuclear and wind left millions without
+  power for days; frozen gas supply was the largest single factor. Lesson: <strong>weather-proof every
+  source</strong>, not just renewables.</p></div>
+</div>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Energy security and electrification</h2>
+</header>
+
+<p>After Russia's full-scale invasion of Ukraine in 2022, European gas prices spiked, and many
+governments began describing domestic wind and solar as a security asset as well as a climate one.
+Sunlight cannot be blockaded. On the other hand, the panels, batteries and many of their refined
+materials come mostly from China, which moves the dependency rather than ending it (see
+<a href="../12-the-physical-supply-chain.html#s2">rare earths</a> and
+<a href="../12-the-physical-supply-chain.html#s3">lithium</a> in Volume 12).</p>
+
+<p>Meanwhile demand is shifting toward electricity. Electric cars, heat pumps and AI data centres
+(see <a href="../14-computing-and-ai.html#c3">Volume 14</a>) all add load. <strong>Decarbonising
+means building a bigger grid as well as a cleaner one</strong>, which is why grid engineering, not
+generation, is now the critical path in most national energy plans.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A better system, with harder engineering</h2>
+  <p class="lede">The benefits are large and measurable. So are the engineering costs, and they are
+  concentrated in the parts of the system that are slowest to build.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Aspect</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Running cost</strong></td><td class="ok">No fuel. Once built, output is almost free.</td><td class="mid">Capital-heavy: costs are paid up front, so interest rates matter a lot.</td></tr>
+<tr><td><strong>Emissions and air</strong></td><td class="ok">No combustion: no CO2 and no local air pollution during operation.</td><td class="mid">Manufacturing and mining still have footprints.</td></tr>
+<tr><td><strong>Speed of building</strong></td><td class="ok">Solar farms and batteries go up in months to a couple of years.</td><td class="no">The lines and permissions they need can take a decade.</td></tr>
+<tr><td><strong>Stability</strong></td><td class="ok">Inverters can respond faster than any turbine.</td><td class="no">Only if designed and required to; low inertia makes grids touchier.</td></tr>
+<tr><td><strong>Reliability over time</strong></td><td class="ok">Many small units: one failure barely matters.</td><td class="no">Long calm, dark spells still need backup that sits idle most of the year.</td></tr>
+<tr><td><strong>Land and materials</strong></td><td class="mid">Solar can share land with farming or roofs; offshore wind avoids land.</td><td class="mid">Large land footprints onshore, and demand for copper, lithium and other minerals.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>End of life, and the honest footprint</h2>
+</header>
+
+<p>Solar panels last roughly 25 to 30 years and wind turbines about 20 to 25. That means a large
+wave of retirements is coming in the 2030s and 2040s. Panels are mostly glass and aluminium, which
+recycle well, but separating the valuable silver and silicon economically is still being worked on.
+Wind-turbine blades are made of composite materials that are hard to recycle, and some have ended up
+in landfill. Several manufacturers now offer recyclable blade designs.</p>
+
+<p>Across their whole lives, studies consistently find that wind and solar emit far less
+greenhouse gas per unit of electricity than coal or gas. <strong>The footprint is real but small
+compared with what it replaces</strong>, and it is concentrated in mining and manufacturing, where
+cleaner processes are possible.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>From adding renewables to designing around them</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Batteries everywhere, grid-forming by default</strong></td><td>Battery installations have grown very fast since about 2020, and grid codes in several countries are starting to ask for grid-forming capability.</td><td class="ok">Fairly sure: within a decade, batteries will be a standard part of almost every grid, providing the fast stability services that spinning plants used to.</td></tr>
+<tr><td><strong>Long-duration storage at scale</strong></td><td>Iron-air batteries, compressed air, thermal storage and hydrogen are in pilots and early commercial projects.</td><td class="mid">Plausible: one or more becomes cheap enough to cover multi-day calm spells. Which one is genuinely uncertain. See <a href="../20-future-tech/16-advanced-batteries.html">Advanced batteries</a>.</td></tr>
+<tr><td><strong>Continental and intercontinental supergrids</strong></td><td>Proposals exist for HVDC links between continents, for example North African solar to Europe.</td><td class="no">Speculative: technically feasible, but politics, cost and security have stopped most such schemes so far.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>The grid becomes a network of millions of small machines</h2>
+</header>
+
+<p>The old grid had a few hundred big power stations controlled from a central room. The emerging
+grid has millions of rooftop panels, home batteries, electric cars and heat pumps, each with a small
+computer inside. Coordinated well, they become a <strong>virtual power plant</strong>: thousands of
+homes charging their cars later, or exporting from their batteries together, on a signal from the
+grid. Several utilities already run such schemes at modest scale.</p>
+
+<p>The challenge is less physics than coordination, data and trust: who controls your battery, how
+you are paid, and how to keep it secure. Those questions lead straight into
+<a href="17-smart-buildings.html">smart buildings</a> and
+<a href="../20-future-tech/14-smart-cities.html">smart cities</a>. <strong>The future grid is
+less a set of power stations than a conversation between machines</strong>, and engineering that
+conversation to be stable is the central task of the next two decades.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Integrating renewables means providing the grid's hidden services, <strong>balancing,
+    frequency, voltage, adequacy and restart</strong>, without the big spinning machines that used to
+    supply them. The tools are <strong>smart inverters, transmission and a portfolio of
+    flexibility</strong>.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Wind plus solar: roughly <strong>15%</strong> of world electricity in 2024, all renewables
+      about <strong>a third</strong>.</li>
+      <li>Solar module prices fell about <strong>90%</strong> over the 2010s.</li>
+      <li>A wind farm takes <strong>2–3 years</strong>; a major power line can take
+      <strong>a decade</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Comparing only the cost of electricity at the plant. <strong>Reliable power at the socket
+    includes storage, wires and stability</strong>, and those costs grow as the share rises.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a grid with lots of inverters and few spinning generators needs fast
+    frequency response, and what grid-forming inverters change?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Variable generation</dt><dd>Power that follows the weather, like wind and solar, rather than an operator's command.</dd>
+    <dt>Dispatchable</dt><dd>A source that can be turned up or down on request.</dd>
+    <dt>Inverter</dt><dd>Electronics that convert direct current from panels or batteries into the grid's alternating current.</dd>
+    <dt>Grid-following</dt><dd>An inverter that copies the rhythm of an existing strong grid.</dd>
+    <dt>Grid-forming</dt><dd>An inverter that creates and holds its own voltage and frequency, helping to stabilise the grid.</dd>
+    <dt>Inertia</dt><dd>The resistance of heavy spinning generators to sudden changes in grid frequency.</dd>
+    <dt>Fast frequency response</dt><dd>Very quick injection of power, often from batteries, to stop frequency falling after a fault.</dd>
+    <dt>Synchronous condenser</dt><dd>A spinning machine on the grid that provides inertia and voltage support but no energy.</dd>
+    <dt>Reactive power</dt><dd>The part of electrical flow that holds voltage up rather than doing useful work.</dd>
+    <dt>HVDC</dt><dd>High-voltage direct current: the preferred way to send power over very long distances or under the sea.</dd>
+    <dt>Interconnection queue</dt><dd>The waiting list of projects asking permission to connect to the grid.</dd>
+    <dt>Curtailment</dt><dd>Switching off wind or solar output that the grid cannot use.</dd>
+    <dt>System costs</dt><dd>The extra costs of storage, backup, wires and stability needed to make variable power reliable.</dd>
+    <dt>Virtual power plant</dt><dd>Many small devices coordinated by software to act like one power station.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Solar panels are cheap now. The bottleneck is the grid: wires, storage and permission to
+    connect."</li>
+    <li>"Old grids got stability for free from heavy spinning generators. New grids have to build it
+    in software."</li>
+    <li>"A wind farm takes two years. The power line it needs can take ten."</li>
+    <li>"There's no single answer to a calm, dark week. It's a portfolio of batteries, hydro,
+    interconnectors and backup."</li>
+    <li>"The first big share of renewables is cheap to integrate. The last few percent are the hard
+    part."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="17-smart-buildings.html">Smart buildings</a></h4><p>Buildings
+  use a large share of the world's electricity. How sensors, controls and heat pumps turn them from
+  passive loads into active parts of the grid.</p></div>
+  <div class="card"><h4>Related · <a href="13-control-systems.html">Control systems</a></h4><p>The
+  feedback ideas underneath grid frequency control, inverters and every loop described in this
+  file.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

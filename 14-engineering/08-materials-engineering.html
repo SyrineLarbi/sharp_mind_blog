@@ -1,0 +1,890 @@
+<!doctype html>
+<!--@HEAD-SRC title="Materials Engineering" desc="Why materials bend, crack, wear and fail, how engineers change their inner structure to make them stronger, and how the choice of material shapes everything built."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Materials Engineering</title>
+<meta name="description" content="Why materials bend, crack, wear and fail, how engineers change their inner structure to make them stronger, and how the choice of material shapes everything built.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Engineering · Topic 08 of 20</p>
+  <h1>Materials engineering. <span class="thin">What a thing is made of decides what it can ever become.</span></h1>
+  <p class="lede">Every engineer eventually hits the same wall: the design is fine, but no material
+  can do it. Jet engines are limited by how hot their blades can run. Phones by how tough their glass
+  is. Batteries by what their electrodes can hold. Materials engineering is the discipline that moves
+  that wall. Its central insight is simple and powerful. A material's behaviour comes from its
+  hidden inner structure, and if you change the structure, you change the behaviour, often without
+  changing the chemistry at all.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Engineering</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../15-materials-food-and-industry.html#i1"><span class="vn">Vol 15 · ch 01</span><b>Steel</b><em>How it is made</em></a>
+<a class="vol" href="../26-chemistry.html#c3"><span class="vn">Vol 26 · ch 03</span><b>Three ways to hold atoms together</b><em>The chemistry underneath</em></a>
+<a class="vol" href="09-structural-engineering.html"><span class="vn">Engineering · 09</span><b>Structural engineering</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 15 explains how two key materials are produced and why they emit so much carbon
+  (<a href="../15-materials-food-and-industry.html#i1">Steel</a>,
+  <a href="../15-materials-food-and-industry.html#i2">Cement</a>,
+  <a href="../15-materials-food-and-industry.html#i3">Plastics</a>). Volume 26 covers the bonds that
+  hold atoms together (<a href="../26-chemistry.html#c3">Three ways to hold atoms together</a>). This
+  file sits between them: why materials behave as they do, and how engineers design that behaviour.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The science of what things are made of, used on purpose</h2>
+  <p class="lede">Materials engineering studies how the inner structure of a material creates its
+  properties, and how to process it to get the properties a design needs.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The ships that snapped in harbour</h2>
+</header>
+
+<p>During the Second World War, American shipyards built about 2,700 cargo ships of one standard
+design, the Liberty ship. To build them fast, the yards welded the steel plates together instead of
+riveting them. A Liberty ship could be finished in weeks. Then some of them started to break.</p>
+
+<p>In January 1943 a brand-new tanker of a related design, the SS <em>Schenectady</em>, was sitting
+calmly at its dock in Oregon. With a loud bang it cracked across the middle, almost in two. It had
+not hit anything. The sea was calm. Over the following years, hundreds of these ships developed
+serious cracks, and a number broke apart, often in cold water.</p>
+
+<p>The British researcher Constance Tipper, working at Cambridge, helped explain why. The steel used
+was perfectly strong in a normal test. But below a certain temperature it changed character. Instead
+of bending before it broke, it shattered like glass. This is called the <strong>ductile-to-brittle
+transition</strong>. Welding made the hull one continuous piece, so a crack that started at a sharp
+corner could run straight through the ship with nothing to stop it. In a riveted ship the crack would
+have reached the edge of a plate and stopped.</p>
+
+<p><strong>The steel was not weak. It was the wrong steel for cold water, joined in a way that let
+one crack travel everywhere.</strong> That is the kind of problem materials engineering exists to
+solve.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The four families</h2>
+</header>
+
+<p>Engineers sort solid materials into four broad families. Each comes from a different way that
+atoms hold together.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Family</th><th>What holds it together</th><th>Typical behaviour</th><th>Examples</th></tr></thead>
+<tbody>
+<tr><td><strong>Metals</strong></td><td>A shared "sea" of electrons around the atoms</td><td>Strong, tough, bend before breaking, conduct electricity and heat</td><td>Steel, aluminium, copper, titanium</td></tr>
+<tr><td><strong>Ceramics and glasses</strong></td><td>Strong bonds that lock atoms rigidly in place</td><td>Hard, heat-resistant, chemically stable, but brittle</td><td>Brick, porcelain, glass, silicon carbide</td></tr>
+<tr><td><strong>Polymers</strong></td><td>Long chain molecules, tangled or lined up</td><td>Light, easy to shape, often flexible, soften with heat</td><td>Polyethylene, nylon, rubber, epoxy</td></tr>
+<tr><td><strong>Composites</strong></td><td>Two materials combined, each doing one job</td><td>Can be both light and very stiff, but complex to make and repair</td><td>Carbon fibre, fibreglass, reinforced concrete, wood</td></tr>
+</tbody></table></div>
+
+<p>Wood belongs in the last row. It is a natural composite: stiff cellulose fibres held in a softer
+glue-like substance called lignin. Bone is another, combining a hard mineral with a tough protein.
+Nature discovered composites long before engineers did.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The four-way link at the heart of the field</h2>
+</header>
+
+<p>Materials scientists often draw their subject as four linked ideas.</p>
+
+<div class="sheet">
+  <div class="cap">The core relationship</div>
+<pre>
+                 PERFORMANCE
+             (does the part do its job?)
+                     ^
+                     |
+     PROCESSING ---&gt; STRUCTURE ---&gt; PROPERTIES
+   (heat, roll,     (atoms, crystals,   (strength, stiffness,
+    cast, cool)      grains, defects)    toughness, conductivity)
+</pre>
+</div>
+
+<p><strong>Processing</strong> is what you do to the material: melting, cooling, rolling, hammering,
+heating. That creates its <strong>structure</strong>, the arrangement of atoms, crystals and tiny
+flaws inside it. The structure decides its <strong>properties</strong>, how strong, stiff or
+conductive it is. And the properties decide <strong>performance</strong>, whether the bridge, blade
+or battery works.</p>
+
+<p>The key arrow is the one from processing to structure. <strong>Two pieces of steel with exactly
+the same chemistry can differ enormously in strength because they were cooled differently.</strong>
+That is why a blacksmith's skill mattered for thousands of years before anyone knew what an atom
+was.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Defects, crystals and cracks</h2>
+  <p class="lede">The surprising answer to "what makes a material strong?" is usually "how its
+  flaws move, or are stopped from moving".</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Why metals bend instead of breaking</h2>
+</header>
+
+<p>A metal is made of tiny crystals called <strong>grains</strong>. Inside each grain the atoms sit
+in a regular repeating pattern, like oranges stacked in a shop. If crystals were perfect, metals
+would be many times stronger than they actually are. The reason they are not is a kind of defect
+called a <strong>dislocation</strong>: a row of atoms that is out of line.</p>
+
+<p>Here is the best analogy. Imagine moving a large carpet across a floor. Dragging the whole thing
+at once is very hard. But if you make a ripple at one end and push the ripple along, the carpet moves
+easily, one small section at a time. A dislocation is that ripple. When you bend a metal, atoms do
+not all slide at once. Dislocations glide through the crystal, moving one row at a time.</p>
+
+<p>This explains two things. It explains why metals are <strong>ductile</strong>, able to stretch
+and bend permanently without snapping. And it explains how to make them stronger. <strong>To
+strengthen a metal, you put obstacles in the way of its dislocations.</strong> There are four main
+ways:</p>
+
+<div class="grid2">
+  <div class="card"><h4>Alloying</h4><p>Add atoms of another element. They distort the crystal and
+  snag passing dislocations. A small amount of carbon turns soft iron into steel.</p></div>
+  <div class="card"><h4>Smaller grains</h4><p>Each boundary between grains blocks dislocations.
+  More, smaller grains mean more boundaries and a stronger metal.</p></div>
+  <div class="card"><h4>Work hardening</h4><p>Bend or hammer the metal cold. Dislocations multiply
+  and tangle. Bend a paper clip back and forth and it gets stiffer before it snaps.</p></div>
+  <div class="card"><h4>Precipitates</h4><p>Heat-treat certain alloys so tiny particles form inside.
+  Aircraft aluminium gets most of its strength this way.</p></div>
+</div>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Heat, speed and the blacksmith's secret</h2>
+</header>
+
+<p>A blacksmith heats a steel blade until it glows, then plunges it into water. This is
+<strong>quenching</strong>. At high temperature, carbon atoms dissolve evenly in the iron. Cooled
+slowly, they have time to gather into separate soft and hard regions. Cooled suddenly, they are
+trapped in place and the crystal is forced into a strained, very hard structure called
+<strong>martensite</strong>.</p>
+
+<p>Martensite is hard but brittle. A sword made only of it would chip and shatter. So the smith
+reheats it gently, to a lower temperature, which is called <strong>tempering</strong>. This relaxes
+some of the strain and trades a little hardness for a lot of toughness. Japanese swordsmiths took
+this further by coating the blade with clay of different thickness, so the edge cooled fast and
+became hard while the spine cooled slowly and stayed tough.</p>
+
+<p>Modern steelmakers do the same things with computers, controlled furnaces and precise cooling
+lines. A car body today uses many different grades of steel, each processed to be soft enough to
+shape in some places and very strong in others, such as the pillars that protect passengers in a
+crash.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Why glass shatters, and how to stop it</h2>
+</header>
+
+<p>Ceramics and glass have no easy way for atoms to slip past each other. Their bonds are rigid and
+directional. That makes them hard and heat-resistant. It also means there is no ripple-in-the-carpet
+to absorb energy. When they fail, they fail all at once.</p>
+
+<p>In the early 1920s the English engineer Alan Arnold Griffith explained why glass breaks at a tiny
+fraction of its theoretical strength. Every real piece of glass has microscopic scratches and cracks.
+Stress concentrates at the sharp tip of a crack, many times higher than in the rest of the material.
+<strong>A brittle material does not fail where the stress is average. It fails at its worst
+flaw.</strong> This idea founded a whole subject, <strong>fracture mechanics</strong>, which is now
+used to judge whether a crack found in an aircraft or a pipeline is safe to leave until the next
+inspection.</p>
+
+<p>The fix for glass is clever. Cracks only grow when they are pulled open. So if you squeeze the
+surface permanently, cracks stay closed. Toughened car windows do this by heating the glass and
+cooling its surface fast with air jets. Phone screen glass, such as Corning's Gorilla Glass, does it
+chemically. The glass is soaked in a hot bath where small sodium atoms in the surface swap places with
+larger potassium atoms. The bigger atoms crowd the surface, putting it into compression.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Chains and fibres: polymers and composites</h2>
+</header>
+
+<p>A <strong>polymer</strong> is a material made of very long chain molecules, like a bowl of
+cooked spaghetti. If the chains are loosely tangled, the material is soft and stretchy. If they are
+lined up and packed tightly, it becomes stiff and strong. Kevlar, used in body armour, is made of
+chains aligned almost perfectly along a fibre. Polymers are light and cheap to shape, but most soften
+with heat and slowly creep under steady load.</p>
+
+<p>A <strong>composite</strong> combines a strong fibre with a binding material called a
+<strong>matrix</strong>. In carbon fibre, thin threads of nearly pure carbon carry the load, and a
+hard plastic such as epoxy holds them in position and shares the force between them. The result can
+match steel in strength for a fraction of the weight. Boeing's 787, which entered service in 2011, is
+roughly half composite by weight, mostly carbon fibre.</p>
+
+<p>The catch is that fibres are strong only along their length. Engineers must lay them in the
+directions the loads will act, layer by layer. A composite is <strong>designed at the same time as
+the part</strong>. You cannot simply order a sheet of it and cut a shape, as you can with
+aluminium.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The slow killers: fatigue, corrosion and creep</h2>
+</header>
+
+<p>Most failures in service are not one overload. They are slow processes that build up over years.</p>
+
+<p><strong>Fatigue</strong> is failure under repeated loading, at stresses well below what the part
+could survive once. Each cycle grows a tiny crack a little further, until what remains suddenly
+breaks. In 1954 two de Havilland Comets, the world's first jet airliners, broke up in flight. After a
+huge investigation that included repeatedly pressurising a whole fuselage in a water tank,
+investigators found fatigue cracks growing from the corners of openings in the cabin. Each flight's
+pressurisation had been one more cycle. Aircraft since then have used rounded openings and strict
+fatigue testing.</p>
+
+<p><strong>Corrosion</strong> is the chemical attack of a material by its environment, rust being
+the familiar case. <strong>Creep</strong> is slow stretching under steady load at high temperature.
+It is what limits the hottest parts of a jet engine or a power station. All three are why engineers
+speak of a part's <strong>service life</strong>, not just its strength.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Materials set the limits of every technology</h2>
+  <p class="lede">Historians name whole ages after materials. That is not an exaggeration. A new
+  material often makes a new industry possible.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The hottest metal in the world</h2>
+</header>
+
+<p>A jet engine's efficiency rises with the temperature of the gas leaving its combustion chamber.
+In modern engines, that gas is hotter than the melting point of the metal blades it flows over. The
+blades survive because of three tricks from materials engineering.</p>
+
+<p>First, they are made of <strong>nickel superalloys</strong>, alloys designed to resist creep at
+extreme heat. Second, many are cast as a <strong>single crystal</strong>: the whole blade is one
+grain, with no grain boundaries, which are the weak paths for creep at high temperature. Third, they
+are hollow, with cooling air pumped through tiny channels and out through holes in the surface, and
+they are coated with a thin ceramic layer that insulates them.</p>
+
+<p>Decades of progress in engine fuel efficiency came largely from this kind of slow, patient work
+on materials. <strong>The engine designers knew what they wanted. They had to wait for materials that
+could survive it.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Choosing materials: there is always a trade</h2>
+</header>
+
+<p>No material is best at everything. The British engineer Michael Ashby made this idea practical
+with what are now called <strong>Ashby charts</strong>. They plot thousands of materials against two
+properties at once, for example stiffness against density. Materials cluster into families, and a
+designer can draw a line to find which ones give the most stiffness per kilogram, or strength per
+pound sterling.</p>
+
+<p>Bicycle frames show the trade in everyday form.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Frame material</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Steel</strong></td><td class="ok">Tough, cheap, easy to repair by welding</td><td class="no">Heavy, can rust</td></tr>
+<tr><td><strong>Aluminium</strong></td><td class="ok">Light, cheap, does not rust like steel</td><td class="mid">Fatigues sooner, so tubes are made thicker</td></tr>
+<tr><td><strong>Titanium</strong></td><td class="ok">Light, very fatigue- and corrosion-resistant</td><td class="no">Expensive and hard to work</td></tr>
+<tr><td><strong>Carbon fibre</strong></td><td class="ok">Lightest and stiffest, shaped freely</td><td class="no">Costly, damage can hide inside, hard to recycle</td></tr>
+</tbody></table></div>
+
+<p>The right answer depends on the job. A touring bike crossing a continent may be best in steel,
+because any village welder can fix it. A racing bike is best in carbon. <strong>Material choice is a
+decision about which weaknesses you can live with.</strong></p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The materials behind the energy transition</h2>
+</header>
+
+<p>Cutting carbon emissions is, to a large extent, a materials problem. Steel and cement together
+produce a large share of global industrial emissions. Volume 15 explains why: the chemistry of
+removing oxygen from iron ore and of heating limestone releases carbon dioxide directly
+(<a href="../15-materials-food-and-industry.html#i1">Steel</a>,
+<a href="../15-materials-food-and-industry.html#i2">Cement</a>).</p>
+
+<p>At the same time, clean technology needs huge amounts of particular materials: copper for wiring,
+lithium and nickel for batteries, rare earth elements for the magnets in wind turbines and electric
+motors. Volume 12 covers where these come from
+(<a href="../12-the-physical-supply-chain.html#s2">Rare earths</a>,
+<a href="../12-the-physical-supply-chain.html#s3">Lithium</a>). Materials engineers work on both
+sides: lowering the carbon in old materials, and reducing or replacing scarce elements in new ones,
+for example magnets that need less of the rarest elements.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Every family's strength is also its limit</h2>
+  <p class="lede">The bonds that make a material useful are the same bonds that set its failures.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The families weighed against each other</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Family</th><th>What it does well</th><th>Where it fails</th></tr></thead>
+<tbody>
+<tr><td><strong>Metals</strong></td><td class="ok">Tough and forgiving. They bend and warn before they break. Widely recyclable.</td><td class="no">Heavy. Corrode. Fatigue under repeated load. Primary production is energy- and carbon-intensive.</td></tr>
+<tr><td><strong>Ceramics and glass</strong></td><td class="ok">Hard, heat-resistant, chemically stable, cheap raw materials.</td><td class="no">Brittle and unforgiving. One hidden flaw can cause sudden failure.</td></tr>
+<tr><td><strong>Polymers</strong></td><td class="ok">Light, cheap, easy to mould into complex shapes, resist corrosion.</td><td class="no">Weak at high temperature, creep, degrade in sunlight, and most are not recycled in practice.</td></tr>
+<tr><td><strong>Composites</strong></td><td class="ok">Highest strength and stiffness for their weight. Can be tailored to the load.</td><td class="no">Expensive, slow to make, damage can be invisible, very hard to recycle.</td></tr>
+</tbody></table></div>
+
+<p>The field as a whole has one more honest weakness. <strong>New materials take a long time to
+reach use</strong>, often a decade or two from discovery, because each one needs new processing
+methods, testing for every failure mode, and design codes that engineers trust. That slowness is a
+safety feature. It is also why headlines about miracle materials rarely become products quickly.</p>
+
+<div class="warn">
+  <span class="tag">The graphene lesson</span>
+  <p>Graphene, a single sheet of carbon atoms, was isolated in 2004 by Andre Geim and Konstantin
+  Novoselov, who won the 2010 Nobel Prize in Physics for it. Its properties are extraordinary. Yet
+  two decades later it is used mostly in small amounts as an additive. Making it cheaply, in quantity,
+  with consistent quality, turned out to be the hard part. Discovering a material and engineering it
+  are different problems.</p>
+</div>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Designed by computer, made with less carbon</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Lower-carbon steel and cement</strong></td><td>Hydrogen-based ironmaking, more scrap recycling in electric furnaces, and cements that use less clinker are in pilot or early commercial use.</td><td class="ok">Fairly sure: steady growth, driven by policy and buyers. Speed depends on cost and clean electricity, not on new science.</td></tr>
+<tr><td><strong>Computer-designed materials</strong></td><td>Simulations and machine learning now screen huge numbers of candidate compounds before any are made. Robot labs test the most promising automatically.</td><td class="mid">Plausible: faster discovery of battery, catalyst and magnet materials. Making and qualifying them stays slow.</td></tr>
+<tr><td><strong>Room-temperature superconductors</strong></td><td>Claims appear regularly. A widely publicised 2023 claim, LK-99, was not confirmed when other labs tested it.</td><td class="no">Speculative: would transform power grids and electronics, but no confirmed material exists.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>From finding materials to designing them</h2>
+</header>
+
+<p>For most of history, new materials were found by trial and error. Mix, heat, test, repeat. The
+big change of the past fifteen years is the attempt to reverse the process: decide what properties
+you need, then compute which atomic structure would deliver them. The United States launched a
+national programme with this aim, the Materials Genome Initiative, in 2011.</p>
+
+<p>Progress is real but uneven. In 2023 Google DeepMind reported a machine-learning system that
+predicted hundreds of thousands of new stable crystal structures. Some materials scientists then
+questioned how many were truly new or practically useful. Both sides have a point.
+<strong>Predicting that a crystal can exist is not the same as knowing how to make it, process it,
+and trust it for twenty years.</strong></p>
+
+<p>The other big shift is the <strong>circular economy</strong>: designing materials and products so
+they can be taken apart and reused. Metals already recycle well. Plastics and composites do not, as
+Volume 15 explains. Designing for the end of a product's life, not just its use, may become as
+important in materials engineering as strength itself.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A material's <strong>properties</strong> come from its inner <strong>structure</strong>, and
+    its structure comes from how it was <strong>processed</strong>. Metals are strong and tough because
+    defects called <strong>dislocations</strong> can move. You strengthen them by blocking those
+    defects. Brittle materials fail at their <strong>worst flaw</strong>.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>About <strong>2,700</strong> Liberty ships were built in the Second World War. Hundreds cracked.</li>
+      <li>Steel is iron with roughly <strong>0.05–2%</strong> carbon.</li>
+      <li>The Boeing 787 is about <strong>half composite</strong> by weight.</li>
+      <li>New materials typically take <strong>one to two decades</strong> from lab to wide use.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Asking "which material is strongest?" <strong>Strength is only one property.</strong> Toughness,
+    weight, cost, fatigue, corrosion and repairability usually decide the choice.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a paper clip gets stiffer when you bend it back and forth, using the word
+    "dislocation"? If so, you understand the central idea of metal strength.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Grain</dt><dd>One of the tiny crystals that make up a piece of metal.</dd>
+    <dt>Dislocation</dt><dd>A row of atoms out of line in a crystal. Its movement lets metals bend.</dd>
+    <dt>Ductile</dt><dd>Able to stretch and bend permanently without snapping.</dd>
+    <dt>Brittle</dt><dd>Breaking suddenly with little bending, like glass.</dd>
+    <dt>Toughness</dt><dd>How much energy a material absorbs before it breaks. Not the same as strength or hardness.</dd>
+    <dt>Alloy</dt><dd>A metal mixed with other elements to change its properties.</dd>
+    <dt>Quenching</dt><dd>Cooling a hot metal very fast to lock in a hard structure.</dd>
+    <dt>Tempering</dt><dd>Gently reheating quenched steel to trade some hardness for toughness.</dd>
+    <dt>Fracture mechanics</dt><dd>The science of how cracks grow and when they cause failure.</dd>
+    <dt>Fatigue</dt><dd>Failure caused by many repeated loads, each well below the breaking strength.</dd>
+    <dt>Creep</dt><dd>Slow stretching of a material under steady load, worst at high temperature.</dd>
+    <dt>Composite</dt><dd>Two materials combined, usually strong fibres in a binding matrix.</dd>
+    <dt>Superalloy</dt><dd>A metal alloy, usually nickel-based, designed to stay strong close to its melting point.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Two bits of steel with the same chemistry can be completely different, depending on how they
+    were cooled."</li>
+    <li>"Metals bend because their crystals have defects that can move. Strengthening a metal means
+    getting in their way."</li>
+    <li>"Brittle materials don't fail at the average stress. They fail at their worst crack."</li>
+    <li>"Most things don't break from one big load. They break from fatigue, a million small
+    ones."</li>
+    <li>"Discovering a wonder material is the easy part. Making it cheaply and reliably takes
+    decades."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="09-structural-engineering.html">Structural engineering</a></h4><p>How
+  those materials are arranged into beams, arches and frames that carry loads safely for a
+  century.</p></div>
+  <div class="card"><h4>Related · <a href="../03-chemistry/17-nanochemistry.html">Nanochemistry</a></h4><p>What
+  happens when you design materials at the scale of a few atoms, where size itself changes how they
+  behave.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

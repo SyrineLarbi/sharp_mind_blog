@@ -1,0 +1,863 @@
+<!doctype html>
+<!--@HEAD-SRC title="Population Distribution" desc="Why eight billion people crowd into a few regions and leave most land nearly empty, how geography, history and demography lock the pattern in, and how it is shifting."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Population Distribution</title>
+<meta name="description" content="Why eight billion people crowd into a few regions and leave most land nearly empty, how geography, history and demography lock the pattern in, and how it is shifting.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Geography · Topic 06 of 20</p>
+  <h1>Population distribution. <span class="thin">Eight billion people, and most of them in a few crowded places.</span></h1>
+  <p class="lede">If you spread the world's people evenly over its land, each person would have a patch
+  of roughly two to three football pitches to themselves. Nothing like that happens. Some places pack
+  more than a thousand people into a square kilometre. Others have fewer than one. The pattern is not
+  random. It follows water, warmth and flat fertile ground, it was fixed in place by thousands of years of
+  history, and it is now being redrawn by falling birth rates and rising seas. Knowing where people are
+  explains a great deal about where markets, risks and politics are too.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Geography</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../17-ancient-world.html#c1"><span class="vn">Vol 17 · ch 01</span><b>The seed that changed everything</b><em>Where people first crowded</em></a>
+<a class="vol" href="20-future-population-trends.html"><span class="vn">Geography · 20</span><b>Future population trends</b><em>The long-range outlook</em></a>
+<a class="vol" href="07-urbanization.html"><span class="vn">Geography · 07</span><b>Urbanization</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first full treatment of where people live and why. The nearest neighbour is
+  Volume 17, which explains why the first dense populations formed beside four great rivers
+  (<a href="../17-ancient-world.html#c1">The seed that changed everything</a>). Within this category,
+  <a href="19-demographic-change.html">Demographic change</a> covers births, deaths and ageing in depth,
+  and <a href="20-future-population-trends.html">Future population trends</a> covers long-range
+  projections. This file is about the map.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The map of where people actually are</h2>
+  <p class="lede">Population distribution means the pattern of where people live across the Earth.
+  The first thing to notice is how lopsided it is.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A world of crowds and emptiness</h2>
+</header>
+
+<p>The world's population passed <strong>8 billion</strong> in late 2022, according to the United
+Nations, and stood at about 8.2 billion in 2025. Here is how unevenly those people are spread.</p>
+
+<ul>
+  <li>Close to <strong>nine in ten</strong> people live in the Northern Hemisphere, because that is
+  where most of the land is.</li>
+  <li><strong>India and China</strong> together hold more than a third of humanity, about 1.4 billion
+  each. India passed China as the most populous country in 2023.</li>
+  <li>A circle drawn around China, India and South-East Asia, covering only a small fraction of the
+  globe, contains <strong>more than half of all people</strong>.</li>
+  <li>Roughly <strong>two in five</strong> people live within about 100 kilometres of a coast.</li>
+  <li>Vast areas, including most of Siberia, the Sahara, the Amazon interior, northern Canada, central
+  Australia and all of Antarctica, are almost empty.</li>
+</ul>
+
+<p>Geographers have an old word for the inhabited parts of the world, the <strong>ecumene</strong>,
+from the Greek for "the inhabited earth". The rest, too cold, dry, high or wet for permanent dense
+settlement, is sometimes called the <strong>non-ecumene</strong>. <strong>Most of Earth's land
+belongs to the second category, and most people live crowded together in the first.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Measuring it: density and its traps</h2>
+</header>
+
+<p>The basic measure is <strong>population density</strong>: the number of people divided by the land
+area, usually per square kilometre. It is easy to calculate and easy to misread.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Place</th><th>People per km² (approx.)</th><th>What the number hides</th></tr></thead>
+<tbody>
+<tr><td><strong>Monaco</strong></td><td>about 19,000</td><td>A tiny city-state. Density at this level is a city, not a country.</td></tr>
+<tr><td><strong>Bangladesh</strong></td><td>about 1,200</td><td>The most densely populated large country, almost all of it a fertile delta.</td></tr>
+<tr><td><strong>Netherlands</strong></td><td>about 520</td><td>Among the densest in Europe, and one of the richest.</td></tr>
+<tr><td><strong>Egypt</strong></td><td>about 110</td><td>Misleadingly low. Nearly everyone lives in the narrow Nile valley and delta.</td></tr>
+<tr><td><strong>Canada</strong></td><td>about 4</td><td>Most Canadians live in a band close to the US border.</td></tr>
+<tr><td><strong>Mongolia</strong></td><td>about 2</td><td>The least densely populated sovereign country. Nearly half live in the capital.</td></tr>
+</tbody></table></div>
+
+<p>The Egypt row shows the trap. Divide its population by its total area and you get a modest number.
+But about <strong>95% of Egyptians live on roughly 5% of the land</strong>, along the Nile. To fix
+this, geographers use <strong>physiological density</strong>: people per square kilometre of
+<em>farmable</em> land. By that measure Egypt is among the most crowded countries on Earth. The
+general lesson: <strong>a national average describes no actual place</strong>. Density has to be
+looked at on a map, at the scale where people live.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Geography pulls, history locks in, demography redraws</h2>
+  <p class="lede">Three sets of forces explain the map: the physical features that make places
+  liveable, the history that froze early patterns in place, and the changes in births and deaths that
+  shift the balance between regions.</p>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The physical pulls: water, warmth, flat fertile ground</h2>
+</header>
+
+<p>Before modern technology, people could live densely only where farming produced a reliable
+surplus. That required four things together. <strong>Water</strong>: enough rain, or a river to
+irrigate from. <strong>Warmth</strong>: a growing season long enough for crops. <strong>Flat or gently
+sloping land</strong>: easy to plough and irrigate. And <strong>fertile soil</strong>: often
+volcanic, or renewed by river floods.</p>
+
+<p>Where all four meet, crowds gathered and stayed. The great dense belts of the world today are
+mostly old farming heartlands: the plains of the Ganges, the North China Plain and the Yangtze valley,
+the Nile valley, the island of Java, and the lowlands of Western Europe. Java is a striking case. It is
+about the size of England, yet it holds more than 150 million people, over half of Indonesia's population,
+thanks partly to rich volcanic soils that support intensive rice farming.</p>
+
+<p>Where one ingredient is missing, density stays low. Deserts lack water (Topic 05). The far north
+lacks warmth. High mountains lack flat land and warmth (Topic 03). Dense tropical rainforests, despite
+their lush look, often have poor soils, because heavy rain washes nutrients out quickly.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Coasts and rivers: the lines that attract</h2>
+</header>
+
+<p>People also cluster along lines: coasts and rivers. Both offered water, food from fishing, and above
+all transport. Before railways, moving goods by water was far cheaper than by land, as Topic 04
+described. So trade, and with it wealth and jobs, concentrated where boats could reach.</p>
+
+<p>Look at a night-time satellite image of the world and the lines leap out. Lights trace the coasts of
+China, the eastern seaboard of the United States, the edges of Australia and Brazil, and the Nile as a
+bright thread running up through dark desert. In Australia, the great majority of people live near the
+coast, mostly in the south-east, while the dry interior is nearly empty. In Canada, the cold north
+pushes people south, towards the US border. In Russia, roughly three-quarters of the population
+lives in the European part, west of the Ural Mountains, even though that is only about a quarter of the
+country's territory.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>History locks the pattern in</h2>
+</header>
+
+<p>Modern technology has weakened the physical pulls. Air conditioning makes hot places bearable,
+desalination makes water, and trade means you do not need to grow your own food. So why is the map so
+stable? Because of what economists call <strong>path dependence</strong>: once a pattern is
+established, it tends to reinforce itself.</p>
+
+<p>A city founded by a river crossing in Roman times keeps its roads, its rail lines, its universities
+and its markets long after the river stops mattering. People move there because other people are
+already there: jobs, customers, friends, services. Economists call these benefits of being close
+together <strong>agglomeration effects</strong>. <strong>The best predictor of where people will live
+next year is where people lived last year.</strong> This is why the densest regions of the modern
+world are still, mostly, the densest regions of the ancient one.</p>
+
+<p>Political history matters too. Borders, wars and colonial decisions placed capitals and ports, built
+railways towards some places and not others, and moved populations by force. Many African and Latin
+American countries still have their largest cities on the coast because colonial economies were
+designed to ship raw materials out. Topic 07 on urbanization explains how these patterns concentrate
+into cities.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The demographic transition redraws the balance</h2>
+</header>
+
+<p>The distribution between regions changes mainly because populations grow at different speeds.
+Demographers explain those speeds with a pattern called the <strong>demographic transition</strong>.</p>
+
+<div class="sheet">
+  <div class="cap">The demographic transition, simplified</div>
+<pre>
+ rate per 1,000 people
+   |  births ________
+   | ~~~~~~~~        \____
+   |  deaths \            \_____        births
+   | ~~~~~~~~ \                 \______________
+   |           \_______                         deaths
+   |                   \_______________________________
+   |  STAGE 1  |  STAGE 2   |   STAGE 3   |  STAGE 4
+   |  both high|deaths fall |births fall  | both low
+   |  slow     |FAST GROWTH |growth slows | slow, then may shrink
+   +----------------------------------------------------- time
+</pre>
+</div>
+
+<p>In stage 1, births and deaths are both high and population grows slowly. In stage 2, better food,
+clean water and medicine cut deaths, especially of children, while births stay high for a generation
+or two. Population surges. In stage 3, as families see children survive, as women gain education and
+work, and as people move to cities, birth rates fall. In stage 4, both are low and growth stalls.
+Some countries now appear to be in a further stage where births fall below deaths and population
+shrinks.</p>
+
+<p>Europe went through stage 2 in the nineteenth century and its share of world population rose.
+East Asia went through it in the twentieth century. <strong>Sub-Saharan Africa is in the middle of it
+now</strong>, with the world's highest birth rates, while much of Europe and East Asia have birth rates
+well below the "replacement" level of about 2.1 children per woman that keeps a population stable in
+the long run. That difference is quietly redrawing the world map, as Question 5 shows.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Where people are is where everything else is</h2>
+  <p class="lede">Population distribution decides where markets and infrastructure are needed, who is
+  exposed to disasters, and how we should think about crowding.</p>
+</header>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>It decides what has to be built</h2>
+</header>
+
+<p>Every school, hospital, power line and road is a bet on where people are and will be. Density makes
+services cheap per person: one subway line, one hospital, one water main can serve hundreds of
+thousands. Sparse populations make them expensive. That is why rural parts of almost every country
+have fewer doctors, slower internet and longer journeys to school, and why governments subsidise
+services there.</p>
+
+<p>Businesses read the map the same way. A retailer, a bank or a mobile network wants to know where
+customers cluster. Modern population maps are made by combining censuses with satellite images of
+buildings and night lights, divided into grid squares down to about a hundred metres. Topic 18 on
+geographic information systems explains how these are built. They are now used for everything from
+planning vaccination campaigns to deciding where to place a new store.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>It decides who is in harm's way</h2>
+</header>
+
+<p>The same features that attract people often carry danger. Deltas are fertile and flat, and they
+flood. Coasts are rich in trade, and they face storms and rising seas. Volcanic soils are fertile
+because volcanoes are nearby. Many of the world's largest cities sit on or near active faults, from
+Tokyo to Istanbul to Los Angeles.</p>
+
+<p>So the toll of a disaster depends on <strong>exposure</strong>, how many people live in the hazard's
+path, as much as on the hazard itself. A cyclone that hits an empty coast is a weather event. The same
+cyclone over a crowded delta can be a catastrophe. The 1970 Bhola cyclone killed a vast number of people
+in what is now Bangladesh, partly because so many people lived on low islands and coasts with no
+warning system. Bangladesh has since built cyclone shelters and early warning systems, and death tolls
+from later storms of similar strength have been far lower. <strong>Distribution sets the stakes.
+Preparation decides the outcome.</strong> Volume 23 tells similar stories
+(<a href="../23-disasters.html#c7">Katrina</a>).</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Is crowding the problem?</h2>
+</header>
+
+<p>A long tradition of thought links dense populations to poverty and shortage. In 1798 Thomas
+Malthus argued in <em>An Essay on the Principle of Population</em> that population tends to grow faster
+than food supplies, so that famine and disease would keep pushing numbers back down. In 1968 the
+biologist Paul Ehrlich's <em>The Population Bomb</em> warned of mass famines in the 1970s and 1980s.</p>
+
+<p>Those specific predictions did not come true on the scale forecast. Food production rose faster than
+population, helped by fertilisers (see Volume 12,
+<a href="../12-the-physical-supply-chain.html#s8">Fertiliser</a>) and the high-yield crops of the
+"Green Revolution". And the map itself argues against a simple link. The Netherlands, Singapore and
+South Korea are densely populated and rich. Many sparsely populated places are poor.</p>
+
+<div class="grid2">
+  <div class="card"><h4>The optimistic reading</h4><p>Density brings markets, ideas and specialisation.
+  More people close together means more inventors, more trade and cheaper services. On this view, people
+  are a resource, and crowding is a sign of opportunity.</p></div>
+  <div class="card"><h4>The cautious reading</h4><p>Density still strains water, soil, housing and the
+  wider environment. A planet of 8 billion uses resources at a scale that worries many scientists, even
+  if the main pressure comes from how much people consume rather than simply how many there are.</p></div>
+</div>
+
+<p>Most researchers would put it this way: <strong>how many people a place can support depends mainly
+on technology, institutions and consumption, not on a fixed number</strong>. That is why arguments about
+"overpopulation" remain contested, and why they so often turn into arguments about lifestyles and
+fairness.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Concentration versus dispersal</h2>
+  <p class="lede">Neither crowding nor spreading out is good in itself. Each pattern brings its own
+  benefits and costs, and governments that tried to rearrange people learned this the hard way.</p>
+</header>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>What clustering buys, and what it costs</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Concentrated population</th><th>Dispersed population</th></tr></thead>
+<tbody>
+<tr><td><strong>Cost of services</strong></td><td class="ok">Cheap per person: transit, water, hospitals, broadband.</td><td class="no">Expensive per person. Long distances to doctors and schools.</td></tr>
+<tr><td><strong>Economy</strong></td><td class="ok">Large markets, specialised jobs, faster spread of ideas.</td><td class="no">Small markets, fewer jobs, young people leave.</td></tr>
+<tr><td><strong>Environment</strong></td><td class="mid">Less land and often less energy per person, but intense local pollution.</td><td class="mid">Less local pollution, but more car travel and land use per person.</td></tr>
+<tr><td><strong>Risk</strong></td><td class="no">One flood, quake or epidemic can affect millions at once.</td><td class="ok">Risks are spread out, though help takes longer to arrive.</td></tr>
+<tr><td><strong>Regional balance</strong></td><td class="no">Leaves other regions emptying and resentful of the centre.</td><td class="ok">Keeps the whole country inhabited and politically connected.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>When governments try to move people</h2>
+</header>
+
+<p>Many governments have tried to redistribute their populations, usually to develop empty regions or
+relieve crowded ones. The record is mixed.</p>
+
+<ul>
+  <li><strong>New capitals.</strong> Brazil built Brasília in the interior and moved its capital there in
+  1960 to pull development away from the coast. Kazakhstan moved its capital to Astana in 1997. Both
+  cities grew, though the coastal or older centres remained dominant. Indonesia began building a new
+  capital, Nusantara, on Borneo, partly to relieve sinking, crowded Jakarta. Its progress and future
+  scale are still uncertain.</li>
+  <li><strong>Resettlement programmes.</strong> Indonesia's "transmigration" programme moved millions
+  of people from crowded Java to other islands over several decades. It opened new farmland. It also
+  caused deforestation and conflict with local communities.</li>
+  <li><strong>Controls on movement.</strong> China's household registration system, called
+  <em>hukou</em>, tied access to public services to a person's registered home, slowing migration to
+  big cities. It has been gradually loosened, but it still shapes who can settle where.</li>
+</ul>
+
+<p>The general lesson is that <strong>people follow jobs and other people more than they follow
+plans</strong>. A government can build a city, but it cannot easily make people want to live there.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>A map tilting towards Africa, cities and coasts</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be. The long-range numbers live in
+  <a href="20-future-population-trends.html">Future population trends</a>. This chapter looks at the
+  map.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>How the map is likely to shift</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Africa's share rises</strong></td><td>Sub-Saharan Africa has the world's highest birth rates and youngest populations.</td><td class="ok">Fairly sure: most of the world's population growth to 2050 is projected to happen in sub-Saharan Africa, because the young people who will be parents are already born.</td></tr>
+<tr><td><strong>World population peaks</strong></td><td>The UN's 2024 projections show global population peaking at about 10.3 billion in the mid-2080s.</td><td class="mid">Plausible: the timing and height of the peak depend on how fast birth rates fall in Africa and South Asia.</td></tr>
+<tr><td><strong>Emptying rural regions</strong></td><td>Many rural areas in Japan, southern Europe and Eastern Europe are already shrinking and ageing. Japan counted around 9 million empty homes in 2023.</td><td class="ok">Fairly sure: continued decline of many villages and small towns in low-birth-rate countries.</td></tr>
+<tr><td><strong>Climate pushes people away from some areas</strong></td><td>Heat, drought and sea-level rise are already affecting where people can farm and live.</td><td class="mid">Plausible: gradual shifts away from the most exposed places. The scale is hotly debated, and most movement is likely to be within countries.</td></tr>
+<tr><td><strong>Large movement to the far north</strong></td><td>Warming could make parts of Canada and Siberia more farmable.</td><td class="no">Speculative: poor soils, permafrost, politics and the lack of infrastructure make a mass shift unlikely soon.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Empty villages and crowded coasts</h2>
+</header>
+
+<p>Two trends seem likely to define the next few decades in many countries at once. The first is
+<strong>rural emptying</strong>. In Spain, the large thinly populated interior has a name in public
+debate, <em>la España vaciada</em>, "emptied Spain". Some Italian and Japanese villages sell houses for
+a token price to attract newcomers. These places are not shrinking because they are unpleasant. They
+are shrinking because young people move to cities for work and few children are born to replace
+them.</p>
+
+<p>The second is continued crowding of coasts and big cities, even where those places are exposed to
+rising seas and storms, because that is where jobs and connections are. Researchers have argued that
+for thousands of years most people have lived within a fairly narrow range of average temperatures, and
+that warming will push parts of today's populated world outside that range. How people respond, by
+adapting in place, moving within their country or crossing borders, is one of the large open questions
+of this century. Topic 10 on migration looks at the movement itself. <strong>The map of where people
+live has always changed. What is new is that we can watch it change in real time, from
+space.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>People cluster where <strong>water, warmth, flat land and fertile soil</strong> once made
+    farming reliable, and along <strong>coasts and rivers</strong> that made trade cheap.
+    <strong>Path dependence</strong> keeps those old patterns alive. Different speeds of
+    <strong>demographic transition</strong> shift the balance between regions, today towards
+    Africa.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>About <strong>8.2 billion</strong> people in 2025, close to <strong>nine in ten</strong> in
+      the Northern Hemisphere.</li>
+      <li>About <strong>95%</strong> of Egyptians live on about <strong>5%</strong> of Egypt's land.</li>
+      <li>Replacement fertility is about <strong>2.1</strong> children per woman.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Judging how crowded a country is from its average density. <strong>Averages describe no real
+    place.</strong> Egypt looks roomy on paper and is extremely crowded where people actually live.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why the densest regions today are mostly the same as two thousand years ago,
+    even though technology has changed everything? If you can, you understand physical pulls and path
+    dependence together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Population distribution</dt><dd>The pattern of where people live across an area.</dd>
+    <dt>Population density</dt><dd>The number of people per unit of land, usually per square kilometre.</dd>
+    <dt>Physiological density</dt><dd>People per unit of farmable land, a better guide to real crowding.</dd>
+    <dt>Ecumene</dt><dd>The parts of the Earth that are permanently inhabited.</dd>
+    <dt>Path dependence</dt><dd>The tendency of an established pattern to reinforce itself over time.</dd>
+    <dt>Agglomeration effects</dt><dd>The benefits that people and firms gain from being close together.</dd>
+    <dt>Demographic transition</dt><dd>The shift from high birth and death rates to low ones as societies develop.</dd>
+    <dt>Replacement fertility</dt><dd>About 2.1 children per woman, the level that keeps a population stable long-term.</dd>
+    <dt>Exposure</dt><dd>The number of people and assets in the path of a hazard.</dd>
+    <dt>Hukou</dt><dd>China's household registration system, which links services to a registered home.</dd>
+    <dt>Rural depopulation</dt><dd>The shrinking of country areas as people leave and few children are born.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"More than half the world lives in a circle around China, India and South-East Asia."</li>
+    <li>"Egypt's average density is misleading. Almost everyone lives on the five per cent of land
+    along the Nile."</li>
+    <li>"The best predictor of where people will live is where they already live. Old farming
+    heartlands are still the densest places on Earth."</li>
+    <li>"Crowding isn't the same as poverty. The Netherlands and Singapore are packed and rich."</li>
+    <li>"Most of the world's population growth to 2050 will happen in Africa, because the future parents
+    are already born."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="07-urbanization.html">Urbanization</a></h4><p>How people
+  concentrate further, into cities: why the world turned urban, what cities do for economies, and what
+  they do to people.</p></div>
+  <div class="card"><h4>Related · <a href="19-demographic-change.html">Demographic change</a></h4><p>The
+  engine under the map: births, deaths, ageing and what falling fertility means for societies.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

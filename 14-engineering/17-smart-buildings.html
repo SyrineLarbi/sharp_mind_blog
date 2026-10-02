@@ -1,0 +1,852 @@
+<!doctype html>
+<!--@HEAD-SRC title="Smart Buildings" desc="How sensors, networks and control software let buildings heat, cool, light and ventilate themselves: the layers of a building management system, the energy and health case, the security risks, and the retrofit challenge ahead."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Buildings</title>
+<meta name="description" content="How sensors, networks and control software let buildings heat, cool, light and ventilate themselves: the layers of a building management system, the energy and health case, the security risks, and the retrofit challenge ahead.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Engineering · Topic 17 of 20</p>
+  <h1>Smart buildings. <span class="thin">A building that senses, decides and adjusts, ideally without anyone noticing.</span></h1>
+  <p class="lede">Most buildings are dumb in a precise sense. Their heating runs on a timetable, their
+  lights stay on in empty rooms, and their ventilation blows the same air whether a meeting room
+  holds two people or twenty. A smart building adds three things: sensors that notice what is
+  happening, a network that carries the information, and control software that acts on it. Done
+  well, the result uses much less energy, feels more comfortable and can even help balance the power
+  grid. Done badly, it is an expensive collection of gadgets that nobody understands and that a
+  hacker can walk through.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Engineering</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../11-energy-and-water.html#e8"><span class="vn">Vol 11 · ch 08</span><b>Heat pumps</b><em>The machine inside</em></a>
+<a class="vol" href="../01-technology/10-internet-of-things.html"><span class="vn">Technology · 10</span><b>Internet of Things</b><em>The connected devices</em></a>
+<a class="vol" href="../20-future-tech/14-smart-cities.html"><span class="vn">Future · 14</span><b>Smart cities</b><em>The same idea, citywide</em></a>
+<a class="vol" href="18-infrastructure.html"><span class="vn">Engineering · 18</span><b>Infrastructure</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first treatment of smart buildings as a system. Two chapters cover parts
+  of it: <a href="../11-energy-and-water.html#e8">heat pumps</a> in Volume 11 explains the machine that
+  increasingly heats them, and <a href="../46-home-and-kitchen.html#c3">damp, mould and the quiet
+  hazards in the structure</a> in Volume 46 explains why ventilation matters for health. For the
+  city-scale and environmental angles, see <a href="../20-future-tech/14-smart-cities.html">Smart
+  cities</a> and <a href="../12-environment-climate/20-sustainable-cities.html">Sustainable
+  cities</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A building with a nervous system</h2>
+  <p class="lede">A smart building is one whose systems, heating, cooling, ventilation, lighting,
+  lifts, security and power, are measured and controlled together by software, rather than each
+  running on its own fixed settings.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Monday morning in a building that is paying attention</h2>
+</header>
+
+<p>It is 6:30 on a winter Monday. The building has been cool all weekend to save energy. Its
+software knows from the weather forecast that the morning will be cold and from past Mondays how
+long the third floor takes to warm up, so it starts the heat pumps early, at a time chosen when
+electricity is cheapest. By 8:00 the offices are at 21 °C.</p>
+
+<p>At 9:00 a meeting room fills with twelve people. A carbon dioxide sensor on the wall sees the
+level climbing, because people breathe out CO2, and the ventilation system brings in more fresh air.
+Along the windows, light sensors notice bright sunshine and dim the lamps nearest the glass. On the
+fifth floor, half the desks are empty because many staff work from home on Mondays. Occupancy
+sensors notice, and that zone's heating and lights stay low.</p>
+
+<p>None of this is science fiction. Each part has existed for years. <strong>What makes a building
+"smart" is not any single device but the fact that the devices share information and act on
+it together.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The five layers</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Layer</th><th>What it does</th><th>Examples</th></tr></thead>
+<tbody>
+<tr><td><strong>Sensors</strong></td><td>Measure the building and the people in it</td><td>Temperature, humidity, CO2, light, motion, door access, electricity meters</td></tr>
+<tr><td><strong>Actuators</strong></td><td>Physically change something</td><td>Valves, fan motors, dampers that open air ducts, light drivers, blinds</td></tr>
+<tr><td><strong>Controllers</strong></td><td>Small computers running local control loops</td><td>A controller on each air-handling unit or floor</td></tr>
+<tr><td><strong>Network</strong></td><td>Carries data between all of them</td><td>Wired building networks, Wi-Fi, low-power wireless</td></tr>
+<tr><td><strong>Supervisory software</strong></td><td>The building management system and analytics on top</td><td>Dashboards, schedules, alarms, fault detection, energy reports</td></tr>
+</tbody></table></div>
+
+<p>The heart of it in a commercial building is the <strong>building management system</strong>
+(BMS), sometimes called a building automation system. It is the software where engineers set
+schedules and setpoints, see alarms and track energy. In a home, the equivalent is usually a smart
+thermostat and a phone app, which is a much simpler version of the same idea.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>From air pressure to software</h2>
+</header>
+
+<p>Large buildings have been automatically controlled for most of a century. Early systems were
+<strong>pneumatic</strong>: thermostats sent signals as small changes in air pressure through thin
+tubes to valves and dampers. From the 1980s, <strong>direct digital control</strong> replaced the
+tubes with microprocessors. In 1995 the American heating and ventilation engineers' society, ASHRAE,
+published a standard communication protocol called <strong>BACnet</strong>, so equipment from
+different makers could talk to each other. In Europe a parallel standard called KNX became common,
+especially for lighting and homes.</p>
+
+<p>The latest step is cheap wireless sensors and cloud software, the building version of the
+<a href="../01-technology/10-internet-of-things.html">Internet of Things</a>. A sensor that used to
+need a cable costing more than the sensor can now be stuck on a wall with a battery that lasts
+years. <strong>Measurement became cheap, and that changed what was worth controlling.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Control loops, layered on control loops</h2>
+  <p class="lede">A smart building is a stack of the feedback loops described in
+  <a href="13-control-systems.html">Control systems</a>, coordinated by software that sets their
+  targets.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Heating, cooling and ventilation: where most of the energy goes</h2>
+</header>
+
+<p>In most commercial buildings, the largest energy users are heating, cooling and ventilation,
+grouped by engineers as <strong>HVAC</strong>. A typical system has a central plant that makes hot
+or chilled water, pipes that carry it, and air-handling units that blow conditioned air through
+ducts into rooms. Each part has its own loop: a valve opens until the water reaches its target
+temperature; a fan speeds up until the duct pressure is right; a damper in each room opens until
+the room reaches its setpoint.</p>
+
+<p>Three techniques produce most of the savings. <strong>Scheduling</strong> stops heating and
+cooling empty buildings. <strong>Variable-speed drives</strong> let fans and pumps run slower when
+less is needed; because the power a fan uses rises steeply with its speed, running at a lower speed
+saves a disproportionate amount of energy. <strong>Demand-controlled ventilation</strong> uses CO2
+sensors to bring in outside air in proportion to how many people are present, instead of a fixed
+maximum. Fresh outside air has to be heated or cooled, so bringing in only what is needed saves
+energy without making the air stale.</p>
+
+<div class="note">
+  <span class="tag">Why CO2 is a clever measurement</span>
+  <p>Carbon dioxide at indoor levels is not the main danger. It is useful as a <strong>proxy</strong>,
+  a stand-in measurement, for how much breathed-out air is in the room, and therefore for how well
+  the room is ventilated. That made CO2 monitors popular during the COVID-19 pandemic, when stale
+  air became a recognised infection risk.</p>
+</div>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Light, presence and the people inside</h2>
+</header>
+
+<p>Lighting was once a large share of office electricity. LED lamps cut that sharply on their own,
+and controls cut it further. <strong>Occupancy sensors</strong> switch lights off in empty spaces.
+<strong>Daylight harvesting</strong> dims lamps near windows when the sun is bright. Because LEDs can
+be dimmed precisely and each fitting can carry a small sensor, lighting networks have become a
+convenient way to spread sensors across a whole ceiling.</p>
+
+<p>Knowing where people are is useful well beyond lights. Desk sensors, badge readers and Wi-Fi
+connection counts tell managers how much of the space is actually used. After the pandemic, many
+offices found occupancy far below what they were built for, and data from these systems has driven
+decisions to close floors or redesign them. <strong>The most energy-efficient square metre is the
+one you no longer need to heat.</strong> The same data, of course, raises questions about
+monitoring employees, which Chapter 13 returns to.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The integration problem: devices that do not speak the same language</h2>
+</header>
+
+<p>A real building is rarely designed as one system. The heating comes from one supplier, the
+lighting from another, the lifts from a third, the access control from a fourth, often installed
+years apart. Each speaks its own protocol or a different dialect of a standard one. Getting them to
+share data is often the hardest, most expensive part of a smart building project.</p>
+
+<p>Standards help. BACnet and KNX in commercial buildings, and in homes a standard called Matter,
+launched in 2022 by a group of large technology companies, aim to let devices from different brands
+work together. Another effort tries to standardise the <em>meaning</em> of data, so that software
+can know that "AHU-3 SAT" is the supply-air temperature of air-handling unit three. Without that,
+<strong>every building's data is a private language understood only by the people who installed
+it</strong>.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Finding the faults nobody noticed</h2>
+</header>
+
+<p>Buildings fail quietly. A valve sticks half open, so heating and cooling run at the same time
+and fight each other. A sensor drifts, so a room is always slightly too cold and someone brings in an
+electric heater. A schedule set for a special event is never reset, so a floor stays lit every
+night. Nothing breaks and no alarm sounds, but energy leaks away for years.</p>
+
+<p>Modern analytics software looks for exactly these patterns, a practice called <strong>automated
+fault detection and diagnostics</strong>. It compares how equipment behaves with how it should
+behave and flags the difference. Some systems go further, using a detailed computer model of the
+building, a <a href="../20-future-tech/15-digital-twins.html">digital twin</a>, to test changes
+before making them. Studies of commissioning, the process of checking that a building's systems
+actually work as designed, have long found that it pays for itself quickly in energy savings.
+<strong>Much of a building's "smartness" is simply noticing that it is doing something
+stupid.</strong></p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Buildings that help the grid</h2>
+</header>
+
+<p>As grids rely more on wind and solar (see <a href="14-renewable-energy-engineering.html">the
+previous topic</a>), the time at which electricity is used starts to matter as much as the amount.
+Buildings are well placed to help, because they store heat. A building can be cooled a little extra
+at noon when solar power is plentiful and then let its temperature drift up slowly through the
+expensive evening peak, with occupants barely noticing. Its concrete and water tanks act as a
+thermal battery.</p>
+
+<p>Add electric-vehicle chargers, on-site batteries and solar panels, and the building becomes a
+small power system of its own. The US Department of Energy uses the term <strong>grid-interactive
+efficient buildings</strong> for ones that can shift, reduce or modulate their demand in response
+to grid signals or prices. Pooled together, thousands of such buildings can act like a power
+station that produces flexibility instead of electricity.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Where we spend our lives and much of our energy</h2>
+  <p class="lede">Buildings are one of the largest energy users on the planet, and also the place
+  where most people spend most of their time. Both facts make their control unusually important.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The energy stakes</h2>
+</header>
+
+<p>The International Energy Agency estimates that operating buildings accounts for roughly 30
+percent of the world's final energy use, and a little over a quarter of energy-related CO2
+emissions when the electricity they use is counted. Most of that is heating, cooling, hot water and
+lighting. Cooling is the fastest-growing part, as incomes rise in hot countries and air conditioners
+spread.</p>
+
+<p>Controls are among the cheapest ways to cut this. Replacing a building's walls or windows is
+expensive and disruptive. Fixing its schedules, setpoints and faults is mostly software and
+attention. Savings in the range of ten to thirty percent from better controls and commissioning are
+widely reported, though results vary greatly from building to building. <strong>For an existing
+building, better control is often the fastest, cheapest energy saving available.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Health, comfort and productivity</h2>
+</header>
+
+<p>People in rich countries are often said to spend about 90 percent of their time indoors. Indoor
+air quality therefore matters a great deal for health. Poor ventilation concentrates airborne
+viruses, moisture and pollutants from cleaning products, furniture and cooking. Research, including
+controlled studies at Harvard on office workers, has found that better-ventilated offices are linked
+with better performance on thinking tasks, although the size of the effect varies between studies.</p>
+
+<p>Comfort is also a control problem. Thermal comfort depends on air temperature, humidity, air
+movement, the temperature of nearby surfaces, clothing and activity. Classic office temperature
+standards were based on older assumptions about typical occupants and clothing, and researchers
+have argued that they can leave many people feeling cold. A smart building can give occupants some
+local control, a little warmer at this desk, cooler in that room, which tends to raise satisfaction
+even when the averages barely change.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The performance gap</h2>
+</header>
+
+<p>One of the most consistent findings in building research is the <strong>performance
+gap</strong>: buildings often use substantially more energy in operation than their designers
+predicted, sometimes much more. Causes include construction that differs from the drawings,
+equipment that was never set up properly, occupants who use the building differently than assumed,
+and controls that were simplified to stop complaints.</p>
+
+<p>A widely cited showcase is The Edge, an office building in Amsterdam that opened in the mid-2010s
+and received a record-breaking sustainability rating at the time. It uses tens of thousands of
+sensors, an app that lets staff set the light and temperature at their desk, and solar panels and
+underground thermal storage. Its lesson was less about any gadget than about operation:
+<strong>a building is only as smart as the team that runs it</strong>, and the data only helps
+if someone acts on it.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Real savings, real new risks</h2>
+  <p class="lede">The benefits are measurable in energy bills and comfort. The costs appear in
+  complexity, security and the question of who is being watched.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The balance sheet</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Aspect</th><th>Benefit</th><th>Cost or risk</th></tr></thead>
+<tbody>
+<tr><td><strong>Energy</strong></td><td class="ok">Large savings from schedules, variable speed, demand-controlled ventilation and fault detection.</td><td class="mid">Savings fade if nobody maintains the system and settings drift.</td></tr>
+<tr><td><strong>Comfort and health</strong></td><td class="ok">Better air quality and more local control for occupants.</td><td class="mid">Poorly tuned automation can feel worse than a simple thermostat.</td></tr>
+<tr><td><strong>Information</strong></td><td class="ok">Facility managers see how space and equipment are really used.</td><td class="no">Occupancy data can be used to monitor individuals.</td></tr>
+<tr><td><strong>Grid value</strong></td><td class="ok">Buildings can shift demand and earn money for flexibility.</td><td class="mid">Requires contracts, trust and occupants who accept small temperature swings.</td></tr>
+<tr><td><strong>Complexity</strong></td><td class="ok">One system can coordinate many functions.</td><td class="no">Integration is costly; few staff understand it; suppliers can lock owners in.</td></tr>
+<tr><td><strong>Connectivity</strong></td><td class="ok">Remote monitoring and updates.</td><td class="no">Every connected device is a possible way in for attackers.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Security and privacy: the door you forgot</h2>
+</header>
+
+<p>In 2013 attackers stole the payment card details of tens of millions of customers of Target, the
+US retailer. Investigations found that they had first entered the company's network using login
+details stolen from a heating and refrigeration contractor that had remote access for monitoring.
+The building system was not the target. It was the door. <strong>Building controls were designed
+for closed networks, and connecting them to the internet exposed decades-old equipment with weak
+security</strong>.</p>
+
+<p>Good practice now separates building networks from office networks, removes default passwords,
+limits remote access and keeps devices updated. Many older controllers cannot be updated at all,
+which is one reason security experts treat building systems as a growing concern.</p>
+
+<p>Privacy is the second issue. Sensors that count people can, with enough detail, track
+individuals: when they arrive, where they sit, how long they spend away from their desk. In the
+European Union, data that can identify a person falls under the GDPR data-protection law, and
+rules on workplace monitoring differ between countries. Many designers now choose sensors that only
+count or detect presence, and aggregate data before anyone sees it.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>From automated to autonomous, and from new to old</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Buildings as grid resources</strong></td><td>Heat pumps, batteries and EV chargers are spreading; utilities run demand-response and virtual-power-plant schemes. EU building rules include a "smart readiness" rating.</td><td class="ok">Fairly sure: shifting building demand in time will become routine, paid for by time-varying prices.</td></tr>
+<tr><td><strong>Self-optimising buildings</strong></td><td>Model predictive control and machine-learning controllers are in commercial use in some buildings, with reported savings.</td><td class="mid">Plausible: wide adoption once data standards mature and results are proven across many buildings, not just showcases.</td></tr>
+<tr><td><strong>Fully autonomous buildings</strong></td><td>Ideas of buildings that diagnose, repair and reconfigure themselves with minimal staff.</td><td class="no">Speculative: physical maintenance still needs people, and owners remain cautious about handing over control.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>The real challenge is the buildings we already have</h2>
+</header>
+
+<p>New buildings are only a small fraction of the stock in any year. In Europe, a large majority of
+the buildings that will exist in 2050 have already been built. Most of them have old boilers,
+simple timers and no sensors at all. The biggest impact will therefore come not from showcase
+towers but from cheap retrofits: wireless sensors, smart thermostats, heat pumps and software
+added to ordinary offices, schools and apartment blocks.</p>
+
+<p>That shifts the hard problems from technology to people and money: who pays when the owner buys
+the equipment but the tenant gets the lower bill, who maintains the system, and who has the skills.
+<strong>A smart building is ultimately a well-run building</strong>, and the next decade will test
+whether software can make good operation cheap enough to be normal.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A smart building links <strong>sensors, actuators, controllers, a network and supervisory
+    software</strong> so heating, cooling, ventilation and lighting respond to real conditions.
+    Most of the value comes from <strong>not wasting energy on empty or misbehaving spaces</strong>,
+    and increasingly from shifting demand to help the grid.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Operating buildings: roughly <strong>30%</strong> of world final energy use (IEA).</li>
+      <li>Better controls and commissioning often save around <strong>10–30%</strong>, varying widely.</li>
+      <li>BACnet, the main building protocol, was standardised in <strong>1995</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking smartness is about gadgets. <strong>Most savings come from fixing schedules,
+    setpoints and faults</strong>, and they vanish if nobody runs the system.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a CO2 sensor saves energy, and how a building can act as a battery for the
+    grid without storing any electricity?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Building management system (BMS)</dt><dd>The software that monitors and controls a building's technical systems.</dd>
+    <dt>HVAC</dt><dd>Heating, ventilation and air conditioning: usually a building's largest energy user.</dd>
+    <dt>Air-handling unit</dt><dd>A large box of fans, filters and coils that conditions air and pushes it through ducts.</dd>
+    <dt>Damper</dt><dd>A movable plate in a duct that controls how much air flows.</dd>
+    <dt>Variable-speed drive</dt><dd>Electronics that let a motor run at any speed instead of only full speed or off.</dd>
+    <dt>Demand-controlled ventilation</dt><dd>Supplying fresh air according to how many people are present, often measured by CO2.</dd>
+    <dt>Daylight harvesting</dt><dd>Dimming electric lights automatically when daylight is enough.</dd>
+    <dt>BACnet / KNX / Matter</dt><dd>Communication standards that let devices from different makers talk to each other.</dd>
+    <dt>Commissioning</dt><dd>Checking and adjusting a building's systems so they actually work as designed.</dd>
+    <dt>Fault detection and diagnostics</dt><dd>Software that spots equipment behaving wrongly and suggests why.</dd>
+    <dt>Performance gap</dt><dd>The difference between the energy a building was designed to use and what it really uses.</dd>
+    <dt>Grid-interactive building</dt><dd>One that shifts or reduces its electricity use in response to grid signals or prices.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A smart building isn't about gadgets. It's about sensors and controls that stop it heating,
+    cooling and lighting empty rooms."</li>
+    <li>"Buildings use around a third of the world's energy, and better controls are often the
+    cheapest way to cut it."</li>
+    <li>"A building can be a battery for the grid: cool it a bit extra at noon, coast through the
+    evening peak."</li>
+    <li>"The Target breach started with a heating contractor's password. Building systems are a real
+    security door."</li>
+    <li>"Most buildings that will exist in 2050 already exist, so the real work is retrofitting old
+    ones."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="18-infrastructure.html">Infrastructure</a></h4><p>Zooming out
+  from one building to the roads, pipes, wires and networks that every building depends on, and why
+  so much of it is ageing at once.</p></div>
+  <div class="card"><h4>Related · <a href="../20-future-tech/14-smart-cities.html">Smart
+  cities</a></h4><p>The same sensing-and-control idea applied to traffic, utilities and public
+  services across a whole city.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

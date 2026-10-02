@@ -1,0 +1,876 @@
+<!doctype html>
+<!--@HEAD-SRC title="Automation" desc="How machines take over sensing, deciding and acting in a process, from punched-card looms to factory controllers and software robots, what that does to work and safety, and where it is going."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Automation</title>
+<meta name="description" content="How machines take over sensing, deciding and acting in a process, from punched-card looms to factory controllers and software robots, what that does to work and safety, and where it is going.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Engineering · Topic 12 of 20</p>
+  <h1>Automation. <span class="thin">Every machine that runs by itself hands people a different job, not no job.</span></h1>
+  <p class="lede">Automation is older than electricity and newer than this morning's software update.
+  It is the loom that reads its pattern from cards, the thermostat that switches the boiler, the
+  controller that runs a refinery through the night, and the script that files invoices while the
+  office sleeps. Each one takes over a task that a person once did. This file explains how automated
+  systems actually work, why they make some jobs disappear and others grow, and why the most
+  automated systems often fail in the most surprising ways.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Engineering</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../49-ai-honestly.html#c7"><span class="vn">Vol 49 · ch 07</span><b>Work, and the honest uncertainty</b><em>AI and jobs</em></a>
+<a class="vol" href="../01-technology/05-robotics.html"><span class="vn">Technology · 05</span><b>Robotics</b><em>The machines themselves</em></a>
+<a class="vol" href="13-control-systems.html"><span class="vn">Engineering · 13</span><b>Control systems</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 49 discusses what AI may do to jobs
+  (<a href="../49-ai-honestly.html#c7">Work, and the honest uncertainty</a>), and Volume 50 explains
+  why robots handle structured places far better than messy ones
+  (<a href="../50-whats-coming.html#c6">Robots, vehicles and why the easy things are hard</a>). This
+  file is the engineering view underneath: how automated systems are built, how they fail, and the
+  long history of what they have done to work. The mathematics of feedback has its own file,
+  <a href="13-control-systems.html">Control systems</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Handing a task to a machine, start to finish</h2>
+  <p class="lede">Automation means using machines, controllers or software to carry out a process with
+  little or no human action while it runs.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The loom that read cards</h2>
+</header>
+
+<p>Weaving a patterned silk was once slow, skilled work. For each pass of the thread, a helper had
+to lift exactly the right set of threads by hand, following the pattern. Around 1804 the French
+weaver Joseph-Marie Jacquard perfected a loom attachment that did this automatically. The pattern
+was stored as a chain of stiff cards with holes punched in them. Where there was a hole, a rod passed
+through and its thread was lifted. Where there was none, the thread stayed down. Change the cards and
+the same loom wove a different pattern.</p>
+
+<p>Two ideas lived in those cards. The first was that a machine could follow a sequence of
+instructions without a person deciding each step. The second was that <strong>the instructions could
+be separated from the machine and changed</strong>. The English mathematician Charles Babbage planned
+to use punched cards to program his Analytical Engine, a mechanical computer designed in the 1830s.
+His collaborator Ada Lovelace drew the comparison directly.</p>
+
+<div class="pass short">
+  <p>"We may say most aptly that the Analytical Engine weaves algebraical patterns just as the
+  Jacquard-loom weaves flowers and leaves."</p>
+  <span class="src"><b>Ada Lovelace</b> · notes on the Analytical Engine, 1843</span>
+</div>
+
+<p>The Jacquard loom also met fierce resistance from weavers in Lyon, who feared for their
+livelihoods. Automation and the argument about jobs were born together.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Kinds of automation</h2>
+</header>
+
+<p>Engineers distinguish automation by how easily it can be changed and by what it handles.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Kind</th><th>What it is</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Fixed</strong></td><td>Machines built for one sequence, very fast, hard to change</td><td>A bottling line, a dedicated engine-block machining line</td></tr>
+<tr><td><strong>Programmable</strong></td><td>Machines that can be reprogrammed between batches</td><td>Computer-controlled machine tools, robot arms</td></tr>
+<tr><td><strong>Flexible</strong></td><td>Switches between products with almost no pause</td><td>A car line building different models one after another</td></tr>
+<tr><td><strong>Process</strong></td><td>Continuous control of flows, temperatures and pressures</td><td>Refineries, power stations, water treatment plants</td></tr>
+<tr><td><strong>Software</strong></td><td>Programs that carry out office and information tasks</td><td>Automatic invoice matching, scheduled reports, chatbots</td></tr>
+</tbody></table></div>
+
+<p>Automation is also a matter of degree. A car with cruise control is partly automated. A car with
+lane-keeping and adaptive cruise is more so. The industry body SAE International defines six levels
+of driving automation, from 0 (none) to 5 (no driver needed anywhere). Most cars on sale in the
+mid-2020s sit at level 2, where the driver must stay in charge at all times.
+<strong>Most real automation is partial: the machine does some of the job and a person does the
+rest.</strong> That boundary, as Question 3 shows, is where many problems live.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Sense, decide, act</h2>
+</header>
+
+<p>Every automated system, from a toaster to a chemical plant, does three things that a person used
+to do.</p>
+
+<div class="grid3">
+  <div class="card"><h4>Sense</h4><p><strong>Sensors</strong> measure the world: temperature,
+  position, pressure, a camera image, a barcode, a new email.</p></div>
+  <div class="card"><h4>Decide</h4><p>A <strong>controller</strong>, a chip or a computer program,
+  compares what it sensed with what it should be and chooses an action.</p></div>
+  <div class="card"><h4>Act</h4><p><strong>Actuators</strong> change the world: motors, valves,
+  heaters, a robot gripper, or a database record updated.</p></div>
+</div>
+
+<p>The Jacquard loom had no sensing at all. It followed its cards whatever happened. That is called
+<strong>open-loop</strong> control. A thermostat measures the room and switches the heating on or off
+in response. That is <strong>closed-loop</strong>, or feedback, control. The difference matters
+enormously. <strong>An open-loop system cannot notice when things go wrong. A closed-loop system
+corrects itself, within limits.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>From governors to controllers to code</h2>
+  <p class="lede">Automation runs in layers, from sensors on the factory floor up to software that
+  plans the day's production. Each layer has its own technology.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Feedback, the oldest trick</h2>
+</header>
+
+<p>Steam engines in the late eighteenth century had a problem. When the load changed, their speed
+changed. James Watt adapted a device called the <strong>centrifugal governor</strong>: two heavy balls
+on hinged arms, spun by the engine. When the engine sped up, the balls flew outwards and, through a
+linkage, partly closed the steam valve. When it slowed, the balls dropped and the valve opened. The
+engine held its own speed without anyone touching it.</p>
+
+<p>This is feedback in its purest form. The output, speed, is measured and used to adjust the input,
+steam. The same principle keeps your body temperature steady, your car's cruise control on target and
+an aircraft level. Getting feedback right is subtle: correct too weakly and the system drifts,
+correct too strongly and it overshoots and oscillates. That is the subject of
+<a href="13-control-systems.html">Control systems</a>.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The factory's brain: the PLC</h2>
+</header>
+
+<p>Until the late 1960s, factory machines were controlled by large cabinets of electrical relays,
+switches that click open and shut. Changing the sequence meant rewiring hundreds of them, which could
+take weeks. In 1968 General Motors asked for something better. An engineer called Dick Morley and his
+colleagues developed the <strong>programmable logic controller</strong>, or PLC, a rugged industrial
+computer whose logic could be changed by reprogramming instead of rewiring. Their company called it
+the Modicon.</p>
+
+<p>PLCs are now everywhere: in factories, water plants, lifts, airport baggage systems and traffic
+lights. They are built to survive heat, dust and electrical noise, and to run the same loop reliably
+for years. Many are still programmed in <strong>ladder logic</strong>, a graphical language that looks
+like the old relay wiring diagrams, so electricians could understand it.</p>
+
+<div class="sheet">
+  <div class="cap">The layers of a typical automated plant</div>
+<pre>
+  BUSINESS SYSTEMS    orders, stock, planning              (hours to days)
+         |
+  PLANT SOFTWARE      schedules, tracks every batch        (minutes)
+         |
+  SUPERVISORY (SCADA) operator screens, alarms, trends     (seconds)
+         |
+  CONTROLLERS (PLCs)  run each machine's logic             (milliseconds)
+         |
+  SENSORS / ACTUATORS switches, gauges, motors, valves     (the physical world)
+</pre>
+</div>
+
+<p><strong>SCADA</strong>, short for supervisory control and data acquisition, is the layer where
+human operators watch the whole plant on screens, see alarms and change settings. Notice the time
+scales. The lower the layer, the faster it must react, and the less a human is involved.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Plants that run themselves at night</h2>
+</header>
+
+<p>In a modern oil refinery, chemical works or power station, thousands of control loops run at once,
+each holding a temperature, pressure, level or flow at its target. A small team in a control room
+supervises the whole site. The system that coordinates the loops is called a <strong>distributed
+control system</strong>, because control is spread across many controllers instead of one central
+computer that could fail.</p>
+
+<p>Here the operator's job is not to run the plant. The automation does that. <strong>The operator's
+job is to handle what the automation cannot: start-ups, shutdowns, unusual conditions and
+emergencies.</strong> Those are exactly the moments when the plant is most dangerous and the operator
+has had the least practice. Chapter 10 returns to this.</p>
+
+<p>Because these systems control physical processes, their security matters. In 2010 a piece of
+malicious software called Stuxnet, widely attributed to the United States and Israel, was discovered
+to have targeted the controllers of uranium centrifuges in Iran, making them spin destructively
+while showing operators normal readings. It showed that attacks on automation can cause physical
+damage.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Robot arms and the structured world</h2>
+</header>
+
+<p>The first industrial robot, the Unimate, went to work at a General Motors plant in New Jersey in
+1961. It lifted hot metal parts from a die-casting machine, a dangerous and unpleasant job. It was
+designed by George Devol and Joseph Engelberger. Today millions of industrial robots work in
+factories, mostly welding, painting, assembling and moving parts in car and electronics plants.
+South Korea has the highest density, roughly one robot for every ten manufacturing workers by the
+early 2020s.</p>
+
+<p>These robots are fast, precise and tireless, but traditionally they are not clever. They repeat
+programmed movements in a carefully arranged space, often behind safety fences. <strong>Factory
+automation works by making the world predictable for the machine</strong>: parts arrive in the same
+place, the same way round, every time. When that is not possible, as with soft, tangled or varied
+objects, people are still often better. Volume 50 explains why
+(<a href="../50-whats-coming.html#c6">Robots, vehicles and why the easy things are hard</a>), and
+<a href="../01-technology/05-robotics.html">Robotics</a> covers the machines in depth.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Automating the office</h2>
+</header>
+
+<p>Automation is not only physical. Much of it runs in offices. A payroll program, an online bank
+transfer, an airline's automatic rebooking, a spreadsheet macro: each takes over work that clerks
+once did by hand. Since the 2010s, companies have used <strong>robotic process automation</strong>,
+software that copies the clicks and keystrokes a person makes across different programs, for
+repetitive tasks such as copying data from emails into accounting systems.</p>
+
+<p>Traditional software automation follows exact rules, so it breaks when an input looks
+unexpected. Machine learning and language models are widening the range, handling messy inputs such
+as scanned letters, free-text emails and customer questions. <strong>For the first time, automation
+reaches tasks that need judgement about language and images, not just following rules.</strong>
+Whether that changes the old pattern of automation and jobs is the open question in Question 5.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Prosperity, jobs, and the strange new ways to fail</h2>
+  <p class="lede">Automation made modern living standards possible. It also reshapes who works, and
+  it changes the kind of mistakes that happen.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Tasks, not jobs</h2>
+</header>
+
+<p>Between 1811 and 1816, English textile workers known as Luddites smashed machines that threatened
+their skilled trades. They were not simply against technology. They were protesting falling wages
+and lost status, and many of them did lose out. Yet over the following century, mechanised textiles
+made clothing far cheaper, and total employment grew. Both things were true: <strong>society gained,
+and specific people lost</strong>.</p>
+
+<p>Economists today usually analyse automation in terms of <strong>tasks</strong> rather than whole
+jobs. A job is a bundle of tasks. Automation takes over some of them, which changes the job rather
+than deleting it. The cash machine is the classic example. When ATMs spread in the United States,
+many expected bank tellers to disappear. For decades they did not, because cheaper branches meant
+banks opened more of them, and tellers shifted towards customer service and sales. Teller numbers
+did decline later, as online banking grew.</p>
+
+<p>Research led by the economist David Autor and others found another pattern in rich countries from
+the 1980s onwards. Automation hit routine middle-skill jobs hardest: clerks, machine operators,
+bookkeepers. Jobs grew at the top, in professional work, and at the bottom, in personal services that
+are hard to automate. This <strong>job polarisation</strong> is one of the explanations offered for
+rising wage inequality. How much of that inequality is due to automation, as opposed to trade,
+policy or other causes, remains debated.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The ironies of automation</h2>
+</header>
+
+<p>In 1983 the British psychologist Lisanne Bainbridge published a short paper called "Ironies of
+Automation". Its argument has proved remarkably durable. When you automate a system, you leave the
+human the tasks the designers could not automate, which are the hardest ones. At the same time,
+because the machine does the everyday work, the human gets little practice. <strong>So the more
+reliable the automation, the less prepared the person is for the moment it fails.</strong></p>
+
+<p>Air France Flight 447 is the most cited example. In June 2009, flying from Rio de Janeiro to
+Paris over the Atlantic at night, the aircraft's speed sensors iced up briefly. The autopilot,
+receiving inconsistent readings, disconnected and handed control to the pilots. In the confusion that
+followed, the crew made inputs that put the aircraft into a stall, and it fell into the ocean. All 228
+people on board died. The French investigators' report pointed among other things to the pilots'
+lack of training in manual flight at high altitude and in recognising a stall.</p>
+
+<p>The aviation industry responded with more training in hand-flying and in handling surprises.
+The broader lesson applies to control rooms, hospitals and cars with driver assistance: a human
+"supervisor" who has nothing to do for hours is not a reliable safety system. This problem is called
+<strong>automation complacency</strong>.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>When automation overrules the people</h2>
+</header>
+
+<p>The opposite failure is automation that acts against the humans. In October 2018 and March 2019,
+two Boeing 737 MAX airliners crashed shortly after take-off, in Indonesia and Ethiopia, killing 346
+people in total. Both were brought down by a flight-control feature called MCAS. It was designed to
+push the aircraft's nose down automatically in certain conditions. It relied on a single sensor
+measuring the angle of the wing to the airflow. When that sensor failed, MCAS repeatedly pushed the
+nose down. Many pilots had not been told the system existed.</p>
+
+<p>The aircraft was grounded worldwide for about twenty months. Investigations by US congressional
+committees and others criticised the design, the reliance on one sensor, and how the system was
+assessed and certified. <strong>Automation needs to be designed together with the people who will
+work alongside it</strong>: they must know what it does, see when it is acting, and be able to stop
+it.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Cheaper, safer, faster, and more brittle at the edges</h2>
+  <p class="lede">Automation's gains are large and spread widely. Its costs are concentrated and its
+  failures can be unusual.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The balance sheet</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Aspect</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Productivity</strong></td><td class="ok">More output per worker. The long-run source of higher living standards.</td><td class="no">Gains may flow mainly to owners of capital unless wages or policy share them.</td></tr>
+<tr><td><strong>Safety</strong></td><td class="ok">Machines take over dangerous, dirty and heavy work: hot castings, toxic paint, deep mines.</td><td class="no">New failure modes: automation surprises, complacency, cyberattack.</td></tr>
+<tr><td><strong>Quality and consistency</strong></td><td class="ok">Every part done the same way. Fewer human slips.</td><td class="mid">Errors in the program are repeated perfectly, thousands of times.</td></tr>
+<tr><td><strong>Work</strong></td><td class="ok">Drudgery removed. New jobs in design, programming and maintenance.</td><td class="no">Job losses concentrated in particular places and skills. Remaining work can be deskilled or tightly monitored.</td></tr>
+<tr><td><strong>Flexibility</strong></td><td class="ok">Runs day and night without fatigue.</td><td class="no">Expensive to change. Copes badly with surprises outside its design.</td></tr>
+<tr><td><strong>Human skill</strong></td><td class="ok">People freed for judgement and oversight.</td><td class="no">Skills fade when unused, just when they are needed most.</td></tr>
+</tbody></table></div>
+
+<p>The table hides a timing problem. <strong>The benefits of automation are usually broad and slow,
+while the costs arrive fast and land on specific people.</strong> A cheaper product helps millions a
+little. A closed plant hurts one town a lot. That asymmetry explains why automation is so politically
+charged, even when economists judge its total effect positive.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Automation reaches thinking work</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>AI-driven office and information automation</strong></td><td>Language models and related tools are being used for drafting, summarising, coding, customer support and document processing.</td><td class="ok">Fairly sure: many cognitive tasks will be partly automated within years, reshaping jobs. How fast productivity rises is uncertain. See <a href="../20-future-tech/02-ai-agents.html">AI agents</a>.</td></tr>
+<tr><td><strong>Robots in less structured places</strong></td><td>Warehouses use large fleets of mobile robots. Picking varied objects and working beside people is improving with machine learning.</td><td class="mid">Plausible: robots spreading into logistics, farming and care support over the next decade. General-purpose humanoids remain unproven. See <a href="../20-future-tech/03-humanoid-robots.html">Humanoid robots</a>.</td></tr>
+<tr><td><strong>Economy-wide displacement of human work</strong></td><td>Argued about by economists, technologists and governments. No clear evidence yet of mass unemployment from automation.</td><td class="no">Speculative: whether this wave breaks the historical pattern of jobs changing shape rather than vanishing. See <a href="../20-future-tech/20-how-work-may-change-because-of-ai.html">How work may change because of AI</a>.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Who shares the gains</h2>
+</header>
+
+<p>The technical question of what can be automated is increasingly joined by a political one: how
+the gains are shared. Proposals range widely. Some, including Bill Gates in 2017, have suggested
+taxing robots that replace workers. Many economists object that this would be hard to define and
+would slow productivity. Others favour retraining programmes, wage insurance for displaced workers,
+shorter working weeks, or a universal basic income. None has been tested at the scale the most
+dramatic forecasts would require.</p>
+
+<p>There is also an engineering answer. Designers can choose to build automation that
+<strong>supports people rather than replaces them</strong>: systems that keep humans skilled and
+informed, take over the tedious parts, and hand back control clearly. That approach, developed in
+aviation after the hard lessons of Chapters 10 and 11, is now spreading into medicine, driving and
+office software. <strong>The future of automation is not decided only by what machines can do. It is
+also decided by how we choose to design the work around them.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Automation hands a process's <strong>sensing, deciding and acting</strong> to machines.
+    <strong>Feedback</strong> lets them correct themselves. Most automation is partial, so the
+    critical design problem is the <strong>boundary with the human</strong>. Its economic effect is
+    usually to change <strong>tasks</strong> within jobs, with broad gains and concentrated
+    losses.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Jacquard's card-driven loom: about <strong>1804</strong>. First industrial robot: <strong>1961</strong>.</li>
+      <li>The PLC was developed for General Motors from <strong>1968</strong>.</li>
+      <li>SAE defines <strong>six levels</strong> of driving automation, 0 to 5.</li>
+      <li>Two 737 MAX crashes, 2018–19: <strong>346</strong> dead, linked to one automated system.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Assuming that automating a task removes the human from it. <strong>It moves the human to the
+    hardest part: monitoring, and taking over in a crisis</strong>, often with less practice than
+    before.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain Bainbridge's "irony of automation" using Air France 447, and the difference
+    between open-loop and closed-loop control using a loom and a thermostat? If so, you have the two
+    central ideas.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Automation</dt><dd>Using machines or software to carry out a process with little human action while it runs.</dd>
+    <dt>Sensor</dt><dd>A device that measures something in the world, such as temperature or position.</dd>
+    <dt>Actuator</dt><dd>A device that makes something happen, such as a motor or a valve.</dd>
+    <dt>Controller</dt><dd>The part that decides what the actuators should do, based on what the sensors report.</dd>
+    <dt>Open-loop control</dt><dd>Following a fixed sequence without checking the result.</dd>
+    <dt>Closed-loop control</dt><dd>Measuring the result and adjusting to correct it; also called feedback.</dd>
+    <dt>PLC</dt><dd>Programmable logic controller: a rugged industrial computer that runs machines.</dd>
+    <dt>SCADA</dt><dd>The supervisory layer where operators watch and adjust a whole plant.</dd>
+    <dt>Distributed control system</dt><dd>Control spread across many linked controllers, used in large process plants.</dd>
+    <dt>Robotic process automation</dt><dd>Software that copies a person's clicks and keystrokes to do repetitive office tasks.</dd>
+    <dt>Job polarisation</dt><dd>Growth of high- and low-paid jobs while routine middle jobs shrink.</dd>
+    <dt>Automation complacency</dt><dd>People relaxing their attention because the machine usually gets it right.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Automation usually takes over tasks, not whole jobs. The job changes shape."</li>
+    <li>"The more reliable the autopilot, the less practice the pilot gets for the day it fails."</li>
+    <li>"Factory robots work because the factory makes the world predictable for them."</li>
+    <li>"The gains from automation are broad and slow. The losses are fast and land on particular
+    towns."</li>
+    <li>"A machine that hides what it is doing from the people beside it is a design failure, however
+    clever it is."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="13-control-systems.html">Control systems</a></h4><p>The
+  mathematics of feedback: how controllers keep planes level, motors steady and processes on target
+  without overshooting.</p></div>
+  <div class="card"><h4>Related · <a href="../20-future-tech/04-autonomous-systems.html">Autonomous
+  systems</a></h4><p>When automation leaves the factory: drones, military systems and industrial
+  machines that act on their own in the open world.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

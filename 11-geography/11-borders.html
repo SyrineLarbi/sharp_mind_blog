@@ -1,0 +1,854 @@
+<!doctype html>
+<!--@HEAD-SRC title="Borders" desc="What borders are, how they are drawn, marked and run, why they cause wars and shape trade and identity, the case for and against open and hard borders, and how borders are changing at sea, in the Arctic and online."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Borders</title>
+<meta name="description" content="What borders are, how they are drawn, marked and run, why they cause wars and shape trade and identity, the case for and against open and hard borders, and how borders are changing at sea, in the Arctic and online.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Geography · Topic 11 of 20</p>
+  <h1>Borders. <span class="thin">Lines that nature never drew, and that people will die to defend.</span></h1>
+  <p class="lede">From space there are almost no borders. A few show up where policy has changed the
+  land itself: the irrigated fields on one side of a desert line, the dark forest on one side of a
+  logging boundary, the lit cities of South Korea next to the darkness of the North. Everywhere else, a
+  border is an idea. It exists because governments and people agree that it exists, or because one
+  side can force the other to accept it. That idea decides which laws you live under, which passport
+  you hold, what you pay for imported goods and, too often, which war you fight in. This file explains
+  how borders are made, how they work, and why they matter so much.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Geography</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../22-the-long-shadow.html#c5"><span class="vn">Vol 22 · ch 05</span><b>Borders nobody living had chosen</b><em>Africa's colonial lines</em></a>
+<a class="vol" href="../18-law-government/11-international-law.html"><span class="vn">Law · 11</span><b>International law</b><em>The rules behind the lines</em></a>
+<a class="vol" href="12-geographic-inequality.html"><span class="vn">Geography · 12</span><b>Geographic inequality</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 22 tells three border stories: the partition line drawn across India in weeks (<a
+  href="../22-the-long-shadow.html#c4">ch 04</a>), the colonial borders Africa inherited from a
+  conference in Berlin (<a href="../22-the-long-shadow.html#c5">ch 05</a>), and the night the Berlin
+  Wall opened (<a href="../22-the-long-shadow.html#c7">ch 07</a>). This file does not retell them. It
+  explains the general machinery: how any border is made and run, and what it does.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A line where one government's authority stops</h2>
+  <p class="lede">A border marks the edge of a state's sovereignty, its right to make and enforce law.
+  It has a surprisingly short history and comes in more varieties than most people realise.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The land nobody wants</h2>
+</header>
+
+<p>Between Egypt and Sudan lies a patch of desert of about two thousand square kilometres called
+<strong>Bir Tawil</strong>. Neither country claims it. The reason is two different lines drawn by the
+British in 1899 and 1902. Egypt accepts the first, which puts Bir Tawil in Sudan. Sudan accepts the
+second, which puts it in Egypt. Each prefers the line that gives it a much more valuable area to the
+east, the Halaib Triangle on the Red Sea coast. Claiming Bir Tawil would mean accepting the other line
+and giving up Halaib. So the empty patch belongs to no state.</p>
+
+<p>Bir Tawil shows what a border really is. <strong>A border is a legal claim that others accept,
+not a physical feature.</strong> Where the claims and the acceptance do not match, you get disputes,
+oddities and sometimes wars. In the Belgian town of Baarle-Hertog, surrounded by the Dutch town of
+Baarle-Nassau, the line runs through houses, cafés and shops. The address of a house depends on where
+its front door is.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Kinds of borders, and the words around them</h2>
+</header>
+
+<p>Geographers distinguish a few related words. A <strong>boundary</strong> is the line itself. A
+<strong>border</strong> is the line plus the controls and institutions around it, such as customs
+and passport checks. A <strong>frontier</strong> is an older idea: a broad zone at the edge of
+control, rather than a sharp line. A <strong>borderland</strong> is the region on both sides, often
+with its own mixed culture, trade and dialect.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Type</th><th>What it follows</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Physical</strong></td><td>Rivers, mountain ridges, lakes, coasts</td><td>The Pyrenees between France and Spain; the Rio Grande between the US and Mexico</td></tr>
+<tr><td><strong>Geometric</strong></td><td>Straight lines, often lines of latitude or longitude</td><td>The 49th parallel between the US and Canada; many borders in the Sahara</td></tr>
+<tr><td><strong>Cultural</strong></td><td>Language, religion or ethnic divisions</td><td>Parts of the post-1918 borders in Central Europe; the 1947 partition of India</td></tr>
+<tr><td><strong>Ceasefire line</strong></td><td>Where fighting stopped</td><td>The Korean Demilitarised Zone; the Line of Control in Kashmir</td></tr>
+<tr><td><strong>Maritime</strong></td><td>Distances measured from the coast</td><td>Territorial seas and economic zones under the law of the sea</td></tr>
+</tbody></table></div>
+
+<p>Physical borders seem natural but cause their own problems. Rivers move. The Rio Grande changed
+course in the nineteenth century and left a strip of land called El Chamizal on the "wrong" side. The
+United States and Mexico argued over it for about a century before settling it in 1963. Glaciers move
+too. As Alpine ice melts, the watershed that marks the Swiss-Italian border has shifted, and in 2023
+the two countries agreed to redraw part of the line near the Matterhorn.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>A young invention</h2>
+</header>
+
+<p>For most of history, rulers controlled people and cities more than precisely measured territory.
+Empires faded out at their edges into zones of tribute, raids and trade. The Great Wall of China and
+Hadrian's Wall in Britain were military frontiers, not lines that separated equal states.</p>
+
+<p>The modern idea of a world divided completely into sovereign states with exact borders grew in
+Europe from the seventeenth century. It is often linked to the Peace of Westphalia of 1648, which
+ended the Thirty Years' War, though historians argue about how much those treaties really invented.
+Accurate surveying, printed maps and, later, nationalism made the idea practical. European empires
+then spread it across the world, often drawing lines on maps of places they had never seen.
+<strong>Most of today's borders are younger than the oldest buildings in the cities they
+divide.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>From a deal on paper to a fence on the ground</h2>
+  <p class="lede">Borders are agreed, described, marked and then run every day by officials. Each step
+  can go wrong, and each has its own body of rules.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The four stages of making a border</h2>
+</header>
+
+<p>In 1945 the American geographer Stephen Jones described border-making in four stages. The scheme
+is still used by diplomats and surveyors.</p>
+
+<div class="sheet">
+  <div class="cap">Stephen Jones's four stages of boundary-making</div>
+<pre>
+  1. ALLOCATION     the political decision: which territory goes to whom
+                    (a treaty, a peace settlement, a referendum, a conquest)
+         |
+  2. DELIMITATION   the line is described in words and maps, in a treaty text
+         |
+  3. DEMARCATION    surveyors mark it on the ground: pillars, posts, buoys
+         |
+  4. ADMINISTRATION the day-to-day running: crossings, patrols, customs, repairs
+
+  most disputes come from a mismatch between 2 and 3:
+  the words said one thing, the ground said another
+</pre>
+</div>
+
+<p>A classic case is the border between Ethiopia and Eritrea. Eritrea became independent in 1993.
+The two countries fought a war over the small town of Badme and the border around it from 1998 to
+2000, in which tens of thousands died. An international boundary commission ruled in 2002 that Badme
+lay on the Eritrean side. Ethiopia refused for years to accept the ruling, and the two only made peace
+in 2018. The treaty words from the colonial era were clear enough for lawyers. They were not clear on
+the ground.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Keep the lines you inherited</h2>
+</header>
+
+<p>When empires broke up, the new states faced a choice. They could redraw borders to fit peoples and
+languages, or keep the colonial lines. Almost all kept the lines. The legal principle is called
+<strong>uti possidetis juris</strong>, Latin for "as you possess under law". New states inherit the
+administrative boundaries of the colony. The newly independent states of Spanish America applied it
+in the nineteenth century. In 1964 the Organisation of African Unity formally committed its members to
+respect the borders they had at independence. The breakup of Yugoslavia and the Soviet Union in the
+1990s followed the same idea, using the internal borders of their republics.</p>
+
+<p>The logic was practical rather than just. Redrawing everything would have opened endless claims.
+The cost, discussed in Chapter 12, is that many borders still divide peoples and enclose rivals.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Borders at sea</h2>
+</header>
+
+<p>Most of the world's surface is ocean, and since 1982 it has had its own border system: the United
+Nations Convention on the Law of the Sea, known as <strong>UNCLOS</strong>. It measures zones outward
+from a coastal <strong>baseline</strong>, usually the low-water line.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Zone</th><th>Distance from the baseline</th><th>What the coastal state controls</th></tr></thead>
+<tbody>
+<tr><td><strong>Territorial sea</strong></td><td>Up to 12 nautical miles (about 22 km)</td><td>Almost full sovereignty, though foreign ships may pass peacefully</td></tr>
+<tr><td><strong>Contiguous zone</strong></td><td>Up to 24 nautical miles</td><td>Limited powers over customs, immigration and pollution</td></tr>
+<tr><td><strong>Exclusive economic zone (EEZ)</strong></td><td>Up to 200 nautical miles (about 370 km)</td><td>Rights to fish, oil, gas, minerals and wind; others may still sail and fly</td></tr>
+<tr><td><strong>Continental shelf</strong></td><td>Can extend further where the seabed does</td><td>Rights to the seabed and what lies beneath</td></tr>
+</tbody></table></div>
+
+<p>Because a tiny island can generate a huge EEZ, rocks and reefs become worth fighting over. In the
+South China Sea, China claims most of the sea within a "nine-dash line" and has built artificial
+islands on reefs. In 2016 an arbitral tribunal set up under UNCLOS, in a case brought by the
+Philippines, ruled that the line had no legal basis. China rejected the ruling and continues to
+enforce its claim. <strong>At sea, as on land, a ruling is only as strong as the willingness to
+accept or enforce it.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Running a border: open, managed, closed</h2>
+</header>
+
+<p>Borders differ enormously in how hard they are to cross. At one end, the <strong>Schengen
+Area</strong> in Europe has removed routine passport checks between member states. It grew from an
+agreement signed in the Luxembourg village of Schengen in 1985 and, from January 2025, includes 29
+countries. You can drive from Lisbon to Tallinn without showing a document, though states may bring
+back temporary checks, as several did during the 2015 refugee movements and the pandemic.</p>
+
+<p>In the middle are managed borders with customs and passport checks, the normal case. At the far end
+are fortified borders. The Korean Demilitarised Zone is about four kilometres wide and lined with
+mines and guard posts. The US-Mexico border runs about 3,100 kilometres, with barriers along a
+substantial part of its length. India has fenced much of its long border with Bangladesh.</p>
+
+<p>Every border also has an economic gate, the <strong>customs</strong> system that collects
+<strong>tariffs</strong> (taxes on imports) and checks goods against rules on safety and origin. A
+<strong>customs union</strong> such as the EU's removes these checks between members and sets a single
+tariff for outsiders. That is why the question of where checks should happen after Brexit, at the
+Irish land border or in the Irish Sea, became one of the hardest parts of the negotiations.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>War, wealth and who you think you are</h2>
+  <p class="lede">Borders cause conflict, cut trade far more than distance alone would, and shape the
+  identity of the people who live along them.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Territory and war</h2>
+</header>
+
+<p>Studies of wars between states consistently find that disputes over territory are among the most
+common causes, and among the most likely to turn violent. Land carries resources, strategic position,
+people who share an identity with one side, and symbolic value that makes compromise feel like
+betrayal.</p>
+
+<p>After 1945 something changed. The UN Charter forbids states to use force against the
+<strong>territorial integrity</strong> of another. Political scientists have documented that the
+conquest and annexation of territory, which was common for centuries, became rare in the decades after
+the Second World War. When Iraq annexed Kuwait in 1990, a broad international coalition reversed it.
+That is why Russia's annexation of Crimea in 2014 and its full-scale invasion of Ukraine in 2022 alarmed
+so many governments. <strong>They challenged not only one border but the norm that borders should not
+be changed by force.</strong> Most UN member states have refused to recognise the annexations.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The border effect on trade</h2>
+</header>
+
+<p>Borders cut trade even between friendly neighbours. In 1995 the Canadian economist John McCallum
+compared trade between Canadian provinces with trade between provinces and US states of similar size
+and distance. Provinces traded with each other roughly <strong>twenty times</strong> more. Later
+research by James Anderson and Eric van Wincoop revised the effect downward, but it remained large.
+This <strong>border effect</strong> arises from currencies, regulations, languages, networks and
+simple habit, not just tariffs.</p>
+
+<p>Borders also create economies of their own. Twin cities grow on each side: El Paso and Ciudad
+Juárez, San Diego and Tijuana, Strasbourg and Kehl. Firms locate where wages on one side meet markets
+on the other, as in the Mexican assembly plants called <em>maquiladoras</em>. Price differences create
+cross-border shopping and smuggling. A border is a barrier, and every barrier creates someone who
+profits from getting across it.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Divided peoples and the Irish example</h2>
+</header>
+
+<p>Many borders cut through peoples who see themselves as one. The Kurds, often described as one of
+the largest peoples without a state of their own, live across Turkey, Iraq, Iran and Syria. Somali
+communities live in Somalia, Ethiopia, Kenya and Djibouti. Borders like these can keep alive demands
+for unification or independence, and they give neighbouring states reasons to interfere.</p>
+
+<p>The island of Ireland shows how a border's meaning can change without the line itself moving. The
+border between Northern Ireland, part of the United Kingdom, and the Republic of Ireland was drawn in
+the 1920s. During the decades of violence known as the Troubles, it was militarised, with watchtowers
+and checkpoints. The Good Friday Agreement of 1998, together with both countries' membership of the
+EU single market, made it almost invisible. Brexit threatened to bring checks back. The solution,
+revised in the 2023 Windsor Framework, placed most checks on goods moving between Great Britain and
+Northern Ireland instead. <strong>The same line on the map can be a wall, a seam or a formality,
+depending on the politics around it.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Open and hard, inherited and redrawn</h2>
+  <p class="lede">Borders protect and divide at the same time. The choices are how open to make them,
+  and whether to live with lines that were badly drawn.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Open borders against hard borders</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Aspect</th><th>More open borders</th><th>Harder borders</th></tr></thead>
+<tbody>
+<tr><td><strong>Trade</strong></td><td class="ok">Lower costs, integrated supply chains, cheaper goods</td><td class="no">Delays, paperwork, higher prices</td></tr>
+<tr><td><strong>Security</strong></td><td class="no">Harder to control smuggling and the movement of criminals</td><td class="ok">More control over who and what enters</td></tr>
+<tr><td><strong>Labour</strong></td><td class="ok">Workers move to where they are needed</td><td class="mid">Protects some local jobs; creates labour shortages elsewhere</td></tr>
+<tr><td><strong>Sovereignty</strong></td><td class="mid">Rules increasingly shared with neighbours</td><td class="ok">Decisions stay national</td></tr>
+<tr><td><strong>Border communities</strong></td><td class="ok">Families, markets and services work across the line</td><td class="no">Local economies cut in half; long detours</td></tr>
+<tr><td><strong>Human cost</strong></td><td class="ok">Fewer deaths on dangerous crossing routes</td><td class="no">People take riskier routes and use smugglers</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The "arbitrary borders" debate</h2>
+</header>
+
+<p>It is common to blame Africa's and the Middle East's problems on borders drawn by Europeans.
+There is evidence for this. Economic research has found that ethnic groups split by colonial borders
+in Africa have, on average, experienced more conflict and lower development than groups that were not
+split. Many states contain rival groups that were pushed into one political unit.</p>
+
+<div class="grid2">
+  <div class="card"><h4>The case against the inherited lines</h4><p>They divided peoples, enclosed
+  rivals, ignored grazing routes and trade, and created landlocked states with no say over their access
+  to the sea. Some conflicts, from Kashmir, a legacy of partition, to parts of the Sahel, are tied directly to them.</p></div>
+  <div class="card"><h4>The case for keeping them</h4><p>Wars between African states over borders have
+  been relatively rare since independence, partly because almost all states accepted the colonial lines.
+  The few changes, Eritrea in 1993 and South Sudan in 2011, came after decades of war. Redrawing by
+  ethnicity could have caused far more violence than it prevented.</p></div>
+</div>
+
+<p>A fair summary: the borders were drawn badly, but keeping them may have been the least bad choice
+afterwards. <strong>Most of the damage now comes less from the lines themselves than from what states
+do inside them</strong>: whether they share power and resources among the groups they contain.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>More walls, smarter checks, moving coastlines</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Digital borders</strong></td><td>Biometric passports, facial recognition and pre-travel authorisation are spreading. The EU began a phased launch of a biometric Entry/Exit System for non-EU travellers in October 2025.</td><td class="ok">Fairly sure: more checks move before travel and into databases, so the physical line matters less for control than the data behind it.</td></tr>
+<tr><td><strong>More fortified land borders</strong></td><td>Researchers who count border walls and fences report a sharp rise in their number since the end of the Cold War, in Europe, Asia, the Middle East and the Americas.</td><td class="mid">Plausible: barriers keep spreading where migration and security politics are intense, even though their effect on overall flows is debated.</td></tr>
+<tr><td><strong>Climate-redrawn borders</strong></td><td>Rising seas move coastlines and could shrink maritime zones. Pacific Island states have declared that their zones should stay fixed even if land is lost. Melting ice opens Arctic shipping and seabed claims.</td><td class="no">Speculative: whether international law accepts fixed maritime zones for drowning states, and how Arctic claims are settled, is unresolved.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Where a border means nothing yet</h2>
+</header>
+
+<p>Some spaces have weak or no borders at all. Antarctica's territorial claims, made by seven
+countries, have been frozen since the Antarctic Treaty of 1959. The 1967 Outer Space Treaty says no
+nation may claim the Moon or other celestial bodies, though companies and states now debate who may
+own resources mined there. The internet crosses borders by design, yet states increasingly impose
+<strong>data localisation</strong> rules, requiring certain data to be stored within the country, and
+some filter what their citizens can reach.</p>
+
+<p>The direction of travel is double. Borders are becoming easier to cross for goods, data and
+favoured travellers, and harder for others. They are also moving off the line itself, into visa
+offices abroad, airline check-in desks and databases. <strong>The border of the future may be less a
+place than a permission.</strong> For the laws that govern all of this, see <a
+href="../18-law-government/11-international-law.html">International law</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A border is a <strong>legal claim that others accept</strong>, marking where a state's
+    authority ends. It is made by <strong>allocation, delimitation, demarcation and
+    administration</strong>, extends to the sea under UNCLOS, and can be open or fortified. Borders cause
+    wars, cut trade, and shape identity, and the post-1945 norm is that they <strong>should not be
+    changed by force</strong>.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Territorial sea <strong>12 nautical miles</strong>; exclusive economic zone <strong>200</strong>.</li>
+      <li>Canadian provinces traded about <strong>20×</strong> more with each other than with comparable US states (McCallum, 1995; later revised down).</li>
+      <li>The Schengen Area had <strong>29</strong> member countries from 2025.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking natural borders are permanent and stable. <strong>Rivers shift and glaciers
+    melt</strong>, and countries have had to renegotiate lines that followed them.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why newly independent states mostly kept colonial borders, and what that choice
+    cost? If you can, you understand uti possidetis, the territorial integrity norm and the arbitrary
+    borders debate together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Sovereignty</dt><dd>A state's supreme authority to make and enforce law in its territory.</dd>
+    <dt>Boundary</dt><dd>The line itself that separates two territories.</dd>
+    <dt>Frontier</dt><dd>An older idea of a broad zone at the edge of control, not a sharp line.</dd>
+    <dt>Borderland</dt><dd>The region on both sides of a border, often with a mixed culture.</dd>
+    <dt>Delimitation</dt><dd>Describing a boundary in a treaty's words and maps.</dd>
+    <dt>Demarcation</dt><dd>Marking a boundary on the ground with pillars or posts.</dd>
+    <dt>Uti possidetis juris</dt><dd>The principle that new states keep the administrative borders of the colonies they replaced.</dd>
+    <dt>UNCLOS</dt><dd>The 1982 UN treaty that sets out maritime zones and the law of the sea.</dd>
+    <dt>Exclusive economic zone</dt><dd>Sea up to 200 nautical miles from the coast, where the coastal state owns the resources.</dd>
+    <dt>Territorial integrity</dt><dd>The principle that a state's territory should not be taken by force.</dd>
+    <dt>Schengen Area</dt><dd>The group of European countries without routine passport checks between them.</dd>
+    <dt>Customs union</dt><dd>A group of countries with no tariffs between them and a common tariff for others.</dd>
+    <dt>Border effect</dt><dd>The extra fall in trade caused by a border beyond what distance alone explains.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A border isn't a feature of the land. It's a claim that the neighbours have agreed to
+    accept."</li>
+    <li>"Most border disputes come from a gap between what the treaty says and where the posts were
+    put."</li>
+    <li>"Africa kept its colonial borders because redrawing them looked even more dangerous, and that
+    held for decades."</li>
+    <li>"Since 1945 the big rule is that borders shouldn't move by force. That's why Crimea and Ukraine
+    alarmed everyone."</li>
+    <li>"Even friendly borders cut trade sharply. Canada's provinces trade far more with each other than
+    with similar US states."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="12-geographic-inequality.html">Geographic inequality</a></h4>
+  <p>Why being born on one side of a border, or in one region rather than another, still decides so
+  much of a person's income and health.</p></div>
+  <div class="card"><h4>Related · <a href="10-migration.html">Migration</a></h4><p>The people who
+  cross borders: who they are, why they move, and how states decide whom to let in.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

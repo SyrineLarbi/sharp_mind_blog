@@ -1,0 +1,863 @@
+<!doctype html>
+<!--@HEAD-SRC title="Geographic Information Systems" desc="What a GIS is, how it stores and analyses location data in layers, where the data comes from, how maps can mislead, and where geospatial technology is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Geographic Information Systems</title>
+<meta name="description" content="What a GIS is, how it stores and analyses location data in layers, where the data comes from, how maps can mislead, and where geospatial technology is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Geography · Topic 18 of 20</p>
+  <h1>Geographic information systems. <span class="thin">Putting "where" into data, so the map can answer questions.</span></h1>
+  <p class="lede">An ordinary map is a picture. A geographic information system, or GIS, is a map
+  that you can question. Which homes lie within 500 metres of a river that floods? Where should the
+  next ambulance station go so that nobody waits more than ten minutes? Which forests were cleared
+  last year? Behind the delivery app on your phone, the flood map that sets your insurance price and
+  the satellite images on the evening news sits the same idea: almost every fact happens somewhere,
+  and knowing where lets you connect facts that otherwise look unrelated.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Geography</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../12-the-physical-supply-chain.html#s6"><span class="vn">Vol 12 · GPS</span><b>GPS is really a clock</b><em>How positioning works</em></a>
+<a class="vol" href="../01-technology/16-data-science.html"><span class="vn">Technology · 16</span><b>Data science</b><em>The wider toolkit</em></a>
+<a class="vol" href="19-demographic-change.html"><span class="vn">Geography · 19</span><b>Demographic change</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 12 explains the two technologies that feed most modern maps:
+  <a href="../12-the-physical-supply-chain.html#s6">GPS, and why it is really a clock</a>, and
+  <a href="../12-the-physical-supply-chain.html#s7">satellite constellations</a>. This file is about
+  what happens after a position is known: how location data is stored, combined and analysed, and
+  how the resulting maps can inform or mislead.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A database where every record knows its place</h2>
+  <p class="lede">A GIS is a combination of software, data and methods for capturing, storing,
+  analysing and displaying information that is tied to locations on Earth.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A doctor, a pump and a map of deaths</h2>
+</header>
+
+<p>In late August 1854, cholera exploded in the Soho district of London. Within days, hundreds of
+people living within a few streets of each other were dead. Most doctors at the time believed cholera
+spread through "miasma", bad air from rotting matter. A physician named John Snow suspected the
+water instead.</p>
+
+<p>Snow gathered the addresses of the dead and marked each death as a small bar on a street map.
+The bars piled up around a public water pump on Broad Street. He also found telling exceptions. A
+nearby brewery had almost no deaths; its workers drank beer and water from the brewery's own well. A
+woman who died miles away turned out to have had water from the Broad Street pump delivered because
+she liked its taste. Snow persuaded local officials to remove the pump's handle, and his map became
+one of the most famous arguments in the history of public health.</p>
+
+<p>Snow had no computer, but he did exactly what a GIS does. He took records that were only a list
+of names and addresses, gave each one a location, placed it on a layer above the streets and the
+pumps, and looked for a pattern that the list could not show. <strong>The map did not just display
+the answer. It was how the answer was found.</strong> Epidemiology still uses the method, as
+<a href="../19-public-health/06-epidemiology.html">Public Health · Epidemiology</a> explains.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Layers on a shared grid</h2>
+</header>
+
+<p>The easiest way to picture a GIS is as a stack of transparent sheets laid over the same piece of
+ground. One sheet holds roads. Another holds rivers. Another holds the boundaries of land parcels,
+another the population of each district, another the height of the land. Because every sheet uses the
+same coordinates, you can look through several at once, or ask the computer to combine them.</p>
+
+<p>Each object on a layer has two parts. One is its <strong>geometry</strong>: where it is and what
+shape it has. The other is its <strong>attributes</strong>: a table of facts about it, such as a
+road's name, speed limit and surface, or a district's population and average income. A GIS is
+therefore a database and a map at the same time. <strong>Click on a point and you get its record;
+query the records and you get a map.</strong></p>
+
+<p>The first real system of this kind was built in the 1960s by the Canadian geographer Roger
+Tomlinson for the Canada Land Inventory, which needed to assess land across a vast country for
+farming, forestry and wildlife. Doing that by overlaying paper maps by hand would have taken an army
+of staff. Tomlinson's computer system did it automatically, and he is often called the father of
+GIS. In 1969 Jack and Laura Dangermond founded Esri, the company whose ArcGIS software later became
+the industry standard. Today a free, open-source program called QGIS does much of the same work.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Where location data comes from</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Source</th><th>How it works</th><th>Typical use</th></tr></thead>
+<tbody>
+<tr><td><strong>Surveying</strong></td><td>Measuring angles and distances on the ground with precise instruments</td><td>Property boundaries, construction</td></tr>
+<tr><td><strong>Satellite positioning (GPS and others)</strong></td><td>A receiver works out its position from timed signals from satellites</td><td>Tracking vehicles, phones, field data collection</td></tr>
+<tr><td><strong>Satellite and aerial imagery</strong></td><td>Cameras and sensors photograph the ground, often in light the eye cannot see</td><td>Land use, crops, forests, disasters</td></tr>
+<tr><td><strong>LiDAR</strong></td><td>A laser fired from a plane or drone measures distance by timing reflections</td><td>Detailed height maps, flood modelling, forests</td></tr>
+<tr><td><strong>Official records</strong></td><td>Addresses, censuses and registers given coordinates</td><td>Population, services, planning</td></tr>
+<tr><td><strong>Crowdsourcing</strong></td><td>Volunteers trace and edit features, as in OpenStreetMap</td><td>Street maps where official ones are poor</td></tr>
+</tbody></table></div>
+
+<p>Turning an address into coordinates is called <strong>geocoding</strong>, and it is one of the
+most common steps in any project. It is also where many errors begin. A misspelt street, a new
+housing estate or a rural address with no street name can place a record kilometres from where it
+belongs.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Two ways to describe the world, one flat sheet, and a set of questions</h2>
+  <p class="lede">Under the friendly map on the screen, a GIS has to solve three problems: how to
+  store shapes, how to flatten a round planet, and how to turn layers into answers.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Vector and raster: drawings and mosaics</h2>
+</header>
+
+<p>There are two basic ways to store geographic data. The <strong>vector</strong> model works like a
+drawing made of precise lines. A well is a point. A road is a line, stored as a series of points
+joined together. A lake or a country is a polygon, a closed shape. Vector data is compact and exact,
+and it suits things with clear edges, such as buildings, pipes and borders.</p>
+
+<p>The <strong>raster</strong> model works like a mosaic or a digital photograph. The land is divided
+into a grid of equal square cells, and each cell holds one value: the height of the ground, the
+temperature, the type of land cover. Satellite images are rasters. Rasters suit things that change
+gradually across space, such as rainfall or elevation, and make some calculations very fast.</p>
+
+<p>The size of a raster cell is its <strong>resolution</strong>. A grid with 30-metre cells, the
+standard for the long-running US Landsat satellites, can show fields and city blocks but not
+individual cars. A grid with 30-centimetre cells, available from commercial satellites, can.
+<strong>Choosing the model and the resolution is choosing what the analysis is able to
+see.</strong></p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Flattening a round Earth</h2>
+</header>
+
+<p>Every position needs coordinates. The most familiar are <strong>latitude</strong>, the angle north
+or south of the equator, and <strong>longitude</strong>, the angle east or west of a line through
+Greenwich in London. These describe points on a curved surface. But screens and paper are flat, and
+you cannot flatten the skin of an orange without stretching or tearing it. Every flat map is
+therefore a <strong>projection</strong>, a mathematical rule for flattening, and every projection
+distorts something: area, shape, distance or direction.</p>
+
+<p>The most famous is the projection Gerardus Mercator published in 1569. It keeps angles correct,
+which made it ideal for sailors: a straight line on the chart is a constant compass bearing. The
+cost is that areas swell enormously towards the poles. On a Mercator map Greenland looks about as
+large as Africa, when in fact Africa is roughly fourteen times bigger. Most web maps use a close
+relative of Mercator, because it lets map tiles fit together seamlessly when you zoom.</p>
+
+<div class="warn">
+  <span class="tag">The classic beginner's error</span>
+  <p>Mixing layers stored in different coordinate systems. If one layer uses latitude and longitude
+  and another uses a national grid in metres, and the software is not told, roads can appear in the
+  sea and distances can be wrong by large amounts. Professional GIS work starts by checking that every
+  layer shares the same coordinate reference system.</p>
+</div>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The core operations</h2>
+</header>
+
+<p>Most GIS analysis is built from a small set of operations, combined like words in a sentence.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Buffer</h4><p>Draw a zone of a set distance around something. "Everything
+  within 200 metres of a school." "All land within 1 kilometre of the river." It turns a vague
+  question about nearness into a precise shape.</p></div>
+  <div class="card"><h4>Overlay</h4><p>Combine layers to find where conditions coincide. A site for a
+  wind farm might need strong wind, gentle slopes, no protected habitat and a power line nearby. Each
+  condition is a layer; the overlay shows where all four are true.</p></div>
+  <div class="card"><h4>Spatial join</h4><p>Attach facts from one layer to another by location. Every
+  reported crime is matched to the district it fell in, so crimes can be counted per district and
+  compared with population.</p></div>
+  <div class="card"><h4>Network analysis</h4><p>Work along roads, pipes or rail lines rather than in
+  straight lines. Find the fastest route, the area reachable within ten minutes, or the best set of
+  depots to serve a list of customers.</p></div>
+</div>
+
+<p>A worked example shows how they chain together. A city wants to know how many elderly people
+live more than a 15-minute walk from a pharmacy. The analyst takes the pharmacies, runs a network
+analysis along footpaths to draw 15-minute walking zones, overlays those zones on census blocks, and
+uses a spatial join to add up the people aged over 75 who fall outside them. <strong>Each step is
+simple. The power comes from linking them.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Near things are more related</h2>
+</header>
+
+<div class="pass short">
+  <p>"Everything is related to everything else, but near things are more related than distant
+  things."</p>
+  <span class="src"><b>Waldo Tobler</b> · 1970 · the "first law of geography"</span>
+</div>
+
+<p>Tobler's sentence sounds obvious, and it is the foundation of spatial statistics. Rainfall at one
+weather station tells you a lot about rainfall a kilometre away and little about rainfall a
+continent away. Because of this, a GIS can estimate values between measured points, a technique
+called <strong>interpolation</strong>. Weather maps, pollution maps and maps of underground water
+levels are mostly interpolated from a limited number of measuring stations.</p>
+
+<p>The same principle lets analysts find <strong>hot spots</strong>: places where high values cluster
+more than chance would produce, such as a cluster of cancer cases or traffic accidents. That is
+harder than it looks. Random events also clump, as Volume 39 explains in
+<a href="../39-chance.html#c3">Random does not look random</a>. A good hot spot analysis asks
+whether a cluster is bigger than chance alone would create, not just whether it looks alarming.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>From earthquake response to the shop on the corner</h2>
+  <p class="lede">Location data quietly runs much of modern life. A few examples show the range.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Mapping a disaster in days</h2>
+</header>
+
+<p>When an earthquake struck Haiti in January 2010, rescuers arriving in Port-au-Prince found that
+detailed street maps of much of the city barely existed. Within days, volunteers around the world,
+working on OpenStreetMap from newly released satellite images, traced streets, buildings and the
+camps where survivors gathered. Aid groups downloaded the result to plan their work. The episode
+showed that <strong>a map could be built by a crowd, at speed, for a place that had never been
+properly mapped</strong>.</p>
+
+<p>Since then, this kind of volunteer mapping has become a routine part of disaster response, and
+also of everyday planning in places that official mapping agencies neglect. Responders now combine
+it with satellite images taken before and after an event to find damaged areas, flood extents and
+blocked roads. The same tools help forecast where floods and wildfires are likely to spread, which
+links to <a href="16-coastal-regions.html">Coastal regions</a> and to the disaster chapters of
+<a href="../23-disasters.html#c6">Volume 23</a>.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Planning, business and health</h2>
+</header>
+
+<p>Governments use GIS to decide where to put schools, clinics, bus routes and fire stations, to
+register who owns which land, and to draw electoral districts. Utilities use it to manage millions of
+pipes and cables. Farmers use it for <strong>precision agriculture</strong>, varying seed, water and
+fertiliser across a field according to maps of soil and past yields.</p>
+
+<p>Businesses use it constantly. A retailer choosing a new store site overlays population, incomes,
+competitors and traffic. A delivery company plans routes for thousands of vans every morning. An
+insurer prices home policies partly on flood and fire maps. Health agencies map disease, vaccination
+rates and travel times to hospitals, which is how gaps in access become visible. <strong>Much of
+the "where" in daily decisions now comes from a GIS somewhere, whether or not anyone calls it
+that.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Watching the whole planet change</h2>
+</header>
+
+<p>The US Landsat programme has photographed Earth's land surface continuously since 1972, building
+the longest unbroken record of the planet from orbit. In 2008 the US government made the whole
+archive free to download, and use of the images exploded. The European Union's Copernicus programme,
+with its Sentinel satellites, also releases its data free. Together they let anyone with a laptop
+measure change over decades.</p>
+
+<p>That record has transformed environmental science. Researchers have used it to map forest loss
+across the whole tropics year by year, to track the growth of cities, to watch glaciers retreat and
+lakes shrink, and to monitor crops for early warnings of famine. <strong>Free satellite data turned
+"how much has changed?" from a guess into a measurement.</strong> It is a key source for files such
+as <a href="../12-environment-climate/10-deforestation.html">Deforestation</a> and
+<a href="07-urbanization.html">Urbanization</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A powerful lens that can also distort</h2>
+  <p class="lede">Maps feel objective, which is exactly why their weaknesses need stating clearly.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Strengths and weaknesses side by side</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Strength</th><th>The matching weakness</th></tr></thead>
+<tbody>
+<tr><td class="ok"><strong>Reveals patterns</strong> that tables hide, as Snow's map did.</td><td class="no">Also reveals patterns that are not real: random clusters, or artefacts of how areas were drawn.</td></tr>
+<tr><td class="ok"><strong>Combines data</strong> from many sources on one shared grid.</td><td class="no">Errors combine too. One badly geocoded or out-of-date layer can spoil the whole result.</td></tr>
+<tr><td class="ok"><strong>Persuades</strong>: a clear map communicates faster than any report.</td><td class="no">Choice of colours, class breaks and projection can make the same data tell different stories.</td></tr>
+<tr><td class="ok"><strong>Cheap and open</strong>: free software, free satellite data, volunteer maps.</td><td class="mid">Quality is uneven. Rich, urban places are mapped in detail; poor and rural places often less so.</td></tr>
+<tr><td class="ok"><strong>Precise tracking</strong> of vehicles, assets and people.</td><td class="no">Location data is deeply personal and hard to anonymise, which creates privacy and surveillance risks.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>How maps mislead</h2>
+</header>
+
+<p>The commonest data map colours each area, such as a county or region, by a value like income or
+voting share. It is called a <strong>choropleth</strong>. It has a built-in bias: big, empty areas
+dominate the eye, while small, crowded ones almost vanish. An election map coloured by county can
+look like a landslide for the party that wins the countryside, even when the other party won more
+votes in the cities.</p>
+
+<p>A subtler problem has a clumsy name, the <strong>modifiable areal unit problem</strong>, studied and popularised by
+the British geographer Stan Openshaw. The same data, grouped into different boundaries, can produce
+different averages and even opposite conclusions. Draw the districts one way and an area looks
+mixed; draw them another way and it looks segregated. This is also the mechanism behind
+<strong>gerrymandering</strong>, drawing electoral boundaries to favour one party, which needs nothing
+more than a GIS and a target.</p>
+
+<p>A related trap is the <strong>ecological fallacy</strong>: assuming that what is true of an area is
+true of the individuals in it. A district with high average income can contain many poor households.
+The geographer Mark Monmonier made the general point in a well-known book, <em>How to Lie with
+Maps</em>: <strong>every map is a selection, and the selection carries a point of view</strong>.</p>
+
+<p>Finally, privacy. A 2013 study of mobile phone records found that just four points in space and
+time, such as where a phone was at four different hours, were enough to single out around 95 per
+cent of the people in the data set. Location data stripped of names is often far less anonymous than
+it seems.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Maps that update themselves</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>More frequent, sharper imagery read by machines</strong></td><td>Commercial constellations of small satellites now photograph much of the land daily. Machine-learning models already detect buildings, ships, crops and damage at scale.</td><td class="ok">Fairly sure: near-daily automated monitoring of land use, disasters and infrastructure will become normal for governments and companies.</td></tr>
+<tr><td><strong>Digital twins of cities and regions</strong></td><td>Several cities have built detailed 3D models linked to live sensor data on traffic, energy and water.</td><td class="mid">Plausible: twins become standard planning tools for flooding, heat and transport. Keeping them accurate and affordable is the hard part.</td></tr>
+<tr><td><strong>A live, searchable model of the whole Earth</strong></td><td>Large AI models trained on satellite archives are being developed to answer questions about any place on the planet.</td><td class="no">Speculative: promising in research, but accuracy, cost, and who controls such a system are open questions.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Who owns the map?</h2>
+</header>
+
+<p>For most of history, detailed maps were state secrets or expensive products. Today a few large
+technology companies hold the most used maps in the world, governments release free satellite data,
+and volunteers maintain an open alternative. That mix raises questions that are political, not
+technical. Who decides what a map shows, such as a disputed border or the name of a place? Who can
+see where people go? Should a company's map of a city's traffic be treated as a public resource?</p>
+
+<p>The likely direction is towards maps that are more detailed, more frequent and more automated, and
+therefore more powerful in the hands of whoever controls them. <strong>The skill worth having is not
+operating the software but asking how a map was made</strong>: which data, which boundaries, which
+projection and which colours. Those four questions catch most of the ways a map can mislead.</p>
+
+<p>Snow's map worked because he knew what question he was asking and went looking for the cases that
+did not fit. That habit matters more now than ever, because the maps are far more convincing than
+his.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A GIS stores facts together with their <strong>locations</strong>, in <strong>layers</strong>
+    that share one coordinate system, as <strong>vector</strong> shapes or <strong>raster</strong>
+    grids. Simple operations such as buffers, overlays and spatial joins, chained together, answer
+    questions that no single dataset could. The same power can mislead if boundaries, projections or
+    colours are chosen carelessly.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li><strong>1854</strong>: John Snow's cholera map of Soho.</li>
+      <li><strong>1960s</strong>: Roger Tomlinson's Canada Geographic Information System.</li>
+      <li>Landsat has imaged Earth since <strong>1972</strong>; its archive has been free since
+      <strong>2008</strong>.</li>
+      <li>Africa is about <strong>14 times</strong> larger than Greenland, despite Mercator.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Treating a map as a neutral photograph of reality. <strong>Every map is a set of choices</strong>
+    about data, boundaries, projection and colour, and each choice can change the story.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain how you would find all homes within a ten-minute drive of a hospital, naming
+    the operations you would use? If so, you understand how GIS turns layers into answers.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>GIS</dt><dd>A system for capturing, storing, analysing and displaying data tied to locations.</dd>
+    <dt>Layer</dt><dd>One theme of data, such as roads or rivers, laid over the same ground as other layers.</dd>
+    <dt>Attribute</dt><dd>A fact stored about a mapped object, such as a road's name or a district's population.</dd>
+    <dt>Vector data</dt><dd>Geography stored as points, lines and polygons with exact coordinates.</dd>
+    <dt>Raster data</dt><dd>Geography stored as a grid of cells, each holding one value.</dd>
+    <dt>Resolution</dt><dd>The size of each cell in a raster, which sets the smallest thing it can show.</dd>
+    <dt>Projection</dt><dd>A rule for flattening the curved Earth onto a flat map, always with some distortion.</dd>
+    <dt>Geocoding</dt><dd>Turning an address or place name into coordinates.</dd>
+    <dt>Buffer</dt><dd>A zone of fixed distance drawn around a point, line or area.</dd>
+    <dt>Overlay</dt><dd>Combining layers to find where several conditions are true at once.</dd>
+    <dt>Interpolation</dt><dd>Estimating values between measured points, using the fact that nearby places are similar.</dd>
+    <dt>Choropleth</dt><dd>A map that colours areas by a value, such as income or vote share.</dd>
+    <dt>Modifiable areal unit problem</dt><dd>The way results change when the same data is grouped into different boundaries.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A GIS is a map you can ask questions of: every record knows where it is."</li>
+    <li>"John Snow found the source of a cholera outbreak by mapping deaths, which is still the core
+    idea of GIS."</li>
+    <li>"Every flat map distorts something. On Mercator, Greenland looks as big as Africa, which is
+    fourteen times larger."</li>
+    <li>"Draw the boundaries differently and the same data can tell the opposite story. That's how
+    gerrymandering works."</li>
+    <li>"Location data is hard to anonymise. A handful of points can identify most people."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="19-demographic-change.html">Demographic change</a></h4><p>How
+  births, deaths and migration reshape populations, and why the age structure of a country is one of
+  the most predictable forces in its future.</p></div>
+  <div class="card"><h4>Related · <a href="../01-technology/17-big-data.html">Big data</a></h4><p>The
+  wider world of very large datasets, of which location data from phones and satellites is one of the
+  biggest and most sensitive parts.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

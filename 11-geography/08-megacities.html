@@ -1,0 +1,877 @@
+<!doctype html>
+<!--@HEAD-SRC title="Megacities" desc="What megacities are, why people and money pile into a few enormous urban regions, what that concentration costs, and how the map of giant cities is shifting."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Megacities</title>
+<meta name="description" content="What megacities are, why people and money pile into a few enormous urban regions, what that concentration costs, and how the map of giant cities is shifting.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Geography · Topic 08 of 20</p>
+  <h1>Megacities. <span class="thin">Ten million people who chose crowding, and the reasons it keeps paying.</span></h1>
+  <p class="lede">A megacity looks like a mistake. Traffic that does not move, rents that swallow half a
+  salary, air you can taste, water that runs out. And yet every year millions more people move into the
+  world's largest urban regions, and the money moves with them. They are not confused. A very large
+  city is a machine for putting people near other people, and nearness turns out to be worth more than
+  almost anything it costs. This file explains what counts as a megacity, why they grow, what they do
+  to a country, and where the next ones are rising.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Geography</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="07-urbanization.html"><span class="vn">Geography · 07</span><b>Urbanization</b><em>The process behind them</em></a>
+<a class="vol" href="../12-environment-climate/20-sustainable-cities.html"><span class="vn">Environment · 20</span><b>Sustainable cities</b><em>Making them liveable</em></a>
+<a class="vol" href="09-natural-resources.html"><span class="vn">Geography · 09</span><b>Natural resources</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>No volume treats giant cities directly, so this is the library's first full treatment. The
+  nearest neighbours are the story of the very first cities in Volume 17 (<a
+  href="../17-ancient-world.html#c2">The answer is mud</a>), which explains why a food surplus made
+  towns possible at all, and the topic just before this one, <a href="07-urbanization.html">Urbanization</a>,
+  which covers the general move from countryside to town. This file is about the extreme end of that
+  move.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A size threshold, and an argument about where a city ends</h2>
+  <p class="lede">The definition sounds simple: ten million people. The hard part is deciding which
+  ten million, because no city has a clean edge.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>From two to dozens in one lifetime</h2>
+</header>
+
+<p>The United Nations uses the word <strong>megacity</strong> for an urban area with at least ten
+million inhabitants. In 1950 the world had two: New York and Tokyo. By the 2010s it had more than
+thirty, and the UN's population division counted 33 in its 2018 report. Most of the new arrivals were
+in Asia, and a growing share are in Africa and Latin America. Places like Dhaka, Lagos, Karachi and
+Kinshasa were modest cities within living memory.</p>
+
+<p>This is a new thing in human history. Ancient Rome at its height probably had around a million
+people, and for most of the next two thousand years almost no city came close to that. Ten million
+people in one continuous built-up area became possible only with modern food transport, piped water,
+sewers and mass transit. <strong>A megacity is not just a big town. It is a technology stack that
+lets ten million people eat, drink and get to work every day without anyone being in charge of the
+whole.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Three ways to draw the line</h2>
+</header>
+
+<p>Ask "how big is Tokyo?" and you can honestly get three very different answers. The reason is that
+"city" means at least three things.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Definition</th><th>What it counts</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>City proper</strong></td><td>The area inside the official administrative boundary</td><td>The Tokyo Metropolis government area: about 14 million</td></tr>
+<tr><td><strong>Urban agglomeration</strong></td><td>The continuous built-up area, whatever the boundaries say</td><td>Tokyo plus the cities it has grown into, such as Yokohama and Kawasaki</td></tr>
+<tr><td><strong>Metropolitan area</strong></td><td>Everywhere tied to the core by daily commuting</td><td>Greater Tokyo: commonly put at around 37 million, the figure most rankings used for years</td></tr>
+</tbody></table></div>
+
+<p>The boundary problem can mislead in both directions. The Chinese municipality of Chongqing is
+often called the world's largest city because it has over 30 million registered residents. But that
+municipality covers an area about the size of Austria, and much of it is farmland and small towns. Its
+actual built-up core is far smaller. Meanwhile Paris proper has only about two million people, which
+makes the city look small, even though its region holds around twelve million.</p>
+
+<p>Rankings also change when the method changes. In late 2025 the UN published a revised method that
+draws urban areas from satellite data on built-up land and population density rather than from each
+country's own definitions. Under that method <strong>Jakarta</strong> came out on top, with Dhaka and
+Tokyo close behind. Nothing physical had moved. Only the ruler had. <strong>Whenever you see "the
+world's biggest city", ask which definition was used.</strong></p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Counting people nobody has counted</h2>
+</header>
+
+<p>Even with a definition, you need a count. Many of the fastest-growing megacities have weak
+statistics. Nigeria has not held a full national census since 2006, so estimates for Lagos range
+from about fifteen million to well over twenty million depending on who is counting and where they
+stop. Large parts of many cities are <strong>informal settlements</strong>: neighbourhoods built
+without official permission, often missing from maps and registers. Satellite imagery, mobile phone
+data and building counts now help fill the gaps, but the honest answer for several megacities is a
+range, not a number.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Why people pile in, and how the place keeps running</h2>
+  <p class="lede">Megacities grow because concentration creates value. They survive because a few
+  hidden systems, water, transport and informal work, absorb the pressure.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The pull: agglomeration economies</h2>
+</header>
+
+<p>Economists call the benefit of being close together <strong>agglomeration economies</strong>. The
+idea goes back to the British economist Alfred Marshall, writing about industrial districts in
+1890. He described three advantages, and they still explain most of the pull of a giant city.</p>
+
+<div class="grid3">
+  <div class="card"><h4>Matching</h4><p>A big labour market means a firm can find the rare specialist
+  it needs, and a worker can find the job that fits their skills. In a small town a tax lawyer who
+  speaks Korean might never find the right employer. In Seoul or London they can.</p></div>
+  <div class="card"><h4>Sharing</h4><p>Suppliers, airports, hospitals and universities are expensive to
+  build. In a large city their cost is spread over millions of users, so services exist that a smaller
+  place could never support.</p></div>
+  <div class="card"><h4>Learning</h4><p>Ideas spread by contact. People change jobs, meet at events,
+  copy what works next door. Knowledge passes from person to person faster where people are dense.</p></div>
+</div>
+
+<div class="pass">
+  <p>"The mysteries of the trade become no mysteries; but are as it were in the air."</p>
+  <span class="src"><b>Principles of Economics</b> · Alfred Marshall, 1890</span>
+</div>
+
+<p>Physicists have measured this pull. In a well-known 2007 study, Luís Bettencourt, Geoffrey West
+and colleagues compared cities of different sizes in several countries. They found that when a city
+doubles in population, measures such as wages, patents and economic output per person rise by roughly
+<strong>15 percent</strong>. Infrastructure behaves the other way. A city twice as large needs less
+than twice as many petrol stations or kilometres of cable. Bigger cities are richer per head and more
+efficient per head at the same time. The same scaling, unfortunately, applies to some crime and
+infectious disease.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The push: why the countryside empties</h2>
+</header>
+
+<p>The pull of the city is only half the story. Farming needs fewer hands every decade as machines and
+fertiliser replace labour, so rural jobs disappear. Land is divided between children until plots are
+too small to live on. Drought, conflict and poor rural services push people out. And in many countries
+a large share of new city growth now comes not from migrants at all, but from <strong>natural
+increase</strong>: children born to people already living in the city.</p>
+
+<p>Governments shape the flow too. China's household registration system, the <em>hukou</em>, long
+tied public services such as schooling to a person's place of birth. Hundreds of millions of rural
+people moved to cities anyway, but many lived for years as second-class residents without full access
+to those services. The rules have been loosened in stages, especially for smaller cities, but the
+largest cities still control entry tightly.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The hidden systems that keep it alive</h2>
+</header>
+
+<p>A megacity runs on a few systems most residents never think about until they fail.</p>
+
+<p><strong>Water.</strong> Ten million people use billions of litres a day. Many megacities pump it
+from underground faster than rain refills it. When water is pulled out of soft ground, the ground
+compacts and sinks, a process called <strong>subsidence</strong>. Parts of Mexico City have sunk by
+many metres over the past century, and in some districts the rate is still tens of centimetres a year.
+Northern Jakarta is sinking so fast that large areas now sit below sea level behind sea walls.</p>
+
+<p><strong>Transport.</strong> The difference between a functioning megacity and a jammed one is
+mostly rail. Greater Tokyo moves tens of millions of trips a day on trains, and Shinjuku station is
+usually described as the busiest in the world, with about three and a half million passengers a day
+before the pandemic. Cities that grew around roads alone, such as Lagos or Jakarta until recently,
+spend hours a day in traffic. Jakarta opened its first metro line in 2019.</p>
+
+<p><strong>The informal economy.</strong> In many megacities of the Global South, most people work in
+jobs that are not registered or taxed: street vending, small workshops, motorbike taxis, home
+services. UN-Habitat estimates that over a billion people worldwide live in slums or informal
+settlements. These places are often described only as failures. They are also where newcomers find
+their first cheap room and their first job. Dharavi in Mumbai, often called Asia's largest slum, is
+also a dense industrial district of recycling, leather and pottery workshops.</p>
+
+<div class="sheet">
+  <div class="cap">How a megacity region is usually laid out</div>
+<pre>
+            commuter towns and new suburbs  (cheaper land, long journeys)
+         .-------------------------------------------------.
+        |    industrial belts, warehouses, airports         |
+        |     .----------------------------------------.    |
+        |    |   older inner districts, informal areas   |   |
+        |    |      .-------------------------.         |   |
+        |    |     |  central business district |  &lt;-- jobs, highest rents
+        |    |      '-------------------------'         |   |
+        |     '----------------------------------------'    |
+         '-------------------------------------------------'
+   the further out you live, the cheaper the room and the longer the trip
+</pre>
+</div>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Who governs a place this big?</h2>
+</header>
+
+<p>Most megacities have no single government that covers the whole urban area. Greater Mexico City
+spreads across Mexico City itself, dozens of municipalities in the State of Mexico, and part of
+Hidalgo state. Each has its own mayor, budget and rules. Buses stop at boundaries. Water from one
+jurisdiction serves another that does not pay for it. This is called <strong>metropolitan
+fragmentation</strong>, and it is one of the main reasons big cities struggle with problems that cross
+lines on a map, such as transport, flooding and air.</p>
+
+<p>Some places have built a regional layer on top. London created the Greater London Authority with
+an elected mayor in 2000. The Tokyo Metropolitan Government runs services for the whole metropolis
+proper. China plans whole city clusters from above, as in the Greater Bay Area that links Guangzhou,
+Shenzhen, Hong Kong, Macau and several other cities into a region of over eighty million people.
+<strong>The bigger the city, the more its problems are coordination problems rather than engineering
+ones.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Where a country's wealth, power and risk all gather</h2>
+  <p class="lede">A megacity often holds a fifth of a nation's people and a larger share of its money.
+  What happens there decides a great deal of what happens everywhere else.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The primate city</h2>
+</header>
+
+<p>In 1939 the American geographer Mark Jefferson noticed that many countries have one city that is
+far larger than any other. He called it the <strong>primate city</strong>. Bangkok is many times the
+size of Thailand's second city. Lima dominates Peru, Dhaka dominates Bangladesh, and the Paris region
+produces roughly three-tenths of France's economic output while holding under a fifth of its
+people.</p>
+
+<p>Primacy usually has historical roots. A capital that was also the main port and the colonial
+administrative centre gathered roads, railways, universities and ministries in one place, and
+everything after that followed the existing network. The result can be efficient, because
+everything important is in one place. It can also be unfair, because the rest of the country
+feels like a supplier to the capital. Countries with several strong cities, such as Germany or Italy,
+usually have older histories of separate states.</p>
+
+<p>Contrast this with a pattern called the <strong>rank-size rule</strong>, or Zipf's law for cities.
+In many large countries the second city is roughly half the size of the first, the third about a
+third, and so on. The United States roughly follows it. Countries that break it sharply, with one
+giant and no middle, tend to be ones where political power has long been centralised.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Engines of national growth</h2>
+</header>
+
+<p>Megacities generate a share of national output far larger than their share of population. That
+follows directly from the scaling result in Chapter 04. Shenzhen grew from a set of small towns near
+Hong Kong in 1980, when it was named one of China's first special economic zones, into a metropolis
+of well over ten million and a global centre for electronics. Much of the story of China's rise is a
+story of a handful of coastal megaregions.</p>
+
+<p>The American economist Edward Glaeser made the general case in his 2011 book <em>Triumph of the
+City</em>: dense cities are where poor people come to become less poor. Rural migrants to big cities,
+in most countries, earn more than they would have at home, even after high rents. That is why they
+keep coming. <strong>The slum is often a sign that a city is attracting the poor, not that it is
+creating them.</strong> Critics answer that this is true on average and can hide decades of hardship
+for the people who arrive without land, documents or rights.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Concentrated risk</h2>
+</header>
+
+<p>Putting so much in one place also concentrates danger. Many megacities sit on coasts and river
+deltas, because ports and rivers made them rich: Shanghai, Dhaka, Mumbai, Lagos, Jakarta, New York.
+Those are exactly the places most exposed to sea-level rise, storm surges and flooding. Others sit on
+active fault lines, including Tokyo, Istanbul, Mexico City and Los Angeles. A single disaster in such a
+place can damage a national economy.</p>
+
+<p>Cities also trap heat. Asphalt, concrete and dark roofs absorb sunlight and release it at night,
+while there are few trees to cool the air. This <strong>urban heat island</strong> effect can make a
+city centre several degrees warmer than the countryside around it, most of all after sunset. And
+dense crowds help infections spread, as early COVID-19 outbreaks in cities such as Wuhan, Milan and New
+York showed. Density is not destiny, though: many dense Asian cities controlled that pandemic better
+than spread-out ones elsewhere. Governance mattered more than crowding.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>The same density, counted twice</h2>
+  <p class="lede">Almost every strength of a megacity is the flip side of a weakness. The question is
+  whether a city manages the costs well enough to keep the benefits.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The ledger</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>What it gives</th><th>What it costs</th></tr></thead>
+<tbody>
+<tr><td><strong>Huge labour market</strong></td><td class="ok">Better job matches, higher wages, specialist careers</td><td class="no">Fierce competition, and the newest arrivals often stuck in informal work</td></tr>
+<tr><td><strong>Density</strong></td><td class="ok">Short distances, efficient transit, lower energy use per person in well-planned cities</td><td class="no">Congestion, noise, crowding, faster spread of disease</td></tr>
+<tr><td><strong>Concentrated services</strong></td><td class="ok">The country's best hospitals, universities and airports</td><td class="no">Other regions left behind and drained of talent</td></tr>
+<tr><td><strong>Diversity of people</strong></td><td class="ok">New ideas, new businesses, cultural life</td><td class="no">Segregation into rich and poor districts, social tension</td></tr>
+<tr><td><strong>High land values</strong></td><td class="ok">A strong tax base that can fund infrastructure</td><td class="no">Unaffordable housing and long commutes for ordinary workers</td></tr>
+<tr><td><strong>Coastal and river locations</strong></td><td class="ok">Trade, ports and water supply</td><td class="no">Exposure to floods, storms and sinking ground</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>What well-run giants do differently</h2>
+</header>
+
+<p>Size itself does not decide whether a megacity works. Tokyo, larger than almost any other city on
+earth, is known for its punctual rail, low crime and relatively affordable housing. One reason for the
+housing is that Japanese zoning is set nationally and is permissive, so builders can add homes where
+demand rises. Other cities of similar size are known for chaos. The difference lies mostly in a few
+choices.</p>
+
+<div class="grid2">
+  <div class="card"><h4>What tends to work</h4><p>Building mass transit before the city sprawls.
+  Letting housing supply grow with demand. Charging for road space, as Singapore has for decades and
+  London has since 2003. New York started congestion pricing in January 2025. A regional authority with
+  real power over transport and water.</p></div>
+  <div class="card"><h4>What tends to fail</h4><p>Building only roads, which fill as fast as they are
+  widened. Strict limits on new housing in the centre, which push the poor to distant edges. Ignoring
+  informal settlements instead of giving them water, drains and legal title. Dozens of municipalities
+  with no shared plan.</p></div>
+</div>
+
+<p>The deeper trade-off is national. A country can let its biggest city keep growing and capture the
+productivity gains, or spread investment more evenly and accept a slower overall economy in return for
+fairer regions. There is no neutral answer. That tension runs straight into the next topics in this
+category on <a href="12-geographic-inequality.html">geographic inequality</a>.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>The giant cities move south</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Growth shifts to Africa and South Asia</strong></td><td>The fastest-growing large cities are now mostly in sub-Saharan Africa and South Asia. Kinshasa, Lagos, Dar es Salaam, Dhaka and Delhi are adding people quickly while East Asian giants slow.</td><td class="ok">Fairly sure: most new megacities this century will be in these regions, because that is where populations are young and still largely rural.</td></tr>
+<tr><td><strong>Some giants shrink</strong></td><td>Japan's population has been falling since around 2010. Tokyo still gains people from the rest of the country, but the national pool is draining. China's population began to fall in 2022.</td><td class="mid">Plausible: Tokyo and some Chinese megacities level off or slowly decline within a few decades, which would be the first time modern megacities shrank in peacetime.</td></tr>
+<tr><td><strong>Cities of 50 million or more</strong></td><td>Some long-range academic projections suggest that Lagos or Kinshasa could exceed 50 million people by the end of the century.</td><td class="no">Speculative: these are extrapolations of today's birth rates, which usually fall faster than projected as cities grow richer.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Moving the capital, and the climate question</h2>
+</header>
+
+<p>Some governments try to escape their megacities by building a new capital. Brazil opened Brasília
+in 1960. Nigeria moved its capital from Lagos to Abuja in 1991. Egypt is building a new administrative
+capital in the desert east of Cairo. Indonesia passed a law in 2022 to move its capital from sinking,
+congested Jakarta to a new city called Nusantara on the island of Borneo, though progress has been
+slower than first planned. The record of such projects is mixed. <strong>A new capital can move
+ministries, but it rarely moves the economy.</strong> Lagos stayed Nigeria's commercial centre and kept
+growing after the government left.</p>
+
+<p>Climate change will test megacities more than anything else. Coastal giants face choices between
+very expensive sea defences, managed retreat from the lowest districts, or both. Heat waves will make
+cooling and green space a public health question rather than a matter of comfort. Remote work after
+2020 showed that some office work can leave the centre, but it did not empty the great cities. The
+pull of being near other people has survived the telephone, the car and the internet. It will
+probably survive the next technology too. For the digital side of running such places, see <a
+href="../20-future-tech/14-smart-cities.html">Smart cities</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A megacity is an urban area of <strong>ten million or more</strong>. It grows because
+    <strong>concentration pays</strong>: better matching, shared infrastructure and faster learning. It
+    survives on hidden systems of water, transport and informal work, and its biggest problems are
+    usually <strong>coordination problems</strong> across many governments.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li><strong>2</strong> megacities in 1950 (New York, Tokyo); <strong>33</strong> in the UN's 2018 count.</li>
+      <li>Doubling a city's size raises output and wages per person by roughly <strong>15%</strong>.</li>
+      <li>Over <strong>a billion</strong> people live in slums or informal settlements (UN-Habitat).</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Comparing city sizes without checking the definition. <strong>City proper, built-up area and
+    commuting region</strong> can differ by a factor of two or more, which is why Chongqing can look
+    like the world's biggest city and Paris like a small one.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a migrant might rationally choose a slum in a megacity over a house in a
+    village? If you can, you have understood agglomeration, the urban wage premium and the push from the
+    countryside together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Megacity</dt><dd>An urban area with at least ten million people, in the UN's definition.</dd>
+    <dt>City proper</dt><dd>The area inside a city's official boundary, whatever the built-up area looks like.</dd>
+    <dt>Urban agglomeration</dt><dd>The continuous built-up area, crossing official boundaries.</dd>
+    <dt>Metropolitan area</dt><dd>The core plus everywhere linked to it by daily commuting.</dd>
+    <dt>Agglomeration economies</dt><dd>The gains firms and workers get from being close to many others.</dd>
+    <dt>Informal settlement</dt><dd>A neighbourhood built without official permission or legal title, often lacking services.</dd>
+    <dt>Informal economy</dt><dd>Work that is not registered, taxed or protected by labour law.</dd>
+    <dt>Subsidence</dt><dd>Sinking of the ground, often caused by pumping water out from beneath a city.</dd>
+    <dt>Primate city</dt><dd>A city far larger than any other in its country, dominating its economy and politics.</dd>
+    <dt>Rank-size rule</dt><dd>The pattern in which the second city is about half the size of the first, the third about a third, and so on.</dd>
+    <dt>Urban heat island</dt><dd>The extra warmth of a city compared with surrounding countryside.</dd>
+    <dt>Metropolitan fragmentation</dt><dd>One urban area split among many local governments with no shared authority.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A megacity is ten million people, but which ten million depends entirely on where you draw the
+    boundary."</li>
+    <li>"People move to giant cities because nearness pays. When a city doubles, output per person rises
+    by about fifteen percent."</li>
+    <li>"The slum is usually a sign that a city attracts the poor, not that it created them, though that
+    is no comfort to the people living in it."</li>
+    <li>"Most megacity problems are coordination problems: one urban area, dozens of governments."</li>
+    <li>"The next generation of giant cities is in Africa and South Asia, while Tokyo is close to its
+    peak."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="09-natural-resources.html">Natural resources</a></h4><p>What
+  the ground gives a country, why some resource-rich nations stay poor, and how the list of resources
+  that matter keeps changing.</p></div>
+  <div class="card"><h4>Related · <a href="07-urbanization.html">Urbanization</a></h4><p>The wider
+  process: how and why the world became mostly urban, and what moving to town does to families and
+  societies.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

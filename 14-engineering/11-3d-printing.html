@@ -1,0 +1,849 @@
+<!doctype html>
+<!--@HEAD-SRC title="3D Printing" desc="How additive manufacturing builds objects layer by layer from a digital file, what it does better than any factory, why it has not replaced them, and where it is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3D Printing</title>
+<meta name="description" content="How additive manufacturing builds objects layer by layer from a digital file, what it does better than any factory, why it has not replaced them, and where it is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Engineering · Topic 11 of 20</p>
+  <h1>3D printing. <span class="thin">Complexity for free, speed at a price.</span></h1>
+  <p class="lede">Around 2012, 3D printing was going to change everything. Every home would have a
+  printer, and you would download a spare part or a toy instead of buying it. That did not happen.
+  Something more interesting did. 3D printing quietly became essential in a few places where nothing
+  else works as well: jet engine parts, hip implants, dental aligners, hearing aids, rocket engines
+  and, above all, the prototypes that engineers make before anything goes into a factory. This file
+  explains how it works, what it is truly good at, and why it complements mass production rather than
+  replacing it.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Engineering</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="10-manufacturing.html"><span class="vn">Engineering · 10</span><b>Manufacturing</b><em>The other ways to make things</em></a>
+<a class="vol" href="../20-future-tech/08-lab-grown-organs.html"><span class="vn">Future · 08</span><b>Lab-grown organs</b><em>Where bioprinting fits</em></a>
+<a class="vol" href="12-automation.html"><span class="vn">Engineering · 12</span><b>Automation</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>No volume covers 3D printing, so this is the library's first treatment. The nearest neighbour is
+  <a href="10-manufacturing.html">Manufacturing</a>, which explains the cutting, moulding and joining
+  methods that 3D printing competes with, and why the number of parts you need decides which method
+  wins. Read its chapter on the economics of the mould first if you can.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Building up instead of cutting away</h2>
+  <p class="lede">3D printing, called <strong>additive manufacturing</strong> in industry, makes a
+  solid object from a digital file by adding material one thin layer at a time.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Twenty parts become one</h2>
+</header>
+
+<p>Inside a jet engine, fuel nozzles spray fuel into the combustion chamber. For the LEAP engine,
+which entered service around 2016 on popular airliners, General Electric's engineers wanted a nozzle
+with intricate internal channels to mix fuel and air better and keep the tip cool. Made the
+traditional way, the nozzle was an assembly of about twenty separate pieces, brazed and welded
+together. Every joint was a possible point of failure.</p>
+
+<p>So they printed it. A laser melted fine metal powder, layer by layer, into a single piece with all
+the internal channels already inside. According to GE, the printed nozzle was about a quarter lighter
+and around five times more durable than the assembled version. The company built a factory to print
+tens of thousands of them.</p>
+
+<p><strong>That is the core of what 3D printing offers: shapes that cannot be cut or moulded, and
+assemblies collapsed into one part.</strong> Notice what it is not. The nozzle is not cheap, and it
+is not quick to make. It is printed because no other method can make it at all.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Where it came from</h2>
+</header>
+
+<p>The American engineer Chuck Hull filed a patent in 1984 for <strong>stereolithography</strong>.
+He shone ultraviolet light onto a vat of liquid resin that hardens where the light falls. By tracing
+one thin cross-section at a time and lowering the platform after each, he built a solid object out of
+liquid. He founded the company 3D Systems to sell the machines. In the late 1980s Scott Crump
+developed a different method, pushing melted plastic through a heated nozzle, and founded Stratasys.</p>
+
+<p>For two decades these were expensive industrial tools, used mainly to make models of new
+products. Then two things happened. In 2005 the British engineer Adrian Bowyer started the RepRap
+project, an open-source printer designed to print many of its own parts. And around 2009 key patents
+on Crump's method expired. Cheap desktop printers flooded the market, and the hype of the early
+2010s followed.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Seven ways to print</h2>
+</header>
+
+<p>An international standard groups the methods into seven families. You only need to recognise the
+main ones.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Family</th><th>How it works</th><th>Typical materials and uses</th></tr></thead>
+<tbody>
+<tr><td><strong>Material extrusion</strong></td><td>A nozzle squeezes out melted plastic or paste, like icing a cake</td><td>Desktop printers, prototypes, jigs; also concrete for buildings</td></tr>
+<tr><td><strong>Vat photopolymerisation</strong></td><td>Light hardens liquid resin layer by layer</td><td>Fine detail: dental models, jewellery patterns, hearing-aid shells</td></tr>
+<tr><td><strong>Powder bed fusion</strong></td><td>A laser or electron beam melts or fuses a thin layer of powder</td><td>Metal aerospace and medical parts; tough nylon parts</td></tr>
+<tr><td><strong>Material jetting</strong></td><td>Print heads spray droplets of resin, like an inkjet</td><td>Multicolour, multi-material models</td></tr>
+<tr><td><strong>Binder jetting</strong></td><td>Print heads spray glue onto powder; the part is later baked</td><td>Sand moulds for casting, some metal parts</td></tr>
+<tr><td><strong>Directed energy deposition</strong></td><td>A nozzle feeds wire or powder into a laser or arc as it moves</td><td>Large metal parts, repairing worn parts</td></tr>
+<tr><td><strong>Sheet lamination</strong></td><td>Sheets are cut and bonded in a stack</td><td>Niche uses</td></tr>
+</tbody></table></div>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>From a file to a finished part</h2>
+  <p class="lede">The printing itself is only the middle of the job. Before it comes software, and
+  after it comes a surprising amount of finishing work.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The digital chain</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">From idea to object</div>
+<pre>
+  1. DESIGN      a 3D model drawn in CAD software (or captured by a scanner)
+        |
+  2. MESH        surface converted to thousands of tiny triangles (an "STL" file)
+        |
+  3. SLICE       software cuts the model into layers, often 0.05-0.3 mm thick,
+        |        and plans the tool path and any SUPPORTS for overhangs
+        |
+  4. PRINT       the machine builds layer after layer, for hours or days
+        |
+  5. FINISH      remove supports, clean, cure or heat-treat, machine critical
+                 surfaces, inspect
+</pre>
+</div>
+
+<p><strong>CAD</strong> stands for computer-aided design, the software engineers use to draw parts
+in three dimensions. The <strong>slicer</strong> is the program that turns the model into
+instructions for the machine. It decides how thick each layer is, which route the nozzle or laser
+takes, and how solid the inside should be. Many plastic parts are printed with a honeycomb-like
+<strong>infill</strong> inside rather than solid, to save material and time.</p>
+
+<p>Overhangs are a challenge. A layer cannot be printed on thin air. So the slicer adds temporary
+<strong>supports</strong>, thin scaffolding that holds up overhanging parts and is removed afterwards.
+Good designers shape parts to need as few supports as possible.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The desktop printer, explained</h2>
+</header>
+
+<p>The common home or office printer uses material extrusion. A spool of plastic filament, often a
+plant-based plastic called PLA, feeds into a heated nozzle at around 200°C. The nozzle moves across
+the build plate, laying down a thin melted line that cools and sticks to the line beside it and the
+layer below. When a layer is done, the plate drops or the nozzle rises by a fraction of a millimetre,
+and the next layer begins.</p>
+
+<p>This explains the method's main weakness. <strong>The part is strong along each layer but weaker
+between layers</strong>, because each layer is bonded to the last only by melting onto it. Pull a
+printed bracket in the direction the layers were stacked and it may split along a layer line. This
+property, called <strong>anisotropy</strong>, meaning different strength in different directions,
+affects most printing methods to some degree.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Printing metal: welding a million times</h2>
+</header>
+
+<p>Metal powder bed fusion is the method behind most serious industrial parts. A blade spreads a
+layer of metal powder a few hundredths of a millimetre thick, thinner than a human hair. A powerful laser traces the part's
+cross-section, melting the powder into solid metal. The bed drops, a new layer is spread, and the
+process repeats thousands of times inside a chamber filled with inert gas to stop the hot metal
+burning.</p>
+
+<p>In effect, the machine performs millions of tiny welds. That creates engineering problems
+familiar from <a href="08-materials-engineering.html">Materials engineering</a>. Rapid heating and
+cooling leave <strong>residual stress</strong> locked inside the part, which can warp it. Tiny gas
+bubbles or unmelted spots, called <strong>porosity</strong>, can start fatigue cracks. So critical
+parts usually go through heat treatment, sometimes hot pressing in a gas chamber to close the pores,
+and machining of key surfaces. Then they are inspected, often with X-ray scanning.</p>
+
+<p><strong>For safety-critical parts, proving that every printed part is as good as the tested ones
+is often harder than printing them.</strong> That is why certification of printed aircraft parts took
+years.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>What printing makes possible</h2>
+</header>
+
+<p>In conventional manufacturing, complexity costs money. Every hole, curve and internal channel
+needs another machining step or a more expensive mould. In 3D printing, a complex part takes about
+as long as a simple part of the same size. Engineers say <strong>complexity is free</strong>. That
+unlocks three things.</p>
+
+<div class="grid3">
+  <div class="card"><h4>Internal channels</h4><p>Cooling passages that follow a part's curves,
+  impossible to drill. Moulds with them cool faster and make plastic parts quicker.</p></div>
+  <div class="card"><h4>Lattices</h4><p>Light internal structures like bone or honeycomb. Used in
+  implants so bone can grow in, and in lightweight brackets.</p></div>
+  <div class="card"><h4>Part consolidation</h4><p>Many parts printed as one, as with the fuel
+  nozzle. Fewer joints, less assembly, fewer leaks.</p></div>
+</div>
+
+<p>Software now helps designers use this freedom. In <strong>topology optimisation</strong>, the
+engineer tells the computer where a part is fixed and what loads it carries. The program removes
+material wherever it is not needed. The results often look organic, like bones or tree roots,
+because nature solves the same problem of carrying load with minimum material.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Why it has not replaced the factory</h2>
+</header>
+
+<p>The answer is speed and cost per part. An injection moulding machine can make a plastic part in
+seconds. A printer might take an hour for the same part. Metal printers build at a rate measured in
+small volumes per hour, and the machines and powders are expensive. Then come support removal,
+finishing and inspection.</p>
+
+<p>The cost curve explains where printing wins. Its cost per part is roughly the same whether you
+make one or a thousand, because there is no mould to pay for. Moulding and stamping are the reverse:
+a large upfront cost, then very cheap parts. <strong>So printing wins for small numbers, custom
+shapes and parts that cannot be made any other way. Mass production wins for large numbers of simple
+parts.</strong> The crossover point depends on the part, and it moves slowly in printing's favour
+as machines get faster.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Where it has already changed things</h2>
+  <p class="lede">The revolution was real. It just happened in places most people never see.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Medicine: every patient a batch of one</h2>
+</header>
+
+<p>Medicine is full of products that must fit one person exactly. That is where printing shines.
+Clear dental aligners, the invisible braces used by millions, are typically formed over printed
+models of each patient's teeth at each stage of treatment, millions of unique models a year. Custom
+hearing-aid shells are now widely printed from scans of the ear canal. Surgeons use printed models of
+a patient's heart or skull to plan operations, and printed guides that clip onto bone to direct a
+drill or saw.</p>
+
+<p>Implants are printed too. Titanium hip cups and spinal implants with lattice surfaces encourage
+bone to grow into them. Custom implants have been printed for patients who lost part of the jaw or
+skull. In 2015 the US approved the first 3D-printed drug, a tablet for epilepsy whose porous printed
+structure dissolves very quickly. Biomedical engineering covers the wider field
+(<a href="07-biomedical-engineering.html">Biomedical engineering</a>).</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Aerospace and rockets</h2>
+</header>
+
+<p>In aircraft and spacecraft, every kilogram saved is worth a lot of money over the life of the
+vehicle, and production numbers are small. Both favour printing. Beyond fuel nozzles, printed
+brackets, ducts and engine parts fly on commercial aircraft.</p>
+
+<p>Rocket companies have gone furthest. Rocket engines need complex internal cooling channels and
+are made in small numbers, perfect for printing. SpaceX prints the combustion chambers of its
+SuperDraco thrusters, and printed parts are now common across the launch industry. Printing lets
+rocket engineers change a design and test a new version in weeks rather than months.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The real revolution: faster design</h2>
+</header>
+
+<p>The biggest effect of 3D printing is easy to miss. It is <strong>rapid prototyping</strong>, the
+use of printers to make physical models of a new design within hours. Before printing, a prototype
+part could take weeks from a machine shop. Now an engineer can print a version in the evening, hold
+it, test it, and print a better one the next morning.</p>
+
+<p>That changes how products are designed. Teams try more ideas and find problems earlier. Factories
+also print their own <strong>jigs and fixtures</strong>, the custom holders and guides used on
+assembly lines, cheaply and overnight. <strong>Many products made by injection moulding today were
+shaped by dozens of printed prototypes first.</strong> The printer did not replace the factory. It
+made the factory's designs better and faster to reach.</p>
+
+<div class="warn">
+  <span class="tag">The difficult side</span>
+  <p>Printers can also make things societies want controlled. Printed guns, and kits for building
+  untraceable firearms, have pushed governments to respond. In the United States a federal rule on
+  so-called ghost gun kits was upheld by the Supreme Court in 2025. Rules differ widely between
+  countries, and enforcing them against a design shared online is hard.</p>
+</div>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A specialist tool, not a universal one</h2>
+  <p class="lede">Almost every advantage of printing is the mirror image of a disadvantage of moulding,
+  and the reverse.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Weighing it against conventional methods</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Question</th><th>3D printing</th><th>Conventional mass production</th></tr></thead>
+<tbody>
+<tr><td><strong>Cost of the first part</strong></td><td class="ok">Low. No mould or tooling.</td><td class="no">Very high. Tooling must be built first.</td></tr>
+<tr><td><strong>Cost per part at a million units</strong></td><td class="no">High. Same slow process for every part.</td><td class="ok">Very low.</td></tr>
+<tr><td><strong>Complex shapes</strong></td><td class="ok">Nearly free. Internal channels, lattices, one-piece assemblies.</td><td class="no">Costly or impossible.</td></tr>
+<tr><td><strong>Customisation</strong></td><td class="ok">Every part can be different.</td><td class="no">Every part must be the same.</td></tr>
+<tr><td><strong>Speed per part</strong></td><td class="no">Hours to days.</td><td class="ok">Seconds to minutes.</td></tr>
+<tr><td><strong>Material choice and properties</strong></td><td class="mid">Growing, but narrower. Layer weakness and porosity to manage.</td><td class="ok">Huge range, well understood.</td></tr>
+<tr><td><strong>Surface finish and precision</strong></td><td class="mid">Often needs finishing and machining.</td><td class="ok">Usually good straight from the tool.</td></tr>
+<tr><td><strong>Waste</strong></td><td class="ok">Uses roughly the material needed, plus supports.</td><td class="mid">Machining can cut away most of a block; moulding wastes little.</td></tr>
+</tbody></table></div>
+
+<p>There are wider trade-offs too. Printing makes local production possible, which could shorten
+supply chains for spare parts. It also makes copying a design easy, raising questions about
+intellectual property. And the home printing revolution stalled for a simple reason. <strong>Most
+people do not want to design, print and finish their own objects</strong>, and a shop-bought one is
+usually cheaper and better.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Faster machines, new materials, printed tissue</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>More printed parts in medicine, aerospace and tooling</strong></td><td>Established and growing. Faster multi-laser metal machines are lowering cost per part.</td><td class="ok">Fairly sure: steady growth in these niches, and the crossover point with mass production moving gradually.</td></tr>
+<tr><td><strong>Spare parts on demand and printed buildings</strong></td><td>Navies, railways and some manufacturers print certain spares locally. Printed concrete homes exist in several countries, mostly as demonstrations or small developments.</td><td class="mid">Plausible: digital warehouses for rare spares; printed walls as one option in construction. Cost and building codes decide the pace.</td></tr>
+<tr><td><strong>Bioprinting organs</strong></td><td>Researchers print living cells into simple tissues for testing drugs. Printing a working organ with its dense blood vessels is far beyond current ability.</td><td class="no">Speculative: transplantable printed organs. See <a href="../20-future-tech/08-lab-grown-organs.html">Lab-grown organs</a>.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>A complement, not a replacement</h2>
+</header>
+
+<p>Printers have also flown to space. Since 2014 the International Space Station has had printers
+that make tools and small parts on board, testing the idea that future missions could print what they
+need rather than carry every spare. The wider vision is covered in
+<a href="../20-future-tech/12-space-manufacturing.html">Space manufacturing</a>.</p>
+
+<p>The most likely future on Earth is a hybrid factory. Printing will make the moulds, the jigs, the
+prototypes and the complex, low-volume or custom parts. Conventional methods will make the millions
+of simple ones. Some machines already combine printing and machining in one cell, building a rough
+shape and then cutting critical surfaces to precision.</p>
+
+<p>The early hype got the direction right and the scale wrong. <strong>3D printing did not put a
+factory in every home. It put a new tool in every factory and every design studio.</strong> That is
+less dramatic, and arguably more important.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>3D printing builds an object <strong>layer by layer from a digital file</strong>. It needs no
+    tooling, so <strong>complexity and customisation are nearly free</strong>, but each part is
+    <strong>slow and relatively expensive</strong>. It wins for prototypes, custom parts and shapes
+    nothing else can make, and loses for mass-produced simple parts.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Stereolithography patent filed in <strong>1984</strong> by Chuck Hull.</li>
+      <li>GE's printed fuel nozzle: about <strong>20 parts into 1</strong>, roughly 25% lighter.</li>
+      <li>Typical layers: about <strong>0.05–0.3 mm</strong> thick.</li>
+      <li>First 3D-printed drug approved in the US: <strong>2015</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Asking when 3D printing will replace factories. <strong>It mostly will not. It changes what
+    factories can design and make</strong>, and takes over where volumes are small or shapes are
+    impossible.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a printed plastic part may snap along its layers, and why a jet-engine
+    maker still prints parts despite the cost? If so, you understand both the limits and the
+    strengths.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Additive manufacturing</dt><dd>The industry term for 3D printing: making parts by adding material layer by layer.</dd>
+    <dt>CAD</dt><dd>Computer-aided design: software for drawing parts in three dimensions.</dd>
+    <dt>STL file</dt><dd>A common file format that describes a shape's surface as many small triangles.</dd>
+    <dt>Slicer</dt><dd>Software that cuts a 3D model into layers and plans the printer's path.</dd>
+    <dt>Infill</dt><dd>The internal pattern, often a honeycomb, used instead of solid material.</dd>
+    <dt>Supports</dt><dd>Temporary scaffolding printed under overhangs and removed afterwards.</dd>
+    <dt>Stereolithography</dt><dd>Printing by hardening liquid resin with light, layer by layer.</dd>
+    <dt>Powder bed fusion</dt><dd>Printing by melting thin layers of powder, often metal, with a laser or beam.</dd>
+    <dt>Anisotropy</dt><dd>Having different strength in different directions, such as weaker between layers.</dd>
+    <dt>Porosity</dt><dd>Tiny holes or gaps inside a part that weaken it.</dd>
+    <dt>Topology optimisation</dt><dd>Software that removes material wherever a part does not need it.</dd>
+    <dt>Rapid prototyping</dt><dd>Making quick physical models of a design to test and improve it.</dd>
+    <dt>Bioprinting</dt><dd>Printing with living cells to build tissue-like structures.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"With 3D printing, complexity is free but speed isn't. That decides where it wins."</li>
+    <li>"The home printing revolution never came. The design-studio revolution did."</li>
+    <li>"A printed part is like a million tiny welds, so proving it is safe is harder than making
+    it."</li>
+    <li>"Printing makes sense when you need ten of something, or ten thousand slightly different
+    things."</li>
+    <li>"Much of what's printed today is invisible: dental aligner models, hearing-aid shells, jet
+    engine parts."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="12-automation.html">Automation</a></h4><p>Machines that run
+  processes by themselves: from water clocks to robot arms, and what they mean for work.</p></div>
+  <div class="card"><h4>Related · <a href="10-manufacturing.html">Manufacturing</a></h4><p>The
+  conventional methods 3D printing competes with and complements, and the economics of making
+  things at scale.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

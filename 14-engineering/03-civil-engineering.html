@@ -1,0 +1,847 @@
+<!doctype html>
+<!--@HEAD-SRC title="Civil Engineering" desc="What civil engineers do: loads and load paths, concrete and steel, the ground and water, why roads, bridges and sewers shape public health and wealth, and how the field must adapt to a changing climate."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Civil Engineering</title>
+<meta name="description" content="What civil engineers do: loads and load paths, concrete and steel, the ground and water, why roads, bridges and sewers shape public health and wealth, and how the field must adapt to a changing climate.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Engineering · Topic 03 of 20</p>
+  <h1>Civil engineering. <span class="thin">Building the shared world, one unrepeatable site at a time.</span></h1>
+  <p class="lede">A car is designed once and built a million times. A bridge is designed once and
+  built once, on one particular river, on one particular patch of mud, for a hundred years of
+  traffic nobody can fully predict. That is the heart of civil engineering. It is the discipline of
+  roads, bridges, tunnels, dams, railways, water supply and sewers: the large, public, long-lived
+  structures that most people use every day and notice only when they fail.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Engineering</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../15-materials-food-and-industry.html#i2"><span class="vn">Vol 15 · Cement</span><b>Cement</b><em>The material, and its carbon</em></a>
+<a class="vol" href="09-structural-engineering.html"><span class="vn">Engineering · 09</span><b>Structural engineering</b><em>The branch that keeps it standing</em></a>
+<a class="vol" href="04-chemical-engineering.html"><span class="vn">Engineering · 04</span><b>Chemical engineering</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 15 explains the two main materials (<a href="../15-materials-food-and-industry.html#i1">Steel</a>
+  and <a href="../15-materials-food-and-industry.html#i2">Cement</a>) and water treatment (<a
+  href="../15-materials-food-and-industry.html#i7">Water treatment</a>). Volume 23 covers flood
+  defences that failed in New Orleans (<a href="../23-disasters.html#c7">Katrina</a>). The story of
+  London's Victorian sewers is told in <a href="../12-environment-climate/15-water-pollution.html">Water
+  pollution</a>. This file is about the discipline as a whole: how civil engineers think about
+  loads, ground and water.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The engineering of things too big to test first</h2>
+  <p class="lede">The word "civil" was chosen to separate this work from military engineering. It
+  now covers almost every large structure built for public use.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A dome that has stood for nineteen centuries</h2>
+</header>
+
+<p>In the centre of Rome stands the Pantheon, rebuilt under the emperor Hadrian in the second
+century AD. Its dome is about 43 metres across. It is made of concrete with no steel inside, and
+it is still the largest dome of unreinforced concrete in the world. Nearly two thousand years of
+earthquakes, wars and weather have not brought it down.</p>
+
+<p>The Roman builders had no equations for stress. But they had worked out, through long
+experience, what modern engineers would describe precisely. The concrete gets lighter as it rises:
+heavy stone in the lower walls, lighter volcanic rock near the top. The ceiling is hollowed into
+sunken panels, removing weight. And the very top is left open, a 9-metre hole called the
+<strong>oculus</strong>, because the material there would have added load while doing little
+work.</p>
+
+<p><strong>The Pantheon stands because its weight was put where the structure could carry it, and
+taken away where it could not.</strong> That idea, guiding forces safely down to the ground, is
+still the first principle of civil engineering.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The map of the field</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Branch</th><th>What it handles</th><th>Typical projects</th></tr></thead>
+<tbody>
+<tr><td><strong>Structural</strong></td><td>Making things stand up and stay up</td><td>Bridges, towers, stadiums, building frames</td></tr>
+<tr><td><strong>Geotechnical</strong></td><td>The behaviour of soil and rock</td><td>Foundations, tunnels, retaining walls, slopes</td></tr>
+<tr><td><strong>Water and hydraulic</strong></td><td>Moving, storing and controlling water</td><td>Dams, canals, flood defences, drainage, water mains</td></tr>
+<tr><td><strong>Environmental</strong></td><td>Protecting health and nature</td><td>Sewage treatment, landfill, cleaning polluted land</td></tr>
+<tr><td><strong>Transport</strong></td><td>Moving people and goods</td><td>Roads, railways, airports, ports, traffic systems</td></tr>
+<tr><td><strong>Construction management</strong></td><td>Actually getting it built</td><td>Planning, cost, safety and sequencing on site</td></tr>
+</tbody></table></div>
+
+<p>Structural engineering is large enough to have its own file, <a
+href="09-structural-engineering.html">Structural engineering</a>, which goes deeper into frames,
+bridges and famous collapses. The networks themselves, and who pays for them, are the subject of
+<a href="18-infrastructure.html">Infrastructure</a>.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Why civil engineering is different</h2>
+</header>
+
+<p>Three features set civil engineering apart from the factory-based disciplines. First,
+<strong>every site is unique</strong>. The ground under a bridge in Rotterdam is soft river clay;
+under a bridge in Norway it may be hard granite. A design cannot simply be copied.</p>
+
+<p>Second, <strong>you usually cannot build a full-size prototype</strong>. Nobody builds a test
+dam and then breaks it. Civil engineers rely on models, calculations, scale tests, codes and the
+record of what has worked before. Third, <strong>the lives are long and the users are the
+public</strong>. A road bridge may be designed for a hundred years of service. Its users never
+signed a contract; they simply trust it. That is why civil engineering is one of the most
+regulated professions, with licensed engineers in many countries who must sign off designs
+personally.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Loads, materials, ground and water</h2>
+  <p class="lede">Every civil project answers the same questions: what will push on it, what will
+  resist, what is it standing on, and where will the water go?</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Loads and the load path</h2>
+</header>
+
+<p>Engineers sort the forces on a structure into types. <strong>Dead load</strong> is the weight of
+the structure itself, which never goes away. <strong>Live load</strong> is everything that comes
+and goes: people, cars, furniture, trains. Then there are environmental loads: wind, snow,
+temperature changes that make materials expand and shrink, and earthquakes. Codes set the values
+to use, based on local records, and require the engineer to check the worst plausible
+combinations.</p>
+
+<p>Every force must then follow a continuous route to the ground, called the <strong>load
+path</strong>. On a floor, a person's weight passes into the slab, from the slab to the beams, from
+the beams to the columns, down the columns to the foundations, and from the foundations into the
+soil. <strong>If any link in that chain is missing or too weak, the structure fails at that
+point</strong>, no matter how strong everything else is. Many collapses are traced to a
+connection, a small detail where one member passes its load to another.</p>
+
+<p>Inside each member, forces show up as two basic kinds. <strong>Tension</strong> pulls and
+stretches, like a rope. <strong>Compression</strong> pushes and squashes, like a column. A beam
+carrying a load does both at once: its top is squeezed and its bottom is stretched.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Concrete and steel: a perfect partnership</h2>
+</header>
+
+<p>Concrete is a mix of cement, water, sand and gravel that hardens into artificial stone. It is
+cheap, can be poured into almost any shape, and is very strong in compression. Its weakness is
+tension: it cracks easily when stretched. Steel is the opposite kind of material, excellent in
+tension. Put steel bars inside concrete where the stretching will happen and you get
+<strong>reinforced concrete</strong>, developed in France in the second half of the nineteenth
+century and now the most used building material on Earth.</p>
+
+<p>The partnership works partly through luck. Steel and concrete expand by almost the same amount
+when heated, so they do not tear apart on hot days. And the alkaline concrete protects the steel
+from rust, as long as water and salt stay out. That last condition is the weak point. When salt
+from the sea or from de-icing roads reaches the bars, they corrode and swell, cracking the concrete
+from inside. A great deal of maintenance spending goes on that one process.</p>
+
+<p>A later refinement, <strong>prestressed concrete</strong>, stretches steel cables before or
+after the concrete sets, then lets them squeeze it. The concrete starts life compressed, so loads
+must first cancel that squeeze before any tension appears. This lets beams span much further. Most
+modern motorway bridges use it.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The ground: the material nobody chose</h2>
+</header>
+
+<p>An engineer can specify the steel and the concrete. The ground is given. It may be firm rock,
+dense gravel, soft clay that squeezes out slowly for decades, or loose sand that can turn almost
+liquid when shaken by an earthquake, a process called <strong>liquefaction</strong>. Geotechnical
+engineers drill boreholes, take samples and test them, but they only ever see a few points of a
+large, hidden volume.</p>
+
+<p>The most famous example of ground trouble is the bell tower in Pisa. Building began in the
+twelfth century, and the tower started to lean while it was still unfinished, because the soft soil
+under one side compressed more than under the other. By the late twentieth century it was leaning
+so far that it was closed to visitors in 1990. Engineers then carefully removed small amounts of
+soil from under the higher side, and the tower settled back by a fraction of a degree. It reopened
+in 2001, still leaning, but stable. <strong>The fix was not to make the tower stronger. It was to
+change the ground beneath it.</strong></p>
+
+<p>Foundations exist to spread loads onto ground that can carry them. On good ground, a wide
+concrete pad may be enough. On weak ground, engineers drive or drill <strong>piles</strong>, long
+columns that carry the load down to firmer layers, sometimes dozens of metres below.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Water: always going somewhere</h2>
+</header>
+
+<p>Civil engineers have a saying in various forms: most problems are water problems. Water softens
+soil, rusts steel, freezes and cracks pavement, floods tunnels and undermines bridge supports. So
+drainage is designed into almost everything, from the slight slope across a road surface to vast
+storm sewers.</p>
+
+<p>Flood defences are designed using the idea of a <strong>return period</strong>. A "100-year
+flood" does not mean a flood that comes once a century. It means a flood with a <strong>1 percent
+chance of happening in any given year</strong>. Over a 30-year mortgage, the chance of meeting at
+least one is about one in four. Many people misread the phrase as a promise of safety. Choosing the
+design level, whether 1 in 100, 1 in 1,000 or 1 in 10,000 years, is partly a political decision,
+because it trades the cost of higher walls against the damage and deaths they prevent. The
+Netherlands protects some of its most valuable areas to standards far stricter than most countries
+use.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Roads and the traffic they create</h2>
+</header>
+
+<p>Transport engineering looks simple: measure the traffic, build enough road. It is not that
+simple. When a congested road is widened, journeys become quicker, and people respond by driving
+more, moving further from work, or switching from trains. Within some years, traffic often grows to
+fill much of the new space. This effect is called <strong>induced demand</strong>. Its size varies
+by place and study, but its existence is well supported.</p>
+
+<p>The lesson is that <strong>a transport network shapes behaviour, not just serves it</strong>.
+So modern transport planning looks at the whole system: public transport, cycling, land use and
+pricing, as well as lanes. The pavement itself is engineering too. Road damage rises very steeply
+with axle weight, so one heavy lorry wears a road far more than thousands of cars. That is why
+weight limits for trucks matter to road budgets.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Health, wealth and the cost of neglect</h2>
+  <p class="lede">The largest gains in human life expectancy came less from medicine than from
+  pipes. And the largest risks often come from structures that were built well and then
+  forgotten.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The engineers who saved more lives than doctors</h2>
+</header>
+
+<p>In the nineteenth century, cities in Europe and North America were killing their inhabitants.
+Cholera and typhoid spread through drinking water contaminated by sewage. The cure was civil
+engineering: sewers to carry waste away, filtered and later chlorinated water supplies, and
+treatment works. Where those systems were built, deaths from waterborne disease fell sharply.
+London's sewer network, built after the "Great Stink" of 1858, is the best-known example, told in
+<a href="../12-environment-climate/15-water-pollution.html">Water pollution</a>.</p>
+
+<p>The work is not finished. As of the mid-2020s, the World Health Organization and UNICEF estimate
+that roughly two billion people still lack safely managed drinking water, and more lack safe
+sanitation. <strong>Clean water and sewers remain among the cheapest life-saving investments a
+society can make.</strong> The public-health side is covered in <a
+href="../19-public-health/14-clean-water.html">Clean water</a>.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>A bridge in Genoa, and the problem of age</h2>
+</header>
+
+<p>On 14 August 2018, during a heavy storm, a large section of the Morandi motorway bridge in
+Genoa, Italy, collapsed. Forty-three people died. The bridge, opened in the 1960s, used an unusual
+design in which steel cables were encased in concrete. That made the cables hard to inspect, and
+corrosion could advance out of sight. Investigations and a long criminal trial focused on
+maintenance and inspection failures over many years.</p>
+
+<p>The lesson reached far beyond Italy. Much of the rich world's infrastructure was built in a
+burst after the Second World War. <strong>Many of those structures are now reaching the age at
+which materials tire, and maintenance budgets have rarely kept pace.</strong> Building something
+new attracts ribbon-cutting ceremonies. Maintaining something old attracts nothing, until it
+fails.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Infrastructure as the hidden engine of the economy</h2>
+</header>
+
+<p>Economists have long argued about exactly how much roads, ports and power lines raise growth,
+and the estimates vary a lot. But the broad pattern is not disputed. Goods cannot reach markets
+without transport. Factories cannot run without water and power. Cities cannot grow without
+sewers. Poor infrastructure acts like a tax on every business that uses it.</p>
+
+<p>In the United States, the American Society of Civil Engineers publishes a regular report card on
+the nation's infrastructure. For many years its overall grades have been in the C and D range,
+meaning mediocre to poor. Similar worries exist in Germany about railways and bridges, and in the
+UK about water pipes. <strong>The common problem is not a lack of engineering knowledge. It is
+that maintenance is easy to postpone and hard to make politically attractive.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Huge benefits, long lives, and stubborn costs</h2>
+  <p class="lede">Civil works last generations, which is both their greatest strength and their
+  most serious risk.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>What civil works give, and what they take</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Benefit</th><th>Cost</th></tr></thead>
+<tbody>
+<tr><td><strong>Long life</strong></td><td class="ok">A good bridge or sewer serves several generations for one construction cost.</td><td class="no">Decisions lock in for a century, including bad ones. Old designs may not suit new needs.</td></tr>
+<tr><td><strong>Public goods</strong></td><td class="ok">Everyone benefits, rich and poor, often without paying directly.</td><td class="mid">Hard to fund; benefits are spread out while costs are concentrated.</td></tr>
+<tr><td><strong>Concrete everywhere</strong></td><td class="ok">Cheap, durable and available almost anywhere.</td><td class="no">Cement production causes roughly 7–8 percent of global CO₂ emissions.</td></tr>
+<tr><td><strong>Safety through codes</strong></td><td class="ok">Structural collapse is rare in countries that enforce codes.</td><td class="no">Where codes are ignored or poorly enforced, earthquakes kill many more people.</td></tr>
+<tr><td><strong>Large scale</strong></td><td class="ok">One dam can supply a region with water and power.</td><td class="no">Large projects displace communities and change rivers and ecosystems.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>The megaproject problem</h2>
+</header>
+
+<p>Big civil projects have a notorious record of running late and over budget. The Danish planning
+scholar Bent Flyvbjerg, who has collected data on thousands of large projects, summarised it as an
+"iron law of megaprojects".</p>
+
+<div class="pass">
+  <p>"Over budget, over time, under benefits, over and over again."</p>
+  <span class="src"><b>Bent Flyvbjerg</b> · "What You Should Know About Megaprojects and Why" (2014)</span>
+</div>
+
+<p>The reasons are partly technical: unique sites, hidden ground conditions, and designs that change
+during construction. But much of it is human. Promoters underestimate costs and overestimate
+benefits to get projects approved, and early optimism is rarely punished. Remedies include
+comparing a new project with the real outcomes of similar past ones (a method called
+<strong>reference-class forecasting</strong>), finishing the design before building begins, and
+splitting giant projects into smaller, repeatable parts.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Building for a climate that no longer matches the records</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Climate adaptation</strong></td><td>Engineers are raising flood defences, enlarging drains and designing for hotter summers and heavier rain.</td><td class="ok">Fairly sure: adaptation becomes a central part of civil work everywhere. See <a href="../12-environment-climate/19-climate-adaptation.html">Climate adaptation</a>.</td></tr>
+<tr><td><strong>Sensors on structures</strong></td><td>Structural health monitoring uses sensors to track strain, vibration and cracks on bridges and tunnels.</td><td class="ok">Fairly sure: more monitoring, earlier warnings, maintenance based on condition rather than calendar.</td></tr>
+<tr><td><strong>Lower-carbon concrete and timber</strong></td><td>Cements that use less clinker, and tall buildings made of engineered wood, are in use.</td><td class="mid">Plausible: steady cuts in embodied carbon. Fully zero-carbon cement at scale is not yet proven.</td></tr>
+<tr><td><strong>Factory-made construction</strong></td><td>Modular buildings and some 3D-printed houses exist.</td><td class="mid">Plausible for repetitive buildings; harder for unique sites like bridges and dams.</td></tr>
+<tr><td><strong>Self-healing concrete</strong></td><td>Experimental concretes contain bacteria or capsules that seal small cracks.</td><td class="no">Speculative: promising in the lab, little long-term field evidence.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>When the past stops predicting the future</h2>
+</header>
+
+<p>For most of its history, civil engineering rested on a quiet assumption. The rainfall, river
+flows, temperatures and storm surges of the past century would describe the next one. Records of
+the past were used to set the 100-year flood level and the hottest day a rail track must survive.
+Climate change breaks that assumption. Hydrologists call the new situation
+<strong>non-stationarity</strong>: the statistics themselves are moving.</p>
+
+<p>The practical response is to design with ranges rather than single numbers, to leave room to
+add height to a sea wall later, and to plan for structures that can fail gently instead of
+suddenly. <strong>The best civil engineering of the coming decades will be judged less by how
+strong it is than by how well it adapts.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Civil engineering builds <strong>large, public, long-lived works</strong> on <strong>unique
+    sites</strong>. Its tools are the <strong>load path</strong> to the ground, the partnership of
+    <strong>concrete and steel</strong>, respect for the <strong>ground</strong>, and constant
+    attention to <strong>water</strong>.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>A "100-year flood" has a <strong>1 percent chance</strong> each year.</li>
+      <li>Cement causes roughly <strong>7–8 percent</strong> of global CO₂ emissions.</li>
+      <li>About <strong>two billion people</strong> still lack safely managed drinking water (WHO/UNICEF, mid-2020s).</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking infrastructure is finished once it is built. <strong>Most of its lifetime cost and
+    risk is in maintenance</strong>, which is exactly what gets postponed.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why steel bars are placed near the bottom of a concrete beam? If you can, you
+    understand tension, compression and reinforced concrete together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Dead load</dt><dd>The permanent weight of the structure itself.</dd>
+    <dt>Live load</dt><dd>Changing loads such as people, vehicles and furniture.</dd>
+    <dt>Load path</dt><dd>The continuous route a force takes through a structure to the ground.</dd>
+    <dt>Tension</dt><dd>A pulling force that stretches a material.</dd>
+    <dt>Compression</dt><dd>A pushing force that squashes a material.</dd>
+    <dt>Reinforced concrete</dt><dd>Concrete with steel bars inside to carry the stretching forces.</dd>
+    <dt>Prestressed concrete</dt><dd>Concrete squeezed in advance by tensioned steel cables, so it can span further.</dd>
+    <dt>Geotechnical engineering</dt><dd>The branch that studies soil and rock and designs foundations.</dd>
+    <dt>Pile</dt><dd>A long column driven or drilled into the ground to reach firmer layers.</dd>
+    <dt>Liquefaction</dt><dd>Loose wet sand behaving like a liquid when shaken by an earthquake.</dd>
+    <dt>Return period</dt><dd>The average gap between events of a given size; a 100-year event has a 1% yearly chance.</dd>
+    <dt>Induced demand</dt><dd>New traffic generated by adding road capacity.</dd>
+    <dt>Reference-class forecasting</dt><dd>Estimating a project's cost from the real results of similar past projects.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A '100-year flood' isn't once a century. It's a one-in-a-hundred chance every single year."</li>
+    <li>"Concrete is strong when you squash it and weak when you stretch it, which is why we put
+    steel inside."</li>
+    <li>"Sewers and clean water saved more lives than most medicines ever did."</li>
+    <li>"The danger with infrastructure isn't building it, it's forgetting to maintain it."</li>
+    <li>"Climate change means the old flood records no longer tell engineers what to design for."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="04-chemical-engineering.html">Chemical engineering</a></h4><p>How
+  a reaction that works in a test tube is turned into a plant producing millions of tonnes a year.</p></div>
+  <div class="card"><h4>Related · <a href="18-infrastructure.html">Infrastructure</a></h4><p>The
+  networks as a whole: how they are planned, paid for, owned and kept running.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

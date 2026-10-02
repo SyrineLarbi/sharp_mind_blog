@@ -1,0 +1,839 @@
+<!doctype html>
+<!--@HEAD-SRC title="The Milky Way" desc="Our home galaxy from the inside: its shape and size, the Sun's orbit, the black hole at its centre, the smaller galaxies it has swallowed, why mapping it is so hard, and what may happen when it meets Andromeda."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Milky Way</title>
+<meta name="description" content="Our home galaxy from the inside: its shape and size, the Sun&#x27;s orbit, the black hole at its centre, the smaller galaxies it has swallowed, why mapping it is so hard, and what may happen when it meets Andromeda.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Astronomy &amp; Space · Topic 06 of 20</p>
+  <h1>The Milky Way. <span class="thin">Mapping a city of stars while standing in one of its suburbs.</span></h1>
+  <p class="lede">On a dark night far from towns, a pale band of light crosses the sky. That band is
+  our own galaxy, seen edge-on from inside. Every star you can see with the naked eye belongs to it.
+  Working out its shape has been hard for a simple reason: we live inside it, behind clouds of dust,
+  and cannot step outside to take a picture. Yet in the last decade a single spacecraft has measured
+  the positions and motions of nearly two billion of its stars, and the galaxy's history has turned
+  out to be more violent than anyone expected.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Astronomy &amp; Space</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="05-galaxies.html"><span class="vn">Astronomy · 05</span><b>Galaxies</b><em>The general picture</em></a>
+<a class="vol" href="../02-physics/16-black-holes.html"><span class="vn">Physics · 16</span><b>Black holes</b><em>Including our central one</em></a>
+<a class="vol" href="07-exoplanets.html"><span class="vn">Astronomy · 07</span><b>Exoplanets</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 24 tells how Galileo's telescope first broke the Milky Way into individual stars
+  (<a href="../24-discoveries.html#c2">The telescope, four points of light</a>), and Volume 29 mentions
+  the giant black hole at its centre (<a href="../29-the-sky.html#c5">Black holes</a>). This file is the
+  full portrait of our galaxy. For galaxies in general, read <a href="05-galaxies.html">Galaxies</a>
+  first.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A barred spiral galaxy, seen from inside</h2>
+  <p class="lede">The Milky Way is a disc of a few hundred billion stars, about 100,000 light-years
+  across, with a bar of stars across its centre and a giant black hole at its heart. The Sun is one of
+  its stars, about halfway out.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A river of milk</h2>
+</header>
+
+<p>Many cultures named the band of light in the night sky. To the ancient Greeks it was spilled milk,
+and the word "galaxy" comes from the Greek <em>gala</em>, milk. Elsewhere it was a river, a road for
+souls, or a seam in the sky. What it actually was stayed unknown until 1610, when Galileo turned his
+small telescope on it and saw that <strong>the glow was made of countless faint stars</strong>, too
+dim and too close together for the eye to separate.</p>
+
+<p>Why does the galaxy look like a band rather than filling the sky evenly? Because it is flat. Picture
+yourself inside a very wide, thin pancake of stars. Look up or down, through the thin direction, and
+you see relatively few stars. Look along the pancake, and you see stars piled behind stars into the
+distance. That direction is the band. <strong>The Milky Way in the sky is our galaxy's disc seen
+edge-on from within.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Mapping a forest from inside the trees</h2>
+</header>
+
+<p>In the 1780s the astronomer William Herschel and his sister Caroline counted stars in hundreds of
+directions to work out the galaxy's shape. They concluded it was a flattened disc with the Sun near
+the middle. They were right about the disc and wrong about the middle. The reason they were wrong
+took over a century to find.</p>
+
+<p>Space between the stars is not empty. It contains thin clouds of gas and fine <strong>dust</strong>,
+which dim and redden the light behind them, like fog around streetlights. Looking along the disc, you
+can see only a few thousand light-years before the dust hides everything. Herschel saw roughly the same
+number of stars in every direction along the band, not because he was at the centre but because the fog
+hid everything beyond a certain distance equally.</p>
+
+<p>In 1918 the American astronomer Harlow Shapley took a different approach. He studied
+<strong>globular clusters</strong>, tight balls of hundreds of thousands of old stars that orbit above
+and below the disc, where there is little dust. They were not spread evenly around the sky. They were
+concentrated towards the constellation Sagittarius. Shapley argued that they must surround the galaxy's
+true centre, which therefore lay far away in that direction. <strong>He moved the Sun from the centre of
+the galaxy to its outskirts</strong>, a demotion almost as large as the one Copernicus made for Earth.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The vital statistics</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Property</th><th>Best estimate</th><th>How sure</th></tr></thead>
+<tbody>
+<tr><td><strong>Diameter of the star disc</strong></td><td>About 100,000 light-years</td><td class="mid">The edge is gradual, so estimates vary</td></tr>
+<tr><td><strong>Thickness of the main disc</strong></td><td>About 1,000 light-years</td><td class="ok">Well measured</td></tr>
+<tr><td><strong>Number of stars</strong></td><td>Roughly 100 to 400 billion</td><td class="mid">Faint dwarf stars are hard to count</td></tr>
+<tr><td><strong>Total mass, including dark matter</strong></td><td>Around a trillion Suns</td><td class="mid">Estimates differ by a factor of about two</td></tr>
+<tr><td><strong>Sun's distance from the centre</strong></td><td>About 26,000 light-years</td><td class="ok">Measured to within a few per cent</td></tr>
+<tr><td><strong>Central black hole</strong></td><td>About 4 million solar masses</td><td class="ok">Very well measured</td></tr>
+<tr><td><strong>Age of the oldest stars</strong></td><td>About 13 billion years</td><td class="mid">Nearly as old as the universe</td></tr>
+</tbody></table></div>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Anatomy, motion and a violent past</h2>
+  <p class="lede">The galaxy has distinct parts, each with its own population of stars and its own
+  history. Everything in it is moving, including us, and its shape still carries the scars of the
+  smaller galaxies it swallowed.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The parts of the galaxy</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">The Milky Way, seen edge-on (not to scale)</div>
+<pre>
+                    .   o  globular clusters in the halo   .
+         .                        _____                         o
+   ______________________________/ bar \______________________________
+  (_______ thin disc: gas, dust, young stars, the Sun ______*________)
+                                 \_____/                   ^
+      o       dark matter halo surrounds everything        the Sun,
+                  .                         .              ~26,000 ly
+                                                           from centre
+</pre>
+</div>
+
+<p><strong>The disc</strong> is where most stars, gas and dust are, and where new stars are born. It
+holds the spiral arms. <strong>The bar and bulge</strong> are a dense central region of mostly old
+stars. In the 2000s, infrared surveys that see through the dust confirmed that the central part is
+elongated into a bar, making the Milky Way a <strong>barred spiral</strong>.</p>
+
+<p><strong>The halo</strong> is a thin, roughly spherical cloud of old stars and about 150 globular
+clusters around the whole galaxy. Beyond and through it all spreads the <strong>dark matter
+halo</strong>, which accounts for most of the galaxy's mass. Its presence shows in the way stars far
+out still orbit fast, exactly as described in <a href="05-galaxies.html">Galaxies</a>.</p>
+
+<p>How many major spiral arms the Milky Way has is still debated. Some studies favour two main arms,
+others four, with several smaller branches. That uncertainty is a measure of how hard it is to map the
+disc from inside it.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The Sun's long orbit</h2>
+</header>
+
+<p>The Sun is not standing still. It orbits the centre of the galaxy at roughly 230 kilometres per
+second, about 800,000 kilometres an hour. Even so, one lap takes about <strong>230 million
+years</strong>, sometimes called a "galactic year". The last time the Sun was at this point in its
+orbit, the first dinosaurs were just appearing. Since it formed, the Sun has gone round perhaps twenty
+times.</p>
+
+<p>The Sun lies in a minor arm segment called the <strong>Orion Arm</strong> or Orion Spur, between two
+major arms. Its neighbourhood is fairly quiet: no very close massive stars, and no dense star cluster.
+The Earth's air and the Sun's magnetic bubble shield us from most of the radiation that passes through
+this part of space.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The giant at the centre</h2>
+</header>
+
+<p>At the centre of the galaxy lies a compact radio source named <strong>Sagittarius A*</strong>
+(pronounced "A-star"). It is invisible in ordinary light because dust blocks the view, but infrared
+light gets through. From the 1990s two teams, one led by Reinhard Genzel in Germany and one by Andrea
+Ghez in the United States, tracked individual stars orbiting it over many years.</p>
+
+<p>One star, called S2, completes an orbit in about sixteen years and at its closest passes at a few
+per cent of the speed of light. From such orbits the teams calculated that the central object has
+<strong>about four million times the mass of the Sun packed into a region smaller than our solar
+system</strong>. Nothing except a black hole fits. Genzel and Ghez shared the 2020 Nobel Prize in
+Physics for this work, and in 2022 the Event Horizon Telescope released an image of the black hole's
+shadow. The physics is covered in <a href="../02-physics/16-black-holes.html">Physics · Black holes</a>.</p>
+
+<p>Today Sagittarius A* is very quiet, feeding only on scraps. It was not always so. In 2010 the Fermi
+gamma-ray telescope found two enormous bubbles of energetic gas extending tens of thousands of
+light-years above and below the centre. Their cause is not settled, but a past outburst from the black
+hole, or a burst of star formation near the centre, are the leading ideas.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>A cannibal galaxy</h2>
+</header>
+
+<p>The European Space Agency's <strong>Gaia</strong> spacecraft, launched in 2013, spent over a decade
+measuring the positions, distances and motions of nearly two billion stars before it was retired in
+2025. It turned the galaxy's history into something that can be read, like rings in a tree.</p>
+
+<p>In 2018 astronomers using Gaia data found a large group of halo stars moving on unusual, stretched
+orbits, many of them travelling in the opposite direction to most stars. They are the remains of a
+fairly large galaxy that collided with the Milky Way roughly 8 to 11 billion years ago. It has been
+given two names, <strong>Gaia-Enceladus</strong> and the Gaia Sausage, the second from the sausage-like
+shape its stars make in a plot of their speeds. That merger probably puffed up part of the early disc
+and supplied much of the inner halo.</p>
+
+<p>The swallowing continues. The <strong>Sagittarius dwarf galaxy</strong>, discovered in 1994, is being
+torn apart right now on the far side of the galaxy, and its stars are strung out in a stream that wraps
+around the Milky Way. Dozens of other stellar streams trace smaller victims. Even the Large and Small
+Magellanic Clouds, the two bright satellite galaxies visible from the Southern Hemisphere, will
+probably be absorbed in the distant future. <strong>The Milky Way was built partly by eating its
+neighbours.</strong></p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Still making stars</h2>
+</header>
+
+<p>The Milky Way is not a dead galaxy. It forms new stars at a modest rate, roughly the equivalent of
+one to a few Suns' worth of gas each year. Most are small. The nurseries are giant clouds of cold gas,
+such as the Orion Nebula, about 1,300 light-years away and visible as a fuzzy patch in Orion's sword.</p>
+
+<p>The galaxy also loses stars in explosions. Astronomers estimate a supernova in the Milky Way every
+few decades on average, yet the last one clearly seen from Earth was in 1604. Most are hidden behind
+dust, which is why infrared and neutrino detectors are now watching for the next one
+(<a href="10-supernovae.html">Supernovae</a>). The material they throw out is mixed into new clouds,
+and the cycle continues.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Our address, our laboratory, and a sky we are losing</h2>
+  <p class="lede">The Milky Way is where we live, the one galaxy we can study star by star, and a
+  shared human heritage that most people alive today can no longer see.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Knowing where we are</h2>
+</header>
+
+<p>A full address for Earth would read: third planet of the Sun, in the Orion Spur of the Milky Way, a
+barred spiral in the Local Group, on the outskirts of the Virgo Supercluster. Each step outward was a
+discovery, and each one moved humanity further from the centre of things.</p>
+
+<p>Knowing the address has practical uses too. Our place in the galaxy affects which parts of the sky
+we can see clearly, which nearby stars might host planets that telescopes can study, and how much
+cosmic radiation reaches the solar system. Some researchers have proposed a <strong>galactic habitable
+zone</strong>, a ring that is neither too crowded with exploding stars near the centre nor too poor in
+heavy elements at the edge. The idea is plausible in outline but <strong>contested in detail</strong>,
+and it should not be taken as a firm map of where life can exist.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The only galaxy we can see star by star</h2>
+</header>
+
+<p>For other galaxies, astronomers usually see blended light from billions of stars. In the Milky Way
+they can measure individual stars: their ages, their chemistry, their orbits. This is called
+<strong>galactic archaeology</strong>. Stars keep the chemical makeup of the gas they formed from, so
+grouping stars by chemistry and motion reveals which ones were born together and which were captured
+from other galaxies.</p>
+
+<p>The Milky Way is therefore the testing ground for theories of all galaxies. If a model of how
+galaxies grow cannot reproduce the Milky Way, star by star, it is in trouble. Gaia's data, freely
+released to scientists worldwide, has already led to many thousands of research papers, and its final
+data releases are expected over the rest of this decade.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The disappearing night sky</h2>
+</header>
+
+<p>For nearly all of human history, the Milky Way was part of everyone's night. It shaped myths,
+calendars and navigation. Today artificial light washes it out over most of the populated world. A
+widely cited 2016 study of night-sky brightness concluded that <strong>about a third of humanity, and
+around 80 per cent of people in North America, can no longer see the Milky Way from where they
+live</strong>.</p>
+
+<p>This matters beyond nostalgia. Light pollution disturbs migrating birds, nesting turtles and
+insects, and wastes energy. It also hinders astronomy. A growing number of bright satellites in low
+orbit adds streaks to telescope images, a problem professional astronomers have raised with
+regulators. Unlike most environmental problems, this one can be reduced quickly and cheaply, with
+shielded lights that point downward and lower brightness. Several places now protect their skies as
+designated dark-sky reserves.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Studying a galaxy from inside: front-row seat, blocked view</h2>
+  <p class="lede">Read as the strengths and weaknesses of our vantage point, which shape everything we
+  know about our galaxy.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The view from inside, weighed up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Aspect</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Distance</strong></td><td class="ok">Stars are close enough to measure one by one, with ages, chemistry and motion.</td><td class="no">We cannot see the galaxy whole. Its overall shape is inferred, never photographed.</td></tr>
+<tr><td><strong>Dust</strong></td><td class="ok">Dust clouds are themselves studied closely as star nurseries.</td><td class="no">In visible light, dust hides most of the disc, including the centre.</td></tr>
+<tr><td><strong>Our position</strong></td><td class="ok">A quiet suburb: fairly safe from nearby explosions.</td><td class="mid">The far side of the galaxy is hard to map, so arm counts and structure remain debated.</td></tr>
+<tr><td><strong>Detail</strong></td><td class="ok">Galactic archaeology reveals mergers billions of years old.</td><td class="mid">It is one galaxy. What is true of it may not be typical.</td></tr>
+<tr><td><strong>Time</strong></td><td class="ok">Gaia measured motions precisely enough to rewind orbits.</td><td class="no">The galaxy's history is still pieced together indirectly, from survivors.</td></tr>
+</tbody></table></div>
+
+<p>Astronomers work around the blind spots by looking in other kinds of light. <strong>Infrared and
+radio waves pass through dust</strong>, which is why the galactic centre is studied in those bands. They
+also compare the Milky Way with similar galaxies seen from outside, such as Andromeda, to check what our
+inside view might be missing.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>A sharper map, and a neighbour on approach</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>A full map of the disc</strong></td><td>Gaia's final data releases are due in the coming years. Infrared and spectroscopic surveys from the ground are measuring the chemistry of millions of stars.</td><td class="ok">Fairly sure: a much clearer map of the spiral arms and bar, and a detailed timeline of past mergers, within about a decade.</td></tr>
+<tr><td><strong>Catching a nearby supernova</strong></td><td>Neutrino and gravitational-wave detectors watch for a supernova in our galaxy, which is statistically overdue for an observed one.</td><td class="mid">Plausible: a reasonable chance of one within a few decades, but no one can predict when.</td></tr>
+<tr><td><strong>Weighing the dark halo precisely</strong></td><td>Estimates of the galaxy's total mass still differ by a factor of about two.</td><td class="no">Speculative: whether the halo's shape and mass will reveal what dark matter is remains open.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The meeting with Andromeda</h2>
+</header>
+
+<p>Most galaxies are moving away from us as the universe expands. Andromeda is an exception. It is
+falling towards the Milky Way at roughly 110 kilometres per second, pulled by gravity within the Local
+Group. A widely publicised 2012 study using the Hubble Space Telescope predicted a head-on collision in
+about four to five billion years.</p>
+
+<p>Newer work has made the picture less certain. A 2025 study that combined Hubble and Gaia data and
+included the pull of other Local Group galaxies, especially the Large Magellanic Cloud and the
+Triangulum galaxy, concluded that <strong>the chance of a merger within the next ten billion years is
+roughly even</strong>, not near-certain. The result depends on masses and motions that are still
+imperfectly measured.</p>
+
+<p>If the collision happens, it will not be a catastrophe for the Sun. Stars are so far apart that
+almost none will collide. The two galaxies would swing through each other, form tidal tails, and
+eventually settle into one large, probably elliptical, galaxy, sometimes nicknamed "Milkomeda". By then
+the Sun will be near the end of its life anyway (<a href="02-the-sun.html">The Sun</a>). <strong>For a
+future observer, the night sky would change completely, but the solar system would very likely survive
+the encounter.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>The Milky Way is a <strong>barred spiral galaxy</strong> of a few hundred billion stars, seen
+    from inside as a band across the sky. The Sun orbits <strong>about 26,000 light-years</strong> from
+    a central black hole of four million solar masses. The galaxy grew partly by <strong>swallowing
+    smaller galaxies</strong>, and it is still doing so.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>About <strong>100,000 light-years</strong> across, about 1,000 thick.</li>
+      <li>One solar orbit takes about <strong>230 million years</strong>.</li>
+      <li>Gaia measured nearly <strong>two billion</strong> stars.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking the Milky Way is just the band of light, or that photos of "the Milky Way galaxy" seen
+    from above are real. <strong>No one has ever photographed our galaxy from outside</strong>; those
+    images are artists' impressions based on measurements.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why Herschel thought the Sun was at the centre, and how Shapley showed it was not?
+    If so, you understand how dust shapes everything we see.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Barred spiral</dt><dd>A spiral galaxy whose arms begin at the ends of a central bar of stars.</dd>
+    <dt>Galactic disc</dt><dd>The thin, flat part of the galaxy holding most stars, gas and the spiral arms.</dd>
+    <dt>Bulge</dt><dd>The dense central region of old stars.</dd>
+    <dt>Halo</dt><dd>The sparse, roughly spherical region of old stars and globular clusters around the disc.</dd>
+    <dt>Globular cluster</dt><dd>A tight ball of hundreds of thousands of very old stars orbiting in the halo.</dd>
+    <dt>Interstellar dust</dt><dd>Fine grains between the stars that dim and redden light, like fog.</dd>
+    <dt>Galactic year</dt><dd>The time the Sun takes to orbit the galaxy's centre, about 230 million years.</dd>
+    <dt>Orion Spur</dt><dd>The minor arm segment where the Sun lives.</dd>
+    <dt>Sagittarius A*</dt><dd>The supermassive black hole at the galaxy's centre.</dd>
+    <dt>Stellar stream</dt><dd>A long trail of stars pulled from a small galaxy or cluster being torn apart.</dd>
+    <dt>Galactic archaeology</dt><dd>Reconstructing a galaxy's history from the ages, chemistry and orbits of its stars.</dd>
+    <dt>Local Group</dt><dd>The small group of galaxies that includes the Milky Way, Andromeda and dozens of dwarfs.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"The Milky Way in the sky is our galaxy's disc seen edge-on from the inside."</li>
+    <li>"Every picture of our galaxy from above is an artist's impression. Nobody has been outside to
+    take one."</li>
+    <li>"The Sun takes about 230 million years to go once around the galaxy."</li>
+    <li>"There's a black hole of four million suns at the centre. We know because we've watched stars
+    orbit it."</li>
+    <li>"Our galaxy grew by eating smaller ones, and Gaia found the leftovers."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="07-exoplanets.html">Exoplanets</a></h4><p>The planets around
+  the Milky Way's other stars: how they are found, what they are like, and how many might resemble
+  Earth.</p></div>
+  <div class="card"><h4>Related · <a href="05-galaxies.html">Galaxies</a></h4><p>The general story of
+  galaxies, from spiral arms and mergers to the dark matter halos that hold them together.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

@@ -1,0 +1,878 @@
+<!doctype html>
+<!--@HEAD-SRC title="Mountains" desc="How mountains are built and worn down, why they make their own weather and store the water of billions, what they do to the people who live among them, and how they are changing."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mountains</title>
+<meta name="description" content="How mountains are built and worn down, why they make their own weather and store the water of billions, what they do to the people who live among them, and how they are changing.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Geography · Topic 03 of 20</p>
+  <h1>Mountains. <span class="thin">The places where the planet's slow violence shows.</span></h1>
+  <p class="lede">The summit of Everest is made of limestone that contains the fossils of sea
+  creatures. Rock that formed on an ancient sea floor now stands nearly nine kilometres above sea
+  level, and it is still being pushed upward. Mountains look permanent, the very symbol of things that
+  do not change. In fact they are the most active landscapes on Earth: built by colliding plates, torn
+  down by ice and water, and busy all the while making weather, storing water and shaping the lives of
+  the people around them.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Geography</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../30-the-earth.html#c2"><span class="vn">Vol 30 · ch 02</span><b>Why rock flows</b><em>The plate engine</em></a>
+<a class="vol" href="02-climate-zones.html"><span class="vn">Geography · 02</span><b>Climate zones</b><em>Height and rain shadows</em></a>
+<a class="vol" href="04-rivers.html"><span class="vn">Geography · 04</span><b>Rivers</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 30 explains in a few lines that colliding continents crumple the crust upward, and that
+  the Himalaya are still rising (<a href="../30-the-earth.html#c2">Why rock flows</a>). It also covers
+  why earthquakes cannot be predicted (<a href="../30-the-earth.html#c3">Why you cannot predict an
+  earthquake</a>). This file takes mountains as a subject in their own right: the different ways they
+  form, how erosion shapes them, the weather they make, and their importance to water, culture and
+  risk.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Steep, high ground, and a surprisingly fuzzy definition</h2>
+  <p class="lede">Everyone recognises a mountain. Defining one precisely is harder than it looks,
+  and the records depend on how you measure.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>When does a hill become a mountain?</h2>
+</header>
+
+<p>There is no single scientific definition. In Britain and Ireland, a common tradition counts summits
+above 2,000 feet (about 610 metres) as mountains. In other places the word is used for much lower
+ground if it stands out sharply from its surroundings. Geographers who need a global map usually
+combine two things: <strong>height</strong> and <strong>steepness</strong>. A high, flat plateau is not
+a mountain range. A steep, rugged area that rises sharply above the land around it is, even if its peaks
+are modest.</p>
+
+<p>Using definitions of this kind, studies put mountains at very roughly a quarter of the world's land
+surface. They are home to something like one person in seven, many of them in the Andes, the Himalaya,
+the Ethiopian highlands and the mountains of Central Asia. And far more people, as Question 3 shows,
+depend on mountains without ever seeing one, because <strong>mountains are where much of the world's
+fresh water begins</strong>.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The tallest depends on how you measure</h2>
+</header>
+
+<p>The usual answer is <strong>Mount Everest</strong>, on the border of Nepal and China. A joint survey
+by the two countries in 2020 measured it at <strong>8,848.86 metres</strong> above sea level. All
+fourteen of the world's peaks above 8,000 metres lie in the Himalaya and the neighbouring Karakoram
+range. But "tallest" can mean three different things.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Measure</th><th>Winner</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td><strong>Highest above sea level</strong></td><td>Everest, about 8,849 m</td><td>The standard measure, used for maps and climbing records.</td></tr>
+<tr><td><strong>Tallest from base to summit</strong></td><td>Mauna Kea, Hawaii</td><td>It rises about 4,200 m above the sea but over 10,000 m from its base on the ocean floor.</td></tr>
+<tr><td><strong>Furthest from Earth's centre</strong></td><td>Chimborazo, Ecuador</td><td>Earth bulges at the equator, so this 6,263 m peak near the equator reaches further into space than Everest.</td></tr>
+<tr><td><strong>Longest range on land</strong></td><td>The Andes</td><td>About 7,000 km down the western edge of South America.</td></tr>
+<tr><td><strong>Longest range overall</strong></td><td>The mid-ocean ridge</td><td>About 65,000 km, almost all underwater (Topic 01).</td></tr>
+</tbody></table></div>
+
+<p>The point is not trivia. It is that <strong>a "fact" often depends on a definition you did not
+notice</strong>. Asking "measured how?" is one of the most useful habits a curious person can have.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Built from below, carved from above</h2>
+  <p class="lede">Every mountain range is the result of a contest between two forces. Movements deep
+  in the Earth push rock up. Water, ice and gravity tear it down. The landscape you see is the score at
+  this moment.</p>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Four ways to build a mountain</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Type</th><th>How it forms</th><th>Examples</th></tr></thead>
+<tbody>
+<tr><td><strong>Fold mountains</strong></td><td>Two plates collide and the crust crumples, like a rug pushed against a wall. The biggest ranges on Earth form this way.</td><td>Himalaya, Alps, Zagros, Atlas</td></tr>
+<tr><td><strong>Volcanic mountains</strong></td><td>Molten rock from below erupts and piles up, layer on layer. Often found where one plate sinks under another, or over a "hot spot".</td><td>Mount Fuji, Kilimanjaro, Etna, the volcanoes of the Andes, Hawaii</td></tr>
+<tr><td><strong>Fault-block mountains</strong></td><td>The crust is stretched and cracks into blocks. Some blocks tilt up, others drop down.</td><td>Sierra Nevada (USA), the ranges of Nevada's Basin and Range, the Rwenzori</td></tr>
+<tr><td><strong>Dome mountains</strong></td><td>Molten rock pushes up from below without erupting, bulging the surface. Erosion then exposes the core.</td><td>The Black Hills (USA)</td></tr>
+</tbody></table></div>
+
+<p>Real ranges often mix these types. The Andes are mainly the product of the Pacific sea floor
+sinking under South America, which both squeezes the crust and feeds a chain of volcanoes along it.
+The general process of building mountains is called <strong>orogeny</strong>, from the Greek words
+for "mountain" and "birth".</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The Himalaya: a continent still crashing</h2>
+</header>
+
+<p>The Himalaya are the cleanest example of a collision range. Around 50 million years ago the
+plate carrying India, which had been moving north across the ocean for tens of millions of years, ran
+into Asia. Neither continent was dense enough to sink. So the crust between them buckled, thickened and
+rose. The ocean floor that had separated them was squeezed up between the two, which is why marine
+fossils are found high in the range, including near the summit of Everest.</p>
+
+<p>India has not stopped. It still presses north by a few centimetres a year. That pressure is why
+the Himalaya are still rising, by millimetres a year in many places, and why the region suffers large
+earthquakes. In 2015 an earthquake in Nepal killed about 9,000 people and destroyed many of
+Kathmandu's historic buildings. Behind the range, the collision also raised the <strong>Tibetan
+Plateau</strong>, the highest large plateau on Earth, averaging more than 4,000 metres. Its crust is
+among the thickest anywhere.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Erosion: the sculptor that never stops</h2>
+</header>
+
+<p>The moment rock is raised, it starts being destroyed. Rain dissolves and loosens it. Water freezes
+in cracks, expands and splits it. Rivers carry the fragments away. The higher and steeper a mountain,
+the faster this happens. <strong>Young mountains are high and jagged. Old mountains are low and
+rounded</strong>, because erosion has had longer to work.</p>
+
+<p>Compare the Alps with the Appalachians of the eastern United States. The Alps are young, still
+being pushed up, with sharp peaks above 4,000 metres. The Appalachians formed hundreds of millions of
+years ago, in the collisions that built Pangaea. Geologists think they were once far higher. Today
+their highest point is a little over 2,000 metres, and their summits are smooth and forested.</p>
+
+<p>Ice is the most powerful sculptor of all. A river cuts a narrow V-shaped valley. A
+<strong>glacier</strong>, a slow river of ice, grinds out a broad U-shaped one, scrapes bowls called
+<strong>cirques</strong> high on the slopes, and sharpens the ridges between them into knife-edges and
+pyramid peaks. The Matterhorn's famous shape was carved by glaciers working on several sides at once.
+Norway's fjords are glacial valleys that the sea flooded when the ice melted.</p>
+
+<div class="note">
+  <span class="tag">The floating mountain</span>
+  <p>Mountains have deep roots of light crust beneath them, like icebergs (Topic 01 calls this
+  isostasy). As erosion removes weight from the top, the root slowly rises to replace it. So a mountain
+  range can go on yielding rock for far longer than its height alone would suggest, and erosion can
+  even push the peaks a little higher by lightening the valleys around them.</p>
+</div>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Mountains make their own weather</h2>
+</header>
+
+<p>Topic 02 introduced the idea that air cools as it rises, by about 6.5&nbsp;°C per kilometre. That
+single fact makes mountains weather machines. When moist wind meets a range, it is forced upward. It
+cools, its water vapour condenses, and it rains or snows on the side facing the wind. This is called
+<strong>orographic</strong> rain, from the Greek for mountain.</p>
+
+<div class="sheet">
+  <div class="cap">How a mountain range splits wet from dry</div>
+<pre>
+  moist wind from the sea  --->
+                                   /\    air sinks, warms, dries
+        clouds   rain rain rain   /  \  ----------------------->
+      ~~~~~~~~~~~~~~~~~~~~~~~~~~ /    \
+  sea    windward side: WET    /      \   leeward side: DRY (rain shadow)
+  ______________________________/        \________________________________
+</pre>
+</div>
+
+<p>The contrasts can be extreme. The hills of Meghalaya in north-east India, where monsoon winds
+are forced up the first high ground they meet, include some of the wettest inhabited places on
+Earth, with annual rainfall measured in many metres. A few hundred kilometres north, beyond the
+Himalaya, much of the Tibetan Plateau is dry. In the same way the Andes leave Patagonia in Argentina in
+a rain shadow, and the Sierra Nevada helps make Nevada a desert.</p>
+
+<p>The air that comes down the dry side warms as it descends, because it is being compressed. In the
+Alps this warm, dry wind is called the <strong>föhn</strong>. On the eastern side of the Rocky
+Mountains a similar wind is called the <strong>chinook</strong>, and it can raise winter temperatures
+by many degrees within hours and melt snow almost overnight.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Water towers, refuges and hazards</h2>
+  <p class="lede">Mountains matter to far more people than live on them. They store water, shelter
+  cultures and species, mark borders, and occasionally unleash disasters.</p>
+</header>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The water towers of the world</h2>
+</header>
+
+<p>Mountains catch more rain and snow than lowlands, and their cold heights store it as snow and ice.
+Through the dry season that store melts slowly and feeds rivers. Hydrologists call mountains
+<strong>water towers</strong>. The image fits: water is lifted up, held in reserve, and released
+downhill when it is needed.</p>
+
+<p>The greatest example is the system of the Himalaya, the Hindu Kush and the Tibetan Plateau, which
+holds more ice than anywhere outside the polar regions. It is sometimes called the
+<strong>"Third Pole"</strong>. It feeds some of Asia's largest rivers, including the Indus, the Ganges,
+the Brahmaputra, the Yangtze, the Yellow River and the Mekong. Well over a billion people live in their
+basins. In Europe, the Alps feed the Rhine, the Rhône and the Po, and supply much of the flow of the
+Danube's southern tributaries. Topic 04 on rivers follows that water downstream.</p>
+
+<p>Snow and ice matter because of <strong>timing</strong>. Rain runs off in days. Snowpack and
+glaciers release water weeks or months later, often in the hot season when farms need it most. In
+places such as the dry valleys west of the Andes or the oases of Central Asia, summer meltwater is the
+difference between farming and not.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Living where the air is thin</h2>
+</header>
+
+<p>Air pressure falls with height, so each breath carries less oxygen. At the summit of Everest it
+holds roughly a third of the oxygen of a breath at sea level. Most climbers there use bottled oxygen.
+Even at 2,500 metres, many visitors feel headaches and breathlessness. Above that, some develop
+dangerous fluid build-up in the lungs or brain.</p>
+
+<div class="warn">
+  <span class="tag">General education</span>
+  <p>This is not medical advice. Anyone travelling to high altitude should ascend gradually and seek
+  medical guidance, especially with heart or lung conditions.</p>
+</div>
+
+<p>Yet millions of people have lived high up for thousands of years, and their bodies have adapted
+in different ways. Many people in the high Andes have more haemoglobin, the oxygen-carrying protein in
+blood. Tibetans, by contrast, tend not to, and seem to cope through other changes, including
+differences in breathing and blood flow. Geneticists found that a version of a gene involved in the
+body's response to low oxygen, common in Tibetans, appears to have been inherited from the
+<strong>Denisovans</strong>, an extinct group of ancient humans. <strong>Two populations, two
+separate solutions to the same problem</strong>: a clear case of evolution working differently in
+different places.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Barriers, borders and refuges</h2>
+</header>
+
+<p>For most of history mountains were walls. In 218 BCE the Carthaginian general Hannibal crossed the
+Alps with an army and elephants to invade Italy, and the feat is remembered precisely because it was so
+hard. Many modern borders follow ranges or the line of their highest ridges: the Pyrenees between
+France and Spain, the Andes between Chile and Argentina, the Himalaya between China and its southern
+neighbours. Where the crest is unclear, borders can be fiercely disputed, as along parts of the
+India-China frontier. Topic 11 on borders explores this.</p>
+
+<p>Walls also protect. Mountains have long been refuges for peoples and languages that lowland states
+conquered or absorbed elsewhere. The Caucasus holds an unusually dense mix of languages in a small area.
+The mountainous island of New Guinea holds hundreds of languages, more than any comparable region. The
+anthropologist James C. Scott, in <em>The Art of Not Being Governed</em> (2009), argued that the
+highlands of mainland Southeast Asia were for centuries a deliberate refuge for people escaping
+lowland states. That thesis is debated, but the broader pattern, that rugged terrain is hard to
+govern, is widely accepted.</p>
+
+<p>Mountains are refuges for life too. Because climate changes rapidly with height, a single mountain
+holds many habitats close together. That makes ranges such as the tropical Andes and the
+mountains of south-west China among the richest places on Earth for species.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>When mountains move fast</h2>
+</header>
+
+<p>Mountains are dangerous because they store energy: the height of rock, the weight of snow, the
+water held behind ice. Earthquakes are the deep source, as in Nepal in 2015. Closer to the surface,
+the main hazards are:</p>
+
+<ul>
+  <li><strong>Landslides</strong>, often triggered by heavy rain or earthquakes on steep, broken
+  slopes.</li>
+  <li><strong>Avalanches</strong>, when layers of snow lose their grip and slide.</li>
+  <li><strong>Glacial lake outburst floods</strong>, when a lake trapped behind loose glacial debris
+  suddenly bursts through and floods the valleys below. As glaciers melt, many such lakes are
+  growing.</li>
+  <li><strong>Volcanic eruptions and mudflows</strong>. In 1985 a modest eruption of Nevado del Ruiz
+  in Colombia melted ice on its summit and sent mudflows that buried the town of Armero, killing more
+  than 20,000 people.</li>
+</ul>
+
+<p>Armero is remembered for a painful reason. Hazard maps had shown the town was at risk, and the
+warning came too late and too weakly to move people. <strong>The science was mostly there. The
+system for acting on it was not.</strong> It is a pattern Volume 23 describes in other disasters, for
+example <a href="../23-disasters.html#c6">the 2004 tsunami</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Generous and harsh at the same time</h2>
+  <p class="lede">For the people who live among and below them, mountains give a great deal and
+  demand a great deal. The two lists are mirror images.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>What mountains give and what they cost</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Benefit</th><th>Cost</th></tr></thead>
+<tbody>
+<tr><td><strong>Water</strong></td><td class="ok">Store snow and ice and release it in the dry season. Excellent sites for hydroelectric dams.</td><td class="no">Downstream users depend on a supply they do not control, which creates tension between countries.</td></tr>
+<tr><td><strong>Minerals</strong></td><td class="ok">Uplift and erosion expose ores: copper in the Andes, many metals across the world's ranges.</td><td class="no">Mining in steep terrain can pollute rivers far downstream.</td></tr>
+<tr><td><strong>Isolation</strong></td><td class="ok">Protects cultures, languages and ecosystems, and has sheltered peoples from conquest.</td><td class="no">Raises the cost of roads, schools and hospitals. Mountain regions are often among the poorest in their countries.</td></tr>
+<tr><td><strong>Biodiversity</strong></td><td class="ok">Many habitats packed close together, and many species found nowhere else.</td><td class="no">Species near the top have nowhere higher to go as temperatures rise.</td></tr>
+<tr><td><strong>Tourism</strong></td><td class="ok">Skiing, trekking and climbing bring income to remote places.</td><td class="mid">Crowding, waste and dependence on fragile seasons.</td></tr>
+<tr><td><strong>Defence</strong></td><td class="ok">Natural fortresses. Switzerland's terrain has long been part of its security.</td><td class="no">Also shelter armed groups and make conflicts hard to end.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The crowded summit</h2>
+</header>
+
+<p>In May 2019 a photograph of a long queue of climbers on the ridge below Everest's summit went
+around the world. Several climbers died that season. The image captured a real problem. Commercial
+expeditions, supported by Sherpa guides who carry much of the risk, have made the summit reachable for
+people with money and moderate experience. When good weather windows are short, many teams aim for the
+same days, and waiting in the "death zone" above 8,000 metres becomes dangerous in itself.</p>
+
+<p>The same tension appears in gentler forms across the world's mountains. Tourism brings income where
+there are few other jobs. It also brings rubbish, crowding and pressure on water. Nepal has introduced
+rules aimed at reducing waste on Everest and has discussed tightening permits. <strong>The general
+lesson is that remoteness is part of what visitors pay for, and too many visitors destroy
+it.</strong></p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Melting towers and moving species</h2>
+  <p class="lede">Mountains are warming faster than many lowland areas, and the effects flow downhill.
+  Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>What the next decades probably hold</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Glaciers keep shrinking</strong></td><td>Mountain glaciers are retreating almost everywhere. Swiss glaciers lost roughly a tenth of their remaining volume in 2022 and 2023 together, according to Switzerland's monitoring network.</td><td class="ok">Fairly sure: many smaller glaciers in the Alps, the Andes and Africa will largely disappear this century.</td></tr>
+<tr><td><strong>More slope hazards</strong></td><td>Thawing permafrost, the frozen ground that glues high slopes together, is loosening rock. In May 2025 a glacier collapse buried most of the Swiss village of Blatten, which had been evacuated days before.</td><td class="ok">Fairly sure: more rockfalls, landslides and outburst floods. Monitoring and early evacuation will matter more.</td></tr>
+<tr><td><strong>"Peak water" and then decline</strong></td><td>As glaciers melt faster, rivers first get extra water. Once the ice shrinks enough, summer flow falls.</td><td class="mid">Plausible and partly observed: some basins may already be past their peak, others decades away. Timing varies greatly by region.</td></tr>
+<tr><td><strong>Species moving uphill</strong></td><td>Plants and animals are recorded at higher elevations than a century ago.</td><td class="mid">Plausible: losses of some high-mountain species that run out of room at the top.</td></tr>
+<tr><td><strong>Water conflicts between countries</strong></td><td>Shared mountain rivers already strain relations, for example between India and Pakistan over the Indus.</td><td class="no">Speculative: open conflict over water is rare historically. Tension and hard bargaining are more likely than war.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Treaties written for a different climate</h2>
+</header>
+
+<p>Many arrangements for sharing mountain water assumed that rivers would behave as they always had.
+The Indus Waters Treaty of 1960, brokered by the World Bank, divided the rivers of the Indus system
+between India and Pakistan and survived several wars. In 2025, after a deadly attack in Kashmir,
+India announced it was holding the treaty in abeyance, and Pakistan said any attempt to stop its water
+would be treated as hostile. Whatever happens next, the episode shows how political shared mountain
+water can become.</p>
+
+<p>Climate change adds a deeper difficulty. If glaciers shrink and the timing of snowmelt shifts,
+<strong>the same treaty can mean less water, or water at the wrong time</strong>, even if every word
+is respected. The likely responses are familiar: more reservoirs to replace the storage that ice used
+to provide, better forecasting of melt, more efficient irrigation and, ideally, new agreements that
+share data and adapt to changing flows. Topic 15 on water scarcity takes up that problem. The mountains
+will still be there. What is changing is the reliable service they quietly provided for thousands of
+years.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Mountains are <strong>built from below</strong> by colliding, sinking and stretching plates and
+    by volcanoes, and <strong>carved from above</strong> by water and ice. Their height makes them
+    <strong>weather machines and water towers</strong>, and their steepness makes them refuges,
+    barriers and hazards.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Everest is <strong>8,848.86 m</strong> (China-Nepal survey, 2020).</li>
+      <li>Air cools about <strong>6.5&nbsp;°C per kilometre</strong> of height.</li>
+      <li>The Himalaya began forming about <strong>50 million years ago</strong> and are still
+      rising.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking of mountains as permanent and unchanging. <strong>They are the most active landscapes
+    on Earth</strong>, rising, eroding and shedding rock, snow and water all the time.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why one side of a mountain range is green and the other is dry? If you can, you
+    understand lapse rates, condensation and rain shadows together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Orogeny</dt><dd>The process of building mountains, usually through plate collisions.</dd>
+    <dt>Fold mountains</dt><dd>Ranges formed when colliding plates crumple the crust, such as the Alps.</dd>
+    <dt>Fault-block mountains</dt><dd>Ranges formed when stretched crust breaks into tilted blocks.</dd>
+    <dt>Plateau</dt><dd>A large area of high, fairly flat land, such as Tibet.</dd>
+    <dt>Erosion</dt><dd>The wearing away and removal of rock by water, ice, wind and gravity.</dd>
+    <dt>Glacier</dt><dd>A mass of ice that flows slowly downhill under its own weight.</dd>
+    <dt>Cirque</dt><dd>A bowl-shaped hollow carved by a glacier high on a mountain.</dd>
+    <dt>Orographic rain</dt><dd>Rain caused by moist air being forced up over high ground.</dd>
+    <dt>Rain shadow</dt><dd>The dry area on the side of a range away from the moist wind.</dd>
+    <dt>Föhn / chinook</dt><dd>Warm, dry winds that descend the sheltered side of a mountain range.</dd>
+    <dt>Water tower</dt><dd>A mountain region whose snow and ice store water and release it to rivers.</dd>
+    <dt>Permafrost</dt><dd>Ground that stays frozen for at least two years in a row.</dd>
+    <dt>Glacial lake outburst flood</dt><dd>A sudden flood when water held behind glacial debris breaks free.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"The top of Everest is made of rock that formed on a sea floor. That's how hard India hit
+    Asia."</li>
+    <li>"Young mountains are sharp and high, old mountains are low and rounded. Erosion has just had
+    longer to work on the old ones."</li>
+    <li>"Mountains are water towers. They store snow and ice and release it in the dry season, and well
+    over a billion people depend on that."</li>
+    <li>"The tallest mountain depends on how you measure. From its base on the sea floor, Mauna Kea
+    beats Everest."</li>
+    <li>"As glaciers melt, rivers first get more water and then less. That's the trap of 'peak
+    water'."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="04-rivers.html">Rivers</a></h4><p>Where mountain water goes
+  next: how rivers carve valleys, build deltas, flood, and why nearly every early civilisation grew
+  beside one.</p></div>
+  <div class="card"><h4>Related · <a href="15-water-scarcity.html">Water scarcity</a></h4><p>What
+  happens when the water towers deliver less, or at the wrong time, and how countries share what
+  there is.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

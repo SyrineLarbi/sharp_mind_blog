@@ -1,0 +1,850 @@
+<!doctype html>
+<!--@HEAD-SRC title="Water Scarcity" desc="Why a planet covered in water runs short of it: where fresh water is, where it goes, how scarcity is measured, the conflicts and costs, and the realistic fixes."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Water Scarcity</title>
+<meta name="description" content="Why a planet covered in water runs short of it: where fresh water is, where it goes, how scarcity is measured, the conflicts and costs, and the realistic fixes.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Geography · Topic 15 of 20</p>
+  <h1>Water scarcity. <span class="thin">The planet is not running out of water. Places are running out of cheap water.</span></h1>
+  <p class="lede">Seen from space, Earth is a blue planet. Seen from a farm in Punjab, it can be a dry one. Almost all the water on Earth is salty or
+  frozen, and the small share we can use is badly spread out in space and time. Water scarcity is
+  rarely about the total amount. It is about the gap between where and when water arrives and where and when people need it, and about who pays to close that gap.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Geography</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../11-energy-and-water.html#e1"><span class="vn">Vol 11 · Desalination</span><b>Taking the salt out</b><em>How the machines work</em></a>
+<a class="vol" href="../19-public-health/14-clean-water.html"><span class="vn">Public Health · 14</span><b>Clean water</b><em>The health side</em></a>
+<a class="vol" href="16-coastal-regions.html"><span class="vn">Geography · 16</span><b>Coastal regions</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 11 explains the engineering of <a href="../11-energy-and-water.html#e1">desalination</a>,
+  and Volume 15 explains <a href="../15-materials-food-and-industry.html#i7">water treatment</a> and
+  the huge losses from leaking pipes. Volume 30 covers why a warmer climate makes
+  <a href="../30-the-earth.html#c7">wet places wetter and dry places drier</a>. This file is about
+  the geography: where the water is, who uses it, why some regions run short, and how societies
+  share a resource that crosses borders.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Too little usable water, in the wrong place, at the wrong time</h2>
+  <p class="lede">Water scarcity means demand for fresh water in a place comes close to, or beyond, what nature supplies and what people can afford to deliver.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The city that counted down to Day Zero</h2>
+</header>
+
+<p>In early 2018, Cape Town, a city of about four million people in South Africa, announced a date.
+After three dry winters in a row, its reservoirs were falling so fast that officials calculated the
+day when they would have to turn off the taps in most homes. They called it <strong>Day
+Zero</strong>. On that day, residents would queue at around two hundred collection points for a daily
+ration of water, guarded by police.</p>
+
+<p>The city told every resident to use no more than 50 litres a day. People showered over buckets and used the grey water to flush
+toilets. Farmers upstream agreed to give up part of their share. The city roughly halved its water use, the rains returned in winter 2018, and Day Zero never came.</p>
+
+<p>The story matters because Cape Town was not a poor city with no planning. <strong>What it lacked was a margin.</strong> Its supply depended almost entirely on rain falling in one season into one set of reservoirs. That is the core of water scarcity almost
+everywhere: not zero water, but no buffer.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>A blue planet with very little to drink</h2>
+</header>
+
+<p>Picture all Earth's water as a bathtub. About 97.5 per cent of it is salt water in the
+oceans. Only about 2.5 per cent is fresh. Of that small share, roughly two-thirds is locked in ice
+sheets and glaciers, mostly in Antarctica and Greenland. Most of the rest is
+<strong>groundwater</strong>, water stored underground in the pores and cracks of rock. Lakes and rivers hold well under one per cent of the fresh water: a few drops in the bathtub.</p>
+
+<p>Those drops are enough only because they are constantly renewed. Evaporation from the sea falls on land as rain and snow. This <strong>water cycle</strong> makes fresh water a flow rather than a fixed stock. <strong>The useful
+question is never "how much water is there?" but "how much falls here each year, and how much of it
+can we catch?"</strong></p>
+
+<p>That rain is shared out very unevenly. A handful of countries, such as Brazil, Russia and Canada, hold a large share of the world's renewable fresh water, while the Middle East and North Africa receive only a tiny fraction. And
+in monsoon climates, most of a year's rain can fall in three or four months.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>How scarcity is measured, and the two kinds</h2>
+</header>
+
+<p>The most famous yardstick comes from the Swedish hydrologist Malin Falkenmark. In the late 1980s
+she proposed measuring the renewable fresh water available per person per year in a country. Her
+thresholds are still widely quoted.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Renewable water per person per year</th><th>Label</th><th>What it feels like</th></tr></thead>
+<tbody>
+<tr><td><strong>Above 1,700 m³</strong></td><td class="ok">No stress</td><td>Occasional local shortages only</td></tr>
+<tr><td><strong>1,000 to 1,700 m³</strong></td><td class="mid">Water stress</td><td>Regular shortages, hard choices between users</td></tr>
+<tr><td><strong>500 to 1,000 m³</strong></td><td class="no">Water scarcity</td><td>Limits on food production, health and growth</td></tr>
+<tr><td><strong>Below 500 m³</strong></td><td class="no">Absolute scarcity</td><td>Survival depends on imports, desalination or reuse</td></tr>
+</tbody></table></div>
+
+<p>A cubic metre (m³) is 1,000 litres. The numbers look generous, but they include the water needed to grow each person's food, by far the largest part. Many Gulf and North African countries sit far below 500 m³.</p>
+
+<p>The index has a weakness. It averages a whole country over a whole year. A 2016 study by Mesfin Mekonnen and Arjen Hoekstra looked month by month and estimated that about <strong>four billion people</strong> face severe water scarcity for at
+least one month of the year. National averages had been hiding most of them.</p>
+
+<p>The second weakness is deeper. Water experts distinguish <strong>physical scarcity</strong>, where
+there simply is not enough water to meet demand, from <strong>economic scarcity</strong>, where water
+exists but people lack the pipes, pumps, dams and money to use it. Much of sub-Saharan Africa is in the second group: rivers flow, yet people walk hours to fetch water. <strong>The two kinds need opposite remedies</strong>: physical scarcity
+needs people to use less or find new sources, while economic scarcity needs investment.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Farms, aquifers, trade and a changing climate</h2>
+  <p class="lede">Four forces work together: what water is used for, hidden reserves being drawn down, water moving inside traded goods, and a warming climate.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Where the water actually goes</h2>
+</header>
+
+<p>Most people picture water use as showers and washing machines. Worldwide, roughly <strong>70 per cent of
+the fresh water people withdraw goes to agriculture</strong>, mainly irrigation. Industry, including
+cooling power stations, takes about a fifth. Homes and municipal uses take only around a tenth.</p>
+
+<p>Two words help here. <strong>Withdrawal</strong> is water taken from a river or aquifer.
+<strong>Consumption</strong> is the part that does not come back, because it evaporated, went into a
+plant or a product, or was polluted beyond use. A power station returns most of its cooling water, slightly warmer. An irrigated field returns much less, because crops breathe water out into the air.</p>
+
+<p>The practical consequence is simple. <strong>In most dry regions, the water problem is a farming
+problem.</strong> If the farms around a city grow thirsty crops such as rice, cotton or alfalfa with cheap water, shorter showers save a bucket while the farms use a river.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Groundwater: the bank account nobody can see</h2>
+</header>
+
+<p>Under much of the world's farmland lie <strong>aquifers</strong>, layers of rock, sand or gravel
+that hold water like a sponge. Some are refilled each year by rain; others hold ancient "fossil" water that is barely refilled. Groundwater supplies a large share of
+the world's drinking water and a big part of its irrigation, and it has one dangerous property:
+<strong>you cannot see it running out</strong>.</p>
+
+<p>Think of an aquifer as a savings account. Rain is the salary paid in. Pumping is spending. When
+spending exceeds salary, the balance falls, but nothing looks different at the surface for years.
+The only sign is that wells must be drilled deeper and pumps work harder. When electric pumps became cheap, millions of farmers each sank a well, and nobody tracked the total.</p>
+
+<p>Satellites finally made the loss visible. From 2002, a pair of satellites called <strong>GRACE</strong> measured tiny changes in Earth's gravity: when an aquifer empties, the pull above it weakens very slightly. GRACE data showed large,
+steady losses of groundwater under northwest India, the North China Plain, California's Central
+Valley, the Middle East and the High Plains of the United States, where the Ogallala Aquifer feeds
+much of the country's grain and cattle feed. </p>
+
+<p>Pumping too much can also do permanent damage. When the water is removed, the ground above can
+sink, a process called <strong>subsidence</strong>. Parts of Mexico City sink by many centimetres a year for this reason. Near coasts, a
+falling water table lets seawater seep into the aquifer and spoil it, which links this topic to the
+next one on <a href="16-coastal-regions.html">coastal regions</a>.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Virtual water: the rivers hidden inside trade</h2>
+</header>
+
+<p>In the 1990s the British geographer Tony Allan noticed something puzzling. The Middle East had
+run out of enough water to grow its own food decades earlier, yet there had been no great famine and
+no great water war. His explanation was <strong>virtual water</strong>: the water used to produce a
+good, which travels with it when it is traded. When Egypt imports a tonne of wheat, it is in effect
+importing the water that grew that wheat somewhere rainier.</p>
+
+<p>Later researchers built on the idea with the <strong>water footprint</strong>, an estimate of the
+total water used to make a product. The figures are rough, but they show the scale. A kilogram of wheat takes on the order of 1,500 to 2,000 litres. A kilogram of beef
+is often estimated at around 15,000 litres, mostly because of the feed the animal eats.</p>
+
+<div class="note">
+  <span class="tag">Read the label carefully</span>
+  <p>Footprint numbers mix three kinds of water. <strong>Green water</strong> is rain held in the
+  soil, used by crops where it falls. <strong>Blue water</strong> is taken from rivers and aquifers.
+  <strong>Grey water</strong>, in this sense, is the water needed to dilute the pollution a product
+  creates. Beef from rain-fed pasture uses mostly green water; cotton irrigated in a desert uses scarce blue water. The headline number does not tell you which.</p>
+</div>
+
+<p>Virtual water explains a quiet strategy. <strong>Dry countries can save water by importing thirsty
+goods instead of growing them.</strong> Saudi Arabia grew desert wheat from fossil aquifers from the 1980s, then largely phased it out from the late 2000s. The flip side is that some dry regions, such as parts of California, export their scarce water as almonds or cotton.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>A warmer world moves the water around</h2>
+</header>
+
+<p>Climate change redistributes water and makes it less reliable.
+Warmer air holds more moisture, so heavy downpours become heavier, while heat dries soils and
+reservoirs faster between them. Many already dry subtropical regions, such as the Mediterranean,
+southern Africa and the American Southwest, are expected to become drier on average. <strong>More
+of the rain may arrive as floods that are hard to store, and less as steady flow.</strong></p>
+
+<p>Mountains matter enormously. Snow and glaciers act as natural reservoirs: they store winter
+precipitation and release it slowly in spring and summer, exactly when farms need it. The Himalaya feeds the Indus, Ganges and Brahmaputra, which support well over a billion people, and the Andes supply cities such as Lima. As glaciers shrink, their
+meltwater first increases, then falls once the ice is too small. Scientists call that turning point
+<strong>peak water</strong>. For some smaller glaciers, it has already passed.</p>
+
+<div class="sheet">
+  <div class="cap">Glacier meltwater over time, schematically</div>
+<pre>
+summer meltwater
+      |              ***
+      |           ***   ***          &lt;- "peak water"
+      |        ***         ***
+      |  ******               ***
+      |                          ****
+      |                              ******  small glacier, little melt
+      +--------------------------------------------- decades of warming
+         stable      melt rises     melt falls
+</pre>
+</div>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Dying seas, shared rivers and lost hours</h2>
+  <p class="lede">Water shortage shapes what a region can grow, how healthy its people are, and how neighbours treat each other.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The Aral Sea: a lake turned into a desert</h2>
+</header>
+
+<p>In 1960 the Aral Sea, on the border of what are now Kazakhstan and Uzbekistan, was one of the
+largest lakes in the world.  Then Soviet planners diverted its two
+feeder rivers, the Amu Darya and the Syr Darya, into vast irrigation canals to grow cotton in the
+desert. The cotton grew. The lake shrank.</p>
+
+<p>Within a few decades the Aral had lost most of its volume and split into separate, much saltier
+bodies of water. Fishing boats were left rusting in sand tens of kilometres from the new shore. Winds lifted salt and farm chemicals from the exposed seabed, and local people suffered from respiratory and other illnesses. </p>
+
+<p>There is a partial happy ending. In 2005 Kazakhstan finished a dam that kept the Syr Darya's water in the small northern part of the sea. The North Aral has partly recovered and fishing
+has returned. The larger southern basin has not. <strong>The Aral is the clearest lesson in the
+subject: a river can be used up completely, and the cost lands far downstream on people who never
+shared the benefit.</strong></p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Rivers that cross borders</h2>
+</header>
+
+<p>Several hundred river and lake basins are shared by two or more countries. Upstream countries can take water first. Three cases show the pattern.</p>
+
+<div class="grid3">
+  <div class="card"><h4>The Nile</h4><p>Egypt gets almost all its fresh water from the Nile, most of
+  which rises in the Ethiopian highlands. Ethiopia built the Grand Ethiopian Renaissance Dam, Africa's largest hydropower project, completed in 2025. Egypt and Sudan fear for their supply in drought years, and no binding deal on running it has been agreed.</p></div>
+  <div class="card"><h4>The Indus</h4><p>The 1960 Indus Waters Treaty, brokered by the World Bank,
+  split the river system between India and Pakistan. It survived several wars. In April 2025, after a
+  deadly attack in Kashmir, India said it was holding the treaty "in abeyance". Pakistan rejected the
+  move, and the treaty's future is now openly contested.</p></div>
+  <div class="card"><h4>The Colorado</h4><p>A 1922 compact divided the river among US states using
+  figures from an unusually wet period. It promised more water than the river reliably carries. Long drought pushed its reservoirs to record lows, and the shortage rules are being renegotiated as the current guidelines expire in 2026.</p></div>
+</div>
+
+<p>Headlines often predict "water wars". The record is more reassuring. Research led by the American geographer Aaron Wolf found that
+<strong>cooperation has been far more common than violent conflict</strong>, and that hundreds of
+water treaties have been signed. 
+Water does, however, raise tension and feed local violence, for example between farmers and herders.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Health, time and who carries the bucket</h2>
+</header>
+
+<p>Scarcity reaches people most directly through drinking water. According to WHO and UNICEF
+monitoring, around <strong>two billion people</strong> in the early 2020s still lacked "safely
+managed" drinking water, meaning water at home, available when needed and free from contamination.
+Unsafe water spreads diarrhoeal diseases that kill many young children.
+The health side is covered in <a href="../19-public-health/14-clean-water.html">Public Health ·
+Clean water</a>.</p>
+
+<p>Where water is not piped, someone has to fetch it, and in most households that someone is a woman
+or a girl. Women and girls do most of the water carrying in such homes, and the hours come out of school, paid work and rest.
+<strong>A tap near the home is therefore also an education policy and a gender policy.</strong></p>
+
+
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Every source of new water has a price</h2>
+  <p class="lede">There is no free fix. Each option costs money and energy, moves the problem elsewhere, or asks people to change habits.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The toolkit, weighed honestly</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Option</th><th>Strengths</th><th>Weaknesses</th></tr></thead>
+<tbody>
+<tr><td><strong>Big dams and reservoirs</strong></td><td class="ok">Store wet-season water for the dry season. Add hydropower and flood control.</td><td class="no">Flood valleys and displace people. Lose water to evaporation. Trap sediment. Cause disputes downstream.</td></tr>
+<tr><td><strong>More groundwater pumping</strong></td><td class="ok">Cheap, quick and under each farmer's control. A good drought reserve.</td><td class="no">Invisible depletion, sinking land, salty wells. Hard to regulate millions of private wells.</td></tr>
+<tr><td><strong>Desalination</strong></td><td class="ok">A supply that does not depend on rain. Proven at scale in the Gulf, Israel and Spain.</td><td class="no">Energy-hungry, expensive away from the coast, produces salty brine. See <a href="../11-energy-and-water.html#e1">Vol 11</a>.</td></tr>
+<tr><td><strong>Recycling wastewater</strong></td><td class="ok">Turns sewage into a steady, local source. Israel reuses most of its treated wastewater on farms.</td><td class="mid">Needs advanced treatment and public trust. "Toilet to tap" campaigns have failed when people were not won over.</td></tr>
+
+<tr><td><strong>Fixing leaks and saving water</strong></td><td class="ok">Often the cheapest "new" water available. No new environmental damage.</td><td class="mid">Unglamorous, so it is underfunded. Savings can be eaten by new demand.</td></tr>
+<tr><td><strong>Pricing and allocation rules</strong></td><td class="ok">Make users value water and shift it to higher-value uses.</td><td class="no">Politically painful. Risks hurting poor households and small farmers unless designed carefully.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Why water is so badly priced, and the efficiency trap</h2>
+</header>
+
+<p>In 1776 Adam Smith pointed out a puzzle that still sits at the centre of this subject. Water is
+essential to life and diamonds are not, yet diamonds cost a fortune and water costs almost nothing.
+The answer to this <strong>paradox of value</strong> is that price reflects the value of one extra unit, and when water is plentiful one more litre is worth little.</p>
+
+<p>The trouble is that many governments keep water nearly free even after it has become scarce. Farm
+water is often subsidised, and electricity for pumps is cheap or free in some places, including
+several Indian states. <strong>When something scarce is priced as if it were plentiful, people use it
+as if it were plentiful.</strong> Yet in 2010 the UN General
+Assembly recognised access to safe drinking water and sanitation as a human right, and a pure market price could put a basic supply out of reach of the poor. Many utilities compromise with "block tariffs": a small first amount is very cheap, and the price rises steeply above it.</p>
+
+<p>Efficiency has its own trap. Drip irrigation, developed commercially in Israel in the 1960s,
+delivers water drop by drop to each plant's roots instead of flooding a field. It sounds like a
+perfect saving. But studies have found that farmers often use the "saved" water to irrigate more land, and the water that used to seep back into rivers and aquifers no longer does. <strong>Efficiency saves water for the basin only if the savings are
+capped and not simply spent.</strong> Economists know this as a form of the rebound effect.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>More people, a hotter climate, and better tools</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Rising demand and more stressed basins</strong></td><td>Population growth, meatier diets and growing cities add demand, while warming dries many subtropical regions.</td><td class="ok">Fairly sure: more regions will face seasonal shortages and more "Day Zero" scares, especially in fast-growing dry cities.</td></tr>
+<tr><td><strong>Desalination and reuse becoming normal</strong></td><td>Both are growing fast as costs fall and cheap solar power spreads in sunny, dry regions.</td><td class="mid">Plausible: coastal cities in dry regions increasingly drink manufactured water. Inland farming will still depend on rain, rivers and aquifers, because desalinated water is too costly to pump far uphill for crops.</td></tr>
+<tr><td><strong>Exotic new sources</strong></td><td>Towing icebergs, large-scale cloud seeding and pulling water from the air, mostly in small trials.</td><td class="no">Speculative: none has yet shown it can supply water at the scale and price of a city or a farming region.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>What water security looks like: the Singapore lesson</h2>
+</header>
+
+<p>Singapore, a crowded island with no large rivers or aquifers, long depended on water piped from Malaysia. Treating this as a security risk, it built what it calls the "Four National Taps": rain caught in reservoirs across the island,
+imported water, highly treated recycled water branded NEWater, and desalination. It also prices water to reflect scarcity.</p>
+
+<p>Not every place can copy a rich city-state. But the lesson is that <strong>water security comes from diversity of sources and honesty about
+price</strong>, not from one heroic project. Elsewhere that means measuring groundwater and capping pumping, fixing the pipes, and agreeing in advance how shortages will be shared.</p>
+
+<p>The last point matters most. <strong>Droughts are predictable in general, even if not in timing.</strong> The places that cope best decide before the crisis who gets cut first.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Fresh water is a <strong>renewable flow</strong>, not a fixed stock, but it is unevenly spread
+    in space and time. Scarcity comes from <strong>demand outrunning a local supply</strong>, mostly
+    because of irrigation, from hidden <strong>groundwater depletion</strong>, and from a climate that
+    makes rain less reliable. It is as much about prices, rules and infrastructure as about
+    rainfall.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Only about <strong>2.5%</strong> of Earth's water is fresh, and most of that is ice or
+      underground.</li>
+      <li>Agriculture takes roughly <strong>70%</strong> of the fresh water people withdraw.</li>
+      <li>About <strong>4 billion people</strong> face severe scarcity at least one month a year
+      (2016 estimate).</li>
+      <li>Falkenmark's lines: under <strong>1,700 m³</strong> per person a year is stress, under
+      <strong>1,000</strong> scarcity, under <strong>500</strong> absolute scarcity.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking the solution is shorter showers. Household use is a small share. <strong>In most dry
+    regions, water scarcity is decided on farms</strong>, by what is grown and how it is
+    watered.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a country with plenty of rivers can still have millions of people without
+    safe water, while a desert city-state can be water-secure? If so, you understand the difference
+    between physical and economic scarcity.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Water stress</dt><dd>When demand for fresh water regularly presses against the available supply.</dd>
+    <dt>Physical scarcity</dt><dd>There is not enough water in a place to meet demand.</dd>
+    <dt>Economic scarcity</dt><dd>Water exists, but people lack the infrastructure or money to use it.</dd>
+    <dt>Groundwater</dt><dd>Water stored underground in the pores and cracks of rock and sediment.</dd>
+    <dt>Aquifer</dt><dd>A layer of rock, sand or gravel that holds groundwater and lets it be pumped.</dd>
+    
+    <dt>Subsidence</dt><dd>The sinking of land, often caused by pumping out the water beneath it.</dd>
+    
+    <dt>Consumption</dt><dd>The part of withdrawn water that does not return, because it evaporates or is used up.</dd>
+    <dt>Virtual water</dt><dd>The water used to produce a good, which is traded along with it.</dd>
+    <dt>Water footprint</dt><dd>An estimate of all the water used to make a product, split into green, blue and grey.</dd>
+    <dt>Peak water</dt><dd>The point after which a shrinking glacier supplies less meltwater each year.</dd>
+    <dt>Block tariff</dt><dd>A water price that is low for a basic amount and rises for heavier use.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"The world isn't running out of water. Particular places are running out of cheap
+    water."</li>
+    <li>"About seventy per cent of the fresh water we use goes to farming, so in dry regions the water
+    problem is really a food problem."</li>
+    <li>"Groundwater is a bank account you can't see. You only notice it's empty when the wells go
+    dry."</li>
+    <li>"When a dry country imports wheat, it's really importing the water that grew it."</li>
+    <li>"Shared rivers produce far more treaties than wars, but the treaties need rules for drought
+    agreed before the drought."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="16-coastal-regions.html">Coastal regions</a></h4><p>Where
+  land meets sea: why so many people live there, how coasts move, and what rising seas and sinking
+  deltas mean for the cities built on them.</p></div>
+  <div class="card"><h4>Related · <a href="14-agriculture-and-geography.html">Agriculture and
+  geography</a></h4><p>The biggest user of water: why crops grow where they do, and how irrigation
+  reshaped deserts and river valleys.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

@@ -1,0 +1,849 @@
+<!doctype html>
+<!--@HEAD-SRC title="Exoplanets" desc="Planets around other stars: how astronomers detect worlds they cannot see, the strange kinds of planets that turned up, how atmospheres are read from starlight, and the honest state of the search for signs of life."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exoplanets</title>
+<meta name="description" content="Planets around other stars: how astronomers detect worlds they cannot see, the strange kinds of planets that turned up, how atmospheres are read from starlight, and the honest state of the search for signs of life.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Astronomy &amp; Space · Topic 07 of 20</p>
+  <h1>Exoplanets. <span class="thin">Thirty years ago we knew of none. Now there are more than six thousand.</span></h1>
+  <p class="lede">For all of history until the 1990s, nobody knew whether any other star had planets.
+  It seemed likely, but it was unproven. Then, within a few years, the first ones were found, and they
+  were nothing like what anyone expected. Today we know that planets are common, that most stars have
+  them, and that the commonest kinds are missing from our own solar system. Almost none of these
+  planets has ever been seen directly. They are detected from tiny wobbles and shadows in the light
+  of their stars.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Astronomy &amp; Space</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../29-the-sky.html#c8"><span class="vn">Vol 29 · ch 08</span><b>Is anyone else out there</b><em>The short version</em></a>
+<a class="vol" href="04-planet-formation.html"><span class="vn">Astronomy · 04</span><b>Planet formation</b><em>How they are made</em></a>
+<a class="vol" href="09-neutron-stars.html"><span class="vn">Astronomy · 09</span><b>Neutron stars</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 29 gives the two-minute version: planets are ordinary, they are found mostly by watching
+  for dips in starlight, and many orbit where liquid water could exist
+  (<a href="../29-the-sky.html#c8">Is anyone else out there</a>). Volume 29 also explains how light
+  reveals what things are made of (<a href="../29-the-sky.html#c1">Light carries a signature</a>), the
+  trick behind reading exoplanet atmospheres. This file covers the methods, the discoveries and the
+  arguments in full. The question of life itself has its own topic:
+  <a href="20-the-possibility-of-extraterrestrial-life.html">The possibility of extraterrestrial life</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Planets that orbit other stars</h2>
+  <p class="lede">An exoplanet, short for "extrasolar planet", is any planet outside our solar system.
+  The first convincing ones were found only in the 1990s, and the very first was found around one of
+  the least likely stars imaginable.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The planet that should not have existed</h2>
+</header>
+
+<p>In 1995 two Swiss astronomers, Michel Mayor and his student Didier Queloz, were measuring tiny
+changes in the light of nearby Sun-like stars. One star, 51 Pegasi, about 50 light-years away, was
+moving back and forth very slightly every 4.2 days. The simplest explanation was an unseen planet
+tugging on it. From the size of the tug, the planet had to be roughly half the mass of Jupiter.</p>
+
+<p>That made no sense. In our solar system, giant planets are far from the Sun and take years to orbit.
+This one went round its star in four days, <strong>far closer to its star than Mercury is to the
+Sun</strong>, at a temperature of over a thousand degrees. Many astronomers were sceptical at first.
+Within weeks, an American team confirmed the signal. The planet, 51 Pegasi b, became the first of a new
+class called <strong>hot Jupiters</strong>. Mayor and Queloz shared the Nobel Prize in Physics in 2019.</p>
+
+<p>The lesson came straight away: <strong>nature makes planetary systems our theories had not
+imagined</strong>. Planets can move far from where they formed, as explained in
+<a href="04-planet-formation.html">Planet formation</a>.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The first ones circled a dead star</h2>
+</header>
+
+<p>The 1995 discovery was the first planet around a Sun-like star. But three years earlier, in 1992,
+the astronomers Aleksander Wolszczan and Dale Frail had found planets around a <strong>pulsar</strong>,
+the spinning, collapsed core left after a massive star exploded. A pulsar sends out radio pulses as
+regular as an atomic clock. Tiny delays in those pulses revealed small planets, a few times Earth's mass,
+orbiting it. Those planets probably formed from debris after the explosion, so they are a strange first
+example. Pulsars are explained in <a href="09-neutron-stars.html">Neutron stars</a>.</p>
+
+<p>Since then the count has climbed steeply. NASA's catalogue passed <strong>6,000 confirmed
+exoplanets in 2025</strong>, with thousands more candidates waiting for confirmation. Astronomers
+officially count something as a planet if it is too small to fuse hydrogen like a star, roughly below
+thirteen Jupiter masses, and orbits a star or stellar remnant.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Why it took so long</h2>
+</header>
+
+<p>Two problems made exoplanets nearly impossible to see. The first is <strong>glare</strong>. A star
+like the Sun is roughly ten billion times brighter than an Earth-like planet in visible light. Spotting
+one beside the other is like spotting a firefly next to a lighthouse from thousands of kilometres away.</p>
+
+<p>The second is <strong>distance</strong>. Even the nearest stars are so far away that a planet and
+its star appear almost on top of each other. At the distance of the nearest star, the gap between the
+Sun and Earth would look about as wide as a small coin seen from five kilometres away.</p>
+
+<p>So astronomers mostly gave up trying to see planets directly. Instead, they learned to see their
+<strong>effects on their stars</strong>. That shift in strategy is the key to the whole field.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Wobbles, shadows, and starlight filtered through air</h2>
+  <p class="lede">Nearly every exoplanet has been found by measuring a star very precisely and
+  noticing a pattern that only a planet explains. The same tricks can then reveal a planet's size,
+  mass, and even the gases in its atmosphere.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The wobble: radial velocity</h2>
+</header>
+
+<p>A planet does not simply orbit a star. Both orbit their shared centre of mass. Because the star is
+far heavier, it moves only a little, in a small circle. That motion makes the star approach us, then
+recede, over and over. When it approaches, its light is squeezed slightly towards blue. When it
+recedes, it is stretched slightly towards red. This is the <strong>Doppler effect</strong>, the same
+reason a passing siren changes pitch.</p>
+
+<p>Measuring that colour shift is the <strong>radial velocity method</strong>. "Radial" means along
+our line of sight. The best instruments can now detect a star moving back and forth at well under one
+metre per second, slower than a person walking. Jupiter makes the Sun wobble at about 12 metres per
+second. Earth makes it wobble at only about <strong>9 centimetres per second</strong>, which is still
+beyond reach once the star's own surface noise is considered. The method gives a planet's minimum mass
+and its orbital period.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The shadow: transits</h2>
+</header>
+
+<p>If a planet's orbit happens to be lined up edge-on from our point of view, the planet passes in
+front of its star once every orbit. It blocks a tiny fraction of the star's light, and the star dims
+very slightly. This is a <strong>transit</strong>.</p>
+
+<div class="sheet">
+  <div class="cap">A transit: the dip in a star's brightness as a planet crosses it</div>
+<pre>
+ brightness
+   100%  ____________          _____________          ____________
+                     \________/             \________/
+                       planet                 planet
+                       in front               in front again
+                     |<---------- one orbital period -------->|
+       depth of the dip  -> planet's size
+       time between dips -> length of its year
+</pre>
+</div>
+
+<p>The depth of the dip tells you the planet's size compared with the star. Jupiter passing in front of
+the Sun would dim it by about 1 per cent. Earth would dim it by under one hundredth of 1 per cent.
+NASA's <strong>Kepler</strong> space telescope stared at about 150,000 stars from 2009 to 2018 and
+found thousands of planets this way, more than any other mission. Its successor, <strong>TESS</strong>
+(launched 2018), scans most of the sky, focusing on bright nearby stars.</p>
+
+<p>Transits and wobbles work best together. The transit gives the size. The wobble gives the mass.
+Divide one by the other and you get the <strong>density</strong>, which tells you whether a planet is
+rock, water or gas. That is how astronomers can say, without ever seeing it, that a world is "probably
+rocky".</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Pictures, lenses and other tricks</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Method</th><th>How it works</th><th>What it finds best</th></tr></thead>
+<tbody>
+<tr><td><strong>Radial velocity</strong></td><td>The star's colour shifts as it is tugged back and forth</td><td>Massive planets close to their stars</td></tr>
+<tr><td><strong>Transit</strong></td><td>The star dims as a planet passes in front</td><td>Large planets in short orbits, with lined-up orbits</td></tr>
+<tr><td><strong>Direct imaging</strong></td><td>The starlight is blocked inside the telescope to reveal the planet's own glow</td><td>Young, hot giant planets far from their stars</td></tr>
+<tr><td><strong>Gravitational microlensing</strong></td><td>A star's gravity briefly magnifies a background star; a planet adds a short extra spike</td><td>Planets far from their stars, and free-floating rogue planets</td></tr>
+<tr><td><strong>Astrometry</strong></td><td>The star's position shifts slightly on the sky as it wobbles</td><td>Giant planets in wider orbits (Gaia's specialty)</td></tr>
+<tr><td><strong>Timing</strong></td><td>Regular signals, such as pulsar pulses, arrive early or late</td><td>Planets around pulsars and some paired stars</td></tr>
+</tbody></table></div>
+
+<p>Direct imaging deserves a word. In 2008 astronomers released images of planets around the young star
+HR 8799, using a device that blocks the star's light, called a coronagraph, and adaptive optics that
+remove the blurring of Earth's atmosphere. The planets appear as faint dots, and over the years since,
+their slow orbital motion has been tracked image by image. <strong>Seeing a planet move around another
+star</strong> is one of the quiet wonders of modern astronomy.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Reading an atmosphere through starlight</h2>
+</header>
+
+<p>During a transit, a thin ring of starlight passes through the planet's atmosphere on its way to us.
+Each gas absorbs particular colours (<a href="../29-the-sky.html#c1">Light carries a signature</a>). By
+comparing the star's light during and outside the transit, astronomers can see which colours the
+atmosphere removed, and so which gases are present. This is called <strong>transmission
+spectroscopy</strong>.</p>
+
+<p>The signal is minute, a change of a few parts in ten thousand or less. The James Webb Space Telescope,
+launched in December 2021, made the method routine. In 2022 it found clear evidence of <strong>carbon
+dioxide</strong> in the atmosphere of a hot giant planet called WASP-39b, along with water and other
+molecules, and even signs of chemistry driven by starlight. Webb has since measured dozens of
+atmospheres.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>A galaxy full of worlds, and the oldest question</h2>
+  <p class="lede">Exoplanets settled a question that philosophers argued about for over two thousand
+  years, showed that our solar system is not the template, and turned "is there life elsewhere?" into a
+  question telescopes can begin to test.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Planets are the rule, not the exception</h2>
+</header>
+
+<p>Because transit and wobble surveys miss many planets, astronomers correct for what they cannot see
+and estimate how common planets really are. The answer is striking. Studies of Kepler data and
+microlensing surveys suggest that, on average, <strong>every star in the Milky Way has at least one
+planet</strong>. With a few hundred billion stars, that means hundreds of billions of planets in our
+galaxy alone.</p>
+
+<p>How many are roughly Earth-sized and at the right distance for liquid water? Estimates for Sun-like
+stars vary widely, from a few per cent to around half, depending on definitions and assumptions. Even
+the low end implies billions of such planets in the galaxy. <strong>The question is no longer whether
+Earth-sized planets in temperate orbits exist, but what they are actually like.</strong></p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The zoo: worlds unlike ours</h2>
+</header>
+
+<div class="grid2">
+  <div class="card"><h4>Hot Jupiters</h4><p>Giant planets in orbits of a few days. Famous because they
+  were found first, but they orbit only around 1 per cent of Sun-like stars.</p></div>
+  <div class="card"><h4>Super-Earths and sub-Neptunes</h4><p>Between Earth and Neptune in size. The most
+  common planets found so far, and absent from our solar system. Some are rocky, others wrapped in thick
+  gas.</p></div>
+  <div class="card"><h4>Lava worlds</h4><p>Rocky planets so close to their stars that their day sides may
+  be oceans of molten rock.</p></div>
+  <div class="card"><h4>Circumbinary planets</h4><p>Planets orbiting two stars at once, with double
+  sunsets, like the fictional Tatooine. Kepler-16b, announced in 2011, was the first clear case found by
+  transit.</p></div>
+</div>
+
+<p>One clue to how this zoo formed is a gap in planet sizes. Among small close-in planets there are
+fewer than expected at about 1.5 to 2 times Earth's width. This <strong>radius valley</strong> suggests
+two groups: rocky planets that lost their original gas envelopes, perhaps stripped by starlight, and
+slightly bigger planets that kept them. How the stripping works is still being studied.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The habitable zone, and its limits</h2>
+</header>
+
+<p>The <strong>habitable zone</strong> is the range of distances from a star where a planet with the
+right atmosphere could keep liquid water on its surface: not so close that it boils, not so far that it
+freezes. It is a useful filter, but only a filter. Venus sits near the inner edge of the Sun's
+habitable zone and is a furnace. <strong>Being in the zone is about temperature, not about life.</strong></p>
+
+<p>Many of the most studied candidates orbit <strong>red dwarfs</strong>, small cool stars that are the
+most common in the galaxy. Their habitable zones are close in, so their planets transit often and are
+easier to study. The nearest exoplanet, Proxima Centauri b, found in 2016, orbits the nearest star to the
+Sun, about 4.2 light-years away, inside its habitable zone. In 2017 astronomers announced seven
+Earth-sized planets around a red dwarf called TRAPPIST-1, about 40 light-years away, several of them in
+its habitable zone.</p>
+
+<p>Red dwarfs have drawbacks. Young ones flare violently, which may strip the air from nearby planets.
+And planets that close tend to become <strong>tidally locked</strong>, with one side always facing the
+star, like the Moon to Earth. Early Webb observations of the two innermost TRAPPIST-1 planets found no
+sign of thick atmospheres. Whether rocky planets around red dwarfs can keep atmospheres at all is one of
+the most important open questions in the field.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The search for signs of life, and a cautionary tale</h2>
+</header>
+
+<p>The ultimate goal is to find a <strong>biosignature</strong>: a gas, or a combination of gases, that is
+hard to explain without life. Earth's atmosphere would give itself away by having lots of oxygen and some
+methane at the same time. The two react with each other, so something must be constantly replacing
+them.</p>
+
+<p>In 2023 and 2025 a team studying the sub-Neptune K2-18b, about 120 light-years away, reported methane
+and carbon dioxide and then a tentative signal of <strong>dimethyl sulfide</strong>, a gas produced on
+Earth mainly by marine life. The claim drew wide attention. Many other researchers reanalysed the data
+and found the evidence weak or explainable without life, and some questioned whether the planet has an
+ocean at all. <strong>As of 2026 the claim is widely regarded as unconfirmed.</strong> The episode is a
+useful lesson: an extraordinary claim based on a faint signal needs independent, repeated
+confirmation.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Powerful methods with strong biases</h2>
+  <p class="lede">Every detection method sees some planets easily and others not at all. The catalogue
+  is therefore a distorted picture, and knowing the distortions is part of understanding the field.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Strengths and blind spots of the search</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Aspect</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Transits</strong></td><td class="ok">Can survey hundreds of thousands of stars at once, and give size and atmospheres.</td><td class="no">Only works when the orbit is lined up with us, a small fraction of systems. Favours short orbits.</td></tr>
+<tr><td><strong>Radial velocity</strong></td><td class="ok">Gives mass, and works for any orbital orientation.</td><td class="no">Earth-like wobbles are still below the noise of the star itself.</td></tr>
+<tr><td><strong>Direct imaging</strong></td><td class="ok">Shows the planet's own light, ideal for studying atmospheres.</td><td class="no">So far limited mostly to young, hot giants far from their stars.</td></tr>
+<tr><td><strong>Atmospheric studies</strong></td><td class="ok">Webb can identify individual molecules light-years away.</td><td class="mid">Signals are faint, and stellar spots can mimic planetary signals.</td></tr>
+<tr><td><strong>The catalogue as a whole</strong></td><td class="ok">Thousands of planets allow real statistics.</td><td class="no">Biased towards big planets in short orbits around quiet stars. True Earth twins are barely represented.</td></tr>
+</tbody></table></div>
+
+<p>One consequence is easy to miss. <strong>We still have not found a true analogue of Earth</strong>: a
+rocky planet of Earth's size, in a one-year orbit around a Sun-like star, with its mass and atmosphere
+measured. Such a planet produces a transit too shallow, too infrequent, and a wobble too small for current
+instruments. The planets we know about are mostly the ones easiest to find, not the ones most like
+home.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>From counting planets to studying them</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Thousands more planets, including longer orbits</strong></td><td>Europe's PLATO mission is planned to launch around the end of 2026 to search bright Sun-like stars. Gaia's later data releases are expected to reveal many giant planets by astrometry. NASA's Roman telescope will hunt by microlensing.</td><td class="ok">Fairly sure: the first good census of planets in wider orbits, and rocky planets around Sun-like stars, over the next decade.</td></tr>
+<tr><td><strong>Atmospheres of rocky planets</strong></td><td>Webb is testing whether rocky planets around red dwarfs keep atmospheres. Europe's Ariel (planned around 2029) will survey hundreds of atmospheres. Giant ground telescopes such as the ELT are due around the end of the decade.</td><td class="mid">Plausible: a clear answer on whether red-dwarf planets hold air, and the first detailed atmospheres of temperate rocky worlds.</td></tr>
+<tr><td><strong>A convincing biosignature</strong></td><td>NASA's proposed Habitable Worlds Observatory would directly image Earth-like planets around Sun-like stars, but would not fly before the 2040s.</td><td class="no">Speculative: possible within a few decades, but any claim will be contested, and "no detection" will also be hard to interpret.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>What finding "another Earth" would and would not mean</h2>
+</header>
+
+<p>Headlines regularly announce an "Earth twin". So far, every one has turned out to be something
+less: a planet of the right size around the wrong kind of star, or of the right temperature but the
+wrong size, or with no information at all about its atmosphere. The phrase should be read with care.</p>
+
+<p>Even a genuine twin would answer only part of the question. A planet with Earth's size, temperature
+and an oxygen-rich atmosphere would be extraordinary evidence, but oxygen can sometimes be produced
+without life, for example when starlight splits water. <strong>Scientists expect life, if it is found
+this way, to be accepted gradually, as several independent lines of evidence point in the same
+direction</strong>, not in a single announcement.</p>
+
+<p>What is already certain is a change in perspective. The ancient question of whether other worlds
+exist has been answered: they do, in vast numbers. The open question, whether any of them are alive, is
+taken up in <a href="20-the-possibility-of-extraterrestrial-life.html">The possibility of
+extraterrestrial life</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Exoplanets are found mostly <strong>through their effects on their stars</strong>: the wobble
+    they cause (radial velocity) and the shadow they cast (transit). Together these give
+    <strong>mass, size and density</strong>. Starlight filtered through an atmosphere reveals its gases.
+    Planets turn out to be <strong>more common than stars</strong>, and very varied.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>More than <strong>6,000</strong> confirmed exoplanets as of 2025.</li>
+      <li>First around a Sun-like star: <strong>1995</strong> (51 Pegasi b); first of all: 1992, around a pulsar.</li>
+      <li>Earth dims the Sun by under <strong>0.01 per cent</strong> in transit; Jupiter by about 1 per cent.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Treating "in the habitable zone" or "Earth-sized" as meaning "Earth-like" or "has life".
+    <strong>The habitable zone is about temperature only</strong>; Venus is close to the Sun's.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain how combining a transit and a wobble tells you whether a planet is rocky? If so,
+    you understand the core logic of the field.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Exoplanet</dt><dd>A planet orbiting a star other than the Sun.</dd>
+    <dt>Hot Jupiter</dt><dd>A giant planet orbiting very close to its star, in days.</dd>
+    <dt>Radial velocity</dt><dd>The method that detects a star's back-and-forth motion from shifts in its light.</dd>
+    <dt>Doppler effect</dt><dd>The stretching or squeezing of waves from a moving source.</dd>
+    <dt>Transit</dt><dd>A planet passing in front of its star, causing a small dip in brightness.</dd>
+    <dt>Direct imaging</dt><dd>Photographing a planet itself by blocking its star's light.</dd>
+    <dt>Microlensing</dt><dd>Detecting a planet when its gravity briefly magnifies the light of a background star.</dd>
+    <dt>Transmission spectroscopy</dt><dd>Reading an atmosphere's gases from starlight that passes through it.</dd>
+    <dt>Super-Earth / sub-Neptune</dt><dd>Planets between Earth and Neptune in size, the commonest kind found.</dd>
+    <dt>Habitable zone</dt><dd>The distances from a star where liquid water could exist on a planet's surface.</dd>
+    <dt>Tidal locking</dt><dd>When a planet always keeps the same face towards its star.</dd>
+    <dt>Biosignature</dt><dd>A sign, such as a combination of gases, that is hard to explain without life.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"We've found more than six thousand planets around other stars, and almost none of them has been
+    seen directly."</li>
+    <li>"The first planet around a Sun-like star was a giant orbiting in four days. Nobody's theory
+    allowed that."</li>
+    <li>"On average, every star in our galaxy has at least one planet."</li>
+    <li>"The commonest planets out there are bigger than Earth and smaller than Neptune, a kind our solar
+    system doesn't have."</li>
+    <li>"Being in the habitable zone means the temperature might be right. It says nothing about
+    life."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="09-neutron-stars.html">Neutron stars</a></h4><p>The collapsed
+  cores of massive stars, whose clock-like pulses revealed the very first exoplanets.</p></div>
+  <div class="card"><h4>Related · <a href="20-the-possibility-of-extraterrestrial-life.html">The possibility
+  of extraterrestrial life</a></h4><p>Where life might exist, how we could recognise it, and why the
+  silence so far is puzzling.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->
