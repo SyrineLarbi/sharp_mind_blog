@@ -1,0 +1,859 @@
+<!doctype html>
+<!--@HEAD-SRC title="Exchange Rates" desc="Why currencies rise and fall against each other, the choice between floating and fixed regimes, what happens when a peg breaks, the special role of the dollar, and what could change."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exchange Rates</title>
+<meta name="description" content="Why currencies rise and fall against each other, the choice between floating and fixed regimes, what happens when a peg breaks, the special role of the dollar, and what could change.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Economics · Topic 13 of 20</p>
+  <h1>Exchange rates. <span class="thin">The price of a country, quoted every second.</span></h1>
+  <p class="lede">An exchange rate is just the price of one currency in another. But it is a price
+  that touches almost everything: what your holiday costs, what your supermarket pays for imported
+  food, whether a factory can sell abroad, and whether a government can repay its foreign debts. When
+  it moves suddenly, governments fall. This file explains why currencies move, and why countries make
+  such different choices about whether to let them.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Economics</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../10-finance-investing/14-foreign-exchange.html"><span class="vn">Finance · 14</span><b>Foreign exchange</b><em>The market and hedging</em></a>
+<a class="vol" href="09-monetary-policy.html"><span class="vn">Economics · 09</span><b>Monetary policy</b><em>Rates move currencies</em></a>
+<a class="vol" href="14-public-debt.html"><span class="vn">Economics · 14</span><b>Public debt</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first treatment of exchange rates. The nearest neighbours are Volume 38's
+  chapters on <a href="../38-money.html#c1">money as a promise everyone accepts</a> and
+  <a href="../38-money.html#c3">inflation</a>, since a currency's value abroad and at home are two
+  sides of the same trust. The trading market itself, hedging and the carry trade are in
+  <a href="../10-finance-investing/14-foreign-exchange.html">Foreign exchange</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>One money priced in another</h2>
+  <p class="lede">An exchange rate tells you how much of one currency you need to buy one unit of
+  another. Simple to define, it carries a surprising amount of economics inside it.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Black Wednesday</h2>
+</header>
+
+<p>In 1990 Britain joined the European Exchange Rate Mechanism, a system in which European currencies
+promised to stay within narrow bands against each other, in practice against the German mark. By 1992
+the arrangement was under strain. Germany, paying for reunification, kept interest rates high. Britain
+was in recession and needed lower rates. Investors doubted that Britain would keep paying the price of
+defending the pound.</p>
+
+<p>On 16 September 1992 they sold pounds in enormous quantities. The Bank of England bought pounds with
+its reserves and raised its interest rate from 10% to 12%, then announced a rise to 15%. It was not
+enough. That evening the government announced that Britain was leaving the mechanism, and the pound
+fell sharply. The investor George Soros became famous for having bet against the pound, reportedly
+making about a billion dollars.</p>
+
+<p>The day became known as Black Wednesday. Its lesson is general. <strong>A fixed exchange rate is a
+promise, and markets will test whether a government is willing to pay the cost of keeping it.</strong>
+If they decide it is not, no amount of reserves may be enough. Many economists later argued that
+leaving was good for Britain's economy, because it freed interest rates to fall.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Reading an exchange rate</h2>
+</header>
+
+<p>Exchange rates are quoted as a pair. "EUR/USD 1.10" means one euro buys 1.10 US dollars. "USD/JPY
+150" means one dollar buys 150 yen. The same rate can be written either way round, which is a constant
+source of confusion. Always ask: how many of <em>which</em> currency buy one of the other?</p>
+
+<div class="tw"><table>
+<thead><tr><th>Term</th><th>What it means</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Appreciation</strong></td><td>A currency becomes worth more in other currencies</td><td>The euro goes from 1.10 to 1.20 dollars</td></tr>
+<tr><td><strong>Depreciation</strong></td><td>A currency becomes worth less</td><td>The yen goes from 110 to 150 per dollar</td></tr>
+<tr><td><strong>Devaluation / revaluation</strong></td><td>The same moves, but decided by a government with a fixed rate</td><td>A central bank resets its peg lower</td></tr>
+<tr><td><strong>Nominal rate</strong></td><td>The rate you see quoted</td><td>1.10 dollars per euro</td></tr>
+<tr><td><strong>Real rate</strong></td><td>The nominal rate adjusted for price levels in both countries</td><td>What a basket of goods in one country costs in the other</td></tr>
+</tbody></table></div>
+
+<p>The <strong>real exchange rate</strong> is what matters for competitiveness. If a country's
+currency falls 10% but its prices rise 10% faster than its trading partners', its goods are no cheaper
+abroad. Economists also track <strong>effective exchange rates</strong>, which measure a currency
+against a weighted basket of trading partners rather than just one.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Who needs currency, and how much</h2>
+</header>
+
+<p>People exchange currency for four main reasons: to pay for imports, to travel, to invest abroad and
+to speculate on moves. The first two are what most people picture. The last two are far larger. The
+foreign exchange market traded more than seven trillion dollars a day in 2022, according to the Bank
+for International Settlements, many times the value of world trade in goods and services.
+<strong>Most of the time, exchange rates are driven far more by money moving between investments than
+by goods moving between countries.</strong> How that market works is covered in
+<a href="../10-finance-investing/14-foreign-exchange.html">Foreign exchange</a>.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Three time horizons, and a menu of regimes</h2>
+  <p class="lede">What moves a currency depends on how far ahead you look. Over decades, prices
+  matter most. Over months, interest rates. Over days, fear and news. And countries choose how much of
+  this movement to allow.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The long run: what money buys</h2>
+</header>
+
+<p>The oldest theory of exchange rates is <strong>purchasing power parity</strong> (PPP). It says that,
+over time, exchange rates should adjust so that the same basket of goods costs about the same
+everywhere. If a country has much higher inflation than its neighbours, its currency should lose value
+roughly in step.</p>
+
+<p>Since 1986 <em>The Economist</em> magazine has published a light-hearted test called the
+<strong>Big Mac index</strong>. It compares the price of a McDonald's burger in different countries,
+converted into dollars. If a Big Mac is much cheaper in one country, the theory suggests its currency
+is "undervalued". The index is a joke with a serious point. Prices do differ a lot, because many
+things, like rent and haircuts, cannot be traded. Poorer countries tend to look cheap because
+local services cost less.</p>
+
+<p>PPP works badly over months, and better over decades. <strong>Inflation is the most reliable
+long-run driver of a currency: countries that keep printing money see their currency sink.</strong>
+Over shorter periods, exchange rates can stay far from PPP for years.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The medium run: interest rates and money flows</h2>
+</header>
+
+<p>Imagine you can earn 5% a year on safe deposits in one currency and 1% in another. Money tends to
+flow towards the higher rate, and buying that currency pushes up its value. This is why central banks'
+decisions move exchange rates so strongly. When the US Federal Reserve raised rates rapidly in 2022,
+the dollar rose against most currencies. Japan kept rates near zero, and the yen weakened to around 160
+per dollar in 2024, its weakest level since the 1980s.</p>
+
+<p>Economic theory adds a twist. If one currency pays more interest, markets often expect it to
+weaken later, which would cancel the gain. In practice that expectation is frequently wrong, which is
+the basis of the carry trade, borrowing in a low-rate currency to invest in a high-rate one. It works
+until a sudden reversal wipes out years of gains.</p>
+
+<p>Beyond interest rates, currencies respond to a country's growth prospects, its trade balance,
+political stability and the credibility of its central bank. A country that seems likely to grow fast
+and treat investors fairly attracts money, and its currency tends to rise.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The short run: fear, news and safe havens</h2>
+</header>
+
+<p>Over days and weeks, currencies move mainly on news and mood. A surprising inflation number, an
+election result, a war or a central banker's speech can move a major currency by several percent.
+Many of these moves are hard to explain even after the fact.</p>
+
+<p>In a crisis, money rushes towards a few <strong>safe-haven currencies</strong>: above all the US
+dollar, and often the Swiss franc and the Japanese yen. This creates a paradox. <strong>Even when a
+crisis starts in the United States, as in 2008, the dollar often rises</strong>, because investors
+around the world need dollars to repay dollar debts and want the safest assets available, which are
+mostly in dollars.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The menu of regimes: from free float to no currency at all</h2>
+</header>
+
+<p>Every country must choose an <strong>exchange rate regime</strong>: the rules for how its currency
+is valued. The choices form a spectrum.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Regime</th><th>How it works</th><th>Examples</th></tr></thead>
+<tbody>
+<tr><td><strong>Free float</strong></td><td>The market sets the rate; the central bank rarely intervenes</td><td>US dollar, euro, British pound, Japanese yen</td></tr>
+<tr><td><strong>Managed float</strong></td><td>Mostly market-driven, but the central bank intervenes to smooth moves</td><td>Many emerging economies; India</td></tr>
+<tr><td><strong>Crawling peg or band</strong></td><td>Fixed, but the target is adjusted gradually</td><td>Used by several countries with high inflation</td></tr>
+<tr><td><strong>Fixed peg</strong></td><td>The central bank holds the rate at a set level against another currency</td><td>Saudi riyal at 3.75 per dollar since 1986; Danish krone close to the euro</td></tr>
+<tr><td><strong>Currency board</strong></td><td>Every unit of local money must be backed by foreign reserves</td><td>Hong Kong dollar, pegged to the US dollar since 1983</td></tr>
+<tr><td><strong>Dollarisation</strong></td><td>The country uses another country's currency</td><td>Panama, Ecuador since 2000, El Salvador since 2001</td></tr>
+<tr><td><strong>Monetary union</strong></td><td>Several countries share one currency and central bank</td><td>The euro area since 1999</td></tr>
+</tbody></table></div>
+
+<p>Many countries officially float but intervene more than they admit. The economists Guillermo Calvo
+and Carmen Reinhart called this <strong>fear of floating</strong>: governments say they let the market
+decide, but they act whenever their currency moves sharply.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The impossible trinity</h2>
+</header>
+
+<p>One idea explains most regime choices. A country would ideally like three things: a
+<strong>fixed exchange rate</strong> for stability, <strong>free movement of capital</strong> for
+investment, and an <strong>independent monetary policy</strong> to set its own interest rates. It can
+have only two at once. This is the <strong>impossible trinity</strong>, or trilemma, developed from
+work by Robert Mundell and Marcus Fleming in the 1960s.</p>
+
+<div class="sheet">
+  <div class="cap">Pick any two</div>
+<pre>
+                   FIXED EXCHANGE RATE
+                         /\
+     Hong Kong,         /  \        Bretton Woods era,
+     euro members      /    \       China (with capital
+     (give up own     /      \      controls)
+     monetary        /        \     (give up free
+     policy)        /          \     capital flows)
+                   /____________\
+     FREE CAPITAL                  OWN MONETARY
+     MOVEMENT       US, UK, Japan  POLICY
+                    (give up a fixed rate: they float)
+</pre>
+</div>
+
+<p>Black Wednesday was the trinity in action. Britain had free capital flows and a fixed rate, so it
+had to follow German interest rates. When it wanted lower rates for its own recession, one of the
+three had to give, and it was the fixed rate. <strong>Every currency crisis is, at heart, a country
+trying to have all three.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Prices, debts, crises and the dollar</h2>
+  <p class="lede">A currency move redistributes winners and losers across a whole economy. When a
+  fixed rate breaks, it can wipe out savings, companies and governments in weeks.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>What a falling currency does</h2>
+</header>
+
+<p>When a currency weakens, imports cost more. Fuel, food and components priced in dollars become
+dearer, which pushes up inflation. Economists call the share of a currency move that reaches consumer
+prices <strong>pass-through</strong>. It tends to be larger in small economies that import a lot.</p>
+
+<p>At the same time, exports become cheaper for foreign buyers, which should help exporters sell more.
+But the improvement takes time. Contracts are already signed, and buyers take time to switch suppliers.
+So a fall in the currency often makes the trade balance <em>worse</em> at first, because imports cost
+more immediately, before it gets better. Drawn on a chart, this looks like a letter J, and it is called
+the <strong>J-curve</strong>.</p>
+
+<p>The most dangerous effect is on debt. Many companies and governments in emerging economies have
+borrowed in dollars, because foreign lenders would not lend in local currency. Economists Barry
+Eichengreen and Ricardo Hausmann called this inability <strong>original sin</strong>. <strong>When the
+local currency falls, the burden of dollar debts rises in local terms, even though nothing else has
+changed.</strong> A 50% fall in the currency makes a dollar loan twice as heavy to repay. This is how
+currency crises turn into banking and debt crises.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>When pegs break: three famous cases</h2>
+</header>
+
+<div class="grid3">
+  <div class="card"><h4>Thailand, 1997</h4><p>The baht was pegged to the dollar while foreign money
+  poured in. When confidence turned, Thailand ran short of reserves and let the baht float in July 1997.
+  The crisis spread to Indonesia, South Korea and others. Indonesia's rupiah at its worst lost more than
+  three-quarters of its value against the dollar.</p></div>
+  <div class="card"><h4>Argentina, 2002</h4><p>From 1991 a law fixed one peso to one dollar, which
+  ended hyperinflation. But the peg made Argentine exports expensive and could not survive a long
+  recession and heavy debts. It collapsed at the start of 2002, with a default, frozen bank accounts
+  and a deep slump.</p></div>
+  <div class="card"><h4>Switzerland, 2015</h4><p>To stop its franc rising, the Swiss National Bank
+  capped it at 1.20 francs per euro in 2011, buying euros without limit. On 15 January 2015 it
+  suddenly dropped the cap. The franc surged within minutes, at one point by around 30%.</p></div>
+</div>
+
+<p>The Swiss case is instructive because it is the opposite problem. Thailand and Argentina ran out of
+dollars defending a weak currency. Switzerland could create unlimited francs to hold its currency down,
+but it decided that the euros piling up on its balance sheet had become too large a risk. <strong>A peg
+can fail from either side: from lack of reserves, or from the cost of piling them up.</strong></p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The dollar's special place</h2>
+</header>
+
+<p>At Bretton Woods in 1944, the world's major currencies were fixed to the US dollar, and the dollar
+was fixed to gold at 35 dollars an ounce. That system ended when President Nixon stopped converting
+dollars into gold on 15 August 1971. By 1973 the major currencies were floating.</p>
+
+<p>Yet the dollar's role did not shrink. It remains on one side of almost nine in ten foreign exchange
+trades. In the mid-2020s just under 60% of the world's official foreign exchange reserves were held in
+dollars, about a fifth in euros, and only a few percent in China's renminbi. Much of world trade, even
+between countries that are not the United States, is priced in dollars. The French politician
+Valéry Giscard d'Estaing, as finance minister in the 1960s, called this an <strong>"exorbitant
+privilege"</strong>: the United States can borrow cheaply in its own currency and is less exposed to
+currency crises than anyone else.</p>
+
+<p>The privilege has a flip side. When the Fed raises rates and the dollar strengthens, countries around
+the world with dollar debts feel the squeeze. <strong>American monetary policy is, in effect, monetary
+policy for much of the world.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Fixed or floating: no free choice</h2>
+  <p class="lede">There is no best exchange rate regime for every country. Each option buys
+  something valuable and pays for it with something else.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Weighing the regimes</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Question</th><th>Floating rate</th><th>Fixed rate or shared currency</th></tr></thead>
+<tbody>
+<tr><td><strong>Stability for trade</strong></td><td class="mid">Rates can swing widely, adding uncertainty for exporters and importers.</td><td class="ok">Predictable prices; easier trade and investment with the anchor country.</td></tr>
+<tr><td><strong>Control of interest rates</strong></td><td class="ok">The central bank sets rates for domestic needs.</td><td class="no">Rates must follow the anchor country, even when they do not suit.</td></tr>
+<tr><td><strong>Absorbing shocks</strong></td><td class="ok">The currency falls in a slump, making exports cheaper and cushioning the blow.</td><td class="no">Adjustment must come through wages and prices, which is slow and painful, as in Greece after 2010.</td></tr>
+<tr><td><strong>Fighting inflation</strong></td><td class="mid">Depends on the credibility of the domestic central bank.</td><td class="ok">Can import credibility from the anchor, as Argentina did in the 1990s.</td></tr>
+<tr><td><strong>Crisis risk</strong></td><td class="mid">Sharp falls are possible, but there is no peg to break.</td><td class="no">Pegs invite speculative attacks, and breaking one is often catastrophic.</td></tr>
+</tbody></table></div>
+
+<p>Broadly, large economies with credible central banks tend to float. Small, very open economies, or
+countries whose own institutions are distrusted, often fix or adopt another currency. Oil exporters
+often peg to the dollar because their main export is priced in it. <strong>The right choice depends
+less on economic theory than on how much a country trusts its own institutions.</strong></p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>The dollar's reign, rivals, and digital money</h2>
+  <p class="lede">The biggest open question is whether the dollar's dominance will last. Here are the
+  main possibilities, sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>The dollar stays dominant</strong></td><td>Its share of reserves has drifted down slowly over two decades, but no rival has deep, open markets of comparable size.</td><td class="ok">Fairly sure: the dollar remains the main global currency for the foreseeable future.</td></tr>
+<tr><td><strong>A more mixed system</strong></td><td>More trade settled in local currencies and renminbi; central banks buying gold; sanctions prompting countries to diversify.</td><td class="mid">Plausible: a slow shift to several regional currencies at the margin, without a single successor.</td></tr>
+<tr><td><strong>Digital money reshapes currency competition</strong></td><td>Dollar stablecoins spread abroad; central banks test cross-border digital currency links.</td><td class="no">Speculative: could extend dollar reach or erode it, and could undermine weak currencies in small economies. Too early to say.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>What would really challenge the dollar</h2>
+</header>
+
+<p>For a currency to replace the dollar, it would need deep and open financial markets, a large
+supply of safe assets for investors to hold, strong legal protection for foreign owners, and free
+movement of capital. The euro has much of this, but its government bond market is split across many
+countries. China has the scale of trade but keeps controls on capital, and foreign investors worry
+about legal protection.</p>
+
+<p>That is why most economists expect slow change rather than sudden displacement. The bigger risk to
+the dollar may come from inside the United States: large deficits, political pressure on the Federal
+Reserve, or the frequent use of financial sanctions, which encourages other countries to build
+alternatives. <strong>Reserve currencies have been replaced before, as sterling gave way to the dollar
+in the twentieth century, but the change took decades and followed a shift in economic power.</strong>
+The debts that sit underneath all these currencies are the subject of the next file,
+<a href="14-public-debt.html">Public debt</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>An exchange rate is the <strong>price of one currency in another</strong>. Over decades it
+    follows <strong>inflation</strong>; over months, <strong>interest rates and money flows</strong>;
+    over days, <strong>news and fear</strong>. Countries choose a regime from free float to shared
+    currency, and the <strong>impossible trinity</strong> means none can have a fixed rate, free capital
+    and its own monetary policy all at once.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>The FX market traded <strong>more than 7 trillion dollars a day</strong> in 2022.</li>
+      <li>The dollar is on one side of almost <strong>9 in 10</strong> currency trades.</li>
+      <li>Just under <strong>60%</strong> of official reserves were in dollars in the mid-2020s.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking a strong currency means a strong economy, and a weak one means failure. <strong>A
+    falling currency can rescue exporters and cushion a slump</strong>; a strong one can hurt
+    industry. The question is always: good for whom?</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why Britain could not keep both its fixed exchange rate and the low interest
+    rates it needed in 1992? If you can, you have understood the impossible trinity.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Exchange rate</dt><dd>The price of one currency expressed in another.</dd>
+    <dt>Appreciation / depreciation</dt><dd>A currency rising or falling in value against others.</dd>
+    <dt>Devaluation</dt><dd>A deliberate lowering of a fixed exchange rate by the government or central bank.</dd>
+    <dt>Real exchange rate</dt><dd>The exchange rate adjusted for differences in price levels.</dd>
+    <dt>Purchasing power parity</dt><dd>The theory that exchange rates move to equalise the price of the same goods across countries.</dd>
+    <dt>Peg</dt><dd>A fixed exchange rate maintained against another currency.</dd>
+    <dt>Currency board</dt><dd>A strict peg in which local money is fully backed by foreign reserves.</dd>
+    <dt>Dollarisation</dt><dd>Using another country's currency instead of your own.</dd>
+    <dt>Impossible trinity</dt><dd>The rule that a country cannot combine a fixed rate, free capital flows and independent monetary policy.</dd>
+    <dt>Pass-through</dt><dd>The share of a currency move that shows up in domestic prices.</dd>
+    <dt>J-curve</dt><dd>The pattern in which a currency fall first worsens, then improves, the trade balance.</dd>
+    <dt>Original sin</dt><dd>A country's inability to borrow abroad in its own currency.</dd>
+    <dt>Safe-haven currency</dt><dd>A currency investors buy in times of fear, such as the dollar or Swiss franc.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Over the long run, inflation drives currencies. Over the short run, it's interest rates and
+    fear."</li>
+    <li>"You can't have a fixed rate, free capital and your own interest rates. Pick two."</li>
+    <li>"A fixed exchange rate is a promise, and markets will test whether you'll pay to keep it."</li>
+    <li>"When a currency falls, every dollar debt gets heavier. That's how currency crises become debt
+    crises."</li>
+    <li>"In a global panic, money runs to the dollar, even when the panic starts in America."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="14-public-debt.html">Public debt</a></h4><p>How much governments
+  owe, why some can carry far more than others, and what turns a debt into a crisis.</p></div>
+  <div class="card"><h4>Related · <a href="../10-finance-investing/14-foreign-exchange.html">Foreign
+  exchange</a></h4><p>The same subject from the trading desk: how the currency market works, how firms
+  hedge, and why the carry trade keeps blowing up.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

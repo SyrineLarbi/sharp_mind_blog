@@ -1,0 +1,889 @@
+<!doctype html>
+<!--@HEAD-SRC title="Stocks" desc="What a share of a company really is, how stock markets set prices, where long-run returns come from, what the risks look like, and where share ownership is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stocks</title>
+<meta name="description" content="What a share of a company really is, how stock markets set prices, where long-run returns come from, what the risks look like, and where share ownership is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Finance &amp; Investing · Topic 01 of 20</p>
+  <h1>Stocks. <span class="thin">A small, legal slice of a business, priced every second by strangers.</span></h1>
+  <p class="lede">A share looks like a number on a screen that goes up and down. Behind the number is
+  something very concrete: a claim on part of a real company's future profits, plus a small vote in
+  how it is run. Once you see a share as a piece of a business rather than a lottery ticket, most of
+  the confusing behaviour of stock markets starts to make sense. </p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Finance &amp; Investing</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c5"><span class="vn">Vol 38 · ch 05</span><b>What a price actually is</b><em>The short version</em></a>
+<a class="vol" href="11-company-valuation.html"><span class="vn">Finance · 11</span><b>Company valuation</b><em>What a share is worth</em></a>
+<a class="vol" href="02-bonds.html"><span class="vn">Finance · 02</span><b>Bonds</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 38 has two short chapters that touch shares: <a href="../38-money.html#c5">What a price
+  actually is</a>, on prices as a crowd's bet on the future, and <a href="../38-money.html#c6">Bubbles,
+  and why they keep happening</a>. This file goes underneath them: what you legally own, how the
+  trading machinery works, where the long-run return really comes from, and what the bad decades
+  looked like.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Part-ownership of a business, cut into small pieces</h2>
+  <p class="lede">A stock, also called a share or an equity, is a unit of ownership in a company. It
+  is one of the oldest financial inventions still in daily use, and its basic design has barely
+  changed in four hundred years.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Ships, spices and the first shareholders</h2>
+</header>
+
+<p>In the early 1600s a voyage from Europe to the spice islands of Asia could take years. Many ships
+never came back. A single merchant who paid for a whole voyage could be rich or ruined by one storm.
+The obvious fix was to share the risk: many people each pay for a small part, and each takes a small
+part of whatever comes home.</p>
+
+<p>In 1602 the Dutch East India Company, known by its Dutch initials VOC, took that idea further. Its
+investors did not fund one voyage. They funded the company itself, for many years and many voyages.
+And because people would not want their money locked up for that long, their stakes could be sold to
+someone else in Amsterdam. That combination is usually described as the first modern share:
+<strong>a permanent stake in a business, which you can sell to another person without the business
+having to give the money back</strong>.</p>
+
+<p>That last point is the clever part. The company keeps the capital and can plan for decades. The
+investor can still get out at any time, by finding a buyer. The trading of these stakes between
+investors is what we now call the stock market.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>What you actually own</h2>
+</header>
+
+<p>If you own one share out of a company's 100 million, you own one hundred-millionth of it. That
+does not mean you can walk in and take a chair. It gives you a bundle of rights, and it is worth
+knowing exactly what they are.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Right</th><th>What it means</th><th>The catch</th></tr></thead>
+<tbody>
+<tr><td><strong>A claim on profits</strong></td><td>You own a slice of whatever the company earns, whether it pays it out or keeps it</td><td>You get paid last. Staff, suppliers, lenders and tax come first</td></tr>
+<tr><td><strong>Dividends</strong></td><td>Cash the board chooses to pay out to owners, usually per share, often quarterly or twice a year</td><td>Optional. The board can cut or stop them</td></tr>
+<tr><td><strong>A vote</strong></td><td>On the board of directors, big mergers, and some pay decisions, usually one vote per share</td><td>Some companies issue shares with weaker votes or none</td></tr>
+<tr><td><strong>Limited liability</strong></td><td>If the company collapses owing billions, you lose what you paid for the share and nothing more</td><td>That amount can be all of it</td></tr>
+<tr><td><strong>The right to sell</strong></td><td>You can sell your share to anyone willing to buy it</td><td>At whatever price they will pay that day</td></tr>
+</tbody></table></div>
+
+<p>Two words from this table matter most. The first is <strong>residual</strong>. Shareholders own
+what is left after everyone else is paid. In good years that leftover can be huge. In bad years it can
+be zero. The second is <strong>limited liability</strong>. Before it became normal in the nineteenth
+century, owners of a failed business could lose their houses. Limited liability is the reason
+ordinary people can own a piece of a company they will never visit.</p>
+
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Why a company sells pieces of itself</h2>
+</header>
+
+<p>A young company that needs money has two basic choices. It can borrow, which means paying interest
+whatever happens. Or it can sell ownership, which means giving up part of the future profits but
+owing nothing if things go badly. Borrowing is cheaper when you are sure of your income. Selling
+shares is safer when you are not. That is why risky, fast-growing firms lean on shares and steady
+utilities lean on loans.</p>
+
+<p>The first time a company sells shares to the general public is called an <strong>initial public
+offering</strong>, or IPO. Banks help set the price, find the first buyers, and the shares start
+trading on an exchange. From then on the company is "listed" or "public". That sale, where the company
+receives the money, happens in the <strong>primary market</strong>. Almost all trading after that
+happens in the <strong>secondary market</strong>, where investors swap shares with each other and
+<strong>the company receives nothing at all</strong>. When you buy a share of a famous firm through an
+app today, your money goes to another investor, not to the business.</p>
+
+<p>So why does a company care about its share price at all? Because a high price makes it cheaper to
+raise money later, and because staff and managers are often paid partly in shares.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>A marketplace, a price, and three sources of return</h2>
+  <p class="lede">The machinery of trading is mostly plumbing. The interesting part is what the price
+  is trying to measure, and why your eventual return can be split into three clean pieces.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The marketplace: buyers, sellers and the order book</h2>
+</header>
+
+<p>New York's stock exchange traces its origin to 1792, when a group of brokers signed an agreement
+under a buttonwood tree on Wall Street. For most of the next two centuries trading meant people
+shouting on a floor. Today it is almost entirely electronic, and the core of every exchange is a list
+called the <strong>order book</strong>.</p>
+
+<div class="sheet">
+  <div class="cap">One share's order book, simplified</div>
+<pre>
+   people willing to SELL (asks)        people willing to BUY (bids)
+   ----------------------------         ----------------------------
+   500 shares at 100.04                 300 shares at 100.01
+   200 shares at 100.03                 800 shares at 100.00
+   100 shares at 100.02   &lt;-- spread --&gt;  400 shares at  99.99
+
+   lowest ask 100.02  -  highest bid 100.01  =  spread of 0.01
+   "the price" on your screen is simply the last trade that happened
+</pre>
+</div>
+
+<p>The highest price any buyer is offering is the <strong>bid</strong>. The lowest price any seller
+will accept is the <strong>ask</strong>. The gap between them is the <strong>spread</strong>, a small
+hidden cost of trading. When you press "buy now" you take the cheapest ask. Big, popular companies have
+tiny spreads because so many people trade them. Small, obscure ones can have wide spreads.</p>
+
+<p>Firms called <strong>market makers</strong> stand in the book on both sides all day, offering to
+buy slightly low and sell slightly high. They earn the spread, and in return there is almost always
+someone to trade with.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>What the price is trying to measure</h2>
+</header>
+
+<p>Imagine a small bakery that will earn a profit of 10,000 a year for many years. What would you pay
+to own all of it? Not 10,000, because you would get that back in one year. Not a million, because you
+would wait a hundred years. Somewhere in between, depending on how sure you are of the profits, how
+fast they might grow, and what else you could do with your money. That is the whole logic of a share
+price. <strong>A share is worth the cash the business will hand its owners in the future, adjusted for
+how long you wait and how uncertain that cash is.</strong></p>
+
+<p>The adjustment for waiting is called <strong>discounting</strong>. Money in ten years is worth less
+than money today, because today's money could be earning interest in the meantime. So when interest
+rates rise, future profits are discounted more heavily and share prices tend to fall, especially for
+companies whose profits are mostly far in the future. This is one of the most important links in all
+of finance, and it is explored in <a href="13-interest-rates-and-markets.html">Interest rates and
+markets</a>.</p>
+
+<p>A common shorthand is the <strong>price-to-earnings ratio</strong>, or P/E: the share price divided
+by the profit per share over a year. A P/E of 20 means investors are paying 20 years of current profit.
+A high P/E is not automatically "expensive". It may mean the crowd expects fast growth. A low P/E is
+not automatically a bargain. It may mean the crowd expects trouble. Methods for valuing companies more
+carefully live in <a href="11-company-valuation.html">Company valuation</a>.</p>
+
+<div class="pass">
+  <p>"In the short run, the market is a voting machine but in the long run, it is a weighing
+  machine."</p>
+  <span class="src"><b>Benjamin Graham</b> · as retold by Warren Buffett</span>
+</div>
+
+<p>Graham's point is that daily prices reflect moods and fashions, a popularity vote. Over years,
+though, a share's value is pulled towards the real profits the company produces.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Where the return comes from: three pieces</h2>
+</header>
+
+<p>Over any long period, the total return from owning shares can be split into three parts. This
+split, popularised by the Vanguard founder John Bogle and others, is one of the most useful tools for
+thinking clearly about markets.</p>
+
+<div class="sheet">
+  <div class="cap">Total return, broken into its parts</div>
+<pre>
+   total return  =  dividend yield            (cash paid out each year)
+                 +  growth in profits         (the business getting bigger)
+                 +  change in valuation       (people paying more or less per unit of profit)
+
+   the first two come from the business  -&gt; slow, fairly reliable
+   the third comes from the crowd's mood -&gt; fast, and averages out to roughly nothing over very long spans
+</pre>
+</div>
+
+<p>Here is why this matters. If shares rise 25 per cent in a year while company profits grew 5 per
+cent, most of that gain came from investors becoming more optimistic. That kind of gain cannot repeat
+forever, because people cannot become infinitely optimistic. <strong>Over decades, the return from
+shares tracks the return from the businesses. Over a single year, it tracks the mood.</strong></p>
+
+<p>Companies can also return cash by <strong>buying back</strong> their own shares and cancelling them,
+so each remaining share owns a slightly larger slice. See <a href="12-dividends.html">Dividends</a>.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>"The market": how a crowd of prices becomes one number</h2>
+</header>
+
+<p>When the news says "the market fell 2 per cent today", it means an <strong>index</strong> fell. An
+index is a basket of shares tracked as a single number. The Dow Jones Industrial Average, started in
+1896, follows just 30 large American companies and is weighted, oddly, by share price. The S&amp;P 500
+follows about 500 large American companies weighted by their total market value, which is why a few
+giant technology firms now move it so much. The FTSE 100 in London, the DAX in Frankfurt, the CAC 40
+in Paris and the Nikkei 225 in Tokyo do similar jobs for their countries. Global indexes, such as those
+from MSCI, cover thousands of companies in dozens of countries.</p>
+
+<p>A company's size in this sense is its <strong>market capitalisation</strong>: share price times the
+number of shares (see <a href="09-market-capitalization.html">Market capitalization</a>). Buying a whole
+index cheaply is now one of the most common ways to invest at all, the subject of <a
+href="04-index-funds.html">Index funds</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>The engine of long-run wealth, and how unevenly it runs</h2>
+  <p class="lede">Shares matter for three reasons: they have been the best-performing major asset over
+  long periods, almost all of that return came from a small minority of companies, and stock markets
+  decide who controls much of the world's business.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The long record</h2>
+</header>
+
+<p>Researchers such as Elroy Dimson, Paul Marsh and Mike Staunton at the London Business School have
+reconstructed share returns back to 1900 for many countries. The broad finding is stable across their
+updates. <strong>Over the twentieth century and since, shares in most major markets beat bonds and cash
+by a wide margin, returning very roughly 3 to 7 per cent a year above inflation</strong>, depending on
+the country and the period chosen. The United States sits at the high end of that range.</p>
+
+<p>Small differences in yearly return turn into large differences over a life, because returns
+compound. At 5 per cent above inflation, money roughly doubles in real terms every 14 years. Volume 38
+explains the arithmetic in <a href="../38-money.html#c4">Interest, and the astonishing effect of
+compounding</a>. The extra return that shares have paid over safer assets is called the <strong>equity
+risk premium</strong>. It is the reward for accepting that the ride is rough, and Question 4 shows how
+rough.</p>
+
+<div class="warn">
+  <span class="tag">Be careful with averages</span>
+  <p>Long-run averages hide survivorship. The US and UK markets were winners, so they are studied most.
+  Investors in Russia in 1917 and China in 1949 lost essentially everything when markets were closed
+  and property seized. A historical average is a guide, not a promise. This file is general education,
+  not financial advice.</p>
+</div>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The few that carry the many</h2>
+</header>
+
+<p>In 2018 the finance professor Hendrik Bessembinder published a study of every US-listed share from
+1926 onward. The results surprised many professionals. <strong>Most individual shares, over their
+lifetimes, did worse than simply holding short-term US government bills.</strong> The overall market
+still did very well, because a small group of companies produced enormous gains. By his count, roughly
+4 per cent of all listed companies accounted for all of the net wealth the US stock market created over
+that period.</p>
+
+<p>This explains two puzzles at once. It explains why picking a handful of shares is so risky: the
+odds are that your handful does not include the rare giant winners. And it explains why owning the
+whole market works so well: you are guaranteed to hold the giants, whoever they turn out to be.  Share returns form a long tail: many small losses and a few huge gains. That shape is the reason <a href="07-diversification.html">diversification</a>
+is not just cautious but mathematically necessary.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Ownership, power and the price signal</h2>
+</header>
+
+<p>Stock markets are not only places to grow savings. They do three jobs for the economy.</p>
+
+<div class="grid3">
+  <div class="card"><h4>They move capital</h4><p>Companies with promising ideas can raise money from
+  millions of strangers. Firms whose shares are valued highly can raise money cheaply. Firms the market
+  doubts find it expensive. </p></div>
+  <div class="card"><h4>They price information</h4><p>A share price combines the views of everyone
+  trading it. When news arrives, the price changes within seconds. </p></div>
+  <div class="card"><h4>They assign control</h4><p>Whoever owns the shares can, in principle, replace
+  the board. That threat is meant to keep managers working for owners. Takeovers are the extreme
+  version, covered in <a href="../08-business/19-mergers-and-acquisitions.html">Mergers &amp;
+  acquisitions</a>.</p></div>
+</div>
+
+<p>Who those owners are has changed. Much of the stock market is now held by pension funds, insurers
+and fund managers on behalf of ordinary savers, and a handful of giant index-fund managers vote on a
+large slice of big companies. Whether that concentration is healthy is a live political question. If
+you have a workplace pension, you very likely own shares already. See <a href="18-pensions.html">Pensions</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>High reward, real pain, and conflicts of interest</h2>
+  <p class="lede">The case for shares is strong over long periods. The case against is about the
+  journey: long falls, bad timing, and managers whose interests are not quite yours.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>The advantage</th><th>The disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Residual claim</strong></td><td class="ok">Unlimited upside. A successful company can grow many times over, and owners take the whole gain.</td><td class="no">Last in line. In a bankruptcy shareholders usually get nothing.</td></tr>
+<tr><td><strong>Real-asset backing</strong></td><td class="ok">Companies can raise prices with inflation, so over long periods shares have tended to beat it.</td><td class="no">In bursts of high inflation and rising rates, shares often fall sharply first.</td></tr>
+<tr><td><strong>Liquidity</strong></td><td class="ok">You can sell a large company's shares in seconds, almost any working day.</td><td class="no">Being able to sell instantly tempts people to sell in panic, at the worst moment.</td></tr>
+<tr><td><strong>Low cost of entry</strong></td><td class="ok">Many apps now let you buy a fraction of a share with a small sum.</td><td class="no">Easy trading encourages over-trading, which research links to lower returns for individuals.</td></tr>
+<tr><td><strong>Ownership and voice</strong></td><td class="ok">Owners can vote out a board and share in the economy's growth.</td><td class="no">Managers may pursue their own pay, empire or short-term share price instead.</td></tr>
+<tr><td><strong>Constant pricing</strong></td><td class="ok">You always know roughly what your holding is worth.</td><td class="no">You also see every fall, which makes holding on emotionally hard.</td></tr>
+</tbody></table></div>
+
+<p>The conflict between owners and managers has a name: the <strong>principal-agent problem</strong>.
+The owners (principals) hire managers (agents) who know more and may want different things. Paying
+managers in shares was meant to fix it. Sometimes it instead encouraged short-term tricks to lift the price before
+share options paid out. No system has fully solved this, which is why <a href="10-financial-statements.html">reading
+financial statements</a> remains a useful skill.</p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>What the bad decades actually looked like</h2>
+</header>
+
+<p>It is easy to accept "shares are volatile" in the abstract. The real history is more sobering, and
+worth knowing in detail.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Episode</th><th>What happened</th><th>How long to recover</th></tr></thead>
+<tbody>
+<tr><td><strong>1929 crash, United States</strong></td><td>The Dow fell close to 90 per cent from its 1929 peak to its 1932 low</td><td>About 25 years for the index to regain its price peak, though dividends and falling prices made the real wait shorter</td></tr>
+<tr><td><strong>Black Monday, October 1987</strong></td><td>The Dow fell about 22 per cent in a single day, still its largest one-day percentage drop</td><td>About two years</td></tr>
+<tr><td><strong>Japan, 1989 onward</strong></td><td>The Nikkei peaked in December 1989 and then lost most of its value</td><td>The price index did not pass its 1989 high until February 2024, more than 34 years later</td></tr>
+<tr><td><strong>Global financial crisis</strong></td><td>The S&amp;P 500 fell by more than half between late 2007 and March 2009</td><td>About four to five years, including dividends</td></tr>
+</tbody></table></div>
+
+<p>The lesson is not "avoid shares". It is that <strong>shares are for money you will not need for many
+years</strong>, and that a person who sold in March 2009 turned a temporary fall into a
+permanent loss. Japan's case adds a harder point: buying a whole market at a very high valuation can
+mean decades of poor returns, even when the economy does not collapse. Crises in general are covered
+in <a href="19-financial-crises.html">Financial crises</a>.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Faster trading, fewer listings, and new owners</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>More passive ownership</strong></td><td>In the United States, index funds passed actively managed funds in total assets around 2023–24.</td><td class="ok">Fairly sure: the share held through index funds keeps rising. The debate is about its effect on prices and on corporate voting.</td></tr>
+<tr><td><strong>Faster settlement, longer hours</strong></td><td>The US moved to one-day settlement in 2024. The EU and UK plan the same around 2027. US exchanges have sought approval to trade almost around the clock.</td><td class="ok">Fairly sure: shorter settlement everywhere. Plausible: near 24-hour trading in big markets within a few years.</td></tr>
+<tr><td><strong>Tokenised shares</strong></td><td>Firms are experimenting with records of share ownership held on blockchain-style ledgers.</td><td class="mid">Plausible for back-office record-keeping. Whether it changes what ordinary owners experience is uncertain. See <a href="../01-technology/09-blockchain.html">Blockchain</a>.</td></tr>
+<tr><td><strong>AI in investing</strong></td><td>Funds already use machine learning to read news, filings and data.</td><td class="no">Speculative: claims that AI will reliably beat the market. When everyone uses the same tools, any edge tends to disappear.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The shrinking public market</h2>
+</header>
+
+<p>One trend is already well documented. The number of companies listed on US exchanges roughly halved
+between the late 1990s and the 2010s, through mergers, failures and fewer new listings. At the same
+time, money in <strong>private markets</strong>, meaning private equity and venture capital funds that
+buy companies which are not listed, grew enormously. Many young companies now stay private for a decade
+or more, raising large sums without ever doing an IPO.</p>
+
+<p>That matters for ordinary savers. If companies do much of their fast growth before listing, the
+early gains go to the wealthy institutions that can invest privately, and the public gets the company
+only once it is mature. Regulators in several countries are debating whether to open private markets to
+ordinary investors. Supporters call it fairness. Critics point to high fees, little transparency and
+difficulty selling. <strong>Whichever way it goes, the basic logic of a share will not change</strong>:
+a residual claim on a business, worth what that business will eventually pay its owners.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A stock is a <strong>residual claim</strong> on a company: a slice of what is left after
+    everyone else is paid, plus a vote, with <strong>limited liability</strong>. Its price is the
+    crowd's estimate of future cash to owners, <strong>discounted</strong> for time and risk. Long-run
+    returns come from dividends and profit growth. Short-run returns come mostly from mood.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Shares in major markets returned very roughly <strong>3–7 per cent a year above inflation</strong> since 1900, varying by country.</li>
+      <li>About <strong>4 per cent</strong> of US-listed companies produced all the market's net wealth creation since 1926 (Bessembinder, 2018).</li>
+      <li>Japan's Nikkei took <strong>more than 34 years</strong> to regain its 1989 peak.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking a good company is automatically a good investment. <strong>A great business bought at a
+    price that already assumes greatness</strong> can still be a poor investment for years.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why buying a share through an app sends no money to the company, and why the
+    company still cares about its share price? If so, you understand primary and secondary markets.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Share (stock, equity)</dt><dd>A unit of ownership in a company.</dd>
+    <dt>Residual claim</dt><dd>The right to what is left after everyone else, including lenders, has been paid.</dd>
+    <dt>Limited liability</dt><dd>The rule that owners can lose only what they invested, not their other property.</dd>
+    <dt>Dividend</dt><dd>Cash a company chooses to pay its shareholders out of profits.</dd>
+    <dt>IPO</dt><dd>Initial public offering: the first sale of a company's shares to the general public.</dd>
+    <dt>Primary and secondary market</dt><dd>The primary market is where the company sells new shares. The secondary market is where investors trade them with each other.</dd>
+    <dt>Bid, ask and spread</dt><dd>The best price a buyer offers, the best price a seller accepts, and the small gap between them.</dd>
+    <dt>Discounting</dt><dd>Reducing the value of future money to reflect waiting and risk.</dd>
+    <dt>P/E ratio</dt><dd>Share price divided by a year's profit per share.</dd>
+    <dt>Index</dt><dd>A basket of shares tracked as one number, such as the S&amp;P 500.</dd>
+    <dt>Equity risk premium</dt><dd>The extra return shares have paid above safer assets, as a reward for their risk.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A share isn't a lottery ticket. It's a small claim on a real company's future profits."</li>
+    <li>"When you buy a share on an app, the company gets nothing. You're buying it from another investor."</li>
+    <li>"Over decades, shares track profits. Over a year, they track mood."</li>
+    <li>"Most individual stocks actually underperform cash. The market does well because a few giants carry it."</li>
+    <li>"Japan took more than thirty years to get back to its 1989 peak, so price matters, not just quality."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="02-bonds.html">Bonds</a></h4><p>The other half of most
+  portfolios: lending instead of owning, fixed payments instead of a residual claim, and why bond
+  prices fall when rates rise.</p></div>
+  <div class="card"><h4>Related · <a href="04-index-funds.html">Index funds</a></h4><p>Given that a few
+  giant winners carry the market, the simplest way to make sure you own them: buy everything,
+  cheaply.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

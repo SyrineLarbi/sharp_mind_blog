@@ -1,0 +1,859 @@
+<!doctype html>
+<!--@HEAD-SRC title="Decision-Making" desc="How the brain chooses: the prefrontal cortex, dopamine as a prediction-error signal, evidence that builds to a threshold, Phineas Gage and Damasio's patients, and where decision neuroscience is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decision-Making</title>
+<meta name="description" content="How the brain chooses: the prefrontal cortex, dopamine as a prediction-error signal, evidence that builds to a threshold, Phineas Gage and Damasio&#x27;s patients, and where decision neuroscience is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Neuroscience · Topic 09 of 20</p>
+  <h1>Decision-making. <span class="thin">Every choice is a value your cells compute, then correct by surprise.</span></h1>
+  <p class="lede">From the inside, a decision feels like a single moment: you weigh things up and
+  choose. From the outside, a brain is doing something more mechanical and more interesting. It gives
+  each option a value, gathers evidence until one option crosses a line, and then compares what
+  happened with what it expected. That last step, the surprise, is how it learns to choose better next
+  time. This file follows the choice through the brain, from a railway accident in 1848 to the
+  dopamine cells that inspired modern artificial intelligence.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Neuroscience</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../06-psychology/04-decision-making.html"><span class="vn">Psychology · 04</span><b>Decision-making</b><em>The behaviour side</em></a>
+<a class="vol" href="../35-the-mind.html#c6"><span class="vn">Vol 35 · ch 06</span><b>Losses hurt more</b><em>A bias, explained briefly</em></a>
+<a class="vol" href="10-language.html"><span class="vn">Neuroscience · 10</span><b>Language</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 35 covers the biases that bend choices, such as
+  <a href="../35-the-mind.html#c1">fast and slow thinking</a> and
+  <a href="../35-the-mind.html#c6">loss aversion</a>, and Volume 38 applies them to money
+  (<a href="../38-money.html#c8">Why money decisions go wrong</a>). The behavioural science of choice
+  is in <a href="../06-psychology/04-decision-making.html">Psychology · Decision-making</a>. This file
+  stays one level down, in the cells and circuits.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Choosing is computing value</h2>
+  <p class="lede">For a neuroscientist, a decision is the moment the brain commits to one action out
+  of several, based on what it expects each one to bring.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The iron rod and the changed man</h2>
+</header>
+
+<p>On 13 September 1848, near the town of Cavendish in Vermont, a railway construction foreman called
+Phineas Gage was packing explosive powder into a hole in the rock with an iron rod about a metre long.
+A spark set off the charge. The rod shot up through his left cheek, passed behind his eye, and left
+through the top of his skull. It landed many metres away. Gage was conscious within minutes and
+talked to the doctor who treated him, John Harlow.</p>
+
+<p>He survived, but Harlow later reported that his character had changed. The efficient, well-liked
+foreman became impatient, crude and unable to stick to plans. His friends said he was "no longer
+Gage". The damage was mainly to the front of the brain, the <strong>prefrontal cortex</strong>,
+especially its lower middle part.</p>
+
+<p>The story needs one honest correction. Historians, notably Malcolm Macmillan, found that later
+textbooks exaggerated the change. Gage went on to work for years, including as a stagecoach driver in
+Chile, a job that required planning and self-control, and he may have recovered a good deal before he
+died in 1860. Even so, <strong>Gage was the first famous clue that judgement and planning depend on a
+particular part of the brain</strong>, and that you can lose them while keeping memory, language and
+intelligence.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Two kinds of decision</h2>
+</header>
+
+<p>Researchers split decisions into two broad families, because they are studied differently.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Perceptual decisions</h4><p>What is out there? Is that shape a face or a
+  vase? Is the traffic light still amber? There is a right answer, and the brain must decide from
+  noisy evidence. These are studied with simple visual tasks in monkeys and people.</p></div>
+  <div class="card"><h4>Value-based decisions</h4><p>What do I want? Coffee or tea, save or spend,
+  this job or that one. There is no right answer, only a personal value. These are studied with
+  choices between foods, money and risky gambles.</p></div>
+</div>
+
+<p>Both families share a problem. The options are often completely different things. To compare a
+holiday with a new car, the brain must convert them into <strong>a common currency</strong>, a single
+scale of "how good is this for me, now". Much of decision neuroscience is the search for where that
+scale is computed and how it is updated.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The cast of characters</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Region</th><th>Where it is</th><th>Main role in choice</th></tr></thead>
+<tbody>
+<tr><td><strong>Orbitofrontal and ventromedial prefrontal cortex</strong></td><td>Front of the brain, just above the eyes</td><td>Gives options a value; links them to likely outcomes</td></tr>
+<tr><td><strong>Dorsolateral prefrontal cortex</strong></td><td>Upper outer sides of the front</td><td>Holds goals in mind; supports self-control and planning</td></tr>
+<tr><td><strong>Anterior cingulate cortex</strong></td><td>Inner surface, behind the forehead</td><td>Notices conflict and errors; weighs whether effort is worth it</td></tr>
+<tr><td><strong>Striatum</strong> (part of the basal ganglia)</td><td>Deep in the middle of each hemisphere</td><td>Selects actions; stores habits; a main target of dopamine</td></tr>
+<tr><td><strong>Dopamine neurons</strong></td><td>Small groups in the midbrain</td><td>Send a teaching signal when results differ from expectations</td></tr>
+<tr><td><strong>Amygdala and insula</strong></td><td>Deep temporal lobe; inside the lateral fold</td><td>Add emotional weight, especially to risk and loss (see <a href="08-emotions-and-the-brain.html">Emotions and the brain</a>)</td></tr>
+</tbody></table></div>
+
+<p>No single region "makes the decision". <strong>A choice emerges when these areas settle on one
+action</strong>, a little like a committee where some members bring information, some bring
+feelings, and one keeps an eye on the long-term plan.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Value, evidence, commitment, and the lesson afterwards</h2>
+  <p class="lede">Four mechanisms are now well understood: a teaching signal, evidence that builds up,
+  a value scale, and a system of brakes.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Dopamine as the surprise signal</h2>
+</header>
+
+<p>In the late 1980s and 1990s, the neuroscientist Wolfram Schultz recorded single dopamine neurons in
+monkeys while they received drops of fruit juice. At first, the cells fired a burst when juice
+arrived unexpectedly. Then a light was switched on a second or so before each drop. After some
+training, the cells stopped firing at the juice and fired at the light instead. And when the light
+came on but no juice followed, the cells went <em>quiet</em>, below their normal rate, at exactly the
+moment the juice should have arrived.</p>
+
+<div class="sheet">
+  <div class="cap">Dopamine firing: reward prediction error</div>
+<pre>
+                       light        juice
+                         |            |
+ 1. juice, no warning    .............|||||......   burst at juice: "better than expected"
+
+ 2. light, then juice    ....|||||..............    burst moves to the light;
+    (after learning)                                juice is predicted, so no surprise
+
+ 3. light, juice missing ....|||||.......  ......   dip when juice should come:
+                                       ^gap        "worse than expected"
+
+ rule:  dopamine signal  =  what you got  -  what you expected
+</pre>
+</div>
+
+<p>This is called a <strong>reward prediction error</strong>. Dopamine does not simply mean
+"pleasure". It means <strong>"things went better or worse than I predicted"</strong>, and it tells
+the striatum and cortex to adjust their expectations. In 1996, Read Montague, Peter Dayan and Terrence
+Sejnowski pointed out that the signal closely matched a learning rule already used in computer
+science, temporal-difference learning, from the field of reinforcement learning. That match is one of
+the great meeting points of biology and AI. Programs that learned to play games at superhuman level
+use the same family of ideas.</p>
+
+<p>It also explains an everyday puzzle. A pay rise you expected gives little lasting joy, while a
+small surprise gift can feel wonderful. <strong>The brain responds less to what you get than to the
+gap between it and your forecast.</strong></p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Evidence builds up until it crosses a line</h2>
+</header>
+
+<p>For perceptual decisions, the clearest evidence came from experiments by Michael Shadlen, William
+Newsome and colleagues. Monkeys watched a screen of moving dots. Some dots moved together in one
+direction and the rest moved randomly. The monkey had to decide, left or right, and move its eyes to
+answer. Cells in a region of the parietal cortex, towards the back of the brain, slowly increased
+their firing as evidence for one direction piled up. When the firing reached a fixed level, the
+monkey moved its eyes.</p>
+
+<p>Scientists describe this with a <strong>drift-diffusion model</strong>: imagine a ball rolling
+along a bumpy path between two walls. Evidence tilts the path one way, noise shakes the ball, and the
+decision is made when the ball hits a wall. The model explains a trade-off everyone knows.
+<strong>Set the walls far apart and you decide slowly but accurately. Set them close and you decide
+fast and make more mistakes.</strong> Rushed decisions are not made by a different system. They are
+the same system with a lower threshold.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>A value scale in the front of the brain</h2>
+</header>
+
+<p>In 2006 Camillo Padoa-Schioppa and John Assad recorded from the orbitofrontal cortex of monkeys
+choosing between different amounts of different juices. Some neurons fired in proportion to the
+value of the offered option, in the monkey's own terms, whatever the juice. If a monkey valued one
+drop of juice A as much as three drops of juice B, the cells fired similarly for both offers. That is a common
+currency in physical form.</p>
+
+<p>Human brain-imaging studies point the same way. Activity in the ventromedial prefrontal cortex
+tends to track how much a person values something: food, money, a piece of music, even a charitable
+donation. Value is also <strong>relative and changeable</strong>. The same snack is worth more when
+you are hungry, and a sum of money is worth less if you must wait a year for it. This preference for
+sooner rewards is called <strong>delay discounting</strong>, and people differ in how steep it is.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Gut feelings: the somatic marker idea</h2>
+</header>
+
+<p>In the 1980s and 1990s Antonio Damasio studied patients whose ventromedial prefrontal cortex had
+been damaged, like Gage's. One, whom he called Elliot, had had a brain tumour removed. His
+intelligence tests were normal, yet his life fell apart through poor choices in business and
+relationships. Asked to choose between two dates for his next appointment, he could list the
+advantages of each for a very long time without settling.</p>
+
+<p>Damasio proposed the <strong>somatic marker hypothesis</strong>. Through experience, options
+become tagged with bodily feelings ("somatic" means of the body), such as a slight tension at the
+thought of a risky option. These markers quickly narrow the choices before slow reasoning begins.
+Without them, reasoning has no sense of what matters.</p>
+
+<p>The main test was the <strong>Iowa Gambling Task</strong>, designed by Antoine Bechara with
+Damasio. Players draw cards from four decks. Two decks pay big rewards but bigger losses; two pay
+small rewards and smaller losses and win in the long run. Healthy players drift towards the safe
+decks. In the original studies, their skin began to sweat slightly before reaching for a bad deck,
+even before they could say why. Patients with ventromedial damage kept choosing the risky decks. Later
+researchers argued that healthy players knew more about the decks than first thought, so <strong>the
+claim that the body knows before the mind is contested</strong>. The broader point, that emotional
+value signals are needed for good choices, has held up.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Brakes, habits and self-control</h2>
+</header>
+
+<p>Choosing well often means overriding a tempting option. In a 2009 imaging study by Todd Hare,
+Colin Camerer and Antonio Rangel, dieters chose between foods. When they turned down tasty but
+unhealthy options, the dorsolateral prefrontal cortex was more active and seemed to change the value
+signal in the ventromedial area, giving health more weight. Self-control looks less like a muscle
+fighting temptation and more like <strong>adjusting the value of the options</strong>.</p>
+
+<p>The brain also has two ways of choosing. A <strong>goal-directed</strong> system thinks about
+outcomes: "I want coffee, the kitchen has coffee, so go to the kitchen." A <strong>habit</strong>
+system simply repeats what worked before in that situation, with little thought. Habits depend
+heavily on the striatum and are fast and cheap, but slow to update. That is why you can drive to your
+old office on a day off. Volume 35 covers how habits form (<a href="../35-the-mind.html#c10">How
+habits actually form</a>).</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Addiction, free will and the law</h2>
+  <p class="lede">When choice has a mechanism, the mechanism can break, be exploited, or be put on
+  trial.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>When the surprise signal is hijacked</h2>
+</header>
+
+<p>Drugs such as cocaine and amphetamine raise dopamine directly, sending a "better than expected"
+signal every time, whatever actually happened. The learning system is fooled into rating the drug and
+everything linked to it as extremely valuable. Volume 37 explains why this is better understood as a
+learning problem than a moral one (<a href="../37-the-dark-side.html#c8">Addiction, without the
+moralising</a>).</p>
+
+<p>A striking natural experiment comes from Parkinson's disease, in which dopamine cells die. Some
+patients take drugs that mimic dopamine. <strong>A minority of them develop compulsive gambling,
+shopping or eating</strong>, problems that usually fade when the dose is reduced. Medical leaflets
+for these drugs now warn about it. Gambling machines exploit the same system from outside:
+unpredictable rewards and "near misses" keep the prediction-error signal busy.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Does your brain decide before you do?</h2>
+</header>
+
+<p>In 1983 the physiologist Benjamin Libet asked people to flex a wrist whenever they felt like it
+and to note, using a fast clock, when they first felt the urge. Electrodes on the scalp showed a slow
+build-up of activity, the <strong>readiness potential</strong>, starting several hundred
+milliseconds before people reported deciding. Headlines concluded that free will is an illusion.</p>
+
+<p>That reading is now widely doubted. In 2012 Aaron Schurger and colleagues argued that the
+build-up may be the brain's background noise drifting towards a threshold, as in Chapter 05, rather
+than a hidden decision already made. Later imaging studies could predict simple choices several
+seconds ahead, but only a little better than chance. <strong>The experiments show that decisions
+have a lead-up in the brain, not that "you" are a spectator</strong>. What free will means is a
+question for philosophy as much as for neuroscience.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Teenagers, courts and responsibility</h2>
+</header>
+
+<p>The prefrontal cortex keeps developing into the twenties, while reward circuits are very responsive
+in adolescence. Laboratory studies find that teenagers take more risks especially when friends are
+watching. This research entered American law. In <em>Roper v. Simmons</em> (2005) the US Supreme Court
+banned the death penalty for crimes committed under 18, drawing on research about adolescent
+development, and in <em>Graham v. Florida</em> (2010) it referred to developments in psychology and
+brain science when limiting life sentences without parole for juveniles.</p>
+
+<p>Courts in several countries now hear brain evidence in criminal cases, such as scans showing
+frontal damage. Most legal scholars urge caution. <strong>A group-level brain difference cannot tell
+a judge what one person was able to do on one night</strong>, and plenty of people with similar scans
+never break the law.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A learning machine with exploitable habits</h2>
+  <p class="lede">The brain's way of choosing is fast and adaptable, and its weaknesses are the
+  reverse side of the same features.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>What the design buys, and what it costs</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Design feature</th><th>What it buys</th><th>What it costs</th></tr></thead>
+<tbody>
+<tr><td><strong>Learning from surprise</strong></td><td class="ok">Expectations update automatically, with no need to reason it out.</td><td class="no">Drugs and gambling machines can fake the surprise signal.</td></tr>
+<tr><td><strong>Relative value</strong></td><td class="ok">Choices adapt to hunger, context and what is available.</td><td class="no">Easy to manipulate with framing, anchors and decoys.</td></tr>
+<tr><td><strong>Threshold for commitment</strong></td><td class="ok">You can trade speed against accuracy as needed.</td><td class="no">Under stress or time pressure the threshold drops and errors rise.</td></tr>
+<tr><td><strong>Emotional markers</strong></td><td class="ok">Fast pruning of bad options before you think.</td><td class="no">Fear and craving can weigh more than the facts.</td></tr>
+<tr><td><strong>Habits</strong></td><td class="ok">Routine choices cost almost no effort.</td><td class="no">Habits persist after they stop serving you.</td></tr>
+<tr><td><strong>Delay discounting</strong></td><td class="ok">Sensible preference for safe, near rewards.</td><td class="no">Undersaving, procrastination and short-term thinking.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>What the science gets right, and where it overreaches</h2>
+</header>
+
+<div class="grid2">
+  <div class="card"><h4>Strong ground</h4><p>Reward prediction error is one of the most solid
+  findings in neuroscience, seen in monkeys, rodents and human imaging, and supported by computer
+  models. Evidence accumulation to a threshold is also well supported for simple perceptual
+  choices.</p></div>
+  <div class="card"><h4>Weaker ground</h4><p>Much of the rest comes from small imaging studies and
+  from a handful of patients. Real decisions, such as choosing a career, take months and involve
+  other people, which no scanner captures. "Neuromarketing" claims to read buyers' minds have mostly
+  promised more than they delivered.</p></div>
+</div>
+
+<p>A fair summary is that <strong>neuroscience explains the building blocks of choice better than it
+explains any particular choice</strong>. It can say why you value surprise or why you rush under
+pressure. It cannot yet say why you married the person you married.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Treating faulty choice, and learning from machines</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Brain and AI learning from each other</strong></td><td>Reinforcement learning, the method behind game-playing AI and part of how chatbots are tuned, grew alongside the dopamine findings. Researchers now use AI models to test theories of how the brain learns.</td><td class="ok">Fairly sure: the exchange will continue in both directions. See <a href="18-artificial-neural-networks.html">Artificial neural networks</a>.</td></tr>
+<tr><td><strong>Computational psychiatry</strong></td><td>Describing conditions such as addiction, OCD and depression as faults in learning, value or threshold, measured with games and models, to guide treatment.</td><td class="mid">Plausible: useful for research now; better-matched treatment for individuals is still a goal.</td></tr>
+<tr><td><strong>Stimulating decision circuits</strong></td><td>Magnetic stimulation through the scalp (TMS) is cleared in the US for some uses, including OCD and help with quitting smoking. Deep electrodes for addiction are experimental.</td><td class="no">Speculative for broad use: small trials, uncertain effect sizes, and serious ethical questions. See <a href="19-neurotechnology.html">Neurotechnology</a>.</td></tr>
+</tbody></table></div>
+
+<p>One caution runs across all three. As devices and apps learn to predict our choices from behaviour
+and, possibly, brain data, <strong>the same knowledge that helps treat compulsions can be used to
+create them</strong>. Several countries, starting with Chile in 2021, have begun writing protections
+for mental privacy into law. That debate is likely to grow.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>The brain decides by <strong>valuing</strong> options in a common currency (orbitofrontal and
+    ventromedial cortex), <strong>accumulating evidence</strong> until a threshold is crossed, and
+    <strong>learning from surprise</strong>: dopamine signals the gap between what happened and what
+    was expected. Emotion and self-control adjust the values; habits bypass them.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Phineas Gage's accident: <strong>1848</strong>.</li>
+      <li>Dopamine signal = <strong>outcome minus expectation</strong> (Schultz, 1990s).</li>
+      <li>Libet's readiness potential starts <strong>several hundred milliseconds</strong> before the
+      reported urge.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Calling dopamine "the pleasure chemical". <strong>It is a teaching signal about
+    surprise</strong>, which is why expected rewards feel flat and unpredictable ones are so
+    compelling.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain, using the monkey and the light, why a slot machine that pays out at random is
+    more compelling than one that pays out on a schedule?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Prefrontal cortex</dt><dd>The front part of the brain, involved in planning, valuing and self-control.</dd>
+    <dt>Orbitofrontal cortex</dt><dd>The part just above the eye sockets that represents how much options are worth.</dd>
+    <dt>Dorsolateral prefrontal cortex</dt><dd>The upper outer front, which holds goals in mind and supports self-control.</dd>
+    <dt>Striatum</dt><dd>A deep structure that selects actions and stores habits; a main target of dopamine.</dd>
+    <dt>Dopamine</dt><dd>A chemical messenger whose bursts and dips signal outcomes better or worse than expected.</dd>
+    <dt>Reward prediction error</dt><dd>The difference between the reward received and the reward expected.</dd>
+    <dt>Reinforcement learning</dt><dd>Learning by trial, error and reward, in brains and in computer programs.</dd>
+    <dt>Drift-diffusion model</dt><dd>A model in which noisy evidence builds up until it reaches a decision threshold.</dd>
+    <dt>Common currency</dt><dd>A single internal scale on which very different options can be compared.</dd>
+    <dt>Delay discounting</dt><dd>Valuing a reward less the longer you must wait for it.</dd>
+    <dt>Somatic marker</dt><dd>Damasio's term for a bodily feeling attached to an option that guides choice.</dd>
+    <dt>Readiness potential</dt><dd>A slow build-up of brain activity before a voluntary movement.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Dopamine isn't about pleasure, it's about surprise. It fires when things go better than you
+    expected."</li>
+    <li>"That's why an expected bonus feels flat and a surprise one feels great."</li>
+    <li>"A rushed decision isn't a different kind of thinking. It's the same process with a lower bar
+    for committing."</li>
+    <li>"People who lose emotional signals don't become perfectly logical. They become unable to
+    choose."</li>
+    <li>"The Libet experiments don't disprove free will. They show that decisions have a build-up in
+    the brain."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="10-language.html">Language</a></h4><p>How the brain turns
+  sounds and marks into meaning, from Broca's patient "Tan" to the networks that modern imaging
+  reveals.</p></div>
+  <div class="card"><h4>Related · <a href="../06-psychology/04-decision-making.html">Decision-making
+  (Psychology)</a></h4><p>The same subject from the behaviour side: heuristics, expected value,
+  uncertainty and choice overload.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

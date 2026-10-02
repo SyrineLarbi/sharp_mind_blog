@@ -1,0 +1,865 @@
+<!doctype html>
+<!--@HEAD-SRC title="Behavioral economics" desc="Why real people do not behave like the rational agents of economics textbooks, the main findings, how governments use nudges and defaults, the critiques, and where the field is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Behavioral economics</title>
+<meta name="description" content="Why real people do not behave like the rational agents of economics textbooks, the main findings, how governments use nudges and defaults, the critiques, and where the field is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Psychology · Topic 19 of 20</p>
+  <h1>Behavioral economics. <span class="thin">Economics for the people who actually exist.</span></h1>
+  <p class="lede">For most of the 20th century, economic theory assumed a person who calculates
+  perfectly, never procrastinates, does not care about fairness and treats every euro the same way.
+  Nobody has ever met this person. Behavioral economics is what happened when economists started
+  checking their assumptions against how people really behave. It has won several Nobel Prizes,
+  changed how pension systems and tax letters are designed, and given companies new ways to sell. It
+  has also been oversold, and the field is now sorting its strongest findings from its weakest.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Psychology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../35-the-mind.html#c6"><span class="vn">Vol 35 · ch 06</span><b>Losses hurt more</b><em>The short version</em></a>
+<a class="vol" href="../38-money.html#c8"><span class="vn">Vol 38 · ch 08</span><b>Why money decisions go wrong</b><em>Your own wallet</em></a>
+<a class="vol" href="20-psychology-of-technology.html"><span class="vn">Psychology · 20</span><b>Psychology of technology</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 35 covers the individual biases in short chapters: <a href="../35-the-mind.html#c4">The
+  first number sticks</a>, <a href="../35-the-mind.html#c6">Losses hurt more than gains please</a> and
+  <a href="../35-the-mind.html#c7">How the question is asked changes the answer</a>. Volume 07
+  summarises <a href="../07-books-thinking-and-judgment.html#k1">Thinking, Fast and Slow</a>, and Volume
+  38 applies the biases to personal money in <a href="../38-money.html#c8">Why money decisions go
+  wrong</a>. This file is about the field itself: its theory, its use in policy and business, and its
+  critics.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Economics that takes psychology seriously</h2>
+  <p class="lede">Behavioral economics keeps the questions of economics (how people spend, save,
+  work and trade) but replaces a convenient assumption with evidence.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Econs and Humans</h2>
+</header>
+
+<p>Standard economic models describe a creature often called <strong>homo economicus</strong>,
+"economic man". He knows what he wants, and his wants do not change with his mood. He weighs every
+option, calculates costs and benefits correctly, and chooses the best. He saves the right amount for
+retirement. He never buys a gym membership he will not use.</p>
+
+<p>The economist Richard Thaler, writing with the legal scholar Cass Sunstein in the 2008 book
+<em>Nudge</em>, called these imaginary people <strong>Econs</strong>, and the rest of us
+<strong>Humans</strong>. Humans have limited attention, limited willpower and limited time. We are
+affected by how choices are presented, by what other people do, and by what feels fair.</p>
+
+<p>The important point is that <strong>these departures from the model are not random</strong>. If
+human errors were random, they would cancel out in large markets and the old models would still work
+on average. But many errors push in a predictable direction. Most people save too little, not too
+much. Most people stick with whatever option is already selected. Because the errors are
+systematic, they can be studied, predicted and designed for.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Four Nobel Prizes and a field that was once heresy</h2>
+</header>
+
+<p>The roots go back to Herbert Simon, an American scholar who worked across economics, psychology
+and computer science. In the 1950s he argued that people have <strong>bounded rationality</strong>:
+they lack the information and mental capacity to find the best option, so they
+<strong>satisfice</strong>, picking the first option that is good enough. He won the Nobel Prize in
+economics in 1978.</p>
+
+<p>The decisive work came from two Israeli psychologists, Daniel Kahneman and Amos Tversky. From the
+early 1970s they ran simple experiments showing how people judge probabilities and make risky
+choices. Their 1979 paper on <strong>prospect theory</strong> became one of the most cited papers in
+economics. Tversky died in 1996. Kahneman received the Nobel Prize in 2002, shared with Vernon Smith,
+a pioneer of testing economic theories in laboratory experiments.</p>
+
+<p>Thaler, who had spent years collecting "anomalies" that standard theory could not explain, won in
+2017. Robert Shiller, who studied how emotion and storytelling drive asset prices, shared the 2013
+prize. For decades many economists dismissed the field as a set of curiosities. <strong>Today its
+ideas are part of mainstream economics</strong>, taught in standard courses and used by central
+banks, regulators and governments.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Five ways real people differ from the model</h2>
+  <p class="lede">The field's findings fall into a few families. Each one explains a familiar
+  behaviour that the standard model calls a mistake.</p>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Prospect theory: value depends on where you stand</h2>
+</header>
+
+<p>Standard theory says people judge outcomes by their total wealth. Kahneman and Tversky showed that
+people judge outcomes as <strong>gains or losses from a reference point</strong>, usually what they
+have now or what they expected. A salary of 50,000 feels wonderful if you expected 45,000, and
+disappointing if you expected 55,000.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Part of the theory</th><th>What it says</th><th>What it explains</th></tr></thead>
+<tbody>
+<tr><td><strong>Reference dependence</strong></td><td>Outcomes are judged against a starting point</td><td>Why the same pay rise can please or anger, depending on expectations</td></tr>
+<tr><td><strong>Loss aversion</strong></td><td>Losses weigh roughly twice as much as equal gains</td><td>Why people refuse fair bets and hold losing investments</td></tr>
+<tr><td><strong>Diminishing sensitivity</strong></td><td>The difference between 10 and 20 feels bigger than between 1,010 and 1,020</td><td>Why people drive across town to save 10 on a cheap item but not on an expensive one</td></tr>
+<tr><td><strong>Probability weighting</strong></td><td>Small chances are overweighted; near-certainties are underweighted</td><td>Why the same person buys lottery tickets and insurance</td></tr>
+</tbody></table></div>
+
+<p>The last row resolves an old puzzle. A lottery ticket is a bad bet, and so, on average, is
+insurance, since insurers make a profit. Yet many people buy both. Prospect theory explains it.
+<strong>People treat a tiny chance as much bigger than it is</strong>, whether it is the chance of
+winning millions or the chance of the house burning down.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Present bias: the future self always loses</h2>
+</header>
+
+<p>Ask people: would you prefer 100 euros today or 110 in a week? Many take 100 today. Now ask:
+100 in a year, or 110 in a year and a week? Almost everyone waits the extra week. The trade is the
+same in both cases, seven days for ten euros. Only the distance from today changed.</p>
+
+<p>Economists call this <strong>present bias</strong>. People are far more impatient about the
+immediate present than about the future. A rational Econ discounts the future at a steady rate. A
+Human discounts very steeply between now and soon, then much more gently after. The technical name for
+this curve is <strong>hyperbolic discounting</strong>. It explains why we plan to start saving,
+dieting or studying "next month", and then, when next month arrives, it has become "now" and the plan
+loses.</p>
+
+<p>The cure is a <strong>commitment device</strong>: a decision made in advance that binds your future
+self. The oldest example is Ulysses in the <em>Odyssey</em>, who had his crew tie him to the mast so he
+could hear the Sirens without steering toward them. A modern one is Save More Tomorrow, a plan designed
+by Thaler and Shlomo Benartzi. Employees agree today to save a share of <em>future</em> pay rises.
+Because the money is not yet theirs, it does not feel like a loss. In the first company to try it,
+participants' average saving rate rose from about 3.5 per cent to over 13 per cent within a few
+years.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Mental accounting and the value of owning</h2>
+</header>
+
+<p>To an Econ, money is <strong>fungible</strong>: every euro is the same as every other. Humans keep
+separate mental "accounts", as Thaler documented. Money for holidays, money for bills, a tax refund,
+a casino win. People spend a windfall more freely than salary, and some keep money in a savings
+account earning little interest while carrying credit-card debt at a high rate. That is costly, but it
+can be a crude self-control tool: the savings account is "not for spending".</p>
+
+<p>A related effect is the <strong>endowment effect</strong>: people value things more once they own
+them. In a famous 1990 experiment by Kahneman, Jack Knetsch and Thaler, students were randomly given a
+coffee mug. Those who owned a mug demanded roughly twice as much to sell it as other students were
+willing to pay to buy one. The mugs were identical, and nobody had owned theirs for more than a few
+minutes. Loss aversion explains it: giving up the mug is a loss, buying one is only a gain.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Fairness, other people and limited attention</h2>
+</header>
+
+<p>In the <strong>ultimatum game</strong>, one player receives some money, say 100 euros, and offers a
+split to a second player. If the second player accepts, both keep their shares. If they refuse, both
+get nothing. An Econ would accept any offer, even one euro, because one euro is better than nothing.
+Real people, in many countries, often reject offers below about a fifth or a quarter of the total.
+They will pay to punish unfairness. Knowing this, most people who make offers propose something close
+to an even split. <strong>Fairness is not a cost people ignore; it is something they will pay
+for.</strong></p>
+
+<p>People are also strongly influenced by what others do. Telling households that their neighbours
+use less energy than they do has been shown to reduce energy use modestly. This is called a
+<strong>social norm</strong> message.</p>
+
+<p>Finally, attention is scarce. People do not read every term in a contract or compare every
+mobile phone plan. They notice what is prominent and skip what is buried. The single most powerful
+consequence is the force of the <strong>default</strong>, the option that applies if you do nothing.
+That is where policy enters.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Defaults, nudge units, and the businesses that got there first</h2>
+  <p class="lede">The field's biggest impact has been practical. Governments use it to help people;
+  companies use it to sell. The same tools serve both.</p>
+</header>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The power of doing nothing</h2>
+</header>
+
+<p>Thaler and Sunstein defined a <strong>nudge</strong> as any feature of a choice that changes
+behaviour predictably without forbidding any option or significantly changing financial incentives.
+Putting fruit at eye level in a canteen is a nudge. Banning chocolate is not. They called the design of
+how choices are presented <strong>choice architecture</strong>, and pointed out that there is no
+neutral design. Something has to go first on the menu.</p>
+
+<p>Defaults are the strongest nudge. In a well-known 2001 study, Brigitte Madrian and Dennis Shea
+examined an American company that changed its pension plan. Before, employees had to sign up. After,
+new employees were enrolled automatically and could leave if they wished. Participation among new
+employees jumped from under half to well over 80 per cent. Nobody was forced, and the financial
+incentives were unchanged. Only the default moved.</p>
+
+<p>The United Kingdom applied the same idea nationally. From 2012, employers were required to enrol
+eligible workers in a workplace pension automatically. The share of eligible private-sector employees
+saving into a pension rose from under half to above 85 per cent within a few years. Similar schemes
+exist in other countries, such as New Zealand's KiwiSaver. <strong>Auto-enrolment is behavioral
+economics' clearest large-scale success.</strong></p>
+
+<p>Organ donation shows both the power and the limits. Countries where citizens are donors unless
+they opt out show far higher registered consent than countries where people must opt in. But actual
+donation rates differ much less, because families are usually consulted and medical systems matter
+more than the register. A default changes a form; it does not change everything behind it.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Nudge units inside governments</h2>
+</header>
+
+<p>In 2010 the British government set up the Behavioural Insights Team, soon nicknamed the "Nudge
+Unit". One of its early projects concerned unpaid taxes. Letters were rewritten to say that most
+people in the recipient's area had already paid on time. Payment rates rose. The change cost almost
+nothing, because the letters were being sent anyway.</p>
+
+<p>Since then, governments across the world have created similar units, and the World Bank, the
+OECD and the United Nations use the approach. Typical methods are simple: make the desired action
+easy (pre-filled forms), make it timely (reminders just before a deadline), make it social (what others
+do) and make it attractive (personal, clear messages). Their great strength is that they are
+<strong>cheap and testable</strong>. A unit can send two versions of a letter to random groups and
+measure which works better, the same method used in medical trials. How such tools fit into the wider
+process is covered in <a href="../18-law-government/14-how-governments-create-policies.html">How
+governments create policies</a>.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The same tools, used to sell</h2>
+</header>
+
+<p>Businesses were using these effects long before economists named them. A few common examples:</p>
+
+<ul>
+  <li><strong>Free trials that convert automatically</strong> to paid subscriptions use the default
+  and the endowment effect together.</li>
+  <li><strong>The decoy effect</strong>: adding a third option that nobody wants, such as a medium
+  drink priced almost like a large, makes the large look like a bargain. Researchers Joel Huber, John
+  Payne and Christopher Puto documented this in 1982.</li>
+  <li><strong>Prices ending in .99</strong> exploit the way people read the first digit.</li>
+  <li><strong>"Only 2 left!"</strong> messages use scarcity and fear of missing out.</li>
+</ul>
+
+<p>When these designs work against the customer's interest, Thaler uses the word
+<strong>sludge</strong>: friction that makes good choices harder, such as a subscription that can be
+started in one click but cancelled only by phone. Designers call deliberately manipulative interfaces
+<strong>dark patterns</strong>. The customer side is in <a href="../08-business/09-customer-behavior.html">Customer
+behavior</a>, and digital design in <a href="20-psychology-of-technology.html">Psychology of
+technology</a>.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Markets made of Humans</h2>
+</header>
+
+<p>The field also changed how economists think about financial markets. Standard theory says prices
+reflect all available information, because rational traders quickly correct any mistake. Behavioral
+finance points out that traders are Humans too. They are often overconfident, follow the crowd, and
+extrapolate recent trends into the future. Shiller warned of an overvalued stock market around 2000
+and of an overheated US housing market before 2008, arguing that stories and enthusiasm were driving
+prices.</p>
+
+<p>The debate is not settled. Markets are hard to beat consistently, which supports the standard
+view. But <strong>prices can stay far from sensible values for years</strong>, which supports the
+behavioral one. Volume 38 explains the pattern in <a href="../38-money.html#c6">Bubbles, and why they
+keep happening</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A real advance, and a reckoning</h2>
+  <p class="lede">Behavioral economics fixed real gaps in the old models. It also suffered from
+  hype, weak studies and some scandals.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Weighing the field and its tools</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Aspect</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Realism</strong></td><td class="ok">Describes how people actually behave, not how a model says they should.</td><td class="no">A long list of biases is harder to turn into a single predictive theory.</td></tr>
+<tr><td><strong>Nudges</strong></td><td class="ok">Cheap, quick, and leave people free to choose.</td><td class="no">Effects are often small, and some fade over time.</td></tr>
+<tr><td><strong>Defaults</strong></td><td class="ok">Very powerful, as pensions show.</td><td class="no">Whoever sets the default holds real power, and may not share your interests.</td></tr>
+<tr><td><strong>Testing culture</strong></td><td class="ok">Randomised trials of policies became normal in many governments.</td><td class="no">Small published studies overstated many effects.</td></tr>
+<tr><td><strong>Focus on the individual</strong></td><td class="ok">Helps people within the system as it is.</td><td class="no">Can distract from bigger changes such as taxes, rules and prices.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Smaller effects, failed replications, and the paternalism question</h2>
+</header>
+
+<p>From the 2010s, psychology went through a <strong>replication crisis</strong>: when researchers
+repeated well-known experiments with larger samples, many effects shrank or disappeared. Behavioral
+economics was affected too. Some popular findings, such as the idea that willpower runs out like fuel
+("ego depletion"), have largely failed to replicate. A famous study suggesting that signing an
+honesty pledge at the top of a form reduces cheating was retracted in 2021, after evidence emerged
+that some of its data had been fabricated.</p>
+
+<p>The size of nudge effects has also been questioned. A 2022 study by Stefano DellaVigna and
+Elizabeth Linos compared academic papers with the trials actually run by two large US nudge units. The
+academic papers reported average effects several times larger than the nudge units found in practice.
+The units' average effect was real but small, roughly a percentage point or so. Small effects can
+still be worth it when they cost almost nothing and reach millions of people. <strong>The honest
+summary is: defaults are powerful, most other nudges are modest.</strong></p>
+
+<p>A different critique is about principle. Thaler and Sunstein call their approach
+<strong>libertarian paternalism</strong>: steering people toward better choices while leaving them
+free. Some critics ask who decides what is "better", and warn that governments are made of
+Humans with their own biases. Others, including the behavioral scientists Nick Chater and
+George Loewenstein in a 2022 paper, argue that the focus on nudging individuals has let governments
+and companies avoid harder structural policies, such as regulating products or taxing pollution.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Regulating sludge, personal nudges, and better tools</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Rules against manipulative design</strong></td><td>The EU's Digital Services Act (2022) restricts dark patterns on online platforms. Several countries have rules making subscriptions easier to cancel. US federal rules have faced court challenges.</td><td class="ok">Fairly sure: more regulation of sludge and dark patterns, with details varying by country. See <a href="../18-law-government/19-technology-law.html">Technology law</a>.</td></tr>
+<tr><td><strong>Personalised nudges powered by AI</strong></td><td>Apps and platforms already adjust prompts, prices and timing to individual users. Researchers sometimes call this "hypernudging".</td><td class="mid">Plausible: far more targeted nudges, both helpful (health reminders) and exploitative (personalised pressure to buy). Who controls them is the key question.</td></tr>
+<tr><td><strong>A unified theory of behaviour</strong></td><td>The field is still a collection of well-tested effects rather than one model that predicts them all.</td><td class="no">Speculative: a single framework that replaces both rational-choice and bias lists.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>From nudges to boosts and systems</h2>
+</header>
+
+<p>One direction is to teach rather than steer. Researchers such as Ralph Hertwig and Till
+Grüne-Yanoff propose <strong>boosts</strong>: building people's own skills so they choose well
+without anyone designing the choice for them. Teaching simple rules for reading risk, such as
+converting percentages into "out of 100 people" numbers, is a boost. It respects autonomy and its
+benefits travel with the person.</p>
+
+<p>Another direction is combining behavioral insight with ordinary economic tools. Auto-enrolment
+worked because it was combined with a law and employer contributions, not because of clever wording.
+<strong>The field's mature form is likely to be less about tricks and more about designing whole
+systems that work for Humans.</strong> Economics itself is in <a href="../09-economics/index.html">the
+Economics folder</a>, starting from <a href="../09-economics/01-supply-and-demand.html">Supply and
+demand</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>People are not perfect calculators. They judge <strong>gains and losses from a reference
+    point</strong>, favour the <strong>present</strong>, keep <strong>mental accounts</strong>, care
+    about <strong>fairness</strong> and stick with <strong>defaults</strong>. Because these departures
+    are <strong>systematic</strong>, policies and products can be designed around them, for good or
+    ill.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Losses weigh roughly <strong>twice</strong> as much as equal gains.</li>
+      <li>UK pension auto-enrolment (from <strong>2012</strong>) lifted eligible private-sector
+      participation from under half to <strong>above 85%</strong>.</li>
+      <li>Nudge units' typical effects are around <strong>a percentage point</strong>, much smaller
+      than academic papers suggested.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking that every clever nudge has a big effect. <strong>Defaults are powerful; most other
+    nudges are modest</strong>, and many famous lab effects shrank when retested.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why the same person buys both lottery tickets and home insurance, using
+    prospect theory? If you can, you have understood reference points and probability weighting.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Homo economicus</dt><dd>The perfectly rational, self-interested person assumed by standard economic models.</dd>
+    <dt>Bounded rationality</dt><dd>Herbert Simon's idea that people decide with limited information, time and mental capacity.</dd>
+    <dt>Satisficing</dt><dd>Choosing the first option that is good enough, rather than searching for the best.</dd>
+    <dt>Prospect theory</dt><dd>Kahneman and Tversky's description of how people actually choose under risk, judging gains and losses from a reference point.</dd>
+    <dt>Loss aversion</dt><dd>Losses feel worse than equal gains feel good.</dd>
+    <dt>Present bias</dt><dd>Giving too much weight to now compared with later.</dd>
+    <dt>Commitment device</dt><dd>An advance decision that locks in your future behaviour.</dd>
+    <dt>Mental accounting</dt><dd>Treating money differently depending on where it came from or what it is "for".</dd>
+    <dt>Endowment effect</dt><dd>Valuing something more simply because you own it.</dd>
+    <dt>Nudge</dt><dd>A change in how a choice is presented that shifts behaviour without forbidding options or changing prices much.</dd>
+    <dt>Choice architecture</dt><dd>The design of how options are presented to people.</dd>
+    <dt>Default</dt><dd>The option that applies if you do nothing.</dd>
+    <dt>Sludge</dt><dd>Friction that makes good choices harder, such as difficult cancellations.</dd>
+    <dt>Boost</dt><dd>An intervention that builds people's own decision skills rather than steering them.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Human mistakes aren't random. They push in predictable directions, which is why you can
+    design for them."</li>
+    <li>"The most powerful nudge is the default. Automatic pension enrolment changed millions of
+    people's savings without forcing anyone."</li>
+    <li>"People buy lottery tickets and insurance for the same reason: tiny probabilities feel bigger
+    than they are."</li>
+    <li>"Most nudges work, but modestly. The famous lab results were often several times larger than
+    what happened in the real world."</li>
+    <li>"There's no neutral way to present a choice. Something has to go first on the menu."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="20-psychology-of-technology.html">Psychology of
+  technology</a></h4><p>How phones, apps and AI are designed to capture attention, what the evidence
+  says about their effects on mood and thinking, and how to use them on your own terms.</p></div>
+  <div class="card"><h4>Related · <a href="04-decision-making.html">Decision-making</a></h4><p>The
+  psychology of choice itself: heuristics, expected value, uncertainty and why more options can make
+  people less happy.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

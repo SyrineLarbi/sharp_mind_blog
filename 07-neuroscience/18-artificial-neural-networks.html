@@ -1,0 +1,887 @@
+<!doctype html>
+<!--@HEAD-SRC title="Artificial Neural Networks" desc="What artificial neural networks borrowed from the brain, how an artificial neuron differs from a real one, how the two fields still feed each other, and whether machines and brains will converge."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artificial Neural Networks</title>
+<meta name="description" content="What artificial neural networks borrowed from the brain, how an artificial neuron differs from a real one, how the two fields still feed each other, and whether machines and brains will converge.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Neuroscience · Topic 18 of 20</p>
+  <h1>Artificial neural networks. <span class="thin">Inspired by the brain, built very differently, and now teaching neuroscience back.</span></h1>
+  <p class="lede">The software behind modern AI is called a neural network, and it is often described
+  as "working like the brain". That phrase is about half true. The first artificial neurons, in the
+  1940s, were a deliberate cartoon of real ones, and some of the field's greatest ideas came from
+  studying the visual cortex. But a real neuron is far more complicated than its artificial cousin,
+  the brain learns in ways no current network does, and it runs on the power of a dim light bulb. This
+  topic looks at the network from the neuroscientist's side: what was borrowed, what was dropped, and
+  why the two fields are talking to each other again.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Neuroscience</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../49-ai-honestly.html#c1"><span class="vn">Vol 49 · ch 01</span><b>Learning from examples</b><em>AI basics</em></a>
+<a class="vol" href="../01-technology/02-machine-learning.html"><span class="vn">Technology · 02</span><b>Machine learning</b><em>Methods and training</em></a>
+<a class="vol" href="19-neurotechnology.html"><span class="vn">Neuroscience · 19</span><b>Neurotechnology</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 49 explains learning from examples (<a href="../49-ai-honestly.html#c1">Learning from
+  examples rather than rules</a>) and what a language model does (<a
+  href="../49-ai-honestly.html#c2">What a language model actually does</a>). Volume 14 shows why
+  networks run on graphics chips (<a href="../14-computing-and-ai.html#c2">GPUs, and the memory
+  wall</a>). Training methods and the 2012 breakthrough are in <a
+  href="../01-technology/02-machine-learning.html">Technology · Machine learning</a>. This file is about
+  the comparison with real neurons, so it keeps the engineering short.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A web of simple adding machines, loosely modelled on neurons</h2>
+  <p class="lede">An artificial neural network is a large set of very simple units connected to each
+  other, where each connection has a strength that can be adjusted. Learning means adjusting those
+  strengths.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A brain drawn as logic, 1943</h2>
+</header>
+
+<p>In 1943 two Americans, the neurophysiologist Warren McCulloch and a young logician called Walter
+Pitts, published a paper with a long title and a bold idea. They asked what a neuron does if you strip
+away the biology. Their answer: it collects signals from other neurons, adds them up, and fires if
+the total crosses a threshold. They showed that networks of such idealised neurons could, in
+principle, compute any logical rule.</p>
+
+<p>Real neurons were already known to be messier than this. McCulloch and Pitts did not claim
+otherwise. Their point was that <strong>thinking might be a kind of computation carried out by many
+simple parts</strong>, none of which thinks on its own. That idea, more than any single equation, is
+what artificial neural networks inherited from neuroscience.</p>
+
+<p>Six years later the Canadian psychologist Donald Hebb added the second ingredient. In his 1949
+book <em>The Organization of Behavior</em> he proposed that when one neuron repeatedly helps to fire
+another, the connection between them grows stronger. The slogan came later: "cells that fire
+together wire together". <strong>Learning, in this view, is a change in connection strengths.</strong>
+Every neural network since has been built on that assumption.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>One artificial neuron, step by step</h2>
+</header>
+
+<p>Imagine a unit deciding whether to recommend an umbrella. It receives three inputs: how cloudy
+the sky is, the humidity, and the weather forecast, each as a number between 0 and 1. Each input
+has a <strong>weight</strong>, a number that says how much it matters. The forecast might have a
+weight of 3, cloudiness 2 and humidity 0.5.</p>
+
+<p>The unit multiplies each input by its weight and adds the results. Then it passes the total through
+an <strong>activation function</strong>, a simple rule that decides the output. A common one today
+just says: if the total is negative, output zero; otherwise output the total. The output becomes an
+input for the next units in the network.</p>
+
+<div class="sheet">
+  <div class="cap">Real neuron and artificial neuron, side by side</div>
+<pre>
+ REAL NEURON                          ARTIFICIAL NEURON
+
+ dendrites  ---\                      input x1 --(weight w1)--\
+ (thousands of   >--  cell body  --   input x2 --(weight w2)---> SUM --> f(SUM) --> output
+  synapses)  --/      decides to      input x3 --(weight w3)--/
+                      spike or not
+                          |
+                        axon --> spikes to other neurons
+
+ synapse strength  ~  weight
+ firing threshold  ~  activation function
+ spike train       ~  a single number (a big simplification)
+</pre>
+</div>
+
+<p>That is the whole of an artificial neuron. It is a weighted sum followed by a simple rule. It has
+no chemistry, no shape, no sense of time. <strong>All of a network's power comes from having very many
+of these units and finding good values for very many weights.</strong></p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Layers, depth and parameters</h2>
+</header>
+
+<p>Units are arranged in <strong>layers</strong>. The first layer takes in raw data, such as the pixels
+of an image. The last layer produces the answer, such as "cat" or "dog". The layers in between are
+called <strong>hidden layers</strong>, because nobody tells them what to represent. They work it out
+during training. A network with many hidden layers is called <strong>deep</strong>, which is where the
+term "deep learning" comes from.</p>
+
+<p>The adjustable numbers, the weights and a few related values, are called
+<strong>parameters</strong>. A small network might have thousands. Large language models have hundreds
+of billions or more. It is tempting to compare parameters to synapses, the connections between real
+neurons. The human brain has about 86 billion neurons and, by common estimates, on the order of a
+hundred trillion synapses. But the comparison is weak, for reasons the next part explains.
+<strong>A synapse is not a number, and a neuron is not a sum.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>What was borrowed, what was simplified, and what was invented</h2>
+  <p class="lede">The architecture of the most successful networks owes a real debt to the brain. Their
+  learning method, and most of their details, do not.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Learning by assigning blame</h2>
+</header>
+
+<p>A network starts with random weights and gives random answers. Training shows it an example, compares
+its answer with the right one, and measures the error. Then comes the key question: which of the
+millions of weights were to blame, and by how much? The method that answers it is called
+<strong>backpropagation</strong>. It works backwards from the error, layer by layer, calculating how a
+small change in each weight would change the error. Each weight is then nudged in the helpful
+direction. Repeat this millions of times and the network improves.</p>
+
+<p>Backpropagation was described by several people independently. It became widely known through a
+1986 paper by David Rumelhart, Geoffrey Hinton and Ronald Williams. The details are in <a
+href="../01-technology/02-machine-learning.html">Machine learning</a>. What matters here is that
+<strong>backpropagation was invented as mathematics, not copied from the brain</strong>. It may even be
+impossible for real neurons to do it exactly, as Chapter 07 explains.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The cat, the lines, and the convolution</h2>
+</header>
+
+<p>The clearest gift from neuroscience to AI came from two researchers and a slide projector. In the
+late 1950s David Hubel and Torsten Wiesel recorded from single neurons in the visual cortex of cats.
+For hours, nothing they showed produced much response. Then, as they slid a glass slide into the
+projector, its edge cast a faint line across the screen, and a neuron fired furiously.</p>
+
+<p>They had found cells that respond to <strong>lines at a particular angle</strong> in one small part
+of the visual field. They called them simple cells. Other cells, complex cells, responded to the same
+angle anywhere in a slightly larger area. Their picture was a hierarchy: early cells detect edges, later
+ones combine edges into more complex shapes. They shared a Nobel Prize in 1981.</p>
+
+<p>In 1980 the Japanese engineer Kunihiko Fukushima built a network, the Neocognitron, directly on this
+plan. Later in the 1980s Yann LeCun and colleagues combined the idea with backpropagation and built
+networks that read handwritten digits. By the late 1990s such systems were reading a significant share of
+cheques in the United States. These are <strong>convolutional networks</strong>: the same small
+pattern detector is slid across the whole image, as if one simple cell were copied to every position.
+<strong>Most of the computer vision of the 2010s was a mathematical version of Hubel and Wiesel's
+cat.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>A real neuron is a computer on its own</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Real neuron</th><th>Artificial neuron</th></tr></thead>
+<tbody>
+<tr><td><strong>Signal</strong></td><td>Spikes: brief pulses whose timing and rate both carry information</td><td>A single number per step, with no timing</td></tr>
+<tr><td><strong>Inputs</strong></td><td>Thousands of synapses on branching dendrites, which process signals locally before they reach the cell body</td><td>A flat list of inputs, simply added</td></tr>
+<tr><td><strong>Connection types</strong></td><td>A given neuron is usually either excitatory or inhibitory throughout</td><td>Any weight can be positive or negative</td></tr>
+<tr><td><strong>Chemistry</strong></td><td>Dozens of neurotransmitters and modulators such as dopamine change how whole circuits behave</td><td>None. One kind of signal.</td></tr>
+<tr><td><strong>Wiring</strong></td><td>Heavily looped, with signals going backwards and sideways as much as forwards</td><td>Often mainly one-way, layer to layer</td></tr>
+<tr><td><strong>Change over time</strong></td><td>Grows, prunes and rewires connections throughout life</td><td>Fixed structure. Weights usually frozen after training.</td></tr>
+</tbody></table></div>
+
+<p>The dendrites are the biggest surprise. They are not passive wires. Their branches can generate
+their own small electrical events and combine inputs in non-linear ways before anything reaches the
+cell body. In 2021 a team in Israel trained an artificial network to copy the input-output behaviour of
+a single detailed model of a cortical neuron. It needed a network several layers deep to do it.
+<strong>One real neuron may be closer to a small network than to a single unit.</strong> The biology of
+the real thing is in <a href="02-neurons.html">Neurons</a>.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The learning-rule problem</h2>
+</header>
+
+<p>Backpropagation needs two things the brain does not obviously have. First, it needs an exact error
+signal sent backwards to every connection, carried by the same weights used going forwards. Real
+synapses transmit in one direction only. Second, it needs a clean separation between a "forward" pass
+that computes an answer and a "backward" pass that learns. The brain does both at once, all the
+time.</p>
+
+<p>The brain's known learning rules are mostly <strong>local</strong>. A synapse changes according to
+what the two neurons it connects are doing, plus broad signals such as a burst of dopamine that says
+"that went better than expected". Hebb's rule is local in this sense. Whether local rules can add up to
+something as powerful as backpropagation is one of the <strong>central open questions</strong> in
+theoretical neuroscience. Several proposals exist, and some researchers, including Hinton himself, have
+explored learning methods that avoid a backward pass. None is yet accepted as the brain's answer.</p>
+
+<p>There is a deeper gap in efficiency. A child can learn a new animal from a picture book with one or
+two examples. A typical network needs many thousands of labelled images. Large language models are
+trained on far more text than a person could read in many lifetimes. <strong>Brains learn from
+little data. Networks make up for it with enormous amounts.</strong></p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Twenty watts, and the spiking alternative</h2>
+</header>
+
+<p>The human brain runs on roughly <strong>20 watts</strong>, less than a laptop charger. Training a
+large AI model uses the electricity of a small town for weeks, and running it for millions of users
+needs whole data centres. Volume 14 explains why (<a href="../14-computing-and-ai.html#c3">Data
+centres, and why AI became an electricity story</a>).</p>
+
+<p>Part of the brain's efficiency comes from spikes. Most neurons are silent most of the time and fire
+only when they have something to say. A typical artificial network, by contrast, computes every unit
+for every input. <strong>Spiking neural networks</strong> try to copy the brain's approach, and
+<strong>neuromorphic chips</strong>, such as IBM's TrueNorth and Intel's Loihi, are built to run them,
+with memory and computation mixed together as they are in neurons. They can be extremely
+energy-efficient for some tasks. So far they have not matched conventional networks on the big
+problems, partly because training spiking networks is harder.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>A borrowed idea that changed the world, and returned home</h2>
+  <p class="lede">Neural networks are now the core of most AI. They are also becoming one of
+  neuroscience's best tools for testing theories of the brain.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Seventy years of hope, disappointment and return</h2>
+</header>
+
+<p>In 1958 the psychologist Frank Rosenblatt demonstrated the <strong>perceptron</strong>, a machine
+with a single layer of adjustable weights that learned to tell simple shapes apart. Newspaper coverage
+was ecstatic and predicted machines that would soon walk, talk and be conscious. In 1969 Marvin Minsky
+and Seymour Papert published a book, <em>Perceptrons</em>, proving that single-layer networks could not
+learn some simple patterns. Funding and interest fell away for years. Historians still argue about how
+much of the blame belongs to the book.</p>
+
+<p>The ideas returned in the 1980s with backpropagation and multi-layer networks, then faded again in
+the 1990s when other methods worked better. The lasting breakthrough came in 2012, when a deep network
+won a major image-recognition competition by a wide margin, helped by large data sets and graphics
+chips. In 2024 the Nobel Prize in Physics went to John Hopfield and Geoffrey Hinton for foundational
+work on neural networks. Hopfield had designed a network in 1982 that stored memories as stable
+patterns of activity, an idea taken directly from thinking about the brain.</p>
+
+<p>The lesson of this history is that <strong>the brain-inspired idea was right long before it was
+useful</strong>. It needed fifty years of faster computers and larger data sets to show what it could
+do.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Networks as theories of the brain</h2>
+</header>
+
+<p>In 2014 a team led by James DiCarlo and Daniel Yamins at MIT trained networks to recognise objects
+in photographs. They then compared the networks' internal activity with recordings from the visual
+cortex of monkeys looking at the same pictures. The deeper layers of the best networks
+<strong>predicted the responses of real neurons</strong> in the monkey's higher visual areas better
+than any model scientists had designed by hand. Nobody had trained the network to imitate the brain.
+It had been trained only to recognise objects.</p>
+
+<p>This has become a major research strategy. Train a network to do what a brain area does, then ask
+whether the solution it finds resembles the brain's. Similar comparisons have been made for hearing and
+for language, where the internal activity of language models partly predicts brain responses to the same
+sentences. The interpretation is <strong>debated</strong>. Matching activity does not prove the
+mechanism is the same, just as two clocks can show the same time with different gears.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The dopamine surprise</h2>
+</header>
+
+<p>Influence also runs from AI to neuroscience. In the 1980s the computer scientist Richard Sutton
+developed a learning method called <strong>temporal-difference learning</strong>. A system learns by
+comparing what it predicted with what actually happened, and updating on the difference, called the
+<strong>prediction error</strong>.</p>
+
+<p>In the 1990s the neuroscientist Wolfram Schultz was recording dopamine neurons in monkeys. He found
+that they fired when a reward was better than expected, stayed quiet when it was exactly as expected,
+and dipped below normal when an expected reward failed to arrive. In 1997 he, Peter Dayan and Read
+Montague showed that this was almost exactly the prediction-error signal of Sutton's algorithm.
+<strong>An idea invented for machines turned out to describe a chemical signal in the brain.</strong>
+The story continues in <a href="09-decision-making.html">Decision-making</a>.</p>
+
+<p>The word "neural" in AI also shapes public debate. Saying a system "has neurons" makes it sound
+like a mind. Saying it "multiplies large tables of numbers" makes it sound like a spreadsheet. Both are
+true, and neither settles questions about understanding or consciousness, which are discussed in <a
+href="06-consciousness.html">Consciousness</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>What the brain analogy helps with, and where it misleads</h2>
+  <p class="lede">Seen from neuroscience, the strengths and weaknesses of artificial networks line up
+  with the places where they copied the brain and the places where they did not.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Strengths and weaknesses, set against the brain</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Strength of artificial networks</th><th>Weakness compared with brains</th></tr></thead>
+<tbody>
+<tr><td><strong>Pattern recognition</strong></td><td class="ok">Match or beat people on many narrow tasks: images, speech, protein shapes.</td><td class="no">Can be fooled by tiny changes invisible to people.</td></tr>
+<tr><td><strong>Learning efficiency</strong></td><td class="mid">Can absorb more data than any human could read.</td><td class="no">Need vastly more examples than a child for the same concept.</td></tr>
+<tr><td><strong>Energy</strong></td><td class="mid">Efficiency improves every year.</td><td class="no">Orders of magnitude more power than a 20-watt brain.</td></tr>
+<tr><td><strong>Memory over time</strong></td><td class="ok">Do not forget what is stored in weights unless retrained.</td><td class="no">Learning something new can overwrite old skills ("catastrophic forgetting").</td></tr>
+<tr><td><strong>Transparency</strong></td><td class="ok">Every weight and activity can be read exactly, unlike a living brain.</td><td class="no">Reading the numbers does not explain the reasoning. Both are hard to interpret.</td></tr>
+<tr><td><strong>Speed and copying</strong></td><td class="ok">Run millions of times faster per step and can be copied perfectly.</td><td class="mid">Usually cannot learn continuously from experience once deployed.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Two famous failures, and what they reveal</h2>
+</header>
+
+<p>In 2013 researchers showed that adding a carefully chosen pattern of noise to a photo, invisible to
+a human, could make a good image network confidently call a school bus an ostrich. These
+<strong>adversarial examples</strong> reveal that networks can rely on fine texture and statistical
+cues that people ignore. Human vision is also fooled, by optical illusions, but in different ways. The
+difference suggests the network has not found the same solution as the visual cortex, even when it
+gets the same answers.</p>
+
+<p>The second failure is <strong>catastrophic forgetting</strong>. Train a network on one task, then
+on a second, and it often loses the first. The brain largely avoids this. One leading theory is that
+the hippocampus learns new things quickly and then, during sleep, replays them to the cortex gradually,
+mixed with older memories, so that new learning does not trample the old. Some AI methods now use a
+similar trick of replaying stored examples. <strong>Here the brain is still the better engineer, and
+its solution is being copied again.</strong> The biology is in <a
+href="05-memory-formation.html">Memory formation</a>.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Closer, or further apart?</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Networks as research tools for neuroscience</strong></td><td>Already standard for decoding brain recordings and for modelling vision, hearing and language areas.</td><td class="ok">Fairly sure: this will keep growing. Many future theories of brain areas will come as trained networks compared with data.</td></tr>
+<tr><td><strong>More brain-like AI</strong></td><td>Spiking networks, neuromorphic chips, continual learning and local learning rules are active research areas.</td><td class="mid">Plausible: brain-like ideas will matter most where energy is scarce, such as sensors and small devices. Whether they overtake today's methods for large models is unclear.</td></tr>
+<tr><td><strong>Discovering the brain's own learning rule</strong></td><td>Many candidate theories, none confirmed.</td><td class="no">Speculative: if found, it could transform both fields. No timescale can be given honestly.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>Birds, aeroplanes, and the right lesson</h2>
+</header>
+
+<p>A common analogy compares AI and the brain to aeroplanes and birds. Early flight pioneers studied
+birds closely. But aeroplanes do not flap their wings. Once engineers understood the principle, lift
+from a moving wing, they built it in a way that suited metal and engines. In the same way, neural
+networks took the principle of many simple units learning by changing connections, then built it in a
+way that suited digital chips.</p>
+
+<p>The analogy has a limit. Engineers fully understand aerodynamics. Nobody yet fully understands how
+the brain computes, so there may still be principles left to borrow, as the replay idea suggests.
+<strong>The most likely future is not convergence, but continuing exchange</strong>: AI borrowing
+tricks from biology where they help, and neuroscience using AI as a microscope and a testing ground.
+The bigger questions about general intelligence are taken up in <a
+href="../20-future-tech/01-artificial-general-intelligence.html">Future · Artificial General
+Intelligence</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Artificial neural networks borrowed <strong>two ideas</strong> from the brain: computation by
+    many simple connected units, and learning by changing connection strengths. Convolutional networks
+    also borrowed the <strong>layered design of the visual cortex</strong>. Almost everything else,
+    including backpropagation, is engineering, and <strong>a real neuron is far richer</strong> than an
+    artificial one.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>About <strong>86 billion</strong> neurons and, by common estimates, around <strong>100 trillion</strong> synapses in a human brain.</li>
+      <li>The brain runs on about <strong>20 watts</strong>.</li>
+      <li>Key dates: <strong>1943</strong> McCulloch–Pitts neuron, <strong>1958</strong> perceptron, <strong>1986</strong> backpropagation paper, <strong>2012</strong> deep learning breakthrough.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Treating "neural network" as proof that AI works like a brain, or as proof that it is nothing
+    like one. <strong>It shares principles, not mechanisms.</strong></p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why backpropagation is hard for real neurons to do? If you can, you understand
+    the difference between a local learning rule and a global one.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Artificial neuron</dt><dd>A unit that multiplies its inputs by weights, adds them, and applies a simple rule to produce an output.</dd>
+    <dt>Weight</dt><dd>A number for the strength of one connection, adjusted during learning. Loosely like a synapse's strength.</dd>
+    <dt>Activation function</dt><dd>The simple rule that turns a unit's total input into its output.</dd>
+    <dt>Hidden layer</dt><dd>A layer of units between input and output whose role the network works out for itself.</dd>
+    <dt>Parameter</dt><dd>Any adjustable number in a network, mostly weights.</dd>
+    <dt>Backpropagation</dt><dd>The method of working out how much each weight contributed to an error, by working backwards from the output.</dd>
+    <dt>Convolutional network</dt><dd>A network that slides the same small pattern detector across an image, inspired by the visual cortex.</dd>
+    <dt>Hebbian learning</dt><dd>Strengthening a connection when the two neurons it joins are active together.</dd>
+    <dt>Local learning rule</dt><dd>A rule where a connection changes using only information available at that connection.</dd>
+    <dt>Dendrite</dt><dd>The branching input part of a real neuron, which processes signals before they reach the cell body.</dd>
+    <dt>Spiking neural network</dt><dd>An artificial network whose units communicate with timed pulses, like real neurons.</dd>
+    <dt>Neuromorphic chip</dt><dd>Computer hardware designed to run brain-like, spiking computations efficiently.</dd>
+    <dt>Prediction error</dt><dd>The difference between what was expected and what happened, used as a learning signal by machines and by dopamine neurons.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Neural networks borrowed the brain's principle, not its parts. An artificial neuron is a
+    weighted sum, and a real one is closer to a small computer."</li>
+    <li>"The computer vision boom was built on what Hubel and Wiesel found in a cat's visual cortex in
+    the 1950s."</li>
+    <li>"Nobody knows how the brain does what backpropagation does. That's one of the big open questions
+    in neuroscience."</li>
+    <li>"Your brain runs on about twenty watts. The AI models we compare it to need data
+    centres."</li>
+    <li>"It goes both ways: an AI learning algorithm turned out to describe what dopamine neurons
+    signal."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="19-neurotechnology.html">Neurotechnology</a></h4><p>The tools
+  that measure and change the living brain: stimulators, scanners, implants and consumer devices, and
+  the questions they raise.</p></div>
+  <div class="card"><h4>Related · <a href="../01-technology/02-machine-learning.html">Machine
+  learning</a></h4><p>The engineering side: how models are trained, tested and deployed, and why deep
+  learning took off in 2012.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

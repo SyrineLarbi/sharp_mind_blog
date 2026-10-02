@@ -1,0 +1,888 @@
+<!doctype html>
+<!--@HEAD-SRC title="Brain-Computer Interfaces" desc="How brain-computer interfaces read activity from neurons and turn it into cursor movement, robotic arms, text and speech, what they have achieved for paralysed people, their risks, and what is realistic next."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brain-Computer Interfaces</title>
+<meta name="description" content="How brain-computer interfaces read activity from neurons and turn it into cursor movement, robotic arms, text and speech, what they have achieved for paralysed people, their risks, and what is realistic next.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Neuroscience · Topic 17 of 20</p>
+  <h1>Brain-computer interfaces. <span class="thin">Not mind reading, but translating the brain's orders when the body can no longer carry them.</span></h1>
+  <p class="lede">A brain-computer interface, or BCI, is a system that records activity from the
+  brain and turns it into a command for a machine. It sounds like science fiction, and the headlines
+  often treat it that way. The reality is narrower and, in some ways, more impressive. Dozens of
+  people with paralysis have used implanted electrodes to move cursors, control robotic arms, write
+  text and speak through a computer. None of them had their thoughts read. What the machines read is
+  the brain's intention to move, and that turns out to be enough to give someone back a voice.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 17 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Neuroscience</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../50-whats-coming.html#c7"><span class="vn">Vol 50 · ch 07</span><b>Space, brains and the further edges</b><em>The short, sceptical version</em></a>
+<a class="vol" href="11-motor-control.html"><span class="vn">Neuroscience · 11</span><b>Motor control</b><em>The signals a BCI reads</em></a>
+<a class="vol" href="18-artificial-neural-networks.html"><span class="vn">Neuroscience · 18</span><b>Artificial neural networks</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 50 gives brain-computer interfaces three paragraphs (<a href="../50-whats-coming.html#c7">Space,
+  brains and the further edges</a>): real for paralysis, much further away for anything else. This file
+  explains why that verdict is right, how the systems work, and what has changed since. The wider family
+  of brain devices, from stimulators to consumer headbands, is in <a
+  href="19-neurotechnology.html">Neurotechnology</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A translator between neurons and machines</h2>
+  <p class="lede">Every BCI does three things: it records brain activity, it decodes that activity into
+  an intention, and it acts on the intention. The differences between systems lie in where they record
+  and what they decode.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A sip of coffee after fifteen years</h2>
+</header>
+
+<p>In 2012 a team in the United States published a short video alongside a research paper. It showed
+a woman called Cathy Hutchinson, who had been paralysed by a brainstem stroke fifteen years earlier.
+She could not move her arms or speak. A small square of electrodes, about the size of a baby aspirin,
+had been implanted in the surface of her brain, in the area that plans arm movements. Next to her stood a
+robotic arm.</p>
+
+<p>She looked at a bottle of coffee and imagined reaching for it. The arm reached. It closed its hand
+around the bottle, lifted it, and brought the straw to her mouth. She drank, and then she smiled. It
+was the first time in fifteen years that she had served herself a drink.</p>
+
+<p>The moment captured what a BCI is. Hutchinson's arm nerves were cut off from her brain, but her
+motor cortex, the strip of brain that sends movement commands, still worked. It went on producing the
+orders for movements her body could no longer make. <strong>A BCI catches those orders and delivers
+them somewhere else.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Reading, writing, and the oldest interface of all</h2>
+</header>
+
+<p>Engineers distinguish two directions. An <strong>output</strong> BCI reads from the brain: it takes
+a signal out and uses it to control something. That is what moved Hutchinson's robotic arm. An
+<strong>input</strong> device writes to the nervous system: it puts information in, usually by
+stimulating nerves with small electric currents.</p>
+
+<p>The most successful neural interface in history is an input device, and most people never think
+of it as one. The <strong>cochlear implant</strong> turns sound into electrical pulses delivered to
+the hearing nerve inside the ear. More than a million have been implanted around the world, and many
+deaf children who receive one early learn spoken language. The cochlear implant is a reminder that
+<strong>connecting electronics to nerves is not new. Connecting them to the thinking parts of the brain
+is.</strong></p>
+
+<p>The name itself dates from 1973, when the computer scientist Jacques Vidal at the University of
+California, Los Angeles, asked whether brain signals recorded from the scalp could control a computer.
+The scalp recording he used, the <strong>EEG</strong> or electroencephalogram, had been invented by
+the German psychiatrist Hans Berger in the 1920s.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>From the scalp to inside the cortex</h2>
+</header>
+
+<p>The single biggest design choice is how close to the neurons the sensors sit. Closer means a
+clearer signal and more risk.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Approach</th><th>Where the sensors are</th><th>What it can pick up</th><th>Risk</th></tr></thead>
+<tbody>
+<tr><td><strong>EEG</strong></td><td>On the scalp, in a cap or headband</td><td>The blurred sum of millions of neurons, filtered through skull and skin</td><td class="ok">None. Cheap and portable.</td></tr>
+<tr><td><strong>Inside a blood vessel</strong> (such as Synchron's Stentrode)</td><td>A mesh pushed up a vein to lie against the motor cortex</td><td>Clearer than EEG, still a summary of many cells</td><td class="mid">No open brain surgery. Clotting and vessel risks.</td></tr>
+<tr><td><strong>ECoG</strong> (electrocorticography)</td><td>A thin sheet on the brain's surface, under the skull</td><td>Activity of small patches of cortex, sharp in time</td><td class="mid">Requires opening the skull.</td></tr>
+<tr><td><strong>Penetrating arrays</strong> (Utah array, Neuralink threads)</td><td>Tiny needles or flexible threads one or two millimetres into the cortex</td><td>The firing of individual neurons</td><td class="no">Brain surgery, infection risk, scarring over time.</td></tr>
+</tbody></table></div>
+
+<p>A useful analogy is a football stadium. EEG is a microphone outside the stadium. It hears the roar
+when a goal is scored, but not a single conversation. A surface sheet is a microphone above one
+section of the crowd. A penetrating array places microphones next to a few hundred individual fans.
+<strong>The more individual voices you can hear, the more detailed the message you can
+decode.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Listening to crowds of neurons, and learning their language</h2>
+  <p class="lede">A BCI does not understand the brain. It learns a statistical translation between
+  patterns of activity and the actions a person is trying to make. Both sides, machine and brain, keep
+  adjusting.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Neurons that vote for a direction</h2>
+</header>
+
+<p>Neurons communicate with brief electrical pulses called <strong>spikes</strong>. A single
+neuron in the motor cortex fires more when you move your arm in some directions and less in others.
+Each has a preferred direction. In the 1980s the neuroscientist Apostolos Georgopoulos showed in
+monkeys that no single neuron specifies a movement. Instead, the direction emerges when you combine the
+"votes" of many neurons, each weighted by how strongly it fires. This is called <strong>population
+coding</strong>.</p>
+
+<p>That finding is the foundation of the field. It means you do not need to record every neuron
+involved in a movement. A sample of a hundred or so, if they are the right kind, carries enough
+information to estimate where the person wants to go. <strong>The brain's own redundancy is what makes
+a small implant useful.</strong> More neurons give a smoother, faster estimate, which is why companies
+compete on electrode count.</p>
+
+<p>The signals that matter are often produced even when no movement happens. When a paralysed person
+tries to move, or imagines moving vividly, the motor cortex still produces much of the pattern it would
+produce for the real movement. That is the raw material every motor BCI uses. The background on how
+the brain plans movement is in <a href="11-motor-control.html">Motor control</a>.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Decoding: a translation learned from examples</h2>
+</header>
+
+<p>The software that turns spikes into commands is called a <strong>decoder</strong>. It has to be
+trained for each person. A typical session goes like this. A cursor moves on a screen by itself, and
+the person is asked to imagine moving it. The computer records the neural activity alongside the
+cursor's known path. A statistical model then learns which patterns go with which movements. After a
+few minutes the computer hands control over, and the person's own activity starts moving the
+cursor.</p>
+
+<div class="sheet">
+  <div class="cap">The loop inside an output BCI</div>
+<pre>
+  intention          electrodes          decoder              device
+ "move left"  --->  spikes from   --->  statistical   --->  cursor, arm,
+ (motor cortex)     ~100-1000          model learned        speller,
+                    neurons            in calibration       speech synth
+       ^                                                         |
+       |                                                         |
+       +------------- the person SEES the result ----------------+
+                      and adjusts, millisecond by millisecond
+</pre>
+</div>
+
+<p>The hard part is that the signal does not stay still. The electrodes shift slightly. Neurons near
+an electrode die or move away, and others come into range. Tiredness and attention change the
+patterns. Early systems had to be recalibrated every day. <strong>Keeping the decoder accurate as the
+signal drifts is one of the main practical problems in the field</strong>, and modern machine learning
+has helped a great deal with it.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>From cursors to handwriting to speech</h2>
+</header>
+
+<p>For years the benchmark was typing by moving a cursor over a keyboard, which is slow. In 2021 a
+team at Stanford University tried a different idea. A man paralysed from the neck down imagined
+handwriting letters with a pen. The decoder learned the neural pattern of each letter. He reached
+about <strong>90 characters a minute</strong>, close to the speed of people his age texting on a
+phone.</p>
+
+<p>Then came speech. In 2023 two groups published in the same issue of the journal <em>Nature</em>.
+At Stanford, a woman with ALS who could no longer speak clearly had arrays placed in speech-related
+areas. The system decoded the movements she was trying to make with her lips, tongue and jaw, and
+reached about 62 words a minute. At the University of California, San Francisco, a team led by Edward
+Chang used a surface sheet on a woman paralysed by a stroke and reached a similar speed, with her words
+spoken by a digital face and a synthetic voice built from an old recording of her own.</p>
+
+<p>Conversation runs at roughly 150 words a minute, so these systems were still slower than natural
+speech, and they made errors. But in 2024 a team at the University of California, Davis, reported a
+man with ALS whose implant decoded his attempted speech with about 97 percent word accuracy, and who
+used it daily to talk with his family. <strong>The key trick is the same in every case: decode the
+attempted movements of speaking, not abstract thoughts</strong>, and let a language model correct the
+likely errors, as a phone's predictive keyboard does.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Closing the loop: putting touch back</h2>
+</header>
+
+<p>Try picking up an egg with a numb hand. You will crush it or drop it, because grip depends on
+feeling. Early robotic arms controlled by BCIs had the same problem: the user could only watch.</p>
+
+<p>Researchers at the University of Pittsburgh added a second set of electrodes, this time in the
+<strong>somatosensory cortex</strong>, the strip of brain that receives touch. When sensors on the
+robotic fingers registered pressure, small currents were sent to those electrodes. Their participant,
+Nathan Copeland, paralysed in a car accident, reported feeling pressure as if on his own fingers. In
+2016 he used the arm to shake hands with President Barack Obama. In a 2021 study, adding this
+artificial touch roughly halved the time he needed for some grasping tasks.</p>
+
+<p>A system that reads and writes at the same time is called <strong>bidirectional</strong> or
+closed-loop. It matters because <strong>the brain controls the body through constant feedback, not
+one-way commands</strong>. The sensations produced are still crude, more like buzzing or pressure
+than real texture. Writing detailed information into the brain is much harder than reading from
+it.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The brain learns the machine, too</h2>
+</header>
+
+<p>One surprise from monkey studies was that the brain adapts to the decoder. If the computer's
+translation is slightly wrong, the monkey's neurons gradually change their firing until the cursor
+goes where it should. The animal is learning a new skill, like learning to use a computer mouse,
+except the "hand" is a pattern of neural activity.</p>
+
+<p>This two-way learning, called <strong>co-adaptation</strong>, is why users get better over weeks
+and months. Many describe a shift from consciously "trying" to just doing, the way a beginner driver
+eventually stops thinking about the pedals. It is a direct demonstration of the brain's plasticity,
+covered in <a href="04-brain-plasticity.html">Brain plasticity</a>. <strong>A BCI is half engineering
+and half training.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Voice, movement, and the beginning of an industry</h2>
+  <p class="lede">For a small group of people, BCIs are already life-changing. For everyone else, they
+  raise the question of how much of the mind can be measured, and who will own the measurements.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>For people who are locked in</h2>
+</header>
+
+<p>Imagine being fully aware, able to hear and see, but unable to move anything except perhaps your
+eyes. This is <strong>locked-in syndrome</strong>. It can follow a brainstem stroke, and it is where
+advanced ALS often leads. People in this state communicate, if at all, by blinking while someone else
+recites the alphabet. A sentence can take minutes.</p>
+
+<p>For these people a BCI is not a gadget. It is the difference between being able to say "I am in
+pain, move my leg" and not being able to. It is the ability to tell a joke, to argue, to say goodbye.
+Many who have used research systems describe the return of communication as the return of their
+identity. <strong>The patients who need BCIs most are also the ones least able to complain when
+something goes wrong</strong>, which is one reason the ethics matter so much.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Walking again through a digital bridge</h2>
+</header>
+
+<p>In 2023 a team in Switzerland, led by the neuroscientist Grégoire Courtine and the neurosurgeon
+Jocelyne Bloch, reported a man called Gert-Jan Oskam. A cycling accident had injured his spinal cord
+and left his legs paralysed. The team placed recording devices over the movement areas of his brain
+and a stimulator on his spinal cord below the injury. A computer connected the two wirelessly.</p>
+
+<p>When he intended to step, the stimulator activated the right muscles in the right order. He could
+walk with a walker, climb stairs and stand at a bar with friends. Some recovery of movement remained
+even when the system was switched off, which suggests the training helped damaged nerves regrow
+connections. <strong>The BCI did not move a robot. It bridged the gap in his own nervous
+system.</strong></p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>From laboratories to companies</h2>
+</header>
+
+<p>For twenty years almost all human BCI work was academic, and most of it used the
+<strong>Utah array</strong>, a square of 100 rigid needles about 4 millimetres across. The
+best-known research programme, called BrainGate, began implanting people in the United States in the
+mid-2000s. Since about 2020, private money has moved in.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Neuralink</h4><p>Founded in 2016 by Elon Musk and others. Its implant uses
+  about a thousand electrodes on 64 flexible threads, inserted by a surgical robot, with a wireless
+  battery-powered unit sealed into the skull. The first human recipient, Noland Arbaugh, paralysed
+  below the shoulders, received it in January 2024 and used it to play chess and video games. Some
+  threads later pulled out of his brain, reducing performance until the software was adjusted. More
+  people have been implanted since.</p></div>
+  <div class="card"><h4>Synchron</h4><p>Its Stentrode is threaded up a vein from the neck and opened
+  like a stent against the vessel wall near the motor cortex. It needs no open brain surgery but
+  records a much coarser signal. Users in Australia and the US have used it to text, email and shop
+  online by thought, through simple "click" commands.</p></div>
+</div>
+
+<p>Other companies place thin films on the brain's surface or work on fully non-invasive systems.
+Investment brings speed, better engineering and the chance of devices that can be bought rather than
+borrowed from a lab. It also brings marketing. <strong>Company demonstrations are usually videos and
+press releases, not peer-reviewed studies</strong>, so they deserve the same caution as any claim made
+while raising money.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Remarkable gains, real risks, and a few uncomfortable questions</h2>
+  <p class="lede">The benefits are concentrated in a small group of very disabled people. The risks
+  include surgery, but also what happens to a person when a company or a research grant ends.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Question</th><th>The case for</th><th>The case against</th></tr></thead>
+<tbody>
+<tr><td><strong>Benefit</strong></td><td class="ok">Communication and control for people who have none. Speech at tens of words a minute.</td><td class="mid">Helps a small population for now. Most disabled people would not choose brain surgery.</td></tr>
+<tr><td><strong>Safety</strong></td><td class="ok">Hundreds of implant-years of research data with few serious complications.</td><td class="no">Surgery, infection and bleeding risk. Tissue scarring degrades rigid electrodes over years.</td></tr>
+<tr><td><strong>Practicality</strong></td><td class="ok">Wireless implants and better decoders are moving systems out of the lab and into homes.</td><td class="no">Many research systems needed cables through the skull and technicians on hand.</td></tr>
+<tr><td><strong>Durability</strong></td><td class="ok">Some arrays have worked for many years.</td><td class="no">Devices fail, batteries age, and an implant is hard to replace or remove.</td></tr>
+<tr><td><strong>Cost and access</strong></td><td class="mid">Costs should fall if devices reach scale, as cochlear implants did.</td><td class="no">Today they are very expensive, with no clear insurance path in most countries.</td></tr>
+<tr><td><strong>Privacy</strong></td><td class="mid">Current systems decode only narrow, trained signals.</td><td class="no">Neural data is intimate, and laws on who owns it are only beginning.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>The people left with a device nobody supports</h2>
+</header>
+
+<p>The clearest warning comes from vision. A company called Second Sight made a retinal implant,
+the Argus II, that gave some blind people a crude sense of light and shapes. Several hundred people
+received it. Around 2020 the company ran into financial trouble and stopped supporting the device.
+Users found themselves with electronics inside their eyes that no one could repair or update. Some
+reportedly lost the use of it altogether.</p>
+
+<p>That story raises a question every implant must answer. <strong>Who is responsible for a device in
+someone's body when the company or the study ends?</strong> Research participants usually consent to a
+study that lasts a few years, but the electrodes stay. Ethicists argue for long-term support
+commitments, open technical documentation and plans for removal.</p>
+
+<p>A second question is about data. Brain recordings contain more than the signals a decoder uses.
+In 2021 Chile became the first country to write protection of "mental integrity" and brain data into
+its constitution. In 2024 the US states of Colorado and California added neural data to their privacy
+laws. Supporters call these <strong>neurorights</strong>. Critics argue that existing medical and
+privacy law already covers the risk, and that new rights may be premature. The debate is open, and it
+continues in <a href="../18-law-government/08-privacy-law.html">Law · Privacy law</a>.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>A medical device first, everything else much later</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Approved devices for paralysis</strong></td><td>Several companies are running trials with the US regulator. Speech and computer-control systems already work in research participants at home.</td><td class="ok">Fairly sure: the first commercially approved implanted BCIs for severe paralysis within roughly the next decade, used by thousands rather than millions.</td></tr>
+<tr><td><strong>Restoring movement and senses</strong></td><td>Brain-spine bridges, artificial touch and early visual implants placed directly on the visual cortex have all worked in small numbers of people.</td><td class="mid">Plausible: practical help for spinal injury and some forms of blindness. Natural-feeling touch or sight is far off.</td></tr>
+<tr><td><strong>Enhancement for healthy people</strong></td><td>Talk of merging with AI, typing by thought for office workers, or uploading memories.</td><td class="no">Speculative: no evidence that an implant could beat a keyboard or a voice for a healthy person, and few would accept brain surgery to try.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>Why "mind reading" is the wrong picture</h2>
+</header>
+
+<p>Every working BCI so far decodes something close to the body: the intention to move a hand, the
+attempted movements of the mouth. These signals are relatively easy because they are organised in
+known places with known maps. Abstract thought is different. A belief, a memory or a plan is not
+stored in one patch of cortex that an array could sample. It is spread across the brain in ways no
+one yet understands.</p>
+
+<p>Non-invasive research has shown a little more. Studies using brain scanners combined with language
+models have produced rough paraphrases of stories a person was listening to or imagining. But these
+methods need hours of training in a scanner for each individual, and they fail if the person does not
+cooperate. <strong>The realistic near future is a medical tool, not a window into private
+thought.</strong></p>
+
+<p>The most useful habit is to ask of any BCI announcement: what exactly was decoded, in how many
+people, and was it published? That one question separates most real progress from most hype. The
+wider future of the field is the subject of <a href="20-the-future-of-neuroscience.html">The future of
+neuroscience</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A BCI <strong>records</strong> brain activity, <strong>decodes</strong> it into an intention
+    with a model trained for each person, and <strong>acts</strong> on it. It works because the motor
+    cortex keeps producing movement commands after paralysis, and because a <strong>population of a few
+    hundred neurons</strong> carries enough information to estimate them.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>A Utah array has <strong>100</strong> electrodes on a square about 4 mm across.</li>
+      <li>Handwriting BCI, 2021: about <strong>90 characters a minute</strong>.</li>
+      <li>Speech BCIs, 2023: about <strong>60–80 words a minute</strong>, against roughly 150 in normal conversation.</li>
+      <li>More than <strong>a million</strong> cochlear implants, the most successful neural interface, are in use worldwide.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking BCIs read thoughts. They read <strong>trained, movement-related signals</strong>, and
+    the person must actively try for them to work.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a speech BCI decodes attempted mouth movements rather than words in the
+    head? If you can, you understand population coding and why motor signals are the easy ones.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Brain-computer interface (BCI)</dt><dd>A system that records brain activity and turns it into commands for a device, or delivers signals into the nervous system.</dd>
+    <dt>Motor cortex</dt><dd>The strip of brain across the top of the head that sends commands for voluntary movement.</dd>
+    <dt>Somatosensory cortex</dt><dd>The strip just behind it that receives touch and body sensation.</dd>
+    <dt>Spike</dt><dd>A brief electrical pulse by which a neuron sends a signal.</dd>
+    <dt>Population coding</dt><dd>Representing information, such as a movement direction, in the combined activity of many neurons.</dd>
+    <dt>Decoder</dt><dd>The software model that translates recorded brain activity into an intended action.</dd>
+    <dt>EEG</dt><dd>Electroencephalography: recording the brain's electrical activity from the scalp.</dd>
+    <dt>ECoG</dt><dd>Electrocorticography: recording from a sheet of electrodes on the brain's surface.</dd>
+    <dt>Utah array</dt><dd>A widely used implant of 100 tiny needles that records single neurons.</dd>
+    <dt>Closed-loop</dt><dd>A system that both reads from and writes to the nervous system, using feedback.</dd>
+    <dt>Co-adaptation</dt><dd>The process in which both the decoder and the user's brain adjust to each other over time.</dd>
+    <dt>Locked-in syndrome</dt><dd>Full awareness with almost complete paralysis, often with only eye movement left.</dd>
+    <dt>Neurorights</dt><dd>Proposed legal protections for brain data and mental privacy.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Brain-computer interfaces don't read thoughts. They read the brain's attempt to move, and
+    translate it."</li>
+    <li>"The most successful brain implant in history is the cochlear implant, and it's been around for
+    decades."</li>
+    <li>"Paralysed people have already used implants to speak at sixty words a minute. That's real, and
+    it's remarkable."</li>
+    <li>"The harder problem isn't reading from the brain. It's writing back into it."</li>
+    <li>"Before you believe a BCI headline, ask what was decoded, in how many people, and whether it was
+    published."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="18-artificial-neural-networks.html">Artificial neural
+  networks</a></h4><p>The software that decodes brain signals was itself inspired by the brain. How
+  close are artificial neurons to real ones, and where does the analogy break?</p></div>
+  <div class="card"><h4>Related · <a href="19-neurotechnology.html">Neurotechnology</a></h4><p>Deep
+  brain stimulation, magnetic stimulation, consumer headbands and the wider business of devices that
+  touch the nervous system.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

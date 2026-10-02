@@ -1,0 +1,919 @@
+<!doctype html>
+<!--@HEAD-SRC title="Supply and Demand" desc="How prices form when buyers and sellers meet, why shortages and gluts happen, what price controls and taxes really do, and where the simple model breaks down."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supply and Demand</title>
+<meta name="description" content="How prices form when buyers and sellers meet, why shortages and gluts happen, what price controls and taxes really do, and where the simple model breaks down.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Economics · Topic 01 of 20</p>
+  <h1>Supply and demand. <span class="thin">A price is a message that millions of strangers write together.</span></h1>
+  <p class="lede">No one decides how much bread a city needs tomorrow morning. No committee counts
+  the eaters, orders the flour and books the bakers. And yet the shelves are almost always full, and
+  almost never overflowing. The thing that coordinates it is a number on a label. Supply and demand is
+  the simplest model in economics, and the most useful. It explains why prices rise and fall, why
+  shortages appear when governments fix prices, and why a frost in Brazil changes what you pay for
+  coffee in Paris. It also has clear limits, and knowing them is half of understanding it.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Economics</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c5"><span class="vn">Vol 38 · ch 05</span><b>What a price actually is</b><em>Prices in markets</em></a>
+<a class="vol" href="../06-psychology/19-behavioral-economics.html"><span class="vn">Psychology · 19</span><b>Behavioral economics</b><em>When buyers are not rational</em></a>
+<a class="vol" href="03-interest-rates.html"><span class="vn">Economics · 03</span><b>Interest rates</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 38 has a short chapter on prices in financial markets (<a href="../38-money.html#c5">What
+  a price actually is</a>), which treats a share price as a collective bet on the future. This file
+  is about prices for ordinary goods and services: how they form, what they signal, and what happens
+  when someone overrules them. Volume 12 shows the same forces in shipping and chips
+  (<a href="../12-the-physical-supply-chain.html#s4">Container shipping</a>).</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Two groups of people, pulling a price in opposite directions</h2>
+  <p class="lede">Buyers want to pay less. Sellers want to be paid more. The price settles where the
+  two pulls balance, and it moves every time one of them changes its mind.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Nobody is in charge of the bread</h2>
+</header>
+
+<p>In 1776 the Scottish philosopher Adam Smith published <em>The Wealth of Nations</em>. Its most
+famous idea is that people pursuing their own interest can, through trade, end up serving each other
+without meaning to. He put it in a sentence that is still quoted in every first-year course.</p>
+
+<div class="pass">
+  <p>It is not from the benevolence of the butcher, the brewer, or the baker that we expect our
+  dinner, but from their regard to their own interest.</p>
+  <span class="src"><b>Adam Smith</b> · The Wealth of Nations · 1776</span>
+</div>
+
+<p>Smith's point was not that selfishness is good. It was that a market can coordinate millions of
+decisions that no single mind could plan. The baker does not know you. She does not know how many
+people will want bread tomorrow. But she knows what sold yesterday and at what price, and that is
+enough.</p>
+
+<p>In 1945 the Austrian economist Friedrich Hayek sharpened the idea in an essay called "The Use of
+Knowledge in Society". Imagine, he wrote, that a new use for tin appears somewhere, or a tin mine
+closes. Tin becomes scarcer and its price rises. Every factory that uses tin now economises. None of
+them needs to know <em>why</em>. <strong>The price carries the information, compressed into a single
+number, to everyone who needs to act on it.</strong> That is the deepest reason economists care about
+prices. They are not just what you pay. They are a communication system.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The two curves</h2>
+</header>
+
+<p>The model has two halves.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Demand: how much people want to buy</h4><p>At a high price, few people buy.
+  At a low price, more do. Some switch from other products, some buy more of it, some who could not
+  afford it now can. This is the <strong>law of demand</strong>: when the price falls, the quantity
+  people want rises, if nothing else changes. Drawn on a graph, it slopes downward.</p></div>
+  <div class="card"><h4>Supply: how much sellers want to sell</h4><p>At a low price, only the
+  cheapest producers can make a profit. At a high price, more producers join, and existing ones work
+  overtime or open new sites. This is the <strong>law of supply</strong>: when the price rises, the
+  quantity offered rises. On a graph, it slopes upward.</p></div>
+</div>
+
+<p>The English economist Alfred Marshall made this picture famous in his textbook of 1890. People
+had argued for a century about whether value comes from what things cost to make or from how much
+people want them. Marshall said the question was like asking which blade of a pair of scissors does
+the cutting. <strong>Both do. Price comes from cost and desire together.</strong></p>
+
+<p>The same idea solves an old puzzle Smith raised: why is water, which keeps us alive, cheap, while
+diamonds, which we do not need, are expensive? Because price reflects what the <em>next</em> unit is
+worth to you, not the total value of the thing. Water is plentiful, so the next glass is worth very
+little. Diamonds are scarce, so the next one is worth a lot. Economists call this thinking at the
+<strong>margin</strong>: decisions are about one more, or one less, not all or nothing.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Moving along a curve versus moving the curve</h2>
+</header>
+
+<p>This is the distinction that most often confuses people, and it matters.</p>
+
+<p>If the price of strawberries falls and you buy more, you have moved <em>along</em> the demand
+curve. Your tastes did not change; the price did. But if a newspaper reports that strawberries
+prevent heart disease, you will want more strawberries <em>at every price</em>. The whole curve has
+<strong>shifted</strong>. Economists keep these separate with two phrases: a change in the
+<em>quantity demanded</em> (a move along the curve, caused by price) and a change in
+<em>demand</em> (a shift of the curve, caused by something else).</p>
+
+<div class="tw"><table>
+<thead><tr><th>What shifts demand</th><th>Example</th><th>What shifts supply</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Income</strong></td><td>People earn more and buy more restaurant meals</td><td><strong>Input costs</strong></td><td>Fuel gets dearer, so flights cost more to run</td></tr>
+<tr><td><strong>Price of substitutes</strong></td><td>Butter gets expensive, so margarine sells more</td><td><strong>Technology</strong></td><td>Cheaper solar panels from better factories</td></tr>
+<tr><td><strong>Price of complements</strong></td><td>Cheaper printers mean more ink is bought</td><td><strong>Number of sellers</strong></td><td>New coffee chains open in a city</td></tr>
+<tr><td><strong>Tastes and news</strong></td><td>A food becomes fashionable</td><td><strong>Weather and shocks</strong></td><td>A frost destroys part of a coffee harvest</td></tr>
+<tr><td><strong>Expectations</strong></td><td>People expect prices to rise, so they buy now</td><td><strong>Rules and taxes</strong></td><td>A new safety rule raises production cost</td></tr>
+</tbody></table></div>
+
+<p>When you read that "rising prices are reducing demand", stop and ask which one is meant. Usually
+it is the quantity demanded falling because the price rose, not people's underlying desire
+changing.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Where the curves cross, and how fast they react</h2>
+  <p class="lede">The meeting point of the two curves is the market price. What makes the model
+  powerful is that you can predict which way the price will move when something changes, and roughly
+  by how much.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Equilibrium: the price that clears the market</h2>
+</header>
+
+<p>Put the two curves on one graph and they cross at one point. At that price, the amount buyers
+want equals the amount sellers offer. Economists call it the <strong>equilibrium</strong>, or the
+<strong>market-clearing price</strong>.</p>
+
+<div class="sheet">
+  <div class="cap">The supply and demand picture</div>
+<pre>
+ price
+   |  \                 /  supply (sellers offer more as price rises)
+   |   \               /
+   |    \   surplus   /       above the crossing: more offered than wanted
+   |     \___________/        -> unsold stock piles up -> price falls
+   |      \         /
+   |       \       /
+   |        \     /
+   |---------\---/----------- equilibrium price
+   |          \ /
+   |          / \             below the crossing: more wanted than offered
+   |         /   \            -> queues, empty shelves -> price rises
+   |        / shortage
+   |       /       \  demand (buyers want more as price falls)
+   +------------------------------------------- quantity
+</pre>
+</div>
+
+<p>Why does the price drift towards that point? Suppose the price is too high. Sellers produce more
+than people buy, and unsold stock piles up. To clear it they cut prices. Suppose the price is too
+low. Buyers want more than exists. Shelves empty, queues form, and sellers realise they can charge
+more. <strong>A surplus pushes the price down; a shortage pushes it up.</strong> Nobody needs to
+compute the equilibrium. Thousands of small reactions find it.</p>
+
+<p>Real markets are rarely exactly in equilibrium. Conditions keep changing, and prices take time to
+adjust. But the equilibrium tells you where the market is heading, and that is usually what you need
+to know.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Elasticity: how strongly people react</h2>
+</header>
+
+<p>Knowing the direction is not enough. A government planning a tax on cigarettes needs to know how
+much smoking will fall. A shop raising its prices needs to know how many customers will leave. The
+measure of how strongly quantity responds to price is called <strong>elasticity</strong>.</p>
+
+<p>Demand is <strong>inelastic</strong> when people keep buying almost the same amount even as the
+price rises. Petrol in the short run is the classic case. You still need to drive to work this week,
+whatever the pump says. Salt, insulin and electricity are similar. Demand is <strong>elastic</strong>
+when people react strongly. If one brand of cola raises its price, many drinkers simply pick another
+brand.</p>
+
+<p>Three things make demand more elastic. <strong>Substitutes</strong>: the easier it is to switch,
+the more people do. <strong>Share of budget</strong>: you notice a 20% rise in rent far more than a
+20% rise in matches. And <strong>time</strong>: given a few years, people facing expensive petrol buy
+smaller cars or move closer to work. <strong>Demand that looks rigid in the short run often bends a
+lot in the long run.</strong></p>
+
+<p>Supply has elasticity too. A factory can add a night shift quickly. A new copper mine can take
+ten years or more from discovery to first output. That is why some prices swing violently: when
+demand jumps for something whose supply cannot respond quickly, all the adjustment has to happen
+through the price.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Shocks in real life: eggs, toilet paper and coffee</h2>
+</header>
+
+<p>The model earns its keep when you use it to read the news.</p>
+
+<p>In March 2020, as the pandemic began, shops in many countries ran out of toilet paper. People did
+not suddenly need more of it. But fear of shortages made them buy weeks' worth at once, a sudden
+shift in demand. Supply could not react quickly, because factories ran at full capacity and
+household rolls are bulky to store and ship. Many shops chose not to raise prices and limited
+purchases instead. The shelves emptied and stayed empty for weeks.</p>
+
+<p>Eggs in the United States show the supply side. Outbreaks of avian flu in 2022 and again in early
+2025 forced farms to cull many millions of laying hens. Supply fell sharply and could not recover
+fast, because a new flock takes months to grow. People still wanted roughly the same number of eggs
+for breakfast and baking. With inelastic demand and a sudden supply cut, <strong>prices rose far more
+than the percentage of hens lost</strong>. That is elasticity at work.</p>
+
+<p>Coffee works the same way on a global scale. Brazil and Vietnam grow a large share of the world's
+coffee. A frost or a drought there shifts world supply, and the price change shows up months later
+in cafés thousands of kilometres away.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Time lags, overshooting and the pork cycle</h2>
+</header>
+
+<p>Supply often reacts to <em>today's</em> price with a delay. When pig prices are high, farmers
+breed more pigs. But those pigs reach the market a year or so later, all at once, and the price
+falls. Farmers then cut back, and a year later there is a shortage and the price rises again.
+Economists have described this "pork cycle" or "hog cycle" since the early twentieth century.</p>
+
+<p>The same pattern appears wherever building new capacity takes time: ships, oil wells, office
+towers, chip factories. Volume 12 describes it in shipping: rates spike, everyone orders ships, and
+the ships arrive into a glut (<a href="../12-the-physical-supply-chain.html#s4">Container
+shipping</a>). <strong>Long lags between decision and delivery turn a smooth model into a boom and
+bust.</strong> The equilibrium still exists. The market just keeps overshooting it.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>What happens when someone overrules the price</h2>
+  <p class="lede">The most practical use of the model is predicting the side effects of policy. Fix a
+  price, tax a product or subsidise it, and supply and demand tell you who wins, who loses and what
+  disappears.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Price ceilings: queues instead of prices</h2>
+</header>
+
+<p>A <strong>price ceiling</strong> is a legal maximum price. Its aim is usually kind: to keep
+essentials affordable. The model predicts a problem. If the ceiling is below the equilibrium,
+buyers want more than sellers offer. <strong>A shortage appears, and something other than money
+decides who gets the good.</strong> That something is often time spent queuing, personal
+connections, or luck.</p>
+
+<p>The United States learned this in the 1970s. Price controls on petrol were in force when oil
+supply was disrupted in 1973 and again in 1979. Prices could not rise to the new market level, so
+fuel was rationed by queuing instead. Long lines formed at petrol stations, and some states let cars
+fill up only on odd or even days according to the number plate. The controls were removed in 1981,
+and the queues did not return in later oil shocks, even when prices rose steeply.</p>
+
+<p><strong>Rent control</strong> is the most argued-about case. Capping rents helps the tenants who
+already have a controlled flat, often a great deal. But the model predicts less new rental housing,
+less maintenance, and landlords converting flats to other uses. Studies in several cities have found
+such effects. A study of San Francisco's 1994 expansion of rent control, for example, found that it
+protected existing tenants but that affected landlords reduced the supply of rental housing, which
+pushed up rents elsewhere in the city. Most economists are sceptical of strict rent caps. Supporters
+reply that tenants need protection from sudden rent rises and eviction, and that milder forms, such
+as limits on how fast rent can rise for a sitting tenant, avoid the worst effects. The debate is
+about design as much as principle.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Price floors, and the minimum wage debate</h2>
+</header>
+
+<p>A <strong>price floor</strong> is a legal minimum. Farm price supports are one example: in the
+1970s and 1980s the European Community bought up surplus farm output to hold prices up, and the
+stockpiles became known as "butter mountains" and "wine lakes". The model predicted the surplus
+exactly.</p>
+
+<p>The <strong>minimum wage</strong> is a price floor on labour. The simple model says that if the
+floor is above the market wage, employers will hire fewer workers, so some people lose jobs while
+others earn more. For decades that was the textbook answer. Then in 1994 the economists David Card
+and Alan Krueger compared fast-food restaurants in New Jersey, which had just raised its minimum
+wage, with neighbouring Pennsylvania, which had not. They found no sign that employment fell in New
+Jersey. Card later shared the 2021 Nobel prize partly for this kind of natural experiment.</p>
+
+<p>Why might the simple model fail here? One answer is that many employers have some power to set
+wages, because workers cannot easily switch jobs. Economists call a market with one dominant buyer
+a <strong>monopsony</strong>. In that case a modest minimum wage can raise pay without cutting jobs.
+The research since has been large and is still debated. A fair summary is that <strong>moderate
+minimum wages have shown small employment effects in many studies, while very high ones relative to
+local wages are more likely to cost jobs</strong>. Where the line falls is contested.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Who really pays a tax</h2>
+</header>
+
+<p>When a government puts a tax on petrol, the law says the seller pays it. But who bears the cost?
+The model's answer is surprising: <strong>it does not matter who hands the money to the state. The
+burden falls on whichever side is less able to walk away.</strong> Economists call this <strong>tax
+incidence</strong>.</p>
+
+<p>If buyers cannot easily cut back (inelastic demand), sellers pass most of the tax on in higher
+prices. If buyers can easily switch, sellers have to absorb most of it. This is why taxes on
+tobacco, alcohol and fuel raise a lot of revenue: people keep buying. It is also why such taxes are
+heavy on poorer households, who spend a bigger share of their income on these goods.</p>
+
+<p>The same logic explains <strong>surge pricing</strong> by ride-hailing apps such as Uber. When
+demand jumps, on a rainy Friday night for example, the price rises. That does two things at once. It
+tempts more drivers onto the road, and it rations the cars that exist to the people who value the
+ride most. Many riders hate it, and the anger is part of the story: people judge prices by fairness,
+not just efficiency, which is a theme of <a href="../06-psychology/19-behavioral-economics.html">behavioral
+economics</a>. But the alternative to a higher price, in a sudden shortage, is usually no car at
+all.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A powerful first answer, and an incomplete last one</h2>
+  <p class="lede">The model is the right place to start almost any economic question. It is the wrong
+  place to stop when markets have few sellers, hidden information or costs that fall on outsiders.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>What markets do well, and what they do badly</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature of price-based markets</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Prices carry information</strong></td><td class="ok">Millions of people adjust to scarcity without being told why.</td><td class="no">A price only reflects costs the buyer and seller face, not pollution or other harm to outsiders.</td></tr>
+<tr><td><strong>Goods go to the highest bidder</strong></td><td class="ok">Scarce goods go to those who value them most, as measured by willingness to pay.</td><td class="no">Willingness to pay depends on wealth. A rich person's whim can outbid a poor person's need.</td></tr>
+<tr><td><strong>High prices attract supply</strong></td><td class="ok">Shortages create profits, which pull in new producers and end the shortage.</td><td class="no">This can take years, and during the wait essentials may be unaffordable.</td></tr>
+<tr><td><strong>Nobody needs to plan</strong></td><td class="ok">Coordination happens without a central authority that could get it wrong.</td><td class="no">Nobody is responsible when markets overshoot, as in housing or commodity bubbles.</td></tr>
+<tr><td><strong>Competition lowers prices</strong></td><td class="ok">Firms that waste resources lose customers to cheaper rivals.</td><td class="no">When one firm dominates, the competitive story stops being true.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Where the simple model breaks</h2>
+</header>
+
+<p>The textbook model assumes many buyers and sellers, a standard product, and everyone knowing the
+price and quality. Real markets break these assumptions in four common ways.</p>
+
+<p><strong>Market power.</strong> A <strong>monopoly</strong> is a single seller. It does not take
+the market price; it chooses one, and it profits by supplying less than a competitive market would.
+Much of competition law exists to stop this.</p>
+
+<p><strong>Externalities.</strong> An <strong>externality</strong> is a cost or benefit that falls
+on people outside the deal. A factory's smoke harms neighbours who are not paid for it. The market
+price is too low, so too much is produced. The standard fix is to put a price on the harm, through a
+tax or a permit system, so that the price tells the truth again.</p>
+
+<p><strong>Hidden information.</strong> In 1970 the economist George Akerlof described the market for
+used cars. Sellers know whether their car is a good one or a "lemon". Buyers do not, so they offer
+only an average price. Owners of good cars then refuse to sell, the average quality falls, and the
+market can shrink or collapse. Akerlof shared the 2001 Nobel prize for this work. It explains why
+warranties, inspections and reputations matter so much.</p>
+
+<p><strong>Odd demand.</strong> For some goods, a higher price makes people want them <em>more</em>,
+because the price itself signals status or quality. Economists call these <strong>Veblen
+goods</strong>, after the sociologist Thorstein Veblen, who wrote about "conspicuous consumption" in
+1899. Luxury handbags are the usual example. And for networks such as social media, the value to
+each user depends on how many others join, which can lead to one winner taking almost all.</p>
+
+<div class="note">
+  <span class="tag">The honest position</span>
+  <p>None of this means supply and demand is wrong. It means it is a <strong>first
+  approximation</strong>. Good economists start with it, then ask which assumptions fail in this
+  particular market and how much that changes the answer.</p>
+</div>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Prices set by algorithms, for one customer at a time</h2>
+  <p class="lede">The laws of supply and demand will not change. What is changing is who sets prices,
+  how often, and how much each seller knows about each buyer. Sorted by confidence.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Dynamic pricing spreads</strong></td><td>Airlines and hotels have changed prices by demand for decades. Ride-hailing, event tickets, electricity tariffs and online retail now do it too, sometimes many times a day. Electronic shelf labels let physical shops do the same.</td><td class="ok">Fairly sure: more prices will move with demand in real time, especially for energy, where cheap solar at midday and scarce power in the evening already produce very different hourly prices.</td></tr>
+<tr><td><strong>Personalised prices</strong></td><td>Online sellers can, in principle, show different prices to different people based on their data. How widely this is done is hard to observe from outside.</td><td class="mid">Plausible: more of it, and more regulation. Consumer protection authorities in the US and EU have begun examining "surveillance pricing" and price discrimination.</td></tr>
+<tr><td><strong>Algorithms that quietly collude</strong></td><td>In 2024 the US Department of Justice sued RealPage, a maker of rent-setting software, alleging that landlords who shared data through it pushed rents up together. The company disputed the claims.</td><td class="no">Speculative but serious: whether pricing algorithms can learn to keep prices high without any human agreement is an open legal and research question. Competition law was written for humans who meet and agree.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The old debate that keeps returning: fair prices in a crisis</h2>
+</header>
+
+<p>Every crisis revives one argument. After a hurricane, the price of bottled water, generators and
+hotel rooms jumps. Many US states have "price gouging" laws that limit such rises during declared
+emergencies. Most economists dislike these laws: high prices pull supplies into the disaster area
+and stop early buyers hoarding. Most of the public strongly supports them: exploiting desperate
+people feels wrong, and in surveys people judge price rises caused by higher costs as fair but price
+rises caused by higher demand as unfair.</p>
+
+<p>Both sides have a point. <strong>The price system is efficient, but efficiency is not the only
+value people hold</strong>. The likely direction is not one side winning. It is more hybrid tools:
+limits on how fast prices can rise, combined with direct help for the poorest, so that the price can
+still send its signal while nobody is priced out of necessities. Inflation is where the same
+tension appears at the scale of a whole economy, covered in Volume 38
+(<a href="../38-money.html#c3">Inflation, properly understood</a>).</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Prices form where <strong>demand</strong> (falling as price rises) meets <strong>supply</strong>
+    (rising as price rises). Surpluses push prices down and shortages push them up, so markets drift
+    towards <strong>equilibrium</strong>. Prices also carry <strong>information</strong> about scarcity
+    to people who never learn its cause.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li><strong>1776</strong>: Adam Smith's <em>Wealth of Nations</em>. <strong>1890</strong>:
+      Marshall's supply and demand diagram.</li>
+      <li><strong>1973 and 1979</strong>: US petrol price controls turned oil shocks into
+      queues.</li>
+      <li><strong>1994</strong>: Card and Krueger's New Jersey study, which reopened the minimum wage
+      debate.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Confusing a <strong>change in demand</strong> (the whole curve shifts) with a change in
+    <strong>quantity demanded</strong> (a move along the curve because the price changed). The
+    second is not people wanting less; it is people reacting to price.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>A government caps the price of a medicine below the market price. Using the model, can you
+    predict what happens to the queue, to new suppliers and to who ends up getting the medicine?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Demand</dt><dd>How much buyers want of something at each possible price.</dd>
+    <dt>Supply</dt><dd>How much sellers will offer at each possible price.</dd>
+    <dt>Equilibrium</dt><dd>The price at which the amount wanted equals the amount offered.</dd>
+    <dt>Shortage</dt><dd>More wanted than offered at the current price, usually because the price is held too low.</dd>
+    <dt>Surplus</dt><dd>More offered than wanted at the current price, usually because the price is held too high.</dd>
+    <dt>Margin</dt><dd>The next unit. Most decisions are about one more or one less, not all or nothing.</dd>
+    <dt>Elasticity</dt><dd>How strongly quantity reacts when the price changes.</dd>
+    <dt>Price ceiling</dt><dd>A legal maximum price, such as rent control.</dd>
+    <dt>Price floor</dt><dd>A legal minimum price, such as a minimum wage.</dd>
+    <dt>Tax incidence</dt><dd>Who really bears the cost of a tax, whoever pays it on paper.</dd>
+    <dt>Monopoly</dt><dd>A market with one seller, who can choose the price.</dd>
+    <dt>Monopsony</dt><dd>A market with one dominant buyer, such as a single big employer in a town.</dd>
+    <dt>Externality</dt><dd>A cost or benefit that falls on people outside the deal.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A price isn't just what you pay. It's a signal that tells millions of people what's scarce
+    without telling them why."</li>
+    <li>"If you hold a price below the market level, you don't get cheap goods. You get queues."</li>
+    <li>"Who pays a tax on paper doesn't matter. The burden falls on whoever can't walk away."</li>
+    <li>"Demand that looks fixed in the short run usually bends a lot over a few years."</li>
+    <li>"Supply and demand is the right first answer and the wrong last one. Ask what the market is
+    missing."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="03-interest-rates.html">Interest rates</a></h4><p>The price of
+  money over time: who sets it, why it moves, and how one number at a central bank reaches your
+  mortgage, your job and your savings.</p></div>
+  <div class="card"><h4>Related · <a href="../06-psychology/19-behavioral-economics.html">Behavioral
+  economics</a></h4><p>What happens to the model when buyers are not the calm calculators it assumes:
+  fairness, anchors, defaults and nudges.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

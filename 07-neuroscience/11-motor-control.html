@@ -1,0 +1,860 @@
+<!doctype html>
+<!--@HEAD-SRC title="Motor Control" desc="How the brain moves the body: the spinal cord, motor cortex, basal ganglia and cerebellum, prediction and internal models, what goes wrong in stroke and Parkinson's, and the implants that help paralysed people walk."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motor Control</title>
+<meta name="description" content="How the brain moves the body: the spinal cord, motor cortex, basal ganglia and cerebellum, prediction and internal models, what goes wrong in stroke and Parkinson&#x27;s, and the implants that help paralysed people walk.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Neuroscience · Topic 11 of 20</p>
+  <h1>Motor control. <span class="thin">The hardest thing your brain does is the thing you never notice.</span></h1>
+  <p class="lede">Picking up a cup of coffee feels like nothing. In fact your brain must work out where
+  the cup is, plan a path for an arm with dozens of muscles, judge the weight before you touch it,
+  correct the movement while it happens, and do all of it with nerve signals that arrive late. Computers
+  beat the world chess champion in 1997. In 2026 robots still
+  struggle to fold laundry reliably in an ordinary home. That gap tells
+  you how much hidden work goes into ordinary movement, and this file explains how the brain does
+  it.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Neuroscience</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../50-whats-coming.html#c6"><span class="vn">Vol 50 · ch 06</span><b>Why the easy things are hard</b><em>Robots and movement</em></a>
+<a class="vol" href="../01-technology/05-robotics.html"><span class="vn">Technology · 05</span><b>Robotics</b><em>The machine version</em></a>
+<a class="vol" href="12-vision.html"><span class="vn">Neuroscience · 12</span><b>Vision</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 50 explains why robots find "easy" physical tasks hard
+  (<a href="../50-whats-coming.html#c6">Robots, vehicles and why the easy things are hard</a>) and
+  where brain implants stand (<a href="../50-whats-coming.html#c7">Space, brains and the further
+  edges</a>). Volume 42 covers muscle, balance and falls in later life
+  (<a href="../42-your-health.html#c7">What actually changes as you age</a>). This file is the brain
+  science underneath all three.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The reason brains exist</h2>
+  <p class="lede">Motor control is how the nervous system turns intentions into coordinated muscle
+  action. Some scientists argue it is the main thing brains are for.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The animal that gives up most of its brain</h2>
+</header>
+
+<p>The young sea squirt is a small tadpole-like animal that swims through the sea with a simple
+nervous system. When it finds a good rock, it glues itself down and never moves again. Then it absorbs
+much of that nervous system as food. The neuroscientist Daniel Wolpert likes to tell this story to make
+a point: <strong>an animal that no longer needs to move no longer needs much of a brain</strong>.
+Plants, which do not move about, have none.</p>
+
+<p>Seen this way, perception, memory and emotion are all in the service of one thing: choosing and
+carrying out the right movement. Every way you affect the world, including speaking, writing, a facial
+expression and a glance, is a movement of muscles. Even this sentence reaches you only because someone
+moved their fingers.</p>
+
+<p>Computer science found the same thing by accident. In the 1980s the roboticist Hans Moravec noted
+that it was comparatively easy to make computers play chess at an adult level, and very hard to give
+them the perception and movement skills of a one-year-old. This is known as <strong>Moravec's
+paradox</strong>. Abilities that evolution has polished for hundreds of millions of years feel easy to
+us precisely because they are so well hidden.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The problem the brain has to solve</h2>
+</header>
+
+<p>The human body has more than 600 muscles. Your arm alone can reach the same cup in countless ways:
+elbow high or low, wrist bent or straight, fast or slow. In the 1930s and 1940s the Russian scientist
+Nikolai Bernstein called this the <strong>degrees of freedom problem</strong>: with so many possible
+combinations, how does the brain choose one?</p>
+
+<p>Three more difficulties make it harder. <strong>Signals are slow.</strong> A message from the eye
+to the brain and back to a muscle takes around a tenth of a second or more, which is long enough for a
+ball to move a metre or two. <strong>Signals are noisy.</strong> Neurons and muscles do not fire
+exactly the same way twice, so every movement is slightly different. <strong>The body keeps
+changing.</strong> You grow, tire, carry bags and get injured, and the brain must keep recalibrating.
+Motor control is the set of solutions to these problems.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>A chain of command, with feedback at every level</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Level</th><th>Main job</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Spinal cord</strong></td><td>Reflexes and rhythmic patterns; the final link to muscles</td><td>Pulling your hand off a hot pan</td></tr>
+<tr><td><strong>Brainstem</strong></td><td>Posture, balance, eye movements, breathing</td><td>Staying upright on a moving bus</td></tr>
+<tr><td><strong>Motor cortex</strong></td><td>Sending voluntary commands, especially for fine skills</td><td>Moving one finger on a keyboard</td></tr>
+<tr><td><strong>Premotor and supplementary motor areas</strong></td><td>Planning and sequencing movements</td><td>Getting ready to play a known tune</td></tr>
+<tr><td><strong>Parietal cortex</strong></td><td>Knowing where things are relative to your body</td><td>Reaching for a glass without looking at your hand</td></tr>
+<tr><td><strong>Basal ganglia</strong></td><td>Selecting which action to release, and starting it</td><td>Choosing to step off the kerb now</td></tr>
+<tr><td><strong>Cerebellum</strong></td><td>Timing, smoothness and error correction</td><td>Catching a ball cleanly</td></tr>
+</tbody></table></div>
+
+<p>It looks like a hierarchy, and partly is one. But <strong>every level sends information up as well
+as down</strong>, and lower levels do a lot of the work on their own. The brain does not command each
+muscle fibre. It sets goals and lets local circuits fill in detail.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>From reflex to skilled action</h2>
+  <p class="lede">Movement is produced by circuits that get more flexible as you go up, and that all
+  rely on prediction to beat the delays.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The spinal cord is smarter than it looks</h2>
+</header>
+
+<p>Every muscle is controlled by <strong>motor neurons</strong>, nerve cells whose bodies sit in the
+spinal cord or brainstem and whose long fibres reach the muscle. Each motor neuron controls a group of
+muscle fibres, called a motor unit. For the eye muscles a unit may be a handful of fibres, allowing
+precision; for the big thigh muscles it may be hundreds or more, giving power. The British
+physiologist Charles Sherrington, who won a Nobel Prize in 1932, called the motor neurons the
+"final common path": every command, from a reflex to a symphony, ends there.</p>
+
+<p>When a doctor taps below your knee, a sensor in the stretched thigh muscle sends a signal to the
+spinal cord, which sends a command straight back to tighten the muscle. That <strong>stretch
+reflex</strong> needs no brain at all and keeps you steady when your knee buckles slightly. The spinal
+cord also contains <strong>central pattern generators</strong>, circuits that produce rhythmic
+movements like stepping without instructions for each step. Experiments since the early twentieth
+century have shown that animals with the spinal cord cut off from the brain can still produce
+walking-like leg movements on a treadmill. The brain turns walking on and adjusts it; it does not
+compose each step.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The motor cortex and the little man on the brain</h2>
+</header>
+
+<p>In 1870 two German doctors, Gustav Fritsch and Eduard Hitzig, discovered that weak electric current
+on a strip of a dog's cortex made its limbs twitch. In the 1930s to 1950s the Canadian neurosurgeon
+Wilder Penfield mapped the same strip in awake human patients during epilepsy surgery (the brain
+itself feels no pain). Stimulating one spot moved the thumb, another the lips, another the foot.</p>
+
+<p>The result is the famous <strong>motor homunculus</strong> ("little man"): a map of the body laid
+along the <strong>primary motor cortex</strong>, a band running from the top of the head down each
+side. The map is distorted. The hands, lips and tongue have huge areas, while the back and legs have
+small ones. <strong>Brain space follows precision, not size.</strong> The parts you use for fine
+control, such as speech and handwriting, get the most cortex.</p>
+
+<p>Later work complicated the neat picture. When the neuroscientist Michael Graziano stimulated the
+motor cortex of monkeys for longer, about half a second, they made complete actions, such as bringing a
+hand to the mouth and opening the mouth. The motor cortex seems to map useful actions as well as body
+parts. The left side controls the right of the body and vice versa, which is why a left-hemisphere
+stroke weakens the right arm and leg.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The basal ganglia: releasing the brake</h2>
+</header>
+
+<p>Deep in the brain sits a group of structures called the <strong>basal ganglia</strong>. A useful
+picture is a set of brakes. At rest, they hold back all possible movements. To act, the basal ganglia
+release the brake on one chosen movement while keeping the others held. That makes them central to
+choosing <em>which</em> action happens and <em>when</em> it starts. They depend heavily on dopamine
+from a small midbrain region, the <strong>substantia nigra</strong> ("black substance").</p>
+
+<p>In <strong>Parkinson's disease</strong>, those dopamine cells gradually die. The result is slow
+movement, stiffness, often a tremor at rest, and great difficulty starting: a person may "freeze" in a
+doorway, unable to take the next step, yet be able to step over a line drawn on the floor or walk to
+the beat of music. External cues seem to bypass part of the faulty starting system. In the 1960s doctors
+found that <strong>levodopa</strong>, a chemical the brain turns into dopamine, could dramatically
+restore movement. It remains a main treatment, though its effect becomes less smooth over years.
+Huntington's disease shows the opposite failure: the brake fails and unwanted movements break through.
+More on both in <a href="16-neurodegenerative-diseases.html">Neurodegenerative diseases</a>.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The cerebellum: the quiet calibrator</h2>
+</header>
+
+<p>At the back of the brain, below the main hemispheres, is the <strong>cerebellum</strong> ("little
+brain"). It makes up roughly a tenth of the brain's volume but contains <strong>more than half of its
+neurons</strong>, according to cell counts by Suzana Herculano-Houzel and colleagues. Its job is
+less to start movements than to make them accurate, smooth and well timed.</p>
+
+<p>Damage to the cerebellum causes <strong>ataxia</strong>: clumsy, jerky movement, overshooting a
+target, an unsteady wide-legged walk and slurred speech. Alcohol affects the cerebellum early, which
+is why police sobriety tests ask people to walk a straight line or touch their nose.</p>
+
+<p>The cerebellum also drives adaptation. Put on glasses with prisms that shift your view sideways
+and throw a ball at a target. At first you miss to one side. Within a few dozen throws you are
+accurate again. Take the glasses off and you now miss to the other side, until you readapt. People
+with cerebellar damage adapt much less. <strong>The cerebellum learns from errors and quietly
+recalibrates every movement you make.</strong></p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Prediction: why you cannot tickle yourself</h2>
+</header>
+
+<p>Because feedback is slow, the brain cannot just react. It predicts. Whenever it sends a movement
+command, it also sends a copy, called an <strong>efference copy</strong>, to circuits that predict what
+the movement will feel like. This prediction is called a <strong>forward model</strong>. The brain
+compares predicted with actual sensations and corrects only the difference.</p>
+
+<div class="sheet">
+  <div class="cap">Prediction in movement (simplified)</div>
+<pre>
+  GOAL ("pick up cup")
+     |
+     v
+  MOTOR COMMAND ---------------------------> muscles move --> real sensations
+     |                                                              |
+     +--> copy of command --> FORWARD MODEL --> predicted sensations |
+                              (cerebellum and cortex)               |
+                                                                    v
+                                     compare: predicted  vs  real
+                                                 |
+                       match: ignore it   /   mismatch: correct and learn
+</pre>
+</div>
+
+<p>This explains a famous puzzle. You cannot tickle yourself, because your brain predicts the touch
+precisely and turns down the sensation. In a 1998 study, Sarah-Jayne Blakemore, Daniel Wolpert and
+Chris Frith had people tickle their own palm through a robot. When the robot added a small delay or a
+change of direction, the touch felt more ticklish, because the prediction no longer matched. It is
+also why the world does not seem to jump when your eyes move: the brain expected the shift.</p>
+
+<p>Prediction also explains <strong>Fitts's law</strong>, described by Paul Fitts in 1954: the smaller
+and farther a target, the longer it takes to reach accurately. Because muscle signals are noisy, faster
+movements are less precise, and the brain chooses speeds that trade time for accuracy. Designers use
+this rule when they size buttons on screens.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Injury, skill and machines</h2>
+  <p class="lede">Movement problems are among the most common and disabling effects of brain disease,
+  and the science of skill shapes rehabilitation, sport and robotics.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>When movement fails</h2>
+</header>
+
+<div class="warn">
+  <span class="tag">General education</span>
+  <p>This is not medical advice. Sudden weakness on one side of the body is an emergency sign of stroke
+  (see <a href="../45-the-conditions.html#c4">Vol 45 · Stroke</a>).</p>
+</div>
+
+<p>Stroke is a leading cause of long-term disability worldwide, and weakness of one side of the body,
+called hemiparesis, is its most common effect. Recovery shows the brain's capacity to reorganise (see
+<a href="04-brain-plasticity.html">Brain plasticity</a>). An important finding came from the
+psychologist Edward Taub. Patients with a weak arm tend to stop using it and rely on the good one,
+and the weak arm then gets worse, a pattern he called "learned non-use". In
+<strong>constraint-induced movement therapy</strong>, the good arm is restrained for much of the day,
+forcing intensive practice with the weak one. Trials showed real gains for suitable patients.</p>
+
+<p>Other conditions damage different links in the chain. Spinal cord injury cuts the path between
+brain and body. In <strong>ALS</strong> (amyotrophic lateral sclerosis, also called motor neurone
+disease), the motor neurons themselves die, while thinking usually stays largely intact. The
+principle across all of these: <strong>the location of the damage decides the kind of movement
+problem</strong>, which is why neurologists can often locate an injury just by watching someone move.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>How skills move into the background</h2>
+</header>
+
+<p>When you first learn to drive, every gear change needs attention. Years later you do it while
+talking. In the brain, early learning relies heavily on the prefrontal cortex and attention. With
+practice, control shifts towards the basal ganglia, the cerebellum and well-tuned motor cortex
+circuits, and the movement becomes automatic. "Muscle memory" is a misleading name. <strong>The
+memory is in the brain; the muscles just get stronger.</strong></p>
+
+<p>Three findings help anyone learning a physical skill. Practice that varies conditions, such as
+different distances and angles, builds more flexible skill than repeating one perfect movement.
+Sleep after practice can improve some motor skills, as described in
+<a href="07-sleep-and-the-brain.html">Sleep and the brain</a>. And focusing attention on the effect
+of a movement, such as the flight of the ball, often works better than focusing on your own limbs.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>What robots are learning from brains</h2>
+</header>
+
+<p>Industrial robots are fast and precise in fixed settings, but brittle when something changes. A
+human hand is soft, full of touch sensors, and controlled by circuits that predict and adapt. Robotics
+has borrowed several ideas from motor neuroscience: building in springiness instead of rigid
+stiffness, using prediction to handle delays, and learning from trial and error. Recent robots
+trained with large amounts of data are improving quickly at handling objects. Even so, as of 2026,
+<strong>reliable all-purpose dexterity remains one of the hardest problems in robotics</strong>. See
+<a href="../01-technology/05-robotics.html">Robotics</a> and
+<a href="../20-future-tech/03-humanoid-robots.html">Humanoid robots</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Robust, adaptable, and slow to repair</h2>
+  <p class="lede">The motor system's design gives astonishing flexibility, and specific weak points
+  when it is damaged.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>What the design buys, and what it costs</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Design feature</th><th>What it buys</th><th>What it costs</th></tr></thead>
+<tbody>
+<tr><td><strong>Local spinal circuits</strong></td><td class="ok">Instant reflexes and walking rhythms without conscious effort.</td><td class="no">After spinal injury, the circuits survive but lose their instructions.</td></tr>
+<tr><td><strong>Prediction instead of waiting</strong></td><td class="ok">Smooth, fast movement despite slow nerves.</td><td class="no">Wrong predictions cause errors, such as a step that is not there.</td></tr>
+<tr><td><strong>Constant recalibration</strong></td><td class="ok">Adapts to growth, tiredness, tools and injury.</td><td class="no">Bad habits and compensations are learned just as easily.</td></tr>
+<tr><td><strong>Automatic skills</strong></td><td class="ok">Attention is freed for other things.</td><td class="no">Automatic movements are hard to change once learned.</td></tr>
+<tr><td><strong>Dopamine-dependent starting</strong></td><td class="ok">Flexible selection between many actions.</td><td class="no">Losing dopamine cells, as in Parkinson's, stalls movement.</td></tr>
+<tr><td><strong>Crossed, mapped cortex</strong></td><td class="ok">Fine control where it matters most.</td><td class="no">A small stroke in the right place can disable a whole hand.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Treatments: what works and what it costs</h2>
+</header>
+
+<div class="grid2">
+  <div class="card"><h4>What works</h4><p>Levodopa still helps most people with Parkinson's.
+  <strong>Deep brain stimulation</strong>, electrodes placed in the basal ganglia and driven by a
+  pacemaker-like device, has been used for decades to reduce tremor and stiffness in carefully chosen
+  patients. Intensive, task-specific rehabilitation helps after stroke.</p></div>
+  <div class="card"><h4>What it costs</h4><p>None of these repairs the damage. Parkinson's treatments
+  manage symptoms while the disease progresses. Surgery carries risks of bleeding and infection.
+  Rehabilitation needs many hours that health systems often cannot provide, and gains vary widely
+  between people.</p></div>
+</div>
+
+<p>The pattern is honest and slightly frustrating: <strong>we are better at working around motor
+damage than at reversing it</strong>. That is where the future research is aimed.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Bridges across the damage</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Smarter brain stimulation</strong></td><td>"Adaptive" deep brain stimulation adjusts itself in response to the brain's own signals, rather than running constantly. A system of this kind was approved in the US and Europe in 2025 for Parkinson's.</td><td class="ok">Fairly sure: wider use and fine-tuning over the next decade.</td></tr>
+<tr><td><strong>Spinal stimulation to restore walking</strong></td><td>A Swiss team led by Grégoire Courtine and Jocelyne Bloch has helped people with spinal cord injury stand and walk with assistance using timed electrical stimulation of the spinal cord. In 2023 they reported a "digital bridge" linking a brain implant to a spinal implant, letting a man walk more naturally by intention.</td><td class="mid">Plausible: a treatment option for some patients within years; very few people have been treated so far.</td></tr>
+<tr><td><strong>Full natural movement through implants</strong></td><td>Brain-computer interfaces let paralysed people move cursors and robotic arms. Rich touch feedback and fluent everyday control of a whole body remain far off.</td><td class="no">Speculative. See <a href="17-brain-computer-interfaces.html">Brain-computer interfaces</a>.</td></tr>
+</tbody></table></div>
+
+<p>Two quieter changes may matter more to most people. Wearable sensors can now track tremor, gait
+and balance at home, giving doctors a far better picture than a ten-minute clinic visit. And the
+evidence that strength and balance training prevents falls in older age is solid
+(<a href="../42-your-health.html#c7">Vol 42</a>). <strong>The most effective motor intervention for
+most people is still practice.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Movement is controlled by a <strong>layered system</strong>: the spinal cord handles reflexes and
+    rhythms, the <strong>motor cortex</strong> sends voluntary commands, the <strong>basal ganglia</strong>
+    select and start actions, and the <strong>cerebellum</strong> times and calibrates them. Because
+    nerves are slow, the brain <strong>predicts</strong> the results of its own commands and corrects
+    the difference.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>The body has <strong>more than 600</strong> muscles.</li>
+      <li>The cerebellum holds <strong>more than half</strong> of the brain's neurons in about a tenth of
+      its volume.</li>
+      <li>Visual feedback to a muscle takes around <strong>a tenth of a second</strong> or more.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking movement is easy and thinking is hard. <strong>Moravec's paradox</strong> says the
+    opposite for machines, and the brain spends a huge share of its neurons on movement.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why you cannot tickle yourself, using the words "efference copy" and "forward
+    model"?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Motor neuron</dt><dd>A nerve cell that carries commands from the spinal cord or brainstem to a muscle.</dd>
+    <dt>Motor unit</dt><dd>One motor neuron and all the muscle fibres it controls.</dd>
+    <dt>Reflex</dt><dd>An automatic movement produced by a short circuit, often in the spinal cord.</dd>
+    <dt>Central pattern generator</dt><dd>A spinal or brainstem circuit that produces rhythms such as stepping.</dd>
+    <dt>Primary motor cortex</dt><dd>A strip of cortex across the top of the brain that sends voluntary movement commands.</dd>
+    <dt>Motor homunculus</dt><dd>The body map on the motor cortex, with large areas for the hands and mouth.</dd>
+    <dt>Basal ganglia</dt><dd>Deep structures that select and release actions; they depend on dopamine.</dd>
+    <dt>Substantia nigra</dt><dd>A small midbrain region whose dopamine cells die in Parkinson's disease.</dd>
+    <dt>Cerebellum</dt><dd>The "little brain" at the back that times, smooths and recalibrates movement.</dd>
+    <dt>Ataxia</dt><dd>Clumsy, poorly coordinated movement, often from cerebellar damage.</dd>
+    <dt>Efference copy</dt><dd>A copy of a movement command sent to prediction circuits.</dd>
+    <dt>Forward model</dt><dd>The brain's prediction of what a movement will feel like and do.</dd>
+    <dt>Deep brain stimulation</dt><dd>Electrodes in deep brain structures, driven by an implanted device, to treat movement disorders.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Computers beat us at chess decades ago. They still can't fold laundry well. That's how hard
+    movement really is."</li>
+    <li>"Your brain predicts what every movement will feel like. That's why you can't tickle
+    yourself."</li>
+    <li>"The cerebellum is a tenth of the brain's size but holds more than half its neurons."</li>
+    <li>"In Parkinson's the problem is often starting a movement, which is why music or a line on the
+    floor can help."</li>
+    <li>"'Muscle memory' lives in the brain. The muscles just do as they're told."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="12-vision.html">Vision</a></h4><p>How the eye and brain turn
+  light into a world of objects, faces and colours, and why what you see is a best guess.</p></div>
+  <div class="card"><h4>Related · <a href="../01-technology/05-robotics.html">Robotics</a></h4><p>The
+  engineering side: how machines sense, plan and act, and why dexterity is so hard to build.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

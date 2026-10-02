@@ -1,0 +1,858 @@
+<!doctype html>
+<!--@HEAD-SRC title="The Future of Neuroscience" desc="Where brain science is heading: wiring maps, cell atlases, recording at scale, organoids, AI and theory, what it could mean for brain disease and mental health, the risks of hype, and what is realistic in the coming decades."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Future of Neuroscience</title>
+<meta name="description" content="Where brain science is heading: wiring maps, cell atlases, recording at scale, organoids, AI and theory, what it could mean for brain disease and mental health, the risks of hype, and what is realistic in the coming decades.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Neuroscience · Topic 20 of 20</p>
+  <h1>The future of neuroscience. <span class="thin">Drowning in data about the brain, and still waiting for the theory that explains it.</span></h1>
+  <p class="lede">Neuroscience has never had better tools. Researchers can map every connection in a
+  fly's brain, record thousands of neurons at once, read the genes active in a single cell and grow
+  pieces of human brain tissue in a dish. Yet the deepest questions are still open. How does activity
+  in neurons become a thought? Why does one brain develop depression and another not? This last topic
+  in the category looks ahead. It asks where the field is going, what could change for patients and for
+  society, and which promises deserve belief.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 17 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Neuroscience</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../04-biology/12-neuroscience.html"><span class="vn">Biology · 12</span><b>Neuroscience</b><em>The one-file overview</em></a>
+<a class="vol" href="../50-whats-coming.html#c8"><span class="vn">Vol 50 · ch 08</span><b>How to read the next announcement</b><em>A habit for any field</em></a>
+<a class="vol" href="01-structure-of-the-brain.html"><span class="vn">Neuroscience · 01</span><b>Structure of the brain</b><em>Back to the start</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>The overview file <a href="../04-biology/12-neuroscience.html">Biology · Neuroscience</a> ends with
+  a short table of where the field is heading. Volume 50 gives a general method for judging future
+  claims (<a href="../50-whats-coming.html#c1">Four kinds of "coming soon"</a>). This file goes deeper:
+  the big projects, the new tools, the open theoretical problems and the ways the field could
+  disappoint.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A field that knows the parts better than the whole</h2>
+  <p class="lede">"The future of neuroscience" means two things: the scientific questions the field is
+  trying to answer next, and the effects those answers could have on medicine and society.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Two big projects, two different bets</h2>
+</header>
+
+<p>In 2013 two very large brain projects began within months of each other. In Europe, the
+<strong>Human Brain Project</strong> was launched with planned funding of around a billion euros over ten years. Its founder, the
+neuroscientist Henry Markram, had suggested that a detailed computer simulation of the human brain was
+possible within about a decade. In the United States, President Barack Obama announced the
+<strong>BRAIN Initiative</strong>, which set a more modest first goal: build better tools to record
+and map the brain.</p>
+
+<p>The European project ran into trouble quickly. In 2014 hundreds of neuroscientists signed an open
+letter criticising its direction and management, and the project was restructured. It produced useful
+software platforms and brain atlases, and it ended in 2023 without a simulated human brain. The American
+project, by betting on tools, produced a wave of new techniques that labs around the world now use.</p>
+
+<p>The contrast taught the field a lesson. <strong>You cannot simulate what you do not yet understand,
+and you cannot understand what you cannot measure.</strong> Most of neuroscience's near future is
+about measuring better. Its longer future depends on turning measurement into theory.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>What we know, and what we do not</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Level</th><th>Well understood</th><th>Still mysterious</th></tr></thead>
+<tbody>
+<tr><td><strong>Molecules</strong></td><td>How neurons fire, how synapses release chemicals, how many drugs act</td><td>Why misfolded proteins kill some cells and spare others</td></tr>
+<tr><td><strong>Cells</strong></td><td>The main cell types and their basic behaviour</td><td>The full catalogue of types in the human brain, and what each does</td></tr>
+<tr><td><strong>Circuits</strong></td><td>Some small circuits, such as reflexes and parts of early vision</td><td>How large circuits produce memory, decisions and plans</td></tr>
+<tr><td><strong>Whole brain</strong></td><td>The rough function of major regions</td><td>How regions coordinate to produce one stream of experience</td></tr>
+<tr><td><strong>Mind</strong></td><td>Many reliable findings about behaviour and perception</td><td>Consciousness, and the biological basis of most mental illness</td></tr>
+</tbody></table></div>
+
+<p>The pattern is clear. Knowledge is strongest at the bottom and the top, and weakest in the middle:
+<strong>the circuit level, where millions of neurons turn chemistry into computation</strong>. This is
+where most new tools are aimed.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Why the brain is so hard</h2>
+</header>
+
+<p>The first reason is size. About 86 billion neurons, each with thousands of connections, packed into
+a volume you could hold in two hands. The second is that the brain cannot be studied like a heart.
+You cannot easily take it apart in a living person, and animal brains differ from ours in important
+ways.</p>
+
+<p>The third reason is subtler. In 2017 two researchers, Eric Jonas and Konrad Kording, took a classic
+microprocessor, the chip from early home computers, and applied standard neuroscience methods to it.
+They "lesioned" transistors, recorded their activity and looked for correlations with the games it
+ran. The methods produced plenty of results, but <strong>they did not reveal how the chip actually
+worked</strong>, even though engineers knew the answer exactly. The study was a gentle warning: collecting
+more data with the same methods is not enough. The field also needs better ideas about what to look
+for.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>The tools that are changing the field</h2>
+  <p class="lede">Five lines of work are likely to shape the next twenty years: wiring maps, cell
+  atlases, recording at scale, lab-grown human tissue, and the use of AI to find patterns and build
+  theories.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Wiring maps: the connectome</h2>
+</header>
+
+<p>A <strong>connectome</strong> is a complete map of every neuron and every connection in a nervous
+system. The first was published in 1986 for a tiny worm, <em>C. elegans</em>, which has 302 neurons.
+It took over a decade of tracing by hand through thin slices seen under an electron microscope. In
+2024 an international project called FlyWire published the connectome of an entire adult fruit-fly
+brain: about 140,000 neurons and tens of millions of connections, traced with help from AI and
+thousands of hours of human checking.</p>
+
+<p>Mammals are harder. In 2024 a team from Harvard and Google reconstructed a fragment of human cortex
+about one cubic millimetre in size, removed during epilepsy surgery. That tiny speck contained tens of
+thousands of cells and over a hundred million connections, and the data filled more than a million
+gigabytes. A similar map of a cubic millimetre of mouse visual cortex followed in 2025. A whole
+human brain is more than a million times larger.</p>
+
+<p>The worm carries a warning. Its wiring has been known for forty years, and scientists still cannot
+fully predict its behaviour from it. Connections show who can talk to whom, but not how strongly, when,
+or under the influence of which chemicals. <strong>A wiring map is like a road map without traffic:
+essential, and not enough.</strong></p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Cell atlases: a parts list at last</h2>
+</header>
+
+<p>For a century, neurons were classified mainly by shape, as Santiago Ramón y Cajal drew them in the
+1890s. New methods now read which genes are switched on in each individual cell, cell by cell, for
+millions of cells. Cells with similar patterns are grouped into types.</p>
+
+<p>In 2023 a large group of studies from the BRAIN Initiative described more than three thousand cell
+types in the human brain, and a separate atlas covered the whole mouse brain in similar detail. Many of
+these types had never been named. Some appear to exist mainly in humans and other primates. <strong>The
+brain has turned out to contain far more kinds of cells than textbooks suggested.</strong></p>
+
+<p>This matters for medicine. If a disease starts in one rare cell type, a parts list tells researchers
+where to look, and genetic tools may one day deliver treatment to that type alone. Many of the risk
+genes for schizophrenia and autism, for instance, are active in particular cell types at particular
+stages of development.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Recording thousands of neurons at once</h2>
+</header>
+
+<p>For most of the twentieth century, recording meant listening to one neuron, or a few, at a time.
+Today silicon probes can record hundreds of neurons simultaneously in a moving animal. Glowing
+indicator molecules let microscopes watch the activity of thousands of neurons across a surface of
+cortex. In recent years, a consortium of laboratories has recorded across almost the whole brain of mice
+performing the same decision task, pooling data in a way earlier generations of neuroscientists
+could not have imagined.</p>
+
+<p>The result is a shift in thinking. Instead of asking what one neuron does, researchers increasingly
+study <strong>population activity</strong>, the pattern across a crowd of neurons over time. Often the
+interesting information is not in any single cell but in the shape of that collective pattern. This
+idea also powers brain-computer interfaces, described in <a
+href="17-brain-computer-interfaces.html">Brain-computer interfaces</a>.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Growing human brain tissue in a dish</h2>
+</header>
+
+<p>Many brain disorders are partly human. Mice do not get schizophrenia, and their brains develop
+differently. In 2013 Madeline Lancaster and Jürgen Knoblich in Vienna showed that human stem cells
+could be grown into small three-dimensional clusters of brain-like tissue, a few millimetres across.
+These are called <strong>brain organoids</strong>.</p>
+
+<p>Organoids do not think. They lack blood vessels and the full structure of a brain. But they develop
+some of the same layers and cell types as a fetal brain. Researchers can grow them from the skin cells
+of a patient, turned back into stem cells, and watch how that person's genes affect development. In
+2022 a team at Stanford transplanted human organoids into the brains of newborn rats, where they grew
+larger, connected to the rat's circuits and responded to touch on the rat's whiskers.</p>
+
+<p>Such work raises questions that did not exist twenty years ago. <strong>At what point, if ever,
+could lab-grown human brain tissue have experiences?</strong> Most scientists think current organoids
+are very far from that. Ethicists argue that it is wise to agree on limits before the question becomes
+urgent, not after.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>AI as a microscope, and the need for theory</h2>
+</header>
+
+<p>The new tools produce data at a scale no person can read. AI is already essential for tracing
+connectomes, sorting the signals of individual neurons and decoding brain recordings. Researchers are
+also training large models on brain data, much as language models are trained on text, in the hope
+that they will find general patterns. And trained networks are now used as theories of brain areas,
+as described in <a href="18-artificial-neural-networks.html">Artificial neural networks</a>.</p>
+
+<p>But AI can find patterns without explaining them. The field still needs theories: compact ideas that
+say why the brain is built the way it is. One example is <strong>predictive processing</strong>, the
+idea that the brain constantly predicts its incoming signals and mainly processes the errors. Another is
+the set of rival theories of consciousness. Since 2019 some of their supporters have agreed to
+<strong>adversarial collaborations</strong>: before running an experiment, both sides state what result
+would count against their own theory. The first big results, comparing two leading theories, challenged
+parts of both. The debate is covered in <a href="06-consciousness.html">Consciousness</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>The largest health burden, and some of the hardest questions about ourselves</h2>
+  <p class="lede">Brain research matters because brain disorders are so common, because treatments have
+  lagged, and because what we learn about the brain changes how we think about responsibility and
+  self.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The scale of the need</h2>
+</header>
+
+<p>A major global analysis published in 2024 estimated that in 2021 more than <strong>3 billion people,
+around 40 percent of humanity</strong>, were living with a neurological condition. These include
+stroke, migraine, dementia, epilepsy, nerve damage from diabetes and problems from premature birth. This
+made disorders of the nervous system the leading cause of ill health and disability in the world.
+Mental disorders such as depression and anxiety, counted separately, add hundreds of millions more.</p>
+
+<p>Yet drug development for the brain has been unusually difficult. Many pharmaceutical companies cut
+back their psychiatry research in the 2010s after repeated failures. A major reason is that
+<strong>most psychiatric diagnoses are still made by describing symptoms</strong>, not by measuring a
+biological cause. Two people with the same diagnosis of depression may have quite different problems
+underneath. Better maps of cells and circuits are the field's best hope of changing this.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>New directions in treatment</h2>
+</header>
+
+<div class="grid2">
+  <div class="card"><h4>Rethinking old drugs</h4><p>Esketamine, a form of the anaesthetic ketamine,
+  was approved as a nasal spray for treatment-resistant depression in the US in 2019. It works within
+  hours rather than weeks, which suggested that depression involves faster-changing brain processes than
+  older theories assumed. Psilocybin, the active compound in "magic mushrooms", is being tested in large
+  trials, with some positive results. An application for MDMA-assisted therapy for PTSD was rejected by
+  US regulators in 2024, partly over trial design concerns.</p></div>
+  <div class="card"><h4>Genetic medicine for the brain</h4><p>Drugs that silence or replace faulty genes
+  have begun to reach the nervous system. A gene therapy for spinal muscular atrophy, a fatal inherited
+  disease of motor neurons in babies, has changed its outlook since its US approval in 2019. Similar
+  approaches are being tested for rarer forms of epilepsy, ALS and other genetic conditions. See <a
+  href="16-neurodegenerative-diseases.html">Neurodegenerative diseases</a>.</p></div>
+</div>
+
+<p>Devices are a third front, from adaptive deep brain stimulation to focused ultrasound, covered in <a
+href="19-neurotechnology.html">Neurotechnology</a>. The common thread is
+<strong>precision</strong>: treatments aimed at particular genes, cells or circuits rather than flooding
+the whole brain with a chemical.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Beyond medicine: law, schools and the self</h2>
+</header>
+
+<p>Brain science is already used outside hospitals. Defence lawyers in some countries have presented
+brain scans to argue for reduced responsibility. Courts have generally been cautious, and rightly so,
+because a scan can show a difference in a group but rarely proves what caused one person's act. As
+methods improve, <strong>the line between "my brain did it" and "I did it" will be argued more
+often</strong>, and the answers are philosophical as much as scientific.</p>
+
+<p>Education is another area. Popular "neuromyths" spread widely in schools: that people are
+"left-brained" or "right-brained", or that we use only 10 percent of our brain. Neither is true. Real
+findings, such as the importance of sleep for memory and the value of spaced practice, are less
+exciting and more useful. And as neuroscience explains more of the mind in terms of cells, it pushes on
+old questions about free will and identity. Volume 52 gathers some of the classic arguments (<a
+href="../52-philosophy-originals.html">Philosophy in the Original</a>).</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Great promise, real risks, and a hype problem</h2>
+  <p class="lede">Here "advantages and disadvantages" means what the field's direction offers, set against
+  what could go wrong, both scientifically and socially.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Promise against risk</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>What it could deliver</th><th>What could go wrong</th></tr></thead>
+<tbody>
+<tr><td><strong>Big data and maps</strong></td><td class="ok">Shared, open resources that every lab can use.</td><td class="mid">Data without theory. Huge costs for maps that explain little on their own.</td></tr>
+<tr><td><strong>Early diagnosis</strong></td><td class="ok">Detecting disease years before symptoms, when treatment may work best.</td><td class="no">Diagnosis without treatment, anxiety, and possible discrimination by insurers or employers.</td></tr>
+<tr><td><strong>Precision treatment</strong></td><td class="ok">Therapies aimed at specific genes, cells or circuits, with fewer side effects.</td><td class="no">Very high prices. Benefits reaching only rich countries.</td></tr>
+<tr><td><strong>Brain-reading tools</strong></td><td class="ok">Communication for paralysed people. Better understanding of mental states.</td><td class="no">Mental privacy at risk. Use in workplaces, policing or marketing.</td></tr>
+<tr><td><strong>Human tissue models</strong></td><td class="ok">Studying human brain development and disease directly.</td><td class="mid">Unclear moral status as models become more complex.</td></tr>
+<tr><td><strong>Brain-inspired AI</strong></td><td class="ok">More efficient machines, and machines that help explain the brain.</td><td class="mid">Over-confident claims that AI has "solved" how the brain works.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>The reliability problem</h2>
+</header>
+
+<p>Neuroscience has its own version of the replication crisis that hit psychology. Many brain-imaging
+studies in the 2000s and 2010s used twenty or thirty participants. In 2022 a team led by Scott Marek
+and Nico Dosenbach analysed brain scans from tens of thousands of people. They found that links between
+individual brain differences and traits such as intelligence or mental health are usually small, and
+that reliably detecting them can require <strong>thousands of participants</strong>. Many earlier
+findings from small studies were probably exaggerated or wrong.</p>
+
+<p>This is not a reason to distrust the whole field. It is a reason to prefer large, shared data sets,
+pre-registered studies, where methods are fixed before the data are seen, and replications. The habit
+for readers is simple. <strong>"Scientists find the brain region for X" is almost always an
+oversimplification.</strong> Ask how many people were studied, whether it has been repeated, and whether
+it shows cause or just association.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>The next twenty years, sorted by confidence</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Five directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Biomarkers for brain disease</strong></td><td>Blood tests for Alzheimer's changes are entering clinics. Tests for Parkinson's-related proteins are in development.</td><td class="ok">Fairly sure: routine biological testing for several neurodegenerative diseases within a decade, in rich countries.</td></tr>
+<tr><td><strong>Whole mouse connectome</strong></td><td>Fly brain complete. Cubic-millimetre pieces of mouse and human cortex mapped.</td><td class="ok">Fairly sure: a complete mouse brain map within roughly two decades, if funding holds.</td></tr>
+<tr><td><strong>Biology-based psychiatry</strong></td><td>Cell atlases, genetics and large imaging studies are beginning to sort patients by underlying biology.</td><td class="mid">Plausible: some psychiatric diagnoses split into subtypes with different treatments. A full overhaul of diagnosis is much further off.</td></tr>
+<tr><td><strong>Disease-stopping treatments</strong></td><td>First drugs that slow Alzheimer's and some genetic diseases.</td><td class="mid">Plausible: combination treatments that substantially slow some neurodegenerative diseases if started early. Reversal is not in sight.</td></tr>
+<tr><td><strong>A theory of consciousness, or a simulated brain</strong></td><td>Rival theories under test. No credible plan for simulating a human brain.</td><td class="no">Speculative: no honest timetable for either.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>How to follow the field from here</h2>
+</header>
+
+<p>The safest forecast is that progress will be uneven. Tools and data will improve fast and steadily.
+Treatments will improve slowly, with long gaps between breakthroughs. Understanding of the mind's
+biggest puzzles may come in sudden jumps, or not for a long time. <strong>Expect more maps than
+explanations, and more explanations than cures.</strong></p>
+
+<p>Four questions help with any new announcement. Was it done in humans, animals, or a dish? How many
+subjects? Has anyone repeated it? Does it show what causes something, or only what goes with it? The
+general method is in Volume 50 (<a href="../50-whats-coming.html#c8">How to read the next
+announcement</a>).</p>
+
+<p>This category began with the <a href="01-structure-of-the-brain.html">structure of the brain</a>, the
+parts and where they are. It ends here with the honest position of the field: <strong>we know a great
+deal about how the brain is built and far less about how it makes a mind</strong>. That gap is the most
+interesting open frontier in science, and it is likely to stay that way for a long time.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Neuroscience's future is driven by <strong>new measurements</strong>: wiring maps, cell atlases,
+    large-scale recording and human tissue models, all handled with AI. The weakest link is the
+    <strong>circuit level</strong> and the <strong>lack of theory</strong> connecting cells to minds.
+    Medical gains are likely to come through <strong>precision</strong>: earlier diagnosis and treatments
+    aimed at specific genes, cells and circuits.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Worm connectome: <strong>302</strong> neurons (1986). Fly connectome: about <strong>140,000</strong> neurons (2024).</li>
+      <li>More than <strong>3,000</strong> cell types described in the human brain (2023).</li>
+      <li>More than <strong>3 billion</strong> people lived with a neurological condition in 2021.</li>
+      <li>Reliable brain-trait links can need <strong>thousands</strong> of participants, not dozens.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Assuming that once we have a complete map of the brain, we will understand it. <strong>A map shows
+    the roads, not the traffic</strong>, as forty years of the worm connectome show.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why the Human Brain Project failed to simulate a brain while the BRAIN Initiative's
+    tool-first approach paid off? If you can, you understand the gap between data and theory.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Connectome</dt><dd>A complete map of the neurons and connections in a nervous system.</dd>
+    <dt>Cell atlas</dt><dd>A catalogue of all the cell types in an organ, often defined by which genes they use.</dd>
+    <dt>Circuit</dt><dd>A group of connected neurons that together carry out a function.</dd>
+    <dt>Population activity</dt><dd>The combined pattern of firing across many neurons over time.</dd>
+    <dt>Brain organoid</dt><dd>A small cluster of brain-like tissue grown from human stem cells.</dd>
+    <dt>Stem cell</dt><dd>A cell that can develop into many other cell types.</dd>
+    <dt>Biomarker</dt><dd>A measurable sign of a disease, such as a protein in the blood.</dd>
+    <dt>Predictive processing</dt><dd>The theory that the brain constantly predicts incoming signals and learns from the errors.</dd>
+    <dt>Adversarial collaboration</dt><dd>A study designed jointly by rival camps, who agree in advance what would count against each theory.</dd>
+    <dt>Pre-registration</dt><dd>Publicly fixing a study's methods and analysis before collecting or seeing the data.</dd>
+    <dt>Neuromyth</dt><dd>A popular but false belief about the brain, such as "we use only 10 percent of it".</dd>
+    <dt>Precision medicine</dt><dd>Treatment aimed at the specific biological cause in a particular patient or group.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"We've mapped every connection in a fly's brain, and we still can't fully predict how a worm
+    behaves from its map."</li>
+    <li>"Neuroscience understands molecules and behaviour quite well. The hard part is the middle, the
+    circuits."</li>
+    <li>"Neurological conditions are now the biggest cause of ill health in the world, more than three
+    billion people."</li>
+    <li>"Most psychiatric diagnoses are still based on symptoms, not biology. That's what the field is
+    trying to change."</li>
+    <li>"When you read 'the brain region for X', ask how many people were scanned and whether anyone
+    repeated it."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="01-structure-of-the-brain.html">Structure of the
+  brain</a></h4><p>Back to the beginning of the category: the main parts of the brain and what each
+  does, the foundation for everything here.</p></div>
+  <div class="card"><h4>Related · <a href="../05-medicine-health/20-the-future-of-medicine.html">The
+  future of medicine</a></h4><p>The same forward look for medicine as a whole: genetics, AI, new
+  drugs and the systems that deliver them.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

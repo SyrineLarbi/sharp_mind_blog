@@ -1,0 +1,847 @@
+<!doctype html>
+<!--@HEAD-SRC title="Company Valuation" desc="How companies are valued: discounted cash flow, multiples such as price-to-earnings, asset-based methods, the role of interest rates and stories, and why every valuation is a set of assumptions."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Company Valuation</title>
+<meta name="description" content="How companies are valued: discounted cash flow, multiples such as price-to-earnings, asset-based methods, the role of interest rates and stories, and why every valuation is a set of assumptions.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Finance &amp; Investing · Topic 11 of 20</p>
+  <h1>Company valuation. <span class="thin">Putting a price on a future nobody can see, and being honest about the guesswork.</span></h1>
+  <p class="lede">What is a company worth? Not what the share price says, which is only what the last
+  buyer paid. A company is worth the cash it will hand to its owners over its whole life, adjusted for
+  how long they must wait and how uncertain that cash is. Every valuation method, from a quick
+  price-to-earnings ratio to a fifty-tab spreadsheet, is a way of estimating that one thing. Understanding
+  how they work lets you see what a price is quietly assuming, and when the assumptions have become
+  absurd.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Finance &amp; Investing</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c5"><span class="vn">Vol 38 · ch 05</span><b>What a price actually is</b><em>The short version</em></a>
+<a class="vol" href="10-financial-statements.html"><span class="vn">Finance · 10</span><b>Financial statements</b><em>The raw material</em></a>
+<a class="vol" href="12-dividends.html"><span class="vn">Finance · 12</span><b>Dividends</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 38 makes the starting point: a share price is a collective bet on the future, already full
+  of expectations (<a href="../38-money.html#c5">What a price actually is</a>), and it can detach from
+  reality in a bubble (<a href="../38-money.html#c6">Bubbles, and why they keep happening</a>). This file
+  opens up the bet: how analysts estimate what a business is worth, and how to read the assumptions
+  hidden inside a price.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Estimating worth, as opposed to reading price</h2>
+  <p class="lede">Valuation is the attempt to work out what an asset is worth from its own
+  characteristics, so that the result can be compared with the price on offer.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Price is what you pay</h2>
+</header>
+
+<div class="pass short">
+  <p>&ldquo;Price is what you pay; value is what you get.&rdquo;</p>
+  <span class="src"><b>Warren Buffett</b> · crediting his teacher Benjamin Graham, letter to Berkshire Hathaway shareholders, 2008</span>
+</div>
+
+<p>Think about buying a small apartment to rent out. Before you agreed to any price, you would ask how
+much rent it brings in, what the costs are, how long the building will last, and what you could earn by
+putting the same money somewhere safer. You would not pay double just because the neighbour did. That
+reasoning, worked out carefully, is valuation.</p>
+
+<p>Shares are no different in principle. A share is a slice of a business, and the business is worth the
+cash it will produce for its owners in the future. <strong>Value is an estimate built from the business;
+price is a fact set by the market. Investing is the act of comparing the two.</strong> When an estimated
+value is well above the price, the share looks cheap. When it is well below, the share looks
+expensive, or the market knows something you do not.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Three families of method</h2>
+</header>
+
+<p>There are hundreds of valuation techniques, but almost all belong to one of three families.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Family</th><th>The question it asks</th><th>Main tools</th></tr></thead>
+<tbody>
+<tr><td><strong>Intrinsic</strong></td><td>What is the future cash worth today?</td><td>Discounted cash flow (DCF), dividend discount models</td></tr>
+<tr><td><strong>Relative</strong></td><td>What are similar companies selling for?</td><td>Multiples: price-to-earnings, EV/EBITDA, price-to-book, price-to-sales</td></tr>
+<tr><td><strong>Asset-based</strong></td><td>What would the pieces fetch?</td><td>Book value, liquidation value, sum-of-the-parts</td></tr>
+</tbody></table></div>
+
+<p>Professionals usually use more than one and compare the answers. When an intrinsic estimate and the
+multiples disagree sharply, the disagreement is itself a clue: either the comparison companies are
+mispriced, or the assumptions in the cash flow model are wrong.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Discounting the future, and borrowing the crowd's judgement</h2>
+  <p class="lede">The intrinsic approach rests on one idea, the time value of money. The relative
+  approach rests on another, that similar things should sell at similar prices.</p>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The time value of money</h2>
+</header>
+
+<p>A hundred euros today is worth more than a hundred euros in a year. You could put today's hundred in a
+safe account and have more than a hundred next year. You also face the risk that the promised future
+money never arrives, and the certainty that inflation will nibble at it.</p>
+
+<p>So future money must be <strong>discounted</strong>: shrunk to its equivalent value today. If you
+could earn 5% a year elsewhere, then 105 euros promised in a year is worth about 100 today, and 100
+promised in a year is worth about 95. Money ten years away at the same rate is worth only about 61%
+of its face value. <strong>The further away the cash, and the higher the rate, the less it is worth
+today.</strong> Compounding, explained in Volume 38
+(<a href="../38-money.html#c4">Interest, and the astonishing effect of compounding</a>), works forward in
+time. Discounting is the same arithmetic run backwards.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Discounted cash flow: the model behind all the others</h2>
+</header>
+
+<p>A <strong>discounted cash flow</strong> (DCF) valuation does three things. It forecasts the
+company's free cash flow (the cash left after running and maintaining the business, as described in
+<a href="10-financial-statements.html">Financial statements</a>) for several years. It estimates a
+<strong>terminal value</strong> for all the years after the forecast, usually by assuming steady growth
+for ever. And it discounts everything back to today and adds it up.</p>
+
+<p>The simplest version assumes that cash grows at a constant rate for ever. Then the value collapses
+into a neat formula, often named after the economist Myron Gordon.</p>
+
+<div class="sheet">
+  <div class="cap">The constant-growth shortcut</div>
+<pre>
+                  next year's cash flow
+  value  =  ----------------------------------
+             discount rate  -  growth rate
+
+  Cash flow next year 10.3, growth 3%, discount rate 8%:
+     value = 10.3 / (0.08 - 0.03) = 10.3 / 0.05 = 206
+
+  Same company, discount rate 7%:   10.3 / 0.04 = about 258   (+25%)
+  Same company, discount rate 9%:   10.3 / 0.06 = about 172   (-17%)
+</pre>
+</div>
+
+<p>Look at what happened. Moving the discount rate by a single percentage point changed the value by a
+fifth or more. In real models the terminal value often makes up well over half of the total, so the
+answer depends heavily on assumptions about a distant future nobody can see. <strong>A DCF is less a
+calculation than a structured argument about growth, risk and time, and its precision is mostly
+illusion.</strong> Used honestly, it shows which assumptions matter most.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Where the discount rate comes from</h2>
+</header>
+
+<p>The discount rate is the return investors demand for waiting and for bearing risk. It is usually built
+from two pieces. The first is a <strong>risk-free rate</strong>, normally the yield on long-term
+government bonds of a safe country. The second is a <strong>risk premium</strong>, extra return for the
+chance that things go wrong. A stable utility gets a small premium; a young biotech firm gets a large
+one.</p>
+
+<p>For a whole company, analysts often blend the cost of its debt and the cost of its equity into a
+single <strong>weighted average cost of capital</strong> (WACC). The details are technical, and
+estimates of the equity risk premium are genuinely disputed among academics. The intuition is not:
+<strong>the riskier and more distant the cash, the more heavily it is discounted.</strong></p>
+
+<p>This explains one of the most important links in finance. Because the risk-free rate is part of every
+discount rate, <strong>when interest rates rise, the value of every future cash flow falls</strong>, and
+companies whose cash lies far in the future fall the most. That link is explored in
+<a href="13-interest-rates-and-markets.html">Interest rates and markets</a>, and the general idea of a
+risk premium in <a href="06-risk-and-return.html">Risk and return</a>.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Multiples: valuation by comparison</h2>
+</header>
+
+<p>Most everyday valuation is done with <strong>multiples</strong>: a price divided by some measure of
+the business. Estate agents do this when they price a flat "per square metre" using recent sales nearby.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Multiple</th><th>Calculation</th><th>Best used for</th></tr></thead>
+<tbody>
+<tr><td><strong>Price-to-earnings (P/E)</strong></td><td>Share price / earnings per share</td><td>Profitable, stable companies</td></tr>
+<tr><td><strong>EV/EBITDA</strong></td><td>Enterprise value / earnings before interest, tax, depreciation and amortisation</td><td>Comparing firms with different debts</td></tr>
+<tr><td><strong>Price-to-book (P/B)</strong></td><td>Market cap / accounting equity</td><td>Banks and insurers, whose assets are mostly financial</td></tr>
+<tr><td><strong>Price-to-sales (P/S)</strong></td><td>Market cap / revenue</td><td>Young firms with little or no profit yet</td></tr>
+</tbody></table></div>
+
+<p>A P/E of 20 means investors pay 20 for each 1 of yearly profit. Turn it upside down and you get the
+<strong>earnings yield</strong>: 1/20 = 5%. That figure can be compared directly with a bond yield,
+which is one reason share valuations tend to fall when bond yields rise.</p>
+
+<p>A high multiple is not automatically "expensive". It usually means investors expect fast growth. A low
+one is not automatically "cheap"; it may mean they expect decline. <strong>Every multiple is a DCF with
+the assumptions folded up inside it.</strong> A P/E of 40 only makes sense if profits are expected to
+grow quickly for a long time.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Comparing the whole market with its own past</h2>
+</header>
+
+<p>Multiples can also be applied to an entire stock market. A widely watched version is the
+<strong>cyclically adjusted price-to-earnings ratio</strong> (CAPE), popularised by the economist Robert
+Shiller. It divides prices by the average of the previous ten years of inflation-adjusted earnings, which
+smooths out booms and recessions.</p>
+
+<p>Historically, when the US market's CAPE was very high, the following ten years' returns tended to be
+lower than average, and when it was low, they tended to be higher. In the mid-2020s the US CAPE was far
+above its long-run average, though below its record at the 2000 dot-com peak. <strong>CAPE is a fair
+guide to long-run expectations and a poor tool for timing.</strong> Markets have stayed "expensive" by
+this measure for many years, and people who sold on that signal alone often missed large gains.
+Critics also argue that changes in accounting and in the mix of companies make old and new readings hard
+to compare.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Asset-based methods and the sum of the parts</h2>
+</header>
+
+<p>Sometimes the best question is not "what will it earn?" but "what would its pieces fetch?" For a
+company in trouble, analysts estimate <strong>liquidation value</strong>: what the assets would raise if
+sold, minus the debts. For a property company, they compare the share price with the estimated value of
+the buildings it owns. For banks and insurers, whose assets are mostly loans and securities, book value
+is a natural anchor.</p>
+
+<p>For a group made of very different businesses, analysts use <strong>sum-of-the-parts</strong>: value
+each division separately with the method that suits it, then add them up. When the total is well above the
+market cap, the gap is called a <strong>conglomerate discount</strong>, and it often leads to pressure to
+break the group up. Asset-based methods have one limitation: <strong>they work best where the value is in
+things you can sell, and worst where it lies in brands, software and people</strong>, which accounts
+barely record.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Valuations move fortunes, jobs and whole economies</h2>
+  <p class="lede">Valuation decides takeover prices, how much new companies can raise, what pension funds
+  pay for their assets, and how big a bubble can grow.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Takeovers: paying for control</h2>
+</header>
+
+<p>When one company buys another, the buyer almost always pays more than the market price. The extra is
+called a <strong>control premium</strong>, and it is often a substantial percentage of the pre-bid price.
+The buyer justifies it with <strong>synergies</strong>: savings and extra sales it expects from combining
+the two firms, such as closing duplicate offices or selling one company's products through the other's
+network.</p>
+
+<p>Here valuation becomes a practical matter of billions. Many studies of mergers have found that a large
+share of acquisitions fail to create value for the buyer's shareholders, because the premium paid was
+larger than the synergies actually achieved. A frequently cited explanation is overconfidence:
+executives believe their own optimistic forecasts. Volume 35 describes the mental traps involved,
+including how the first number on the table anchors every later one
+(<a href="../35-the-mind.html#c4">The first number sticks</a>).</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Graham's margin of safety</h2>
+</header>
+
+<p>Benjamin Graham, who taught at Columbia University and wrote <em>Security Analysis</em> (1934, with
+David Dodd) and <em>The Intelligent Investor</em> (1949), is often called the father of value investing.
+His central idea was the <strong>margin of safety</strong>. Because any estimate of value can be wrong,
+buy only when the price is well below your estimate. The gap is a cushion that absorbs your mistakes.</p>
+
+<p>Graham also offered a famous image: the market as a moody business partner, "Mr. Market", who every
+day offers to buy your share or sell you his, at prices that swing with his emotions. You are free to
+ignore him, and to trade with him only when his offer is foolish. <strong>The point of valuation is not to
+predict the price tomorrow, but to know when the market's mood has made a price unreasonable.</strong>
+Buffett adapted these ideas, placing more weight on paying a fair price for an excellent business rather
+than a low price for a mediocre one.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>When the story outruns the numbers</h2>
+</header>
+
+<p>In January 2019 the office-sharing company WeWork was valued at about 47 billion dollars in a private
+funding round. It was presented as a technology company, which justified a technology-style multiple.
+When it prepared to list its shares later that year, its published accounts showed large losses and
+long-term lease obligations, the profile of a property company. Investors balked, the share listing was
+withdrawn, and the valuation collapsed. WeWork eventually filed for bankruptcy protection in the US in
+November 2023.</p>
+
+<p>The story is not unique. In the dot-com bubble, companies with tiny revenues were valued at billions on
+the strength of "eyeballs" and website visits. The common thread is that <strong>a valuation is only as
+good as the story behind its assumptions, and a compelling story can stop people checking the
+numbers</strong>. The professor Aswath Damodaran, a well-known teacher of valuation, argues that every good
+valuation joins a narrative with numbers, and that each must be used to test the other.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Every method is useful and every method can fool you</h2>
+  <p class="lede">The choice is not between right and wrong methods, but between different kinds of
+  error.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The methods, weighed</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Method</th><th>Strengths</th><th>Weaknesses</th></tr></thead>
+<tbody>
+<tr><td><strong>Discounted cash flow</strong></td><td class="ok">Grounded in what ultimately matters, cash; forces you to state every assumption</td><td class="no">Extremely sensitive to growth and discount rates; easy to tune until it gives the answer you wanted</td></tr>
+<tr><td><strong>Multiples</strong></td><td class="ok">Fast, intuitive, anchored in real market prices</td><td class="no">If the whole sector is overpriced, so is your answer; hides the assumptions</td></tr>
+<tr><td><strong>Asset-based</strong></td><td class="ok">Concrete; useful floor for distressed firms, property and banks</td><td class="no">Misses intangible value; book values may be outdated</td></tr>
+<tr><td><strong>Market-wide measures (CAPE)</strong></td><td class="mid">Useful guide to long-run expected returns</td><td class="no">Useless for short-term timing; comparability over decades is debated</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Garbage in, confidence out</h2>
+</header>
+
+<p>The greatest danger in valuation is not a wrong formula. It is false precision. A spreadsheet that
+gives a value of 47.83 per share looks authoritative, but each input behind it is a guess. Analysts can
+also work backwards: decide what answer they want, then adjust growth or discount rates until the model
+agrees. Bank analysts and sellers of companies face incentives that can push their numbers in one
+direction.</p>
+
+<p>The useful defences are simple. Present a <strong>range</strong>, not a point. Run scenarios: a bad
+case, a central case and a good case. And reverse the question: <strong>instead of asking what the
+company is worth, ask what growth the current price already assumes, and whether that is
+believable.</strong> This "reverse DCF" turns valuation from prediction into a reality check.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>New kinds of value, new kinds of tools</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, by level of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Rates matter again</strong></td><td>The low-rate decade after 2008 inflated valuations of long-duration growth companies. The rate rises of 2022 reversed some of that.</td><td class="ok">Fairly sure: as long as interest rates stay above the near-zero levels of the 2010s, discount rates and therefore valuations will be treated with more caution.</td></tr>
+<tr><td><strong>Valuing intangible-heavy firms</strong></td><td>Analysts increasingly adjust accounts, for example treating research spending as an investment rather than a cost.</td><td class="mid">Plausible: such adjustments become standard practice among professionals, even if official accounting rules change slowly.</td></tr>
+<tr><td><strong>Private-market valuations</strong></td><td>A growing share of companies stay private for longer, and their values are set by occasional funding rounds or fund managers' estimates rather than daily trading.</td><td class="mid">Plausible but contested: critics say private valuations are slow to reflect bad news; defenders say they avoid market noise.</td></tr>
+<tr><td><strong>AI-driven valuation</strong></td><td>Software already reads filings and builds models in minutes.</td><td class="no">Speculative: faster models make the arithmetic cheaper, but the hard part, judging the future, remains a judgement, and widespread use of similar tools may simply compete away any edge.</td></tr>
+</tbody></table></div>
+
+<p>Whatever the tools, the core will stay the same. <strong>A company is worth the cash it will produce,
+discounted for time and risk.</strong> Every method is a shortcut to that idea, and every price is a
+claim about it that you can check.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A company is worth the <strong>future cash it will produce, discounted</strong> for time and risk.
+    <strong>Intrinsic</strong> methods estimate that directly, <strong>relative</strong> methods borrow
+    the market's view of similar firms, and <strong>asset-based</strong> methods ask what the pieces would
+    fetch. All of them rest on assumptions.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>In a simple growth model, a <strong>one-point change</strong> in the discount rate moved value by
+      roughly <strong>a fifth or more</strong>.</li>
+      <li>A P/E of 20 equals an <strong>earnings yield of 5%</strong>, comparable with a bond yield.</li>
+      <li>WeWork's private valuation of about <strong>$47 billion</strong> (2019) ended in bankruptcy
+      (2023).</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Calling a share "cheap" because its P/E is low, or "expensive" because it is high. <strong>A
+    multiple only makes sense next to the growth and risk it implies.</strong></p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a rise in interest rates hurts a fast-growing company with distant profits more
+    than a steady company that pays cash today? If so, you understand discounting and duration.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Valuation</dt><dd>Estimating what an asset is worth, to compare with its price.</dd>
+    <dt>Intrinsic value</dt><dd>The value worked out from the asset's own future cash, not from what others pay.</dd>
+    <dt>Discounting</dt><dd>Shrinking future money to its equivalent value today.</dd>
+    <dt>Discounted cash flow (DCF)</dt><dd>A valuation that forecasts future cash and discounts it back to today.</dd>
+    <dt>Terminal value</dt><dd>The value of all cash beyond the forecast years, often the largest part of a DCF.</dd>
+    <dt>Discount rate</dt><dd>The yearly return investors demand for waiting and for risk.</dd>
+    <dt>Risk premium</dt><dd>The extra return demanded above the risk-free rate for bearing risk.</dd>
+    <dt>WACC</dt><dd>Weighted average cost of capital: a blend of what a company pays its lenders and owners.</dd>
+    <dt>Multiple</dt><dd>A price divided by a business measure, such as earnings or sales.</dd>
+    <dt>P/E ratio</dt><dd>Share price divided by earnings per share.</dd>
+    <dt>Earnings yield</dt><dd>Earnings divided by price; the P/E turned upside down.</dd>
+    <dt>CAPE</dt><dd>Price divided by ten years of average inflation-adjusted earnings, used for whole markets.</dd>
+    <dt>Control premium</dt><dd>The extra above market price paid to take over a company.</dd>
+    <dt>Margin of safety</dt><dd>Graham's cushion: buying well below estimated value to allow for error.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Price is a fact. Value is an estimate. Investing is the gap between them."</li>
+    <li>"A company is worth the cash it will produce, discounted for time and risk. Everything else is a
+    shortcut."</li>
+    <li>"Every multiple is a cash-flow model with the assumptions folded up inside."</li>
+    <li>"Don't ask what it's worth. Ask what growth the price already assumes, and whether you believe
+    it."</li>
+    <li>"When interest rates rise, distant profits are worth less today, which is why growth stocks fall
+    hardest."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="12-dividends.html">Dividends</a></h4><p>The cash a company
+  actually hands to its owners: how dividends work, how they compare with buybacks, and what they
+  reveal.</p></div>
+  <div class="card"><h4>Related · <a href="13-interest-rates-and-markets.html">Interest rates and
+  markets</a></h4><p>Why the discount rate moves every asset price at once, from bonds to growth
+  shares.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

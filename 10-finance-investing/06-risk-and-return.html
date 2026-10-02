@@ -1,0 +1,867 @@
+<!doctype html>
+<!--@HEAD-SRC title="Risk and Return" desc="Why higher expected returns come with bigger swings, the different meanings of risk, how it is measured, which risks markets actually pay for, and where the standard models break."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Risk and Return</title>
+<meta name="description" content="Why higher expected returns come with bigger swings, the different meanings of risk, how it is measured, which risks markets actually pay for, and where the standard models break.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Finance &amp; Investing · Topic 06 of 20</p>
+  <h1>Risk and return. <span class="thin">The only free lunch is gone. Every extra bit of reward has a price.</span></h1>
+  <p class="lede">Every investment offers a deal: some expected reward, in exchange for some
+  uncertainty about getting it. The central idea of finance is that these two travel together. If an
+  asset promises more, it must be because holding it is unpleasant in some way that others want to
+  avoid. Once you see this, you can read any investment pitch differently. The question stops being
+  "how much can I make?" and becomes "what am I being paid to put up with?"</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Finance &amp; Investing</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../39-chance.html#c8"><span class="vn">Vol 39 · ch 08</span><b>Risk, as people feel it</b><em>The perception side</em></a>
+<a class="vol" href="01-stocks.html"><span class="vn">Finance · 01</span><b>Stocks</b><em>The riskiest common asset</em></a>
+<a class="vol" href="07-diversification.html"><span class="vn">Finance · 07</span><b>Diversification</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 39 covers how people <em>perceive</em> risk in <a href="../39-chance.html#c8">Risk, as
+  people actually feel it</a>, and why fund track records mislead in <a href="../39-chance.html#c6">The
+  ones you cannot see</a>. Volume 38 touches the practical rule of matching risk to timeframe in <a
+  href="../38-money.html#c5">What a price actually is</a>. This file is the financial theory: what risk
+  means in markets, how it is measured, and why it is rewarded.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A trade between certainty and reward</h2>
+  <p class="lede">In finance, return is what you expect to gain. Risk is how far the actual result
+  might stray from that expectation, and how badly. The trade-off says you cannot raise one without
+  accepting more of the other.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Two envelopes</h2>
+</header>
+
+<p>Imagine two envelopes. The first certainly contains 100. The second contains either 50 or 150,
+decided by a coin toss. On average, both are worth 100. Which would you pay more for?</p>
+
+<p>Almost everyone prefers the first. The second has the same average but an uncertain outcome, and
+most people dislike uncertainty about money they need. So if someone wants to sell you the second
+envelope, they must lower its price, perhaps to 90. Now its <em>expected</em> gain, 100 on a cost of 90,
+is higher than the safe envelope's. <strong>That extra expected gain exists only because the envelope is
+risky. It is the payment for bearing the uncertainty.</strong></p>
+
+<p>That small story is the whole logic of the risk-return trade-off. Risky assets do not offer higher
+returns because the world is generous. They offer them because, if they did not, nobody would hold
+them, and their prices would fall until they did.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>"Risk" means several different things</h2>
+</header>
+
+<p>The word causes endless confusion, because professionals and ordinary people use it differently.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Meaning</th><th>The question it answers</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Volatility</strong></td><td>How much does the value swing up and down?</td><td>Shares often move 20 per cent or more in a year, either way</td></tr>
+<tr><td><strong>Drawdown</strong></td><td>How far can it fall from a peak before recovering?</td><td>US shares fell by more than half in 2007–09</td></tr>
+<tr><td><strong>Permanent loss</strong></td><td>Could the money be gone for good?</td><td>A company goes bankrupt; a fraud collapses</td></tr>
+<tr><td><strong>Shortfall</strong></td><td>Will I have enough when I need it?</td><td>A pension pot too small at retirement</td></tr>
+<tr><td><strong>Inflation risk</strong></td><td>Will it keep its buying power?</td><td>Cash in a bank during years of high inflation</td></tr>
+<tr><td><strong>Liquidity risk</strong></td><td>Can I sell quickly without a big discount?</td><td>A house, or a share in a private company</td></tr>
+</tbody></table></div>
+
+<p>Most financial theory measures the first, volatility, because it is easy to calculate. Most people
+care about the last four. <strong>A "safe" savings account has almost no volatility and plenty of
+inflation and shortfall risk.</strong> A broad share fund has high volatility and, over long periods,
+historically lower shortfall risk. Which is "riskier" depends on which meaning you choose, and on when
+you need the money.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Expected return is not a promise</h2>
+</header>
+
+<p>One more word needs care. The <strong>expected return</strong> of an investment is the average result
+you would get if you could repeat the same situation many times. It is not what you will get. Like the
+risky envelope, any one outcome may be far above or far below it.</p>
+
+<p>This matters because the risk-return trade-off is a statement about expected returns, not
+guaranteed ones. <strong>Taking more risk raises what you can expect, never what you are sure to
+receive.</strong> If higher risk always produced higher returns, it would not be risk. Anyone who
+promises both high returns and low risk is either misunderstanding their product or describing a fraud,
+as Chapter 11 shows.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Measuring the wobble, and finding which part is paid</h2>
+  <p class="lede">Finance measures risk with statistics, ranks assets on a ladder, and then makes a
+  surprising claim: the market pays you only for the risk you cannot remove.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Standard deviation: one number for the wobble</h2>
+</header>
+
+<p>The standard measure of volatility is the <strong>standard deviation</strong> of returns. It
+describes how spread out the results are around the average. If an asset averages 8 per cent a year
+with a standard deviation of 20 per cent, then in roughly two years out of three its return lands
+between minus 12 and plus 28 per cent. In the remaining years it lands outside that range, sometimes
+far outside.</p>
+
+<div class="sheet">
+  <div class="cap">Two assets with similar averages, different spreads</div>
+<pre>
+   how often
+      |            ___
+      |           /   \          narrow: a high-quality bond fund
+      |          /     \
+      |     ____/_______\____    wide: a share fund
+      |  __/   /         \   \__
+      +---------------------------------- yearly return
+       -30%   -10%   avg   +20%  +40%
+
+   same centre, different width. the width is the standard deviation.
+</pre>
+</div>
+
+<p>For broad US shares, the yearly standard deviation has historically been around 20 per cent. For
+short-term government bills it is a few per cent. Standard deviation is useful because it can be
+calculated for anything with a price history. Its weakness, which Chapter 13 explains, is that real
+markets produce extreme results far more often than the neat bell shape suggests.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The ladder of assets</h2>
+</header>
+
+<p>Long-run studies, such as those by Dimson, Marsh and Staunton covering many countries since 1900,
+show the trade-off clearly. Riskier assets have, on average, paid more.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Asset</th><th>Typical volatility</th><th>Long-run real return, very roughly (world, since 1900)</th><th>Main risk</th></tr></thead>
+<tbody>
+<tr><td><strong>Cash and short-term bills</strong></td><td>Very low</td><td>Under 1% a year above inflation</td><td>Inflation</td></tr>
+<tr><td><strong>Government bonds</strong></td><td>Low to medium</td><td>About 2% a year</td><td>Interest rates, inflation</td></tr>
+<tr><td><strong>Corporate bonds</strong></td><td>Medium</td><td>Somewhat above government bonds</td><td>Default, plus rates</td></tr>
+<tr><td><strong>Shares of large companies</strong></td><td>High</td><td>About 5% a year</td><td>Deep, long falls</td></tr>
+<tr><td><strong>Small firms, emerging markets</strong></td><td>Higher</td><td>Varied widely by period and country</td><td>Larger falls, political risk</td></tr>
+</tbody></table></div>
+
+<p>The gap between shares and safe bills, roughly four percentage points a year in these studies, is
+the <strong>equity risk premium</strong>. It looks small. But compounded over forty years, it is the
+difference between money growing a few times and money growing many times. <strong>Most of the wealth
+created by investing comes from collecting this one premium, patiently.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The risk you are paid for, and the risk you are not</h2>
+</header>
+
+<p>In the 1960s William Sharpe and others developed the <strong>capital asset pricing model</strong>, or
+CAPM, built on Harry Markowitz's earlier work on portfolios. Its key insight splits the risk of any
+share into two parts.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Specific risk</h4><p>Risk that belongs to one company: a failed drug trial, a
+  scandal, a lost contract. It can be almost removed by owning many companies, because one firm's bad
+  news is balanced by another's good news. Also called <strong>diversifiable</strong> or
+  <strong>idiosyncratic</strong> risk.</p></div>
+  <div class="card"><h4>Market risk</h4><p>Risk that hits nearly everything at once: a recession, a
+  financial crisis, a jump in interest rates. Owning more companies does not help, because they all fall
+  together. Also called <strong>systematic</strong> risk.</p></div>
+</div>
+
+<p>The CAPM's argument is this. Because specific risk can be removed cheaply by diversifying, the
+market will not pay you for carrying it. <strong>Only systematic risk, the kind nobody can diversify
+away, earns a premium.</strong> A share's exposure to systematic risk is measured by its
+<strong>beta</strong>. The market as a whole has a beta of 1. A share with a beta of 1.5 tends to rise
+50 per cent more than the market in good times and fall 50 per cent more in bad times. A beta of 0.5
+means it moves about half as much.</p>
+
+<p>The practical lesson is powerful: <strong>holding one company's shares adds risk without adding
+expected reward</strong>. That is the reason the next file, <a
+href="07-diversification.html">Diversification</a>, exists.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Beyond beta: the factors</h2>
+</header>
+
+<p>The CAPM is elegant, but its predictions fit the data imperfectly. In the early 1990s Eugene Fama
+and Kenneth French showed that two more characteristics helped explain returns: small companies had
+tended to beat large ones, and cheap "value" companies, priced low relative to their accounts, had
+tended to beat expensive "growth" companies. Later researchers added <strong>momentum</strong>, the
+tendency of recent winners to keep winning for a while.</p>
+
+<p>These extra sources of return are called <strong>factors</strong>. Whether they are rewards for real
+hidden risks, or the result of investor behaviour, or partly patterns found by searching through data,
+is debated. The value premium in particular was weak for much of the period from the late 2000s to
+around 2020, which led some to question it and others to argue it was simply a long bad spell. There is
+also the puzzling <strong>low-volatility anomaly</strong>: calmer shares have historically done about as
+well as or better than wild ones, which is not what simple theory predicts.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Return per unit of risk</h2>
+</header>
+
+<p>Comparing returns without comparing risk is like comparing drivers by speed alone. In 1966 Sharpe
+proposed a simple adjustment, now called the <strong>Sharpe ratio</strong>: take an investment's return,
+subtract the risk-free rate, and divide by its standard deviation.</p>
+
+<div class="sheet">
+  <div class="cap">Two funds, adjusted for risk (risk-free rate 3%)</div>
+<pre>
+              return    volatility    (return - 3%) / volatility
+   fund A      11 %        20 %          8 / 20  =  0.40
+   fund B       8 %         8 %          5 /  8  =  0.63
+
+   fund A earned more. fund B earned more per unit of risk taken.
+</pre>
+</div>
+
+<p>Fund B might be the better investment, because you could in principle borrow a little to scale it
+up, or combine it with other holdings, and get A's return with less risk. <strong>A high return is only
+impressive if it did not require an equally high risk.</strong> The ratio has limits. It treats
+upside and downside swings as equally bad, and a short track record can make it look far better than
+it is.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Time, timing, and the deals that are too good</h2>
+  <p class="lede">Understanding risk and return protects you in three ways: it tells you which money
+  belongs where, it explains why the same loss hurts some people far more, and it lets you spot
+  impossible promises.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Time changes the picture, but not completely</h2>
+</header>
+
+<p>Since 1926, the broad US stock market has fallen in roughly one year out of four. Over one year,
+shares are a gamble. Over twenty years, the picture changes: in the standard long-run data there has been no twenty-year period since the late 1920s in which US shares, with dividends reinvested, failed to beat inflation, though some came
+close. The good and bad years tend to average out.</p>
+
+<p>This leads to the most important practical rule in personal investing. <strong>Money you need within a
+few years should not depend on the stock market. Money you will not touch for decades can usually
+afford to.</strong> The rule is about time horizon, not about courage.</p>
+
+<div class="warn">
+  <span class="tag">But time is not a guarantee</span>
+  <p>The US is the most successful market in the long-run data, and studying only winners flatters the
+  results. Twenty years after its 1989 peak, Japan's stock market was still far below it. Long horizons
+  reduce risk a great deal. They do not remove it. This file is general education, not financial
+  advice.</p>
+</div>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Tolerance, capacity, and the order of returns</h2>
+</header>
+
+<p>Advisers distinguish two things. <strong>Risk tolerance</strong> is how much uncertainty you can
+stand emotionally. <strong>Risk capacity</strong> is how much you can afford to lose without your plans
+failing. A young worker with a secure job and decades ahead has high capacity, even if they hate
+seeing losses. A retiree living on savings has low capacity, even if they enjoy the thrill.</p>
+
+<p>The retiree also faces <strong>sequence-of-returns risk</strong>. Two people can earn the same
+average return over thirty years. If one suffers a crash in the first years of retirement, while selling
+investments to live on, they sell more units at low prices, and the money may run out. If the crash comes
+late, the damage is much smaller. <strong>The order of returns matters as much as their average once you
+start withdrawing.</strong> This is a central problem for <a href="18-pensions.html">pensions</a>.</p>
+
+<p>Emotion matters too. Daniel Kahneman and Amos Tversky's work on <strong>loss aversion</strong>, from
+1979 onward, found that a loss feels roughly twice as painful as an equal gain feels good. That makes
+volatility harder to live with than the statistics suggest, and leads many people to sell after falls,
+locking in the loss. More in <a href="../06-psychology/19-behavioral-economics.html">Behavioral
+economics</a>.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>When the reward has no visible risk</h2>
+</header>
+
+<p>For many years Bernard Madoff, a respected figure on Wall Street, reported returns to his clients of
+around 1 per cent a month, almost every month, through good markets and bad. The smoothness should have
+been the warning. Real investments with that level of return wobble. In December 2008 Madoff confessed
+that it was a fraud: a Ponzi scheme, paying old investors with new investors' money. Clients' statements
+showed around 65 billion dollars, most of which had never existed.</p>
+
+<p>The opposite failure is real risk hidden by clever models. Long-Term Capital Management, a hedge
+fund whose partners included the Nobel-winning economists Myron Scholes and Robert Merton, earned steady
+profits in the mid-1990s on bets that looked low-risk in their models, magnified with heavy borrowing.
+In 1998, after Russia's default, markets moved in ways the models treated as nearly impossible. The fund
+lost most of its capital within months, and the New York Federal Reserve organised a rescue by major
+banks. <strong>In both cases, the risk was there all along. It was simply not visible in the numbers
+people were watching.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A powerful framework with blind spots</h2>
+  <p class="lede">The standard tools for measuring risk are useful, widely used, and wrong in specific,
+  predictable ways.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The tools, weighed</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Tool or idea</th><th>What it does well</th><th>Where it fails</th></tr></thead>
+<tbody>
+<tr><td><strong>Standard deviation</strong></td><td class="ok">One comparable number for any asset with a price history.</td><td class="no">Treats gains and losses alike. Understates rare, extreme falls.</td></tr>
+<tr><td><strong>Beta and the CAPM</strong></td><td class="ok">Explains why diversification is rewarded and concentration is not.</td><td class="no">Fits real returns only loosely. Betas change over time.</td></tr>
+<tr><td><strong>Factors</strong></td><td class="ok">Describe returns better than beta alone.</td><td class="no">Some may be data-mining. Premiums can vanish for a decade or more.</td></tr>
+<tr><td><strong>Sharpe ratio</strong></td><td class="ok">Puts returns of very different strategies on one scale.</td><td class="no">Easily flattered by short records or smoothed prices.</td></tr>
+<tr><td><strong>Historical averages</strong></td><td class="ok">A century of evidence across many countries.</td><td class="no">Survivorship: the failed markets are under-represented. The future may pay less.</td></tr>
+</tbody></table></div>
+
+<p>The deepest limitation is philosophical. Economists since Frank Knight in 1921 distinguish
+<strong>risk</strong>, where the odds can be measured, from <strong>uncertainty</strong>, where they
+cannot. Dice have risk. A pandemic, a war or a new technology bring uncertainty. Financial models handle
+the first well and the second badly.</p>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Fat tails</h2>
+</header>
+
+<p>If daily market moves followed a bell curve, extreme days would be almost impossibly rare. On 19
+October 1987, the Dow Jones fell about 22 per cent in a single day. Under bell-curve assumptions using
+the market's usual volatility, a move that size should essentially never happen in the history of the
+universe. Yet large crashes keep happening, every decade or so.</p>
+
+<p>Market returns have <strong>fat tails</strong>: extreme results, especially losses, occur far more
+often than the bell curve predicts. Writers such as Nassim Nicholas Taleb have argued that this is not a
+detail but the main thing, because a few extreme events decide most long-run outcomes. <strong>The
+practical response is to plan for falls bigger than any model suggests</strong>: avoid heavy borrowing,
+keep a cash buffer, and never hold so much of one risk that a single bad event could finish you.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Smaller premiums, new risks, and hidden volatility</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>The trade-off itself survives</strong></td><td>It follows from the simple logic of Chapter 01, not from any one period's data.</td><td class="ok">Fairly sure: riskier assets will keep needing higher expected returns to attract buyers.</td></tr>
+<tr><td><strong>Lower future premiums</strong></td><td>When share prices are high relative to profits, many forecasters expect lower returns ahead.</td><td class="mid">Plausible, and contested: valuation-based forecasts have often been wrong over five or ten years.</td></tr>
+<tr><td><strong>Climate as a priced risk</strong></td><td>Regulators increasingly ask banks and insurers to test their exposure to climate scenarios.</td><td class="mid">Plausible: more of it reflected in prices. How fast, and how accurately, is unclear.</td></tr>
+<tr><td><strong>Hidden volatility in private assets</strong></td><td>Private equity and property funds report values rarely, so they look smoother than shares. Critics, including the fund manager Cliff Asness, call this "volatility laundering".</td><td class="no">Speculative: whether a downturn exposes losses that smooth reporting has delayed.</td></tr>
+</tbody></table></div>
+
+<p>The broad lesson is unlikely to change. <strong>Any time you see a return, ask what risk produced
+it. Any time you see low risk, ask whether it has been measured or merely not yet observed.</strong>
+That habit is more durable than any model.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Higher <strong>expected</strong> return requires accepting more risk, because otherwise nobody
+    would hold the risky asset. Markets pay only for <strong>systematic risk</strong>, which cannot be
+    diversified away. Volatility is the standard measure, but real risk also means permanent loss,
+    shortfall and inflation, and real markets have <strong>fat tails</strong>.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>World shares since 1900: about <strong>5 per cent a year</strong> above inflation; bills under 1 per cent.</li>
+      <li>US shares have fallen in roughly <strong>one year in four</strong> since 1926.</li>
+      <li>Losses feel roughly <strong>twice</strong> as strong as equal gains (loss aversion).</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Judging an investment by its return alone. <strong>A return means nothing until you know the
+    risk taken to get it</strong>, and a very smooth high return is a warning sign.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Why does owning one company's shares add risk without adding expected return? If you can answer,
+    you understand the split between specific and systematic risk.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Expected return</dt><dd>The average result over many repetitions, not a promise.</dd>
+    <dt>Volatility</dt><dd>How much an investment's value swings.</dd>
+    <dt>Standard deviation</dt><dd>The usual statistical measure of that swing.</dd>
+    <dt>Drawdown</dt><dd>The fall from a peak to a later low.</dd>
+    <dt>Risk premium</dt><dd>The extra expected return paid for holding a riskier asset.</dd>
+    <dt>Specific risk</dt><dd>Risk belonging to one company, removable by diversifying.</dd>
+    <dt>Systematic risk</dt><dd>Market-wide risk that diversification cannot remove.</dd>
+    <dt>Beta</dt><dd>How strongly an asset moves with the overall market.</dd>
+    <dt>Factor</dt><dd>A shared characteristic, such as size or value, linked to returns.</dd>
+    <dt>Sharpe ratio</dt><dd>Return above the risk-free rate, divided by volatility.</dd>
+    <dt>Sequence risk</dt><dd>The danger of bad returns arriving just when you start withdrawing money.</dd>
+    <dt>Fat tails</dt><dd>Extreme outcomes happening more often than a bell curve predicts.</dd>
+    <dt>Knightian uncertainty</dt><dd>Uncertainty whose odds cannot be measured at all.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Higher returns aren't a gift. They're payment for putting up with something unpleasant."</li>
+    <li>"The market doesn't pay you for risk you could have diversified away."</li>
+    <li>"A savings account isn't risk-free. It just swaps market risk for inflation risk."</li>
+    <li>"If the returns are high and the line is perfectly smooth, that's not skill, that's a warning."</li>
+    <li>"Crashes happen far more often than the models say, so plan for worse than the model."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="07-diversification.html">Diversification</a></h4><p>How to remove
+  the risk you are not paid for: correlation, the math of combining assets, and when it stops
+  working.</p></div>
+  <div class="card"><h4>Related · <a href="../39-chance.html#c8">Risk, as people actually feel
+  it</a></h4><p>The human side of risk: why some dangers frighten us more than they should, and how
+  framing changes everything.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

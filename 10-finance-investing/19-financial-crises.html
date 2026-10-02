@@ -1,0 +1,892 @@
+<!doctype html>
+<!--@HEAD-SRC title="Financial Crises" desc="Why financial systems periodically break: bank runs, the boom that plants the bust, contagion, currency and debt crises, 1929, 2008 and 2023, how rescues work and what they cost, and where the next crisis could come from."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Financial Crises</title>
+<meta name="description" content="Why financial systems periodically break: bank runs, the boom that plants the bust, contagion, currency and debt crises, 1929, 2008 and 2023, how rescues work and what they cost, and where the next crisis could come from.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Finance &amp; Investing · Topic 19 of 20</p>
+  <h1>Financial crises. <span class="thin">The same story, told every generation, by people sure it could not happen to them.</span></h1>
+  <p class="lede">Every few years, somewhere in the world, a financial system breaks. Banks fail, markets
+  freeze, currencies collapse, and people who did nothing wrong lose their jobs and savings. The
+  details change: tulips, railways, mortgages, crypto. The skeleton does not. Easy credit feeds a boom,
+  borrowers and lenders convince themselves the old rules no longer apply, and then confidence turns,
+  everyone wants cash at once, and there is not enough of it. Understanding that skeleton is the best
+  protection there is, for an investor, a voter or a government.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 17 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Finance &amp; Investing</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c6"><span class="vn">Vol 38 · ch 06</span><b>Bubbles</b><em>The short version</em></a>
+<a class="vol" href="../15-banking-fintech/01-how-banks-work.html"><span class="vn">Banking · 01</span><b>How banks work</b><em>Runs and maturity transformation</em></a>
+<a class="vol" href="../38-money.html#c7"><span class="vn">Topic 20 · Vol 38</span><b>Personal finance</b><em>Next topic, in Volume 38</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 38 describes the psychology of a mania in <a href="../38-money.html#c6">Bubbles, and why
+  they keep happening</a>, and explains how banks create money in <a href="../38-money.html#c2">Where
+  new money comes from</a>. Volume 21 shows what hyperinflation and the Depression did to German
+  democracy (<a href="../21-the-world-at-war.html#c5">How a democracy votes for its own end</a>). This
+  file covers the mechanics: how crises start, spread and end, and what rescues cost. The bank-run
+  mechanism itself is explained in <a href="../15-banking-fintech/01-how-banks-work.html">Banking ·
+  How banks work</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>When the financial system stops doing its job</h2>
+  <p class="lede">A financial crisis is a sudden breakdown in the system that moves money between
+  savers and borrowers. Prices of assets crash, important institutions fail, and lending dries up
+  across the economy.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The queue outside the bank</h2>
+</header>
+
+<p>In September 2007, television news in Britain showed something most people had only seen in old
+photographs: long queues of ordinary savers outside the branches of a bank, Northern Rock, waiting to
+take their money out. It was the first run on a British bank in well over a century. Northern Rock
+had lent heavily for mortgages, and it paid for much of that lending not with customers' deposits
+but by borrowing short-term from other financial firms. When those markets froze that summer, it
+could not refinance. Once savers heard it had asked the Bank of England for help, they rushed to
+withdraw.</p>
+
+<p>The queue is the image of every financial crisis. <strong>A bank does not keep your money in a
+vault; it has lent most of it out.</strong> That is normal and useful. It only becomes a problem
+when everyone asks for their money at the same time. A bank that is perfectly sound in ordinary times
+can be destroyed in days by fear alone, and fear spreads because each person's best response to
+others running is to run too.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Four kinds of crisis</h2>
+</header>
+
+<p>Economists Carmen Reinhart and Kenneth Rogoff, in their 2009 history of eight centuries of
+financial folly, <em>This Time Is Different</em>, sorted crises into a few families. They often
+arrive together.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Type</th><th>What breaks</th><th>Famous examples</th></tr></thead>
+<tbody>
+<tr><td><strong>Banking crisis</strong></td><td>Banks fail or need rescue because loans go bad or depositors run</td><td>US 1930–33; Sweden early 1990s; the 2007–09 global crisis</td></tr>
+<tr><td><strong>Asset crash</strong></td><td>A bubble in shares, property or another asset bursts</td><td>Wall Street 1929; Japan 1990; dot-com 2000</td></tr>
+<tr><td><strong>Currency crisis</strong></td><td>A currency collapses, often after a fixed rate breaks</td><td>Britain 1992; Thailand and its neighbours 1997; Argentina 2002</td></tr>
+<tr><td><strong>Sovereign debt crisis</strong></td><td>A government cannot or will not pay its debts</td><td>Mexico 1982; Russia 1998; Greece 2010–12</td></tr>
+</tbody></table></div>
+
+<p>A fifth kind, <strong>high inflation</strong> or hyperinflation, where money itself loses its
+value, is often counted too; Volume 38 explains it in <a href="../38-money.html#c3">Inflation,
+properly understood</a>. The worst episodes combine several: a property bubble bursts, banks that
+lent against it fail, the government rescues them and runs up debt, and investors start doubting the
+government too.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>A fragile core, a boom that plants the bust, and chains of debt</h2>
+  <p class="lede">Crises are not random lightning strikes. They grow from features built into
+  finance, and they spread along the links between institutions.</p>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The fragile core: borrowing short, lending long</h2>
+</header>
+
+<p>Banks take deposits that customers can withdraw at any time and lend them out for years, as
+mortgages and business loans. This is called <strong>maturity transformation</strong>, and it is
+what makes banks useful: savers get instant access, borrowers get long loans. But it means that a
+bank can never repay all its depositors at once. It is <strong>solvent</strong> (its assets are worth
+more than its debts) without being <strong>liquid</strong> (able to turn assets into cash
+quickly).</p>
+
+<p>In 1983 the economists Douglas Diamond and Philip Dybvig showed in a simple model that this
+structure has two possible outcomes. If depositors expect others to stay calm, they stay calm and
+the bank is fine. If they expect others to run, running is the rational choice, and the bank fails.
+<strong>The same bank, with the same loans, can survive or die depending only on what people
+believe.</strong> For this work, and Ben Bernanke's work on the role of bank failures in the Great
+Depression, the three shared the 2022 Nobel prize in economics.</p>
+
+<p>The same weakness exists outside banks. Money-market funds, investment firms that borrow
+overnight, and crypto lenders all do some version of borrowing short and lending long. Regulators
+call this <strong>shadow banking</strong>: bank-like activity without a bank's rules or safety net.
+In 2007–08 much of the run happened there, out of sight of ordinary savers.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The boom that plants the bust</h2>
+</header>
+
+<p>The American economist Hyman Minsky argued that <strong>stability itself breeds instability</strong>.
+In calm years, lenders relax their standards, borrowers take on more debt, and rising asset prices
+seem to justify both. He described three kinds of borrower. "Hedge" borrowers can repay interest and
+principal from their income. "Speculative" borrowers can pay the interest but must keep refinancing
+the principal. "Ponzi" borrowers can only pay at all if the asset they bought keeps rising in price.
+The longer a boom lasts, the more borrowers drift from the first group to the third.</p>
+
+<div class="sheet">
+  <div class="cap">The anatomy of a crisis (after Minsky and Kindleberger)</div>
+<pre>
+  1. DISPLACEMENT   something new and real: railways, the internet, cheap mortgages
+         |
+  2. BOOM           prices rise, credit expands, early buyers get rich
+         |
+  3. EUPHORIA       "this time is different"; lending standards collapse; Ponzi borrowers multiply
+         |
+  4. DISTRESS       a few insiders sell; prices stall; the weakest borrowers default
+         |
+  5. PANIC          everyone wants cash at once; fire sales; lending stops
+         |
+  6. RESCUE or      central bank lends, government guarantees, or the system collapses
+     DEPRESSION
+</pre>
+</div>
+
+<p>The economic historian Charles Kindleberger, in his 1978 book <em>Manias, Panics, and
+Crashes</em>, showed this pattern recurring from the South Sea Bubble of 1720 onward. The turning point
+is now called a <strong>Minsky moment</strong>: the instant when it becomes clear that many
+borrowers cannot pay, and lenders all try to get out together. Nothing new has to happen that day.
+It is a change of belief about facts that were there all along.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Contagion: how one failure becomes many</h2>
+</header>
+
+<p>A single bank failure is a misfortune. A crisis happens when the failure spreads. It spreads in
+three main ways.</p>
+
+<p>The first is <strong>direct exposure</strong>: banks lend to each other and trade with each
+other, so when one fails, its creditors take losses. The second is <strong>fire sales</strong>: a
+firm in trouble sells assets quickly to raise cash, which pushes their prices down, which reduces the
+value of the same assets held by everyone else, forcing more sales. The third is
+<strong>panic by resemblance</strong>: if one bank fails because of bad property loans, depositors and
+lenders run from every bank that looks similar, sound or not.</p>
+
+<p>The collapse of Lehman Brothers on 15 September 2008 showed all three. Lehman was a large American
+investment bank with huge holdings of property-linked securities and debts to firms all over the world.
+When it filed for bankruptcy, a large money-market fund that held its debt "broke the buck", meaning its
+shares fell below their promised value of one dollar. Investors pulled money from other funds, which
+stopped lending to companies. Banks stopped lending to each other because nobody knew who held what.
+Within days the insurer AIG, which had sold insurance against the default of mortgage securities, needed
+a giant government rescue. <strong>The financial system is a web of promises, and a crisis is the
+moment people stop believing them.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>When currencies and governments break</h2>
+</header>
+
+<p>In July 1997 Thailand, which had kept its currency, the baht, pegged to the US dollar, could no
+longer defend it and let it fall. Thai banks and companies had borrowed heavily in dollars, often
+short-term, to fund a property and construction boom. When the baht fell, their dollar debts became
+much larger in local money. Investors then pulled money from countries that looked similar:
+Indonesia, Malaysia, the Philippines and South Korea. Indonesia's economy shrank by more than a
+tenth in 1998, and its long-serving president Suharto was forced out. <strong>Borrowing in a foreign
+currency turns a currency fall into a debt crisis.</strong> How pegs break is explained in <a
+href="14-foreign-exchange.html">Foreign exchange</a> and <a
+href="../09-economics/13-exchange-rates.html">Economics · Exchange rates</a>.</p>
+
+<p>In the euro area from 2010, the problem ran in a circle. Banks in countries such as Greece, Italy
+and Spain held large amounts of their own government's bonds. When investors doubted a government,
+its bonds fell, which weakened its banks. When banks needed rescue, the government had to borrow more,
+which made investors doubt it further. Economists called this the <strong>doom loop</strong>.
+Greece needed several international rescue packages and imposed a painful restructuring on its private
+creditors in 2012. The loop was broken only when the European Central Bank's president, Mario Draghi,
+made a promise in July 2012.</p>
+
+<div class="pass">
+  <p>"Within our mandate, the ECB is ready to do whatever it takes to preserve the euro. And believe
+  me, it will be enough."</p>
+  <span class="src"><b>Mario Draghi</b> · speech in London, 26 July 2012</span>
+</div>
+
+<p>Bond yields fell sharply in the following months. The bank built a programme to buy governments'
+bonds if needed, and in the event it was never used. A believable promise had done the work.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Crises leave scars for a decade</h2>
+  <p class="lede">A financial crisis is not just a bad year for markets. It cuts lending to the whole
+  economy, throws millions out of work, and can change politics for a generation.</p>
+</header>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>1929, and the cost of letting banks fail</h2>
+</header>
+
+<p>In October 1929 the New York stock market crashed after years of speculation, much of it with
+borrowed money. The crash alone did not cause the Great Depression. What followed did. From 1930
+to 1933, waves of bank runs swept the United States, and thousands of banks failed, taking their
+depositors' savings with them. Lending collapsed. Prices and wages fell, which made every debt harder
+to repay. By 1933 roughly a quarter of American workers were unemployed. The stock market, at its low
+in 1932, had lost close to 90 percent of its 1929 value.</p>
+
+<p>In 1963 the economists Milton Friedman and Anna Schwartz argued that the Federal Reserve had
+turned a severe downturn into a catastrophe by allowing the money supply to shrink by about a third
+as banks failed. Ben Bernanke later stressed how bank failures destroyed the knowledge and
+relationships that let credit reach small firms. <strong>The lesson drawn by a generation of
+policymakers was that the authorities must not stand back and let the banking system collapse.</strong>
+The United States created federal deposit insurance in 1933, so that ordinary savers would have no
+reason to run. That lesson, and Bernanke himself as chair of the Federal Reserve, were central to the
+response in 2008.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>2008, step by step</h2>
+</header>
+
+<p>The global financial crisis grew from American housing. In the early 2000s, low interest rates and
+loose lending fed a house-price boom. Lenders gave <strong>subprime</strong> mortgages to borrowers with
+weak credit, often with low starting payments that would later jump. Banks bundled thousands of these
+loans into securities, a process called <strong>securitisation</strong>, sliced them into layers of
+supposed risk, and sold them around the world. Ratings agencies gave many of the layers their highest
+ratings.</p>
+
+<p>When house prices began falling in 2006 and 2007, defaults rose, and nobody knew exactly which
+banks held the bad loans. Funding markets froze in 2007, Northern Rock ran in September, Bear Stearns
+was rescued through a takeover in March 2008, and Lehman failed in September. Governments then acted on
+a scale never seen before: guaranteeing bank debts, putting public money into banks, and cutting
+interest rates to near zero. The US Congress approved a 700-billion-dollar rescue fund in October 2008.
+Central banks began buying bonds in large quantities, known as <strong>quantitative easing</strong>.
+The world economy shrank in 2009 for the first time in decades. Small countries with oversized banks
+suffered most: Iceland's three main banks, whose combined size was many times the country's whole
+economy, all collapsed within a week.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The long shadow</h2>
+</header>
+
+<p>Recessions that follow financial crises tend to be deeper and longer than ordinary ones. Reinhart
+and Rogoff found that after major banking crises, unemployment often kept rising for years and house
+prices took years to bottom out. The reason is debt. After a crisis, households, firms and banks all
+try to pay down debt at the same time, so they spend and lend less, which slows recovery. Government
+debt also tends to rise steeply, because tax revenues fall and rescues cost money. See <a
+href="../09-economics/07-recessions.html">Economics · Recessions</a> and <a
+href="../09-economics/14-public-debt.html">Economics · Public debt</a>.</p>
+
+<p>The effects go beyond economics. A study of many countries over more than a century by economists
+Manuel Funke, Moritz Schularick and Christoph Trebesch found that votes for far-right parties tended to
+rise after financial crises. Many commentators link the anger after 2008, at bankers rescued while
+homeowners were not, to political upheavals in the decade that followed. That link is debated, but
+the scale of the resentment is not. <strong>A crisis is also a test of whether people believe the
+system is fair</strong>, and the answer can outlast the recession by years.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>What rescues fix, and what they break</h2>
+  <p class="lede">Here the question is not whether crises are good, but which responses work and what
+  they cost. Every rescue that stops a panic also teaches people to expect the next one.</p>
+</header>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The toolkit, weighed</h2>
+</header>
+
+<p>The oldest rule came from the British journalist Walter Bagehot, in his 1873 book <em>Lombard
+Street</em>. In a panic, he argued, the central bank should lend freely to sound institutions,
+against good collateral, at a high rate of interest. That rule, the idea of a <strong>lender of last
+resort</strong>, is still the core of crisis policy. The details are in <a
+href="../15-banking-fintech/02-central-banking.html">Banking · Central banking</a>.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Tool</th><th>What it achieves</th><th>What it costs</th></tr></thead>
+<tbody>
+<tr><td><strong>Deposit insurance</strong></td><td class="ok">Ordinary savers stop running, because their money is guaranteed up to a limit.</td><td class="mid">Savers stop checking whether their bank is careful.</td></tr>
+<tr><td><strong>Lender of last resort</strong></td><td class="ok">Sound but illiquid banks survive a panic.</td><td class="mid">Hard to tell illiquid from insolvent in the middle of a crisis.</td></tr>
+<tr><td><strong>Bailouts with public money</strong></td><td class="ok">Prevent chain-reaction failures of large firms.</td><td class="no">Taxpayers take the risk; shareholders and managers may escape the cost.</td></tr>
+<tr><td><strong>Near-zero rates and bond buying</strong></td><td class="ok">Cheaper borrowing supports spending and asset prices.</td><td class="no">Inflates asset prices, which helps those who already own assets; may store up the next bubble.</td></tr>
+<tr><td><strong>Stricter regulation afterwards</strong></td><td class="ok">Banks hold more capital and cash, so they are harder to break. Basel III after 2008 raised requirements sharply.</td><td class="mid">Risky activity can move to less regulated corners of finance.</td></tr>
+<tr><td><strong>Letting firms fail</strong></td><td class="ok">Punishes reckless risk and keeps discipline.</td><td class="no">Can trigger panic, as with Lehman, and deepen the recession.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The bailout argument</h2>
+</header>
+
+<p>The hardest trade-off is called <strong>moral hazard</strong>: when people are protected from the
+consequences of risk, they take more of it. If big banks know they will be rescued, they have reason
+to gamble, keeping the profits in good years and handing the losses to taxpayers in bad ones.
+Banks that are so large that their failure would wreck the economy are called "too big to fail".</p>
+
+<div class="grid2">
+  <div class="card"><h4>The case for rescue</h4><p>In a panic, sound and unsound institutions fall
+  together. Letting the system collapse, as in the early 1930s, punishes millions of innocent workers
+  and savers to teach a lesson to a few bankers. Rescues can be designed to wipe out shareholders,
+  replace managers and charge high rates, as Bagehot advised. Several of the 2008 rescues were repaid
+  with a profit to the US Treasury.</p></div>
+  <div class="card"><h4>The case against</h4><p>Each rescue teaches markets to expect the next,
+  making the system riskier over time. Rescues mostly helped those who owned financial assets, while
+  homeowners in trouble got far less help. And public money spent saving banks can turn a banking
+  crisis into a government debt crisis, as happened in Ireland after 2008.</p></div>
+</div>
+
+<p>Since 2008 regulators have tried to make failure possible without catastrophe. Large banks must
+hold far more capital, the cushion of shareholders' money that absorbs losses. They must prepare
+"living wills" explaining how they could be wound down. Some of their debt is designed to convert
+into shares in a crisis, a process called <strong>bail-in</strong>, so that investors, not taxpayers,
+absorb losses first. Whether these tools would work in a true panic has been tested only partly.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Faster runs, new corners of risk, the same human nature</h2>
+  <p class="lede">The next crisis is certain to come and hard to place. The possibilities below are
+  sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>2023: the first bank run on a phone</h2>
+</header>
+
+<p>In March 2023 Silicon Valley Bank, a mid-sized Californian bank serving technology start-ups,
+announced a loss on bonds it had bought when interest rates were low and that had fallen in value as
+rates rose. Its depositors were mostly businesses with balances far above the insured limit, and many
+knew each other. Messages spread through group chats and social media. On a single day, customers
+asked to withdraw around 42 billion dollars, about a quarter of the bank's deposits, mostly through
+apps. It was closed by regulators the next morning. Days later, Switzerland arranged an emergency
+takeover of Credit Suisse, one of the world's biggest banks, by its rival UBS.</p>
+
+<p>The mechanism was Diamond and Dybvig's, unchanged since 1983. What had changed was the speed.
+<strong>A run that once took weeks of queues now takes hours of taps.</strong> That puts pressure on
+how much cash banks must keep and how quickly central banks can lend.</p>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Where the next one could come from, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>More crises, of familiar shape</strong></td><td>Crises have recurred throughout recorded financial history, in every kind of system.</td><td class="ok">Fairly sure: there will be more, and most will involve debt, leverage and a run of some kind.</td></tr>
+<tr><td><strong>Faster digital runs</strong></td><td>SVB showed how quickly deposits can leave.</td><td class="ok">Fairly sure: regulators are reviewing liquidity rules with this speed in mind.</td></tr>
+<tr><td><strong>Risk in less-regulated finance</strong></td><td>Private credit funds, hedge-fund borrowing and other non-bank lenders have grown fast since 2008.</td><td class="mid">Plausible: the next stress may start outside banks, as the UK pension episode of 2022 did. See <a href="18-pensions.html">Pensions</a>.</td></tr>
+<tr><td><strong>Government debt as the weak point</strong></td><td>Public debt in many rich countries is at its highest levels outside wartime.</td><td class="mid">Plausible but contested: large economies borrowing in their own currency have room that small ones lack.</td></tr>
+<tr><td><strong>Crypto, cyber or climate as the trigger</strong></td><td>Stablecoins hold large reserves; cyber attacks on payment systems are a known risk; climate losses hit insurers.</td><td class="no">Speculative: each could start or amplify a crisis, but none has yet caused a systemic one.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Why "this time is different" is always wrong, and sometimes right</h2>
+</header>
+
+<p>Reinhart and Rogoff took their title from the phrase that appears in every boom: this time is
+different, because of new technology, better policy or smarter banks. Most of the time the phrase is
+wrong. Debt is still debt, and people still panic. But it is not always wrong. Deposit insurance
+really did end ordinary bank runs for decades in many countries. Central banks really have learned,
+since the 1930s, not to let the money supply collapse. Higher capital requirements have made big banks
+sturdier than they were in 2007.</p>
+
+<p>The fair conclusion is that each generation fixes the last crisis and leaves room for the next.
+Risk moves to wherever the new rules do not reach. <strong>Crises cannot be abolished, but they can
+be made smaller, rarer and less damaging</strong>, and the countries that remember the last one
+usually handle the next one better. For an individual, the lessons are the same as Volume 38's:
+avoid borrowing that could force you to sell at the worst moment, be suspicious when everyone is
+sure, and keep enough cash that a panic is something you watch rather than join.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Finance <strong>borrows short and lends long</strong>, so it is always exposed to a run. Long
+    booms encourage <strong>more debt and weaker standards</strong>, until a change in belief, a
+    <strong>Minsky moment</strong>, starts a rush for cash. Crises spread through
+    <strong>exposures, fire sales and panic</strong>, and end with a rescue or a depression.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>US unemployment reached about <strong>a quarter</strong> of workers in 1933.</li>
+      <li>Lehman Brothers failed on <strong>15 September 2008</strong>.</li>
+      <li>SVB depositors tried to withdraw about <strong>42 billion dollars</strong> in one day in 2023.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Looking for a single villain. Crises need <strong>lenders, borrowers, regulators and
+    investors</strong> all believing the same story. Blaming one group makes it easier to miss the
+    next version.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain how a bank can be solvent and still fail, and why deposit insurance helps? If
+    you can, you understand the core of almost every banking crisis.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Bank run</dt><dd>Many depositors withdrawing at once because they fear the bank will fail.</dd>
+    <dt>Maturity transformation</dt><dd>Funding long-term loans with short-term deposits or borrowing.</dd>
+    <dt>Solvent</dt><dd>Having assets worth more than debts.</dd>
+    <dt>Liquid</dt><dd>Able to raise cash quickly without big losses.</dd>
+    <dt>Shadow banking</dt><dd>Bank-like borrowing and lending done outside regulated banks.</dd>
+    <dt>Minsky moment</dt><dd>The point when a debt-fuelled boom turns into a rush to sell.</dd>
+    <dt>Contagion</dt><dd>The spread of a crisis from one institution or country to others.</dd>
+    <dt>Fire sale</dt><dd>Forced selling at low prices, which pushes prices down further.</dd>
+    <dt>Doom loop</dt><dd>The cycle in which weak governments weaken their banks, and weak banks weaken their governments.</dd>
+    <dt>Lender of last resort</dt><dd>A central bank lending to sound institutions in a panic.</dd>
+    <dt>Moral hazard</dt><dd>Taking more risk because someone else will bear the losses.</dd>
+    <dt>Securitisation</dt><dd>Bundling loans into securities that can be sold to investors.</dd>
+    <dt>Bail-in</dt><dd>Making a failing bank's investors absorb losses, instead of taxpayers.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A bank can be perfectly solvent and still die in a week, because it can't turn loans into cash
+    as fast as people want it."</li>
+    <li>"The boom is where the crisis is made. The crash is just when people notice."</li>
+    <li>"The Great Depression became great because the authorities let thousands of banks fail."</li>
+    <li>"Every rescue stops a panic and makes the next gamble a little more tempting."</li>
+    <li>"Silicon Valley Bank showed that a run that used to take weeks now takes an afternoon on a
+    phone."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="../38-money.html#c7">Personal finance</a></h4><p>Topic 20 lives in Volume 38: the short list of money rules that actually matter, and why money decisions go wrong.</p></div>
+  <div class="card"><h4>Related · <a href="../15-banking-fintech/01-how-banks-work.html">How banks
+  work</a></h4><p>The machinery underneath: how banks create money, why they borrow short and lend long,
+  and what makes a run possible.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

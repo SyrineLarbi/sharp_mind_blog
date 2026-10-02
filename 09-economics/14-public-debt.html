@@ -1,0 +1,900 @@
+<!doctype html>
+<!--@HEAD-SRC title="Public Debt" desc="What government debt is, how it grows and shrinks, why the interest rate versus the growth rate decides almost everything, when markets lose patience, and the debates about how much is too much."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Public Debt</title>
+<meta name="description" content="What government debt is, how it grows and shrinks, why the interest rate versus the growth rate decides almost everything, when markets lose patience, and the debates about how much is too much.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Economics · Topic 14 of 20</p>
+  <h1>Public debt. <span class="thin">Not a household credit card, but not free money either.</span></h1>
+  <p class="lede">Politicians love to compare a country's debt to a family's overdraft. The comparison
+  is wrong in the ways that matter most. A government can live for centuries, it can tax, and it often
+  prints the currency it borrows in. Families can do none of that. Yet governments do go broke, and
+  when they do, ordinary people pay through lost pensions, closed hospitals and years of lost growth.
+  This file explains how both things can be true at once, and the one piece of arithmetic that
+  decides which side of the line a country is on.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Economics</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c2"><span class="vn">Vol 38 · ch 02</span><b>Where new money comes from</b><em>Money and debt</em></a>
+<a class="vol" href="08-fiscal-policy.html"><span class="vn">Economics · 08</span><b>Fiscal policy</b><em>Spending and deficits</em></a>
+<a class="vol" href="15-taxes.html"><span class="vn">Economics · 15</span><b>Taxes</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>No volume treats government debt on its own, so this is the library's first full treatment. Two
+  chapters sit next to it. Volume 38 explains how new money and new debt are created together
+  (<a href="../38-money.html#c2">Where new money comes from</a>), and Volume 20 shows a state
+  collapsing partly under its debts (<a href="../20-age-of-revolutions.html#c3">France, the one that
+  ate itself</a>). For the spending decisions that create deficits, see
+  <a href="08-fiscal-policy.html">Fiscal policy</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The total a state owes, built up one deficit at a time</h2>
+  <p class="lede">Public debt is simple to define and easy to misread. Most confusion comes from
+  mixing up two words, and from looking at the wrong number.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Deficit and debt: the tap and the bathtub</h2>
+</header>
+
+<p>Picture a bathtub. Water flows in from a tap and drains out through the plug hole. If more comes in
+than goes out, the level rises. Now replace the water with money. In any one year a government spends
+money on pensions, schools, soldiers, roads and interest. It also collects money, mostly through taxes.
+When spending is larger than revenue, the gap is the <strong>deficit</strong>. To cover it, the
+government borrows. The <strong>debt</strong> is the water level: the total of all past borrowing
+that has not yet been repaid.</p>
+
+<p>So <strong>the deficit is a flow, measured per year, and the debt is a stock, measured at a moment
+in time.</strong> A government can cut its deficit sharply and still see its debt rise, because a
+smaller deficit is still more water going into the tub. The debt only falls in money terms when the
+government runs a <strong>surplus</strong>, collecting more than it spends. Few large countries do
+that for long.</p>
+
+<p>Economists add one more distinction. The <strong>primary balance</strong> is the budget balance
+before interest payments. A country with a primary surplus covers all its current spending from taxes
+and borrows only to pay interest on old debt. That number turns out to matter a great deal, as
+Chapter 05 shows.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Who lends to a government, and how</h2>
+</header>
+
+<p>Governments rarely borrow from a bank the way a family takes a mortgage. They sell
+<strong>bonds</strong>. A bond is a written promise: lend me 100 today, and I will pay you a fixed
+amount of interest every year, called the <strong>coupon</strong>, and return the 100 on a set date,
+called <strong>maturity</strong>. Maturities range from a few weeks to thirty years or more. In the
+United States these are Treasuries, in the United Kingdom gilts, in Germany Bunds, in Japan JGBs.</p>
+
+<p>The buyers are a wide crowd. Pension funds and insurers want safe, long-lasting income to match
+promises they have made to retirees. Banks hold government bonds as their safest, most easily sold
+asset. Foreign central banks hold them as reserves. Households buy them directly or through savings
+products. And since 2008 the country's own <strong>central bank</strong> has often been one of the
+biggest holders, because buying bonds became a main tool of monetary policy (see
+<a href="09-monetary-policy.html">Monetary policy</a>).</p>
+
+<p>This leads to a point that surprises many people. <strong>Much of a country's debt is owed to its
+own citizens</strong>, often through their pensions. When people say "we are leaving debt to our
+grandchildren", they forget that the grandchildren also inherit the bonds. The real questions are who
+pays the taxes, who receives the interest, and how much is owed to foreigners.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The number to watch: debt as a share of income</h2>
+</header>
+
+<p>Headlines love giant figures. Global government debt passed roughly 100 trillion US dollars in 2024,
+according to the International Monetary Fund. But a raw number means little. A debt of one million is
+a crisis for a student and nothing for a large company. What matters is debt compared with the
+capacity to carry it. For a country, that capacity is its yearly income, measured by
+<strong>gross domestic product</strong> (GDP), the value of everything produced in a year (see
+<a href="05-gdp.html">GDP</a>).</p>
+
+<div class="tw"><table>
+<thead><tr><th>Country</th><th>Debt as a share of GDP, roughly, mid-2020s</th><th>What stands out</th></tr></thead>
+<tbody>
+<tr><td><strong>Japan</strong></td><td>About 230–250% (gross)</td><td>The highest among rich countries, yet borrowing costs stayed very low for decades</td></tr>
+<tr><td><strong>Italy</strong></td><td>About 135–140%</td><td>High debt, slow growth, a long-running concern in the euro area</td></tr>
+<tr><td><strong>United States</strong></td><td>About 100% (held by the public)</td><td>Rising steadily; borrows in the world's main reserve currency</td></tr>
+<tr><td><strong>United Kingdom, France</strong></td><td>About 95–115%</td><td>Both roughly doubled their ratios after 2008 and the pandemic</td></tr>
+<tr><td><strong>Germany</strong></td><td>About 60–65%</td><td>Low by rich-country standards, held down by a constitutional "debt brake"</td></tr>
+</tbody></table></div>
+
+<p>Two warnings about the table. First, definitions differ: "gross" debt counts everything, "net"
+debt subtracts financial assets the government owns, and the US often quotes debt "held by the
+public", which excludes money one part of government owes another. Second, <strong>no ratio is
+automatically safe or dangerous</strong>. Japan carries a far higher ratio than many countries that have
+defaulted, while Argentina has defaulted nine times in its history, often with much lower debt than
+Japan's. Who you owe, in what
+currency, and at what interest rate matter more than the ratio alone.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Rolling over, paying interest, and one piece of arithmetic</h2>
+  <p class="lede">Governments almost never pay their debt back in full. They refinance it, forever.
+  Whether that is sustainable depends on a race between two numbers.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Rolling over: debt that is never repaid, only renewed</h2>
+</header>
+
+<p>When a ten-year bond matures, a government rarely pays it from taxes. It sells a new bond and uses
+the money to repay the old one. This is <strong>rolling over</strong> the debt. Most rich countries
+have been rolling over their debt continuously for well over a century. Britain borrowed heavily to
+fight Napoleon, and its debt rose above twice national income in the early nineteenth century. It
+then spent a hundred years growing out of it, without ever paying it off in one go. In 2014 and 2015
+the UK Treasury finally redeemed its last undated "perpetual" bonds, some of which traced back to the
+First World War and earlier.</p>
+
+<p>Rolling over works only if buyers keep turning up. New bonds are sold at <strong>auctions</strong>.
+Investors bid, and the price they pay sets the <strong>yield</strong>, the effective interest rate
+the government pays. If demand is strong, yields are low. If investors worry, they demand more.
+<strong>A government's real constraint is not its debt today but whether lenders will refinance it
+tomorrow at a bearable rate.</strong> That is why the maturity of the debt matters. A country whose
+debt is mostly long-dated, as in the UK, feels a rise in rates slowly. A country that must refinance a
+large share every year feels it fast.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The arithmetic that decides everything: r versus g</h2>
+</header>
+
+<p>Here is the single most useful idea in this whole file. Because we measure debt as a share of GDP,
+two forces push on the ratio. Interest makes the debt grow. Economic growth makes the GDP underneath it
+grow. Economists write the interest rate as <strong>r</strong> and the growth rate of the economy as
+<strong>g</strong>, both measured in money terms, including inflation.</p>
+
+<div class="sheet">
+  <div class="cap">How the debt ratio moves from one year to the next, simplified</div>
+<pre>
+change in debt ratio  =  (r - g) x debt ratio   -   primary surplus
+
+   r = average interest rate on the debt
+   g = growth of GDP in money terms (real growth + inflation)
+
+ Example: debt = 100% of GDP, primary budget balanced (no surplus)
+   r = 3%, g = 5%  ->  ratio FALLS about 2 points a year, by itself
+   r = 5%, g = 3%  ->  ratio RISES about 2 points a year, by itself
+</pre>
+</div>
+
+<p>When <strong>r is below g</strong>, a country can run a small primary deficit forever and still
+see its debt ratio stay flat or fall. The economy is outgrowing the interest. When <strong>r is above
+g</strong>, the opposite holds. The country must run a primary surplus, meaning taxes higher than
+spending excluding interest, just to stop the ratio climbing. That is politically painful, because it
+means taxing citizens to pay bondholders.</p>
+
+<p>For most of the period from the 1980s to 2021, interest rates fell, and in many rich countries r
+sat below g. In 2019 the economist Olivier Blanchard, in a well-known address to the American
+Economic Association, argued that this made public debt less costly than commonly assumed. Then
+inflation returned in 2021–22, central banks raised rates sharply, and the comfortable gap narrowed.
+<strong>The whole debate about whether debt is "too high" is really a debate about whether r will stay
+below g.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Your own currency, or someone else's</h2>
+</header>
+
+<p>The second deciding factor is the currency of the debt. A government that borrows in a currency
+its own central bank creates, as the US, the UK and Japan do, cannot be forced into default the way a
+company can. In an emergency the central bank can buy its bonds with newly created money. The danger
+for such a country is not running out of money. It is <strong>inflation</strong>, and a falling
+currency, if it leans on that option too hard (see <a href="../38-money.html#c3">Inflation, properly
+understood</a>).</p>
+
+<p>A government that borrows in a currency it cannot print is in a different position. Many developing
+countries borrow in dollars because foreign lenders will not accept their own currency. Economists
+Barry Eichengreen and Ricardo Hausmann called this problem <strong>"original sin"</strong>. If the
+local currency falls, the debt grows in local terms overnight, even though nothing else changed. The
+Latin American debt crisis of the 1980s, the Asian crisis of 1997 and many African debt problems in
+the 2020s all ran through this channel.</p>
+
+<div class="note">
+  <span class="tag">The euro's special case</span>
+  <p>Countries in the euro area borrow in euros, but no single government controls the European
+  Central Bank. Italy or Greece is therefore closer to a city borrowing in a national currency than to
+  Japan. That is why the euro crisis of 2010–12 was so severe, and why it calmed only when the ECB
+  signalled it would act. In 2012 its president Mario Draghi said the bank would do "whatever it
+  takes" to preserve the euro, and yields fell sharply.</p>
+</div>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Five ways big debts have come down</h2>
+</header>
+
+<p>History offers only a short menu for shrinking a large debt. Most countries have used a mix.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Route</th><th>How it works</th><th>Historical example</th></tr></thead>
+<tbody>
+<tr><td><strong>Growth</strong></td><td>The economy outgrows the debt; g beats r for years</td><td>Britain after 1815; most rich countries after 1945</td></tr>
+<tr><td><strong>Primary surpluses</strong></td><td>Taxes exceed non-interest spending, year after year</td><td>Belgium and Denmark in the 1990s; Greece after 2015</td></tr>
+<tr><td><strong>Inflation</strong></td><td>Prices rise, so the fixed debt is smaller in real terms</td><td>The US and UK in the late 1940s and 1970s</td></tr>
+<tr><td><strong>Financial repression</strong></td><td>Rules push savers and banks to hold government bonds at low rates</td><td>Many rich countries from the 1940s to the 1970s</td></tr>
+<tr><td><strong>Default or restructuring</strong></td><td>Lenders are paid less, later, or not at all</td><td>Greece 2012; Argentina repeatedly; Sri Lanka 2022</td></tr>
+</tbody></table></div>
+
+<p>After the Second World War, British debt was well over twice GDP and American debt held by the
+public was just above one times GDP. Both fell dramatically over the next thirty years. No one paid the
+war off. <strong>Growth, steady inflation and capped interest rates did most of the work.</strong>
+That combination is hard to repeat today, because savers now have more choices and central banks are
+committed to low inflation.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>When confidence breaks, and when interest eats the budget</h2>
+  <p class="lede">Debt is mostly invisible in daily life. It becomes visible in two ways: suddenly,
+  when lenders panic, and slowly, when interest crowds out everything else.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Greece, 2010: what a debt crisis looks like from inside</h2>
+</header>
+
+<p>In late 2009 a new Greek government revealed that the previous figures had badly understated the
+deficit. The true number was several times the euro's 3% limit. Investors who had been lending to
+Greece at rates close to Germany's suddenly demanded far more. Greece could not refinance its maturing
+bonds, and it could not print euros. In 2010 it accepted the first of three rescue programmes from
+other euro countries and the IMF.</p>
+
+<p>The rescue came with conditions: deep spending cuts and tax rises, known as
+<strong>austerity</strong>. In 2012 private bondholders accepted losses of more than half the face
+value of their bonds, the largest sovereign debt restructuring in history up to then. The economy
+shrank by roughly a quarter from its peak. Unemployment rose above a quarter of the workforce and above
+half for young people. Debates still continue about how much of that pain was unavoidable and how much
+came from the design of the programmes. What nobody disputes is the lesson: <strong>a debt crisis is
+not a number on a chart, it is a sudden loss of choice</strong>, when lenders, not voters, decide the
+budget.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>London, 2022: forty-nine days</h2>
+</header>
+
+<p>Rich countries with their own currencies are not immune to market discipline. In September 2022 the
+new UK government of Liz Truss announced large tax cuts without saying how they would be paid for and
+without the usual independent forecast. Gilt yields jumped within days. The fall in gilt prices hit
+pension funds that had used borrowed money in a strategy called liability-driven investment, and they
+were forced to sell more gilts, pushing prices down further. The Bank of England stepped in to buy
+long-dated gilts to stop the spiral.</p>
+
+<p>Most of the tax cuts were reversed, the finance minister was replaced, and Truss resigned after
+about seven weeks in office. The episode became shorthand for an old idea: <strong>credibility is an
+asset, and it can be spent in a week</strong>. Traders who punish governments for loose budgets are
+sometimes called "bond vigilantes". In the 1990s a senior adviser to President Clinton, James Carville,
+joked that he would like to be reincarnated as the bond market, because it could intimidate everybody.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The slow squeeze: the interest bill</h2>
+</header>
+
+<p>Crises are dramatic, but the more common problem is quieter. Interest is a spending line like any
+other, and it competes with schools and hospitals. When rates were near zero in the 2010s, even large
+debts were cheap to carry. As rates rose after 2022, the bill climbed. Around 2024, US federal
+interest payments overtook defence spending. In May 2025 Moody's,
+the last of the three big rating agencies to give the US its top grade, downgraded it one notch,
+citing rising deficits and interest costs.</p>
+
+<p><strong>Interest is the one budget item that buys nothing new.</strong> It pays for spending that
+already happened. Every point of GDP spent on interest is a point not available for public services or
+tax cuts, and it is spent on bondholders, who are on average wealthier than taxpayers in general. That
+is one reason debt is a distributional question, not just an accounting one.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Japan: the puzzle that refuses to break</h2>
+</header>
+
+<p>If high debt automatically caused crises, Japan would have had one long ago. Its gross debt has
+been above twice GDP since the early 2010s. Yet for decades it paid some of the lowest interest rates
+in the world. The usual explanations are that almost all the debt is held at home, by Japanese
+households, banks, pension funds and above all the Bank of Japan, which owns roughly half of all
+government bonds. Japan also has large foreign assets, a current account surplus, and long periods of
+near-zero inflation.</p>
+
+<p>Japan shows that <strong>debt sustainability is about the whole system, not one ratio</strong>.
+It does not prove that any country can copy it. As inflation and interest rates in Japan rose from
+2023 onward, economists watched closely to see whether the puzzle would hold when the Bank of Japan
+stepped back from buying.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A powerful tool that is easy to overuse</h2>
+  <p class="lede">Borrowing lets a state act faster and smooth shocks. The risks come from how much,
+  in what form, and for what purpose.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The case for borrowing, and the case against</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Use of debt</th><th>Benefit</th><th>Cost or risk</th></tr></thead>
+<tbody>
+<tr><td><strong>Fighting a recession</strong></td><td class="ok">Keeps spending and jobs up when private demand collapses, as in 2008–09 and 2020</td><td class="no">Deficits often stay after the crisis ends, ratcheting the debt up</td></tr>
+<tr><td><strong>Paying for wars and disasters</strong></td><td class="ok">Spreads a one-off cost over many years instead of crushing one year's taxpayers</td><td class="no">Leaves less room to respond to the next emergency</td></tr>
+<tr><td><strong>Long-lived investment</strong></td><td class="ok">Roads, grids and education pay off for decades, so future users share the cost</td><td class="mid">Only works if the projects really earn their return; many do not</td></tr>
+<tr><td><strong>A safe asset for savers</strong></td><td class="ok">Pension funds, banks and markets need a risk-free asset; government bonds provide it</td><td class="mid">Banks loaded with their own government's bonds tie banks and state together in a crisis</td></tr>
+<tr><td><strong>Avoiding tax rises</strong></td><td class="mid">Politically easier today</td><td class="no">Shifts the bill to later voters who had no say; may push up interest rates for everyone</td></tr>
+<tr><td><strong>Very high levels</strong></td><td class="no">Few benefits beyond the moment</td><td class="no">Higher interest bills, less room in the next crisis, and the risk of a sudden loss of market trust</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>The arguments that never end</h2>
+</header>
+
+<p><strong>Is there a danger threshold?</strong> In 2010 Carmen Reinhart and Kenneth Rogoff published
+a widely cited paper suggesting growth slowed sharply once debt passed about 90% of GDP. Politicians
+used it to justify austerity. In 2013 researchers at the University of Massachusetts, led by a
+graduate student, Thomas Herndon, found a spreadsheet error and other choices that weakened the
+result. Most economists now say high debt is associated with somewhat slower growth, but that there
+is <strong>no single cliff edge</strong>, and that slow growth can cause high debt as much as the
+reverse.</p>
+
+<p><strong>Does austerity work?</strong> One side argues that cutting deficits restores confidence
+and lowers interest rates. The other argues that cutting spending in a weak economy shrinks GDP so much
+that the debt ratio can actually rise. The evidence from the euro crisis suggests the timing matters:
+consolidation during a deep slump is costly, while the same cuts in a strong economy hurt far less.</p>
+
+<p><strong>Can a country with its own currency ignore debt?</strong> Supporters of Modern Monetary
+Theory argue that such a country is limited only by inflation, not by its debt. Most mainstream
+economists accept the narrow point that it cannot be forced to default, but reply that inflation and
+market reactions are exactly the limits that matter. This remains <strong>genuinely contested</strong>.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Older populations, costlier money, and new demands</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Ageing pushes debt up</strong></td><td>Pensions and health spending rise as populations age, while the share of working taxpayers shrinks. Official long-term projections in the US, UK and Europe all show rising debt ratios on current policies.</td><td class="ok">Fairly sure: without tax rises or benefit reforms, debt ratios in most rich countries will keep drifting up. See <a href="../16-society-sociology/08-aging-populations.html">Aging populations</a>.</td></tr>
+<tr><td><strong>Defence and climate spending</strong></td><td>European governments raised defence budgets after 2022. Germany loosened its debt brake in 2025 to allow more defence and infrastructure borrowing. The energy transition needs public money too.</td><td class="mid">Plausible: new rules that treat some spending as "investment" outside normal limits, and arguments over whether that is wise or a loophole.</td></tr>
+<tr><td><strong>A rich-country debt crisis</strong></td><td>Interest costs are rising and ratings have slipped. But reserve-currency issuers still borrow easily.</td><td class="no">Speculative: a full crisis in the US or Japan is possible but unpredictable. Smaller shocks like the UK's in 2022 are far more likely than a collapse.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>The poorer countries' debt problem</h2>
+</header>
+
+<p>The sharpest debt stress of the 2020s is not in Washington or Tokyo. It is in low-income
+countries. Zambia defaulted in 2020, Sri Lanka and Ghana in 2022. Many others spend more on interest
+than on health. Their lenders are now far more varied than in the 1980s: Western governments, private
+bondholders, and China, which became the largest bilateral lender to many developing countries.
+Getting all of them to agree on losses has been slow. The G20 created a "Common Framework" in 2020 to
+coordinate restructurings, but it has been criticised for moving at a crawl.</p>
+
+<p>Two ideas are gaining ground. One is <strong>debt that adjusts to disasters</strong>, such as
+bonds that pause payments after a hurricane. The other is swapping debt for commitments to protect
+nature or cut emissions. Both exist in small numbers. Whether they scale is open. What is clear is
+that <strong>for poorer countries, debt is a development question</strong>, not just a fiscal one
+(see <a href="18-economic-development.html">Economic development</a>).</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Public debt is the <strong>stock</strong> of past deficits. It is rolled over rather than
+    repaid. Its path depends on <strong>r versus g</strong>, the interest rate against the growth
+    rate, and on the <strong>primary balance</strong>. Debt in your own currency carries an inflation
+    risk; debt in someone else's carries a default risk.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Global government debt: roughly <strong>100 trillion dollars</strong> in 2024 (IMF).</li>
+      <li>Japan about <strong>2.5 times</strong> GDP; the US about <strong>1 times</strong> (held by the
+      public); Germany about <strong>0.6 times</strong>, mid-2020s.</li>
+      <li>The euro's original limits: <strong>60%</strong> of GDP for debt, <strong>3%</strong> for the
+      yearly deficit.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Treating a country like a household. <strong>A state lives indefinitely, taxes, and often
+    issues its own currency</strong>, so it never needs to repay everything. But it can still lose the
+    trust of lenders, and then it loses control of its own budget.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a country with debt at 100% of GDP can see the ratio fall without any
+    surplus? If you can, you understand r versus g.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Deficit</dt><dd>The amount by which a government's spending exceeds its revenue in one year.</dd>
+    <dt>Debt</dt><dd>The total a government owes at one moment, the sum of past deficits minus surpluses.</dd>
+    <dt>Primary balance</dt><dd>The budget balance before counting interest payments.</dd>
+    <dt>Bond</dt><dd>A tradable promise to pay interest and return the borrowed amount on a set date.</dd>
+    <dt>Coupon</dt><dd>The fixed interest a bond pays each year.</dd>
+    <dt>Yield</dt><dd>The effective interest rate a buyer earns on a bond at today's price.</dd>
+    <dt>Rolling over</dt><dd>Repaying a maturing bond by selling a new one.</dd>
+    <dt>Debt-to-GDP ratio</dt><dd>Debt divided by a year's national income; the standard measure of debt burden.</dd>
+    <dt>r versus g</dt><dd>The interest rate on the debt compared with the growth rate of the economy.</dd>
+    <dt>Austerity</dt><dd>Cutting spending or raising taxes to reduce the deficit.</dd>
+    <dt>Default</dt><dd>Failing to pay lenders what was promised, on time and in full.</dd>
+    <dt>Restructuring</dt><dd>A negotiated deal in which lenders accept less, later, or at lower interest.</dd>
+    <dt>Original sin</dt><dd>A country's inability to borrow abroad in its own currency.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"The deficit is the yearly gap. The debt is the pile. Cutting the deficit only slows how fast
+    the pile grows."</li>
+    <li>"Governments don't really repay their debt. They roll it over, so the question is whether
+    lenders will keep refinancing it."</li>
+    <li>"What matters isn't the debt level alone, it's whether interest rates stay below the economy's
+    growth rate."</li>
+    <li>"A country that borrows in its own currency won't be forced to default, but it can still get
+    inflation or a market revolt."</li>
+    <li>"Japan's debt is huge, but it's owed mostly to itself. That's why it hasn't blown up, and why
+    it isn't a model others can copy."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="15-taxes.html">Taxes</a></h4><p>The other side of the budget:
+  who pays, how taxes change behaviour, and why the person who writes the cheque is not always the
+  person who bears the cost.</p></div>
+  <div class="card"><h4>Related · <a href="08-fiscal-policy.html">Fiscal policy</a></h4><p>How
+  governments decide when to spend and when to save, and how deficits are used to steady the economy
+  through booms and busts.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

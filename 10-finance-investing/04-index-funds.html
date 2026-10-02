@@ -1,0 +1,841 @@
+<!doctype html>
+<!--@HEAD-SRC title="Index Funds" desc="Why simply owning the whole market beats most professional investors, the arithmetic behind it, who first argued it, and the open questions as index funds come to own everything."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Index Funds</title>
+<meta name="description" content="Why simply owning the whole market beats most professional investors, the arithmetic behind it, who first argued it, and the open questions as index funds come to own everything.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Finance &amp; Investing · Topic 04 of 20</p>
+  <h1>Index funds. <span class="thin">Stop trying to find the needle. Buy the haystack.</span></h1>
+  <p class="lede">For most of the twentieth century, investing meant paying an expert to choose which
+  shares to buy. The index fund proposed something that sounded lazy, even absurd: choose nothing,
+  own everything, and charge almost nothing for it. It was mocked when it launched. Fifty years later,
+  in the United States, more money sits in index funds than in funds run by stock-pickers. The reason
+  is not fashion. It is a piece of arithmetic so simple that it is easy to miss.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Finance &amp; Investing</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c5"><span class="vn">Vol 38 · ch 05</span><b>What a price actually is</b><em>The short version</em></a>
+<a class="vol" href="03-etfs.html"><span class="vn">Finance · 03</span><b>ETFs</b><em>The usual wrapper</em></a>
+<a class="vol" href="06-risk-and-return.html"><span class="vn">Finance · 06</span><b>Risk and return</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 38 states the conclusion in two sentences in <a href="../38-money.html#c5">What a price
+  actually is</a>: most stock-pickers, professionals included, do worse than a broad slice of the
+  market after fees. This file shows why that is true, where the idea came from, and what changes when
+  index funds become the biggest owners in the market. The wrapper most index funds now use is
+  explained in <a href="03-etfs.html">ETFs</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A fund that copies a list instead of making choices</h2>
+  <p class="lede">An index fund holds the shares or bonds in a published index, in the same
+  proportions, and changes them only when the index changes. It does not try to beat the market. It
+  tries to be the market, as cheaply as possible.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>"Bogle's folly"</h2>
+</header>
+
+<p>In 1975 John Bogle, who had just been pushed out of his job at a traditional fund company, founded
+a new firm called Vanguard. The next year it launched a fund for ordinary investors that simply
+bought the shares in the S&amp;P 500 index, then about the 500 largest American companies. It
+employed no analysts and made no predictions. Much of the industry laughed at it. One investment research firm circulated a poster declaring index funds "un-American". Its first offering raised only about 11 million
+dollars, a small fraction of its target, and critics called it "Bogle's folly".</p>
+
+<p>Bogle was not the first. In 1971 a team at the bank Wells Fargo had built an index fund for the
+pension fund of the luggage maker Samsonite. In 1974 the economist Paul Samuelson had written an essay
+calling for someone to start a low-cost fund that simply tracked the market. But Bogle's fund was the
+first that anyone could buy. <strong>It took two decades to catch on, and then it rebuilt the
+investment industry.</strong> In the United States, assets in index funds overtook those in actively
+managed funds around the end of 2023.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>How the copying is done</h2>
+</header>
+
+<p>An <strong>index</strong> is a rule for building a list of investments. The index fund follows the
+rule. Most major share indexes use <strong>market-capitalisation weighting</strong>: each company is
+held in proportion to its total market value. If one company is worth twice as much as another, the
+fund holds twice as much of it.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Weighting method</th><th>How it works</th><th>Effect</th></tr></thead>
+<tbody>
+<tr><td><strong>Market-cap</strong></td><td>Hold each firm by its market value</td><td>Very low trading needed, since weights move with prices by themselves. Big firms dominate.</td></tr>
+<tr><td><strong>Equal</strong></td><td>Hold the same amount of every firm</td><td>More weight on smaller firms. Needs regular trading to reset.</td></tr>
+<tr><td><strong>Price</strong></td><td>Weight by share price (the Dow Jones Industrial Average)</td><td>A historical oddity. A high share price, not a big company, means more weight.</td></tr>
+<tr><td><strong>Factor or "smart beta"</strong></td><td>Tilt toward cheap, small or stable firms by a fixed rule</td><td>A middle ground between indexing and active choice. Slightly higher fees.</td></tr>
+</tbody></table></div>
+
+<p>Market-cap weighting has a lovely property. When prices change, the fund's holdings change in exactly
+the same proportions automatically. <strong>The fund only has to trade when companies enter or leave
+the index, or when investors add or withdraw money.</strong> Low trading means low cost, which is the
+whole point.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The ideas underneath</h2>
+</header>
+
+<p>Two ideas from the 1960s and 1970s made index funds intellectually respectable. The first is the
+<strong>efficient-market hypothesis</strong>, associated above all with the Chicago economist Eugene
+Fama, who later shared the 2013 Nobel prize in economics. In its everyday form it says that share
+prices already reflect the information that is publicly available. If good news is known, it is
+already in the price, so you cannot easily profit from it.</p>
+
+<p>The second was popularised by the Princeton economist Burton Malkiel in his 1973 book <em>A Random
+Walk Down Wall Street</em>. Short-term price movements, he argued, are close to unpredictable, like the
+steps of someone wandering at random. If so, paying a professional to predict them is paying for
+something nobody can reliably supply.</p>
+
+<p>Economists still argue over how efficient markets really are. Bubbles and crashes suggest prices can
+be badly wrong for long periods. But the case for index funds does not require markets to be perfect.
+<strong>It only requires that mistakes are hard to spot in advance and expensive to exploit.</strong>
+Chapter 04 shows why even that is more than you need.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Arithmetic, fees and time</h2>
+  <p class="lede">The case for index funds rests on a simple subtraction. Fees and time then multiply
+  that small difference into a large one.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The arithmetic that cannot be escaped</h2>
+</header>
+
+<p>In 1991 the Stanford economist William Sharpe, another Nobel winner, published a two-page article
+called "The Arithmetic of Active Management". Its argument needs no statistics.</p>
+
+<div class="sheet">
+  <div class="cap">Sharpe's arithmetic, in four lines</div>
+<pre>
+   1. every share in the market is owned by someone
+   2. so  (index investors) + (active investors)  =  the whole market
+   3. index investors earn the market return, by definition
+   -&gt; so active investors, as a group, must ALSO earn the market return, before costs
+
+   active investors pay more in fees and trading  -&gt;  after costs, the average active
+   dollar must do WORSE than the average index dollar. Always. In every market.
+</pre>
+</div>
+
+<p>Notice what this does and does not say. It does not say no active investor can win. Some will beat
+the market, sometimes by a lot. It says that <strong>the average active investor must lose to the index
+by roughly the extra amount they pay</strong>, and that every winner's gain is matched by someone
+else's loss. Investing in shares is not a zero-sum game overall, because companies grow. But beating
+the market is. The question for any one investor is whether they can reliably be on the winning side,
+and know it in advance.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Fees, compounded</h2>
+</header>
+
+<p>The difference between an index fund and an active fund is often about 1 per cent a year. That sounds
+tiny. Here is what it does over a working life.</p>
+
+<div class="tw"><table>
+<thead><tr><th>10,000 invested for 30 years</th><th>Yearly return after fees</th><th>Final value (approx.)</th></tr></thead>
+<tbody>
+<tr><td><strong>Market return 6%, index fund fee 0.05%</strong></td><td>5.95%</td><td class="ok">about 56,600</td></tr>
+<tr><td><strong>Market return 6%, active fund fee 1.5%</strong></td><td>4.5%</td><td class="no">about 37,500</td></tr>
+</tbody></table></div>
+
+<p>The illustrative numbers assume the active fund simply matches the market before its fee. Under
+that assumption, <strong>the higher fee takes about a third of the final result</strong>, and it is
+charged whether the fund does well or badly. Volume 38's chapter on <a
+href="../38-money.html#c4">compounding</a> explains why small yearly differences grow so large. Fees are
+compounding working in reverse.</p>
+
+<p>There are hidden costs too. Active funds trade more, and each trade pays a spread and, in some
+countries, taxes. Index funds trade little. That is why Bogle liked to say, in various forms, that in
+investing you get what you <em>don't</em> pay for.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Keeping up with the index</h2>
+</header>
+
+<p>An index fund never matches its index exactly. Its fee is subtracted, it holds a little cash to pay
+departing investors, and it pays costs when the index changes. The gap between the fund's return and
+the index's return is called <strong>tracking difference</strong>, and how much that gap wobbles over
+time is <strong>tracking error</strong>. For large funds on major indexes, both are very small, usually
+close to the fee itself. Some funds even beat their index slightly by lending out shares for a fee.</p>
+
+<p>When a company is added to a major index, every fund tracking that index must buy it at roughly the
+same moment. When Tesla joined the S&amp;P 500 in December 2020, index funds had to buy tens of billions
+of dollars of its shares, and traders bought ahead of them. This "index effect" is a small, known cost
+of following public rules. Some fund managers reduce it by trading a little before or after the
+official date.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The choice that still matters: which index</h2>
+</header>
+
+<p>Indexing removes the choice of shares, but not the choice of index. A fund on the S&amp;P 500 holds
+only American large companies. A fund on a global index such as the MSCI World or MSCI All Country
+World holds thousands of companies across many countries. A fund on the FTSE 100 holds a hundred large
+British companies, heavy in oil, mining and banks.</p>
+
+<p>Many investors hold mostly their home country's shares, a habit called <strong>home bias</strong>.
+It feels safe because the names are familiar. But a small home market can be dominated by a few
+industries, and your job already depends on your home economy. <strong>A global index is the most
+complete version of "buy the haystack"</strong>. In the mid-2020s, American companies made up around
+60 per cent or more of a global index by value, so even a global fund is heavily American. How much
+to hold in shares versus bonds is a separate question, explored in <a
+href="08-portfolio-management.html">Portfolio management</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>The evidence, the savings, and a new kind of owner</h2>
+  <p class="lede">Index funds matter because the evidence for them is strong, because they have saved
+  ordinary savers enormous sums, and because they are turning a few firms into owners of almost every
+  large company.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The scoreboard</h2>
+</header>
+
+<p>Since 2002, S&amp;P Dow Jones Indices has published a regular scorecard called SPIVA, comparing active
+funds with their benchmark indexes. Its results are consistent across years and countries. Over one
+year, a fair number of active funds beat their index. Over ten or fifteen years, the share that do falls
+sharply. <strong>In US large-company shares, a large majority of active funds, typically well over 80
+per cent, have trailed the S&amp;P 500 over fifteen-year periods.</strong> Results in Europe, Japan and
+other markets are similar in direction.</p>
+
+<p>Worse, past winners rarely keep winning. Studies of fund performance find that funds in the top
+group over one period are not much more likely than chance to be in the top group over the next.
+Picking a good active fund turns out to be almost as hard as picking good shares.</p>
+
+<p>The most famous demonstration was a bet. In 2007 Warren Buffett wagered a million dollars, for
+charity, that a plain S&amp;P 500 index fund would beat a selection of hedge funds chosen by a
+professional investment firm over the ten years from 2008 to 2017. The index fund returned roughly 7 per
+cent a year. The hedge fund selection averaged around 2 per cent. Buffett also wrote that his own
+instructions for money left to his wife put 90 per cent in a low-cost S&amp;P 500 index fund.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Who gained</h2>
+</header>
+
+<p>The clearest winners are ordinary savers. As money moved to index funds, fees across the whole
+fund industry fell, because active managers had to compete. Pension funds that once paid managers to
+pick shares now often hold index funds for most of their assets. Estimates of the total saved by
+investors run into hundreds of billions of dollars, though such figures depend heavily on assumptions,
+so treat any single number with caution.</p>
+
+<p>Index funds also made a good investment strategy simple enough to explain in one sentence. That
+matters. <strong>A strategy you understand is a strategy you can stick with when markets fall</strong>,
+and sticking with it is where much of the return comes from. The behavioural side of that, including
+why people sell in panics, is in <a href="../06-psychology/19-behavioral-economics.html">Behavioral
+economics</a>.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The new owners of everything</h2>
+</header>
+
+<p>Because index funds hold every company in the index, the biggest fund managers now own a slice of
+nearly every large listed firm. Three American firms, BlackRock, Vanguard and State Street, often
+called the "Big Three", together hold a large share of the votes at most large US companies. Academic
+work around 2017 found that, combined, they were the largest single shareholder in the large majority
+of S&amp;P 500 companies.</p>
+
+<p>That creates real questions. Who should decide how those votes are cast: the fund manager, or the
+millions of savers whose money it is? Some funds now let investors choose voting policies themselves.
+A further debate concerns <strong>common ownership</strong>. If the same few investors own all the
+airlines, do the airlines compete less hard? Some studies found evidence of softer competition. Others
+disputed the methods. <strong>This is contested, and regulators in the US and Europe are still
+watching it.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>The best default, with honest limits</h2>
+  <p class="lede">Index funds are not magic. They guarantee the market's return, minus a little, and
+  that includes the market's crashes.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>The advantage</th><th>The disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Owns the whole market</strong></td><td class="ok">Guarantees you hold the rare giant winners that drive returns.</td><td class="no">Guarantees you hold every loser and every overpriced share too.</td></tr>
+<tr><td><strong>Very low cost</strong></td><td class="ok">Keeps almost all of the market's return for you.</td><td class="no">None for the investor. For the industry, thinner margins and fewer analysts.</td></tr>
+<tr><td><strong>No manager risk</strong></td><td class="ok">No star manager can retire, lose their touch or make a big mistake.</td><td class="no">No one steps aside when the market looks expensive.</td></tr>
+<tr><td><strong>Cap weighting</strong></td><td class="ok">Self-adjusting, low trading.</td><td class="no">The more a share rises, the more you own. In a bubble you own most of the bubble.</td></tr>
+<tr><td><strong>Simple to hold</strong></td><td class="ok">Easy to understand and stick with.</td><td class="no">Simplicity can feel like doing nothing, which tempts people to tinker.</td></tr>
+<tr><td><strong>Market return</strong></td><td class="ok">Beats most professionals over long periods.</td><td class="no">You will never beat the market, and you take its full falls, such as roughly halving in 2008–09.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The two serious critiques</h2>
+</header>
+
+<div class="grid2">
+  <div class="card"><h4>The free-rider problem</h4><p>Index funds accept market prices without doing
+  any research. They rely on active investors to set those prices correctly. If almost everyone indexed,
+  who would notice that a company was overpriced? Economists Sanford Grossman and Joseph Stiglitz
+  showed in 1980 that a perfectly efficient market cannot exist, because no one would then pay to
+  gather information. The likely answer is a balance: as indexing grows, mispricings become more common,
+  rewarding the active investors who remain, until the share settles.</p></div>
+  <div class="card"><h4>Concentration</h4><p>By the mid-2020s the ten largest companies in the S&amp;P
+  500 made up roughly a third or more of the index, an unusually high share by historical standards,
+  led by a few technology giants. An index fund buyer is therefore making a large bet on a handful of
+  firms. Critics such as the investor Michael Burry warned in 2019 that passive investing resembled a
+  bubble. Defenders reply that cap weighting simply mirrors what the market says those firms are
+  worth.</p></div>
+</div>
+
+<p>Both critiques have force. Neither has yet changed the basic arithmetic of Chapter 04. <strong>For an
+individual saver, the index fund remains the default that is hardest to beat</strong>, while the
+questions it raises are about the market as a whole.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>When the haystack owns itself</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Indexing keeps growing</strong></td><td>Passive funds passed active funds in US fund assets around 2023–24. The share is lower in Europe and Asia.</td><td class="ok">Fairly sure: continued growth, especially outside the US, and in workplace pensions.</td></tr>
+<tr><td><strong>Fees near zero</strong></td><td>Some providers already offer broad index funds with no fee at all, earning money elsewhere.</td><td class="ok">Fairly sure: the cheapest broad funds stay almost free. The competition shifts to service and platforms.</td></tr>
+<tr><td><strong>Voting power under pressure</strong></td><td>Lawmakers in the US and EU have questioned the concentration of votes in a few firms.</td><td class="mid">Plausible: more pass-through voting, where savers choose policies, or limits on how big funds vote.</td></tr>
+<tr><td><strong>A passive "tipping point"</strong></td><td>Some argue that past a certain share, prices will stop reflecting information.</td><td class="no">Speculative: no one knows where such a point lies, or whether active investors would simply return first.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Why the strategy probably survives its own success</h2>
+</header>
+
+<p>The Grossman-Stiglitz argument suggests a self-correcting system. If index funds grow so large that
+prices become sloppy, it becomes easier for careful active investors to win, money flows back to them,
+and prices sharpen again. Most economists expect the market to settle at some mix of the two rather
+than tip into chaos, though no one can say where that mix is.</p>
+
+<p>What will likely change is the meaning of "the market". As companies stay private longer and
+indexes become more concentrated, owning the haystack may mean owning a slightly different haystack
+from the one Bogle bought in 1976. <strong>The core lesson, though, comes from subtraction rather than
+from any market condition</strong>: before costs, the average investor earns the market return, so
+whoever pays least keeps the most.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>An index fund <strong>copies an index</strong> instead of choosing investments. Because active
+    investors as a group must earn the market return before costs, <strong>the average active dollar
+    trails the index by its extra fees</strong>. Low fees compound into a large advantage over decades.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>First retail index fund: Vanguard, <strong>1976</strong>, on the S&amp;P 500.</li>
+      <li>Over fifteen years, typically <strong>well over 80 per cent</strong> of US large-cap active funds trail the S&amp;P 500 (SPIVA).</li>
+      <li>A 1.5 per cent yearly fee can take about <strong>a third</strong> of the final value over 30 years.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking an index fund is safe. <strong>It is cheap and diversified, not low-risk.</strong> It
+    falls exactly as far as the market does.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Explain, in three sentences and without data, why active investors as a group must trail index
+    investors after costs. If you can, you have understood Sharpe's arithmetic.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Index fund</dt><dd>A fund that holds the investments in an index, in the same proportions.</dd>
+    <dt>Passive investing</dt><dd>Tracking an index instead of choosing investments.</dd>
+    <dt>Active investing</dt><dd>Choosing investments in an attempt to beat an index.</dd>
+    <dt>Market-cap weighting</dt><dd>Holding each company in proportion to its total market value.</dd>
+    <dt>Efficient-market hypothesis</dt><dd>The idea that prices already reflect available information.</dd>
+    <dt>Random walk</dt><dd>The idea that short-term price moves are close to unpredictable.</dd>
+    <dt>Tracking difference</dt><dd>The gap between a fund's return and its index's return.</dd>
+    <dt>Index effect</dt><dd>The price move when a company joins or leaves a major index.</dd>
+    <dt>Home bias</dt><dd>Holding too much of your own country's investments.</dd>
+    <dt>Free-rider problem</dt><dd>Index funds benefit from prices set by others' research without paying for it.</dd>
+    <dt>Common ownership</dt><dd>The same investors owning large stakes in competing companies.</dd>
+    <dt>SPIVA</dt><dd>A regular scorecard comparing active funds with their indexes.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Before fees, the average investor gets the market return. After fees, the cheapest one wins."</li>
+    <li>"Over fifteen years, most professional fund managers trail a simple index fund."</li>
+    <li>"A one per cent fee doesn't sound like much until you see it takes about a third of your money over thirty years."</li>
+    <li>"An index fund isn't safe, it's cheap. It falls exactly as far as the market."</li>
+    <li>"The open question is what happens when index funds own so much that nobody is left checking the prices."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="06-risk-and-return.html">Risk and return</a></h4><p>Why higher
+  expected returns come with bigger swings, how risk is measured, and which risks the market actually
+  pays you to take.</p></div>
+  <div class="card"><h4>Related · <a href="07-diversification.html">Diversification</a></h4><p>The
+  principle that makes the haystack work: why owning many things lowers risk without lowering expected
+  return.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

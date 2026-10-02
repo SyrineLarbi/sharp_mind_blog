@@ -1,0 +1,892 @@
+<!doctype html>
+<!--@HEAD-SRC title="Interest Rates and Markets" desc="How interest rates move markets: why bond prices fall when yields rise, duration, the yield curve, real yields and credit spreads, and how rates reach shares, property and the investor."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interest Rates and Markets</title>
+<meta name="description" content="How interest rates move markets: why bond prices fall when yields rise, duration, the yield curve, real yields and credit spreads, and how rates reach shares, property and the investor.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Finance &amp; Investing · Topic 13 of 20</p>
+  <h1>Interest rates and markets. <span class="thin">One number sits underneath every price, and when it moves, everything moves.</span></h1>
+  <p class="lede">Ask a professional investor which single figure they would want to know about next year,
+  and many would not pick company profits or economic growth. They would pick the yield on long-term
+  government bonds. That yield is the return you can get without much risk, so every other asset, from a
+  corporate bond to a tech share to an office building, is priced against it. This file follows how a
+  change in interest rates travels through markets: first to bonds, where the effect is mechanical and
+  exact, then to shares and property, where it is powerful but messier.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Finance &amp; Investing</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../09-economics/03-interest-rates.html"><span class="vn">Economics · 03</span><b>Interest rates</b><em>What sets them, and the economy</em></a>
+<a class="vol" href="02-bonds.html"><span class="vn">Finance · 02</span><b>Bonds</b><em>The instrument itself</em></a>
+<a class="vol" href="14-foreign-exchange.html"><span class="vn">Finance · 14</span><b>Foreign exchange</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 38 explains interest as the price of time (<a href="../38-money.html#c4">Interest, and the
+  astonishing effect of compounding</a>). The economics file on <a href="../09-economics/03-interest-rates.html">Interest
+  rates</a> covers what sets rates and how they slow or speed up the economy, including how long rates
+  form (<a href="../09-economics/03-interest-rates.html#c5">Long rates: the market's guess about the
+  future</a>) and how rate rises hit banks and governments
+  (<a href="../09-economics/03-interest-rates.html#c10">When rates bite governments and banks</a>). This
+  file stays on the market side: bond prices, the yield curve and the valuation of other assets.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The price of money, seen from the market's side</h2>
+  <p class="lede">For an economist, an interest rate is a cost of borrowing. For a market, it is a
+  yardstick: the return every other investment has to beat.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The seesaw: when yields rise, bond prices fall</h2>
+</header>
+
+<p>Imagine you bought a government bond last year. It pays you 3% a year, fixed, for ten years. Today
+the government issues new ten-year bonds that pay 5%. Now try to sell your old one. Nobody will pay full
+price for a 3% bond when a 5% bond is on offer. To find a buyer, you must lower the price until the
+buyer's overall return on your old bond also works out at about 5%.</p>
+
+<p>That is the most important mechanical fact in finance. <strong>A bond's price and its yield move in
+opposite directions, like the two ends of a seesaw.</strong> The <strong>coupon</strong>, the fixed
+payment printed on the bond, does not change. What changes is the price, and the price adjusts so that
+the bond's <strong>yield</strong>, the return a new buyer would earn, matches the going rate in the
+market.</p>
+
+<p>This explains a headline that confuses many people: "bond prices fell as yields rose". It is one event
+described twice. It also explains why bonds, often called safe, can lose money. They are safe in the
+sense that a strong government will pay the promised amounts. They are not safe from changes in the price
+other investors will pay for those amounts.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Which rates the markets watch</h2>
+</header>
+
+<p>There are many interest rates, and markets watch them in layers.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Rate</th><th>Who sets it</th><th>Why markets care</th></tr></thead>
+<tbody>
+<tr><td><strong>Policy rate</strong></td><td>The central bank, such as the US Federal Reserve or the European Central Bank</td><td>Anchors very short-term borrowing costs; expectations of its path move everything else</td></tr>
+<tr><td><strong>Government bond yields</strong></td><td>The market, through buying and selling</td><td>Treated as the "risk-free rate" in the country's currency; the base of most valuations</td></tr>
+<tr><td><strong>Corporate bond yields</strong></td><td>The market</td><td>What companies pay to borrow; the gap over government yields measures fear</td></tr>
+<tr><td><strong>Mortgage and loan rates</strong></td><td>Banks, mostly following market rates</td><td>Drive housing and consumer spending</td></tr>
+</tbody></table></div>
+
+<p>The <strong>US ten-year Treasury yield</strong>, the yield on US government bonds due in ten years, is
+the most watched rate in the world, because the dollar is the main global currency and US government
+debt is the deepest and most traded bond market. <strong>When that one yield moves, prices adjust in
+almost every market on Earth.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>From one bond to the whole market</h2>
+  <p class="lede">The effect of rates on bonds can be calculated exactly. The same logic then spreads,
+  less exactly, to shares, property and other assets.</p>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Bond arithmetic in one example</h2>
+</header>
+
+<p>A bond's price is simply the value today of all the payments it promises, discounted at the current
+market yield. That is the same discounting described in
+<a href="11-company-valuation.html">Company valuation</a>, applied to payments that are fixed in
+advance.</p>
+
+<div class="sheet">
+  <div class="cap">A 10-year bond, face value 1,000, coupon 30 a year (3%)</div>
+<pre>
+  market yield      price of the bond     what happened
+  ------------      -----------------     -------------------------------
+      1%              about 1,189         rates fell: old bond is precious
+      3%                    1,000         yield = coupon: sells at face value
+      5%              about   846         rates rose: old bond is discounted
+
+  the payments never change: 30 a year, then 1,000 back at the end.
+  only the price someone will pay for them changes.
+</pre>
+</div>
+
+<p>The figure called <strong>yield to maturity</strong> is the single rate that makes all the future
+payments add up exactly to today's price. When people quote "the yield" of a bond, this is usually what
+they mean. It assumes you hold the bond until it is repaid and that the issuer pays everything on time.
+<strong>If you hold a high-quality bond to the end, price swings along the way do not change what you
+receive; they matter if you have to sell early.</strong> The bond itself is explained in
+<a href="02-bonds.html">Bonds</a>.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Duration: how sensitive a bond is to rates</h2>
+</header>
+
+<p>Not all bonds react equally. A bond that is repaid in one year barely moves when rates change, because
+you will soon get your money back and can reinvest it at the new rate. A bond repaid in thirty years
+locks you into its coupon for a generation, so its price swings a lot.</p>
+
+<p>Professionals measure this sensitivity with <strong>duration</strong>. The useful rule of thumb is
+that a bond's price changes by roughly its duration, in per cent, for each one-percentage-point change in
+yields, in the opposite direction.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Bond (3% coupon)</th><th>Duration, roughly</th><th>Price change if yields rise 1 point</th></tr></thead>
+<tbody>
+<tr><td><strong>2-year</strong></td><td>about 2</td><td class="ok">about -2%</td></tr>
+<tr><td><strong>10-year</strong></td><td>about 8 to 9</td><td class="mid">about -8%</td></tr>
+<tr><td><strong>30-year</strong></td><td>nearly 20</td><td class="no">about -17%</td></tr>
+</tbody></table></div>
+
+<p>Two things lengthen duration: a longer time to repayment, and a lower coupon, because more of the
+value sits in the distant final repayment. <strong>When coupons are very low, duration is high, so a
+small rise in yields can cause large losses.</strong> That is exactly the situation the world had built up
+by 2021, as Chapter 10 shows.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The yield curve: rates across time</h2>
+</header>
+
+<p>If you plot the yields of a government's bonds against their time to repayment, from three months to
+thirty years, you get the <strong>yield curve</strong>. Its shape tells you what the market expects.</p>
+
+<div class="sheet">
+  <div class="cap">Three shapes of the yield curve</div>
+<pre>
+ yield
+   |                       ___----  NORMAL: long rates above short rates.
+   |              ___---'''          Investors want extra for locking money away.
+   |      __---'''
+   |  _-''   ------------------------  FLAT: the market expects little change.
+   |
+   |'''---___
+   |         '''---___                 INVERTED: short rates above long rates.
+   |                  '''---------     The market expects rates to be cut,
+   +-------------------------------    usually because it expects a slowdown.
+     3m   2y    5y      10y     30y   time to repayment
+</pre>
+</div>
+
+<p>Normally the curve slopes upward. Short rates follow the central bank's current policy rate. Long rates
+reflect the average short rate investors expect over the years ahead, plus a <strong>term premium</strong>
+for the risk of locking money up for a long time. When the central bank has pushed short rates up hard to
+fight inflation, and investors expect it will soon have to cut them because the economy is weakening, short
+yields can rise above long ones. The curve is then <strong>inverted</strong>.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Real yields and the market's inflation forecast</h2>
+</header>
+
+<p>An ordinary bond's yield is <strong>nominal</strong>: it ignores inflation. Many governments also
+issue <strong>inflation-linked bonds</strong>, whose payments rise with consumer prices. In the US they are
+called TIPS; in the UK, index-linked gilts. Their yield is a <strong>real yield</strong>, the return above
+inflation.</p>
+
+<p>Comparing the two gives a market forecast. If an ordinary ten-year bond yields, say, 4.2% and the
+inflation-linked one 1.9%, the gap of about 2.3 points is the <strong>breakeven inflation rate</strong>:
+roughly the average inflation investors expect, plus some premiums. (These figures are illustrative.)
+Central banks watch breakevens closely to see whether the public still believes they will hit their
+inflation targets.</p>
+
+<p>Real yields matter for valuation because <strong>they measure the true reward for waiting</strong>. When
+real yields are negative, as they were in many rich countries for much of the 2010s and in 2021, holding
+safe bonds guarantees a loss of purchasing power. That pushes investors towards riskier assets in search of
+a positive return.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Credit spreads: the price of fear</h2>
+</header>
+
+<p>A company is riskier than a strong government, so it must pay more to borrow. The difference between a
+company's bond yield and a government bond of the same length is its <strong>credit spread</strong>.
+Companies judged most likely to repay, rated "investment grade" by credit rating agencies, pay modest
+spreads. Riskier "high-yield" borrowers, sometimes called junk bonds, pay much more.</p>
+
+<p>Spreads change with mood. In calm times they shrink as investors compete for extra yield. In a crisis
+they widen fast, because investors demand much more to lend to anyone but the safest borrowers. During the
+2008 financial crisis and briefly in March 2020, spreads jumped sharply. <strong>A sudden widening of
+credit spreads is one of the clearest signs that markets are frightened about the economy</strong>, often
+before share prices show it fully.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Shares: two channels pulling in different directions</h2>
+</header>
+
+<p>Rates reach shares through two routes. The first is the <strong>discount rate</strong>. A share is
+worth its future cash, discounted, and a higher risk-free rate raises the discount rate, lowering the value
+today. The second is <strong>the economy</strong>. Higher rates slow spending and borrowing, which can cut
+company profits. Lower rates can help profits, unless they are low because the economy is in trouble.</p>
+
+<p>The discount-rate effect falls hardest on companies whose profits lie far in the future, typically
+young, fast-growing technology firms. In bond language, they are "long-duration" assets. Mature companies
+that earn steady cash today are less sensitive. That is why <strong>growth shares tend to soar when rates
+fall and slump when rates rise</strong>, while so-called value shares, such as banks and energy firms,
+often hold up better.</p>
+
+<p>A simple comparison captures the competition between shares and bonds. A share index with a
+price-to-earnings ratio of 20 has an <strong>earnings yield</strong> of 5%. When government bonds yield
+1%, that 5% looks generous. When they yield 5%, investors can get the same return with far less risk, so
+share prices face pressure. The gap between the two is a rough guide to the extra reward investors receive
+for owning shares, the <strong>equity risk premium</strong>, explored in
+<a href="06-risk-and-return.html">Risk and return</a>.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Property, gold and currencies</h2>
+</header>
+
+<p><strong>Property</strong> is valued much like a bond with rent instead of coupons. Investors talk about a
+building's <strong>capitalisation rate</strong> ("cap rate"): its yearly net rent divided by its price. A
+building earning 50,000 a year at a 5% cap rate is worth 1 million. If rising interest rates push
+investors to demand 6%, the same building is worth about 833,000, a fall of a sixth, with no change in the
+rent. This is a large part of what hit commercial property values after 2022. More is in
+<a href="17-real-estate-investing.html">Real estate investing</a>.</p>
+
+<p><strong>Gold</strong> pays no interest at all. When real yields are high, holding gold means giving up a
+good safe return, so gold has often struggled. When real yields are low or negative, that cost disappears.
+This relationship has been strong over many periods, though it weakened in the early 2020s as central banks
+bought large amounts of gold. See <a href="15-commodities.html">Commodities</a>.</p>
+
+<p><strong>Currencies</strong> respond too. Higher rates in one country attract foreign money seeking
+better returns, which tends to strengthen its currency, all else being equal. How that works, and how
+traders exploit rate differences, is the subject of
+<a href="14-foreign-exchange.html">Foreign exchange</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Rates decide which decade investors live through</h2>
+  <p class="lede">Over long periods, the direction of interest rates has been one of the biggest forces
+  behind asset prices, and the turning points have been brutal.</p>
+</header>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>2022: the year the seesaw slammed down</h2>
+</header>
+
+<p>For about forty years, from the early 1980s to 2020, interest rates in rich countries fell more or less
+steadily. Falling yields meant rising bond prices, and lower discount rates lifted shares and property too.
+By 2020 and 2021, yields were near zero or below. At the peak, in 2020, well over 15 trillion dollars of
+bonds worldwide had negative yields: lenders were effectively paying governments and companies to hold
+their money.</p>
+
+<p>Then inflation returned and central banks raised rates at the fastest pace in decades. Because coupons
+were so low, duration was high, and the losses were severe. The most widely used index of US investment-grade
+bonds fell about 13% in 2022, its worst year since the index began in the 1970s. Long-dated government
+bonds fell far more. Austria's 100-year bonds, issued when rates were near zero, lost well over half their
+market value from their peak. Shares fell too, especially technology shares.</p>
+
+<p>The losses were not only on investors' screens. Banks that held long-dated bonds bought at low yields saw
+those assets lose value, which helped bring down Silicon Valley Bank in March 2023, as the economics file
+describes (<a href="../09-economics/03-interest-rates.html#c10">When rates bite governments and banks</a>).
+<strong>Duration risk that had been invisible for a decade became real within months.</strong></p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The yield curve as a recession forecaster</h2>
+</header>
+
+<p>In the 1980s the economist Campbell Harvey showed that the shape of the yield curve helped predict US
+economic growth. Since the late 1960s, an inverted US yield curve, with short rates above long ones, has
+come before every US recession, usually by somewhere between several months and two years. Few economic
+indicators have a better record, which is why inversions make headlines.</p>
+
+<p>The signal is not perfect. The US curve inverted in 2022 and stayed inverted for a record length of
+time, ending in 2024. The widely forecast recession did not arrive on the usual schedule. Some economists
+argue the signal has weakened, because central banks' large bond purchases and other forces have distorted
+long-term yields. Others say the lag is simply longer this time. <strong>An inverted curve is best read as
+the market's warning that rates are too high for the economy to bear for long, not as a calendar.</strong></p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Why the zero-rate decade lifted almost everything</h2>
+</header>
+
+<p>When safe assets yield nothing, money flows to everything else. Investors buy riskier bonds, then
+shares, then property, then start-ups and more speculative assets, each step searching for some return.
+Economists call this the <strong>search for yield</strong>. It helps explain why, in the late 2010s and
+2020–21, shares, house prices, private company valuations and even cryptocurrencies all rose
+together, sometimes called "the everything rally".</p>
+
+<p>The reverse is also true. When safe assets finally pay a real return, the bar every other investment
+must clear rises. <strong>Low rates do not just help prices; they change what investors are willing to
+believe about the future</strong>, because distant, uncertain profits cost almost nothing to wait for.
+Volume 38 describes how such optimism becomes self-feeding
+(<a href="../38-money.html#c6">Bubbles, and why they keep happening</a>).</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>High rates and low rates both have victims</h2>
+  <p class="lede">There is no rate that is good for every investor. Each level helps some and hurts others.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Who wins and who loses</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Investor</th><th>When rates are low</th><th>When rates are high</th></tr></thead>
+<tbody>
+<tr><td><strong>Saver with cash</strong></td><td class="no">Earns almost nothing; may lose to inflation</td><td class="ok">Earns a real return without risk</td></tr>
+<tr><td><strong>Existing bondholder</strong></td><td class="ok">Prices rise as rates fall</td><td class="no">Prices fall as rates rise, until bonds are held to the end</td></tr>
+<tr><td><strong>New bond buyer</strong></td><td class="no">Locks in low income</td><td class="ok">Locks in high income for years</td></tr>
+<tr><td><strong>Shareholder in growth companies</strong></td><td class="ok">High valuations, cheap funding</td><td class="no">Valuations compressed; funding harder</td></tr>
+<tr><td><strong>Retiree buying an annuity</strong></td><td class="no">Poor income for each unit of savings</td><td class="ok">Much better income for life</td></tr>
+<tr><td><strong>Property investor with debt</strong></td><td class="ok">Cheap mortgages, rising values</td><td class="no">Higher financing costs, falling values</td></tr>
+</tbody></table></div>
+
+<p>Market-set long rates also have strengths and weaknesses as a signal. On the plus side, they gather the
+views of millions of investors about inflation and growth, and they discipline governments that borrow
+recklessly. On the minus side, they can overreact, move on fear rather than facts, and be distorted by
+central banks buying bonds on a vast scale, a policy called <strong>quantitative easing</strong>.
+<strong>The market's interest rate is a powerful signal, but never a neutral fact.</strong></p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>A new normal, or the old one back?</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, by level of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Bonds are an income asset again</strong></td><td>After 2022, government bond yields in most rich countries returned to levels last seen before 2008.</td><td class="ok">Fairly sure: unless rates fall all the way back to zero, bonds will again pay meaningful income, and portfolios will rely on them for return as well as protection.</td></tr>
+<tr><td><strong>A higher term premium</strong></td><td>Large government deficits and less bond buying by central banks mean markets must absorb more debt.</td><td class="mid">Plausible: investors demand more extra yield for holding long bonds, keeping long rates higher relative to short ones. Debated, because demand from pension funds and foreign buyers is hard to predict.</td></tr>
+<tr><td><strong>Back to near zero</strong></td><td>Ageing populations and high saving pushed rates down before 2020, and those forces have not disappeared.</td><td class="mid">Plausible: some economists expect the low-rate world to return after the inflation shock fades. Others think deficits, defence and energy spending have changed it for good.</td></tr>
+<tr><td><strong>A disorderly bond sell-off</strong></td><td>Episodes such as the UK gilt crisis of 2022 showed how fast yields can jump when markets lose confidence in a government's finances.</td><td class="no">Speculative: a major crisis in a core bond market is possible but cannot be timed. It is the risk most often discussed in connection with high public debt.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>What an investor can take from this</h2>
+</header>
+
+<p>Nobody forecasts interest rates reliably, including central banks. The practical response is not
+prediction but awareness. Know the <strong>duration</strong> of what you own, and match it to when you need
+the money: a bond fund with a duration of fifteen years is a poor home for a house deposit needed in two.
+Remember that very high share valuations often rest on low rates, so a portfolio full of long-duration
+growth shares and long bonds is making one big bet twice.</p>
+
+<p>Above all, <strong>treat the risk-free rate as the yardstick for every decision</strong>. When safe
+bonds pay 4% or 5%, any investment that promises little more, with much more risk, needs a very good
+reason. When they pay nothing, be suspicious of how much optimism is being priced into everything else.
+Public debt, which sits behind those safe bonds, has its own file:
+<a href="../09-economics/14-public-debt.html">Public debt</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>The yield on safe government bonds is the <strong>yardstick for every asset</strong>. Bond prices
+    move <strong>opposite to yields</strong>, by an amount set by <strong>duration</strong>. The
+    <strong>yield curve</strong> shows expectations across time, <strong>credit spreads</strong> show fear,
+    and higher rates lower the value of shares and property by raising the <strong>discount
+    rate</strong>.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>A bond's price moves by roughly its <strong>duration in per cent</strong> for each 1-point move in
+      yields.</li>
+      <li>The main US investment-grade bond index fell about <strong>13% in 2022</strong>, its worst year
+      on record.</li>
+      <li>At the 2020 peak, well over <strong>$15 trillion</strong> of bonds worldwide had negative yields.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking bonds cannot lose money. <strong>A safe government will pay what it promised, but the
+    price of that promise falls when rates rise</strong>, and long bonds can fall as much as shares.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a 30-year bond fell far more than a 2-year bond in 2022, and why the same rate
+    rise hurt technology shares more than bank shares? If so, you understand duration across asset
+    classes.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Coupon</dt><dd>The fixed interest payment a bond makes, set when it is issued.</dd>
+    <dt>Yield</dt><dd>The return a buyer earns at today's price; it moves opposite to the price.</dd>
+    <dt>Yield to maturity</dt><dd>The single rate that makes all a bond's future payments equal its price today.</dd>
+    <dt>Duration</dt><dd>A measure of how much a bond's price changes when yields move; longer means more sensitive.</dd>
+    <dt>Risk-free rate</dt><dd>The yield on safe government bonds, used as the base for valuing everything else.</dd>
+    <dt>Yield curve</dt><dd>A chart of government bond yields across different times to repayment.</dd>
+    <dt>Inverted curve</dt><dd>When short-term yields are above long-term ones, often a warning of slowdown.</dd>
+    <dt>Term premium</dt><dd>The extra yield investors demand for locking money away for a long time.</dd>
+    <dt>Real yield</dt><dd>The yield after inflation, seen directly on inflation-linked bonds.</dd>
+    <dt>Breakeven inflation</dt><dd>The gap between nominal and real yields; the market's rough inflation forecast.</dd>
+    <dt>Credit spread</dt><dd>The extra yield a company pays over a government bond of the same length.</dd>
+    <dt>Cap rate</dt><dd>A property's yearly net rent divided by its price.</dd>
+    <dt>Quantitative easing</dt><dd>A central bank buying bonds on a large scale to push long-term yields down.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Bond prices and yields are a seesaw. When one goes up, the other comes down."</li>
+    <li>"Safe bonds can lose a lot of money. The government still pays, but the price of its promise
+    falls."</li>
+    <li>"The ten-year government yield is the yardstick every other investment is measured against."</li>
+    <li>"When rates rise, distant profits are worth less, which is why growth stocks and long bonds fall
+    together."</li>
+    <li>"An inverted yield curve is the market saying rates are too high to last, not a recession
+    date."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="14-foreign-exchange.html">Foreign exchange</a></h4><p>The world's
+  largest market: how currencies are traded, how companies hedge, and how rate differences drive the carry
+  trade.</p></div>
+  <div class="card"><h4>Related · <a href="../09-economics/03-interest-rates.html">Interest rates</a></h4><p>The
+  same subject from the economy's side: what sets rates, how central banks use them, and who wins and loses
+  across society.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

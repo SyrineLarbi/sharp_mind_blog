@@ -1,0 +1,870 @@
+<!doctype html>
+<!--@HEAD-SRC title="Operations" desc="How companies actually make and deliver things: from the pin factory and the assembly line to Toyota, bottlenecks, queues and inventory, why lean systems proved fragile, and where operations is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operations</title>
+<meta name="description" content="How companies actually make and deliver things: from the pin factory and the assembly line to Toyota, bottlenecks, queues and inventory, why lean systems proved fragile, and where operations is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Business · Topic 12 of 20</p>
+  <h1>Operations. <span class="thin">The unglamorous machine that decides whether a promise is kept.</span></h1>
+  <p class="lede">Strategy decides what a company sells and marketing persuades people to want it.
+  Operations is everything that happens next: making it, checking it, moving it, serving it, on time
+  and at a cost that leaves a profit. It rarely makes headlines until it fails. Yet some of the
+  biggest economic changes of the last 250 years, from the pin factory to the Toyota production line,
+  were operations ideas. They are also why a queue at a supermarket can go from short to hopeless in a
+  few minutes.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Business</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../12-the-physical-supply-chain.html#s4"><span class="vn">Vol 12 · Container shipping</span><b>Supply chains</b><em>Topics 11 and 13</em></a>
+<a class="vol" href="../09-economics/17-productivity.html"><span class="vn">Economics · 17</span><b>Productivity</b><em>The economy-wide view</em></a>
+<a class="vol" href="14-human-resources.html"><span class="vn">Business · 14</span><b>Human resources</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>The movement of goods between companies, which this category lists as Topic 11 (supply chains)
+  and Topic 13 (logistics), is covered in Volume 12's chapter on
+  <a href="../12-the-physical-supply-chain.html#s4">container shipping and the six narrow places</a>
+  and Volume 15's chapter on <a href="../15-materials-food-and-industry.html#i6">the cold chain</a>.
+  This file stays inside the company: how work is organised, measured and improved.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Turning inputs into something a customer will pay for</h2>
+  <p class="lede">Operations management is the design and running of the processes that produce a
+  company's goods or services. Every organisation has it, from a car plant to a hospital to a
+  café.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The pin factory</h2>
+</header>
+
+<p>In 1776 the Scottish philosopher Adam Smith opened <em>The Wealth of Nations</em> with a small
+workshop that made pins. One worker alone, he wrote, could perhaps make twenty pins a day, and
+possibly not even one. But in a workshop where the job was split into about eighteen steps, one
+person drawing the wire, another straightening it, another cutting, another sharpening, ten workers
+made around 48,000 pins a day.</p>
+
+<p>Smith gave three reasons. Each worker grew skilled at one step. Nobody wasted time switching
+between tasks. And simple, repeated steps invited the invention of machines to do them. <strong>How
+work is divided and arranged can matter more than how hard people work.</strong> That is the founding
+idea of operations, and it underlies the economy-wide story told in
+<a href="../09-economics/17-productivity.html">Productivity</a>.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>What operations covers</h2>
+</header>
+
+<p>Every operation takes <strong>inputs</strong> (materials, information, customers, staff, machines),
+<strong>transforms</strong> them, and produces <strong>outputs</strong>. A factory transforms steel into
+cars. A hospital transforms sick patients into healthier ones. A bank transforms an application into
+a loan. The textbook vocabulary describes operations along four dimensions, often called the four
+Vs.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Dimension</th><th>High end</th><th>Low end</th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td><strong>Volume</strong></td><td>A burger chain serving millions a day</td><td>A small restaurant</td><td>High volume allows standard steps and machines, and lowers cost per unit</td></tr>
+<tr><td><strong>Variety</strong></td><td>A taxi going anywhere</td><td>A bus on a fixed route</td><td>High variety needs flexible staff and costs more</td></tr>
+<tr><td><strong>Variation in demand</strong></td><td>A seaside hotel</td><td>A hospital's routine clinics</td><td>Peaks and troughs mean idle capacity or long waits</td></tr>
+<tr><td><strong>Visibility</strong></td><td>A hair salon, where the customer watches</td><td>A factory, far from any customer</td><td>Visible work must be fast and polite, not only correct</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>What "good" means: five objectives that pull against each other</h2>
+</header>
+
+<p>An operation can be judged on five things. <strong>Cost</strong>: how cheaply it works.
+<strong>Quality</strong>: whether the output is right. <strong>Speed</strong>: how long the customer
+waits. <strong>Dependability</strong>: whether promises about time are kept. <strong>Flexibility</strong>:
+how easily it adapts to different requests or volumes.</p>
+
+<p>The difficulty is that <strong>no operation can be best at all five at once</strong>. A clinic with
+spare doctors waiting is fast and flexible but expensive. A factory running every machine at full
+capacity is cheap but slow to respond. Part of a company's strategy is choosing which objectives to
+win on, and part of operations is accepting that the others will be only good enough. The rest of this
+file is largely about how clever designs, especially Toyota's, managed to soften some of these
+trade-offs.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Lines, waste, bottlenecks, queues and stock</h2>
+  <p class="lede">A century of ideas, each one fixing the blind spot of the last. Together they make
+  up most of what operations managers know.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The stopwatch and the moving line</h2>
+</header>
+
+<p>Around 1900 the American engineer Frederick Winslow Taylor timed workers with a stopwatch, broke each
+job into motions and redesigned them to remove wasted effort. His 1911 book, <em>The Principles of
+Scientific Management</em>, argued that managers should plan the work and workers should carry it out
+exactly. Output rose sharply. So did workers' resentment of being treated as parts of a machine.</p>
+
+<p>In 1913 Henry Ford's factory at Highland Park, Michigan, added the <strong>moving assembly
+line</strong>. Instead of workers walking to the car, the car moved past the workers. The time to
+assemble a Model T chassis fell from over twelve hours to about an hour and a half. Cars that had been
+luxuries became affordable for ordinary families. The work was so monotonous, however, that staff
+turnover was huge, and in 1914 Ford roughly doubled pay to five dollars a day to keep people. <strong>Mass
+production solved the problem of cost and created the problem of people.</strong></p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The Toyota way: just in time, and stopping the line</h2>
+</header>
+
+<p>After the Second World War, Toyota could not copy Ford. Japan's car market was small and varied,
+and money for big stocks of parts was scarce. Under the engineer Taiichi Ohno, the company built a
+different system over several decades. Two ideas sit at its centre.</p>
+
+<p>The first is <strong>just-in-time</strong>: make only what is needed, when it is needed, in the
+amount needed. Parts arrive at the line shortly before they are used. Each step "pulls" parts from
+the one before, often signalled by a card called a <strong>kanban</strong>, instead of pushing out as
+much as possible. The second is <strong>jidoka</strong>, often translated as automation with a human
+touch. It traces back to a loom invented by the company's founder, Sakichi Toyoda, that stopped by
+itself when a thread broke. On a Toyota line, any worker who sees a problem can pull a cord, the
+<strong>andon</strong>, to stop the line until it is fixed.</p>
+
+<p>Stopping a whole line for one fault sounds expensive. That is the point. <strong>Low stock and a
+stopped line make problems impossible to ignore</strong>, so they get fixed at the root instead of
+being hidden by spare parts. Ohno listed the forms of waste the system attacks.</p>
+
+<div class="sheet">
+  <div class="cap">The seven wastes, as Toyota taught them</div>
+<pre>
+ overproduction   making more, or sooner, than anyone needs
+ waiting          people or parts standing idle
+ transport        moving things more than necessary
+ over-processing  doing more work than the customer values
+ inventory        stock that ties up money and hides problems
+ motion           people reaching, walking, searching
+ defects          anything that must be fixed or thrown away
+</pre>
+</div>
+
+<p>In the West this approach became known as <strong>lean</strong>, a label popularised by the 1990
+book <em>The Machine That Changed the World</em>, based on a large MIT study of car factories around
+the world.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Quality: build it in, don't inspect it in</h2>
+</header>
+
+<p>The old way to ensure quality was to inspect finished goods and throw out the bad ones. The
+American statistician W. Edwards Deming argued this was wasteful. Most defects, he said, come from the
+system, not from careless workers, so the system must be improved. He lectured to Japanese managers
+from 1950, and Japan's main quality award is still named after him.</p>
+
+<p>Deming's tools were statistical. Every process varies a little. The job is to tell normal variation
+from a real problem and to reduce variation over time. In the 1980s the American company Motorola
+turned this into <strong>Six Sigma</strong>, a programme with a target of no more than about 3.4
+defects per million opportunities. Training belts, project methods and dashboards followed. The
+lasting principle is simpler than the jargon. <strong>Quality is cheaper when it is designed into the
+process than when it is checked at the end.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Bottlenecks: the slowest step sets the pace</h2>
+</header>
+
+<p>Picture a kitchen. The chef can prepare twenty dishes an hour, the oven can cook fifteen, and the
+waiters can serve thirty. The restaurant serves fifteen, however hard the chef and waiters work.
+<strong>A system can go no faster than its slowest step</strong>, its bottleneck.</p>
+
+<p>The Israeli physicist Eliyahu Goldratt made this idea famous in <em>The Goal</em>, a 1984 business
+novel about a struggling factory manager. His <strong>theory of constraints</strong> says: find the
+bottleneck, make sure it never stands idle, organise everything else around it, then expand it, and
+look for the next one. Its most counter-intuitive lesson is that improving a step that is not the
+bottleneck achieves nothing except a bigger pile of half-finished work in front of the step that
+is.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Queues: why "nearly full" means "very slow"</h2>
+</header>
+
+<p>Every operation that serves customers has queues: tills, call centres, emergency departments,
+computer servers. Queues behave in a way that surprises almost everyone. When arrivals are random,
+the waiting time does not grow steadily as a server gets busier. It grows slowly at first and then
+explodes.</p>
+
+<div class="sheet">
+  <div class="cap">Average wait, in a simple queue with random arrivals</div>
+<pre>
+ how busy the server is      average wait (in units of one service time)
+        50%                   1
+        80%                   4
+        90%                   9
+        95%                   19
+        99%                   99
+
+ wait
+  |                                         *
+  |                                      *
+  |                                 *
+  |                     *
+  |  *        *
+  +------------------------------------------ utilisation
+    50%      70%       80%        90%    95%
+</pre>
+</div>
+
+<p>The lesson is hard for cost-focused managers. <strong>A team or a machine kept busy close to 100% of
+the time will produce long, unpredictable waits</strong>, because there is no slack to absorb random
+bursts. A related rule, proved by John Little in 1961 and known as <strong>Little's Law</strong>, links
+three numbers in any stable system: the average number of items inside equals the rate at which they
+arrive times the average time each spends inside. If a clinic sees 10 patients an hour and each stays
+2 hours, there are 20 patients in the building on average. To cut the crowd, cut the time.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Inventory and the bullwhip</h2>
+</header>
+
+<p><strong>Inventory</strong> is stock: raw materials, half-finished goods and finished products. It
+protects against surprises, but it costs money to hold, takes space, and can go out of date. The art is
+holding enough, in the right places.</p>
+
+<p>When companies in a chain each order on the basis of the orders they receive, small changes in what
+customers buy grow into large swings further back. A shop sees sales rise a little and orders a bit
+extra to be safe. The wholesaler sees a jump in orders and orders more again. The factory sees a boom.
+Then everyone has too much and cuts orders sharply. This is the <strong>bullwhip effect</strong>,
+studied by Jay Forrester at MIT in the 1950s and 1960s. Procter &amp; Gamble famously found it in
+nappies: babies used them at a steady rate, yet orders from retailers swung wildly. <strong>Sharing
+real sales data along the chain is the main cure</strong>, because it replaces guesses about guesses
+with the actual demand.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Same people, different system</h2>
+  <p class="lede">Operations explains why some companies win for decades on cost and quality, why
+  services feel fast or slow, and why the world ran out of things in 2021.</p>
+</header>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The factory that changed its system, not its workers</h2>
+</header>
+
+<p>General Motors' car plant in Fremont, California, had a dreadful reputation by the early 1980s:
+poor quality, high absenteeism, bitter relations between managers and the union. GM closed it in 1982.
+In 1984 it reopened as NUMMI, a joint venture between GM and Toyota, run on Toyota's system. Most of
+the workers were rehired from the old plant, with the same union.</p>
+
+<p>Within a few years the plant's quality was among the best in GM's whole network. The people had not
+changed. The system had: teams, training, the andon cord, managers who responded when it was pulled.
+<strong>Many problems blamed on workers turn out to be problems with the design of the work.</strong>
+GM struggled for years to copy the lessons in its other plants, which shows that the hard part of lean
+is the culture and management habits, not the tools. NUMMI closed in 2010, and the factory was later
+taken over by Tesla.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Services are operations too</h2>
+</header>
+
+<p>Operations is not only factories. In services, the customer is often inside the process, which
+makes everything visible and variable. Fast-food chains run kitchens like small assembly lines, with
+standard steps and timings. The American airline Southwest built its low costs partly on turning
+planes around at the gate much faster than rivals, so that each aircraft flew more trips a day and
+earned more.</p>
+
+<p>Hospitals have adopted lean ideas to reduce waiting and errors, mapping each patient's path and
+removing steps that add delay but no care. The results are mixed but often real. In services,
+<strong>the waiting is part of the product</strong>, and the queue rules from Chapter 08 apply directly.
+An emergency department running at near full capacity will have long waits, however hard its staff
+work.</p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>When lean became fragile</h2>
+</header>
+
+<p>Just-in-time works brilliantly when supply is reliable. In 2020 and 2021 it was not. When the
+COVID-19 pandemic began, many carmakers cancelled orders for computer chips, expecting sales to
+collapse. Demand returned quickly, but chipmakers had given the capacity to makers of laptops and
+phones. Carmakers around the world lost production of millions of vehicles. In March 2021 the
+container ship <em>Ever Given</em> blocked the Suez Canal for six days, delaying hundreds of ships, a
+story told in <a href="../12-the-physical-supply-chain.html#s4">Volume 12</a>.</p>
+
+<p>Toyota itself was reported to have coped better than many rivals, partly because after the 2011
+earthquake in Japan it had begun keeping larger stocks of critical parts. That is the real lesson.
+<strong>Lean was never meant to mean zero stock of everything. It meant no stock that does not earn
+its place.</strong> Many companies had cut buffers to save money without asking which ones were
+protecting them. Since then "just in case" has joined "just in time" in the vocabulary.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Efficiency against resilience, control against people</h2>
+  <p class="lede">Every operations system buys something with something else. The main trade-offs
+  have stayed remarkably stable for a century.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Weighing the approaches</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Approach</th><th>Advantages</th><th>Disadvantages</th></tr></thead>
+<tbody>
+<tr><td><strong>Division of labour and standard work</strong></td><td class="ok">Huge gains in output and cost. Easy to train new staff.</td><td class="no">Repetitive, deskilled jobs. Workers disengage.</td></tr>
+<tr><td><strong>Mass production</strong></td><td class="ok">Very low cost per unit at high volume.</td><td class="no">Inflexible. Large stocks. Poor at variety.</td></tr>
+<tr><td><strong>Lean and just-in-time</strong></td><td class="ok">Less waste and stock. Problems surface and get fixed. Higher quality.</td><td class="no">Vulnerable to supply shocks. Demands discipline and trust that many firms lack.</td></tr>
+<tr><td><strong>Six Sigma</strong></td><td class="ok">Fewer defects. Decisions based on data.</td><td class="mid">Can become bureaucratic, with certificates valued over results.</td></tr>
+<tr><td><strong>Running at full capacity</strong></td><td class="ok">Lowest cost per unit while demand is steady.</td><td class="no">Long, unpredictable waits. No room for surprises.</td></tr>
+<tr><td><strong>Holding buffers ("just in case")</strong></td><td class="ok">Resilience in a crisis. Reliable delivery.</td><td class="no">Money tied up. Waste if the crisis never comes.</td></tr>
+</tbody></table></div>
+
+<p>The deepest trade-off is between <strong>efficiency and resilience</strong>. Slack looks like waste
+on a normal day and like wisdom on a bad one. Managers judged on this year's costs are pulled towards
+too little of it, which is why regulators now push some industries, such as banking and
+pharmaceuticals, to hold more.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Sensors, software, and closer suppliers</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Four directions, sorted by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>More automation in warehouses and factories</strong></td><td>Robots already move goods in large warehouses. Factories add sensors and software to many machines.</td><td class="ok">Fairly sure: steady growth, especially where labour is scarce. See <a href="../14-engineering/12-automation.html">Automation</a>.</td></tr>
+<tr><td><strong>Better forecasting with AI</strong></td><td>Machine learning is widely used to forecast demand and plan stock.</td><td class="ok">Fairly sure: incremental gains, with the limit that no model predicts a pandemic or a war.</td></tr>
+<tr><td><strong>Shorter, closer supply chains</strong></td><td>Governments subsidise local chip and battery plants. Firms add second suppliers in other countries.</td><td class="mid">Plausible: partial moves for strategic goods. Full "reshoring" is costly and slow, and evidence of a broad shift is so far mixed.</td></tr>
+<tr><td><strong>Digital twins of whole operations</strong></td><td>Detailed computer models of factories and networks are used to test changes before making them.</td><td class="no">Speculative at full scale: a live, accurate twin of a whole supply network remains hard because the data is incomplete.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>What stays the same</h2>
+</header>
+
+<p>New tools change the details, but the underlying rules in this file are not technological. Queues
+will still explode near full capacity. The slowest step will still set the pace. A chain that shares
+guesses instead of data will still whip from shortage to glut. And measuring the wrong thing will still
+make people optimise the wrong thing.</p>
+
+<p>The human side looks just as durable. Toyota's real advantage was never the kanban card. It was a
+culture in which workers were expected to spot problems and managers were expected to listen.
+<strong>The best operations treat every employee as a problem-solver, not a pair of hands</strong>,
+and that idea leads directly to the next topic, <a href="14-human-resources.html">Human
+resources</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Operations turns inputs into outputs while trading off <strong>cost, quality, speed,
+    dependability and flexibility</strong>. The big ideas are <strong>division of labour</strong>, the
+    <strong>moving line</strong>, Toyota's <strong>just-in-time and stopping to fix problems</strong>,
+    <strong>bottlenecks</strong>, and the rule that <strong>queues explode near full capacity</strong>.
+    Efficiency and resilience pull against each other.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Smith's ten pin-makers produced about <strong>48,000 pins a day</strong> (1776).</li>
+      <li>Ford's moving line cut Model T chassis assembly from <strong>over 12 hours to about 90
+      minutes</strong> (1913).</li>
+      <li>In a simple random queue, going from <strong>80% to 95%</strong> busy multiplies the average
+      wait by about <strong>five</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Trying to keep every person and machine 100% busy. <strong>Full utilisation is not efficiency
+    for the system</strong>. It produces queues, delays and piles of half-finished work.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why the NUMMI plant improved with mostly the same workers? If you can, you
+    understand why operations focuses on the system rather than on blame.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Operations management</dt><dd>Designing and running the processes that make and deliver a company's goods or services.</dd>
+    <dt>Division of labour</dt><dd>Splitting work into separate steps done by different people.</dd>
+    <dt>Assembly line</dt><dd>A production method in which the product moves past fixed workstations.</dd>
+    <dt>Just-in-time</dt><dd>Producing and delivering only what is needed, when it is needed.</dd>
+    <dt>Kanban</dt><dd>A card or signal telling the previous step to supply more parts.</dd>
+    <dt>Andon</dt><dd>A cord or button any worker can use to stop the line when there is a problem.</dd>
+    <dt>Lean</dt><dd>The Western name for Toyota-style production, focused on removing waste.</dd>
+    <dt>Six Sigma</dt><dd>A data-driven programme to reduce defects and variation.</dd>
+    <dt>Bottleneck</dt><dd>The slowest step, which limits the output of the whole system.</dd>
+    <dt>Utilisation</dt><dd>The share of time a person or machine is busy.</dd>
+    <dt>Little's Law</dt><dd>Items in a system equal the arrival rate times the average time each spends inside.</dd>
+    <dt>Inventory</dt><dd>Stock of materials, parts or finished goods.</dd>
+    <dt>Bullwhip effect</dt><dd>Small changes in customer demand growing into large swings in orders further back in a chain.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A system can't go faster than its slowest step. Improving anything else just builds a bigger
+    pile."</li>
+    <li>"Run a team at 95% capacity and the queue doesn't get a bit longer. It explodes."</li>
+    <li>"Toyota's line stops when there's a problem, and that's exactly why it has fewer problems."</li>
+    <li>"Lean never meant zero stock. It meant no stock that doesn't earn its place."</li>
+    <li>"Most problems blamed on workers are really problems with how the work is designed."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="14-human-resources.html">Human resources</a></h4><p>The people
+  side of the machine: how companies hire, pay, judge and keep the people who run every process in
+  this file.</p></div>
+  <div class="card"><h4>Related · <a href="../14-engineering/12-automation.html">Automation</a></h4><p>The
+  engineering view of the same factory floor: machines, control systems, and which jobs they are
+  taking over.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

@@ -1,0 +1,850 @@
+<!doctype html>
+<!--@HEAD-SRC title="Cryptocurrencies" desc="Cryptocurrencies as an asset: what you actually own, where the price comes from, why it swings so hard, what went wrong in 2022, how Wall Street arrived, and the live arguments about what it is worth."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cryptocurrencies</title>
+<meta name="description" content="Cryptocurrencies as an asset: what you actually own, where the price comes from, why it swings so hard, what went wrong in 2022, how Wall Street arrived, and the live arguments about what it is worth.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Finance &amp; Investing · Topic 16 of 20</p>
+  <h1>Cryptocurrencies. <span class="thin">An asset with no earnings, no issuer and no floor, worth whatever enough people agree it is.</span></h1>
+  <p class="lede">In 2010 a programmer paid 10,000 bitcoins for two pizzas. Fifteen years later those
+  coins would have been worth more than a billion dollars. In between, the same asset fell by more than
+  70 percent at least four times. Cryptocurrencies are digital tokens recorded on a shared public
+  ledger, and as an investment they are unlike anything else: no company behind them, no profits, no
+  interest, only a fixed or programmed supply and a crowd's belief. This file looks at them as an
+  asset, which is how most people actually meet them.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Finance &amp; Investing</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../01-technology/09-blockchain.html"><span class="vn">Technology · 09</span><b>Blockchain</b><em>The technology underneath</em></a>
+<a class="vol" href="../15-banking-fintech/14-digital-currencies.html"><span class="vn">Banking · 14</span><b>Digital currencies</b><em>Crypto as money, and stablecoins</em></a>
+<a class="vol" href="17-real-estate-investing.html"><span class="vn">Finance · 17</span><b>Real estate investing</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 14's chapter on <a href="../14-computing-and-ai.html#c7">digital payments</a> argues that
+  instant bank-to-bank systems, not crypto, changed how most people pay. Volume 47 lists crypto among
+  the payment methods scammers demand (<a href="../47-not-being-fooled.html#c2">The ones worth
+  recognising by name</a>), and Volume 38 describes the pattern of <a
+  href="../38-money.html#c6">bubbles</a>. The technology itself is in <a
+  href="../01-technology/09-blockchain.html">Technology · Blockchain</a>, and crypto as a form of money
+  is in <a href="../15-banking-fintech/14-digital-currencies.html">Banking · Digital currencies</a>.
+  This file treats it as an investment.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A token on a ledger that nobody controls</h2>
+  <p class="lede">A cryptocurrency is an entry in a public database kept by thousands of computers.
+  Owning one means holding the secret key that lets you move that entry.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Ten thousand coins for two pizzas</h2>
+</header>
+
+<p>On 31 October 2008, weeks after the collapse of Lehman Brothers, someone using the name Satoshi
+Nakamoto published a nine-page paper describing "a peer-to-peer electronic cash system". In January
+2009 the Bitcoin network went live. Nobody knows for certain who Nakamoto was, and the coins
+believed to belong to that person or group have never been moved.</p>
+
+<p>For its first years bitcoin had almost no price. On 22 May 2010 a programmer in Florida, Laszlo
+Hanyecz, paid 10,000 bitcoins for two pizzas, and fans still celebrate the date as "Bitcoin Pizza
+Day". The trade shows two things. First, <strong>a cryptocurrency starts with no value at all and
+gets one only when people decide to accept it</strong>. Second, the value can change by a factor of
+millions in a decade, in a way no ordinary asset ever has.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>What you actually own</h2>
+</header>
+
+<p>A bitcoin is not a file on your phone. It is a balance recorded on the <strong>blockchain</strong>,
+a public ledger copied across thousands of computers around the world. What you hold is a
+<strong>private key</strong>, a very long secret number. Anyone with the key can move the coins.
+Anyone without it cannot, ever. There is no bank to call and no password reset.</p>
+
+<p>Software that stores keys is called a <strong>wallet</strong>. You can keep the key yourself, on
+your phone or on a small offline device called a hardware wallet. This is <strong>self-custody</strong>:
+fully under your control, and fully your responsibility. Estimates suggest that several million
+bitcoins, a large share of all that exist, are lost forever because owners forgot passwords, threw
+away drives or died without passing on their keys.</p>
+
+<p>Most people instead buy through an <strong>exchange</strong>, a company that holds the keys for
+them. That is far easier, and it brings back the thing crypto was designed to remove: a trusted
+middleman who can fail, freeze your account or steal. Crypto users have a saying for this: "not
+your keys, not your coins". Chapter 06 shows why it matters.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Not one asset but several</h2>
+</header>
+
+<p>"Crypto" covers thousands of tokens. They fall into a few families, and they carry very different
+risks.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Family</th><th>Examples</th><th>The idea</th><th>Main risk</th></tr></thead>
+<tbody>
+<tr><td><strong>Bitcoin</strong></td><td>BTC</td><td>Scarce digital money with a supply capped at 21 million coins</td><td>Huge price swings; value rests on belief alone</td></tr>
+<tr><td><strong>Platform tokens</strong></td><td>Ether (Ethereum), Solana</td><td>Fuel for networks that run programs, called smart contracts</td><td>Competition between platforms; bugs in the programs</td></tr>
+<tr><td><strong>Stablecoins</strong></td><td>Tether (USDT), USD Coin (USDC)</td><td>Tokens meant to be worth exactly one dollar, backed by reserves</td><td>Whether the reserves are real and safe</td></tr>
+<tr><td><strong>Everything else</strong></td><td>Thousands of smaller "altcoins" and joke "memecoins"</td><td>Anything from serious projects to pure hype</td><td>Most lose nearly all their value; many are scams</td></tr>
+</tbody></table></div>
+
+<p>Bitcoin alone has usually made up around half of the total value of all crypto assets, and the
+top handful make up most of the rest. <strong>Talking about "crypto" as one investment is like
+talking about "shares" as if Apple and a bankrupt start-up were the same thing.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>A fixed supply, a moving crowd, and a lot of borrowed money</h2>
+  <p class="lede">Crypto prices are set by supply and demand like any other price. What is unusual is
+  that the supply is written in code and the demand has almost nothing to anchor it.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Where the price comes from</h2>
+</header>
+
+<p>Start with supply. New bitcoins are created as a reward for <strong>miners</strong>, who run
+powerful computers to add new blocks of transactions to the ledger. The reward is cut in half
+roughly every four years, in an event called the <strong>halving</strong>. The most recent was in
+April 2024. Because of these halvings, the total can never exceed 21 million, and more than nine
+tenths of those coins already exist. Ether works differently: it has no hard cap, and since 2022 it
+is secured by <strong>staking</strong>, where holders lock up coins as a guarantee instead of using
+mining machines.</p>
+
+<p>Now demand. A share's price is anchored, however loosely, by the profits the company is expected
+to make. A bond's price is anchored by its interest payments. A bitcoin produces nothing. Its price
+depends only on how much others will pay for it later. That makes it closer to gold, or to a
+collectable, than to a share. <strong>Without cash flows to anchor it, nothing stops the price from
+going very high or very low.</strong> Supporters say the anchor is scarcity plus a growing network
+of users. Critics say it is a story that can stop being believed.</p>
+
+<p>A useful comparison is a language. English has no value in itself, but it is very useful because so many people already speak it, and each new speaker makes it more useful to everyone else. This is a <strong>network effect</strong>, and bitcoin's supporters argue it works the same way: the more people hold, accept and build on it, the harder it is for a rival to replace it. The weakness of the comparison is that nobody sells their English in a panic. A network held together by expected price gains can shrink as quickly as it grew.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Why it swings so hard</h2>
+</header>
+
+<p>Bitcoin's history is a series of booms and crashes, each larger in dollars than the last.</p>
+
+<div class="sheet">
+  <div class="cap">Bitcoin's big cycles, approximately</div>
+<pre>
+  2013   rises above 1,000 dollars       2014-15  falls about 80%  (Mt. Gox collapses)
+  2017   nears 20,000 dollars            2018     falls over 80%
+  2021   peaks near 69,000 dollars       2022     falls over 75%  (Terra, Celsius, FTX)
+  2024   passes 100,000 dollars          2025     new record highs
+
+  pattern: long rise -> euphoria -> crash of 70-85% -> slow rebuild -> higher high
+  (past cycles say nothing certain about the next one)
+</pre>
+</div>
+
+<p>Three things drive the size of the swings. First, there is no anchor, as Chapter 04 explained.
+Second, much of the trading uses <strong>leverage</strong>, borrowed money. Some exchanges have
+offered leverage of 100 to 1, so a small fall forces automatic selling, called
+<strong>liquidation</strong>, which pushes the price down further and triggers more liquidations.
+Third, crypto trades every hour of every day, often in thin markets, so a big seller at three in the
+morning on a Sunday can move the price sharply.</p>
+
+<p>Volume 38's chapter on bubbles (<a href="../38-money.html#c6">Bubbles, and why they keep
+happening</a>) describes the pattern: a real innovation, prices rising for good reasons, then buying
+because prices are rising. Whether crypto as a whole is a bubble is fiercely argued. What is not
+argued is that it has gone through several bubble-shaped cycles.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The year the middlemen failed</h2>
+</header>
+
+<p>Crypto promised a financial system without trusted middlemen. In 2022 its middlemen collapsed in a
+chain reaction.</p>
+
+<p>In May, a stablecoin called TerraUSD, which kept its dollar value not through reserves but through
+an algorithm linked to a sister token, Luna, lost its peg. Holders rushed out, the algorithm printed
+ever more Luna, and both tokens fell to almost nothing within days, wiping out tens of billions of
+dollars. Lenders and funds that had bet on Terra were hit next. The crypto lender Celsius froze
+withdrawals in June and later went bankrupt. A large crypto hedge fund, Three Arrows Capital,
+collapsed soon after.</p>
+
+<p>In November came the biggest failure. FTX, one of the world's largest exchanges, run by Sam
+Bankman-Fried, turned out to have used customers' deposits to fund bets by a trading firm he also
+controlled. When customers asked for their money back, it was not there. FTX went bankrupt within
+days. Bankman-Fried was convicted of fraud in 2023 and sentenced to 25 years in prison.</p>
+
+<p><strong>None of these failures was a failure of the blockchain itself.</strong> Bitcoin's ledger
+kept working perfectly throughout. They were failures of old-fashioned things: lending money you
+did not have, mixing customer funds with your own, and promising stability you could not deliver.
+The same mistakes have sunk banks for centuries, which is why <a
+href="19-financial-crises.html">Financial crises</a> reads so similarly.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Stablecoins, the quiet giant</h2>
+</header>
+
+<p>The most used crypto tokens are not the exciting ones. They are stablecoins, which aim to stay
+worth exactly one dollar. The issuer receives a dollar, issues a token, and holds the dollar in
+reserves, mostly cash and short-term US government bonds. By 2025 stablecoins in circulation were
+worth well over 200 billion dollars, most of it in Tether and USD Coin.</p>
+
+<p>People use them to move money between exchanges, to hold dollars in countries where the local
+currency is unstable, and to send payments across borders. The issuers earn interest on the reserves,
+which has made the business very profitable when interest rates are high. The risk is the old one: if
+holders doubt the reserves, they all ask for their dollars at once, a classic bank run. Stablecoins
+as money get their own treatment in <a href="../15-banking-fintech/14-digital-currencies.html">Banking
+· Digital currencies</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>From internet curiosity to Wall Street product</h2>
+  <p class="lede">Crypto now sits in pension funds, company balance sheets and national laws. It also
+  remains the payment method of choice for ransomware and many scams. Both facts matter.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The arrival of the big money</h2>
+</header>
+
+<p>For most of its life, buying bitcoin meant opening an account on a crypto exchange. In January
+2024 the US securities regulator, the SEC, approved the first <strong>spot bitcoin exchange-traded
+funds</strong>, ordinary funds traded on the stock market that hold actual bitcoin. Some of the
+world's largest asset managers launched them, and they drew tens of billions of dollars within
+months. Funds holding ether followed in mid-2024.</p>
+
+<p>This changed who owns crypto. A financial adviser can now put a small slice of bitcoin into a
+client's normal investment account. Some companies hold bitcoin as a reserve asset, and one
+software company, Strategy (formerly MicroStrategy), turned itself into a vehicle for buying it with
+borrowed and newly raised money. <strong>The more crypto is held by the mainstream, the more its price
+moves with the mainstream.</strong> Since about 2020 bitcoin has often risen and fallen together
+with technology shares, which weakens the old claim that it protects you when everything else falls.</p>
+
+<p>The arrival of funds also changed the practical risks for ordinary buyers. A regulated fund removes the danger of losing a key or trusting a dubious exchange, at the cost of a yearly fee and of never holding the coins yourself. It does nothing about the price risk. A fund holding bitcoin falls exactly as far as bitcoin does. And tax authorities in most countries now treat crypto as property or an asset, so selling at a profit, or even swapping one token for another, can create a tax bill, a detail many early buyers discovered too late. The rules vary by country.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Where people actually use it as money</h2>
+</header>
+
+<p>In rich countries crypto is mostly an investment. In some others it is a way to escape a weak
+currency or slow, costly transfers. People in countries with high inflation or strict limits on
+buying dollars, such as Argentina, Nigeria or Turkey, have used stablecoins to hold digital dollars
+on their phones. Migrant workers sometimes use crypto to send money home more cheaply than through
+traditional transfer firms.</p>
+
+<p>The most famous national experiment was El Salvador, which made bitcoin legal tender in September
+2021, obliging businesses to accept it. Uptake for everyday payments stayed low, and in early 2025,
+as part of a loan deal with the International Monetary Fund, the country made acceptance voluntary.
+<strong>Making people use a volatile asset as money turned out to be much harder than letting them
+choose it.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Fraud, theft and crime</h2>
+</header>
+
+<p>Crypto payments are hard to reverse and can cross borders in seconds. That makes them attractive
+to criminals. Ransomware gangs demand payment in crypto. So-called "pig butchering" scams build a
+friendship or romance over weeks and then steer the victim to a fake trading platform that shows
+invented profits until the money is gone. Hackers have stolen billions of dollars from exchanges and
+from the software bridges that link blockchains.</p>
+
+<p>Two balancing facts. First, most crypto activity is not criminal, and blockchain analysis firms
+report that illicit transactions are a small share of the total. Second, a public ledger is in some
+ways easier to trace than cash: investigators have recovered large sums by following coins across
+the chain. But for an ordinary person, the practical rule is simple. <strong>Anyone who asks you to
+pay a bill, a fine or a fee in crypto is almost certainly a fraudster</strong>, as Volume 47
+explains.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A new kind of asset, with new kinds of risk</h2>
+  <p class="lede">The strengths and weaknesses are often the same feature seen from two sides.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Weighing it as an investment</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>The strength</th><th>The weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>No issuer, no central control</strong></td><td class="ok">No government can print more bitcoin or freeze a self-held wallet.</td><td class="no">No one to complain to, no deposit insurance, no recovery if you lose the key or are tricked.</td></tr>
+<tr><td><strong>Fixed or programmed supply</strong></td><td class="ok">Scarcity is guaranteed by code, which appeals to people who fear inflation.</td><td class="mid">Scarcity alone does not create value; thousands of scarce tokens are worthless.</td></tr>
+<tr><td><strong>Open around the clock, anywhere</strong></td><td class="ok">Anyone with a phone can buy and send it, across any border.</td><td class="no">Thin overnight markets and huge leverage make crashes sudden.</td></tr>
+<tr><td><strong>Spectacular past returns</strong></td><td class="ok">Early holders made fortunes few other assets could match.</td><td class="no">Falls of 70–80 percent have happened repeatedly; many tokens never recovered.</td></tr>
+<tr><td><strong>Now inside normal finance</strong></td><td class="ok">Regulated funds make access simple and custody safer.</td><td class="mid">The more it joins mainstream markets, the less it diversifies them.</td></tr>
+<tr><td><strong>Energy use (bitcoin)</strong></td><td class="mid">Supporters say mining can use surplus or stranded power.</td><td class="no">Bitcoin mining uses electricity on the scale of a medium-sized country, by Cambridge University estimates.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The argument about what it is worth</h2>
+</header>
+
+<p>Under every price chart is one unresolved question: does bitcoin have a fundamental value at
+all? Serious people disagree.</p>
+
+<div class="grid2">
+  <div class="card"><h4>The case: digital gold</h4><p>Gold also pays nothing, and it has held value
+  for thousands of years because people agree it is scarce and hard to fake. Bitcoin is scarcer,
+  easier to move and impossible to counterfeit. If it captures even part of gold's role as a store of
+  value, today's price could be justified. Its survival through repeated crashes, the argument goes,
+  is evidence that the belief is durable.</p></div>
+  <div class="card"><h4>The case against: nothing inside</h4><p>A share is a claim on profits; a bond
+  on interest; a house on rent. Bitcoin is a claim on nothing but the next buyer. Gold has thousands of
+  years of history and industrial uses; bitcoin has about fifteen years. If belief fades, there is no
+  floor. Critics such as Warren Buffett have long said they would not own it for that reason.</p></div>
+</div>
+
+<p>Both sides agree on the practical implication. <strong>If you hold crypto, size it so that losing
+almost all of it would hurt but not ruin you.</strong> That is the rule most mainstream advisers apply,
+and it fits the evidence of the past fifteen years better than either "it will replace the dollar" or
+"it is worthless".</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Regulation, tokens for everything, and a possible quantum problem</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Directions, by level of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Tighter, clearer regulation</strong></td><td>The EU's MiCA rules for crypto firms applied fully from the end of 2024. The US passed a federal stablecoin law in 2025.</td><td class="ok">Fairly sure: crypto becomes a regulated industry, with licensed exchanges and reserve rules for stablecoins.</td></tr>
+<tr><td><strong>Stablecoins in mainstream payments</strong></td><td>Banks, card networks and payment firms are testing and issuing stablecoins.</td><td class="ok">Fairly sure they grow; how much they replace bank payments is open.</td></tr>
+<tr><td><strong>Tokenised traditional assets</strong></td><td>Large asset managers have put money-market funds and bonds on blockchains.</td><td class="mid">Plausible: faster settlement for ordinary securities, which may matter more than crypto coins themselves.</td></tr>
+<tr><td><strong>Bitcoin as a major reserve asset</strong></td><td>A few governments hold seized or purchased bitcoin.</td><td class="no">Speculative: central banks still prefer gold and bonds.</td></tr>
+<tr><td><strong>Quantum computers breaking keys</strong></td><td>A large enough quantum computer could in principle derive private keys. None exists yet. See <a href="../14-computing-and-ai.html#c5">Vol 14 · Encryption</a>.</td><td class="mid">Plausible long-term risk; networks would need to upgrade their cryptography in time.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The irony of success</h2>
+</header>
+
+<p>Bitcoin was born as a protest against banks in the wreckage of 2008. Its future now looks more and
+more like a product sold by banks. Regulated funds hold it, regulated firms custody it, and
+governments write rules for it. That brings safety for ordinary investors, who are less likely to
+lose everything to a fraudulent exchange. It also brings the asset closer to the system it was meant
+to escape.</p>
+
+<p>The likeliest outcome is not that crypto replaces money or that it vanishes. It is that a few
+assets, above all bitcoin and the main stablecoins, settle into a permanent place in finance, while
+thousands of other tokens keep appearing and disappearing. <strong>The technology may end up
+mattering most where it is least visible</strong>: in the plumbing that moves dollars and securities,
+rather than in the coins that make headlines.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A cryptocurrency is a <strong>token on a public ledger</strong>, owned by whoever holds its
+    <strong>private key</strong>. Its supply is set by code, but its <strong>demand has no anchor</strong>
+    in profits or interest, so prices swing hugely. Most disasters have come from the
+    <strong>middlemen</strong>, not the ledgers.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Bitcoin's supply is capped at <strong>21 million</strong>, halving roughly every
+      <strong>four years</strong>.</li>
+      <li>It has fallen <strong>70 percent or more</strong> at least four times.</li>
+      <li>US spot bitcoin funds were approved in <strong>January 2024</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Assuming "on a blockchain" means "safe". <strong>The ledger can be perfect while the exchange
+    holding your coins is insolvent</strong>, as FTX's customers found out.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why bitcoin and a share of a company are valued in completely different ways?
+    If you can, you have understood the core of the crypto debate.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Blockchain</dt><dd>A shared public ledger copied across many computers, updated in linked blocks.</dd>
+    <dt>Private key</dt><dd>The secret number that lets its holder move a set of coins.</dd>
+    <dt>Wallet</dt><dd>Software or a device that stores keys and signs transactions.</dd>
+    <dt>Self-custody</dt><dd>Holding your own keys instead of trusting an exchange.</dd>
+    <dt>Exchange</dt><dd>A company where people buy and sell crypto, usually holding the keys for them.</dd>
+    <dt>Mining</dt><dd>Using computing power to add blocks to the bitcoin ledger, in return for new coins.</dd>
+    <dt>Halving</dt><dd>The four-yearly cut in half of bitcoin's mining reward.</dd>
+    <dt>Staking</dt><dd>Locking up coins as a guarantee of honest behaviour, to secure networks like Ethereum.</dd>
+    <dt>Stablecoin</dt><dd>A token designed to keep a fixed value, usually one dollar, backed by reserves.</dd>
+    <dt>Altcoin</dt><dd>Any cryptocurrency other than bitcoin.</dd>
+    <dt>Liquidation</dt><dd>The forced sale of a leveraged position once losses reach a set level.</dd>
+    <dt>Spot bitcoin ETF</dt><dd>A fund traded on a stock exchange that holds actual bitcoin.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Owning bitcoin really means owning a secret key. Lose the key and the coins are gone."</li>
+    <li>"A share is a claim on profits. Bitcoin is a claim on the next buyer, which is why it swings so
+    much."</li>
+    <li>"FTX didn't fail because of the blockchain. It failed because it spent its customers'
+    money."</li>
+    <li>"Since the ETFs arrived, bitcoin often moves with tech stocks, so it's not much of a hedge."</li>
+    <li>"If you hold crypto, hold an amount you could lose almost entirely without real damage."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="17-real-estate-investing.html">Real estate investing</a></h4>
+  <p>The opposite kind of asset: heavy, slow, local, and paying a steady rent.</p></div>
+  <div class="card"><h4>Related · <a href="../01-technology/09-blockchain.html">Blockchain</a></h4>
+  <p>How the shared ledger actually works: blocks, consensus, mining and staking, and what else it is
+  used for.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

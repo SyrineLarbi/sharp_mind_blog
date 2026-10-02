@@ -1,0 +1,836 @@
+<!doctype html>
+<!--@HEAD-SRC title="Market Capitalization" desc="What market capitalization measures, how it is calculated, why indexes weight companies by it, what extreme concentration means, and the limits of size as a signal."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market Capitalization</title>
+<meta name="description" content="What market capitalization measures, how it is calculated, why indexes weight companies by it, what extreme concentration means, and the limits of size as a signal.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Finance &amp; Investing · Topic 09 of 20</p>
+  <h1>Market capitalization. <span class="thin">The price tag the stock market puts on a whole company, every second of the day.</span></h1>
+  <p class="lede">A share price on its own tells you almost nothing about how big a company is. Multiply
+  it by the number of shares, though, and you get the market's current price for the entire business.
+  That number, market capitalization, decides which companies count as giants, how most stock indexes
+  are built, and therefore where trillions of dollars of savings flow. It is the most quoted figure in
+  finance, and one of the most misunderstood.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Finance &amp; Investing</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c5"><span class="vn">Vol 38 · ch 05</span><b>What a price actually is</b><em>The short version</em></a>
+<a class="vol" href="04-index-funds.html"><span class="vn">Finance · 04</span><b>Index funds</b><em>Where cap weighting lives</em></a>
+<a class="vol" href="10-financial-statements.html"><span class="vn">Finance · 10</span><b>Financial statements</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 38 explains that a share price is a collective bet on the future, not a grade for the
+  company (<a href="../38-money.html#c5">What a price actually is</a>), and how prices can run away
+  from reality (<a href="../38-money.html#c6">Bubbles, and why they keep happening</a>). This file
+  takes that price, scales it up to the whole company, and follows what the resulting number does to
+  indexes, portfolios and the shape of the market.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Price times shares: the market's price for the whole business</h2>
+  <p class="lede">Market capitalization, usually shortened to "market cap", is what it would cost, at
+  today's share price, to buy every share a company has issued.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The expensive share that belongs to a smaller company</h2>
+</header>
+
+<p>Company A's shares cost 500 dollars each. Company B's cost 50. Which company is bigger? Most people
+instinctively say A. The honest answer is: you cannot tell yet. If A has 100 million shares, the whole
+company is valued at 50 billion dollars. If B has 10 billion shares, it is valued at 500 billion, ten
+times more.</p>
+
+<p>A real example makes the point. Berkshire Hathaway, Warren Buffett's company, has never split its
+original "class A" shares, so a single one has cost hundreds of thousands of dollars in recent years.
+Yet several companies whose shares cost a few hundred dollars are worth far more in total.
+<strong>A share price is the price of a slice. Market cap is the price of the whole cake.</strong></p>
+
+<p>The formula is simple:</p>
+
+<div class="sheet">
+  <div class="cap">The one formula</div>
+<pre>
+  market capitalization  =  share price  x  number of shares outstanding
+
+  Company A:   $500  x     100 million  =   $50 billion
+  Company B:    $50  x  10,000 million  =  $500 billion
+</pre>
+</div>
+
+<p><strong>Shares outstanding</strong> means all the shares currently held by investors, including
+company insiders, but not shares the company has bought back and holds itself. The figure changes
+every time the share price moves, so a large company's market cap can rise or fall by tens of
+billions of dollars in a single trading day.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The size labels, and why they are fuzzy</h2>
+</header>
+
+<p>Investors sort companies into size bands. There is no official rulebook, and each index provider
+draws the lines slightly differently, but a common rough guide in US dollars looks like this.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Label</th><th>Rough range</th><th>Typical character</th></tr></thead>
+<tbody>
+<tr><td><strong>Mega-cap</strong></td><td>Above about $200 billion</td><td>Household names, global reach, heavily researched</td></tr>
+<tr><td><strong>Large-cap</strong></td><td>About $10 billion to $200 billion</td><td>Established leaders in their industries</td></tr>
+<tr><td><strong>Mid-cap</strong></td><td>About $2 billion to $10 billion</td><td>Growing firms, often expanding into new markets</td></tr>
+<tr><td><strong>Small-cap</strong></td><td>About $300 million to $2 billion</td><td>Younger or niche companies; more volatile</td></tr>
+<tr><td><strong>Micro-cap</strong></td><td>Below about $300 million</td><td>Thinly traded, little research, higher risk</td></tr>
+</tbody></table></div>
+
+<p>The bands drift upward over time as markets grow, so a "large" company in 1990 might be a mid-cap by
+today's standards. <strong>The labels describe a company's position in the market, not its quality.</strong>
+A small-cap can be an excellent business and a mega-cap a fading one.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>What moves the number, and what the number moves</h2>
+  <p class="lede">Market cap changes with the share price and the share count. In turn it decides how
+  much weight each company gets in most indexes, and so how much money flows into it.</p>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>What changes market cap, and what only looks as if it does</h2>
+</header>
+
+<p>The main driver is the share price, which reflects what investors collectively expect the company to
+earn in the future and how risky they think those earnings are. Good results, a new product or falling
+interest rates can raise it. A scandal, a lost contract or rising rates can cut it.</p>
+
+<p>Some corporate actions change the share count. Here people often get confused.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Event</th><th>What happens to shares</th><th>Effect on market cap</th></tr></thead>
+<tbody>
+<tr><td><strong>Stock split</strong> (say 4-for-1)</td><td>Four times as many shares, each at a quarter of the price</td><td class="mid">None by itself. The cake is cut into more slices.</td></tr>
+<tr><td><strong>Share buyback</strong></td><td>The company uses cash to buy and cancel its own shares</td><td class="mid">Fewer shares, but the company also has less cash. Each remaining share owns a bigger slice.</td></tr>
+<tr><td><strong>New share issue</strong></td><td>The company sells new shares for cash</td><td class="mid">More shares and more cash. Existing owners are "diluted": each owns a smaller slice.</td></tr>
+<tr><td><strong>Dividend paid</strong></td><td>Cash leaves the company for shareholders</td><td class="mid">The price typically drops by about the dividend on the day the share stops carrying it.</td></tr>
+</tbody></table></div>
+
+<p><strong>None of these mechanical events creates value on its own.</strong> They rearrange who owns
+what. Value is created or destroyed by what the business actually earns. Buybacks and dividends are
+covered in more depth in <a href="12-dividends.html">Dividends</a>.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Market cap versus enterprise value</h2>
+</header>
+
+<p>Market cap is the price of the shares, not the price of the business. Imagine buying a house worth
+300,000 that comes with a 200,000 mortgage you must take over. The seller asks only 100,000 for the
+keys, but you are really paying 300,000. Companies work the same way. If you bought every share, you
+would also inherit the company's debts, and its cash.</p>
+
+<p>So analysts use <strong>enterprise value</strong> (EV): market cap plus debt, minus cash. A company
+with a market cap of 100 billion, debts of 30 billion and cash of 10 billion has an enterprise value of
+120 billion. <strong>Two companies with the same market cap can have very different enterprise values,
+and the one with more debt is the more expensive to own outright.</strong> Enterprise value is the
+starting point for many of the ratios in <a href="11-company-valuation.html">Company valuation</a>.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Cap-weighted indexes: the bigger you are, the more you count</h2>
+</header>
+
+<p>A stock index is a list of companies whose combined price is tracked as one number. The best-known
+ones, such as the S&amp;P 500 in the US or the MSCI World index of developed markets, are
+<strong>capitalization-weighted</strong>. Each company's influence on the index is proportional to its
+market cap. If a company makes up 7% of the total value of all companies in the index, it gets 7% of the
+weight. Index funds that track the index buy shares in those same proportions.</p>
+
+<p>Most major indexes also adjust for <strong>free float</strong>: they count only shares that are
+actually available to trade, leaving out large blocks held by founders, governments or parent
+companies. A company whose government owns 80% of the shares counts for much less than its full market
+cap suggests.</p>
+
+<p>Cap weighting has a quiet elegance. When prices move, the weights move with them automatically, so a
+cap-weighted fund never needs to trade just because prices changed. It trades only when companies
+enter or leave the index or issue and cancel shares. That keeps costs very low. It also means that
+<strong>a cap-weighted index fund holds exactly the market</strong>, which is the portfolio that, on
+average, investors as a whole must hold. That is the logic behind
+<a href="04-index-funds.html">Index funds</a>.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Joining the club: what index inclusion does</h2>
+</header>
+
+<p>Because so much money tracks the big indexes, being added to one matters. When a company joins the
+S&amp;P 500, every fund that tracks the index has to buy its shares, usually all on the same day. In
+December 2020 Tesla joined the S&amp;P 500 as one of the largest companies ever added at that point.
+Its shares rose sharply between the announcement and the inclusion date, as investors anticipated the
+forced buying.</p>
+
+<p>Researchers have long studied this "index effect". Earlier decades showed noticeable price jumps on
+inclusion. More recent studies suggest the effect has shrunk as traders learned to anticipate it.
+Either way, inclusion brings lasting benefits: more attention from analysts, easier trading, and a
+broader base of owners. Note that the S&amp;P 500 is not a purely mechanical list of the 500 largest
+US firms. A committee chooses members, using rules that include size, trading activity and a record of
+profits.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Where the world's savings go</h2>
+  <p class="lede">Because indexes follow market cap, so does a large share of global investment. That
+  makes the distribution of market cap a question for every saver, not just for traders.</p>
+</header>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The age of the giants</h2>
+</header>
+
+<p>In August 2018 Apple became the first US company to be valued at one trillion dollars. Within a few
+years several American technology companies passed that mark, and in 2025 the chipmaker Nvidia became
+the first company to pass four trillion. A small group of US technology firms, nicknamed the
+"Magnificent Seven" (Apple, Microsoft, Alphabet, Amazon, Meta, Nvidia and Tesla), came to dominate the
+market.</p>
+
+<p>The consequence for ordinary savers is concentration. By 2024 and 2025 the ten largest companies in
+the S&amp;P 500 made up well over a third of the whole index, a level not seen in decades. Someone who
+believes they own "the 500 biggest US companies" through an index fund actually has a large part of
+their money riding on a handful of related technology businesses. <strong>A cap-weighted index is
+diversified by count but can be concentrated by value.</strong></p>
+
+<p>The same pattern shows up between countries. In the mid-2020s US companies made up roughly
+seven-tenths of the MSCI World developed-markets index. A "global" index fund is therefore, in large
+part, a bet on American companies, and on the US dollar.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Japan 1989: when the biggest was not the safest</h2>
+</header>
+
+<p>Concentration has happened before, and history offers a warning. At the end of 1989 Japanese
+companies made up a larger share of the world's stock-market value than American ones. Japanese banks
+and industrial groups filled the list of the world's largest firms. A global investor who weighted by
+market cap had a huge bet on Japan.</p>
+
+<p>Then the Japanese bubble burst. The Nikkei 225 index fell by more than half over the following years
+and did not regain its 1989 peak until early 2024, more than three decades later. The lesson is not that
+today's giants will repeat this. Their profits are real and very large. It is that <strong>market cap
+records what investors currently believe, and investors can collectively be wrong for a very long
+time</strong>. Volume 38 describes how such beliefs build up
+(<a href="../38-money.html#c6">Bubbles, and why they keep happening</a>), and the wider story of
+crashes is in <a href="19-financial-crises.html">Financial crises</a>.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The size effect: do small companies earn more?</h2>
+</header>
+
+<p>In the early 1990s the economists Eugene Fama and Kenneth French published influential research on
+US shares. Among other findings, they showed that, historically, small companies had earned higher
+average returns than large ones. They proposed "size" as one of a few factors that explain differences
+in returns, alongside how cheap a share is relative to its accounts (value).</p>
+
+<p>The size effect is now one of the most debated results in finance. In many periods since it was
+published, small-caps have not outperformed, and some researchers argue the effect was weaker than it
+first looked, or is mostly found among very small, hard-to-trade companies. Others think it survives in
+some forms, for example among small companies that are also profitable. <strong>The honest summary is
+that small companies are riskier, and whether investors are reliably paid extra for that risk is
+contested.</strong> The general link between risk and reward is in
+<a href="06-risk-and-return.html">Risk and return</a>.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>A company is not a country</h2>
+</header>
+
+<p>Headlines often say a company is "worth more than" some country's economy, comparing a market cap
+with a gross domestic product (GDP). This compares two different kinds of number. GDP is a
+<strong>flow</strong>: the value of goods and services a country produces in one year. Market cap is a
+<strong>stock</strong>: the price today of all the company's future profits, for as long as it exists.
+It is like comparing a person's yearly salary with the price of a house. The comparison makes a vivid
+headline and means very little. GDP itself is explained in
+<a href="../09-economics/05-gdp.html">GDP</a>.</p>
+
+<p>A related idea is more useful: the total market cap of a country's listed companies divided by its
+GDP. Warren Buffett once described this ratio as perhaps the best single measure of where valuations
+stand. When it is very high by historical standards, as it was in the US in the mid-2020s, it suggests
+shares are expensive relative to the economy. It is a rough gauge, though, because many large companies
+now earn much of their profit abroad.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A useful measure with real blind spots</h2>
+  <p class="lede">Market cap is fast, objective and universal. It is also only an opinion, and
+  weighting by it has costs.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Weighting by size, and the alternatives</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Method</th><th>Strengths</th><th>Weaknesses</th></tr></thead>
+<tbody>
+<tr><td><strong>Cap weighting</strong></td><td class="ok">Mirrors the market; very little trading; lowest cost; can hold huge sums easily</td><td class="no">Puts most money in whatever has already risen most; can become concentrated in a few firms or one country</td></tr>
+<tr><td><strong>Equal weighting</strong></td><td class="mid">Every company counts the same; less concentration; more exposure to smaller firms</td><td class="no">Needs regular rebalancing, so higher costs; harder to run with very large sums</td></tr>
+<tr><td><strong>Fundamental weighting</strong></td><td class="mid">Weights by sales, profits or dividends, not price, so it buys less of whatever looks expensive</td><td class="no">More trading and higher fees; long periods of lagging when expensive shares keep rising</td></tr>
+</tbody></table></div>
+
+<p>Beyond index design, market cap as a measure has its own strengths and weaknesses.</p>
+
+<div class="grid2">
+  <div class="card"><h4>What it does well</h4><p>It is objective and updated constantly. It gathers
+  the views of millions of investors into one number. It makes companies in different countries and
+  industries comparable. And it is the honest answer to "what would it cost to buy this business in the
+  market today?"</p></div>
+  <div class="card"><h4>Where it misleads</h4><p>It ignores debt, so it can make indebted companies look
+  cheap. It can swing on mood rather than results. It says nothing about whether a company is a good
+  investment at its price. And for thinly traded small firms, the last trade may not reflect what a large
+  buyer would actually pay.</p></div>
+</div>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Concentration, turnover at the top, and who sets prices</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Directions, by level of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>The top of the list will change</strong></td><td>The largest companies of 1980, 2000 and 2025 are mostly different names. Oil companies, IBM and General Electric once led; technology platforms lead now.</td><td class="ok">Fairly sure: history says today's leaders will not all stay on top for decades. Which ones fall, and when, nobody knows.</td></tr>
+<tr><td><strong>More debate about concentration</strong></td><td>Regulators, index firms and investors are discussing caps on single-company weights and alternatives to pure cap weighting.</td><td class="mid">Plausible: more "capped" and equal-weight products, and more scrutiny of how much of the market a few firms represent.</td></tr>
+<tr><td><strong>Passive investing distorts prices</strong></td><td>Some argue that as more money tracks indexes mechanically, fewer investors judge each company's value, and inflows push up the biggest firms regardless of merit.</td><td class="no">Speculative and contested: evidence so far is mixed, and many economists think active traders still set prices efficiently enough.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>How giants shrink</h2>
+</header>
+
+<p>In March 2000, at the peak of the dot-com bubble, the network-equipment maker Cisco was briefly the
+most valuable company in the world. Its business kept growing for years afterwards, but its share price
+fell steeply when the bubble burst and stayed far below that peak for decades. General Electric, once the
+world's most valuable company, shrank and eventually split itself into separate firms in the 2020s.</p>
+
+<p>These stories show the two ways a giant shrinks. Sometimes the business weakens. Just as often the
+business stays sound, but the price investors paid assumed growth that could never be delivered.
+<strong>A high market cap is a forecast built into a price; when the forecast is too optimistic, the
+cap falls even if the company keeps doing well.</strong> That is why the next two topics,
+<a href="10-financial-statements.html">Financial statements</a> and
+<a href="11-company-valuation.html">Company valuation</a>, ask what a company actually earns and what
+that should be worth.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Market cap is <strong>share price times shares outstanding</strong>: the market's current price
+    for all of a company's shares. Most indexes are <strong>cap-weighted</strong>, so the biggest
+    companies attract the most money. It is a <strong>measure of belief</strong>, not of quality, and it
+    ignores debt, which <strong>enterprise value</strong> adds back.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Apple became the first US company worth <strong>$1 trillion</strong> in 2018; Nvidia passed
+      <strong>$4 trillion</strong> in 2025.</li>
+      <li>The ten largest S&amp;P 500 companies made up <strong>well over a third</strong> of the index
+      by the mid-2020s.</li>
+      <li>Japan's Nikkei took until <strong>2024</strong> to regain its 1989 peak.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking a high share price means a big or expensive company. <strong>Price per share tells you
+    nothing on its own</strong>; you need the share count, and to judge "expensive" you need profits.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a 4-for-1 stock split leaves market cap unchanged, and why two firms with the
+    same market cap can cost very different amounts to buy outright? Then you understand shares, slices
+    and enterprise value.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Market capitalization</dt><dd>Share price multiplied by the number of shares outstanding.</dd>
+    <dt>Shares outstanding</dt><dd>All the shares held by investors, not counting shares the company holds itself.</dd>
+    <dt>Free float</dt><dd>The shares actually available to trade, excluding locked-up blocks held by founders, states or parent firms.</dd>
+    <dt>Mega-, large-, mid-, small-, micro-cap</dt><dd>Rough size bands, drawn differently by different index providers.</dd>
+    <dt>Enterprise value</dt><dd>Market cap plus debt minus cash: the cost of buying the whole business, debts included.</dd>
+    <dt>Stock split</dt><dd>Dividing each share into several cheaper ones, without changing the total value.</dd>
+    <dt>Share buyback</dt><dd>A company buying its own shares from the market, usually to cancel them.</dd>
+    <dt>Dilution</dt><dd>The shrinking of each owner's slice when a company issues new shares.</dd>
+    <dt>Cap-weighted index</dt><dd>An index where each company counts in proportion to its market cap.</dd>
+    <dt>Equal-weighted index</dt><dd>An index where every company counts the same, whatever its size.</dd>
+    <dt>Index effect</dt><dd>The price movement around a company being added to or removed from a major index.</dd>
+    <dt>Size premium</dt><dd>The contested idea that small companies earn higher returns over time than large ones.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A share price is the price of a slice. Market cap is the price of the whole cake."</li>
+    <li>"A stock split doesn't make anyone richer. It just cuts the same cake into more pieces."</li>
+    <li>"Market cap leaves out debt. If you want the real price of the business, look at enterprise
+    value."</li>
+    <li>"An S&amp;P 500 fund owns five hundred companies, but a big slice of the money sits in about ten
+    of them."</li>
+    <li>"Comparing a company's market cap with a country's GDP is comparing a house price with a
+    salary."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="10-financial-statements.html">Financial statements</a></h4><p>The
+  three documents that show what a company earns, owns and owes, and how to read them without being an
+  accountant.</p></div>
+  <div class="card"><h4>Related · <a href="04-index-funds.html">Index funds</a></h4><p>How
+  cap-weighted indexes became the default home for ordinary savings, and why low cost beats cleverness
+  for most people.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

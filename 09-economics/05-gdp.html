@@ -1,0 +1,852 @@
+<!doctype html>
+<!--@HEAD-SRC title="GDP" desc="What gross domestic product measures and how it is calculated, why governments and markets watch it, what it leaves out, and the search for better measures of how well a country is doing."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GDP</title>
+<meta name="description" content="What gross domestic product measures and how it is calculated, why governments and markets watch it, what it leaves out, and the search for better measures of how well a country is doing.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Economics · Topic 05 of 20</p>
+  <h1>GDP. <span class="thin">The most important number in economics, and the most misunderstood.</span></h1>
+  <p class="lede">Gross domestic product is the total value of what a country produces in a year. It
+  decides whether the news says the economy is growing or in recession. It sets how much a country can
+  borrow, what it pays into international bodies, and how it ranks against its neighbours. Yet the
+  number is less than a century old, it was never designed to measure happiness, and it ignores some of
+  the work that matters most. Understanding what GDP counts, and what it does not, lets you read
+  economic news without being fooled in either direction.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Economics</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../16-staying-updated.html#u3"><span class="vn">Vol 16 · u3</span><b>How to read a number</b><em>Real versus nominal</em></a>
+<a class="vol" href="07-recessions.html"><span class="vn">Economics · 07</span><b>Recessions</b><em>When GDP falls</em></a>
+<a class="vol" href="06-economic-growth.html"><span class="vn">Economics · 06</span><b>Economic growth</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first full treatment of GDP. The nearest neighbour is Volume 16's guide to
+  reading statistics in the news, which explains the difference between real and nominal figures and
+  between rates and levels (<a href="../16-staying-updated.html#u3">How to read a number</a>). Both
+  habits matter constantly when reading GDP.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>One number for everything an economy makes</h2>
+  <p class="lede">GDP adds up the market value of all the final goods and services produced inside a
+  country over a period, usually a quarter or a year.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Born in a depression, raised in a war</h2>
+</header>
+
+<p>When the Great Depression struck in 1929, the US government had no reliable way of knowing how
+large the collapse was. There were scattered figures for steel output, freight carried and share
+prices, but no single measure of the whole economy. In 1932 the Senate asked for one. The job went to
+a young economist, Simon Kuznets, who presented estimates of national income to Congress in 1934. They
+showed that national income had fallen by about half between 1929 and 1932.</p>
+
+<p>Kuznets himself warned against reading too much into his creation.</p>
+
+<div class="pass">
+  <p>The welfare of a nation can, therefore, scarcely be inferred from a measurement of national
+  income as defined above.</p>
+  <span class="src"><b>Simon Kuznets</b> · report to the US Congress · 1934</span>
+</div>
+
+<p>The Second World War then made the numbers essential. Governments needed to know how much the
+economy could produce for the war effort without starving civilians. Britain's accounts were built in
+the same years by economists working with John Maynard Keynes, including Richard Stone, who later won
+a Nobel prize for the work. After the war, the United Nations published a common
+<strong>System of National Accounts</strong> in 1953 so that countries could measure in the same way.
+It has been updated several times since. <strong>GDP was invented to manage depressions and wars,
+not to measure how good life is</strong>, and that origin explains many of its blind spots.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The definition, word by word</h2>
+</header>
+
+<p>Each word in the standard definition does work.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Word</th><th>What it means</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Market value</strong></td><td>Things are valued at the prices they sell for, so apples and haircuts can be added up</td><td>A 30-euro haircut counts as 30 euros</td></tr>
+<tr><td><strong>Final</strong></td><td>Only goods sold to their end user count, to avoid counting the same thing twice</td><td>Bread counts; the flour inside it does not, separately</td></tr>
+<tr><td><strong>Goods and services</strong></td><td>Physical things and work done for people both count</td><td>Cars, but also teaching, banking and nursing</td></tr>
+<tr><td><strong>Produced</strong></td><td>Only new production counts, not resales</td><td>Selling a used car adds only the dealer's service, not the car</td></tr>
+<tr><td><strong>Domestic</strong></td><td>Inside the country's borders, whoever owns the factory</td><td>A Japanese-owned car plant in England adds to UK GDP</td></tr>
+<tr><td><strong>Period</strong></td><td>A quarter or a year</td><td>"GDP grew 0.3% in the second quarter"</td></tr>
+</tbody></table></div>
+
+<p>The word "final" is the one people miss. If a farmer sells wheat to a miller for 10, the miller sells
+flour to a baker for 25, and the baker sells bread for 60, the economy has produced 60 of value, not
+95. Another way to see it is to add only the value each step adds: 10 by the farmer, 15 by the miller,
+35 by the baker. That also comes to 60. This <strong>value added</strong> method is how statisticians
+avoid double counting.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>GDP's cousins: GNI and GDP per person</h2>
+</header>
+
+<p>"Domestic" means GDP counts what is produced inside the country. <strong>Gross national
+income</strong> (GNI) counts the income earned by a country's residents, wherever it comes from. For
+most countries the two are close. For some they differ a lot. Ireland hosts the European headquarters
+of many large multinational firms, and much of the profit counted in its GDP flows out to foreign
+owners. Ireland therefore publishes its own adjusted measure of national income, which is much smaller
+than its GDP.</p>
+
+<p>The most useful version for comparing living standards is <strong>GDP per person</strong> (or per
+capita): GDP divided by the population. China's total GDP is far larger than Switzerland's, but the
+average Swiss resident has a much higher income. <strong>Total GDP tells you about economic weight;
+GDP per person tells you about average prosperity.</strong> Neither tells you how that income is
+shared, which is the subject of <a href="16-inequality.html">Inequality</a>.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Three ways of counting that should give one answer</h2>
+  <p class="lede">Every euro spent is a euro earned by someone, and it pays for something produced.
+  So GDP can be measured from spending, from income or from production.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Spending, income and output</h2>
+</header>
+
+<div class="grid3">
+  <div class="card"><h4>The spending approach</h4><p>Add up what everyone spends on final goods and
+  services: households' consumption, businesses' investment, government purchases, and exports minus
+  imports. Economists write it as <strong>GDP = C + I + G + (X − M)</strong>.</p></div>
+  <div class="card"><h4>The income approach</h4><p>Add up all the income earned from production:
+  wages and salaries, company profits, rents and interest, plus some taxes on production. This shows
+  how the value created is divided between workers and owners.</p></div>
+  <div class="card"><h4>The output approach</h4><p>Add up the value added by every industry:
+  farming, manufacturing, construction, retail, finance, health and so on. This shows which sectors
+  drive the economy.</p></div>
+</div>
+
+<p>In theory, all three give the same number. In practice they come from different surveys and tax
+records, so they never quite match, and statisticians publish a "statistical discrepancy" to close
+the gap. In rich countries, household consumption is usually the largest part of spending, often
+between about half and two thirds of GDP. That is why economists watch consumer confidence and retail sales so
+closely: <strong>when households stop spending, GDP usually follows</strong>.</p>
+
+<p>Note that imports are subtracted. They are not bad for the economy in themselves. They are taken
+out because the consumption and investment figures already include imported goods, which were not
+produced at home. This is a common source of confusion in arguments about trade, covered in
+<a href="11-international-trade.html">International trade</a>.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Nominal and real GDP</h2>
+</header>
+
+<p>If an economy produces exactly the same goods as last year but every price rises 5%, nominal GDP
+grows 5%. Nobody is better off. To separate genuine growth from price rises, statisticians calculate
+<strong>real GDP</strong>, which values output at constant prices. The ratio between the two is the
+<strong>GDP deflator</strong>, a broad measure of inflation across everything the economy produces.</p>
+
+<p>Almost every headline growth figure is real. When you read that "the economy grew 2% last year",
+it means real GDP. When politicians compare the size of debt or spending to GDP, they usually use
+nominal figures, since debts are also nominal. Mixing the two is one of the most common errors in
+economic arguments.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Comparing countries: the hamburger problem</h2>
+</header>
+
+<p>To compare economies you need a common currency, usually US dollars. But exchange rates move
+every day and do not reflect what money buys locally. A haircut in Delhi costs a fraction of one in
+Zurich, though it is the same service. Converting at market exchange rates makes poorer countries
+look poorer than their residents feel.</p>
+
+<p>Economists therefore also compare GDP at <strong>purchasing power parity</strong> (PPP): adjusting
+for what the same basket of goods costs in each country. In 1986 <em>The Economist</em> magazine
+popularised the idea with a light-hearted "Big Mac index", comparing burger prices around the world.
+Official PPP figures come from a much larger price survey, the International Comparison Program,
+coordinated by the World Bank.</p>
+
+<p>The choice changes rankings. At market exchange rates, the US economy is clearly the largest in
+the world. On a PPP basis, China's economy has been estimated to be larger than the US economy since
+the mid-2010s. <strong>Both statements are true; they answer different questions.</strong> Market
+rates tell you what an economy can buy on world markets, such as oil or aircraft. PPP tells you about
+the volume of goods and services people actually consume.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Estimates, revisions and surprises</h2>
+</header>
+
+<p>GDP is not counted like votes. It is estimated, from surveys, tax data and models, and the first
+estimate is published within weeks of a quarter ending, long before all the data arrive. Later
+revisions can change the picture, sometimes turning reported growth into a fall or the reverse.</p>
+
+<p>Occasionally the changes are dramatic. In 2014 Nigeria updated the base year of its accounts,
+from 1990 to 2010, to include industries that had barely existed before, such as mobile phones and
+its large film industry. Its measured GDP nearly doubled overnight, and it overtook South Africa as
+Africa's largest economy. Nothing real had changed; the measuring tape had. In 2016 Ireland reported
+that its GDP had grown by about 26% in 2015, mainly because multinational firms had moved valuable
+intellectual property, such as patents, onto Irish books. The economist Paul Krugman mocked it as
+"leprechaun economics". <strong>When a GDP figure looks astonishing, ask first what changed in the
+measurement.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>The denominator of almost everything</h2>
+  <p class="lede">GDP is used to judge whether an economy is healthy, to size debts and budgets, and to
+  compare nations. Many rules and targets are written as a percentage of it.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>A ruler for debts, deficits and promises</h2>
+</header>
+
+<p>A debt of one trillion dollars sounds enormous. Whether it is depends on the size of the economy
+that must carry it. That is why government debt and deficits are almost always reported as a
+percentage of GDP. The EU's rules, set out in the 1992 Maastricht Treaty, use reference values of a
+deficit of 3% of GDP and debt of 60% of GDP. NATO members set a target in 2014 of spending 2% of GDP
+on defence, and in 2025 agreed to a higher goal of 5% by 2035, a figure that includes some wider
+security-related spending. Aid targets, climate finance pledges and health budgets are also often
+expressed this way.</p>
+
+<p>This makes GDP politically powerful. <strong>If GDP is mismeasured, every ratio built on it is
+wrong too.</strong> Greece's crisis in 2009 began when a new government revealed that deficit figures
+had been badly understated, and part of the problem was the reliability of the official
+statistics. See <a href="14-public-debt.html">Public debt</a>.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The size of the world, in rough numbers</h2>
+</header>
+
+<p>According to IMF estimates, the world economy produced roughly 110 trillion US dollars of output in
+2024 at market exchange rates. The United States accounted for about a quarter of that, close to 30
+trillion dollars, and China for about 18 trillion. The euro area together was somewhat smaller than
+China at market rates. These figures shift every year with growth and exchange rates, so treat them
+as orders of magnitude.</p>
+
+<p>The gaps per person are wider still. Average income per person in the richest countries is more
+than fifty times that of the poorest, even after adjusting for prices. Those gaps are the starting
+point for <a href="18-economic-development.html">Economic development</a>, and how countries close
+them is the subject of <a href="06-economic-growth.html">Economic growth</a>.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>GDP per person tracks a lot of what people care about</h2>
+</header>
+
+<p>Critics are right that GDP is not well-being. But it is strongly correlated with things almost
+everyone values. Countries with higher GDP per person tend to have longer life expectancy, lower child
+mortality, more years of schooling and better access to clean water and electricity. The relationship
+is not perfect, and above a certain level of income the gains in life expectancy flatten out. Some
+countries, such as Costa Rica, achieve health outcomes close to much richer ones; the United States
+has lower life expectancy than many countries with lower GDP per person.</p>
+
+<p>Still, <strong>for poorer countries, faster GDP growth is usually the most reliable path to better
+lives</strong>, because it pays for schools, hospitals and infrastructure. The debate about GDP's
+limits is mostly a debate among rich countries, where more output no longer brings the same
+improvement.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A brilliant measure of output, and a poor measure of life</h2>
+  <p class="lede">GDP does one job very well. The problems start when it is asked to do others.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>What GDP gets right and what it misses</h2>
+</header>
+
+<p>In March 1968, at the University of Kansas, the US senator Robert F. Kennedy gave a speech that is
+still the most quoted criticism of national income figures. He listed what they counted, from
+cigarette advertising to prisons, and what they left out, from the health of children to the joy of
+their play. He ended with this line.</p>
+
+<div class="pass">
+  <p>It measures everything, in short, except that which makes life worthwhile.</p>
+  <span class="src"><b>Robert F. Kennedy</b> · University of Kansas · 1968</span>
+</div>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>One comparable number</strong></td><td class="ok">Built on shared international rules, so countries and years can be compared.</td><td class="no">Hides how income is shared. GDP can rise while most households see no gain.</td></tr>
+<tr><td><strong>Counts market activity</strong></td><td class="ok">Based on real transactions and prices, which can be checked.</td><td class="no">Ignores unpaid work: childcare, cooking, caring for elderly parents. Much of it is done by women.</td></tr>
+<tr><td><strong>Measures flows this year</strong></td><td class="ok">Shows quickly when an economy is slowing or recovering.</td><td class="no">Ignores the depletion of stocks. Cutting down a forest raises GDP; the lost forest is not subtracted.</td></tr>
+<tr><td><strong>Neutral about what is produced</strong></td><td class="ok">Avoids officials deciding which goods are "good".</td><td class="no">Cleaning up a disaster, or treating pollution-related illness, adds to GDP as if it were a gain.</td></tr>
+<tr><td><strong>Prices measure value</strong></td><td class="ok">Uses what people actually pay.</td><td class="no">Free digital services such as search and maps add almost nothing to GDP despite huge value to users.</td></tr>
+<tr><td><strong>Fast and regular</strong></td><td class="ok">Quarterly estimates guide central banks and governments.</td><td class="no">Early figures are revised, sometimes heavily.</td></tr>
+</tbody></table></div>
+
+<p>There are also boundary questions with no right answer. Since 2014, EU rules have asked countries
+to include estimates of illegal activity, such as drug dealing, where it involves voluntary market
+transactions. This raised measured GDP slightly in several countries and caused some public
+surprise. The point was consistency: in some EU countries prostitution is legal and already counted,
+in others it is not.</p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The alternatives that have been tried</h2>
+</header>
+
+<p>In 1990 the United Nations Development Programme launched the <strong>Human Development
+Index</strong> (HDI), designed by the Pakistani economist Mahbub ul Haq with input from Amartya Sen.
+It combines income with life expectancy and education. Bhutan has promoted "Gross National Happiness"
+since the 1970s as its guiding goal. In 2009 a commission led by Joseph Stiglitz, Amartya Sen and
+Jean-Paul Fitoussi, set up at the request of France's president Nicolas Sarkozy, recommended that
+countries measure well-being, sustainability and the distribution of income alongside GDP. New Zealand
+presented a "wellbeing budget" in 2019, judging spending against a wider set of indicators.</p>
+
+<p>None of these has replaced GDP. The reasons are practical. <strong>Any wider measure requires
+choosing weights</strong>: how much is a year of life expectancy worth compared with a thousand dollars
+of income? GDP avoids that choice by using market prices. The common view among statisticians is
+therefore a "dashboard" approach: keep GDP for what it measures well, and publish other indicators
+beside it rather than one combined score.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Measuring a digital, ageing and warming economy</h2>
+  <p class="lede">GDP is being stretched by economies its designers never imagined. Sorted by
+  confidence.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>GDP stays the headline</strong></td><td>The UN updated the System of National Accounts again in 2025, adding more guidance on the digital economy, well-being and sustainability, while keeping GDP at the centre.</td><td class="ok">Fairly sure: GDP will remain the central number for decades, with more indicators published around it.</td></tr>
+<tr><td><strong>Natural capital accounts</strong></td><td>In 2021 the UN adopted a statistical standard for ecosystem accounting, so countries can measure forests, wetlands and soils alongside the economy. Many countries are building such accounts.</td><td class="mid">Plausible: these accounts will increasingly inform policy, especially on climate and land use, though they are unlikely to be merged into GDP itself.</td></tr>
+<tr><td><strong>Capturing AI and free digital value</strong></td><td>Economists have proposed ways to measure the value of free services, for example by asking people how much they would need to be paid to give them up.</td><td class="no">Speculative: if AI raises output in ways that show up mainly as free or cheaper services, measured GDP may understate the change. How large the gap is, nobody yet knows.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Faster numbers: nowcasting</h2>
+</header>
+
+<p>Official GDP arrives weeks after the quarter ends. Central banks and investors increasingly use
+<strong>nowcasting</strong>: estimating current GDP from data that arrive daily, such as card
+payments, electricity use, shipping movements, job advertisements and online searches. During the
+pandemic in 2020, when the economy changed by the week, these sources showed the collapse and the
+recovery far faster than official figures.</p>
+
+<p>Faster data have a cost: they are noisier and can be misleading when behaviour shifts, as when
+online shopping suddenly replaced shop visits. They supplement the official accounts rather than
+replace them. The lasting lesson of GDP's history is the one Kuznets gave at the start. <strong>It
+is an excellent measure of how much an economy produces, and a poor guide to how well its people
+live.</strong> Use it for the first question and look elsewhere for the second. The next file asks
+why some economies produce so much more than others, and how they got there:
+<a href="06-economic-growth.html">Economic growth</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>GDP is the <strong>market value of all final goods and services</strong> produced in a country
+    in a period. It can be measured from <strong>spending, income or output</strong>.
+    <strong>Real</strong> GDP removes inflation; <strong>per person</strong> GDP shows average
+    prosperity. It measures output well and well-being poorly.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li><strong>1934</strong>: Kuznets' first US national income estimates. <strong>1953</strong>:
+      the first UN System of National Accounts.</li>
+      <li>World output was roughly <strong>110 trillion dollars</strong> in 2024 at market exchange
+      rates.</li>
+      <li>EU reference values: deficit <strong>3%</strong> and debt <strong>60%</strong> of GDP.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Treating GDP as a measure of how well people live. It ignores <strong>unpaid work, inequality
+    and environmental damage</strong>, and it counts disasters' clean-up as output.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>A country's GDP jumps 20% in a year while wages and jobs barely change. Name two possible
+    explanations that involve measurement rather than real growth.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>GDP</dt><dd>Gross domestic product: the value of all final goods and services produced in a country in a period.</dd>
+    <dt>Final goods</dt><dd>Goods sold to their end user, not used up in making something else.</dd>
+    <dt>Value added</dt><dd>The value a producer adds: its sales minus what it paid for inputs.</dd>
+    <dt>GNI</dt><dd>Gross national income: income earned by a country's residents, wherever it is produced.</dd>
+    <dt>GDP per capita</dt><dd>GDP divided by population: average output per person.</dd>
+    <dt>Nominal GDP</dt><dd>GDP at current prices, including the effect of inflation.</dd>
+    <dt>Real GDP</dt><dd>GDP at constant prices, showing the change in actual output.</dd>
+    <dt>GDP deflator</dt><dd>The price index that converts nominal GDP into real GDP.</dd>
+    <dt>Purchasing power parity</dt><dd>An exchange rate adjusted for what money buys locally.</dd>
+    <dt>National accounts</dt><dd>The full set of official statistics on a country's output, income and spending.</dd>
+    <dt>Human Development Index</dt><dd>A UN measure combining income, life expectancy and education.</dd>
+    <dt>Nowcasting</dt><dd>Estimating the economy's current state from fast, frequent data.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"GDP measures how much an economy produces, not how well its people live. Its inventor said so
+    in 1934."</li>
+    <li>"Total GDP tells you about power. GDP per person tells you about prosperity."</li>
+    <li>"Cutting down a forest raises GDP. Nobody subtracts the forest."</li>
+    <li>"When a GDP number looks astonishing, check whether the economy changed or the measurement
+    did."</li>
+    <li>"China is bigger than the US by purchasing power, smaller at market exchange rates. Both are
+    true; they answer different questions."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="06-economic-growth.html">Economic growth</a></h4><p>Why some
+  countries became rich and others did not: capital, ideas, institutions, and the arithmetic of
+  compounding growth.</p></div>
+  <div class="card"><h4>Related · <a href="07-recessions.html">Recessions</a></h4><p>What happens
+  when GDP falls: how downturns are defined, what causes them and how governments respond.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

@@ -1,0 +1,883 @@
+<!doctype html>
+<!--@HEAD-SRC title="Portfolio Management" desc="How a portfolio is built and run: goals and horizons, asset allocation, rebalancing, costs, active versus passive, the behaviour gap, and where the craft is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Management</title>
+<meta name="description" content="How a portfolio is built and run: goals and horizons, asset allocation, rebalancing, costs, active versus passive, the behaviour gap, and where the craft is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Finance &amp; Investing · Topic 08 of 20</p>
+  <h1>Portfolio management. <span class="thin">The art of owning many things on purpose, and then mostly leaving them alone.</span></h1>
+  <p class="lede">Most people think investing is about picking winners. Professionals spend surprisingly
+  little time on that. Their real work is deciding how much of the money goes into each broad kind of
+  asset, keeping those proportions steady as markets move, keeping costs and taxes low, and stopping
+  their clients (and themselves) from panicking at the worst moment. That work is called portfolio
+  management. It is less exciting than stock picking, and it explains far more of what an investor
+  actually ends up with.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Finance &amp; Investing</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c5"><span class="vn">Vol 38 · ch 05</span><b>What a price actually is</b><em>The short version</em></a>
+<a class="vol" href="07-diversification.html"><span class="vn">Finance · 07</span><b>Diversification</b><em>The idea underneath</em></a>
+<a class="vol" href="09-market-capitalization.html"><span class="vn">Finance · 09</span><b>Market capitalization</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 38 ends its markets chapter with a short list: spread your risk, keep costs low, leave it
+  alone (<a href="../38-money.html#c5">What a price actually is</a>), and its personal-finance chapter
+  covers buffers and debt (<a href="../38-money.html#c7">The short list that actually matters</a>).
+  This file explains the machinery behind that list: how allocations are chosen, how they are
+  maintained, and why behaviour matters as much as arithmetic.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A set of decisions, not a list of holdings</h2>
+  <p class="lede">A portfolio is everything an investor owns, seen as one whole. Managing it means
+  making that whole fit a purpose, rather than judging each piece on its own.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Two people, the same shares, different portfolios</h2>
+</header>
+
+<p>Imagine two people who each own shares in the same large oil company. One is a 30-year-old nurse
+who owns nothing else except a pension fund full of bonds. The other is a 55-year-old oil engineer
+whose salary, bonus and pension all depend on the oil industry. The share is identical. Its role is
+not. For the nurse it adds a little variety. For the engineer it doubles a bet she is already making
+with her whole career.</p>
+
+<p>This is the founding idea of portfolio management. <strong>An investment cannot be judged in
+isolation; it must be judged by what it does to everything else you own.</strong> A risky asset can
+make a portfolio safer if it tends to rise when the rest falls. A "safe" asset can make a portfolio
+fragile if it fails at the same moment as everything else.</p>
+
+<p>In finance, a <strong>portfolio</strong> means the full collection of an investor's assets: shares (stocks), bonds, cash, property, funds, and
+sometimes less common things such as gold or private businesses. A <strong>portfolio manager</strong>
+is anyone who decides what goes into that collection and in what proportions. That can be a pension-fund professional, a robo-adviser app, or you with a
+spreadsheet.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The four questions every portfolio answers</h2>
+</header>
+
+<p>Before any asset is chosen, a good manager writes down the answers to four questions. Professionals
+call the document an <strong>investment policy statement</strong>: a promise made in calm weather about
+how to behave in a storm.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Question</th><th>What it means</th><th>Example answer</th></tr></thead>
+<tbody>
+<tr><td><strong>Goal</strong></td><td>What the money is for</td><td>"Retirement income from age 65", or "a house deposit in four years"</td></tr>
+<tr><td><strong>Horizon</strong></td><td>When the money will be needed</td><td>Thirty years away, or next spring</td></tr>
+<tr><td><strong>Risk</strong></td><td>How large a fall the investor can survive, financially and emotionally</td><td>"A 30% drop would not change my plans, and I would not sell"</td></tr>
+<tr><td><strong>Constraints</strong></td><td>Taxes, laws, ethics, liquidity needs</td><td>"No tobacco", "must be able to withdraw 5% a year"</td></tr>
+</tbody></table></div>
+
+<p>The risk question has two halves that people mix up. <strong>Risk capacity</strong> is financial:
+could you afford a large loss without changing your life? A young person with a stable job and decades
+ahead has a lot. <strong>Risk tolerance</strong> is psychological: could you watch the loss without
+selling? These do not always match. Some young investors have huge capacity and almost no tolerance.
+The portfolio has to respect the lower of the two, because a plan you abandon in a crash is worse than
+a modest plan you keep.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Allocate, maintain, keep costs down, and repeat</h2>
+  <p class="lede">The engine of portfolio management has four parts: choosing the mix, keeping the mix,
+  deciding whether to try to beat the market, and protecting returns from fees and taxes.</p>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Asset allocation: the decision that matters most</h2>
+</header>
+
+<p><strong>Asset allocation</strong> means splitting money between broad asset classes, mainly shares,
+bonds and cash, and sometimes property or commodities. Each class behaves differently. Shares have
+historically offered the highest long-run returns and the deepest falls. High-quality government bonds
+have offered lower returns and much smaller falls. Cash barely moves in price but is slowly eroded by
+inflation.</p>
+
+<p>The classic default is the <strong>60/40 portfolio</strong>: 60% in shares and 40% in bonds. It is not
+magic. It is simply a middle point that many pension funds and advisers have used for decades,
+because it captures much of the growth of shares while the bonds soften the falls.</p>
+
+<p>In 1986 three researchers, Gary Brinson, Randolph Hood and Gilbert Beebower, studied large US
+pension funds. They found that the funds' allocation policy explained the great majority (over 90%) of
+the <em>ups and downs</em> of their returns over time. That finding is often misquoted as "allocation
+explains 90% of your returns". It does not say that. It says that <strong>the swings in a portfolio
+come mainly from its mix of asset classes, not from which particular shares or bonds it picked.</strong>
+For an ordinary investor that is the practical point: get the mix right and the details matter far
+less.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The theory: Markowitz and the free lunch</h2>
+</header>
+
+<p>In 1952 a young economist called Harry Markowitz published a short paper called "Portfolio
+Selection". It later earned him a share of the 1990 Nobel memorial prize in economics. His insight was
+that investors should care about two things together: expected return and risk, where risk is
+measured by how much returns jump around (their <strong>volatility</strong>).</p>
+
+<p>The key ingredient is <strong>correlation</strong>, a measure of how closely two assets move
+together. If two assets rise and fall at exactly the same time, combining them reduces nothing. If they
+move somewhat independently, a mix of the two can be less volatile than either alone, without giving
+up much return. This is why diversification is often called "the only free lunch in finance".
+<strong>You can lower risk without lowering expected return, as long as the things you combine do not
+all fail together.</strong></p>
+
+<p>Markowitz drew the best possible mixes as a curve, the <strong>efficient frontier</strong>. Any
+portfolio below the curve is wasteful: some other mix offers more return for the same risk. In
+practice the theory is fragile, because it needs estimates of future returns and correlations, and
+small errors in those estimates produce wild recommendations. Most professionals therefore use the
+idea rather than the formula. The full story of why mixing works is in
+<a href="07-diversification.html">Diversification</a>, and the price of risk itself is in
+<a href="06-risk-and-return.html">Risk and return</a>.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Rebalancing: selling what did well, on purpose</h2>
+</header>
+
+<p>A portfolio does not stay at its chosen mix. Suppose you start with 60 in shares and 40 in bonds.
+Shares rise 30% in a good year, and bonds stay flat. You now hold 78 in shares and 40 in bonds, so
+shares are about <strong>66%</strong> of the total. Without doing anything, you have become a riskier
+investor than you decided to be.</p>
+
+<div class="sheet">
+  <div class="cap">How a 60/40 drifts, and how rebalancing pulls it back</div>
+<pre>
+            start        after a strong year     after rebalancing
+ shares    60  (60%)  ->   78  (66%)          ->   70.8  (60%)
+ bonds     40  (40%)  ->   40  (34%)          ->   47.2  (40%)
+ total    100             118                     118
+
+ rebalancing = sell 7.2 of shares, buy 7.2 of bonds
+</pre>
+</div>
+
+<p><strong>Rebalancing</strong> means trading back to the target mix. It forces you to sell some of what
+has risen and buy some of what has fallen. That feels wrong, which is part of why it works: it is a
+built-in rule for buying low and selling high. Its main job, though, is not to raise returns. It is to
+keep risk where you chose it. Common methods are calendar rebalancing (once a year, say) and threshold
+rebalancing (whenever a class drifts more than, for example, five percentage points from target).
+New contributions can do much of the work, by being directed to whichever class is underweight, which
+avoids selling and the taxes that can follow.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Active or passive: try to beat the market, or own it</h2>
+</header>
+
+<p>Inside each asset class, a manager chooses between two philosophies. <strong>Active
+management</strong> tries to beat a benchmark, such as a stock index, by choosing particular shares or
+by timing when to be in or out. <strong>Passive management</strong> simply buys the whole index, through
+an <a href="04-index-funds.html">index fund</a> or an <a href="03-etfs.html">ETF</a>, and accepts the
+market's return minus a small fee.</p>
+
+<p>The argument for passive is partly arithmetic. The economist William Sharpe pointed out in 1991 that,
+before costs, the average actively managed dollar must earn the market's return, because all active
+investors together <em>are</em> the market. After costs, which are higher for active funds, the average
+active dollar must therefore trail the average passive dollar. Some active managers will beat the
+market, but they are hard to identify in advance, and past winners often fail to repeat.</p>
+
+<p>The evidence agrees. S&amp;P Dow Jones Indices publishes regular scorecards (called SPIVA) comparing
+funds with their benchmarks. Year after year they show that, over periods of fifteen years or more, a
+large majority of actively managed US large-company share funds, typically around nine in ten, have
+trailed the S&amp;P 500 index. <strong>The case for passive is not that active managers are foolish. It
+is that they compete against each other, and the fees are the one thing guaranteed.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Costs and taxes: the leaks you can actually plug</h2>
+</header>
+
+<p>Returns are uncertain. Costs are certain. That makes cost the most controllable part of investing.
+Consider 100,000 invested for 30 years at a 6% yearly return.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Yearly fee</th><th>Return after fee</th><th>Value after 30 years</th><th>Lost to fees, compounded</th></tr></thead>
+<tbody>
+<tr><td><strong>0.1%</strong> (cheap index fund)</td><td>5.9%</td><td>about 558,000</td><td class="ok">about 16,000</td></tr>
+<tr><td><strong>1.0%</strong> (typical active fund or adviser)</td><td>5.0%</td><td>about 432,000</td><td class="no">about 142,000</td></tr>
+</tbody></table></div>
+
+<p>A fee of 1% sounds small because it is quoted per year. Over three decades it removes about a
+quarter of the final pot, because <strong>a fee compounds against you exactly as returns compound for
+you</strong>. Fund costs are usually shown as an <strong>expense ratio</strong> or "ongoing charge",
+the percentage of your money taken each year. Trading costs and advice fees come on top.</p>
+
+<p>Taxes leak the same way. Professionals use <strong>asset location</strong> (keeping the most
+heavily taxed holdings inside tax-sheltered accounts) and <strong>tax-loss harvesting</strong> (selling a
+fallen investment to record a loss that offsets taxable gains). The rules differ by country and change
+often, so this is general education, not tax advice.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The glide path: changing the mix as life moves</h2>
+</header>
+
+<p>A sensible allocation at 25 is not sensible at 64. Young investors have decades to recover from a
+crash and most of their wealth is still in their future earnings, which act a little like a bond. Older
+investors have less time and more money at stake. So the standard advice is to hold more shares when
+young and shift gradually towards bonds and cash as the need for the money approaches.</p>
+
+<p>The planned path of that shift is called a <strong>glide path</strong>. <strong>Target-date
+funds</strong> automate it: you choose a fund labelled with your expected retirement year, and it
+gradually becomes more conservative on its own. In the United States these funds became a common
+default option in workplace retirement plans. Their weakness is that they treat everyone born in the
+same year alike, whatever their job, health, other savings or pension.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>The gap between what investments earn and what investors keep</h2>
+  <p class="lede">The difference between a good and a bad outcome is rarely the choice of shares. It is
+  usually the mix, the costs, the timing of withdrawals, and above all behaviour.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The behaviour gap</h2>
+</header>
+
+<p>Here is a puzzle. A fund can earn 8% a year for a decade while the average person who invested in
+it earns much less. How? Because people pour money in after the fund has done well, when prices are
+high, and pull money out after it has done badly, when prices are low. The fund's return is measured
+on money that stayed put. The investors' return is measured on money that moved at the wrong times.</p>
+
+<p>The research firm Morningstar publishes a regular study of this, called "Mind the Gap". Its
+estimates for US funds have generally found that the average investor's return trails the funds'
+own returns by somewhere around one percentage point a year, with wider gaps in the most volatile
+kinds of fund. Over thirty years, a one-point gap compounds into a large difference.</p>
+
+<p>This is why good portfolio management is partly psychology. Volume 35 explains why losses hurt more
+than equal gains please (<a href="../35-the-mind.html#c6">Losses hurt more than gains please</a>), and
+Volume 38 lists the ways money decisions go wrong (<a href="../38-money.html#c8">Why money decisions go
+wrong</a>). <strong>A written plan, automatic contributions and fixed rebalancing rules exist mainly to
+protect investors from their own reactions.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>How the giants do it</h2>
+</header>
+
+<div class="grid2">
+  <div class="card"><h4>Norway's oil fund</h4><p>Norway invests its oil revenues in the Government
+  Pension Fund Global, one of the largest funds in the world, worth well over a trillion dollars in the
+  mid-2020s. It owns small slices of thousands of companies across dozens of countries, mostly close to
+  index weights, with low costs and a fixed target for shares versus bonds. It publishes its holdings
+  and excludes some companies on ethical grounds.</p></div>
+  <div class="card"><h4>The endowment model</h4><p>From the mid-1980s, David Swensen ran Yale
+  University's endowment and moved much of it out of public shares and bonds into private equity,
+  hedge funds, property and timber. For years Yale's results were outstanding, and many universities
+  copied the approach. It depends on a very long horizon, access to top private funds, and expert staff.
+  Swensen himself argued that ordinary investors should not try to imitate it and should use low-cost
+  index funds instead.</p></div>
+</div>
+
+<p><strong>The right portfolio depends on the investor's horizon, skills, access and costs</strong>,
+so what suits a permanent fund with specialist staff can be a disaster for a family.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Sequence risk: why the order of returns matters at the end</h2>
+</header>
+
+<p>While you are saving, the order of good and bad years matters surprisingly little. Over thirty years
+of steady contributions, a crash early on even lets you buy cheaply. But once you start
+<em>withdrawing</em>, order matters a great deal. A crash in the first years of retirement forces you to
+sell assets at low prices to pay the bills. Those assets are gone and cannot recover when the market
+does.</p>
+
+<p>Two retirees can experience exactly the same average return over twenty years and end up in very
+different places, depending only on whether the bad years came first or last. This is called
+<strong>sequence-of-returns risk</strong>. It is the main reason portfolios become more cautious near
+retirement, and why many planners suggest holding a few years of spending in cash or short-term bonds,
+so that shares never have to be sold in a slump. The wider retirement picture is in
+<a href="18-pensions.html">Pensions</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Every approach trades something away</h2>
+  <p class="lede">There is no portfolio without a cost. The question is which cost you can live with.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The main approaches, weighed</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Approach</th><th>Strengths</th><th>Weaknesses</th></tr></thead>
+<tbody>
+<tr><td><strong>Passive index portfolio</strong></td><td class="ok">Very low cost, broad diversification, easy to understand and stick with</td><td class="no">Guarantees market returns, including every crash; owns overpriced companies along with the rest</td></tr>
+<tr><td><strong>Active management</strong></td><td class="mid">Can avoid some bad assets, can follow a specific style or ethical goal, may beat the market</td><td class="no">Higher fees; most funds trail their benchmark over long periods; winners are hard to pick in advance</td></tr>
+<tr><td><strong>Classic 60/40</strong></td><td class="ok">Simple, historically resilient, bonds often cushion share falls</td><td class="no">Fails when shares and bonds fall together, as in 2022</td></tr>
+<tr><td><strong>Robo-adviser</strong></td><td class="ok">Automatic rebalancing and tax features at low cost</td><td class="mid">Generic advice; does not know your whole life; still a fee on top of fund costs</td></tr>
+<tr><td><strong>Human financial adviser</strong></td><td class="ok">Behavioural coaching, tax and estate planning, a plan built around you</td><td class="no">Expensive; quality varies; some are paid by commission, which creates conflicts</td></tr>
+<tr><td><strong>Endowment-style alternatives</strong></td><td class="mid">Access to private markets and possibly higher returns</td><td class="no">Illiquid, opaque, high fees; best results concentrated in a few top funds</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>When diversification lets you down</h2>
+</header>
+
+<p>The 60/40 portfolio relies on bonds rising, or at least holding steady, when shares fall. For most
+of the period from about 2000 to 2021 that is what happened: in a crisis, investors fled to government
+bonds, and their prices rose. Then came 2022. Inflation surged, central banks raised interest rates
+quickly, and both shares and bonds fell sharply in the same year. For a standard US 60/40 portfolio,
+2022 was one of the worst years in about a century.</p>
+
+<p>The lesson is that <strong>correlations are not laws of nature; they change with the economic
+regime</strong>. When the main danger is a recession, bonds tend to protect. When the main danger is
+inflation, bonds and shares can both suffer, because higher interest rates hurt both. Why rates move
+bond prices is the subject of <a href="13-interest-rates-and-markets.html">Interest rates and
+markets</a>. A good manager assumes the cushion will sometimes fail, and sizes the risk so that the failure is
+survivable.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Cheaper, more automatic, more personal, and harder to beat</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, by level of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Passive keeps growing</strong></td><td>In the US, assets in index funds and ETFs roughly drew level with, then passed, actively managed funds around the end of 2023, after decades of steady gains. Fees on the largest index funds have fallen close to zero.</td><td class="ok">Fairly sure: more money moves to low-cost passive products. The live debate is whether so much passive ownership weakens price discovery and concentrates voting power in a few fund companies.</td></tr>
+<tr><td><strong>Personalised indexing</strong></td><td>"Direct indexing" lets an investor own the individual shares of an index in their own account, so they can exclude companies or harvest tax losses one share at a time.</td><td class="mid">Plausible: as trading costs fall, the custom portfolio once reserved for the wealthy becomes widely available. Benefits depend heavily on each country's tax rules.</td></tr>
+<tr><td><strong>Private markets for everyone</strong></td><td>Fund firms are pushing private equity and private credit into products for ordinary savers and retirement plans.</td><td class="mid">Plausible but contested: supporters cite diversification and returns; critics cite high fees, hidden risk and the difficulty of selling in a hurry.</td></tr>
+<tr><td><strong>AI-run portfolios that beat the market</strong></td><td>Machine learning is already used for forecasting, risk analysis and trading. Consistent, large outperformance has not been demonstrated publicly.</td><td class="no">Speculative: if many firms use similar tools, any edge they find is competed away, which is exactly what happened to earlier quantitative strategies.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>The question that will shape the next decade</h2>
+</header>
+
+<p>For a generation of investors, bonds were the dependable shock absorber. Whether they will play that
+role again depends on inflation. If inflation stays low and stable, the old relationship, in which bonds
+rise in a recession, will probably return. If inflation becomes more volatile, managers will look
+for other cushions: inflation-linked bonds, cash, commodities, or simply fewer shares.</p>
+
+<p>Nobody knows which world is coming. That uncertainty is itself the best argument for the basics.
+<strong>A portfolio built to survive several possible futures beats one optimised for the future you
+happen to expect.</strong> Diversify across assets and countries, keep costs low, rebalance by rule, and
+write the plan down before the next storm arrives.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Portfolio management starts from <strong>goals, horizon and risk</strong>, then sets an
+    <strong>asset allocation</strong> that drives most of the portfolio's behaviour, keeps it in place
+    by <strong>rebalancing</strong>, and protects returns from <strong>costs, taxes and panic</strong>.
+    Each holding is judged by what it does to the whole.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Allocation policy explained <strong>over 90%</strong> of the swings in pension fund returns
+      (Brinson, Hood and Beebower, 1986).</li>
+      <li>Over 15 years or more, roughly <strong>9 in 10</strong> active US large-company share funds
+      trailed the S&amp;P 500 (SPIVA scorecards).</li>
+      <li>A <strong>1% yearly fee</strong> removes about a quarter of a 30-year pot.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Spending all the effort on choosing individual investments and none on the mix, the fees and the
+    plan for a crash. <strong>The mix and the behaviour decide most of the outcome.</strong></p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a 60/40 portfolio that is never rebalanced slowly becomes riskier, and why
+    the same crash hurts a retiree more than a saver? If so, you understand allocation, drift and
+    sequence risk.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Portfolio</dt><dd>Everything an investor owns, considered as one whole.</dd>
+    <dt>Asset class</dt><dd>A broad family of investments that behave alike, such as shares, bonds or cash.</dd>
+    <dt>Asset allocation</dt><dd>How the money is split between asset classes.</dd>
+    <dt>60/40 portfolio</dt><dd>A common default mix of 60% shares and 40% bonds.</dd>
+    <dt>Volatility</dt><dd>How much an investment's price jumps around; the usual measure of risk.</dd>
+    <dt>Correlation</dt><dd>How closely two investments move together, from always together to always opposite.</dd>
+    <dt>Efficient frontier</dt><dd>Markowitz's curve of the mixes that give the most expected return for each level of risk.</dd>
+    <dt>Rebalancing</dt><dd>Trading back to the target mix after markets have pushed it off course.</dd>
+    <dt>Active management</dt><dd>Trying to beat a benchmark by choosing investments or timing trades.</dd>
+    <dt>Passive management</dt><dd>Owning a whole index and accepting its return at low cost.</dd>
+    <dt>Expense ratio</dt><dd>The yearly fee a fund charges, as a percentage of the money invested.</dd>
+    <dt>Glide path</dt><dd>A planned shift from shares towards safer assets as the money's deadline approaches.</dd>
+    <dt>Sequence-of-returns risk</dt><dd>The danger that bad years arrive just when you start withdrawing money.</dd>
+    <dt>Behaviour gap</dt><dd>The difference between what funds earn and what their investors earn after buying and selling at the wrong times.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"You can't judge an investment on its own. You have to ask what it does to everything else you
+    own."</li>
+    <li>"The mix between shares and bonds explains most of how a portfolio behaves. Picking the
+    individual shares explains much less."</li>
+    <li>"Rebalancing is a rule that makes you sell high and buy low, even when every instinct says the
+    opposite."</li>
+    <li>"Returns are uncertain, but fees are guaranteed, and a 1% fee quietly takes about a quarter of a
+    30-year pot."</li>
+    <li>"The biggest risk in most portfolios isn't the market. It's the owner selling in a panic."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="09-market-capitalization.html">Market capitalization</a></h4><p>How
+  companies are sized, why indexes weight them by size, and what happens when a handful of giants
+  dominate the market.</p></div>
+  <div class="card"><h4>Related · <a href="07-diversification.html">Diversification</a></h4><p>The
+  principle under every portfolio: why combining imperfectly related assets lowers risk, and when that
+  stops working.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

@@ -1,0 +1,893 @@
+<!doctype html>
+<!--@HEAD-SRC title="Corporate Finance" desc="How companies decide what to invest in, how to pay for it with debt or equity, what to do with spare cash, and why cash and the cost of capital matter more than reported profit."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Corporate Finance</title>
+<meta name="description" content="How companies decide what to invest in, how to pay for it with debt or equity, what to do with spare cash, and why cash and the cost of capital matter more than reported profit.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Business · Topic 18 of 20</p>
+  <h1>Corporate finance. <span class="thin">Three decisions every company makes: what to invest in, how to pay for it, and what to do with what is left.</span></h1>
+  <p class="lede">Corporate finance sounds like a world of spreadsheets and jargon. Underneath, it is a
+  small set of questions that any household also faces. Is this purchase worth what it costs, once
+  you count the wait for the benefit? Should I pay for it with savings or with a loan? And when money
+  is left over, should I spend it, save it or give it back? Companies answer the same questions at
+  much larger scale, with other people's money. This file explains how they do it, why cash matters
+  more than profit, and why borrowing is both the most useful and the most dangerous tool in
+  business.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Business</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c4"><span class="vn">Vol 38 · ch 04</span><b>Interest, and compounding</b><em>The idea underneath</em></a>
+<a class="vol" href="../10-finance-investing/10-financial-statements.html"><span class="vn">Finance · 10</span><b>Financial statements</b><em>Reading the accounts</em></a>
+<a class="vol" href="19-mergers-and-acquisitions.html"><span class="vn">Business · 19</span><b>Mergers &amp; acquisitions</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 38 explains the two ideas this whole subject rests on:
+  <a href="../38-money.html#c4">Interest, and the astonishing effect of compounding</a> and
+  <a href="../38-money.html#c5">What a price actually is</a>. This file applies them inside a company.
+  The investor's side of the same numbers is in the Finance folder:
+  <a href="../10-finance-investing/10-financial-statements.html">Financial statements</a>,
+  <a href="../10-finance-investing/11-company-valuation.html">Company valuation</a> and
+  <a href="../10-finance-investing/12-dividends.html">Dividends</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The money side of every business decision</h2>
+  <p class="lede">Corporate finance is the study of how companies raise money, spend it on
+  investments, and return it to the people who provided it. Its central goal is to create more value
+  than the money costs.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A profitable company that ran out of money</h2>
+</header>
+
+<p>Imagine a small furniture maker that wins a big order from a hotel chain. The order is profitable:
+the hotel will pay 500,000 euros for furniture that costs 350,000 to make. The owner is delighted.
+But the hotel pays 90 days after delivery, as large customers often insist. Meanwhile the wood
+supplier wants payment in 30 days, and the staff want wages every month. For three months the
+company pays out money it has not yet received. If the bank refuses an extra loan, the company can
+fail <em>while making a profit</em>.</p>
+
+<p>This is not a rare story. It is one of the most common ways small businesses die. A much larger
+version happened in 2018 when Carillion, a big British construction and services company, collapsed
+with heavy debts and a long line of unpaid suppliers, despite having reported profits not long
+before. <strong>Profit is an opinion produced by accounting rules. Cash is a fact.</strong> A
+company survives on cash.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Three decisions, one goal</h2>
+</header>
+
+<p>Almost everything in corporate finance belongs to one of three decisions.</p>
+
+<div class="grid3">
+  <div class="card"><h4>1. The investment decision</h4><p>Which projects should we spend money on? A
+  new factory, a new product, a software system, an acquisition. This is called <strong>capital
+  budgeting</strong>.</p></div>
+  <div class="card"><h4>2. The financing decision</h4><p>Where does the money come from? From the
+  company's own profits, from borrowing (<strong>debt</strong>), or from selling a share of ownership
+  (<strong>equity</strong>)?</p></div>
+  <div class="card"><h4>3. The payout decision</h4><p>When there is cash the business cannot use
+  well, how should it go back to the owners? As <strong>dividends</strong>, as <strong>share
+  buybacks</strong>, or should it be kept?</p></div>
+</div>
+
+<p>A fourth, everyday job sits underneath all three: managing <strong>working capital</strong>, the
+money tied up in stock, unpaid customer bills and unpaid supplier bills. The furniture maker's
+problem was a working capital problem.</p>
+
+<p>The usual goal given in textbooks is to <strong>maximise the value of the company for its
+owners</strong>. That is not the same as maximising this year's profit. A company can raise this
+year's profit by cutting research, which may destroy value over ten years. The deeper debate about
+whether companies should serve only owners is covered in
+<a href="16-business-strategy.html">Business strategy</a>.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The two ideas everything rests on</h2>
+</header>
+
+<p>The first idea is the <strong>time value of money</strong>. A euro today is worth more than a
+euro in five years. You could invest today's euro and earn interest, and there is always some risk
+that the future euro never arrives. So future money must be <strong>discounted</strong>, reduced, to
+compare it with money now. Volume 38 shows the mirror image of this,
+<a href="../38-money.html#c4">compounding</a>: money growing forward in time. Discounting is the same
+calculation run backwards.</p>
+
+<p>The second idea is the <strong>cost of capital</strong>. The money a company uses is never free.
+Lenders want interest. Shareholders want a return too, even though nobody sends them a bill, because
+they could have put their money somewhere else with similar risk. That forgone alternative is called
+the <strong>opportunity cost</strong>. A project is only worth doing if it earns more than the
+investors who fund it could have earned elsewhere. <strong>The cost of capital is the bar every
+investment must clear.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Discounting, borrowing and giving cash back</h2>
+  <p class="lede">The tools are simpler than they look. One method for judging investments, one
+  number for the cost of money, and one big trade-off between debt and equity.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Is the project worth it? Net present value</h2>
+</header>
+
+<p>Suppose a company can buy a machine for 1,000 today. It will bring in an extra 400 a year for
+three years, then wear out. In total that is 1,200, a gain of 200. But the 400s arrive later, so
+they are worth less than 400 today. To compare fairly, we discount each one by the cost of capital.</p>
+
+<div class="sheet">
+  <div class="cap">Net present value, worked through</div>
+<pre>
+  cost of capital 8%                        cost of capital 12%
+  year 1   400 / 1.08   = 370               year 1   400 / 1.12   = 357
+  year 2   400 / 1.08^2 = 343               year 2   400 / 1.12^2 = 319
+  year 3   400 / 1.08^3 = 318               year 3   400 / 1.12^3 = 285
+                         -----                                     -----
+  value today           1,031               value today             961
+  minus cost today     -1,000               minus cost today     -1,000
+  NPV                    + 31   DO IT       NPV                    - 39   DON'T
+
+  Same machine, same cash. Only the cost of money changed the answer.
+</pre>
+</div>
+
+<p>The result is the <strong>net present value</strong>, or NPV: the value today of all the money
+a project will bring in, minus what it costs. If NPV is positive, the project earns more than the
+cost of capital and adds value. If it is negative, the investors would have done better elsewhere.
+<strong>Notice that the same machine is a good idea at 8 percent and a bad one at 12.</strong> That
+is why rising interest rates cancel so many business investments: nothing about the project changed
+except the price of money.</p>
+
+<p>Two other measures are common. The <strong>internal rate of return</strong> (IRR) is the
+discount rate at which NPV would be exactly zero. For this machine it is about 9.7 percent, so the
+project makes sense whenever capital costs less than that. The <strong>payback period</strong> asks
+simply how long until the money comes back: here, two and a half years. Payback is crude, because
+it ignores what happens afterwards, but many managers like it because it is easy to understand and
+favours quick, safe returns.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>What the money costs: the blended rate</h2>
+</header>
+
+<p>A company is usually funded by a mix of debt and equity. Each has its own cost. Lenders might
+charge 5 percent. Shareholders, who take more risk because they are paid only after the lenders,
+expect more, perhaps 10 percent. The company's overall cost of capital is the average of the two,
+weighted by how much of each it uses. It is called the <strong>weighted average cost of
+capital</strong>, or WACC.</p>
+
+<p>There is one twist. In most countries, interest on debt can be deducted from taxable profit, so
+the government effectively pays part of it. With a 25 percent tax rate, a 5 percent loan really
+costs the company about 3.75 percent. So a company funded 60 percent by shareholders at 10 percent
+and 40 percent by loans at an after-tax 3.75 percent has a WACC of about 7.5 percent. Every project
+it considers must clear that bar.</p>
+
+<p>Where does the shareholders' 10 percent come from? Nobody quotes it. Finance estimates it with
+models such as the <strong>capital asset pricing model</strong>, which says investors want a
+bigger reward for shares that swing more than the market as a whole. The details belong in
+<a href="../10-finance-investing/06-risk-and-return.html">Risk and return</a>. The honest point is
+that <strong>the cost of equity is an estimate, and small changes in it can swing a decision</strong>.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Debt and equity: what each one really is</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th></th><th>Debt (borrowing)</th><th>Equity (ownership)</th></tr></thead>
+<tbody>
+<tr><td><strong>What the provider gets</strong></td><td>Fixed interest and repayment on fixed dates</td><td>A share of whatever is left, after everyone else is paid</td></tr>
+<tr><td><strong>If things go badly</strong></td><td>Must still be paid. If not, lenders can force the company into bankruptcy</td><td>Dividends can stop. Shareholders are paid last, often nothing</td></tr>
+<tr><td><strong>If things go well</strong></td><td>Lenders get only the agreed interest</td><td>Shareholders get all the extra gains</td></tr>
+<tr><td><strong>Control</strong></td><td>No vote, but loan agreements can restrict what managers do</td><td>Votes, and owners can replace the board</td></tr>
+<tr><td><strong>Cost</strong></td><td>Lower, and tax-deductible in most countries</td><td>Higher, because the risk is higher</td></tr>
+</tbody></table></div>
+
+<p>The key difference is who is first in line. Lenders are paid first and have a fixed claim.
+Shareholders are paid last and have an open claim on everything left over. <strong>Debt is cheaper
+because it is safer for the lender, and riskier for the company for exactly the same
+reason.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Leverage: how borrowing magnifies everything</h2>
+</header>
+
+<p>Borrowing to fund a business is called <strong>leverage</strong>, because like a lever it
+multiplies force, in both directions. Take a business that costs 100 and normally earns 10 a year.
+(Taxes are ignored to keep it simple.)</p>
+
+<div class="tw"><table>
+<thead><tr><th>How it is funded</th><th>Good year: earns 10</th><th>Bad year: earns 2</th></tr></thead>
+<tbody>
+<tr><td><strong>All equity:</strong> owners put in 100</td><td class="mid">Owners earn 10 on 100 = <strong>10%</strong></td><td class="mid">Owners earn 2 on 100 = <strong>2%</strong></td></tr>
+<tr><td><strong>Leveraged:</strong> owners put in 40, borrow 60 at 5%</td><td class="ok">10 minus 3 interest = 7 on 40 = <strong>17.5%</strong></td><td class="no">2 minus 3 interest = minus 1 on 40 = <strong>−2.5%</strong></td></tr>
+</tbody></table></div>
+
+<p>The business is identical in both rows. Only the funding changed, and the owners' results became
+far more extreme. In a good year, leverage nearly doubles their return. In a bad year, it turns a
+small profit into a loss, and if bad years continue the interest still has to be paid. This is the
+basic mechanism behind many corporate collapses, and behind financial crises. Before 2008 some
+investment banks were funded with roughly 30 euros of borrowing for every euro of their own
+capital. A loss of about 3 percent on their assets was enough to wipe out the owners. (More in
+<a href="../10-finance-investing/19-financial-crises.html">Financial crises</a>.)</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Does the mix even matter? The famous puzzle</h2>
+</header>
+
+<p>In 1958 two economists, Franco Modigliani and Merton Miller, published a surprising result. In an
+idealised world, with no taxes, no cost of going bankrupt and perfect information, <strong>it does
+not matter how a company is funded</strong>. The value of a business depends on the cash its assets
+produce, not on how that cash is divided between lenders and owners. Cutting a pizza into more slices
+does not make more pizza. Both men later won the Nobel prize in economics, partly for this work.</p>
+
+<p>The result is useful precisely because the real world breaks its assumptions. Each broken
+assumption tells you why funding <em>does</em> matter.</p>
+
+<ul>
+  <li><strong>Taxes</strong> favour debt, because interest is tax-deductible. This pushes companies
+  to borrow more.</li>
+  <li><strong>Bankruptcy is expensive</strong>: lawyers, lost customers, staff who leave, forced sales
+  at low prices. This pushes companies to borrow less.</li>
+  <li><strong>Information is unequal.</strong> Managers know more than investors. When a company
+  sells new shares, investors suspect managers think the shares are overpriced. So companies tend to
+  prefer their own profits first, then debt, and new shares last.</li>
+</ul>
+
+<p>The result is the <strong>trade-off view</strong> of funding: borrow enough to get the tax
+benefit, but not so much that the risk of financial distress outweighs it. Stable businesses such as
+utilities, with predictable income, can safely carry much more debt than a young technology company
+whose income could disappear.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Giving cash back: dividends and buybacks</h2>
+</header>
+
+<p>When a company produces more cash than it can invest at a return above its cost of capital, the
+textbook answer is to give it back. It can pay a <strong>dividend</strong>, a cash payment for each
+share. Or it can do a <strong>share buyback</strong>: buy its own shares on the market and cancel
+them, so each remaining shareholder owns a slightly larger slice.</p>
+
+<p>In theory the two are close to equivalent. In practice they differ. Dividends are sticky:
+companies hate to cut them, because a cut signals trouble. Buybacks are flexible and can be stopped
+quietly. Taxes on the two often differ too. Since the early 1980s, when US rules made buybacks
+safer from legal challenge, they have become the main way large American companies return cash.
+Investors look closely at this decision, because <strong>a company that keeps cash it cannot use
+well tends to waste it</strong>, often on overpriced acquisitions, the subject of the
+<a href="19-mergers-and-acquisitions.html">next topic</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Survival, growth and the price of patience</h2>
+  <p class="lede">Finance decides which companies survive a bad year, which ideas get funded, and
+  how far ahead a business can afford to look.</p>
+</header>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Cash flow as a competitive weapon</h2>
+</header>
+
+<p>In the 1990s Dell sold computers directly to customers and built each one only after it was
+ordered and paid for. It paid its component suppliers weeks later. The result was a
+<strong>negative cash conversion cycle</strong>: customers' money arrived before Dell had to pay its
+own bills. Every extra sale brought in cash instead of consuming it. Its rivals, who built computers
+in advance and sold them through shops, had money tied up in stock for weeks.</p>
+
+<p>The same principle explains why some large retailers and online marketplaces can grow so fast.
+Their suppliers in effect fund their growth. It is also why the furniture maker in Chapter 01
+struggled: it was on the wrong side of the same arrangement. <strong>Who pays whom, and when, can
+matter as much as the price itself.</strong></p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>When money is cheap, and when it isn't</h2>
+</header>
+
+<p>From the 2008 crisis until 2022, interest rates in most rich countries were very low, sometimes
+below zero. Capital was cheap, so the bar in Chapter 04 was low. Projects with distant, uncertain
+payoffs, such as loss-making technology start-ups, looked attractive, because future profits were
+barely discounted. Companies also borrowed heavily, because debt cost so little.</p>
+
+<p>When inflation returned and central banks raised rates sharply in 2022 and 2023, the arithmetic
+changed. The same distant profits were now worth much less today. Valuations of young growth
+companies fell steeply, and many firms had to refinance old cheap debt at higher rates.
+<strong>The cost of capital is not just a number in a spreadsheet. It sets how patient a whole
+economy can afford to be.</strong> The causes of these rate changes are covered in
+<a href="../09-economics/03-interest-rates.html">Interest rates</a>.</p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The short-termism argument</h2>
+</header>
+
+<p>A long-running debate asks whether public companies, watched by investors every quarter, invest
+too little for the long term. Critics point to managers who cut research or maintenance to hit a
+quarterly profit target, and to large buyback programmes at times when shares were expensive. In
+2023 the United States introduced a 1 percent tax on share buybacks, partly in response to this
+criticism.</p>
+
+<p>Defenders answer that shareholders are not as short-sighted as claimed. They point out that
+markets have given very high valuations to companies, such as Amazon in its early years, that
+reported little profit while investing heavily. They also argue that returning cash to investors
+lets it flow to younger firms that need it. <strong>The evidence is genuinely mixed</strong>, and
+the answer probably varies by company and by how managers are paid.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Powerful tools with hidden assumptions</h2>
+  <p class="lede">The methods of corporate finance are logical and widely used. Their weakness is
+  that they are only as good as the guesses fed into them.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>What the toolkit does well, and where it misleads</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Tool or practice</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Net present value</strong></td><td class="ok">A clear rule that compares any projects fairly, including the time value of money</td><td class="no">Depends entirely on forecasts. Optimistic managers can make any project look good</td></tr>
+<tr><td><strong>The cost of capital</strong></td><td class="ok">Forces every project to beat what investors could earn elsewhere</td><td class="no">The cost of equity is an estimate. A small change swings the answer</td></tr>
+<tr><td><strong>Using debt</strong></td><td class="ok">Cheap, tax-efficient, owners keep control</td><td class="no">Magnifies losses and can force bankruptcy in a downturn</td></tr>
+<tr><td><strong>Issuing shares</strong></td><td class="ok">No fixed payments; safe in a bad year</td><td class="no">Expensive, dilutes existing owners, often read as a bad sign</td></tr>
+<tr><td><strong>Buybacks</strong></td><td class="ok">Flexible way to return spare cash</td><td class="no">Can be done at high prices, or used to flatter earnings per share and executive bonuses</td></tr>
+</tbody></table></div>
+
+<p>The biggest weakness is subtle. Discounting makes far-off benefits look small. A project whose
+benefits arrive in 25 years is worth very little today at a normal cost of capital. That is
+mathematically correct, but it can push companies away from patient investments in research,
+skills or climate resilience that matter a great deal. <strong>The spreadsheet does not lie, but it
+answers only the question you asked it.</strong></p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Dearer money, new lenders, automated finance teams</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Four directions, sorted by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>The end of nearly free money</strong></td><td>Rates rose sharply in 2022–2023. Some central banks cut afterwards, but generally not back to the near-zero levels of the 2010s.</td><td class="ok">Fairly sure: companies will plan with a higher cost of capital than in the 2010s, favouring projects that pay back sooner.</td></tr>
+<tr><td><strong>Lending outside banks</strong></td><td>"Private credit" funds, which lend directly to companies, grew fast after 2008 as bank rules tightened. Their size is often estimated in the trillions of dollars.</td><td class="ok">Fairly sure: they will remain a major source of corporate loans. Regulators are watching for hidden risks.</td></tr>
+<tr><td><strong>AI in the finance department</strong></td><td>Software already automates invoice matching, forecasting and parts of audit work.</td><td class="mid">Plausible: smaller finance teams that spend more time on decisions and less on processing.</td></tr>
+<tr><td><strong>Climate in the cost of capital</strong></td><td>Some lenders charge more to high-emission projects, or link loan terms to climate targets. Political support for this varies a lot by country.</td><td class="no">Speculative: how much climate risk will really change companies' funding costs is uncertain and contested.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>The part that will not be automated</h2>
+</header>
+
+<p>Software can already build a financial model faster than any analyst. What it cannot do is supply
+the honest assumptions the model depends on. Will customers really pay this price? Will the
+competitor respond? How bad could the bad year be? Every major corporate failure in the history of
+finance involved numbers that looked fine and assumptions that were wrong.</p>
+
+<p>So the future of corporate finance is likely to look like its past, with better tools. The core
+discipline remains: <strong>count cash rather than profit, respect the cost of money, and never
+borrow so much that one bad year can end the company</strong>. That discipline is simple to state
+and hard to keep, especially when times are good and everyone else is borrowing.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Corporate finance makes <strong>three decisions</strong>: what to invest in, how to fund it,
+    and what to return to owners. A project adds value only if it earns more than the <strong>cost
+    of capital</strong>, measured with <strong>net present value</strong>. Debt is cheaper than equity
+    but <strong>magnifies</strong> both gains and losses.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>A typical large company's cost of capital is often around <strong>7–10%</strong>, varying
+      with rates and risk.</li>
+      <li>At about <strong>30 to 1</strong> leverage, a 3% fall in asset values wipes out the
+      owners.</li>
+      <li>Modigliani and Miller's funding puzzle dates from <strong>1958</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Confusing profit with cash. <strong>Profitable companies go bust when cash runs out</strong>,
+    usually because customers pay later than bills fall due.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why the same project can be worth doing at 8 percent and not worth doing at
+    12? If so, you understand discounting, the cost of capital and why rate rises cancel
+    investments.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Capital budgeting</dt><dd>Deciding which long-term investments a company should make.</dd>
+    <dt>Time value of money</dt><dd>The idea that money now is worth more than the same amount later.</dd>
+    <dt>Discounting</dt><dd>Reducing future money to its value today, using an interest rate.</dd>
+    <dt>Net present value (NPV)</dt><dd>The value today of what a project brings in, minus what it costs.</dd>
+    <dt>Internal rate of return (IRR)</dt><dd>The rate at which a project's NPV would be exactly zero.</dd>
+    <dt>Cost of capital</dt><dd>The return investors require, and so the bar every project must clear.</dd>
+    <dt>WACC</dt><dd>Weighted average cost of capital: the blended cost of a company's debt and equity.</dd>
+    <dt>Debt</dt><dd>Borrowed money with fixed payments that must be made whatever happens.</dd>
+    <dt>Equity</dt><dd>Ownership, with a claim on whatever is left after everyone else is paid.</dd>
+    <dt>Leverage</dt><dd>Using borrowed money to fund a business, which magnifies gains and losses.</dd>
+    <dt>Working capital</dt><dd>Money tied up in stock and unpaid bills, both owed and owing.</dd>
+    <dt>Dividend</dt><dd>A cash payment to shareholders out of the company's profits.</dd>
+    <dt>Share buyback</dt><dd>A company buying and cancelling its own shares to return cash to owners.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Profit is an opinion, cash is a fact. Companies die when the cash runs out, not the profit."</li>
+    <li>"Shareholders' money isn't free just because nobody sends a bill. It has to beat what they could
+    earn elsewhere."</li>
+    <li>"When rates go up, nothing about a project changes except the price of waiting, and that's
+    enough to kill it."</li>
+    <li>"Debt is a lever. It doubles your gains in a good year and can end the company in a bad one."</li>
+    <li>"If a company can't invest its cash well, it should give it back before it wastes it on a
+    bad acquisition."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="19-mergers-and-acquisitions.html">Mergers &amp;
+  acquisitions</a></h4><p>The biggest investment decision a company can make: buying another one.
+  Why it is so tempting, and why so many deals disappoint.</p></div>
+  <div class="card"><h4>Related · <a href="../10-finance-investing/11-company-valuation.html">Company
+  valuation</a></h4><p>The same discounting, seen from the investor's chair: how to put a price on a
+  whole company.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

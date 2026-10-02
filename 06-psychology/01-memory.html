@@ -1,0 +1,849 @@
+<!doctype html>
+<!--@HEAD-SRC title="Memory" desc="How human memory works: encoding, storage and retrieval, why it reconstructs instead of replaying, what that costs, and where memory science is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memory</title>
+<meta name="description" content="How human memory works: encoding, storage and retrieval, why it reconstructs instead of replaying, what that costs, and where memory science is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Psychology · Topic 01 of 20</p>
+  <h1>Memory. <span class="thin">Not a recording, but a story you rebuild every time you tell it.</span></h1>
+  <p class="lede">Everyone treats memory as a storage problem. You put something in, and later you
+  either find it or you don't. That picture is wrong in almost every detail that matters. Memory is
+  an active process. It throws away most of what happens to you, keeps a compressed sketch of the
+  rest, and redraws the scene from that sketch each time you remember. That design is why you can
+  recognise a friend's face after twenty years. It is also why you can be completely sure of
+  something that never happened.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Psychology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../35-the-mind.html#c8"><span class="vn">Vol 35 · ch 08</span><b>Memory is reconstruction</b><em>The short version</em></a>
+<a class="vol" href="../07-neuroscience/05-memory-formation.html"><span class="vn">Neuroscience · 05</span><b>Memory formation</b><em>The cells and chemistry</em></a>
+<a class="vol" href="02-learning.html"><span class="vn">Psychology · 02</span><b>Learning</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 35 gives memory one short chapter (<a href="../35-the-mind.html#c8">Memory is
+  reconstruction, not playback</a>). This file goes further: the full machinery, the evidence, the
+  costs of the design, and what research is doing with it. Read that chapter first if you want the
+  two-minute version.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Not one thing, but several systems that share a name</h2>
+  <p class="lede">"Memory" is a single word for at least five different abilities. They are stored
+  differently and fail differently, and you can lose one while keeping the others.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The man who could not make a new memory</h2>
+</header>
+
+<p>In 1953 a young man called Henry Molaison had surgery for severe epilepsy. To stop the seizures,
+the surgeon removed a seahorse-shaped structure from both sides of his brain, the
+<strong>hippocampus</strong>. The seizures improved. But from that day until he died in 2008, Henry
+could not form a single new lasting memory of an event. He met the researchers who studied him
+hundreds of times, and every time he met them as strangers.</p>
+
+<p>The strange part is what he <em>kept</em>. His personality, his vocabulary and his childhood
+memories survived. He could hold a conversation as long as nothing distracted him. And when he was
+asked to trace a star while looking only at its mirror image, a hard motor task, he got better every
+day. He did that while insisting each morning that he had never tried it before.</p>
+
+<p>Henry, known for decades in papers only as "H.M.", taught psychology its most important lesson
+about memory. <strong>Knowing that something happened and knowing how to do something are
+separate systems.</strong> One of them needs the hippocampus. The other does not.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The map of memory</h2>
+</header>
+
+<p>Here are the main kinds, from the briefest to the longest-lasting.</p>
+
+<div class="tw"><table>
+<thead><tr><th>System</th><th>What it holds</th><th>How long</th><th>Everyday example</th></tr></thead>
+<tbody>
+<tr><td><strong>Sensory memory</strong></td><td>A raw echo of what you just saw or heard</td><td>Under a second (sight) to a few seconds (sound)</td><td>"What did you say?" and then you answer before they repeat it</td></tr>
+<tr><td><strong>Working memory</strong></td><td>The few things you are actively juggling right now</td><td>Seconds, as long as you keep attending</td><td>Holding a phone number while you dial it</td></tr>
+<tr><td><strong>Episodic memory</strong></td><td>Events you lived: what, where, when, with whom</td><td>Minutes to a lifetime</td><td>Your first day at a job</td></tr>
+<tr><td><strong>Semantic memory</strong></td><td>Facts and meanings, detached from when you learned them</td><td>Years to a lifetime</td><td>Knowing Paris is the capital of France</td></tr>
+<tr><td><strong>Procedural memory</strong></td><td>Skills and habits, done without describing them</td><td>Very durable</td><td>Riding a bicycle, typing</td></tr>
+</tbody></table></div>
+
+<p>Psychologists group the last three as <strong>long-term memory</strong>. They also split it a
+second way. <strong>Explicit</strong> (declarative) memory is what you can consciously bring to mind
+and say out loud: episodic and semantic. <strong>Implicit</strong> memory shows only in behaviour:
+skills, habits, and the way a word you saw a minute ago comes to mind faster. Henry lost the ability
+to form new explicit memories and kept the implicit ones.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The bottleneck: working memory is tiny</h2>
+</header>
+
+<p>In 1956 the psychologist George Miller published a famous paper called "The Magical Number Seven,
+Plus or Minus Two". He argued that people can hold about seven items in mind at once. The number
+stuck, and it is too generous. Later work, notably by Nelson Cowan, puts the real limit nearer
+<strong>three to five chunks</strong> once people are stopped from rehearsing.</p>
+
+<p>The important word is <strong>chunk</strong>. A chunk is any unit you already know as one thing.
+"F-B-I-C-I-A-N-A-S-A" is ten letters and hard to hold. "FBI, CIA, NASA" is three chunks and easy.
+Experts look as if they have huge memories in their field. In fact they have the same small workspace,
+but each slot holds far more, because years of practice packed whole patterns into single chunks.
+Volume 01 builds a whole method on this (<a href="../01-thinking-fast.html">Thinking Fast Without
+Thinking Badly</a>).</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Three stages, and the third one rewrites the first</h2>
+  <p class="lede">Every lasting memory goes through encoding, storage and retrieval. The surprise is
+  that retrieval is not just reading. Each act of remembering changes what is stored.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Encoding: you only keep what you processed</h2>
+</header>
+
+<p>Most of what passes in front of your eyes is never stored at all. Try to draw the front of a coin
+you have handled ten thousand times. Most people cannot. In a well-known study, few people could pick
+the real design of a US penny out of fifteen versions. Exposure is not encoding. <strong>You remember
+what you paid attention to and thought about, not what you were near.</strong></p>
+
+<p>Thinking about meaning helps most. In classic experiments, people who judged whether a word fitted
+a sentence remembered it far better than people who judged whether it was printed in capitals. Their
+eyes saw the same word for the same time. Only the depth of processing differed.</p>
+
+<p>Emotion strengthens encoding too. A small almond-shaped structure, the <strong>amygdala</strong>,
+reacts to emotionally charged events and signals the hippocampus that this one matters. That is why
+you remember where you were when you heard shocking news, and why an ordinary Tuesday three weeks ago
+has mostly gone.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Storage: consolidation, and why sleep is part of it</h2>
+</header>
+
+<p>A new memory is fragile. At first it depends on the hippocampus, which acts something like an
+index. It links fragments stored all over the cortex: the sight goes to visual areas, the sound to
+auditory areas, the meaning to language areas. Over the following hours, days and years, a process
+called <strong>consolidation</strong> strengthens those links until the cortex can rebuild the memory
+with less help from the index.</p>
+
+<p>Much of this work happens during sleep. Recordings in rats show the hippocampus "replaying" the
+day's sequences, sped up, during deep sleep. In people, a night's sleep after learning reliably
+improves retention compared with the same hours awake. That is the physical reason why studying all
+night before an exam works badly. It skips the step that makes learning stick.</p>
+
+<div class="note">
+  <span class="tag">At the level of cells</span>
+  <p>Physically, a memory is a pattern of strengthened connections between neurons. When two neurons
+  repeatedly fire together, the junction between them, the <strong>synapse</strong>, gets more
+  efficient. This is often summarised as "cells that fire together, wire together". The details live
+  in <a href="../07-neuroscience/05-memory-formation.html">Neuroscience · Memory formation</a>.</p>
+</div>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Retrieval: rebuilding, not replaying</h2>
+</header>
+
+<p>When you remember an event, you do not play back a file. The brain uses a cue, such as a smell, a
+question or a place, to reactivate some of the stored fragments. Then it fills the gaps with what
+<em>usually</em> happens, what you now believe, and what you have heard since. The result feels like
+a recording. It is a reconstruction.</p>
+
+<p>The clearest demonstration is a 1974 experiment by Elizabeth Loftus and John Palmer. People watched
+film of a car crash and were asked how fast the cars were going when they "hit" each other, or when
+they "smashed into" each other. The "smashed" group gave higher speeds. A week later, about a third
+of them remembered seeing broken glass that was never in the film. One word in one question had
+changed the memory.</p>
+
+<p>Later work went further. In the "lost in the mall" studies of the 1990s, researchers, helped by
+family members, suggested a childhood event that never happened. A substantial minority of
+participants came to remember it, sometimes with vivid invented detail.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Every recall is a chance to edit</h2>
+</header>
+
+<p>In 2000 the neuroscientist Karim Nader and colleagues showed something unsettling in rats. When a
+consolidated fear memory was brought back, it became briefly unstable again. Blocking protein
+production at that moment weakened the memory. The idea is called <strong>reconsolidation</strong>.
+Bringing a memory back opens it, and it is stored again, possibly changed, afterwards.</p>
+
+<p>This explains two everyday facts. First, the stories you tell most often drift most over the
+years, because each telling is another rewrite. Second, <strong>forgetting is not just fading</strong>.
+Most forgetting is failure to retrieve: the memory is there, but the cue that would reach it is
+missing. That is the "tip of the tongue" state. You know you know it, and you can often give the first
+letter, but the path to it is blocked.</p>
+
+<div class="sheet">
+  <div class="cap">The forgetting curve, roughly</div>
+<pre>
+memory retained
+ 100% |*
+      | *
+      |   *
+      |      *   .   .   reviewed at day 1, 3, 7: each review flattens the curve
+      |          *  .  .  .  .  .  .  .  .
+      |               *    *     *          never reviewed
+      +------------------------------------------------ time
+        1h   1d       1w          1m
+</pre>
+</div>
+
+<p>In 1885 Hermann Ebbinghaus memorised lists of nonsense syllables and tested himself at intervals.
+He found that most forgetting happens <strong>fast and early</strong>, within the first day, and then
+levels off. He also found the cure. Each time you review just before you would have forgotten, the
+next decline is slower. That is the <strong>spacing effect</strong>, one of the most reliable findings
+in all of psychology.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Courts, classrooms, and the self</h2>
+  <p class="lede">If memory were a recording, its errors would be a curiosity. Because it is a
+  reconstruction, they decide who goes to prison, how well people learn, and who we think we are.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The confident witness</h2>
+</header>
+
+<p>In the United States, the Innocence Project has helped overturn hundreds of convictions using DNA
+evidence. In roughly <strong>seven out of ten</strong> of those cases, mistaken eyewitness
+identification played a part. The witnesses were mostly not lying. They remembered a face, and the
+memory had been shaped by the lineup, by the questions, and by learning which suspect the police
+suspected.</p>
+
+<p>The key lesson is that <strong>confidence at trial says little about accuracy</strong>. A witness
+grows more certain each time they tell the story and hear it confirmed. Research now suggests that a
+witness's confidence at the <em>first</em>, fair identification does carry information, while their
+confidence months later in court carries almost none. Many police forces have changed procedures as a
+result. Lineups are now run by an officer who does not know the suspect, and confidence is recorded
+immediately.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Flashbulbs that dim</h2>
+</header>
+
+<p>The day after the 2001 attacks in New York, researchers asked students what they had been doing
+when they heard the news. They asked again weeks and months later. The accounts drifted just as
+quickly as memories of ordinary days. <strong>What did not drift was confidence.</strong> People
+stayed sure of their changed versions. A similar study after the 1986 Challenger explosion found some
+people adamant about details that contradicted what they had written down themselves the morning
+after.</p>
+
+<p>The moral is not "your memory is useless". It is that <strong>vividness and certainty are feelings
+about a memory, not proof of it</strong>. Treat them as the brain's marketing, not its evidence.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>How to actually remember things</h2>
+</header>
+
+<p>Two techniques beat everything else, and most people use neither.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Test yourself (retrieval practice)</h4><p>Pulling something out of memory
+  strengthens it far more than reading it again. In a 2006 study by Henry Roediger and Jeffrey
+  Karpicke, students who read a passage once and then practised recalling it remembered much more a
+  week later than students who reread it several times. The rereaders <em>felt</em> more confident.
+  Rereading creates familiarity. Recall creates memory.</p></div>
+  <div class="card"><h4>Space it out</h4><p>Ten minutes on three separate days beats thirty minutes in
+  one go, for the same total time. Spacing feels worse while you do it, because you forget a little
+  between sessions. That effortful re-finding is exactly what strengthens the memory. Flashcard apps
+  that schedule reviews (spaced repetition) automate this.</p></div>
+</div>
+
+<p>Two more help. <strong>Make it mean something</strong>: connect the new fact to something you
+already know, or explain it in your own words. <strong>Sleep after learning</strong>, as Chapter 05
+explained. Things that help less than people think include highlighting, rereading, and studying with
+music that has lyrics.</p>
+
+<p>The third reason memory matters is quieter. <strong>Your sense of who you are is built from
+episodic memory.</strong> People with severe amnesia often describe losing themselves, not just their
+past. And because those memories are reconstructed, the self they build is partly a story too.
+Mostly it is a useful one.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A brilliant design with predictable failure points</h2>
+  <p class="lede">The errors are not bugs added to a perfect recorder. They are the price of features
+  you would not want to give up.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>What the design buys, and what it costs</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Design feature</th><th>What it buys you</th><th>What it costs you</th></tr></thead>
+<tbody>
+<tr><td><strong>Store the gist, drop the detail</strong></td><td class="ok">Huge capacity. You keep the meaning of thousands of conversations.</td><td class="no">You lose exact wording and fill it in later, often wrongly.</td></tr>
+<tr><td><strong>Rebuild from fragments</strong></td><td class="ok">Flexibility. You can imagine the future by recombining the past.</td><td class="no">False memories, and the influence of leading questions.</td></tr>
+<tr><td><strong>Edit on recall</strong></td><td class="ok">Memories update with new knowledge, so old beliefs don't go stale.</td><td class="no">Stories drift with each telling, and confidence grows anyway.</td></tr>
+<tr><td><strong>Emotion boosts storage</strong></td><td class="ok">You remember the dangers and the people who matter.</td><td class="no">Trauma can be stored too well. Intrusive memories are part of PTSD.</td></tr>
+<tr><td><strong>Forget fast by default</strong></td><td class="ok">Less clutter. Old irrelevant detail stops interfering.</td><td class="no">Most of what you study disappears unless you review it.</td></tr>
+<tr><td><strong>A tiny working memory</strong></td><td class="ok">Focus. You are not swamped by everything at once.</td><td class="no">Overload: long instructions and multitasking break down quickly.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Why forgetting is a feature</h2>
+</header>
+
+<p>There are a handful of documented people with highly superior autobiographical memory. Give them a
+date and they can say what they did that day decades ago. It sounds like a gift. Several have
+described it as a burden: old embarrassments and grief stay as sharp as on the day they happened.
+That memory does not make them better at memorising facts, either.</p>
+
+<p>The ordinary brain's forgetting does real work. It lets the general pattern ("meetings with this
+client run long") rise above a thousand specific instances. <strong>A memory that kept everything
+would be worse at telling you what matters.</strong></p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Repairing it, editing it, and outsourcing it</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Slowing memory loss in Alzheimer's</strong></td><td>Antibody drugs such as lecanemab and donanemab, approved in several countries from 2023 onward, slow decline in early-stage patients by roughly a quarter to a third over about 18 months. They carry risks of brain swelling and bleeding.</td><td class="ok">Fairly sure: better and earlier treatment within a decade, aided by blood tests that detect the disease years before symptoms. Reversal is not in sight.</td></tr>
+<tr><td><strong>Softening traumatic memories</strong></td><td>Trials combine recall of a trauma with drugs such as propranolol (to blunt the emotional charge while the memory is "open") or with therapy timed to reconsolidation. Results are mixed.</td><td class="mid">Plausible: weakening the emotional sting of a memory without erasing the facts. Precise erasure of chosen memories in humans is science fiction for now.</td></tr>
+<tr><td><strong>Memory prosthetics</strong></td><td>Small studies in epilepsy patients who already had brain electrodes reported improved recall when stimulation copied their own hippocampal patterns.</td><td class="no">Speculative: early, tiny and hard to scale. See <a href="../07-neuroscience/17-brain-computer-interfaces.html">Brain-computer interfaces</a>.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The change that is already happening: outsourced memory</h2>
+</header>
+
+<p>People have always stored memory outside their heads, in writing, in calendars and in other people.
+Spouses split who remembers which things, a pattern psychologists call <strong>transactive
+memory</strong>. Phones and search engines are the biggest expansion of this ever. Some studies
+suggest people put less effort into remembering things they know they can look up. The effect sizes
+have been debated and some findings have not replicated well.</p>
+
+<p>The sensible position is in between. Outsourcing facts frees working memory for thinking, which is
+good. But <strong>you cannot think with what you do not know</strong>. Chunks in your head, not
+results on a screen, are what let you spot a pattern in a meeting in three seconds. As AI tools get
+better at recalling for us, deliberately keeping core knowledge in our own heads may become a
+competitive advantage rather than a quaint habit.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Memory is <strong>several systems</strong>: sensory, working, episodic, semantic and procedural.
+    Lasting memories are <strong>encoded</strong> through attention and meaning,
+    <strong>consolidated</strong> with help from the hippocampus and sleep, and
+    <strong>reconstructed</strong> on every recall. Each recall can change what is stored.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Working memory holds about <strong>3–5 chunks</strong>, not seven.</li>
+      <li>Most forgetting happens in the <strong>first day</strong> (Ebbinghaus, 1885).</li>
+      <li>Mistaken eyewitness identification played a part in roughly <strong>7 in 10</strong> DNA
+      exonerations in the US.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Treating a vivid, confident memory as proof. <strong>Vividness and confidence are feelings,
+    not evidence</strong>, and they grow with retelling while accuracy shrinks.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain, without notes, why rereading feels effective but testing yourself works
+    better? If you can, you have understood encoding, retrieval and the forgetting curve together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Hippocampus</dt><dd>A curved structure deep in each side of the brain. It acts as the index that ties a new memory's pieces together.</dd>
+    <dt>Amygdala</dt><dd>A nearby structure that reacts to emotional events and tells the hippocampus "keep this one".</dd>
+    <dt>Working memory</dt><dd>The small mental workspace that holds what you are using right now.</dd>
+    <dt>Chunk</dt><dd>Any group of information you already treat as one unit.</dd>
+    <dt>Episodic memory</dt><dd>Memory for events you lived through, with a time and a place.</dd>
+    <dt>Semantic memory</dt><dd>Memory for facts and meanings, separate from when you learned them.</dd>
+    <dt>Procedural memory</dt><dd>Memory for skills, which shows in doing rather than telling.</dd>
+    <dt>Consolidation</dt><dd>The gradual strengthening of a new memory, much of it during sleep.</dd>
+    <dt>Reconsolidation</dt><dd>The re-storing of a memory after recall, a window in which it can change.</dd>
+    <dt>Retrieval practice</dt><dd>Learning by pulling information out of memory (testing) rather than putting it in again (rereading).</dd>
+    <dt>Spacing effect</dt><dd>The finding that spreading study across time beats cramming the same hours.</dd>
+    <dt>False memory</dt><dd>A sincere memory of something that did not happen, or did not happen that way.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Memory isn't a recording. It's a reconstruction, and every time you recall something you
+    slightly rewrite it."</li>
+    <li>"A confident witness isn't necessarily an accurate one. Confidence grows with retelling,
+    accuracy doesn't."</li>
+    <li>"Rereading your notes feels productive, but testing yourself is what actually makes things
+    stick."</li>
+    <li>"Working memory holds about four things, which is why long instructions fall apart. Write them
+    down."</li>
+    <li>"Forgetting is mostly the brain doing its job. It keeps the pattern and drops the noise."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="02-learning.html">Learning</a></h4><p>How memories become
+  knowledge and skill: practice, feedback, and why the conditions that feel easiest teach you
+  least.</p></div>
+  <div class="card"><h4>Related · <a href="../07-neuroscience/05-memory-formation.html">Memory
+  formation</a></h4><p>The same subject one level down: synapses, long-term potentiation, and what the
+  hippocampus physically does overnight.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

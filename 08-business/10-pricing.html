@@ -1,0 +1,841 @@
+<!doctype html>
+<!--@HEAD-SRC title="Pricing" desc="How companies set prices, why a small change moves profit so much, how different customers end up paying different amounts, what makes a price feel fair, and where algorithmic pricing is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pricing</title>
+<meta name="description" content="How companies set prices, why a small change moves profit so much, how different customers end up paying different amounts, what makes a price feel fair, and where algorithmic pricing is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Business · Topic 10 of 20</p>
+  <h1>Pricing. <span class="thin">The most powerful number in a business, and usually the least examined.</span></h1>
+  <p class="lede">Companies spend years designing a product and an afternoon deciding what to charge
+  for it. That is strange, because no other decision moves profit so quickly. A price is not just a
+  cost plus a margin. It is a guess about what buyers will pay, a signal of quality, a way of sorting
+  customers, and a test of what people consider fair. Get it slightly wrong and a good product loses
+  money. Get it badly wrong and customers remember for years.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Business</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../35-the-mind.html#c4"><span class="vn">Vol 35 · ch 04</span><b>The first number sticks</b><em>Anchoring, briefly</em></a>
+<a class="vol" href="../38-money.html#c5"><span class="vn">Vol 38 · ch 05</span><b>What a price actually is</b><em>The economist's view</em></a>
+<a class="vol" href="12-operations.html"><span class="vn">Business · 12</span><b>Operations</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 35 shows how <a href="../35-the-mind.html#c4">the first number sticks</a>, the bias behind
+  "recommended" prices, and Volume 38 explains <a href="../38-money.html#c5">what a price actually
+  is</a> for a share or a market. How prices form across a whole market is the subject of
+  <a href="../09-economics/01-supply-and-demand.html">Economics · Supply and demand</a>. This file
+  covers the decision inside a single company: what to charge, to whom, and how.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The amount a company asks, and the reasoning behind it</h2>
+  <p class="lede">Pricing is the set of decisions about what to charge, how to structure the charge,
+  and when to change it. It is where a company captures the value its product creates.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Why one percent matters so much</h2>
+</header>
+
+<p>Take a simple company. It sells a product for 100. Each unit costs 60 to make and deliver. Its
+other costs, rent and salaries, come to 30 per unit at its current volume. That leaves a profit of 10
+per unit.</p>
+
+<div class="sheet">
+  <div class="cap">Three ways to improve by one percent</div>
+<pre>
+ starting point     price 100   variable cost 60   fixed cost 30   profit 10
+
+ raise price 1%     price 101   cost 60  fixed 30           profit 11.0   (+10%)
+ sell 1% more       each extra unit adds 100 - 60 = 40      profit 10.4   (+4%)
+ cut fixed cost 1%  fixed 29.7                              profit 10.3   (+3%)
+
+ a 1% price rise, if volume holds, does more than the others combined
+</pre>
+</div>
+
+<p>The reason is that the whole price increase falls straight to profit, while extra volume brings
+extra costs with it. A much-cited 1992 analysis by consultants at McKinsey, covering a large sample of
+companies, put the effect of a 1% price rise at roughly an 11% increase in operating profit for a
+typical firm. The exact figure depends on the margin. The pattern does not. <strong>For most
+companies, price is the strongest lever on profit</strong>, and the catch is the words "if volume
+holds".</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Three ways to set a price</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Method</th><th>How it works</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Cost-plus</strong></td><td>Add a fixed margin to what it costs you</td><td class="ok">Simple, easy to justify</td><td class="no">Ignores what buyers would pay. Leaves money on the table or prices you out</td></tr>
+<tr><td><strong>Competitor-based</strong></td><td>Charge close to what rivals charge</td><td class="ok">Safe in crowded markets</td><td class="no">Assumes rivals got it right. Invites price wars</td></tr>
+<tr><td><strong>Value-based</strong></td><td>Charge according to what the product is worth to the buyer</td><td class="ok">Captures the most profit</td><td class="no">Hard to measure value. Different buyers value it differently</td></tr>
+</tbody></table></div>
+
+<p>Most companies start with cost-plus because the numbers are on hand. Pricing specialists push
+towards value-based pricing, because <strong>cost sets the floor, but value sets the ceiling</strong>.
+A piece of software that saves a hospital a million a year is not worth what it cost to write. It is
+worth some share of the million.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Willingness to pay and elasticity</h2>
+</header>
+
+<p>Every buyer has a maximum they would pay, called their <strong>willingness to pay</strong>. Above
+it, they walk away. Below it, they buy and feel they got a bargain. The difference between what they
+would have paid and what they did pay is the buyer's gain, which economists call <strong>consumer
+surplus</strong>.</p>
+
+<p>How strongly sales react to a price change is called <strong>price elasticity</strong>. If a 10% rise
+loses you 2% of buyers, demand is <em>inelastic</em>: people need it or have no alternative, as with
+petrol in the short term, or a medicine. If the same rise loses you 30%, demand is <em>elastic</em>:
+there are close substitutes, as with one brand of bottled water among many. The broader mechanics are
+in <a href="../09-economics/01-supply-and-demand.html">Supply and demand</a>. The business point is
+that <strong>a company's pricing power comes from having no close substitute</strong>, which is why
+brands, patents and switching costs matter so much (see
+<a href="17-competitive-advantage.html">Competitive advantage</a>).</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Different prices for different people, and the psychology underneath</h2>
+  <p class="lede">The hardest problem in pricing is that buyers differ. The solutions are versions,
+  bundles, timing and design, plus a firm understanding of how people perceive numbers.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The single-price problem</h2>
+</header>
+
+<p>Imagine a concert hall. Some fans would pay 300 for a ticket. Students would come at 30. A single
+price of 100 loses the students and undercharges the fans. Companies would like to charge each person
+their own maximum. They cannot ask, because everyone would claim to be poor. So they design ways for
+customers to <strong>sort themselves</strong>.</p>
+
+<p>Economists call charging different prices for the same thing <strong>price discrimination</strong>.
+The word sounds bad, but much of it is ordinary and often helpful. Student and pensioner discounts,
+cheaper matinee tickets, early-bird offers and coupons all work this way. Coupons, for example, are
+used mainly by people who are willing to spend time to save money, who are also the most
+price-sensitive. People who cannot be bothered pay full price. <strong>The effort is the filter.</strong></p>
+
+<p>The most common modern form is <strong>versioning</strong>: offering good, better and best
+versions. Airlines sell economy, premium economy and business seats on the same plane. Software comes
+in basic, professional and enterprise tiers. The cost differences are often small. The price
+differences are large, because they follow willingness to pay, not cost.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Bundles, blades and subscriptions</h2>
+</header>
+
+<p><strong>Bundling</strong> sells several items together for one price, such as a television package
+or a fast-food meal. It works because buyers value the parts differently. One person values sport
+highly and films a little, another the reverse. A bundle priced for their combined interest can make
+more than selling each part separately.</p>
+
+<p>The <strong>razor-and-blades</strong> model sells the main item cheaply and makes money on what it
+needs afterwards: printers and ink cartridges, game consoles and games, coffee machines and capsules.
+It is often credited to the Gillette company, although historians debate how deliberately Gillette
+used it. Its modern cousin is <strong>freemium</strong>, where a basic product is free and a minority
+of users pay for more.</p>
+
+<p><strong>Subscriptions</strong> turn a one-off price into a regular payment. Companies love them for
+predictable revenue. Customers like the low monthly figure. The risk for customers, as the
+<a href="09-customer-behavior.html">customer behaviour file</a> explains, is that inertia keeps them
+paying for things they no longer use.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Dynamic pricing: when the price moves</h2>
+</header>
+
+<p>After the United States removed government control of airline fares in 1978, airlines faced a new
+problem: a plane seat is worthless once the door closes. In the 1980s, American Airlines and others
+built systems that changed fares constantly according to how full a flight was and how close to
+departure. This became known as <strong>revenue management</strong> or yield management. It is why
+the person beside you on a plane may have paid three times what you did.</p>
+
+<p>Hotels, car hire and train companies followed. Ride-hailing apps such as Uber raise prices when
+demand outstrips the number of drivers, which they call surge pricing. The economic case is that
+higher prices bring more drivers onto the road and ration scarce rides to those who need them most.
+The public case against it is that it feels like exploiting people at the worst moment, such as in a
+storm. In 2024 the sale of tickets for the British band Oasis's reunion tour, where prices rose sharply
+while fans waited online, led the UK competition regulator to investigate. <strong>Dynamic pricing is
+efficient and widely resented at the same time.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>How buyers perceive numbers</h2>
+</header>
+
+<p>People do not judge prices in isolation. They compare them with something.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Anchors</h4><p>The first number seen sets the frame. A "was 200, now 120"
+  label makes 120 feel cheap, whatever the item is worth. A very expensive item on a menu makes the
+  second most expensive look reasonable. See <a href="../35-the-mind.html#c4">Volume 35</a>.</p></div>
+  <div class="card"><h4>Decoys</h4><p>Adding an option few will choose can change what people pick. In
+  a classroom demonstration popularised by the economist Dan Ariely, a magazine offered online access,
+  print, or print plus online, with print and print-plus-online at the same price. Most students chose
+  the combination. Remove the print-only "decoy" and many switched to the cheaper online option.</p></div>
+  <div class="card"><h4>Charm prices</h4><p>A price of 9.99 instead of 10 is read from the left, so it
+  feels closer to 9 than to 10. The effect is small but persistent, which is why it is everywhere. Luxury
+  brands avoid it on purpose, because round numbers signal quality.</p></div>
+  <div class="card"><h4>Partitioned prices</h4><p>Splitting a price into a low headline figure plus
+  fees for booking, service or delivery makes the total feel smaller. Several countries now require
+  such fees to be shown up front.</p></div>
+</div>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Fairness: the snow shovel question</h2>
+</header>
+
+<p>In 1986 the economists Daniel Kahneman, Jack Knetsch and Richard Thaler asked people a simple
+question. A hardware store has been selling snow shovels for 15 dollars. The morning after a large
+snowstorm, it raises the price to 20. Is that fair? About four out of five respondents said it was
+unfair. Economic theory sees nothing wrong: demand rose, so the price did. Ordinary people see a shop
+taking advantage of a neighbour's need.</p>
+
+<p>Their research found a consistent pattern. People accept price rises that pass on higher costs, but
+resent rises that exploit higher demand. <strong>A price is judged not only by its size but by the
+reason behind it.</strong> That is why companies explain increases by pointing to costs, why a
+discount is easier to withdraw than a price is to raise, and why the timing of a rise can matter more
+than its amount.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Profit, reputation, and the line the law draws</h2>
+  <p class="lede">Pricing mistakes can lose a company a quarter of its sales in a year. Pricing
+  agreements between rivals can send executives to prison. And prices are where ordinary people feel
+  the economy.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Two famous mistakes</h2>
+</header>
+
+<p>In 2012 the American department store J.C. Penney hired Ron Johnson, who had built Apple's retail
+stores. He scrapped most of the store's constant sales and coupons in favour of simple, lower,
+everyday prices. In theory customers paid about the same. In practice they had lost the pleasure of
+the bargain, the anchor of a "was" price and the reason to visit. Sales fell by about a quarter in a
+year, and Johnson was replaced in 2013. <strong>Customers were not buying low prices. They were buying
+the feeling of a good deal.</strong></p>
+
+<p>In 2011 Netflix split its DVD-by-post and streaming services into separate plans. For customers who
+wanted both, the effective price rose by around 60% at once. Netflix lost about 800,000 subscribers in a
+single quarter and its share price fell steeply. It recovered, and streaming was the right bet, but the
+episode showed how a large, sudden rise, badly explained, turns loyal customers into angry ones.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Price wars, and the crime of agreeing</h2>
+</header>
+
+<p>When products look identical to buyers, price becomes the only difference, and rivals can cut and
+cut until nobody makes money. Airlines, supermarkets and telecom companies have all lived through such
+<strong>price wars</strong>. The usual way out is to make the product less comparable, through
+service, brand, loyalty schemes or bundles.</p>
+
+<p>The tempting way out is illegal. If rival companies agree among themselves on prices, they form a
+<strong>cartel</strong>, and customers pay more. Price-fixing is banned in the United States, the
+European Union, the United Kingdom and most other economies. Penalties include large fines and, in
+some countries such as the US and the UK, prison for the individuals involved. Note the subtle
+boundary: <strong>companies may watch each other's prices and follow them, but they may not agree on
+them</strong>. That boundary is now being tested by pricing software (Chapter 13).</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Inflation, shrinkflation and the "greed" debate</h2>
+</header>
+
+<p>When costs rise across the economy, companies must decide how to pass them on. One quiet method is
+<strong>shrinkflation</strong>: keeping the price but reducing the amount, so that a chocolate bar or a
+bag of crisps gets smaller. Shoppers notice prices more than weights, which is why it works, and why
+it causes anger when discovered. From 2024 France required large shops to put a notice next to
+products that had shrunk without a matching price cut.</p>
+
+<p>During the inflation surge of 2021–2023, a public argument broke out over whether companies used
+rising costs as cover to widen their profit margins, sometimes called "greedflation". Some studies
+found that profits contributed noticeably to inflation in certain sectors and periods. Others argued
+that margins rose mainly because demand was strong and supply was disrupted, and fell back later.
+<strong>The question remains contested</strong>, and the answer seems to differ by country and
+industry. What is clear is that in an inflation, the fairness test from Chapter 08 applies to the
+whole economy at once.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Each pricing strategy wins something and costs something</h2>
+  <p class="lede">There is no correct price, only trade-offs between profit now, volume, loyalty and
+  trust.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Weighing the strategies</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Strategy</th><th>Advantages</th><th>Disadvantages</th></tr></thead>
+<tbody>
+<tr><td><strong>Premium pricing</strong></td><td class="ok">High margins. Signals quality. Funds service and research.</td><td class="no">Smaller market. Invites cheaper rivals to undercut.</td></tr>
+<tr><td><strong>Low everyday prices</strong></td><td class="ok">Trust, simplicity, large volume. Works for retailers with very low costs.</td><td class="no">Thin margins. No room for promotions. Only works if your costs are truly lower.</td></tr>
+<tr><td><strong>Penetration pricing</strong> (start cheap to win share)</td><td class="ok">Fast growth. Builds habits and network effects.</td><td class="no">Customers anchor on the low price. Raising it later is painful.</td></tr>
+<tr><td><strong>Price discrimination and tiers</strong></td><td class="ok">Serves both rich and poor buyers. More total sales and profit.</td><td class="mid">Can feel unfair when customers discover others paid less.</td></tr>
+<tr><td><strong>Dynamic pricing</strong></td><td class="ok">Fills capacity. Matches price to demand in real time.</td><td class="no">Resentment at peak moments. Hard to explain.</td></tr>
+<tr><td><strong>Subscriptions</strong></td><td class="ok">Predictable revenue. Low entry price for customers.</td><td class="no">Customers pay for unused services. Regulators are tightening cancellation rules.</td></tr>
+</tbody></table></div>
+
+<p>One general lesson runs across the table. <strong>Pricing is easy to change technically and hard to
+change psychologically.</strong> A price, once seen, becomes the anchor against which every future
+price is judged, which is why the first price a new product carries matters so much.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Prices set by machines, for one person at a time</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Four directions, sorted by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Prices that change more often</strong></td><td>Electronic shelf labels, common in parts of Europe, let shops change prices from a computer.</td><td class="ok">Fairly sure: more frequent changes in physical shops, as already happens online.</td></tr>
+<tr><td><strong>Paying for use, not ownership</strong></td><td>Software, cloud computing and AI services increasingly charge per use, per user or per task.</td><td class="ok">Fairly sure: more usage-based and outcome-based pricing in business services.</td></tr>
+<tr><td><strong>Personalised prices</strong></td><td>Firms can estimate an individual's willingness to pay from their data. US regulators began studying this "surveillance pricing" in 2024.</td><td class="mid">Plausible: more personalised offers and discounts, with limits set by law and by customer anger.</td></tr>
+<tr><td><strong>Algorithms that collude</strong></td><td>Authorities in the US have brought cases arguing that shared pricing software helped landlords raise rents together.</td><td class="no">Speculative: whether software that learns to keep prices high, without any human agreement, counts as a cartel is an open legal question.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The end of the single price?</h2>
+</header>
+
+<p>For most of history prices were haggled. The fixed price tag, the same for everyone, became common
+only in the nineteenth century with department stores, partly because large shops could not trust
+hundreds of clerks to bargain. Algorithmic pricing could take us halfway back: prices set for each
+buyer, but by a machine rather than a shopkeeper.</p>
+
+<p>Whether that happens depends less on technology than on trust and law. Customers who discover they
+paid more than a neighbour for the same thing feel cheated, as the fairness research predicts. Laws on
+data protection, discrimination and competition limit what firms can do. And competitors can win
+customers by promising one honest price. <strong>The technology makes personal pricing possible. The
+fairness instinct makes it risky.</strong> The most likely outcome is personalised <em>offers</em>
+inside a visible public price, rather than secret individual prices.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A price should sit between <strong>cost</strong> (the floor) and the buyer's <strong>value</strong>
+    (the ceiling). Because buyers value things differently, companies use <strong>versions, bundles,
+    timing and discounts</strong> to let customers sort themselves. Buyers judge prices by
+    <strong>comparison and fairness</strong>, not by the number alone.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>A <strong>1%</strong> price rise, with volume unchanged, can lift operating profit by around
+      <strong>10%</strong> for a typical firm.</li>
+      <li>About <strong>four in five</strong> people judged the snow-shovel price rise unfair (1986).</li>
+      <li>Netflix lost about <strong>800,000</strong> subscribers in one quarter after its 2011 price
+      change.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Setting prices from costs alone. <strong>Customers do not care what it cost you</strong>. They
+    care what it is worth to them, and what they paid last time.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a coupon is a form of price discrimination that customers do not resent? If
+    you can, you understand self-selection and fairness together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Margin</dt><dd>The part of the price left after paying for the product's costs.</dd>
+    <dt>Cost-plus pricing</dt><dd>Setting the price as cost plus a fixed percentage.</dd>
+    <dt>Value-based pricing</dt><dd>Setting the price according to what the product is worth to the buyer.</dd>
+    <dt>Willingness to pay</dt><dd>The most a particular buyer would pay before walking away.</dd>
+    <dt>Consumer surplus</dt><dd>The gap between what a buyer would have paid and what they actually paid.</dd>
+    <dt>Price elasticity</dt><dd>How strongly sales react when the price changes.</dd>
+    <dt>Price discrimination</dt><dd>Charging different customers different prices for the same thing.</dd>
+    <dt>Versioning</dt><dd>Offering good, better and best versions at different prices.</dd>
+    <dt>Bundling</dt><dd>Selling several items together for one price.</dd>
+    <dt>Freemium</dt><dd>A free basic product, with paid extras for those who want more.</dd>
+    <dt>Dynamic pricing</dt><dd>Prices that change often with demand, time or availability.</dd>
+    <dt>Decoy</dt><dd>An option included mainly to make another option look better.</dd>
+    <dt>Cartel</dt><dd>Competitors secretly agreeing on prices or output, which is illegal in most countries.</dd>
+    <dt>Shrinkflation</dt><dd>Keeping the price while reducing the quantity in the pack.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Cost sets the floor, value sets the ceiling. Most companies price far too close to the
+    floor."</li>
+    <li>"A one percent price rise usually does more for profit than a one percent rise in sales."</li>
+    <li>"Coupons are price discrimination that people enjoy. The effort is the filter."</li>
+    <li>"People accept price rises that pass on costs, and resent ones that exploit demand."</li>
+    <li>"J.C. Penney learned that customers weren't buying low prices. They were buying the feeling of
+    a bargain."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="12-operations.html">Operations</a></h4><p>Topic 11, supply
+  chains, is covered in <a href="../12-the-physical-supply-chain.html#s4">Volume 12</a>. Next comes the
+  engine behind every price: how companies actually make and deliver things, and why queues behave as
+  they do.</p></div>
+  <div class="card"><h4>Related · <a href="../06-psychology/19-behavioral-economics.html">Behavioral
+  economics</a></h4><p>The research behind anchors, decoys and fairness, and how governments use the
+  same ideas to nudge better choices.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

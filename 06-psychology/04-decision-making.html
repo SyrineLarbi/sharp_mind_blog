@@ -1,0 +1,877 @@
+<!doctype html>
+<!--@HEAD-SRC title="Decision-making" desc="How people actually choose: expected value and its limits, risk versus uncertainty, heuristics, prospect theory, satisficing, choice overload, noise, and where decision science is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decision-making</title>
+<meta name="description" content="How people actually choose: expected value and its limits, risk versus uncertainty, heuristics, prospect theory, satisficing, choice overload, noise, and where decision science is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Psychology · Topic 04 of 20</p>
+  <h1>Decision-making. <span class="thin">People are not bad calculators. They are good guessers with predictable blind spots.</span></h1>
+  <p class="lede">Economics long assumed that people choose by weighing every option and picking the
+  best one. Psychology found that almost nobody does this, and that it is often impossible. Real
+  decisions are made with too little time, too little information and a small working memory. So the
+  mind uses shortcuts. Most of the time they work remarkably well. Sometimes they fail in ways so
+  regular that you can predict them. This file is about both halves: the shortcuts, and when to
+  distrust them.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Psychology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../35-the-mind.html#c2"><span class="vn">Vol 35 · ch 02–07</span><b>The classic biases</b><em>The short versions</em></a>
+<a class="vol" href="../07-neuroscience/09-decision-making.html"><span class="vn">Neuroscience · 09</span><b>Decision-making</b><em>The brain side</em></a>
+<a class="vol" href="06-motivation.html"><span class="vn">Psychology · 06</span><b>Motivation</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 35 covers the best-known biases in short chapters:
+  <a href="../35-the-mind.html#c2">answering an easier question</a>,
+  <a href="../35-the-mind.html#c3">availability</a>, <a href="../35-the-mind.html#c4">anchoring</a>,
+  <a href="../35-the-mind.html#c6">loss aversion</a> and <a href="../35-the-mind.html#c7">framing</a>.
+  Volume 07 summarises <a href="../07-books-thinking-and-judgment.html#k1">Thinking, Fast and
+  Slow</a>, <a href="../07-books-thinking-and-judgment.html#k3">Thinking in Bets</a> and
+  <a href="../07-books-thinking-and-judgment.html#k6">Sources of Power</a>, and Volume 01 shows
+  <a href="../01-thinking-fast.html#w3">how experts actually decide</a>. This file ties them together
+  into one account of how choice works. The brain circuits are in
+  <a href="../07-neuroscience/09-decision-making.html">Neuroscience · Decision-making</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Choosing when you cannot be sure</h2>
+  <p class="lede">A decision is a choice between options whose results you cannot fully know. The
+  interesting part of decision-making is always the uncertainty.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The economist's puzzle</h2>
+</header>
+
+<p>In 1953 the French economist Maurice Allais put two choices to leading decision theorists.
+First: would you rather have one million francs for certain, or a gamble with a 10% chance of five
+million, an 89% chance of one million and a 1% chance of nothing? Most people, experts included,
+took the certain million.</p>
+
+<p>Second: would you rather have an 11% chance of one million, or a 10% chance of five million?
+Here most people took the 10% chance of five million. The trouble is that, under the standard theory
+of rational choice, these two answers contradict each other. Remove the shared 89% chance of one
+million from both options in the first choice and you get exactly the second choice. A consistent
+chooser should pick the same side both times.</p>
+
+<p>This is the <strong>Allais paradox</strong>. It showed early that <strong>people do not treat
+probabilities the way the mathematics says they should</strong>. In particular, the jump from
+"almost certain" to "certain" is worth far more to us than the formula allows. That gap between the
+theory and real people is what the psychology of decision-making studies.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Risk is not the same as uncertainty</h2>
+</header>
+
+<p>In 1921 the American economist Frank Knight drew a distinction that is still essential. Under
+<strong>risk</strong> you know the odds, as with dice or roulette. Under
+<strong>uncertainty</strong> you do not know the odds, and sometimes you do not even know all the
+possible outcomes, as with launching a product or choosing a career.</p>
+
+<p>People treat these differently. In 1961 Daniel Ellsberg described a now-famous thought
+experiment. One urn has 50 red and 50 black balls. Another has 100 balls in an unknown mix of red
+and black. Asked to bet on red, most people prefer the first urn. Asked to bet on black, they
+<em>still</em> prefer the first urn. That cannot be consistent with any single belief about the
+second urn. People simply dislike not knowing the odds. This is called <strong>ambiguity
+aversion</strong>.</p>
+
+<p>Most real decisions are made under uncertainty, not risk. That is why <strong>methods that work
+well for casinos and insurance can mislead in business and life</strong>, where the probabilities
+are guesses dressed up as numbers.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Three questions about any decision</h2>
+</header>
+
+<p>Researchers ask three different kinds of question, and it helps to keep them apart.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Approach</th><th>The question it asks</th><th>Who works on it</th></tr></thead>
+<tbody>
+<tr><td><strong>Normative</strong></td><td>How <em>should</em> an ideal reasoner decide?</td><td>Mathematicians, economists, philosophers</td></tr>
+<tr><td><strong>Descriptive</strong></td><td>How <em>do</em> real people decide?</td><td>Psychologists, behavioural economists</td></tr>
+<tr><td><strong>Prescriptive</strong></td><td>How can real people decide <em>better</em>, given their limits?</td><td>Decision analysts, designers of policies and procedures</td></tr>
+</tbody></table></div>
+
+<p>Much confusion comes from mixing them up. Showing that people break a normative rule does not by
+itself prove they are foolish. Sometimes the rule ignores real costs, such as time and effort. The
+useful question is the prescriptive one: <strong>given how minds actually work, what helps?</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>From the ideal calculator to the real mind</h2>
+  <p class="lede">The story of decision science is a series of corrections to one beautiful idea:
+  that people compute the value of each option and pick the highest.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Expected value, and why it is not enough</h2>
+</header>
+
+<p>The simplest rule is <strong>expected value</strong>: multiply each possible outcome by its
+probability, add them up, and choose the option with the highest total. A bet that pays 100 with a
+50% chance has an expected value of 50. If it costs less than 50 to play, the rule says play.</p>
+
+<p>In the eighteenth century a puzzle broke this rule. Imagine a game where a coin is tossed until it
+lands heads, and the prize doubles with every toss. The expected value of this game is infinite, yet
+almost nobody would pay more than a few coins to play. In 1738 the mathematician Daniel Bernoulli
+offered an answer. What matters is not money but how much the money is worth to you, which he called
+<strong>utility</strong>. A thousand euros means a great deal to someone with nothing and very little
+to a millionaire. This is <strong>diminishing marginal utility</strong>: each extra unit adds less
+value than the one before.</p>
+
+<p>The resulting theory, <strong>expected utility</strong>, was given a formal basis in the 1940s by
+John von Neumann and Oskar Morgenstern. It is still the standard model of rational choice in
+economics. The Allais and Ellsberg puzzles from Q1 are both cases where real people break it.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Good enough: bounded rationality</h2>
+</header>
+
+<p>In the 1950s Herbert Simon, who later won the Nobel Prize in economics, made a more basic
+objection. Real people cannot compute expected utility for most choices. They do not know all the
+options, cannot estimate all the probabilities and have no time to do the arithmetic. He called this
+<strong>bounded rationality</strong>: being as rational as possible within limits of information,
+time and mental capacity.</p>
+
+<p>Simon argued that people <strong>satisfice</strong>, a word he built from "satisfy" and
+"suffice". They set a standard of "good enough", look at options one at a time, and take the first
+that meets the standard. You do not visit every flat in the city before renting one. You set your
+must-haves and sign for the first that fits. <strong>Satisficing is not lazy optimising. It is often
+the most sensible strategy when searching has a cost.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Heuristics: rules of thumb, and their biases</h2>
+</header>
+
+<p>In 1974 Amos Tversky and Daniel Kahneman published a paper in the journal Science that changed the
+field. They argued that people judge probability using a small set of mental shortcuts, called
+<strong>heuristics</strong>, and that each shortcut produces its own typical errors, called
+<strong>biases</strong>. Three were central: judging by how much something resembles a typical
+case, judging by how easily examples come to mind, and starting from a number and adjusting too
+little. Volume 35 covers the last two in <a href="../35-the-mind.html#c3">availability</a> and
+<a href="../35-the-mind.html#c4">anchoring</a>.</p>
+
+<p>The first, <strong>representativeness</strong>, produced one of the most famous examples in
+psychology. People read about "Linda", a 31-year-old who studied philosophy and cared deeply about
+social justice. Asked which was more likely, that Linda is a bank teller or that she is a bank
+teller <em>and</em> active in the feminist movement, most people chose the second. That is
+impossible: a group cannot be bigger than a group that contains it. But the second description
+<em>sounds</em> more like Linda. <strong>Plausibility feels like probability, and it is
+not.</strong></p>
+
+<p>Representativeness also explains <strong>base-rate neglect</strong>: ignoring how common
+something is in the first place. If a quiet, tidy man loves books, people guess "librarian" over
+"salesman", forgetting that salesmen vastly outnumber librarians. Volume 39 explains why base rates
+matter so much in <a href="../39-chance.html#c1">How common is it in the first place?</a></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Prospect theory: how people really weigh risks</h2>
+</header>
+
+<p>In 1979 Kahneman and Tversky published <strong>prospect theory</strong>, a description of how
+people actually choose between risky options. It has three main parts.</p>
+
+<div class="grid3">
+  <div class="card"><h4>Reference points</h4><p>People judge outcomes as gains or losses from where
+  they stand now, not as final amounts of wealth. A salary of 60,000 feels good after 50,000 and bad
+  after 70,000.</p></div>
+  <div class="card"><h4>Loss aversion</h4><p>Losses weigh more than equal gains, often estimated at
+  about twice as much. Volume 35 covers this in <a href="../35-the-mind.html#c6">Losses hurt more
+  than gains please</a>.</p></div>
+  <div class="card"><h4>Distorted probabilities</h4><p>People give too much weight to small chances
+  and too little to large but uncertain ones. The step from 99% to 100% feels enormous. So does the
+  step from 0% to 1%.</p></div>
+</div>
+
+<p>Together these produce a pattern that explains a lot of everyday behaviour. People buy lottery
+tickets, because a tiny chance of a huge gain feels bigger than it is. The same people buy
+insurance, because a tiny chance of a huge loss also feels bigger than it is. And people facing a
+sure loss often take wild gambles to avoid it, which is why traders who are losing sometimes double
+their bets. Kahneman received the Nobel Prize in economics in 2002, largely for this work. Tversky
+had died in 1996, and the prize is not awarded after death.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The other camp: shortcuts that are smart</h2>
+</header>
+
+<p>Not everyone accepted the "heuristics and biases" story. The German psychologist Gerd
+Gigerenzer argued that heuristics are often not errors at all, but tools fitted to their
+environment. He called this <strong>ecological rationality</strong>. In some of his studies, simple
+rules that use one or two clues predicted as well as complex statistical models, and sometimes
+better, because they did not get fooled by random noise in past data.</p>
+
+<p>The American psychologist Gary Klein studied firefighters, nurses and military commanders making
+fast decisions under pressure. He found they rarely compared options. They recognised the situation
+as a type they knew, imagined the first option that came to mind playing out, and acted if it
+seemed to work. He called this the <strong>recognition-primed decision</strong> model. Volume 01
+describes it in <a href="../01-thinking-fast.html#w3">How experts actually decide</a>.</p>
+
+<p>The two camps came closer than their arguments suggested. In 2009 Kahneman and Klein wrote a
+joint paper on when intuition can be trusted. Their answer: <strong>intuition is reliable when the
+environment is regular enough to learn from and the person has had long practice with quick
+feedback</strong>. Chapter 13 returns to this.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Shops, courts and boardrooms</h2>
+  <p class="lede">Once you know how people actually decide, you can design the setting of the
+  decision. Companies and governments already do.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>More choice, worse choices?</h2>
+</header>
+
+<p>In a well-known study published in 2000, Sheena Iyengar and Mark Lepper set up a jam-tasting
+stand in a California supermarket. Sometimes it offered 24 flavours, sometimes 6. The big display
+attracted more visitors. But far more of the people who saw the small display bought a jar, roughly
+30% against 3%. The study launched the idea of <strong>choice overload</strong>: beyond some point,
+more options make people less likely to choose and less happy with what they choose.</p>
+
+<p>The story has since become more complicated. A 2010 review that combined many studies found the
+average effect close to zero, with large differences between studies. Later work suggests choice
+overload is real under particular conditions: when options are hard to compare, when people do not
+know what they want, and when the decision is complex. <strong>Choice overload is not a law, it is a
+risk</strong>, and good designers reduce it by sorting, filtering and offering sensible starting
+points.</p>
+
+<p>The psychologist Barry Schwartz added a related idea. Some people are <strong>maximisers</strong>,
+who must find the best option. Others are <strong>satisficers</strong>, in Simon's sense. In his
+studies, maximisers often made objectively better choices but felt less satisfied with them.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The power of the default</h2>
+</header>
+
+<p>When people are unsure or busy, they tend to stay with whatever happens if they do nothing. This
+pre-set option is the <strong>default</strong>. A 2003 study by Eric Johnson and Daniel Goldstein
+compared European countries. Where people had to opt in to be organ donors, registration rates were
+low. Where they had to opt out, rates were very high. People's values were not so different between
+neighbouring countries. The form was.</p>
+
+<p>Defaults work for several reasons at once: doing nothing is easy, the default looks like a
+recommendation, and changing it can feel like a loss. Many pension systems now enrol workers
+automatically, and participation rises sharply. <strong>Whoever sets the default makes the decision
+for most people.</strong> How governments use this, and the debate about whether they should, is in
+<a href="19-behavioral-economics.html">Behavioral economics</a>.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Noise, and judging a decision by its result</h2>
+</header>
+
+<p>Biases push judgements in one direction. <strong>Noise</strong> is something different: random
+scatter. Give the same case to different judges, doctors or insurance underwriters, and they often
+reach very different conclusions. Give the same case to the <em>same</em> person on different days,
+and they may disagree with themselves. Kahneman, Olivier Sibony and Cass Sunstein argued in their
+2021 book <em>Noise</em> that this variation is large in many professions and rarely measured.</p>
+
+<p>A popular example claimed that judges granted parole far less often just before lunch than just
+after. Other researchers pointed out that the order of cases was not random, which could explain the
+pattern. The finding is still contested, and it is a good reminder to treat striking single studies
+carefully.</p>
+
+<p>A second common error is judging a decision by its outcome. A good decision can turn out badly
+through bad luck, and a reckless one can turn out well. The poker player Annie Duke calls this
+mistake <strong>resulting</strong>. Volume 07 summarises her book in <a
+href="../07-books-thinking-and-judgment.html#k3">Thinking in Bets</a>. <strong>Judge a decision by
+what was known and reasonable at the time, not by what happened next.</strong></p>
+
+<div class="good">
+  <span class="tag">Decision hygiene</span>
+  <p>Simple habits reduce both bias and noise. Write down your reasoning and your prediction before
+  you know the result. Ask "how common is this?" before judging a single case. Get independent
+  opinions before group discussion, so the first speaker does not anchor everyone. Before a big
+  commitment, run a <strong>premortem</strong>, an exercise Gary Klein proposed: imagine it is a year
+  later and the plan has failed, then list the reasons why.</p>
+</div>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Fast and frugal, or quick and wrong</h2>
+  <p class="lede">The same shortcut can be wise in one setting and disastrous in another. The skill
+  is knowing which setting you are in.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Shortcuts weighed</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Shortcut</th><th>When it helps</th><th>When it hurts</th></tr></thead>
+<tbody>
+<tr><td><strong>Go with what comes to mind</strong></td><td class="ok">Common things usually do come to mind first. Fast and usually right.</td><td class="no">Dramatic, recent or heavily reported events seem more common than they are.</td></tr>
+<tr><td><strong>Judge by resemblance</strong></td><td class="ok">Quick classification of familiar things: this looks like a ripe fruit, a friendly dog.</td><td class="no">Base rates and sample sizes are ignored. Stereotypes pass for evidence.</td></tr>
+<tr><td><strong>Satisfice</strong></td><td class="ok">Saves time and regret when options are many and differences small.</td><td class="no">Too low a standard locks in mediocre choices on decisions that matter.</td></tr>
+<tr><td><strong>Avoid losses</strong></td><td class="ok">Protects against ruin, which is hard to recover from.</td><td class="no">Holding losing investments, staying in failing projects, refusing good bets.</td></tr>
+<tr><td><strong>Stick with the default</strong></td><td class="ok">Good defaults let busy people end up in sensible places.</td><td class="no">Bad defaults trap people, and whoever sets them may not have your interests at heart.</td></tr>
+<tr><td><strong>Trust your gut</strong></td><td class="ok">Excellent for experts in regular environments with fast feedback.</td><td class="no">Misleading in rare, novel or noisy situations, where confidence outruns skill.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>When to trust intuition</h2>
+</header>
+
+<p>Kahneman and Klein's 2009 answer gives a practical test. Ask two questions. Is the environment
+regular, so that the same cues usually lead to the same outcomes? And has this person had years of
+practice with quick, honest feedback? If both answers are yes, as for an experienced nurse spotting
+a patient in trouble or a chess master, trust the gut. If either is no, as for stock picking or
+long-range political forecasting, treat the gut feeling as one opinion among several.</p>
+
+<p><strong>Confidence is not a test.</strong> People feel just as sure in irregular environments as
+in regular ones. The feeling is produced by how coherent the story seems, not by how often such
+stories turn out true.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Algorithms, replication and redesigned choices</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Simple models helping human judges</strong></td><td>Since the psychologist Paul Meehl's 1954 book, many studies have found that simple statistical rules match or beat expert judgement for structured predictions, such as which patients will relapse.</td><td class="ok">Fairly sure: more use of scoring rules and checklists in medicine, lending, hiring and justice, alongside fierce debate about fairness and accountability.</td></tr>
+<tr><td><strong>Separating solid findings from weak ones</strong></td><td>Since the 2010s, large attempts to repeat famous psychology studies have confirmed some (anchoring, framing, loss aversion in many forms) and failed to confirm others.</td><td class="mid">Plausible: a smaller, sturdier list of biases with better estimates of how big each one is in real life.</td></tr>
+<tr><td><strong>AI as everyone's decision adviser</strong></td><td>People increasingly ask AI systems for advice on purchases, health and money. Little is known yet about whether this improves decisions overall.</td><td class="no">Speculative: it could reduce noise and spread good advice, or it could create one shared source of error and a new kind of default.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>Who designs the choice?</h2>
+</header>
+
+<p>More and more decisions are made inside screens: what to watch, what to buy, which route to drive,
+which news to read. Each screen has a designer who chooses the order of options, the default and
+what is shown first. Recommendation systems learn what keeps people clicking, which is not always
+what people would choose if they thought about it.</p>
+
+<p>The likely future is a tug of war between two uses of decision science. One uses it to help
+people choose what they would want on reflection. The other uses it to steer them toward what
+benefits the designer. Both use the same knowledge. <strong>Knowing how your own decisions are
+shaped is the best defence against having them shaped for you.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>People decide with <strong>bounded rationality</strong>: limited time, information and
+    attention. They use <strong>heuristics</strong> that are usually good and sometimes
+    systematically wrong. They weigh outcomes from a <strong>reference point</strong>, fear losses
+    more than they value gains, and <strong>distort small probabilities</strong>. The setting of a
+    decision, including the default, shapes it heavily.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Losses weigh roughly <strong>twice</strong> as much as equal gains.</li>
+      <li>In the jam study, about <strong>30% versus 3%</strong> bought from the small and large
+      displays, though later reviews found the effect inconsistent.</li>
+      <li>Prospect theory dates from <strong>1979</strong>. Kahneman's Nobel came in
+      <strong>2002</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Judging a decision by its outcome. <strong>Good decisions can end badly and bad ones can end
+    well.</strong> Judge the process and the information available at the time.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Why can the same person rationally buy both a lottery ticket and insurance, according to
+    prospect theory? If you can explain it, you understand probability weighting.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Expected value</dt><dd>Each outcome times its probability, added up. The average result if you could repeat the choice many times.</dd>
+    <dt>Utility</dt><dd>How much an outcome is actually worth to the person, as opposed to its money value.</dd>
+    <dt>Risk</dt><dd>A situation where the odds are known.</dd>
+    <dt>Uncertainty</dt><dd>A situation where the odds, or even the possible outcomes, are unknown.</dd>
+    <dt>Ambiguity aversion</dt><dd>Preferring known odds to unknown ones, even when the unknown ones could be better.</dd>
+    <dt>Bounded rationality</dt><dd>Being as rational as you can within real limits of time, knowledge and mind.</dd>
+    <dt>Satisficing</dt><dd>Choosing the first option that is good enough rather than searching for the best.</dd>
+    <dt>Heuristic</dt><dd>A mental rule of thumb that gives a fast answer.</dd>
+    <dt>Base-rate neglect</dt><dd>Ignoring how common something is in general when judging a single case.</dd>
+    <dt>Prospect theory</dt><dd>Kahneman and Tversky's description of how people really choose between risky options.</dd>
+    <dt>Choice overload</dt><dd>When having too many options makes choosing harder or less satisfying.</dd>
+    <dt>Default</dt><dd>What happens if you do nothing.</dd>
+    <dt>Noise</dt><dd>Random variation in judgements that should be the same.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Nobody really optimises. We look for good enough, and that's often the smart move."</li>
+    <li>"Something that sounds more plausible isn't more likely. A detailed story is less probable
+    than a vague one."</li>
+    <li>"People overweight small chances both ways. That's why the same person buys lottery tickets
+    and insurance."</li>
+    <li>"Whoever sets the default makes the decision for most people."</li>
+    <li>"Don't judge the decision by the result. Judge it by what you knew when you made it."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="06-motivation.html">Motivation</a></h4><p>Why people act at
+  all: rewards and drives, the difference between wanting and doing, and what really keeps effort
+  going.</p></div>
+  <div class="card"><h4>Related · <a href="19-behavioral-economics.html">Behavioral
+  economics</a></h4><p>Decision science applied to markets and policy: nudges, defaults, and the
+  argument about whether governments should use them.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

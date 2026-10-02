@@ -1,0 +1,872 @@
+<!doctype html>
+<!--@HEAD-SRC title="Neurons" desc="How nerve cells work: their parts, the electrical pulse they fire, why insulation makes it fast, how they pass signals across synapses, what goes wrong in disease, and what research on neurons is heading towards."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Neurons</title>
+<meta name="description" content="How nerve cells work: their parts, the electrical pulse they fire, why insulation makes it fast, how they pass signals across synapses, what goes wrong in disease, and what research on neurons is heading towards.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Neuroscience · Topic 02 of 20</p>
+  <h1>Neurons. <span class="thin">A cell that turns salt water into a message.</span></h1>
+  <p class="lede">Every thought, feeling and movement you have ever made was carried by one kind of
+  cell. A neuron is a living cell like any other, with a nucleus and the usual machinery. What makes
+  it special is that it keeps its inside electrically different from its outside, like a tiny
+  battery. When it is stimulated enough, it lets that charge go in a sharp pulse that races along its
+  length. Then it passes the news to the next cell with a squirt of chemicals. Everything else in
+  neuroscience is built on these two tricks.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Neuroscience</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../27-life.html#c7"><span class="vn">Vol 27 · ch 07</span><b>How a thought physically happens</b><em>The short version</em></a>
+<a class="vol" href="01-structure-of-the-brain.html"><span class="vn">Neuroscience · 01</span><b>Structure of the brain</b><em>The map these cells build</em></a>
+<a class="vol" href="03-neurotransmitters.html"><span class="vn">Neuroscience · 03</span><b>Neurotransmitters</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 27 explains in one paragraph how a neuron signals electrically along its length and
+  chemically to the next cell (<a href="../27-life.html#c7">How a thought physically happens</a>).
+  This file opens that paragraph up: the battery, the pulse, the insulation, the junction, and the
+  diseases and drugs that act on each step.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A cell built to send messages over distance</h2>
+  <p class="lede">Neurons come in many shapes, but they share one plan: a part that listens, a part
+  that decides, and a long part that sends.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Two rivals and a silver stain</h2>
+</header>
+
+<p>Brain tissue under a microscope used to look like a grey tangle. In 1873 the Italian scientist
+Camillo Golgi found a way to stain it with silver salts. For reasons still not fully understood, the
+stain coats only a few cells in each slice, but it coats them completely. Suddenly single nerve
+cells stood out in black, with every branch visible.</p>
+
+<p>Golgi believed the cells were fused into one continuous net. A Spanish doctor, Santiago Ramón y
+Cajal, used Golgi's own stain and drew a different conclusion. In hundreds of careful drawings he
+showed that each nerve cell is a separate unit, and that cells touch without merging. This became the
+<strong>neuron doctrine</strong>: <strong>the nervous system is made of separate cells that
+communicate across tiny gaps</strong>.</p>
+
+<p>The two men shared the Nobel Prize in 1906, and used their prize lectures to disagree with each
+other. Cajal was right about the main point. Electron microscopes in the 1950s finally showed the
+gap between neurons directly.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The parts of a neuron</h2>
+</header>
+
+<p>A typical neuron has four parts, and each has one job.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Part</th><th>What it looks like</th><th>Its job</th></tr></thead>
+<tbody>
+<tr><td><strong>Dendrites</strong></td><td>Branching twigs around the cell body</td><td>Receive signals from other neurons</td></tr>
+<tr><td><strong>Cell body (soma)</strong></td><td>The rounded centre, holding the nucleus</td><td>Keeps the cell alive; adds up incoming signals</td></tr>
+<tr><td><strong>Axon</strong></td><td>One long, thin fibre leaving the cell body</td><td>Carries the outgoing pulse, sometimes over a metre</td></tr>
+<tr><td><strong>Axon terminals</strong></td><td>Small swellings at the ends of the axon's branches</td><td>Release chemicals to pass the signal on</td></tr>
+</tbody></table></div>
+
+<p>The proportions can be extreme. A motor neuron that moves your big toe has its cell body in the
+lower spinal cord and an axon that runs all the way down the leg, about a metre in a tall adult.
+If the cell body were the size of a tennis ball, the axon would be a garden hose
+<strong>roughly a kilometre long</strong>. Keeping that hose supplied and repaired is one of the hardest
+jobs any cell has.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Three kinds of neuron, and the helpers around them</h2>
+</header>
+
+<p>By job, there are three broad kinds. <strong>Sensory neurons</strong> carry information in from
+the skin, eyes, ears and organs. <strong>Motor neurons</strong> carry commands out to muscles and
+glands. <strong>Interneurons</strong> connect neurons to each other. Most of the brain's 86 billion
+neurons are interneurons in the broad sense: they talk mostly to other neurons.</p>
+
+<p>Shapes vary hugely. Pyramidal cells in the cortex have a triangular body and a long tree of
+dendrites. Purkinje cells in the cerebellum have a flat, fan-shaped tree that can receive tens of
+thousands of inputs or more. Researchers now sort brain cells into thousands of types, using the
+genes each one switches on.</p>
+
+<p>Neurons are surrounded by <strong>glial cells</strong>. <strong>Astrocytes</strong>, star-shaped,
+feed neurons, mop up spilled chemicals and help control blood flow. <strong>Oligodendrocytes</strong>
+in the brain, and <strong>Schwann cells</strong> in the body's nerves, wrap axons in insulation.
+<strong>Microglia</strong> are the brain's resident immune cells. They eat debris and prune unused
+connections.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Charge it, fire it, insulate it, pass it on</h2>
+  <p class="lede">A neuron works in four steps. Each step has its own machinery, and each is a target
+  for diseases, drugs and poisons.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Step one: the battery</h2>
+</header>
+
+<p>Body fluids are salty water. The salts are dissolved as <strong>ions</strong>, atoms carrying an
+electrical charge. The two that matter most here are sodium and potassium, both positively charged.
+A neuron pumps them in opposite directions. Tiny protein machines in its outer skin, the
+<strong>membrane</strong>, push sodium out and pull potassium in, using energy to do it.</p>
+
+<p>The result is an imbalance. There is far more sodium outside than inside, and far more potassium
+inside than outside. Some potassium leaks back out, and that leak leaves the inside of the cell about
+<strong>70 thousandths of a volt negative</strong> compared with the outside. This is the
+<strong>resting potential</strong>. It is small, but across a membrane only a few billionths of a
+metre thick it is a strong electrical pressure.</p>
+
+<p>Keeping the battery charged is expensive. <strong>Pumping ions back is one of the biggest energy
+costs in the brain</strong>, and a large reason the brain uses so much of the body's fuel. When blood
+flow stops, the pumps fail within minutes, the battery drains, and neurons begin to die.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Step two: the pulse</h2>
+</header>
+
+<p>The membrane is studded with <strong>ion channels</strong>, tiny pores that open and close.
+Some sodium channels are voltage-sensitive. When the inside of the cell becomes a little less
+negative, they open. Sodium rushes in, which makes the inside even less negative, which opens more
+channels. It is a chain reaction.</p>
+
+<p>Within about a thousandth of a second the inside flips to positive. Then the sodium channels shut
+themselves, potassium channels open, potassium flows out, and the voltage drops back. This sudden
+spike and recovery is the <strong>action potential</strong>, the nerve impulse. It does not fade as it
+travels, because each patch of membrane triggers the next, like a line of falling dominoes.</p>
+
+<div class="sheet">
+  <div class="cap">One action potential, about one thousandth of a second</div>
+<pre>
+ voltage
+  +40 mV |          *
+         |         * *
+      0  |........*...*.........................
+         |       *     *
+         |      *       *
+  -55 mV |-----*---------*----------- threshold
+  -70 mV |*****           *     ***** resting
+         |                  ****      brief dip (refractory)
+         +------------------------------------- time
+           stimulus  sodium   potassium
+           builds    rushes   flows out
+                     in
+</pre>
+</div>
+
+<p>Two rules follow. First, the pulse is <strong>all-or-nothing</strong>. If the stimulus does not
+reach a threshold, nothing happens. If it does, the full spike fires, always the same size. Second,
+a neuron signals strength by <strong>rate</strong>, not size. A light touch might produce a few spikes
+per second, a firm press many more. Just after a spike, there is a short <strong>refractory
+period</strong> when the cell cannot fire again. That keeps pulses moving in one direction and sets a
+top speed of several hundred spikes a second.</p>
+
+<p>This was worked out in the late 1940s and early 1950s by Alan Hodgkin and Andrew Huxley in
+Britain. They used the squid's giant axon, which is about half a millimetre to a millimetre wide,
+wide enough to push a wire inside. Their equations, published in 1952, still describe the spike with
+remarkable accuracy, and earned them a Nobel Prize in 1963.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Step three: insulation for speed</h2>
+</header>
+
+<p>In a thin bare axon, the pulse travels slowly, around a metre per second, walking pace. The squid
+got speed by making its axon fat. Vertebrates found a better solution: <strong>myelin</strong>.</p>
+
+<p>Glial cells wrap the axon in many layers of fatty membrane, like insulating tape. Every millimetre
+or so there is a small bare gap, a <strong>node of Ranvier</strong>. The signal cannot leak out
+through the insulated stretches, so it effectively jumps from node to node. In the best-insulated
+human fibres, signals travel at roughly <strong>100 metres per second</strong> or more. That is the
+difference between pulling your hand off a hot stove in time and not.</p>
+
+<p><strong>Myelin lets a thin axon be as fast as a thick bare one</strong>, so millions of fast
+fibres can fit in a small space. Without it, a human brain with the same speed would be far too big
+to carry.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Step four: across the gap</h2>
+</header>
+
+<p>When the pulse reaches an axon terminal, it cannot jump to the next neuron. Most neurons are
+separated by a gap called the <strong>synaptic cleft</strong>, tens of billionths of a metre wide.
+The junction as a whole is the <strong>synapse</strong>.</p>
+
+<p>Here the signal changes form. The arriving pulse opens calcium channels. Calcium triggers small
+bubbles, called vesicles, to fuse with the membrane and spill their contents into the gap. These
+are chemical messengers called <strong>neurotransmitters</strong>. They drift across in a fraction
+of a millisecond and lock onto receptor proteins on the next cell, opening or closing its channels.
+<strong>Electrical inside the cell, chemical between cells</strong>: that is the basic pattern.</p>
+
+<p>The chemical step was proven in 1921 by the German pharmacologist Otto Loewi. He stimulated the
+nerve to a frog's heart, which slowed it, then moved fluid from around that heart to a second heart.
+The second heart slowed too. Something chemical had been released. He shared the Nobel Prize in 1936
+with Henry Dale. The chemicals themselves are the subject of the next topic,
+<a href="03-neurotransmitters.html">Neurotransmitters</a>.</p>
+
+<p>Some synapses are electrical instead: proteins form direct channels between two cells, and
+current flows straight through. These are faster but less flexible, and they are a minority in the
+adult human brain.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The vote: how a neuron decides to fire</h2>
+</header>
+
+<p>A single neuron in the cortex may receive inputs at thousands of synapses. Some inputs are
+<strong>excitatory</strong>: they nudge the cell towards its threshold. Others are
+<strong>inhibitory</strong>: they push it away. None of them alone is usually enough. The cell body
+adds them up, across space and over a few thousandths of a second. If the total at the base of the
+axon crosses the threshold, the neuron fires.</p>
+
+<p>Think of a committee vote, where each member's vote has a different weight and some members vote
+against. <strong>Learning mostly means changing the weights</strong>: making some synapses stronger
+and others weaker. That is how experience is stored, as later topics explain
+(<a href="04-brain-plasticity.html">Brain plasticity</a> and
+<a href="05-memory-formation.html">Memory formation</a>).</p>
+
+<p>Inhibition is just as important as excitation. Without it, activity would spread from cell to cell
+until the whole network fired at once. In fact, that is roughly what an epileptic seizure is.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Diseases, drugs and poisons all act on these steps</h2>
+  <p class="lede">Once you know the four steps, a great deal of medicine makes sense. Most nervous
+  system disorders, and most drugs that act on the brain, target one of them.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>When a step fails</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Step</th><th>What goes wrong</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>The battery</strong></td><td>Energy supply fails, pumps stop</td><td>Stroke and cardiac arrest: neurons die within minutes without oxygen</td></tr>
+<tr><td><strong>The pulse</strong></td><td>Too much synchronised firing, not enough inhibition</td><td>Epilepsy; some forms are caused by faulty ion-channel genes</td></tr>
+<tr><td><strong>The insulation</strong></td><td>The immune system attacks myelin</td><td>Multiple sclerosis: signals slow or fail, causing weakness, numbness or blurred vision</td></tr>
+<tr><td><strong>The whole cell</strong></td><td>Motor neurons slowly die</td><td>Motor neurone disease (ALS): progressive paralysis with thinking often spared</td></tr>
+<tr><td><strong>The synapse</strong></td><td>Too little or too much of a chemical, or blocked receptors</td><td>Parkinson's disease (too little dopamine); myasthenia gravis (muscle receptors attacked by the immune system)</td></tr>
+</tbody></table></div>
+
+<div class="warn">
+  <span class="tag">Health note</span>
+  <p>This is general education, not medical advice. Symptoms such as new numbness, weakness, seizures
+  or changes in vision need a doctor.</p>
+</div>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The dentist, the pufferfish and the snake</h2>
+</header>
+
+<p>When a dentist numbs your jaw, the drug, usually lidocaine or a relative, blocks the sodium
+channels in the nerves from your teeth. No sodium rush means no pulse. The pain signal starts but
+never arrives. <strong>Local anaesthetics work by stopping step two</strong>, and when the drug
+washes away, the nerve works normally again.</p>
+
+<p>Nature found the same trick, more dangerously. The pufferfish, eaten as <em>fugu</em> in Japan,
+contains tetrodotoxin, which blocks the same channels throughout the body. A tiny dose can paralyse
+the breathing muscles. This is why chefs in Japan need a special licence to prepare it.</p>
+
+<p>Other poisons attack the synapse. Some snake venoms block the receptors on muscle, so the signal
+from the motor nerve has nothing to land on. Botulinum toxin stops vesicles releasing their
+chemical, which in large doses causes the paralysing illness botulism, and in tiny doses, as
+Botox, relaxes wrinkle-causing muscles. Each poison is a natural experiment that proves one step of
+the chain.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>A cell that is meant to last a lifetime</h2>
+</header>
+
+<p>Most neurons in your cortex were made before you were born. Unlike skin or gut cells, mature
+neurons do not divide. A neuron in your cortex today may be with you, still working, at ninety.</p>
+
+<p>That is good for keeping long-term information in stable wiring. It is bad for repair. When
+neurons die after a stroke or injury, the brain mostly cannot replace them. Some recovery happens
+because surviving neurons form new connections, not because lost ones grow back. Nerves in the arms
+and legs can regrow slowly after a cut, because their Schwann cells guide the regrowth. Nerves in the
+brain and spinal cord mostly do not, which is why spinal cord injury is so often permanent.</p>
+
+<p>Do adults make any new neurons? In rodents, clearly yes, in the hippocampus. In humans, it is
+<strong>genuinely contested</strong>. Studies published in 2018 reached opposite conclusions from
+human brain tissue, and the debate continues. If new neurons are made in adult humans, the number is
+small.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A brilliant signalling cell with built-in weaknesses</h2>
+  <p class="lede">Every feature of the neuron is a compromise between speed, reliability, flexibility
+  and cost.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>What the design buys, and what it costs</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>An electrical battery</strong></td><td class="ok">Signals ready to go at any moment</td><td class="no">Constant energy cost; fails within minutes without oxygen</td></tr>
+<tr><td><strong>All-or-nothing spikes</strong></td><td class="ok">Signals do not fade or distort over long distances</td><td class="no">Information must be coded in timing and rate, which is slower than a smooth signal</td></tr>
+<tr><td><strong>Myelin insulation</strong></td><td class="ok">Speed in a small space</td><td class="no">A target for diseases like multiple sclerosis</td></tr>
+<tr><td><strong>Chemical synapses</strong></td><td class="ok">Adjustable weights make learning possible; many messages possible</td><td class="no">Slower than wires; easy targets for drugs and poisons</td></tr>
+<tr><td><strong>Cells that do not divide</strong></td><td class="ok">Stable wiring for a lifetime of memory; low cancer risk in neurons themselves</td><td class="no">Lost neurons are mostly not replaced</td></tr>
+<tr><td><strong>Very long axons</strong></td><td class="ok">A single cell links spine and toe</td><td class="no">Hard to supply and repair; vulnerable in some degenerative diseases</td></tr>
+</tbody></table></div>
+
+<p>Compare it with a computer chip. A transistor switches millions of times faster than a neuron
+fires. Yet the brain does its work on about 20 watts. <strong>Neurons are slow, but they work in
+enormous parallel, and they rewire themselves as they go.</strong> No chip yet does both at that
+energy cost, which is why engineers study them.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Replacing, controlling and understanding single cells</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Light-controlled neurons as a research tool</strong></td><td><strong>Optogenetics</strong>, developed from 2005, adds light-sensitive proteins from algae to chosen neurons so researchers can switch them on and off with light. It is now standard in animal labs.</td><td class="ok">Fairly sure: it will keep revealing which cells cause which behaviours. A first human use, partly restoring sight to a blind man, was reported in 2021.</td></tr>
+<tr><td><strong>Transplanted replacement neurons</strong></td><td>Early trials have transplanted dopamine-making neurons grown from stem cells into people with Parkinson's disease. First results published in 2025 mainly showed safety.</td><td class="mid">Plausible: a working cell therapy for Parkinson's within years to a decade. Whether benefits are large and lasting is still unknown.</td></tr>
+<tr><td><strong>Regrowing the spinal cord</strong></td><td>Animal studies have coaxed some regrowth across injuries. In people, electrical stimulation of the spinal cord has helped a few paralysed patients take steps.</td><td class="no">Speculative: true repair of a severed human spinal cord is not close. Stimulation helps by using surviving circuits.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>A neuron is not a simple switch</h2>
+</header>
+
+<p>Artificial neural networks, the technology behind modern AI, are built from "neurons" that add up
+inputs and output a number. That idea came from the committee vote in Chapter 08. Real neurons do
+much more. Their dendrites are not passive wires. Branches can generate their own small spikes and
+combine inputs in non-linear ways before the signal ever reaches the cell body.</p>
+
+<p>In 2020 a team studying human cortical tissue reported that single dendrites could perform a
+calculation that textbook artificial neurons need two layers to do. Other work has suggested that
+imitating one real cortical neuron accurately takes a small artificial network of several layers.
+<strong>One real neuron may be closer to a small computer than to a single switch.</strong></p>
+
+<p>That matters for the future in two ways. It means simulating a brain will be harder than counting
+its neurons suggests. And it means AI may still have things to learn from biology. The comparison is
+explored in <a href="18-artificial-neural-networks.html">Artificial neural networks</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A neuron <strong>charges</strong> its membrane by pumping ions, <strong>fires</strong> an
+    all-or-nothing spike when its inputs cross a threshold, sends it fast along an axon
+    <strong>insulated by myelin</strong>, and <strong>passes it on</strong> chemically at the synapse.
+    <strong>Electrical inside, chemical between.</strong> Learning changes the strength of
+    synapses.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Resting voltage about <strong>−70 millivolts</strong>; a spike lasts about <strong>one millisecond</strong>.</li>
+      <li>Speed: about <strong>1 m/s</strong> in thin bare fibres, roughly <strong>100 m/s</strong> in the best insulated ones.</li>
+      <li>A cortical neuron receives inputs at <strong>thousands of synapses</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking a stronger stimulus makes a bigger spike. <strong>Spikes are always the same
+    size.</strong> Strength is coded by how often they fire and by how many neurons fire.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Why does a dental anaesthetic stop pain without stopping your thoughts? If you can explain it
+    using sodium channels and where the drug is injected, you understand the pulse.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Neuron doctrine</dt><dd>The principle that the nervous system is made of separate cells, not one fused net.</dd>
+    <dt>Dendrite</dt><dd>A branch of a neuron that receives signals.</dd>
+    <dt>Axon</dt><dd>The long fibre that carries a neuron's outgoing pulse.</dd>
+    <dt>Ion</dt><dd>An atom with an electrical charge, such as sodium or potassium in body fluids.</dd>
+    <dt>Ion channel</dt><dd>A pore in the cell membrane that opens or closes to let particular ions through.</dd>
+    <dt>Resting potential</dt><dd>The small negative voltage inside a neuron at rest, about −70 millivolts.</dd>
+    <dt>Action potential</dt><dd>The brief all-or-nothing electrical spike that travels along an axon.</dd>
+    <dt>Threshold</dt><dd>The voltage a neuron must reach before it fires.</dd>
+    <dt>Myelin</dt><dd>The fatty insulation wrapped around many axons, which makes signals much faster.</dd>
+    <dt>Synapse</dt><dd>The junction where one neuron passes its signal to another.</dd>
+    <dt>Neurotransmitter</dt><dd>A chemical released at a synapse to carry the signal across the gap.</dd>
+    <dt>Glia</dt><dd>Support cells that feed, insulate, clean and defend neurons.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A neuron is basically a tiny battery that discharges in a pulse. Inside the cell the signal is
+    electrical; between cells it's chemical."</li>
+    <li>"Nerve signals don't get bigger when something hurts more. They get more frequent."</li>
+    <li>"Myelin is insulation. It's why a thin nerve can carry a signal at a hundred metres a
+    second."</li>
+    <li>"The dentist's injection works by blocking sodium channels. The pain signal starts, but it
+    can't travel."</li>
+    <li>"Most of your brain cells will never be replaced. That's why strokes do lasting damage, and why
+    recovery means rewiring, not regrowing."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="03-neurotransmitters.html">Neurotransmitters</a></h4><p>The
+  chemicals in the gap: what glutamate, GABA, dopamine and serotonin really do, and how medicines and
+  drugs act on them.</p></div>
+  <div class="card"><h4>Related · <a href="01-structure-of-the-brain.html">Structure of the
+  brain</a></h4><p>Zoom back out from the single cell to the map: lobes, deep structures, and the
+  networks these cells build together.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

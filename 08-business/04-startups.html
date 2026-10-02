@@ -1,0 +1,822 @@
+<!doctype html>
+<!--@HEAD-SRC title="Startups" desc="What makes a startup different from an ordinary new business, how venture capital and funding rounds work, why returns follow a power law, why startups matter, what goes wrong, and where the model is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Startups</title>
+<meta name="description" content="What makes a startup different from an ordinary new business, how venture capital and funding rounds work, why returns follow a power law, why startups matter, what goes wrong, and where the model is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Business · Topic 04 of 20</p>
+  <h1>Startups. <span class="thin">A company built to grow so fast that most of them must fail.</span></h1>
+  <p class="lede">A new café and a new software company are both new businesses. Only one of them is
+  usually called a startup. The difference is not technology or youth. It is ambition and the
+  arrangement that serves it: a plan to grow extremely fast, money from investors who expect most of
+  their bets to fail, and a reward structure built around a small number of huge successes. That
+  arrangement has produced many of the most powerful companies on earth. It has also produced some
+  spectacular frauds, and an enormous number of quiet failures.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Business</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="03-entrepreneurship.html"><span class="vn">Business · 03</span><b>Entrepreneurship</b><em>The wider subject</em></a>
+<a class="vol" href="../15-banking-fintech/16-fintech-startups.html"><span class="vn">Banking · 16</span><b>Fintech startups</b><em>One sector up close</em></a>
+<a class="vol" href="05-product-market-fit.html"><span class="vn">Business · 05</span><b>Product-market fit</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first treatment of startups. It builds on
+  <a href="03-entrepreneurship.html">Entrepreneurship</a>, which covers founders and new businesses in
+  general. For why the famous winners give a misleading picture, see Volume 39
+  (<a href="../39-chance.html#c6">The ones you cannot see</a>); for why bubbles form in hot sectors,
+  see Volume 38 (<a href="../38-money.html#c6">Bubbles, and why they keep happening</a>).</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Defined by growth, not by age or gadgets</h2>
+  <p class="lede">The clearest definition comes from the people who fund startups for a living, and
+  it is simpler than most people expect.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>"A company designed to grow fast"</h2>
+</header>
+
+<p>Paul Graham, co-founder of the startup accelerator Y Combinator, put it bluntly in a 2012 essay:
+a startup is a company designed to grow fast. Being newly founded does not make a company a startup.
+Neither does working in technology or taking investment. <strong>The only essential thing is
+growth</strong>, and everything else about startups follows from it.</p>
+
+<p>Graham suggested that a good growth rate, during the early phase, is around 5 to 7 percent a week.
+Compounded, 5 percent weekly is more than a tenfold increase in a year. A café cannot grow like that:
+it can only serve the people who walk past. To grow that fast, a business needs a product that can
+reach millions of people without needing millions of staff, and a market large enough to absorb it.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Why most startups are software</h2>
+</header>
+
+<p>Software fits the requirement almost perfectly. Writing a program is expensive, but serving one more
+user costs very little, as <a href="01-how-companies-make-money.html">How companies make money</a>
+explained with gross margins. The product can be distributed worldwide over the internet in a day.
+Improvements reach every user at once.</p>
+
+<p>Not every startup is software. Biotech startups develop drugs, others build batteries, rockets or
+food products. But these need far more money and time before they earn, which makes them harder to
+fund. <strong>The more a business can grow without adding physical cost per customer, the better it
+fits the startup model.</strong></p>
+
+<div class="grid2">
+  <div class="card"><h4>A small business</h4><p>Aims for steady profit from the start. Grows at the
+  pace its customers and cash allow. Usually funded by the owner and the bank. Success means a good,
+  lasting income.</p></div>
+  <div class="card"><h4>A startup</h4><p>Aims for rapid growth first, profit later. Often loses money
+  for years. Usually funded by selling shares to investors. Success means becoming very large, often
+  ending in a sale or a stock-market listing.</p></div>
+</div>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Venture capital, funding rounds and the mathematics of a few big wins</h2>
+  <p class="lede">The startup machine runs on a particular kind of money with particular
+  expectations. Once you see how investors are paid, the behaviour of startups makes sense.</p>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>What a venture capital fund actually is</h2>
+</header>
+
+<p>A <strong>venture capital (VC) fund</strong> is a pool of money raised from large investors, such
+as pension funds, university endowments and wealthy families. They are called <strong>limited
+partners</strong>. The fund is managed by a small team, the <strong>general partners</strong>, who
+choose which startups to invest in.</p>
+
+<p>A typical fund lasts about ten years. The managers invest during the first few years and spend the
+rest helping companies grow and waiting for them to be sold or listed. The traditional pay structure is
+often summarised as "two and twenty": an annual management fee of around 2 percent of the fund, plus
+around 20 percent of the profits, called <strong>carried interest</strong>. Terms vary between funds.
+<strong>Venture capitalists get rich only if the fund returns much more than it raised</strong>, and
+that single fact drives what they look for.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The power law: why one winner pays for everything</h2>
+</header>
+
+<p>Startup outcomes are wildly uneven. Most investments return little or nothing. A few return a few
+times the money. Very rarely, one returns a hundred times or more. Distributions like this are called
+a <strong>power law</strong>: a tiny number of results account for most of the total.</p>
+
+<div class="sheet">
+  <div class="cap">How returns typically spread across one fund (illustrative)</div>
+<pre>
+ return on each investment
+  100x |                                          #
+       |                                          #
+       |                                          #
+   10x |                                   #      #
+       |                                   #      #
+    1x |   .   .   .   .   .   #   #   #   #      #
+     0 |___x___x___x___x___x___#___#___#___#______#____
+         lost money (many)    returned   good   the one that
+                              about cost         returns the fund
+</pre>
+</div>
+
+<p>Because of this, a VC investor does not ask "is this company likely to succeed?" Most will not. The
+question is "<strong>if this succeeds, could it become so big that it returns the whole
+fund?</strong>" A solid company that might grow into a comfortable 50-million-dollar business is a
+bad VC investment, however safe. This is why startups chase enormous markets and why investors push
+them to grow faster than feels comfortable.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Funding rounds and dilution</h2>
+</header>
+
+<p>Startups raise money in stages called <strong>rounds</strong>, each meant to fund the company to
+the next milestone. The names are conventions, and the amounts have changed a lot over time.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Round</th><th>Typical stage</th><th>Typical investors</th></tr></thead>
+<tbody>
+<tr><td><strong>Pre-seed / seed</strong></td><td>An idea, a prototype, a few early users</td><td>Founders, friends, angel investors, accelerators, seed funds</td></tr>
+<tr><td><strong>Series A</strong></td><td>Evidence that customers want it; building a repeatable way to sell</td><td>Venture capital funds</td></tr>
+<tr><td><strong>Series B, C and later</strong></td><td>Scaling: more markets, more staff, more products</td><td>Larger VC funds, growth investors</td></tr>
+<tr><td><strong>Exit</strong></td><td>Sale to another company, or listing on a stock exchange (IPO)</td><td>Buyers, public shareholders</td></tr>
+</tbody></table></div>
+
+<p>Each round sells new shares, so earlier owners own a smaller percentage. This is called
+<strong>dilution</strong>. Suppose a founder owns 100 percent and sells 20 percent at seed, then 20
+percent of the enlarged company at Series A. She now owns 64 percent. If each round is raised at a
+higher <strong>valuation</strong> (the price the investors put on the whole company), her smaller slice
+is still worth more. <strong>Dilution is fine as long as the pie grows faster than your slice
+shrinks.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Accelerators and the founder's first year</h2>
+</header>
+
+<p>An <strong>accelerator</strong> is a short, intense programme, usually around three months, that
+gives a group of very early startups a small investment, advice and connections in exchange for a
+slice of equity. Y Combinator, founded in 2005, made the format famous; its alumni include Airbnb,
+Stripe and Dropbox. Programmes end with a "demo day", when founders pitch to investors.</p>
+
+<p>The central message of accelerators is focus: talk to users, build what they need, measure growth
+every week, and ignore distractions like conferences and press. The founder's job in the first year
+is to find what the next file calls <a href="05-product-market-fit.html">product-market fit</a>.
+<strong>Before that point, almost nothing else matters. After it, almost everything changes.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Shares for staff: options and vesting</h2>
+</header>
+
+<p>Startups usually cannot match big companies' salaries, so they pay partly in ownership.
+Employees receive <strong>stock options</strong>: the right to buy shares later at today's low price.
+If the company becomes valuable, those options can be worth a great deal. If it fails, they are
+worth nothing.</p>
+
+<p>Options and founders' shares typically <strong>vest</strong>, meaning they are earned gradually.
+In the United States a common pattern is four years, with a one-year "cliff": leave before the first
+year and you get nothing; after it, a quarter is yours, and the rest arrives month by month. This
+keeps people committed through the hard years. The details, and their tax treatment, vary a lot by
+country.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Unicorns and exits</h2>
+</header>
+
+<p>In 2013 the investor Aileen Lee coined the term <strong>unicorn</strong> for a privately held
+startup valued at a billion dollars or more. At the time such companies were rare, which was the
+point of the name. By the early 2020s there were well over a thousand worldwide, and the word had lost
+some of its magic.</p>
+
+<p>A private valuation is not cash. It is the price at which the last investor bought a small slice,
+often with special protections that ordinary shares lack. Investors and employees only get money
+when there is an <strong>exit</strong>: an acquisition by a larger company or an <strong>initial public
+offering</strong> (IPO), when shares start trading on a stock exchange. <strong>Until then, a startup's
+value is an opinion, not a fact.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Where much of modern technology came from, and how it went wrong</h2>
+  <p class="lede">A small number of venture-backed companies have shaped how billions of people
+  search, shop, travel and talk. The same machinery also rewards hype.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>A tiny share of companies, a huge share of change</h2>
+</header>
+
+<p>Venture-backed startups are a very small share of all new businesses. Yet many of the companies
+that define modern life began this way: Apple, Amazon, Google, Facebook, Airbnb and Uber all
+took venture capital early on, as have most of the newer AI model developers. Research on US public companies has
+found that firms which once took venture capital account for a large share of the market value and
+research spending of companies founded in recent decades.</p>
+
+<p>The reason is the model itself. <strong>Venture capital is one of the few forms of finance willing
+to fund ideas that will probably fail but might be enormous.</strong> Banks lend against assets and
+steady cash flow. A startup has neither. Without investors who accept frequent losses, many
+transformative technologies would have struggled to get money in their early years.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Why startups cluster</h2>
+</header>
+
+<p>Startups are not spread evenly. Silicon Valley, around San Francisco, remains the largest cluster,
+with others in places such as New York, London, Boston, Beijing, Shenzhen, Bangalore, Tel Aviv and
+Paris. Clusters form because the ingredients feed each other: universities produce engineers;
+experienced founders become investors and mentors; employees from failed startups join new ones;
+lawyers and bankers specialise.</p>
+
+<p>Governments everywhere have tried to build their own version, with mixed results. <strong>Money
+and office space are easy to supply. Dense networks of experienced people take decades to grow.</strong>
+A tolerant attitude to failure also matters: in places where a failed founder can raise money again,
+more people are willing to try.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>When "fake it till you make it" becomes fraud</h2>
+</header>
+
+<p>The startup world prizes bold visions and rapid growth, and that creates a temptation to present
+hopes as facts. Theranos claimed it could run a wide range of medical tests from a few drops of
+blood. It raised hundreds of millions of dollars and was valued at around 9 billion dollars before
+journalists and regulators showed the technology did not work as claimed. Its founder, Elizabeth
+Holmes, was convicted of fraud in 2022.</p>
+
+<p>FTX, a cryptocurrency exchange valued at about 32 billion dollars, collapsed in November 2022 after
+it emerged that customer funds had been used by an affiliated trading firm. Its founder, Sam
+Bankman-Fried, was convicted of fraud in 2023. In both cases, well-known investors had put in money.
+<strong>Famous backers are not due diligence.</strong> Both stories show what happens when a culture
+that rewards confidence meets weak checks on what is actually true.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A powerful engine with a narrow purpose</h2>
+  <p class="lede">The venture model is excellent at one thing: funding long shots that could become
+  giants. It is poorly suited to almost everything else.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Strengths and weaknesses of the venture model</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Aspect</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Funding</strong></td><td class="ok">Money for ideas that banks would never touch.</td><td class="no">Only for ideas that could become enormous. Good modest businesses are turned away.</td></tr>
+<tr><td><strong>Speed</strong></td><td class="ok">Products reach millions of people fast.</td><td class="no">Pressure to grow can override safety, quality or law.</td></tr>
+<tr><td><strong>Founder control</strong></td><td class="mid">Founders get expert help and networks.</td><td class="no">Ownership is diluted, and boards can replace founders.</td></tr>
+<tr><td><strong>Employees</strong></td><td class="ok">Ownership can create real wealth when it works.</td><td class="no">Most options end up worthless; jobs are insecure.</td></tr>
+<tr><td><strong>Society</strong></td><td class="ok">Fast innovation and new industries.</td><td class="no">Subsidised growth can push out profitable rivals, then raise prices once dominant.</td></tr>
+<tr><td><strong>Diversity of founders</strong></td><td class="mid">Some funds and programmes actively widen access.</td><td class="no">Funding has gone disproportionately to founders from a narrow set of networks, notably to all-male teams.</td></tr>
+</tbody></table></div>
+
+<p>The strongest criticism is about fit, not morality. <strong>Venture money is rocket fuel, and
+rocket fuel is the wrong thing to put in most cars.</strong> Many founders who take it would have built
+healthier, longer-lived companies without the pressure for growth at any cost.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Smaller teams, bigger rounds, longer waits</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Four directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>AI dominates venture funding</strong></td><td>From 2023 onward a large and rising share of global venture investment went to AI companies, with a few model developers raising rounds of many billions of dollars.</td><td class="ok">Fairly sure this continues in the near term. Whether valuations hold is far less certain.</td></tr>
+<tr><td><strong>Companies stay private longer</strong></td><td>The typical age of US tech companies at IPO has risen over two decades, as large private funds let them raise big sums without listing.</td><td class="ok">Fairly sure. Employees increasingly rely on private "secondary" sales to turn shares into cash.</td></tr>
+<tr><td><strong>Tiny teams, large revenue</strong></td><td>AI tools let small teams build and run products that once needed many more staff.</td><td class="mid">Plausible: more companies reaching large revenue with dozens, not hundreds, of employees.</td></tr>
+<tr><td><strong>A correction in AI valuations</strong></td><td>Commentators regularly compare the AI boom to the dot-com era of the late 1990s.</td><td class="no">Speculative on timing and scale. Past booms left both failures and lasting infrastructure.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The lesson of the dot-com bust</h2>
+</header>
+
+<p>The last great startup boom ended in 2000. The Nasdaq index, heavy with technology shares, peaked
+in March 2000 and lost roughly three quarters of its value over the next two and a half years. Many
+startups vanished. But the fibre-optic cables, data centres and engineering skills built during the
+boom stayed, and they became the foundation for the next wave, including companies such as Google and
+Amazon that survived the crash.</p>
+
+<p>That pattern, a boom that overbuilds followed by a bust that leaves useful infrastructure behind,
+is a reasonable lens for any period of startup excitement. <strong>Both the believers and the
+sceptics are often right, at different times.</strong> The companies that last are the ones that
+reached real customers who kept paying, which is what the next file is about.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A startup is <strong>a company designed to grow fast</strong>. It is usually funded by
+    <strong>venture capital</strong>, which expects most investments to fail and relies on a
+    <strong>power law</strong> in which one huge win pays for the rest. That expectation explains the
+    hunger for big markets, the pressure for speed, and the habit of losing money for years.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Early growth of <strong>5–7 percent a week</strong> is Paul Graham's benchmark for a good startup.</li>
+      <li>VC funds typically last about <strong>10 years</strong>, with fees often near "2 and 20".</li>
+      <li>Standard US vesting: <strong>4 years</strong> with a <strong>1-year cliff</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Treating a private valuation as money in the bank. <strong>A valuation is the price of the
+    last small slice sold</strong>, often with special terms, and it is only real at an exit.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a venture investor might turn down a company that is very likely to become
+    a solid, profitable business? If you can, you understand the power law.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Startup</dt><dd>A company designed to grow very fast, usually funded by selling shares to investors.</dd>
+    <dt>Venture capital</dt><dd>Investment in young, high-risk companies in exchange for shares.</dd>
+    <dt>Limited partners</dt><dd>The institutions and individuals who put money into a venture fund.</dd>
+    <dt>General partners</dt><dd>The managers who run a venture fund and choose investments.</dd>
+    <dt>Carried interest</dt><dd>The share of a fund's profits, often about 20 percent, paid to its managers.</dd>
+    <dt>Power law</dt><dd>A pattern in which a tiny number of results make up most of the total.</dd>
+    <dt>Funding round</dt><dd>One stage of raising money, such as seed or Series A.</dd>
+    <dt>Valuation</dt><dd>The price investors put on the whole company when they buy shares.</dd>
+    <dt>Dilution</dt><dd>The shrinking of existing owners' percentage when new shares are sold.</dd>
+    <dt>Accelerator</dt><dd>A short programme that invests in and coaches groups of very early startups.</dd>
+    <dt>Stock option</dt><dd>The right to buy shares later at a fixed price.</dd>
+    <dt>Vesting</dt><dd>Earning shares or options gradually over time.</dd>
+    <dt>Unicorn</dt><dd>A private startup valued at a billion dollars or more.</dd>
+    <dt>IPO</dt><dd>Initial public offering: the first sale of a company's shares on a stock exchange.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A startup isn't defined by age or technology. It's a company designed to grow fast."</li>
+    <li>"Venture capitalists expect most of their bets to fail. One giant win pays for everything."</li>
+    <li>"Dilution is fine as long as the pie grows faster than your slice shrinks."</li>
+    <li>"A private valuation is an opinion until somebody pays cash for the shares."</li>
+    <li>"Famous investors are not due diligence. Theranos and FTX both had them."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="05-product-market-fit.html">Product-market fit</a></h4><p>The
+  point where customers start pulling the product out of the company's hands, and how founders search
+  for it.</p></div>
+  <div class="card"><h4>Related · <a href="19-mergers-and-acquisitions.html">Mergers and
+  acquisitions</a></h4><p>Most successful startup exits are sales to larger companies. How those deals
+  are valued, and why so many disappoint.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->
