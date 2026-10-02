@@ -1,0 +1,847 @@
+<!doctype html>
+<!--@HEAD-SRC title="Big Data" desc="What makes data 'big', how systems like MapReduce, Hadoop and Spark split work across thousands of machines, why more data is not automatically better data, and where the field is going."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Big Data</title>
+<meta name="description" content="What makes data &#x27;big&#x27;, how systems like MapReduce, Hadoop and Spark split work across thousands of machines, why more data is not automatically better data, and where the field is going.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Technology · Topic 17 of 20</p>
+  <h1>Big Data. <span class="thin">When the data no longer fits in one machine, everything about how you handle it has to change.</span></h1>
+  <p class="lede">"Big data" was the buzzword of the early 2010s. The buzz faded, but the thing itself
+  became part of the plumbing of modern life. Every search, card payment, delivery, phone signal and
+  streamed song leaves a record. The companies and governments that collect these records found that
+  ordinary databases could not keep up, so they invented new ways to store and process information
+  across thousands of computers at once. Those methods made new things possible. They also produced a
+  dangerous belief: that with enough data, you no longer need to think carefully about where it came
+  from.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Technology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../14-computing-and-ai.html#c3"><span class="vn">Vol 14 · ch 03</span><b>Data centres</b><em>Where big data physically lives</em></a>
+<a class="vol" href="16-data-science.html"><span class="vn">Technology · 16</span><b>Data science</b><em>Turning data into answers</em></a>
+<a class="vol" href="18-augmented-and-virtual-reality.html"><span class="vn">Technology · 18</span><b>Augmented &amp; virtual reality</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 14 covers the buildings and bills behind big data: <a
+  href="../14-computing-and-ai.html#c3">Data centres, and why AI became an electricity story</a> and
+  <a href="../14-computing-and-ai.html#c4">The cloud, and what it actually costs</a>. Volume 47 covers
+  <a href="../47-not-being-fooled.html#c6">what is actually collected about you</a>. This file is about
+  the data itself: what makes it "big", the systems that handle it, and the reasoning traps that
+  come with size.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Data too large, too fast or too messy for ordinary tools</h2>
+  <p class="lede">There is no exact size at which data becomes "big". The useful definition is
+  practical: data is big when the normal way of handling it stops working.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The three Vs</h2>
+</header>
+
+<p>In 2001 an analyst called Doug Laney described three ways data was becoming hard to manage. They
+became the standard definition of big data, known as the <strong>three Vs</strong>.</p>
+
+<div class="grid3">
+  <div class="card"><h4>Volume</h4><p>There is simply too much of it for one computer's disk or
+  memory. A large retailer records every item in every basket in every shop, every day, for
+  years.</p></div>
+  <div class="card"><h4>Velocity</h4><p>It arrives too fast to store first and study later. Card
+  payments must be checked for fraud within a fraction of a second, while thousands more arrive.</p></div>
+  <div class="card"><h4>Variety</h4><p>It comes in many shapes: neat tables, but also text, photos,
+  video, sensor readings and clicks. Most of it does not fit into rows and columns.</p></div>
+</div>
+
+<p>People later added more Vs, the most useful being <strong>veracity</strong>: how far can you trust
+the data? It is the V that the early enthusiasm most often forgot, and it returns throughout this
+file.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>How big is big? A ladder of units</h2>
+</header>
+
+<p>Computers store information in <strong>bytes</strong>. One byte holds about one letter of text.
+Each step up the ladder below is roughly a thousand times larger than the one before.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Unit</th><th>Size</th><th>To picture it</th></tr></thead>
+<tbody>
+<tr><td><strong>Kilobyte (KB)</strong></td><td>A thousand bytes</td><td>A short email</td></tr>
+<tr><td><strong>Megabyte (MB)</strong></td><td>A million bytes</td><td>A phone photo, or a long novel as plain text</td></tr>
+<tr><td><strong>Gigabyte (GB)</strong></td><td>A billion bytes</td><td>About an hour of standard video</td></tr>
+<tr><td><strong>Terabyte (TB)</strong></td><td>A trillion bytes</td><td>A typical laptop drive in the 2020s</td></tr>
+<tr><td><strong>Petabyte (PB)</strong></td><td>A thousand terabytes</td><td>What a large company's data warehouse might hold</td></tr>
+<tr><td><strong>Exabyte (EB)</strong></td><td>A million terabytes</td><td>The scale of the largest cloud providers' storage</td></tr>
+<tr><td><strong>Zettabyte (ZB)</strong></td><td>A billion terabytes</td><td>The unit used for all the data the world creates in a year</td></tr>
+</tbody></table></div>
+
+<p>Industry estimates put the data created, copied and consumed worldwide at over a hundred
+zettabytes a year in the mid-2020s. Such estimates are rough, and most of that data is copies and
+video, kept only briefly. But the direction is clear. <strong>The amount of data grows much faster
+than the number of people who can look at it</strong>, which is why so much of it is processed only
+by machines.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Where it comes from</h2>
+</header>
+
+<p>Three sources produce most of it. The first is <strong>transactions</strong>: purchases, bank
+transfers, bookings, every record a business keeps of what happened. The second is <strong>human
+activity online</strong>: searches, clicks, likes, messages, location pings from phones. The third,
+and fastest growing, is <strong>machines</strong>: sensors in factories, cars, aircraft engines and
+power grids, plus scientific instruments. The Large Hadron Collider at CERN produces far more raw
+data than could ever be stored, so electronics filter out all but a tiny fraction of collisions
+within microseconds. Even after that, CERN stores tens of petabytes a year.</p>
+
+<p>Notice something about the first two sources. <strong>Most big data is "exhaust"</strong>: it
+was collected to run a service, not to answer a research question. Your card payment is recorded so
+the shop gets paid. That it can also reveal shopping patterns is a side effect. This matters
+enormously for what the data can and cannot tell you.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Split the data, send the work to it, combine the results</h2>
+  <p class="lede">The central trick of big data is to stop building bigger computers and start using
+  many ordinary ones together. That sounds simple. Making it reliable was the real invention.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Why one big computer was not enough</h2>
+</header>
+
+<p>Until the early 2000s, a company with more data usually bought a bigger, more expensive server.
+This is called <strong>scaling up</strong>. It hits limits. The biggest machines cost a fortune, and
+even they cannot read data from disk fast enough. Reading a petabyte from a single disk would take
+years.</p>
+
+<p>Google faced this problem first and hardest. It needed to store a copy of the web and rebuild its
+search index regularly. Its answer was <strong>scaling out</strong>: using thousands of cheap
+ordinary computers, linked in a <strong>cluster</strong>. With a thousand machines each reading its
+own disk at the same time, a job that would take years on one machine can take hours.</p>
+
+<p>The catch is that cheap machines break. In a cluster of thousands, some disk or computer fails
+almost every day. <strong>The software had to assume failure was normal</strong> and carry on
+regardless. That idea, more than raw speed, is what made big data systems different.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>MapReduce: counting words across a thousand machines</h2>
+</header>
+
+<p>In 2003 and 2004 Google engineers published two papers that shaped the field. The first described
+the Google File System, which splits huge files into chunks and keeps several copies of each chunk on
+different machines. If one machine dies, the copies survive. The second, by Jeffrey Dean and Sanjay
+Ghemawat, described <strong>MapReduce</strong>, a way to process that data in parallel.</p>
+
+<p>The standard example is counting how often each word appears in billions of web pages. Doing it
+on one machine is hopeless. MapReduce does it in two phases.</p>
+
+<div class="sheet">
+  <div class="cap">MapReduce, counting words</div>
+<pre>
+  MAP: each machine works on its own chunk, in parallel
+     machine 1: "the cat sat"   -> the:1  cat:1  sat:1
+     machine 2: "the dog sat"   -> the:1  dog:1  sat:1
+     machine 3: "the cat ran"   -> the:1  cat:1  ran:1
+
+  SHUFFLE: send each word to the machine responsible for it
+     "the" -> machine A    "cat","dog" -> machine B    "sat","ran" -> machine C
+
+  REDUCE: each machine adds up its words
+     A: the = 3      B: cat = 2, dog = 1      C: sat = 2, ran = 1
+</pre>
+</div>
+
+<p>The important idea is that <strong>the work is sent to the data, not the data to the work</strong>.
+Moving a petabyte across a network is slow. Moving a small program to the machines that already hold
+the data is fast. If a machine fails halfway, the system simply reruns its piece somewhere else.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Hadoop, Spark and the cloud warehouse</h2>
+</header>
+
+<p>Google did not release its own software, but its papers were enough. Doug Cutting and Mike
+Cafarella built a free, open-source version called <strong>Hadoop</strong>, named after a toy elephant
+that belonged to Cutting's son. Yahoo backed it heavily from 2006. For about a decade Hadoop was
+almost a synonym for big data.</p>
+
+<p>MapReduce had a weakness: it wrote intermediate results to disk at every step, which made
+multi-step analysis slow. Around 2009 researchers at the University of California, Berkeley, led by
+Matei Zaharia, began building <strong>Spark</strong>, which keeps working data in memory whenever it
+can. For many jobs it was dramatically faster, and it largely replaced MapReduce.</p>
+
+<p>Then the cloud changed the picture again. Services such as Amazon Redshift, Google BigQuery and
+Snowflake let a company load data into a <strong>cloud data warehouse</strong> and query it with
+ordinary SQL, the standard database language, while the provider handles the thousands of machines
+underneath. <strong>For most organisations today, big data means renting someone else's
+cluster</strong>, not building one.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Lakes, warehouses and streams</h2>
+</header>
+
+<p>Three storage ideas are worth knowing by name. A <strong>data warehouse</strong> holds cleaned,
+organised data in tables, ready for reporting. It is like a well-run library: everything catalogued,
+easy to find. A <strong>data lake</strong> holds raw data of every kind, in its original form, to be
+organised later. It is cheaper and more flexible, but without discipline it becomes what engineers
+call a "data swamp", full of files nobody understands. The "lakehouse" is a recent attempt to combine
+the two.</p>
+
+<p>The third idea answers the velocity problem. Instead of storing data and processing it in batches
+overnight, <strong>stream processing</strong> handles each event as it arrives. A fraud system checks
+each card payment in milliseconds. A ride-hailing app updates prices as demand shifts. Tools such as
+Kafka, first built at LinkedIn, act as a central pipe that carries these event streams between
+systems.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>New powers, and a famous overconfidence</h2>
+  <p class="lede">Big data made modern search, recommendations, fraud detection and AI possible. It
+  also produced a set of high-profile failures with the same lesson.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>What it made possible</h2>
+</header>
+
+<p>Much of daily life now runs on it. <strong>Search engines</strong> rank pages using signals from
+billions of queries and clicks. <strong>Recommendation systems</strong> on streaming and shopping
+sites learn from what millions of similar people chose. <strong>Card fraud detection</strong> compares
+each payment against patterns in vast histories of past payments. <strong>Navigation apps</strong>
+estimate traffic from the speeds of phones moving along each road. <strong>Weather forecasts</strong>
+combine enormous streams of satellite, balloon and ground observations every few hours.</p>
+
+<p>Above all, big data made modern AI possible. The large language models described in <a
+href="../49-ai-honestly.html#c2">Volume 49</a> were trained on a large share of the public text on
+the internet. Their abilities come as much from the scale of that data as from clever algorithms.
+<strong>Without the big data systems of the 2000s and 2010s, today's AI could not have been
+built.</strong></p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>"The end of theory", and Google Flu Trends</h2>
+</header>
+
+<p>In 2008 the editor of <em>Wired</em>, Chris Anderson, wrote an essay called "The End of Theory".
+He argued that with enough data, correlation was enough: we would no longer need models or
+hypotheses, because the numbers would speak for themselves. It captured the mood of the time.</p>
+
+<p>The same year Google launched <strong>Google Flu Trends</strong>. It estimated flu levels in the
+United States from the volume of flu-related searches, and published its estimates faster than
+official health data. At first it matched official figures well. Then it drifted. In the 2012–13
+winter it estimated roughly double the doctor visits for flu-like illness that official data later
+showed. A 2014 paper in <em>Science</em>, led by David Lazer, called the episode "big data hubris".
+Search habits had changed, partly because of news coverage and changes to Google's own search
+features, and the model had matched many search terms that were linked to winter rather than to flu.
+Google stopped publishing the estimates in 2015.</p>
+
+<p>The lesson is precise. <strong>Size does not protect you from bias or from change.</strong> A
+pattern learned from exhaust data holds only as long as the behaviour that produces the exhaust stays
+the same, and nobody controls that behaviour.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Ten million answers, one wrong result</h2>
+</header>
+
+<p>The oldest lesson about big data comes from long before computers. In 1936 the American magazine
+<em>Literary Digest</em> mailed around ten million ballots asking readers whom they would vote for as
+president. About 2.4 million replied, and the magazine predicted a clear win for Alf Landon over
+Franklin Roosevelt. Roosevelt won by a landslide. George Gallup, polling a much smaller but carefully
+chosen sample, called the result correctly.</p>
+
+<p>The <em>Digest</em>'s list came largely from sources such as telephone directories and car
+registrations, which in the Depression leaned towards wealthier voters, and the people who chose to
+reply were not typical either. <strong>A huge sample that is biased gives a precise wrong
+answer.</strong> A small sample chosen at random gives a rough right one. Modern big data often has
+the <em>Digest</em>'s problem: social media users, smartphone owners and app customers are not the
+whole population. The habit of asking "who is missing?" is covered in <a
+href="../39-chance.html#c6">Volume 39</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>More signal, more noise, more risk</h2>
+  <p class="lede">Big data gives power to whoever holds it. That is its strength and its
+  danger.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Detail</strong></td><td class="ok">Rare events and small groups become visible, because even 0.1 per cent of a billion is a million.</td><td class="no">Huge datasets contain countless chance correlations that mean nothing.</td></tr>
+<tr><td><strong>Speed</strong></td><td class="ok">Real-time decisions: fraud blocked, traffic rerouted, stock restocked.</td><td class="mid">Automatic decisions at speed can spread errors before a human notices.</td></tr>
+<tr><td><strong>Coverage</strong></td><td class="ok">Data on whole populations rather than small surveys.</td><td class="no">"Whole" often means whole customer base, which is not the whole population.</td></tr>
+<tr><td><strong>Cost</strong></td><td class="ok">Cloud services make large-scale analysis affordable for small firms.</td><td class="no">Storage, computing and energy bills grow quietly. Much stored data is never used.</td></tr>
+<tr><td><strong>Privacy and power</strong></td><td class="ok">Personalised services that many people value.</td><td class="no">Detailed profiles of individuals. Power concentrates in a few firms and governments.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Privacy, and why "anonymous" data often is not</h2>
+</header>
+
+<p>Companies often say data is safe because names have been removed. Research has repeatedly shown
+that this protection is weak. Combine a few details, such as postcode, date of birth and sex, and a
+large share of people become unique. Location data is even more revealing: a handful of places where
+a phone spends its nights and working hours can point to one person. <strong>In big datasets,
+"anonymised" frequently means "not yet re-identified".</strong></p>
+
+<p>The 2018 Cambridge Analytica scandal showed the political side. Data on up to 87 million Facebook
+users, gathered through a personality quiz app, was obtained by a political consulting firm without
+those users' clear consent. The same year the European Union's General Data Protection Regulation
+(GDPR) came into force. It requires a legal basis for processing personal data, gives people rights
+to see and delete their data, and allows large fines. Other places have followed with their own
+laws, and the rules vary considerably between countries. The tension between the value of data and
+the right to privacy is permanent, and it is a choice for each society.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>From big data to AI data</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Data as fuel for AI</strong></td><td>As of 2025, the biggest data projects are about collecting, cleaning and licensing data to train AI models. Publishers and platforms now sell or restrict access to their content.</td><td class="ok">Fairly sure: high-quality data becomes a valuable, fought-over asset. Copyright disputes over training data will shape the rules.</td></tr>
+<tr><td><strong>Synthetic data</strong></td><td>Computer-generated data that mimics real data is used to train and test systems, especially where real data is scarce or private.</td><td class="mid">Plausible: wide use for testing and privacy. Whether training AI mostly on AI-made data works well in the long run is an open research question.</td></tr>
+<tr><td><strong>Data staying where it is born</strong></td><td>Laws in several regions require some data to be stored locally. "Federated" methods train models across many devices without collecting the raw data centrally.</td><td class="mid">Plausible: a more fragmented, regional data world, with more processing on phones and devices themselves.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Why the word faded but the thing did not</h2>
+</header>
+
+<p>Few people say "big data" now. That is a sign of success, not failure. The methods became ordinary.
+A small company can analyse billions of rows in a cloud warehouse without thinking of it as anything
+special, just as nobody now talks about "electric light". The excitement moved on to AI, which is
+built on top of the same foundations.</p>
+
+<p>What should stay is the lesson the field learned the hard way. <strong>More data reduces random
+error, but it does nothing about systematic error.</strong> If your data leaves out the people who
+matter, or measures the wrong thing, a billion rows will only make you confidently wrong. The best
+data work of the next decade will still begin with old-fashioned questions: who collected this, why,
+who is missing, and what has changed since? Those questions are at the heart of <a
+href="16-data-science.html">Data science</a>, and of judging any AI system trained on big data.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Data is "big" when ordinary tools fail because of <strong>volume, velocity or variety</strong>.
+    The solution was to <strong>scale out</strong>: split data across many cheap machines, send the
+    work to the data, and assume machines will fail. Size helps with random noise but <strong>not with
+    bias</strong>, and most big data is exhaust collected for another purpose.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Each unit is about <strong>1,000 times</strong> the last: giga, tera, peta, exa, zetta.</li>
+      <li>2004: Google's <strong>MapReduce</strong> paper. 2006: Hadoop at Yahoo.</li>
+      <li>1936: about <strong>2.4 million</strong> poll replies predicted the wrong US president.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Believing that enough data makes the sample representative. <strong>A biased sample does not
+    become fair by getting bigger</strong>; it becomes more precisely wrong.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why Google Flu Trends failed even though it used billions of searches? If you
+    can, you understand exhaust data, changing behaviour and the limits of correlation.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Big data</dt><dd>Data too large, fast or varied for traditional tools to handle.</dd>
+    <dt>Three Vs</dt><dd>Volume, velocity and variety: the three ways data becomes "big".</dd>
+    <dt>Veracity</dt><dd>How far the data can be trusted.</dd>
+    <dt>Cluster</dt><dd>Many ordinary computers linked to work as one system.</dd>
+    <dt>Scaling out</dt><dd>Adding more machines, rather than buying a bigger one.</dd>
+    <dt>MapReduce</dt><dd>A method of processing data in parallel: each machine works on its piece, then results are combined.</dd>
+    <dt>Hadoop</dt><dd>The open-source system, inspired by Google's papers, that made big data processing widely available.</dd>
+    <dt>Spark</dt><dd>A faster successor to MapReduce that keeps working data in memory.</dd>
+    <dt>Data warehouse</dt><dd>Organised, cleaned data in tables, ready for analysis.</dd>
+    <dt>Data lake</dt><dd>A store of raw data of every kind, organised later.</dd>
+    <dt>Stream processing</dt><dd>Handling each event as it arrives, rather than in batches.</dd>
+    <dt>Exhaust data</dt><dd>Data produced as a by-product of running a service.</dd>
+    <dt>Re-identification</dt><dd>Working out who a person is from supposedly anonymous data.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Big data wasn't about bigger computers. It was about many cheap ones that are allowed to
+    fail."</li>
+    <li>"More data fixes random error, not bias. A biased sample just gets more precisely wrong."</li>
+    <li>"Most big data is exhaust. It was collected to run a service, not to answer your question."</li>
+    <li>"Google Flu Trends worked until people's search habits changed. Patterns in behaviour aren't
+    laws of nature."</li>
+    <li>"'Anonymised' often just means 'not yet re-identified'."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="18-augmented-and-virtual-reality.html">Augmented &amp; virtual
+  reality</a></h4><p>Headsets and smart glasses: how they fool the senses, why they keep almost
+  arriving, and where they already work.</p></div>
+  <div class="card"><h4>Related · <a href="16-data-science.html">Data science</a></h4><p>The craft
+  of turning data, big or small, into answers you can trust, and the traps along the way.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

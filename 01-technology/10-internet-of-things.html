@@ -1,0 +1,861 @@
+<!doctype html>
+<!--@HEAD-SRC title="Internet of Things" desc="How billions of everyday objects sense, connect and act: sensors, radios, batteries, edge and cloud, where the Internet of Things already works, why it is a security and privacy problem, and where it is going."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Internet of Things</title>
+<meta name="description" content="How billions of everyday objects sense, connect and act: sensors, radios, batteries, edge and cloud, where the Internet of Things already works, why it is a security and privacy problem, and where it is going.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Technology · Topic 10 of 20</p>
+  <h1>Internet of Things. <span class="thin">When the objects around you start reporting what they notice.</span></h1>
+  <p class="lede">The first internet connected people to people through computers. The Internet of
+  Things, usually shortened to IoT, connects objects: electricity meters, factory motors,
+  thermostats, cattle collars, shipping containers, heart monitors and doorbells. Each one is small
+  and does little on its own. Together they produce a constant stream of measurements about the
+  physical world, and some of them can act on it. That makes life cheaper and more convenient. It
+  also puts billions of poorly protected computers into homes, hospitals and power grids.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No electronics assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Technology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../47-not-being-fooled.html#c6"><span class="vn">Vol 47 · ch 06</span><b>Privacy</b><em>What is collected</em></a>
+<a class="vol" href="../20-future-tech/14-smart-cities.html"><span class="vn">Future · 14</span><b>Smart cities</b><em>IoT at city scale</em></a>
+<a class="vol" href="11-computer-vision.html"><span class="vn">Technology · 11</span><b>Computer vision</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first full treatment of the Internet of Things. The nearest chapters are
+  Volume 47 on <a href="../47-not-being-fooled.html#c6">what data is actually collected</a> and
+  Volume 14 on <a href="../14-computing-and-ai.html#c6">ransomware</a> and
+  <a href="../14-computing-and-ai.html#c4">the cloud</a>. Planned neighbours take specific angles:
+  <a href="../14-engineering/17-smart-buildings.html">Smart buildings</a>,
+  <a href="../20-future-tech/14-smart-cities.html">Smart cities</a>,
+  <a href="../20-future-tech/15-digital-twins.html">Digital twins</a> and
+  <a href="14-5g-and-6g.html">5G and 6G</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Ordinary objects with a sensor, a small computer and a connection</h2>
+  <p class="lede">An IoT device measures something about the physical world, sends that
+  measurement over a network, and sometimes receives instructions to act. That is the whole idea.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A drinks machine that saved a walk down the corridor</h2>
+</header>
+
+<p>In the early 1980s, students in the computer science department of Carnegie Mellon University
+in Pittsburgh had a problem. Their Coca-Cola machine was a long walk from their offices, it was
+often empty, and freshly loaded bottles were warm. So they fitted it with simple sensors and
+connected it to the department's computer, which was linked to ARPANET, the ancestor of the
+internet. From their desks, they could check how many bottles were in each column and how long
+they had been cooling.</p>
+
+<p>It was a joke project, and it contained the entire idea. <strong>An ordinary object reports its
+state over a network, so people can decide without going to look.</strong> The phrase "Internet of
+Things" came later, in 1999, from Kevin Ashton, who used it in a presentation at Procter &amp;
+Gamble about tagging products with radio chips (RFID) so that supply chains could track them
+automatically.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>What counts as a "thing"</h2>
+</header>
+
+<p>A laptop or phone is not usually called an IoT device, because a person uses it directly. An
+IoT device is typically an object whose main job is something else, such as heating, measuring or
+moving, with connectivity added. Most do one narrow task. The main families look like this.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Typical devices</th><th>What the connection adds</th></tr></thead>
+<tbody>
+<tr><td><strong>Home</strong></td><td>Thermostats, smart plugs, door locks, doorbells, speakers</td><td>Remote control, schedules, energy saving</td></tr>
+<tr><td><strong>Industry ("IIoT")</strong></td><td>Vibration and temperature sensors on motors, pumps and production lines</td><td>Warning before breakdowns; less waste</td></tr>
+<tr><td><strong>Utilities</strong></td><td>Smart electricity, gas and water meters; grid sensors</td><td>Automatic readings; spotting leaks and faults</td></tr>
+<tr><td><strong>Health</strong></td><td>Glucose monitors, heart monitors, connected inhalers</td><td>Doctors see data between visits</td></tr>
+<tr><td><strong>Transport and logistics</strong></td><td>Trackers on containers, trucks, pallets, rental scooters</td><td>Knowing where goods are and in what condition</td></tr>
+<tr><td><strong>Farming and environment</strong></td><td>Soil moisture probes, livestock collars, weather stations</td><td>Watering and feeding only where needed</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>How many, and why counting is hard</h2>
+</header>
+
+<p>Estimates of the number of connected IoT devices vary widely because people count differently.
+Does a car with dozens of connected parts count once or many times? Does a supermarket price tag?
+Most industry estimates for the mid-2020s fall roughly in the range of <strong>15 to 20 billion
+devices</strong>, which is more than two for every person on Earth, and growing. Treat any exact
+figure with suspicion.</p>
+
+<p>What matters more than the total is the shape. <strong>Most IoT devices are not glamorous
+gadgets. They are cheap sensors in factories, meters and warehouses</strong>, which is where the
+money and most of the measurable benefit are. The smart speaker gets the headlines; the vibration
+sensor on a water pump pays the bills.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Sense, connect, decide, act, on a tiny power budget</h2>
+  <p class="lede">An IoT system is a chain. Each link involves a trade-off between cost, battery
+  life, range and how much data can be sent.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Anatomy of a connected device</h2>
+</header>
+
+<p>Open a typical IoT sensor and you find four parts. A <strong>sensor</strong> measures something:
+temperature, motion, light, vibration, humidity, location. A <strong>microcontroller</strong> is a
+very small, cheap, low-power computer on a single chip that reads the sensor and decides what to
+send. A <strong>radio</strong> sends and receives data. And a <strong>power source</strong>, usually
+a battery, keeps it running. Some devices also have an <strong>actuator</strong>, such as a valve,
+switch or lock, so they can act as well as measure.</p>
+
+<div class="sheet">
+  <div class="cap">The usual chain, from object to decision</div>
+<pre>
+  DEVICE              GATEWAY / HUB           CLOUD                 YOU OR A PROGRAM
+  sensor + chip  ──►  collects from many ──►  stores, analyses ──►  app, alert, dashboard
+  + radio + battery   devices nearby         compares over time    "pump 7 is vibrating
+        ▲                                                            more than last week"
+        └────────────────── instruction back ("close valve") ◄──────────┘
+</pre>
+</div>
+
+<p>A <strong>gateway</strong> is a local box that gathers signals from many nearby devices and
+passes them on through an ordinary internet connection. Your smart-home hub, or your broadband
+router, can play this role. <strong>The device itself is usually the weakest computer in the
+chain</strong>, which matters greatly for security, as Question 4 explains.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>How things talk: choosing a radio</h2>
+</header>
+
+<p>No single wireless technology suits every device. A security camera needs to send a lot of data
+and can be plugged in. A water meter under a street sends a few numbers a day and must run for ten
+years on one battery. So IoT uses a family of radios, each trading range against power and data.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Technology</th><th>Range</th><th>Data</th><th>Power</th><th>Typical use</th></tr></thead>
+<tbody>
+<tr><td><strong>Wi-Fi</strong></td><td>A home or office</td><td class="ok">High</td><td class="no">High</td><td>Cameras, speakers, plugged-in devices</td></tr>
+<tr><td><strong>Bluetooth Low Energy</strong></td><td>A room</td><td class="mid">Low</td><td class="ok">Very low</td><td>Fitness bands, medical sensors, trackers</td></tr>
+<tr><td><strong>Zigbee and Thread</strong></td><td>A house, by hopping device to device ("mesh")</td><td class="mid">Low</td><td class="ok">Low</td><td>Light bulbs, switches, door sensors</td></tr>
+<tr><td><strong>LoRaWAN</strong></td><td>Several kilometres</td><td class="no">Tiny</td><td class="ok">Very low</td><td>Farm sensors, city parking, meters</td></tr>
+<tr><td><strong>Cellular IoT (NB-IoT, LTE-M, 5G)</strong></td><td>Anywhere with mobile coverage</td><td class="mid">Low to high</td><td class="mid">Low to medium</td><td>Meters, trackers, connected cars</td></tr>
+</tbody></table></div>
+
+<p>For years, smart-home devices from different brands often could not work together. An industry
+standard called <strong>Matter</strong>, launched in 2022 with backing from Apple, Google, Amazon
+and many device makers, aims to fix this, so that a plug from one company works with an app from
+another. Adoption has been gradual.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Running for years on one battery</h2>
+</header>
+
+<p>Imagine replacing the batteries in ten thousand sensors spread across a city every few months.
+It would cost more than the sensors. So engineers design IoT devices to <strong>sleep almost all
+the time</strong>. A soil sensor might wake for a fraction of a second every fifteen minutes, take
+a reading, send a few bytes and go back to sleep, using almost no power in between. Done well, a
+small battery can last many years.</p>
+
+<p>Some devices need no battery at all. <strong>Energy harvesting</strong> collects tiny amounts of
+power from light, heat, vibration or radio waves. The simplest example is the RFID tag in a shop
+label or a building access card: it has no battery and is powered by the reader's radio signal for
+the instant it is read. This is why <strong>power, not computing, is usually the real design
+limit</strong> of small IoT devices.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Edge or cloud: where the thinking happens</h2>
+</header>
+
+<p>Early IoT designs sent all raw data to the <a href="../14-computing-and-ai.html#c4">cloud</a>,
+the large remote data centres run by tech companies, and did all the analysis there. That is simple
+but has costs. Sending data uses power and bandwidth. A round trip to a distant data centre takes
+time, which matters if a machine must stop instantly. And if the internet connection fails, the
+system stops working.</p>
+
+<p>The alternative is <strong>edge computing</strong>: doing more processing on or near the device.
+A factory camera can check products for defects itself and send only the results. A smart doorbell
+can recognise a person locally rather than uploading every frame. Edge processing is faster, keeps
+working offline and can be more private, because raw data stays local. <strong>The trend is
+clearly towards splitting the work: quick decisions at the edge, long-term analysis in the
+cloud.</strong></p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>From readings to decisions: predictive maintenance</h2>
+</header>
+
+<p>The most valuable industrial use of IoT has a dull name: <strong>predictive maintenance</strong>.
+Traditionally, factories repaired machines either on a fixed schedule, often too early and wasteful,
+or when they broke, which stops production. A motor that is starting to fail usually vibrates
+differently, runs hotter or draws more current weeks before it breaks.</p>
+
+<p>Cheap sensors can record these signals continuously. Software, often using
+<a href="02-machine-learning.html">machine learning</a>, learns what normal looks like for each
+machine and raises an alert when the pattern drifts. Engineers can then replace a bearing during a
+planned stop rather than after a breakdown. <strong>The value is not the data itself but the
+decision it enables a week early.</strong> When many such sensors feed a live computer model of a
+whole plant, engineers call it a <a href="../20-future-tech/15-digital-twins.html">digital
+twin</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Seeing the physical world in real time</h2>
+  <p class="lede">IoT matters less for any single gadget than for what it does at scale: it makes
+  the physical world measurable, minute by minute, in a way it never was before.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Meters, grids and factories</h2>
+</header>
+
+<p>Smart electricity meters are among the largest IoT deployments in the world. Italy was one of
+the first countries to install them nationally, in the 2000s, and many countries in Europe, North
+America and Asia have since followed. A smart meter sends readings automatically, ending estimated
+bills and meter-reader visits. More importantly, it lets utilities see demand in near real time
+and offer prices that change by the hour, which helps grids absorb variable solar and wind power.</p>
+
+<p>In factories, ports and mines, connected sensors track machines, goods and energy use. Shipping
+containers carrying food or medicine report their temperature during the whole voyage, so a spoiled
+cargo is detected before it is delivered. <strong>Much of IoT's economic value is invisible to
+consumers</strong>: fewer breakdowns, less waste, lower energy bills for companies, and in the end
+slightly cheaper goods.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Homes and health</h2>
+</header>
+
+<p>At home, the most useful devices tend to be the simplest: thermostats that learn schedules and
+turn the heating down when nobody is in, leak sensors under washing machines, and plugs that switch
+appliances off. Voice assistants and connected appliances are more common but their value is more
+debated; many owners use only a few features.</p>
+
+<p>Health is where IoT can be most personal. A <strong>continuous glucose monitor</strong> is a small
+sensor worn on the skin that measures blood sugar every few minutes and sends it to a phone. For
+many people with diabetes it has replaced finger-prick tests and allows alarms when levels go
+dangerously low at night. Connected heart monitors and blood-pressure cuffs let doctors watch
+patients at home after surgery, a practice called <strong>remote patient monitoring</strong>.</p>
+
+<div class="warn">
+  <span class="tag">Note</span>
+  <p>This section is general education, not medical advice. Decisions about medical devices belong
+  with a doctor.</p>
+</div>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Fields and cities</h2>
+</header>
+
+<p>In farming, soil-moisture probes and weather stations allow <strong>precision
+agriculture</strong>: watering or fertilising only the parts of a field that need it, which saves
+water and money. Collars on cattle track location and activity, and can show that an animal is
+ill or about to give birth. In cities, sensors report full rubbish bins, free parking spaces, air
+quality, and leaks in water pipes, which can lose a large share of treated water in older networks.</p>
+
+<p>These uses show IoT's real strength. <strong>It replaces guesses and fixed schedules with
+measurement</strong>: water when the soil is dry, not every Tuesday; empty the bin when it is full,
+not on a fixed route. The city-wide version, and the arguments about surveillance that come with
+it, are in <a href="../20-future-tech/14-smart-cities.html">Smart cities</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Efficiency for everyone, attack surface for everyone</h2>
+  <p class="lede">Every connected object is both a useful sensor and a small computer that can be
+  attacked, tracked or abandoned.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The balance sheet</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Benefit</th><th>Cost or risk</th></tr></thead>
+<tbody>
+<tr><td><strong>Constant measurement</strong></td><td class="ok">Problems found early; resources used only where needed</td><td class="no">Detailed records of behaviour in homes and workplaces</td></tr>
+<tr><td><strong>Cheap, simple devices</strong></td><td class="ok">Sensors cost little, so they can be everywhere</td><td class="no">Little memory or power for security; often never updated</td></tr>
+<tr><td><strong>Remote control</strong></td><td class="ok">Turn off the heating from the train; unlock for a delivery</td><td class="no">An attacker with access can do the same</td></tr>
+<tr><td><strong>Cloud services</strong></td><td class="ok">Powerful analysis and easy apps</td><td class="no">The device may stop working if the company closes its servers</td></tr>
+<tr><td><strong>Huge numbers of devices</strong></td><td class="ok">A detailed picture of a grid, city or factory</td><td class="no">Electronic waste and batteries; many weak points to defend</td></tr>
+</tbody></table></div>
+
+<p>The cloud dependency is not hypothetical. Several smart-home companies have shut down or ended
+support for products, and some devices simply stopped working or lost their "smart" features.
+<strong>When you buy a connected device, you are also relying on a company's servers staying
+online.</strong></p>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>The security problem: the botnet made of cameras</h2>
+</header>
+
+<p>In October 2016, large parts of the internet became unreachable for hours in North America and
+Europe. Sites including Twitter, Netflix and Reddit were hard to load. The cause was an attack on
+Dyn, a company that runs part of the internet's address system. The attack traffic came from a
+<strong>botnet</strong>, a network of hijacked devices, called Mirai. It was made mostly of home
+routers and internet-connected cameras. Mirai had taken them over by simply trying a short list of
+default usernames and passwords, such as "admin" and "admin", that owners had never changed.</p>
+
+<p>The lesson was that <strong>a cheap device's weak security is not only its owner's
+problem</strong>. In 2015, two security researchers had already shown they could take control of a
+Jeep's steering and brakes remotely through its entertainment system, leading the maker to recall
+about 1.4 million vehicles. Privacy adds another layer: smart speakers, doorbells and televisions
+can collect detailed information about who is home and what they do.</p>
+
+<p>Governments have started to respond. The United Kingdom banned universal default passwords on
+new consumer devices from April 2024. The European Union's Cyber Resilience Act, adopted in 2024,
+will require security updates and basic protections for connected products, phased in over the
+following years. The general legal principles are in <a href="../18-law-government/08-privacy-law.html">Privacy
+law</a>.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Smaller, smarter, battery-free, and better regulated</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Security rules for connected products</strong></td><td>UK law in force since 2024; EU rules phasing in; labelling schemes in the US and elsewhere</td><td class="ok">Fairly sure: no default passwords, guaranteed update periods and security labels become normal</td></tr>
+<tr><td><strong>More intelligence at the edge</strong></td><td>Small chips can already run simple machine learning models on a battery</td><td class="ok">Fairly sure: more devices that decide locally and send less data</td></tr>
+<tr><td><strong>"Ambient" battery-free IoT</strong></td><td>Tags powered by surrounding radio waves are being standardised for logistics and retail</td><td class="mid">Plausible: tracking of individual parcels and products at very low cost within years</td></tr>
+<tr><td><strong>Devices that work across all brands</strong></td><td>Matter and Thread are spreading but unevenly</td><td class="mid">Plausible: simpler smart homes, if manufacturers keep supporting the standards</td></tr>
+<tr><td><strong>Trillions of sensors, everywhere</strong></td><td>A long-standing prediction from industry</td><td class="no">Speculative: limited by cost, power, waste and real usefulness</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>Living among sensors</h2>
+</header>
+
+<p>The direction of travel is clear even if the speed is not. Objects will keep getting cheaper
+sensors and better connections, and faster mobile networks such as
+<a href="14-5g-and-6g.html">5G and its successors</a> are designed partly with huge numbers of
+devices in mind. The interesting questions are less technical than social. Who owns the data your
+car, meter and television collect? Can your insurer, employer or landlord see it? How long must a
+manufacturer keep your device secure?</p>
+
+<p>A sensible personal rule follows from everything above. <strong>Connect a device when the
+connection does something useful for you</strong>, change its default password, keep it updated,
+and prefer products from makers that promise years of support. A kettle that tells your phone it
+has boiled is a convenience. A kettle that has not had a security update in five years is a small
+open door in your home network. Like the students with their drinks machine, the best IoT saves a
+real walk down a real corridor.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>IoT puts a <strong>sensor, a tiny computer, a radio and a battery</strong> into ordinary
+    objects. Data flows through <strong>gateways</strong> to the <strong>cloud</strong>, or is
+    processed at the <strong>edge</strong>, so people and programs can act. The design limit is
+    usually <strong>power</strong>; the biggest risk is <strong>security</strong>.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>The phrase "Internet of Things": <strong>1999</strong>, Kevin Ashton.</li>
+      <li>Roughly <strong>15–20 billion</strong> connected IoT devices by the mid-2020s, depending on how they are counted.</li>
+      <li>The Mirai botnet of <strong>2016</strong> was built mostly from cameras and routers with default passwords.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking IoT means smart speakers and fridges. <strong>Most of its value is in meters,
+    factories and logistics</strong>, out of sight.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a street water meter uses a different radio from a home security camera?
+    If you can, you understand the trade-off between range, data and battery life.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>IoT</dt><dd>Internet of Things: everyday objects connected to a network so they can report and act.</dd>
+    <dt>Sensor</dt><dd>A part that measures something physical, such as heat, motion or light.</dd>
+    <dt>Actuator</dt><dd>A part that acts on the world, such as a switch, valve or lock.</dd>
+    <dt>Microcontroller</dt><dd>A tiny, cheap, low-power computer on a single chip.</dd>
+    <dt>Gateway</dt><dd>A local box that collects data from many devices and passes it to the internet.</dd>
+    <dt>Edge computing</dt><dd>Processing data on or near the device instead of in a distant data centre.</dd>
+    <dt>Mesh network</dt><dd>A network in which devices pass messages through each other to extend range.</dd>
+    <dt>LoRaWAN</dt><dd>A long-range, very low-power radio network for sending small amounts of data.</dd>
+    <dt>RFID</dt><dd>Radio tags that can be read without contact, often without a battery.</dd>
+    <dt>Energy harvesting</dt><dd>Powering a device from light, heat, vibration or radio waves.</dd>
+    <dt>Predictive maintenance</dt><dd>Using sensor data to fix machines before they break.</dd>
+    <dt>Botnet</dt><dd>A network of hijacked devices controlled by an attacker.</dd>
+    <dt>Matter</dt><dd>A smart-home standard meant to make devices from different brands work together.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"IoT is just ordinary objects with a sensor, a small chip and a radio, reporting what they
+    notice."</li>
+    <li>"The money in IoT isn't in smart fridges. It's in meters, factories and shipping."</li>
+    <li>"For small sensors, battery life, not computing power, is the real limit."</li>
+    <li>"In 2016 a botnet of hacked cameras knocked big websites offline, all because of default
+    passwords."</li>
+    <li>"When you buy a connected device, you're also betting the company keeps its servers
+    running."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="11-computer-vision.html">Computer vision</a></h4><p>How
+  machines turn camera pixels into meaning: recognising faces, reading scans and guiding cars.</p></div>
+  <div class="card"><h4>Related · <a href="../14-engineering/17-smart-buildings.html">Smart
+  buildings</a></h4><p>Sensors and controls applied to a single building: heating, lighting,
+  occupancy and energy.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

@@ -1,0 +1,869 @@
+<!doctype html>
+<!--@HEAD-SRC title="5G and 6G" desc="What mobile network generations really are, how 5G uses new radio waves and smart antennas, why it mattered less to phones than promised, and what 6G is being designed to do around 2030."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5G and 6G</title>
+<meta name="description" content="What mobile network generations really are, how 5G uses new radio waves and smart antennas, why it mattered less to phones than promised, and what 6G is being designed to do around 2030.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Technology · Topic 14 of 20</p>
+  <h1>5G and 6G. <span class="thin">Each new "G" is a fresh deal between physics, money and politics.</span></h1>
+  <p class="lede">Every ten years or so, the mobile industry agrees a new set of rules for how phones
+  and towers talk to each other, and gives it a number. Each generation has been sold as a
+  revolution. Some were. 5G was promised as the network that would run driverless cars and remote
+  surgery. In practice it mostly made phones faster and networks less crowded, while a quieter story
+  unfolded in factories and in geopolitics. Knowing what actually changed, and why, is the best
+  protection against the same hype when 6G arrives.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Technology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../12-the-physical-supply-chain.html#s5"><span class="vn">Vol 12 · ch 05</span><b>Undersea cables</b><em>Where your data really travels</em></a>
+<a class="vol" href="10-internet-of-things.html"><span class="vn">Technology · 10</span><b>Internet of Things</b><em>The devices on the network</em></a>
+<a class="vol" href="16-data-science.html"><span class="vn">Technology · 16</span><b>Data science</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first treatment of mobile networks. The nearest neighbours are in Volume 12:
+  <a href="../12-the-physical-supply-chain.html#s5">Undersea cables</a>, which carry almost all
+  traffic between continents, and <a href="../12-the-physical-supply-chain.html#s7">Satellite
+  constellations</a>, which 6G plans to fold into the mobile network. The chips inside every phone
+  and base station are covered in <a href="../12-the-physical-supply-chain.html#s1">Computer
+  chips</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A generation is a shared rulebook, not a gadget</h2>
+  <p class="lede">You cannot buy "5G" the way you buy a phone. It is an agreed set of technical rules
+  that lets equipment from hundreds of companies, in almost every country, work together.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Five generations in one table</h2>
+</header>
+
+<p>Each generation solved the main problem left by the one before. Notice that the headline feature
+changes each time, from voice to texts to data to video to "everything connected".</p>
+
+<div class="tw"><table>
+<thead><tr><th>Generation</th><th>Arrived</th><th>What it added</th><th>What it felt like</th></tr></thead>
+<tbody>
+<tr><td><strong>1G</strong></td><td>Around 1980</td><td>Analogue mobile voice calls</td><td>Brick-sized phones, easy to eavesdrop on</td></tr>
+<tr><td><strong>2G</strong></td><td>Early 1990s (GSM, first launched in Finland in 1991)</td><td>Digital voice, encryption, text messages</td><td>The Nokia era, and SMS</td></tr>
+<tr><td><strong>3G</strong></td><td>Early 2000s</td><td>Usable mobile data</td><td>Email and slow web pages on the move</td></tr>
+<tr><td><strong>4G (LTE)</strong></td><td>From about 2009–2010</td><td>Fast, all-internet data</td><td>Video, maps, ride-hailing, social media apps</td></tr>
+<tr><td><strong>5G</strong></td><td>From 2019 (South Korea and the US first)</td><td>More capacity, lower delay, many more devices</td><td>Faster phones in crowds. Bigger changes behind the scenes</td></tr>
+</tbody></table></div>
+
+<p>The most important row may be 4G. <strong>The smartphone economy was built on it.</strong> Uber,
+Instagram and streaming video on the move all needed fast, cheap mobile data. When people asked "what
+will 5G do?", they were really hoping for another jump like that. It is a fair test, and 5G has so
+far only partly passed it.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Who writes the rules</h2>
+</header>
+
+<p>Two bodies matter. The <strong>International Telecommunication Union</strong> (ITU), a United
+Nations agency, sets the targets a technology must meet to count as a new generation. For 5G that
+target document was called IMT-2020. For 6G it is IMT-2030, agreed in 2023. The ITU also coordinates
+which radio frequencies are used for what, worldwide.</p>
+
+<p>The detailed engineering is written by <strong>3GPP</strong>, the 3rd Generation Partnership
+Project. It is a partnership of standards organisations from Europe, the US, China, Japan, South
+Korea and India. Engineers from equipment makers, phone companies and chip designers meet there and
+argue, sometimes for years, over thousands of pages of specifications. They release them in numbered
+"releases". The first full 5G release, Release 15, was completed in 2018.</p>
+
+<p>This matters for one reason that is easy to miss. <strong>A generation is a commercial and
+political agreement as much as a technical one.</strong> Companies fight to get their inventions into
+the standard, because every phone sold must then pay them patent royalties. Countries care because
+the firms that shape the standard tend to sell the equipment.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The three promises of 5G</h2>
+</header>
+
+<p>The ITU described three kinds of use that 5G had to serve. They are worth knowing, because each
+one was a different market.</p>
+
+<div class="grid3">
+  <div class="card"><h4>Enhanced mobile broadband</h4><p>Much faster data and far more capacity.
+  The target peak speed was 20 gigabits per second, shared by everyone in a cell. This is the part
+  ordinary phone users actually got.</p></div>
+  <div class="card"><h4>Ultra-reliable low latency</h4><p><strong>Latency</strong> is the delay
+  before a signal arrives. The target was 1 millisecond over the radio link, with extreme
+  reliability. Imagined uses: factory robots, remote control of machines, vehicles.</p></div>
+  <div class="card"><h4>Massive machine connections</h4><p>Up to a million low-power devices per
+  square kilometre: meters, sensors, trackers. This is the network side of the <a
+  href="10-internet-of-things.html">Internet of Things</a>.</p></div>
+</div>
+
+<p>These were <em>targets</em> for the standard, not promises about your phone. Real networks
+deliver a fraction of the peak numbers, and the low-latency features needed upgrades many operators
+were slow to make.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>More spectrum, smarter antennas, and a network made of software</h2>
+  <p class="lede">There are only three ways to push more data through the air: use more radio
+  frequencies, reuse them more cleverly, or put the towers closer together. 5G does all three.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Spectrum: the road that data drives on</h2>
+</header>
+
+<p>A mobile signal is a radio wave. <strong>Spectrum</strong> means the range of radio frequencies
+available. A useful picture is a motorway. The width of the band of frequencies you are allowed to
+use, called <strong>bandwidth</strong>, is like the number of lanes. More lanes carry more traffic.
+In 1948 the engineer Claude Shannon proved the mathematics behind this: the maximum data rate of a
+channel rises with its bandwidth and with how clean the signal is compared with the noise.</p>
+
+<p>The difficulty is that radio waves behave differently at different frequencies. Low frequencies
+travel far and pass through walls, but there is little room there, and it is already crowded with TV,
+radio and older networks. High frequencies have lots of room but travel short distances and are
+easily blocked. 5G uses three broad bands.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Band</th><th>Roughly</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Low band</strong></td><td>Below 1 GHz</td><td class="ok">Long range, good indoors. Covers countryside</td><td class="no">Little bandwidth, so speeds similar to good 4G</td></tr>
+<tr><td><strong>Mid band</strong></td><td>About 1–7 GHz, especially around 3.5 GHz</td><td class="ok">The sweet spot: decent range and big capacity</td><td class="mid">Needs more towers than low band</td></tr>
+<tr><td><strong>Millimetre wave</strong></td><td>About 24–50 GHz</td><td class="ok">Huge bandwidth, very high speeds</td><td class="no">Range of a few hundred metres at best. Blocked by walls, trees, rain and even a hand</td></tr>
+</tbody></table></div>
+
+<p>Mid band turned out to be the workhorse of 5G almost everywhere. <strong>Millimetre wave was the
+source of the most impressive speed tests and most of the disappointment.</strong> It works well in
+stadiums and busy squares, and poorly almost everywhere else. Governments raise large sums by
+auctioning spectrum licences to operators, which is part of why 5G was expensive to build.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Massive MIMO and beamforming: aiming the signal</h2>
+</header>
+
+<p>An older tower broadcasts in broad sectors, like a lighthouse lighting up a wide arc. Much of the
+energy goes where nobody is. A 5G mid-band antenna panel contains dozens of small antenna elements,
+often 64 sending and 64 receiving. This is called <strong>massive MIMO</strong>, for "multiple input,
+multiple output".</p>
+
+<p>By timing the signal from each element very precisely, the panel can make the waves add up in one
+direction and cancel out in others. This is <strong>beamforming</strong>. The tower can aim a narrow
+beam at your phone, a different beam at your neighbour's, and reuse the same frequencies for both at
+the same time. It is like replacing one loudspeaker shouting at a crowd with many people whispering
+into individual ears.</p>
+
+<div class="sheet">
+  <div class="cap">Broadcasting versus beamforming</div>
+<pre>
+  4G-style sector                 5G massive MIMO
+
+       .  .  .  .  .                    ----&gt;  phone A
+     .               .                 /
+   TOWER  ~~~~~~~~~~  .            TOWER -------&gt;  phone B
+     .               .                 \
+       .  .  .  .  .                    ----&gt;  phone C
+  one wide signal, shared        separate beams, same frequencies,
+                                 used again and again at once
+</pre>
+</div>
+
+<p>Beamforming is the main reason 5G mid band is so much better than 4G in a crowd. It is also why
+5G antennas are heavier and use more processing power. The tower is doing a great deal of arithmetic
+every millisecond to track where each phone is.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The core: a network made of software</h2>
+</header>
+
+<p>The antennas are only the visible part. Behind them sits the <strong>core network</strong>, the
+system that checks your identity, routes your data to the internet and keeps track of your phone as
+you move. In earlier generations the core ran on special-purpose boxes. In 5G it is designed to run
+as software on ordinary servers, often in data centres or the cloud.</p>
+
+<p>That shift enables two ideas. The first is <strong>network slicing</strong>: running several
+virtual networks on the same physical one, each with its own rules. A hospital, a factory and the
+general public could get separate slices with different guarantees of speed and reliability. The
+second is <strong>edge computing</strong>, which places small data centres near the towers, so that
+time-critical processing happens a few kilometres away rather than hundreds.</p>
+
+<p>There is a catch. Many early networks were <strong>non-standalone 5G</strong>: 5G radios bolted
+onto an old 4G core. That gave faster downloads but none of the slicing or very low latency. Full
+<strong>standalone 5G</strong>, with the new core, has spread more slowly. So when people say "5G
+didn't deliver", part of the answer is that in many places the full version was never switched
+on.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Small cells and the cost of density</h2>
+</header>
+
+<p>Higher frequencies mean shorter range, so capacity grows by adding more, smaller base stations.
+These <strong>small cells</strong> sit on lampposts, building walls and inside shopping centres. Each
+needs power, a permit and a fast link back to the network, usually a fibre-optic cable. Building them
+by the thousand is slow, local and expensive work.</p>
+
+<p>This is the unglamorous truth behind every generation. <strong>Wireless networks are mostly
+wired.</strong> The radio link from your phone covers only the first few hundred metres. After that
+your data travels through fibre, across cities and under oceans. A country with poor fibre will have
+poor 5G, however good its antennas.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Capacity, factories, and a fight between great powers</h2>
+  <p class="lede">The phone in your pocket is the least interesting part of the 5G story. The bigger
+  effects were on network capacity, on industry, and on who countries trust.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>What 5G actually changed</h2>
+</header>
+
+<p>The first real effect was <strong>capacity</strong>. Mobile data use keeps rising, driven mainly
+by video. Without 5G, 4G networks in cities would have become badly congested. With it, each tower
+carries far more data at a lower cost per gigabyte. Users notice this mainly as an absence: the
+network still works at a concert or a train station at rush hour.</p>
+
+<p>The second was a surprise. In the United States in particular, operators began selling
+<strong>fixed wireless access</strong>: home broadband delivered over 5G to a box by the window,
+instead of through a cable. It became one of the fastest-growing sources of new home internet
+customers there. For areas where laying fibre is expensive, it is a real alternative.</p>
+
+<p>The third is <strong>private 5G networks</strong>. Ports, mines, airports and factories have built
+their own 5G networks to connect cranes, vehicles and sensors more reliably than Wi-Fi can. This is
+quieter than the consumer story but is where the industrial promises are slowly coming true. By the
+end of 2024 there were more than two billion 5G subscriptions worldwide, according to industry
+reports, with China accounting for a large share.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The missing "killer app"</h2>
+</header>
+
+<p>Operators spent hundreds of billions of dollars worldwide on spectrum and equipment. They hoped
+customers would pay more for 5G. Mostly, they did not. People were happy with 4G speeds for the
+things they did on phones. Many operators ended up giving 5G away as part of the same monthly plan.</p>
+
+<p>The applications used to sell 5G largely did not need it. Self-driving cars, for example, are
+designed to work with no network at all. A car that depended on a mobile signal to avoid a pedestrian
+would be dangerous (see <a href="13-autonomous-vehicles.html">Autonomous vehicles</a>). Remote surgery
+demonstrations were real, but rare. <strong>The lesson for the next generation is that capability
+alone does not create demand.</strong> The 4G boom came from developers building apps nobody had
+predicted. That cannot be planned in a standards meeting.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Huawei, and networks as national security</h2>
+</header>
+
+<p>The Chinese company Huawei became one of the world's largest makers of mobile network equipment,
+alongside Ericsson of Sweden and Nokia of Finland. Its equipment was competitive and often cheaper.
+From around 2018, the United States argued that Chinese law could compel Chinese companies to help
+state intelligence, and that equipment at the heart of a network could be used for spying or
+sabotage. Huawei has always denied this.</p>
+
+<p>The US restricted Huawei's access to American technology from 2019. Australia had already excluded
+it from 5G in 2018. In 2020 the United Kingdom decided to ban new Huawei 5G equipment and remove the
+existing kit from its networks by the end of 2027. Other countries took a range of positions, from
+full bans to no restrictions. <strong>Mobile networks came to be treated as strategic infrastructure,
+like ports and power grids.</strong> The debate also gave a push to <strong>Open RAN</strong>, an
+approach that defines open interfaces inside the radio network so operators can mix equipment from
+several suppliers rather than depending on one.</p>
+
+<div class="note">
+  <span class="tag">On health fears</span>
+  <p>In 2020 false claims linked 5G to COVID-19, and several masts were set on fire in the UK. Mobile
+  signals are <strong>non-ionising radiation</strong>: they do not have enough energy to break
+  chemical bonds or damage DNA, unlike X-rays. Exposure limits are set by international guidelines,
+  and public exposure from masts is normally far below them. Health agencies, including the WHO, have
+  found no established health effect from mobile signals at these levels. Research continues, as it
+  does for any widely used technology.</p>
+</div>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A better network, at a high price</h2>
+  <p class="lede">5G is clearly better engineering than 4G. Whether it was worth what it cost, and to
+  whom, is a fairer question.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Capacity</strong></td><td class="ok">Many more users and much more data per tower. Lower cost per gigabyte.</td><td class="mid">The gain is mostly invisible to users, so they will not pay extra for it.</td></tr>
+<tr><td><strong>Speed and delay</strong></td><td class="ok">Faster downloads, lower latency, especially on standalone networks.</td><td class="no">Headline speeds rely on millimetre wave, which covers very little ground.</td></tr>
+<tr><td><strong>Industry</strong></td><td class="ok">Private networks for ports, mines and factories. Reliable links for machines.</td><td class="mid">Adoption is slower than forecast, and Wi-Fi keeps improving too.</td></tr>
+<tr><td><strong>Energy</strong></td><td class="ok">Much more efficient per bit of data than 4G.</td><td class="no">Total energy use can still rise, because traffic and the number of sites rise.</td></tr>
+<tr><td><strong>Cost</strong></td><td class="ok">Fixed wireless brings broadband where fibre is too expensive.</td><td class="no">Huge spending on spectrum and equipment, with weak returns for many operators.</td></tr>
+<tr><td><strong>Security and politics</strong></td><td class="ok">Stronger encryption and identity protection than 4G.</td><td class="no">More software means more to attack. Supplier choices became a geopolitical fight.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The coverage gap</h2>
+</header>
+
+<p>One disadvantage deserves its own chapter. New generations arrive first in rich cities, because
+that is where operators earn back their investment. Rural areas and poorer countries get them later,
+and some people still rely on 3G or even 2G. In 2022 a dispute in the United States showed another
+kind of friction: airlines warned that new 5G signals near 3.7 GHz might interfere with aircraft
+radio altimeters, which measure height above the ground. Operators agreed to limit power near
+airports while aircraft equipment was upgraded.</p>
+
+<p>The broader point is that <strong>spectrum is a shared, finite resource</strong>, and every new
+use competes with old ones: satellites, radar, broadcasting, aviation. Much of the real work of a new
+generation is negotiation over who gets which frequencies, where, and at what power.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>6G: designed for 2030, still being decided</h2>
+  <p class="lede">As of 2025, 6G is a set of research goals and early standards work, not a product.
+  Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>A 6G standard around 2030</strong></td><td>The ITU agreed the IMT-2030 framework in 2023. 3GPP began formal 6G studies around 2025, with first specifications expected late in the decade.</td><td class="ok">Fairly sure: first commercial 6G networks around 2030, probably starting in South Korea, Japan, China and the US. Early versions will look like a faster, more efficient 5G.</td></tr>
+<tr><td><strong>Phones that connect to satellites, and networks that sense</strong></td><td>Basic satellite-to-phone messaging already exists. Research on "integrated sensing" lets the network detect movement and objects, a bit like radar.</td><td class="mid">Plausible: seamless coverage from space in remote areas, and networks that double as sensors. Sensing raises obvious privacy questions.</td></tr>
+<tr><td><strong>Terahertz links and holographic calls</strong></td><td>Laboratory work above 100 GHz has shown very high speeds over short distances.</td><td class="no">Speculative: the range problems of millimetre wave are even worse here. Mass-market use is far from certain.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>A quieter generation, run by software and AI</h2>
+</header>
+
+<p>Many in the industry say 6G should be a more modest, practical generation. The likely focus is new
+mid-band spectrum, roughly 7 to 15 GHz, which offers more room without millimetre wave's problems.
+Another focus is using machine learning throughout the network to manage beams, traffic and energy,
+an idea often called being "AI-native". Lower energy use is a stated goal, partly because power is
+now one of operators' biggest costs.</p>
+
+<p>The most useful way to judge 6G when it comes is to ask the questions that 5G taught. <strong>Is
+the full version actually switched on, or just the label?</strong> Which band is being tested?
+Will customers pay for it, or will it simply be needed to keep up with traffic? And who builds the
+equipment? If those answers are clear, the rest of the marketing can be safely ignored.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A mobile generation is a <strong>shared rulebook</strong>, set by the ITU and written by 3GPP.
+    5G raises capacity with <strong>more spectrum</strong> (especially mid band),
+    <strong>beamforming</strong> antennas and a <strong>software core</strong>. Its biggest effects
+    were on network capacity, home broadband, industry and geopolitics, not on how phones feel.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>About <strong>one new generation per decade</strong>: 1G around 1980, 5G from 2019, 6G
+      expected around 2030.</li>
+      <li>5G design targets: <strong>20 Gbit/s</strong> peak, <strong>1 ms</strong> radio latency,
+      <strong>1 million</strong> devices per km².</li>
+      <li>More than <strong>2 billion</strong> 5G subscriptions worldwide by the end of 2024.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Judging 5G by peak speed tests. <strong>Peak speeds come from millimetre wave, which covers
+    almost nothing.</strong> The real value of a generation is capacity and reliability for everyone,
+    not one fast test on a street corner.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why higher radio frequencies give more speed but less coverage, and why that
+    means more towers and more fibre? If you can, you understand most of what limits every
+    generation.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Generation (G)</dt><dd>A family of mobile network standards, released roughly once a decade.</dd>
+    <dt>ITU</dt><dd>The UN agency that sets targets for each generation and coordinates radio frequencies.</dd>
+    <dt>3GPP</dt><dd>The industry partnership that writes the detailed technical specifications.</dd>
+    <dt>Spectrum</dt><dd>The range of radio frequencies; the "land" that wireless signals occupy.</dd>
+    <dt>Bandwidth</dt><dd>The width of the frequency band in use. More bandwidth carries more data.</dd>
+    <dt>Latency</dt><dd>The delay between sending a signal and it arriving.</dd>
+    <dt>Millimetre wave</dt><dd>Very high frequencies with huge capacity and very short range.</dd>
+    <dt>Massive MIMO</dt><dd>Antenna panels with dozens of elements that can serve many users at once.</dd>
+    <dt>Beamforming</dt><dd>Shaping radio waves into narrow beams aimed at individual devices.</dd>
+    <dt>Core network</dt><dd>The central system that handles identity, routing and mobility.</dd>
+    <dt>Network slicing</dt><dd>Running several virtual networks with different guarantees on one physical network.</dd>
+    <dt>Standalone 5G</dt><dd>5G radios with a new 5G core, rather than attached to a 4G core.</dd>
+    <dt>Open RAN</dt><dd>An approach using open interfaces so radio equipment from different suppliers can be mixed.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"5G's real win wasn't faster phones. It was capacity, so the network still works in a
+    crowd."</li>
+    <li>"The amazing 5G speed tests use millimetre wave, which a tree or a wall can block."</li>
+    <li>"Wireless networks are mostly wired. The radio part is only the first few hundred metres."</li>
+    <li>"Self-driving cars were used to sell 5G, but they're designed to work with no signal at
+    all."</li>
+    <li>"6G is due around 2030. Ask which frequencies, and whether anyone will pay for it, before you
+    believe the hype."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="16-data-science.html">Data science</a></h4><p>Topic 15,
+  semiconductors, is covered in <a href="../12-the-physical-supply-chain.html#s1">Volume 12</a>. Next
+  comes the craft of turning raw data into answers you can trust.</p></div>
+  <div class="card"><h4>Related · <a href="10-internet-of-things.html">Internet of Things</a></h4><p>The
+  billions of sensors and devices that 5G's "massive machine" promise was built for, and the security
+  problems they bring.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

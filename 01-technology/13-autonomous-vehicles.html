@@ -1,0 +1,870 @@
+<!doctype html>
+<!--@HEAD-SRC title="Autonomous Vehicles" desc="How self-driving cars see, predict and decide, why the last few per cent took twenty years, what they could change about safety and cities, and where robotaxis and trucks are heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Autonomous Vehicles</title>
+<meta name="description" content="How self-driving cars see, predict and decide, why the last few per cent took twenty years, what they could change about safety and cities, and where robotaxis and trucks are heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Technology · Topic 13 of 20</p>
+  <h1>Autonomous Vehicles. <span class="thin">Driving is easy ninety-nine times out of a hundred. The hundredth time is the whole problem.</span></h1>
+  <p class="lede">A car that drives itself sounds like one invention. It is really four jobs done many
+  times a second: work out where you are, see what is around you, guess what everyone else will do,
+  and choose a safe path. Machines learned the first three quite quickly. What took twenty years, and
+  is still not finished, is doing all four reliably in the strange situations that every driver meets
+  only once in a long while. </p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Technology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../50-whats-coming.html#c6"><span class="vn">Vol 50 · ch 06</span><b>Robots, vehicles and why the easy things are hard</b><em>The short version</em></a>
+<a class="vol" href="11-computer-vision.html"><span class="vn">Technology · 11</span><b>Computer vision</b><em>How machines see</em></a>
+<a class="vol" href="14-5g-and-6g.html"><span class="vn">Technology · 14</span><b>5G and 6G</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 50 gives self-driving one paragraph inside a chapter on robots (<a
+  href="../50-whats-coming.html#c6">Robots, vehicles and why the easy things are hard</a>). It makes
+  the key point: the difficulty is the long tail of rare events. This file opens that idea up: the
+  sensors, the software, the accidents that shaped the industry, and the questions of law and money
+  that now matter as much as the engineering. It also serves as the Future &amp; Emerging Technologies
+  entry on the same subject, alongside <a href="../20-future-tech/04-autonomous-systems.html">Autonomous
+  systems</a>, which covers drones and industrial machines.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A car that takes over the driving task, in stages</h2>
+  <p class="lede">"Self-driving" covers everything from a car that keeps its lane on a motorway to a
+  taxi with nobody in the front seat. Those are very different machines, and the industry has a
+  scale for telling them apart.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The race nobody finished</h2>
+</header>
+
+<p>In March 2004 the US military research agency DARPA held a race across the Mojave Desert. The
+prize was one million dollars. The rule was simple: no human inside the vehicle and no remote
+control. Fifteen robot vehicles started. <strong>None finished.</strong> The best one, built by a
+team from Carnegie Mellon University, travelled about 12 kilometres of a course roughly 240
+kilometres long before it got stuck on a rock.</p>
+
+<p>Eighteen months later DARPA ran the race again. This time five vehicles finished. The winner,
+a modified Volkswagen called Stanley, was built by a Stanford team led by Sebastian Thrun. Stanley
+won not because its hardware was better but because its software <em>learned</em> from data what
+drivable ground looked like. In 2007 an "Urban Challenge" moved the contest to a mock town with
+traffic, junctions and parking. Within a few years many of those engineers had been hired by Google,
+which started a self-driving project in 2009. That project became the company Waymo in 2016.</p>
+
+<p>That is the shape of the whole field. <strong>Early progress was dramatic, and the last part has
+been slow.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The six levels</h2>
+</header>
+
+<p>The standard scale comes from SAE International, an engineering standards body. It runs from
+Level 0 to Level 5. The key question at each level is simple: <strong>who is responsible for
+watching the road?</strong></p>
+
+<div class="tw"><table>
+<thead><tr><th>Level</th><th>Name</th><th>Who watches the road</th><th>Real example</th></tr></thead>
+<tbody>
+<tr><td><strong>0</strong></td><td>No automation</td><td>The driver, always. The car may warn, but does not steer or brake for you</td><td>A basic car with a collision warning beep</td></tr>
+<tr><td><strong>1</strong></td><td>Driver assistance</td><td>The driver. The car helps with steering <em>or</em> speed</td><td>Adaptive cruise control that keeps a distance</td></tr>
+<tr><td><strong>2</strong></td><td>Partial automation</td><td>The driver. The car steers <em>and</em> controls speed, but you must supervise every second</td><td>Tesla Autopilot and "Full Self-Driving (Supervised)", GM Super Cruise</td></tr>
+<tr><td><strong>3</strong></td><td>Conditional automation</td><td>The car, in narrow conditions. You may look away but must take over when asked</td><td>Mercedes-Benz Drive Pilot on certain motorways at limited speed</td></tr>
+<tr><td><strong>4</strong></td><td>High automation</td><td>The car, inside a defined area and conditions. No human needed there</td><td>Waymo and Chinese robotaxis in specific cities</td></tr>
+<tr><td><strong>5</strong></td><td>Full automation</td><td>The car, everywhere a human could drive</td><td>None exists</td></tr>
+</tbody></table></div>
+
+<p>Two points in this table cause most of the confusion in the news. First, <strong>Level 2 is not
+self-driving</strong>, however good it feels. The human is still the driver in law and in fact.
+Second, the jump from 2 to 4 is not a small step. At Level 4 there is no human to rescue a mistake,
+so the system must handle its own failures safely, for example by pulling over.</p>
+
+<p>The defined area in Level 4 has a name: the <strong>operational design domain</strong>, or ODD.
+It is the set of conditions the system was built and tested for. That might mean these streets,
+these speeds, daylight and night, but no snow. Outside its ODD a Level 4 car will not drive.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Two different bets: robotaxis and driver assistance</h2>
+</header>
+
+<p>Companies have taken two routes. The first is the <strong>robotaxi</strong> route, taken by Waymo
+and, in China, by companies such as Baidu (with its Apollo Go service), Pony.ai and WeRide. They
+start at Level 4 in one city, with expensive sensors and detailed maps, and expand slowly one area at
+a time.</p>
+
+<p>The second route sells assistance features to millions of ordinary car owners and tries to improve
+them step by step towards full autonomy. Tesla is the best-known example. It relies on cameras alone and data from a very large fleet. As of 2025 Tesla had started a small robotaxi trial in Austin,
+Texas, with a company employee on board. Whether the camera-only bet can reach true Level 4 at
+scale is one of the most argued questions in the industry. Nobody can settle it yet.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Sense, locate, predict, plan, act, many times a second</h2>
+  <p class="lede">An autonomous vehicle runs a loop. It measures the world, places itself in it,
+  guesses what will happen next, picks a path and moves the controls. Then it does it all again,
+  many times every second.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The senses: cameras, radar and lidar</h2>
+</header>
+
+<p>A typical robotaxi carries many cameras, several radars and several lidars, pointed in every
+direction. Each is good at something different.</p>
+
+<div class="grid3">
+  <div class="card"><h4>Cameras</h4><p>Cheap and very detailed. They read traffic lights, signs, lane
+  paint and a cyclist's hand signal. But a camera gives a flat picture, so distance must be worked
+  out by software. Cameras also struggle with glare, darkness and heavy rain, as eyes do.</p></div>
+  <div class="card"><h4>Radar</h4><p>Sends out radio waves and times their echo. It measures distance
+  and speed directly and works in fog and rain. Its picture is coarse, though. It knows something is
+  there and how fast it moves, but not clearly what it is.</p></div>
+  <div class="card"><h4>Lidar</h4><p>Short for "light detection and ranging". It fires laser pulses,
+  often hundreds of thousands per second, and measures each echo. The result is a precise 3D cloud
+  of points.</p></div>
+</div>
+
+<p>Combining the three is called <strong>sensor fusion</strong>. The idea is that each sensor covers
+another's blind spot. If the camera is dazzled by a low sun, the lidar and radar still see the truck
+ahead. Tesla's choice to drop radar and rely on cameras only is the main exception. Its argument is that
+people drive with vision alone. Critics answer that
+<strong>the goal is to drive better than people, not as well as them</strong>, and extra senses are
+how you get there.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Knowing where you are, to the centimetre</h2>
+</header>
+
+<p>The GPS in your phone is accurate to a few metres. That is fine for directions and useless for
+staying in a lane. (Volume 12 explains how GPS works: <a
+href="../12-the-physical-supply-chain.html#s6">GPS, and why it is really a clock</a>.) So most Level 4
+systems use <strong>high-definition maps</strong>. Before a robotaxi carries a passenger in a new
+city, the company drives every street with sensor cars and builds a detailed 3D map. It records
+lanes, kerbs, lights and signs.</p>
+
+<p>When the car drives, it matches what its lidar sees right now against that stored map. This is
+called <strong>localisation</strong>. It can place the car to within a few centimetres.</p>
+
+<p>The cost is that maps must be built and kept up to date, which is one reason robotaxis expand
+city by city.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Perception and prediction: what is that, and what will it do?</h2>
+</header>
+
+<p><strong>Perception</strong> means turning raw sensor data into a list of things: this is a car,
+that is a pedestrian, that is a plastic bag blowing across the road. Nearly all of this is done by
+neural networks trained on millions of labelled examples. The methods are the same family described
+in <a href="11-computer-vision.html">Computer vision</a> and <a href="02-machine-learning.html">Machine
+learning</a>.</p>
+
+<p>Seeing is not enough. A good driver also predicts. The child near the ball may run into the road.
+The car with its indicator on may pull out. The cyclist looking over her shoulder is about to change
+lane. <strong>Prediction</strong> software gives every nearby object several possible futures for
+the next few seconds, each with a probability. This is where much of the hardest work lies, because
+people do not follow rules. They wave each other through, jaywalk, and stop in odd places.</p>
+
+<div class="sheet">
+  <div class="cap">The driving loop, simplified</div>
+<pre>
+  SENSORS            cameras + radar + lidar + wheel speed + GPS
+     |
+  LOCALISE           "I am here, in this lane, on the stored map"
+     |
+  PERCEIVE           "car 30 m ahead, pedestrian on kerb, red light"
+     |
+  PREDICT            "pedestrian: 70% waits, 30% steps out in 2 s"
+     |
+  PLAN               choose a path and speed that is safe in ALL likely futures
+     |
+  CONTROL            steering angle, brake pressure, throttle
+     |
+     +-----> repeat, many times every second
+</pre>
+</div>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Planning, and the remote helper</h2>
+</header>
+
+<p>The <strong>planner</strong> chooses what the car will actually do. It weighs safety first, then
+legality, comfort and progress. A good plan is safe across all the likely futures that prediction
+produced, not just the most likely one. If the pedestrian has a 30 per cent chance of stepping out,
+the car slows as if she might. Too cautious and it blocks traffic; too bold and it is
+dangerous.</p>
+
+<p>Older systems split these jobs into separate modules written partly by hand. A newer approach,
+often called <strong>end-to-end</strong> learning, trains one large neural network to go from sensor
+input almost directly to driving decisions, learning from huge amounts of human driving. It can be
+smoother and more human-like. It is also harder to inspect: when it makes a mistake, it is harder to
+say why. Most companies now mix the two approaches.</p>
+
+<p>There is also a human in the background. Robotaxi companies run <strong>remote assistance</strong>
+centres. When a car is confused, say by a police officer waving traffic through a red light, it can
+stop and ask a remote operator for guidance. Usually the operator answers a question ("yes, it
+is safe to go round this blocked lane") and the car still does the driving itself.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Lives, time, cities, and a lesson about trust</h2>
+  <p class="lede">The case for autonomous vehicles is mainly about safety. The story so far has also
+  been a case study in how a technology earns, and loses, public trust.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>1.2 million deaths a year</h2>
+</header>
+
+<p>According to the World Health Organization, about <strong>1.2 million people</strong> die on the
+world's roads each year, based on its 2023 report. Road crashes are a leading cause of death for
+children and young adults.</p>
+
+<p>Most crashes involve human error: distraction, tiredness, alcohol, speeding. US government
+analysis has often been quoted as saying human error is the "critical reason" in about 94 per cent of
+crashes. That number is widely misused. It describes the last event before the crash, not who was to
+blame, and it does not mean a machine would have avoided 94 per cent of them. But the basic point
+stands. <strong>A machine never drinks, never texts and never falls asleep.</strong> If it can also
+see well and react well, the room for saving lives is very large.</p>
+
+<p>The early evidence is encouraging but not final. Waymo has published analyses covering tens of
+millions of driverless miles. They report substantially fewer injury crashes than human drivers on
+comparable roads. Independent researchers find this plausible but note that fair
+comparisons are hard. The honest summary for 2025 is: <strong>promising in the places where it
+runs, and not yet proven everywhere else.</strong></p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The crashes that shaped the industry</h2>
+</header>
+
+<p>In March 2018, in Tempe, Arizona, an Uber test vehicle struck and killed Elaine Herzberg as she
+walked her bicycle across a road at night. It was the first known pedestrian death caused by a
+self-driving test car. The investigation found that the software had detected her seconds before
+impact but kept changing its mind about what she was. Emergency braking by the computer had been
+switched off, on the assumption that the safety driver would act. The safety driver was looking down
+at a phone.</p>
+
+<p>In October 2023, in San Francisco, a pedestrian was hit by a human-driven car and thrown into the
+path of a robotaxi run by Cruise, a company owned by General Motors. The robotaxi braked but then
+tried to pull over and dragged her several metres. California suspended Cruise's permit, largely
+because regulators said the company had not shared the full video promptly. In December 2024 GM
+closed the robotaxi business.</p>
+
+<p>Both stories teach the same lesson. <strong>The technical failure was only half of it. The
+other half was how humans and companies behaved around the machine.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Time, freight and the shape of cities</h2>
+</header>
+
+<p>The second reason is access. People who cannot drive, because of age, disability or poor
+eyesight, would gain independence. Freight is the other big case. Long
+motorway routes are relatively simple driving, and trucking has shortages of drivers in many
+countries. In 2025 the company Aurora began running driverless lorries on a motorway route in Texas,
+one of the first commercial services of its kind.</p>
+
+<p>The third reason is cities. Cars spend most of their lives parked. If people used shared
+robotaxis instead of owning cars, cities could need much less parking. But the opposite is also possible. If riding in a car becomes
+cheap and pleasant, and you can sleep or work on the way, <strong>people may travel more, live
+further out, and fill roads with empty cars driving to their next pickup.</strong> Which outcome happens depends on pricing, taxes
+and planning, not on the technology. Smart-city questions like these are covered in <a
+href="../20-future-tech/14-smart-cities.html">Smart cities</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A safer driver that is strange in new ways</h2>
+  <p class="lede">The benefits are real. So are the costs, and some of them are not about driving at
+  all.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Safety</strong></td><td class="ok">No drink, fatigue or distraction. Sees in every direction at once.</td><td class="no">New kinds of error that humans would never make, such as being confused by a traffic cone placed on its bonnet.</td></tr>
+<tr><td><strong>Access</strong></td><td class="ok">Mobility for people who cannot drive.</td><td class="mid">Available only in a few mapped cities so far, often the wealthier ones.</td></tr>
+<tr><td><strong>Work</strong></td><td class="ok">Could ease driver shortages in freight and buses.</td><td class="no">Driving is one of the largest sources of jobs for people without degrees. Losing it would hurt some communities badly.</td></tr>
+<tr><td><strong>Cities</strong></td><td class="ok">Less need for parking. Shared fleets could cut car ownership.</td><td class="no">Cheap rides could mean more traffic, more sprawl and empty cars circling.</td></tr>
+<tr><td><strong>Cost</strong></td><td class="mid">Over time, no driver's wage could make rides cheaper.</td><td class="no">Today the vehicles, sensors, maps and support staff are expensive. Profit is not yet proven.</td></tr>
+<tr><td><strong>Data and security</strong></td><td class="ok">Every incident is recorded, so the whole fleet learns from it.</td><td class="no">Cars record a lot about passengers and streets. A connected car can in principle be hacked.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The trolley problem is the wrong worry</h2>
+</header>
+
+<p>A favourite debate asks: if a self-driving car must choose between hitting two pedestrians or
+swerving and killing its passenger, what should it do? In 2018 an MIT-led team published the "Moral
+Machine" study in the journal <em>Nature</em>. It collected millions of answers to such dilemmas from
+people around the world and found that preferences differed between cultures.</p>
+
+<p>Engineers mostly agree that <strong>these clean dilemmas almost
+never happen in practice</strong>. Real cars do not know who is in another car or how old a
+pedestrian is. In almost every dangerous moment, the right action is to brake hard and stay in a
+predictable line. The real ethical questions are duller and more important. How safe must a system
+be before it is allowed on public roads: as safe as an average driver, or much safer? And who pays when it fails?</p>
+
+<p>That last question is changing law. With a human driver, the driver is usually liable. With a
+Level 4 car, the obvious candidate is the company that built the system. Germany passed a law in 2021
+allowing Level 4 vehicles in approved areas. The United Kingdom's Automated Vehicles Act 2024 says
+that when a car is driving itself, the authorised company, not the person sitting inside, is
+responsible for how it drives. In the United States rules are set largely state by state, and the
+picture is patchier. The general principle emerging in many places is simple: <strong>whoever is
+doing the driving carries the responsibility, even if that is software.</strong></p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Slow spread, not a sudden switch</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Robotaxis spreading city by city</strong></td><td>As of 2025, Waymo ran driverless paid rides in several US cities, including Phoenix, San Francisco and Los Angeles, with hundreds of thousands of rides a week. Chinese operators ran large services in cities such as Wuhan.</td><td class="ok">Fairly sure: more cities and wider areas each year, mostly in mild climates first. Expansion is limited by cost, maps, regulators and local politics more than by the core technology.</td></tr>
+<tr><td><strong>Driverless freight on motorways</strong></td><td>First commercial driverless lorry routes began in Texas in 2025. Motorways are simpler than city centres.</td><td class="mid">Plausible: a meaningful share of long-haul routes in some countries within a decade, with humans still driving the first and last miles in towns.</td></tr>
+<tr><td><strong>A car you buy that drives anywhere (Level 5)</strong></td><td>No system can drive everywhere a human can, in all weather, without help.</td><td class="no">Speculative: not on any honest near-term schedule. Many experts doubt "anywhere" will ever be the target. Bigger and bigger ODDs are the realistic goal.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The long tail, and what to watch</h2>
+</header>
+
+<p>Self-driving has a long record of missed predictions. Around 2015 several car makers and tech
+companies said fully driverless cars would be common by 2020. They were not. The reason is the
+<strong>long tail</strong>: the endless list of rare events. A mattress falls off a lorry. A flood
+covers lane markings. A child in a dinosaur costume runs across the road on Halloween. Each one is
+rare, but there are so many of them that a car driving millions of miles meets some every day.</p>
+
+<p>The useful signals to watch are concrete. Count <strong>cities and service areas</strong>, not
+announcements. Look for <strong>independent safety data</strong>, not company videos. Watch whether
+services run in snow and heavy rain. And watch the <strong>unit economics</strong>, the cost per mile
+including vehicles, maps, insurance and remote staff. A network that cannot make money will shrink, however
+clever it is. The wider family of machines that act on their own, from drones
+to farm robots, is the subject of <a href="../20-future-tech/04-autonomous-systems.html">Autonomous
+systems</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>An autonomous vehicle runs a loop: <strong>sense, localise, perceive, predict, plan,
+    control</strong>. The SAE levels describe who must watch the road. Level 2 still needs a human,
+    and Level 4 works without one inside a defined area. The ordinary 99 per cent of driving was
+    solved fairly quickly. <strong>The long tail of rare events</strong> is what has taken decades.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>About <strong>1.2 million</strong> road deaths a year worldwide (WHO, 2023 report).</li>
+      <li>2004: <strong>no vehicle finished</strong> the first DARPA Grand Challenge. 2005: five did.</li>
+      <li><strong>Six levels</strong>, 0 to 5. No Level 5 vehicle exists.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Treating a Level 2 system as self-driving. <strong>If the car needs you to watch the road, you
+    are the driver</strong>, legally and practically, however smooth it feels.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a robotaxi that drives safely in Phoenix cannot simply be shipped to Oslo
+    in January? If you can, you understand the operational design domain, maps and the long tail.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>SAE levels</dt><dd>A six-step scale, 0 to 5, describing how much of the driving the system does.</dd>
+    <dt>Operational design domain (ODD)</dt><dd>The roads, speeds, weather and times a system is designed to handle.</dd>
+    <dt>Robotaxi</dt><dd>A driverless taxi owned and run by a company, usually at Level 4.</dd>
+    <dt>Lidar</dt><dd>A sensor that measures distance with laser pulses and builds a 3D picture of points.</dd>
+    <dt>Sensor fusion</dt><dd>Combining several kinds of sensors so each covers the others' weak spots.</dd>
+    <dt>HD map</dt><dd>A detailed 3D map of lanes, kerbs and signs, accurate to centimetres.</dd>
+    <dt>Localisation</dt><dd>Working out exactly where the car is by matching what it sees to the map.</dd>
+    <dt>Prediction</dt><dd>Estimating what each nearby road user is likely to do in the next few seconds.</dd>
+    <dt>End-to-end driving</dt><dd>One large neural network that turns sensor input more or less directly into driving actions.</dd>
+    <dt>Remote assistance</dt><dd>Human operators who give guidance to a confused vehicle from a control centre.</dd>
+    <dt>Long tail</dt><dd>The huge number of individually rare situations that together happen all the time.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Level 2 isn't self-driving. If the car needs you watching the road, you're still the
+    driver."</li>
+    <li>"Normal driving was solved years ago. What takes forever is the long tail of weird situations
+    each car meets only now and then."</li>
+    <li>"Robotaxis work because they stay inside a mapped area they were built for. That's why they
+    spread one city at a time."</li>
+    <li>"The trolley problem is a distraction. The real question is how much safer than humans these
+    cars must be before we allow them."</li>
+    <li>"Driverless cars could empty our car parks or fill our roads. That depends on prices and
+    planning, not on the software."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="14-5g-and-6g.html">5G and 6G</a></h4><p>The mobile networks
+  that connect phones, factories and vehicles: what the "G"s really change, and what is hype.</p></div>
+  <div class="card"><h4>Related · <a href="05-robotics.html">Robotics</a></h4><p>The wider field
+  that self-driving belongs to: machines that sense, decide and move in the physical world, and why
+  that is so much harder than it looks.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

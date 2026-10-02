@@ -1,0 +1,870 @@
+<!doctype html>
+<!--@HEAD-SRC title="RNA" desc="What RNA is, how cells copy, edit and read it, why it may be older than DNA, how it became a medicine, and where RNA science is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RNA</title>
+<meta name="description" content="What RNA is, how cells copy, edit and read it, why it may be older than DNA, how it became a medicine, and where RNA science is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Biology · Topic 03 of 20</p>
+  <h1>RNA. <span class="thin">The working copy that turned out to run the whole workshop.</span></h1>
+  <p class="lede">For decades RNA was treated as a humble go-between: DNA holds the plans, proteins do
+  the work, and RNA carries messages from one to the other. That picture was right but far too small.
+  RNA builds proteins, switches genes off, edits its own messages, and forms the working heart of the
+  machine that makes every protein in every cell. It may even be the molecule life started with. In
+  the 2020s it also became a medicine given to billions of people.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Biology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../27-life.html#c2"><span class="vn">Vol 27 · ch 02</span><b>The code, and why it is the same everywhere</b><em>DNA, the short version</em></a>
+<a class="vol" href="../13-medicine-and-biology.html#m1"><span class="vn">Vol 13 · m1</span><b>mRNA vaccines</b><em>How the vaccines work</em></a>
+<a class="vol" href="04-genetics.html"><span class="vn">Biology · 04</span><b>Genetics</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 13 explains mRNA vaccines step by step (<a href="../13-medicine-and-biology.html#m1">mRNA
+  vaccines</a>), including the fat bubble that delivers them and the 2023 Nobel Prize. Volume 27 covers
+  the DNA code (<a href="../27-life.html#c2">The code, and why it is the same everywhere</a>), and the
+  discovery of DNA's shape is in <a href="../24-discoveries.html#c8">DNA, the shape that explains
+  itself</a>. This file is about RNA itself: its many kinds, how it is made and edited, its role at the
+  origin of life, and RNA medicines beyond vaccines.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>DNA's close cousin, built for action instead of storage</h2>
+  <p class="lede">RNA is a chain of chemical letters, like DNA. Small differences in its chemistry make
+  it short-lived, flexible and able to fold into working shapes. Those differences explain almost
+  everything it does.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The photocopy you are allowed to take out of the library</h2>
+</header>
+
+<p>Imagine a reference library that holds one precious master copy of every recipe and never lends
+it out. If you want to cook, you photocopy the page you need, take the copy to the kitchen, use it,
+and throw it away. DNA is the master copy, kept safely inside the cell's nucleus. <strong>RNA is the
+photocopy: a temporary working copy of one gene, made when it is needed and destroyed
+soon after.</strong></p>
+
+<p>The analogy explains why the cell bothers. Copies can be made in large numbers, so a gene that is
+needed a lot can be read thousands of times at once. Copies can be thrown away quickly, so the cell
+can stop making a protein within minutes or hours by stopping the copying. And the master copy stays
+protected from wear and damage. The flow of information from DNA to RNA to protein was called the
+<strong>"central dogma"</strong> by Francis Crick in 1958. It remains the main route, though RNA turned
+out to do much more than carry messages.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Three small differences from DNA</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>DNA</th><th>RNA</th><th>What the difference does</th></tr></thead>
+<tbody>
+<tr><td><strong>Sugar</strong></td><td>Deoxyribose</td><td>Ribose, with one extra oxygen–hydrogen group</td><td>The extra group makes RNA chemically less stable, so it breaks down more easily</td></tr>
+<tr><td><strong>Letters</strong></td><td>A, C, G, T</td><td>A, C, G, U (uracil replaces thymine)</td><td>U pairs with A, just as T does</td></tr>
+<tr><td><strong>Shape</strong></td><td>Two strands in a stable double helix</td><td>Usually one strand, which folds back on itself</td><td>Folding lets RNA form complex 3D shapes, some of which can do chemistry</td></tr>
+<tr><td><strong>Lifetime in the cell</strong></td><td>A lifetime</td><td>Minutes to days</td><td>Messages can be switched off quickly</td></tr>
+</tbody></table></div>
+
+<p>The key difference is the last one in the shape row. A single strand of RNA can fold back and pair
+with itself, making hairpins, loops and knots. <strong>Shape is what lets a molecule do work.</strong>
+DNA's neat double helix is excellent for storing information and poor at doing anything else. RNA can
+do both, a little less well than each specialist.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>A family of RNAs, not one molecule</h2>
+</header>
+
+<p>"RNA" is a family name. Here are the main members.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Kind</th><th>Job</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td><strong>Messenger RNA (mRNA)</strong></td><td>Carries one gene's instructions from DNA to the ribosome</td><td>The kind used in mRNA vaccines</td></tr>
+<tr><td><strong>Ribosomal RNA (rRNA)</strong></td><td>Forms the core of the ribosome, the protein-building machine</td><td>By far the most abundant RNA in a cell</td></tr>
+<tr><td><strong>Transfer RNA (tRNA)</strong></td><td>Brings the right amino acid to the ribosome for each three-letter word</td><td>A small L-shaped adaptor, typically under 100 letters</td></tr>
+<tr><td><strong>MicroRNA (miRNA)</strong></td><td>Short pieces that turn down specific messages</td><td>A major way cells fine-tune genes</td></tr>
+<tr><td><strong>Long non-coding RNA</strong></td><td>Varied regulatory roles, many still unclear</td><td>How many of them truly matter is debated</td></tr>
+</tbody></table></div>
+
+<p>Only messenger RNA carries a recipe for a protein. The others are <strong>non-coding</strong>: they
+are the finished product themselves. That surprised biologists. Only about 1–2% of human DNA directly
+codes for proteins, yet a much larger share is copied into RNA at some point. How much of that RNA has
+a real job, and how much is background noise, is one of the open arguments in the field.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Copy, edit, read, and then destroy</h2>
+  <p class="lede">The life of a messenger RNA has four stages. Each one is a point where the cell can
+  control how much protein it makes.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Transcription: making the copy</h2>
+</header>
+
+<p>Copying DNA into RNA is called <strong>transcription</strong>, like transcribing a text into another
+script. An enzyme called <strong>RNA polymerase</strong> sits on the DNA at the start of a gene, unzips a
+short stretch, and builds a matching RNA strand letter by letter, using the pairing rules: opposite a G
+it places a C, opposite an A it places a U. Behind it, the DNA zips back up.</p>
+
+<p>The cell decides which genes to copy using proteins called <strong>transcription factors</strong>,
+which bind to control regions near genes and either invite or block the polymerase. This is why a liver
+cell and a nerve cell can carry identical DNA and look completely different: they copy different
+genes. The speed is real but not instant. The largest human gene, for the muscle protein dystrophin, is
+so long that copying it once takes many hours.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Editing: cutting out the pieces nobody reads</h2>
+</header>
+
+<p>In the late 1970s researchers found something nobody expected. In animals and plants, most genes are
+broken up. The useful parts, called <strong>exons</strong>, are separated by long stretches called
+<strong>introns</strong> that are copied into the first RNA and then cut out. A large molecular machine
+called the <strong>spliceosome</strong> removes the introns and joins the exons together, a process called
+<strong>splicing</strong>. Phillip Sharp and Richard Roberts shared the 1993 Nobel Prize for discovering
+split genes.</p>
+
+<p>Splicing is not just tidying. The same gene can be spliced in different ways, keeping some exons in
+one cell and others in another, a process called <strong>alternative splicing</strong>. Most human genes
+with several exons are spliced in more than one way. <strong>That is part of how about 20,000 human
+genes can produce a much larger variety of proteins.</strong></p>
+
+<p>Before the message leaves the nucleus, the cell adds a protective chemical cap to its front end and
+a long tail of A letters to its back end. Both help the message survive and be read. Then it is
+exported through pores in the nuclear membrane.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Translation: reading three letters at a time</h2>
+</header>
+
+<p>Turning the RNA message into a protein is called <strong>translation</strong>, because it changes
+languages, from nucleotide letters to amino acids. The ribosome clamps onto the message and moves
+along it three letters at a time. Each three-letter word is called a <strong>codon</strong>. With four
+letters there are 64 possible codons. Sixty-one name one of the 20 amino acids, and three mean
+"stop". The codon AUG means "start here" as well as naming the amino acid methionine.</p>
+
+<div class="sheet">
+  <div class="cap">From gene to protein, one short stretch</div>
+<pre>
+  DNA (template)   T A C | A A A | C C G | A T T
+                     |       |       |       |      transcription
+  mRNA             A U G | U U U | G G C | U A A
+                     |       |       |       |      translation (each tRNA brings one amino acid)
+  protein         Met  -  Phe  -  Gly  -  STOP
+
+  AUG = start + methionine     UUU = phenylalanine     GGC = glycine     UAA = stop
+</pre>
+</div>
+
+<p>Who reads the words? <strong>Transfer RNAs</strong>. Each tRNA has, on one end, three letters that
+pair with one codon, and on the other end the matching amino acid. It is a physical dictionary entry.
+The ribosome lines up the tRNAs one after another and joins their amino acids into a chain, which then
+folds into a working protein.</p>
+
+<p>The first word of the code was cracked in 1961. Marshall Nirenberg and Heinrich Matthaei made an
+artificial RNA containing only U letters and added it to an extract of bacterial cells. The extract
+made a protein containing only phenylalanine. So UUU meant phenylalanine. Within about five years, the
+whole table was worked out.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The surprise at the centre: the ribosome is mostly RNA</h2>
+</header>
+
+<p>Biologists long assumed that only proteins could act as <strong>enzymes</strong>, molecules that speed up
+chemical reactions. In the early 1980s Thomas Cech and Sidney Altman each found RNA molecules that do
+exactly that, cutting and joining RNA without any protein. Such RNAs are called <strong>ribozymes</strong>,
+and the two shared the 1989 Nobel Prize in Chemistry.</p>
+
+<p>The bigger shock came in 2000, when the first detailed atomic structures of the ribosome were
+published. The spot where amino acids are actually joined into a chain is made of RNA, not protein. The
+proteins sit mostly around the outside like scaffolding. Venkatraman Ramakrishnan, Thomas Steitz and
+Ada Yonath shared the 2009 Nobel Prize in Chemistry for this work. <strong>The most important machine
+in every living cell is, at its working heart, an RNA enzyme.</strong> That fact is a strong clue about
+life's history, as Chapter 09 explains.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Turning messages down: RNA interference and microRNAs</h2>
+</header>
+
+<p>In 1998 Andrew Fire and Craig Mello injected double-stranded RNA into worms and found that it
+silenced the matching gene far more powerfully than expected. Cells, it turned out, have machinery
+that chops double-stranded RNA into short pieces and uses them as search guides to find and destroy
+any message with the matching sequence. This is <strong>RNA interference</strong>. It probably began as a
+defence against viruses, many of which produce double-stranded RNA. Fire and Mello received the 2006
+Nobel Prize.</p>
+
+<p>Cells use the same machinery for their own purposes. In 1993 Victor Ambros and Gary Ruvkun, working
+on the same kind of worm, found a tiny RNA that controlled the timing of development by binding to
+another gene's message and turning it down. These <strong>microRNAs</strong> were at first thought to be a
+worm curiosity. They turned out to exist across animals and plants, and humans have hundreds of them.
+Each can dampen many target messages. Ambros and Ruvkun shared the 2024 Nobel Prize.
+<strong>Gene control does not stop when a gene is copied; a whole layer of regulation acts on the RNA
+afterwards.</strong></p>
+
+<p>Finally, every message is destroyed. Enzymes chew it from its ends once the cap or tail wear away.
+That is not a flaw. A message that lasts minutes lets the cell react quickly to changes.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>The origin of life, the fastest viruses, and a new class of medicine</h2>
+  <p class="lede">RNA matters in three very different places: in the deep past, in the diseases that
+  change fastest, and in the pharmacy.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The RNA world: which came first?</h2>
+</header>
+
+<p>Life today has a chicken-and-egg problem. DNA holds the instructions for proteins, but proteins are
+needed to copy DNA. Neither can work without the other, so how did either start? RNA offers a way out,
+because it can both carry information and act as an enzyme. The <strong>RNA world hypothesis</strong>,
+named by the biologist Walter Gilbert in 1986, proposes that early life used RNA for both jobs, and
+that DNA (a more stable store) and proteins (better workers) took over later.</p>
+
+<p>The evidence is circumstantial but consistent. The ribosome's working core is RNA. Several of the
+small helper molecules that enzymes need, including the energy molecule ATP, are built from RNA letters.
+And chemists have made RNA molecules in the lab that can copy short pieces of RNA. <strong>The
+hypothesis is widely favoured but not proven</strong>, and it has real difficulties. RNA is fragile, and
+how its letters could have formed and joined on the early Earth is still argued over. Other researchers
+favour scenarios in which metabolism or simpler molecules came first. Treat it as the leading idea, not
+settled history.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>RNA viruses: why the flu changes every year</h2>
+</header>
+
+<p>Many of the viruses that trouble humans most keep their genes in RNA instead of DNA: influenza,
+measles, hepatitis C, HIV and the coronaviruses, including the one that causes COVID-19. When these
+viruses copy their RNA, their copying enzymes usually lack the careful proofreading that cells use for
+DNA. <strong>So they make many more mistakes per copy, and that mutation rate is why they change so
+fast.</strong> It is why a new flu vaccine is needed most years. Coronaviruses are an interesting
+partial exception: they have a proofreading enzyme, which helps them keep their unusually long RNA
+genome intact. They still changed quickly during the pandemic because there were so many infections.</p>
+
+<p>HIV adds a twist. It is a <strong>retrovirus</strong>: it carries an enzyme, <strong>reverse transcriptase</strong>,
+that copies its RNA backwards into DNA, which then inserts into the infected cell's own DNA. That is why
+HIV infection cannot simply be cleared, and why many HIV drugs target that one enzyme. The same enzyme,
+borrowed from viruses, is a basic laboratory tool. The "PCR test" for COVID-19 first used reverse
+transcriptase to turn the virus's RNA into DNA, which could then be copied and detected. More on these
+viruses is in <a href="09-viruses.html">Viruses</a>.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>RNA as medicine, beyond vaccines</h2>
+</header>
+
+<p>Volume 13 explains how mRNA vaccines work. They are the best known RNA medicine, but not the only
+kind. RNA drugs share one big idea. <strong>If you know the letters of the gene behind a disease, you
+can design an RNA drug for it on a computer</strong>, by writing the matching sequence. Traditional
+drug discovery screens huge numbers of chemicals hoping one fits a protein. RNA drugs work by sequence,
+and that is much faster to design.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Silencing a harmful gene</h4><p>Short interfering RNAs (siRNAs) use the
+  cell's RNA interference machinery to destroy a chosen message. The first such drug, patisiran, was
+  approved in the US in 2018 for a rare inherited nerve disease caused by a faulty liver protein. Several
+  more have followed, including one that lowers "bad" LDL cholesterol with an injection twice a year.</p></div>
+  <div class="card"><h4>Fixing how a message is spliced</h4><p>Antisense drugs are short, chemically
+  modified strands that stick to a chosen RNA. Nusinersen, approved in 2016 for spinal muscular atrophy,
+  a severe inherited disease of the nerves that control muscles, changes how a backup gene is spliced so
+  that it makes more of the missing protein. It was a landmark for a disease that often killed infants.</p></div>
+</div>
+
+<div class="warn">
+  <span class="tag">Health note</span>
+  <p>This is general education about how RNA medicines work, not medical advice. Whether a treatment
+  suits any person is a question for a doctor.</p>
+</div>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>The same fragility, a strength in cells and a headache in medicine</h2>
+  <p class="lede">RNA's properties cut both ways. What makes it a good messenger makes it a difficult
+  drug.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>RNA's strengths and weaknesses, side by side</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Property</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Short-lived</strong></td><td class="ok">In cells: fast control. As a drug: an mRNA vaccine is gone within days and leaves nothing permanent.</td><td class="no">As a drug: easily destroyed in the body and in storage, so some products need deep freezing.</td></tr>
+<tr><td><strong>Designed by sequence</strong></td><td class="ok">A new vaccine or silencing drug can be designed in days once a sequence is known.</td><td class="no">Designing is easy; testing safety still takes years, and manufacturing at scale is hard.</td></tr>
+<tr><td><strong>Large and charged</strong></td><td class="ok">Highly specific: it matches one sequence.</td><td class="no">It cannot slip into cells on its own, so it needs a delivery vehicle. Most RNA drugs so far reach the liver far more easily than other organs.</td></tr>
+<tr><td><strong>Noticed by the immune system</strong></td><td class="ok">Useful in vaccines, where a mild alarm helps.</td><td class="no">Unmodified RNA triggers inflammation, which is why modified letters were needed.</td></tr>
+<tr><td><strong>Copied without proofreading (in many viruses)</strong></td><td class="ok">For the virus, fast adaptation.</td><td class="no">For us, vaccines and drugs must be updated.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>The cost and trust problem</h2>
+</header>
+
+<p>The technical limits are being worked on. Two other problems are harder. The first is cost. Many RNA
+drugs for rare diseases are extremely expensive, because they serve few patients and took years to
+develop. <strong>A drug that works but that health systems cannot afford helps far fewer people than
+its science deserves.</strong></p>
+
+<p>The second is trust. mRNA vaccines arrived at speed during a frightening pandemic, and they became a
+political symbol in several countries. The scientific consensus is that their benefits greatly outweighed
+their risks for most groups, while rare side effects, such as heart inflammation mostly in young men, were
+real. Public confidence fell in some places anyway, and some governments have since reduced funding for
+mRNA vaccine research while others increased it. How that plays out will shape the technology as much as
+any laboratory result.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Cancer vaccines, drugs beyond the liver, and the origin of life</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Five directions, five levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>More RNA silencing drugs</strong></td><td>Several are approved, mostly acting on genes active in the liver. Long-lasting versions need only a few injections a year.</td><td class="ok">Fairly sure: more approvals, including for common conditions such as high cholesterol.</td></tr>
+<tr><td><strong>Personalised cancer vaccines</strong></td><td>mRNA vaccines written for the mutations in one patient's tumour, given alongside immune drugs, have shown promising results in trials, for example in melanoma.</td><td class="mid">Plausible: approval for some cancers if large trials confirm the benefit. Not a cure for cancer in general.</td></tr>
+<tr><td><strong>Self-amplifying RNA</strong></td><td>RNA that copies itself inside the cell, so a much smaller dose is needed. A COVID-19 vaccine of this type was approved in Japan in 2023.</td><td class="mid">Plausible: lower doses and cheaper vaccines, if safety holds up in wider use.</td></tr>
+<tr><td><strong>RNA drugs beyond the liver</strong></td><td>New delivery methods aim at muscle, the brain, the lungs and immune cells.</td><td class="mid">Plausible but slow: delivery is the main bottleneck, and each organ is a new problem.</td></tr>
+<tr><td><strong>Showing how life began</strong></td><td>Labs are trying to make RNA that can copy itself fully, and to show how its letters could form on the early Earth.</td><td class="no">Speculative: progress is steady, but a full demonstration of the RNA world may never come, or may support a different story.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>From messenger to platform</h2>
+</header>
+
+<p>The deeper change is in how people think about RNA. For most of the twentieth century it was a
+middle step in a diagram. Now it is a <strong>platform</strong>: a way to deliver an instruction to the
+body by writing a sequence. A vaccine teaches the immune system a shape. A silencing drug removes a
+harmful protein. A splicing drug repairs a broken message. Some of the newest gene-editing tools also
+arrive in the cell as RNA, because RNA does its job and then disappears. That links this topic to
+<a href="16-genetic-engineering.html">Genetic engineering</a> and to
+<a href="../13-medicine-and-biology.html#m3">CRISPR</a>.</p>
+
+<p>The honest summary is that <strong>RNA medicine is real, proven and still early</strong>. The
+design side moves fast. Delivery, cost, manufacturing and public trust move slowly. Expect steady
+progress rather than a revolution every year, and treat any headline claiming RNA will cure "all
+cancers" or "all genetic diseases" with care.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>RNA is a single-stranded, short-lived cousin of DNA. Cells <strong>transcribe</strong> genes into
+    RNA, <strong>splice</strong> it, <strong>translate</strong> it into protein at the ribosome, and then
+    destroy it. Because RNA can fold into working shapes, it also <strong>catalyses reactions</strong> and
+    <strong>regulates genes</strong>, which is why it may have come before DNA.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li><strong>64</strong> codons: 61 for the 20 amino acids, 3 for "stop".</li>
+      <li>Only about <strong>1–2%</strong> of human DNA codes for proteins.</li>
+      <li>About <strong>20,000</strong> human genes, made into far more protein variants through splicing.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking RNA is only a messenger. <strong>The ribosome's working core is RNA</strong>, and many
+    RNAs never become protein at all: they are the finished, working product.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why flu vaccines need updating most years, using what you know about how RNA
+    viruses copy themselves? If so, you understand mutation and proofreading.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>RNA</dt><dd>Ribonucleic acid: a single-stranded chain of the letters A, C, G and U.</dd>
+    <dt>mRNA</dt><dd>Messenger RNA: a temporary working copy of one gene.</dd>
+    <dt>tRNA</dt><dd>Transfer RNA: an adaptor that brings one amino acid to match one codon.</dd>
+    <dt>rRNA</dt><dd>Ribosomal RNA: the RNA that forms the core of the ribosome.</dd>
+    <dt>Transcription</dt><dd>Copying a gene from DNA into RNA.</dd>
+    <dt>Translation</dt><dd>Reading an mRNA to build a protein.</dd>
+    <dt>Codon</dt><dd>A three-letter word in mRNA that names one amino acid or "stop".</dd>
+    <dt>Splicing</dt><dd>Cutting out introns and joining exons in a new RNA.</dd>
+    <dt>Ribozyme</dt><dd>An RNA molecule that acts as an enzyme.</dd>
+    <dt>RNA interference</dt><dd>The cell's system for destroying messages that match a short RNA guide.</dd>
+    <dt>MicroRNA</dt><dd>A tiny natural RNA that turns down target messages.</dd>
+    <dt>Reverse transcriptase</dt><dd>An enzyme that copies RNA back into DNA, used by HIV and in labs.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"DNA is the master copy that never leaves the library. RNA is the photocopy you take to the
+    kitchen."</li>
+    <li>"The machine that builds every protein in your body is, at its core, made of RNA, not
+    protein."</li>
+    <li>"Many RNA viruses copy themselves without proofreading, which is why flu vaccines change most
+    years."</li>
+    <li>"An RNA drug is designed by writing a sequence, which is why the design is fast and the testing
+    is still slow."</li>
+    <li>"The RNA world is the leading theory of how life started, but it is a theory, not settled
+    history."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="04-genetics.html">Genetics</a></h4><p>How traits are inherited,
+  from Mendel's peas to genome-wide studies, and why most traits depend on many genes and the
+  environment.</p></div>
+  <div class="card"><h4>Related · <a href="09-viruses.html">Viruses</a></h4><p>The RNA and DNA parasites
+  that hijack cells, how they spread, and how we fight them.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

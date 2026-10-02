@@ -1,0 +1,876 @@
+<!doctype html>
+<!--@HEAD-SRC title="Blockchain" desc="How a blockchain lets strangers keep one shared record without a central authority: hashes, blocks, mining and staking, keys and smart contracts, what it is good for, what went wrong, and what comes next."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blockchain</title>
+<meta name="description" content="How a blockchain lets strangers keep one shared record without a central authority: hashes, blocks, mining and staking, keys and smart contracts, what it is good for, what went wrong, and what comes next.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Technology · Topic 09 of 20</p>
+  <h1>Blockchain. <span class="thin">A shared notebook that nobody owns and nobody can quietly rewrite.</span></h1>
+  <p class="lede">Almost every record that matters, from your bank balance to who owns your flat, is
+  kept by someone you trust to keep it honestly: a bank, a registry, a government. A blockchain is
+  an attempt to keep such a record without any trusted keeper at all. Thousands of computers hold
+  copies, follow the same rules, and agree on every change. The idea was invented to run a digital
+  currency, Bitcoin. Since then it has been sold as the answer to almost everything. The truth is
+  narrower and more interesting.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No maths or finance assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Technology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../10-finance-investing/16-cryptocurrencies.html"><span class="vn">Finance · 16</span><b>Cryptocurrencies</b><em>As an asset</em></a>
+<a class="vol" href="../15-banking-fintech/14-digital-currencies.html"><span class="vn">Banking · 14</span><b>Digital currencies</b><em>As money</em></a>
+<a class="vol" href="10-internet-of-things.html"><span class="vn">Technology · 10</span><b>Internet of Things</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first full treatment of blockchain technology. The nearest chapters are
+  Volume 14 on <a href="../14-computing-and-ai.html#c5">encryption</a>, which blockchains depend on,
+  and on <a href="../14-computing-and-ai.html#c7">digital payments</a>, and Volume 38 on
+  <a href="../38-money.html#c6">bubbles</a>. Three planned files take the money side:
+  <a href="../10-finance-investing/16-cryptocurrencies.html">Cryptocurrencies</a> as an investment,
+  <a href="../15-banking-fintech/14-digital-currencies.html">Digital currencies</a> as money, and
+  <a href="../15-banking-fintech/15-central-bank-digital-currencies.html">Central bank digital
+  currencies</a>. This file is about the machine itself.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A record kept by everyone, so no one has to be trusted</h2>
+  <p class="lede">A blockchain is a type of database. What makes it unusual is not what it stores
+  but who keeps it, and how they agree.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A paper signed by nobody, and two very expensive pizzas</h2>
+</header>
+
+<p>On 31 October 2008, a few weeks after the collapse of Lehman Brothers, someone using the name
+<strong>Satoshi Nakamoto</strong> posted a nine-page paper to an online mailing list about
+cryptography. It was called "Bitcoin: A Peer-to-Peer Electronic Cash System". It described money
+that could be sent directly between two people over the internet, with no bank in the middle. In
+January 2009 the network started running. Hidden in its very first block was a newspaper headline
+from that day's London <em>Times</em> about a second bank bailout. Nobody has ever proved who
+Nakamoto is.</p>
+
+<p>For more than a year, bitcoins had almost no value. On 22 May 2010 a programmer in Florida,
+Laszlo Hanyecz, paid 10,000 bitcoins for two pizzas, one of the first purchases of a real good.
+At later prices, those coins were worth hundreds of millions of dollars. Fans still celebrate the
+date as "Bitcoin Pizza Day".</p>
+
+<p>The story shows the two faces of this topic. One is a clever piece of engineering. The other is
+a market of speculation, fortunes and losses. <strong>The engineering and the speculation are
+different subjects</strong>, and much confusion comes from mixing them. This file is about the
+engineering.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The problem it solves: copying money</h2>
+</header>
+
+<p>Digital things are easy to copy. You can send the same photo to a hundred people and still have
+it. That is fine for photos and fatal for money. If a digital coin is just a file, what stops you
+spending it twice? This is called the <strong>double-spending problem</strong>.</p>
+
+<p>The usual answer is a trusted middleman. Your bank keeps a ledger, a list of who owns what. When
+you pay, the bank subtracts from your line and adds to someone else's. Because there is only one
+official ledger, you cannot spend the same money twice. The cost is that <strong>you must trust the
+bank</strong>: to be honest, to stay open, and to let you use your money.</p>
+
+<p>Nakamoto's idea was to replace the single keeper with a crowd. Imagine a village where every
+house keeps an identical notebook of every payment ever made. When someone pays, they announce it
+to the village, and everyone writes it down. To cheat, you would need to change most of the
+notebooks at once. <strong>A blockchain is that notebook, kept by thousands of computers around the
+world, with mathematics making forgery practically impossible.</strong></p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Sorting out the words</h2>
+</header>
+
+<p>Several terms are used as if they were the same. They are not.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Term</th><th>What it means</th></tr></thead>
+<tbody>
+<tr><td><strong>Blockchain</strong></td><td>The data structure: records grouped into blocks, each linked to the one before</td></tr>
+<tr><td><strong>Distributed ledger</strong></td><td>The broader idea of a record copied across many computers; a blockchain is the best-known kind</td></tr>
+<tr><td><strong>Cryptocurrency</strong></td><td>A digital currency that runs on a blockchain, such as bitcoin or ether</td></tr>
+<tr><td><strong>Public (permissionless) blockchain</strong></td><td>Anyone can read it, use it or help run it. Bitcoin and Ethereum</td></tr>
+<tr><td><strong>Private (permissioned) blockchain</strong></td><td>Only approved members can take part, usually companies in a consortium</td></tr>
+<tr><td><strong>Token</strong></td><td>Any digital item recorded on a blockchain: a coin, a share, a ticket, a game item</td></tr>
+</tbody></table></div>
+
+<p>The parts were not all new. Two researchers, Stuart Haber and W. Scott Stornetta, had described
+a way to chain time-stamped documents with cryptography in 1991, and Nakamoto's paper cites them.
+<strong>What was new was the way to make strangers agree without a leader</strong>, which the next
+part explains.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Fingerprints, chains and a costly race to write the next page</h2>
+  <p class="lede">Four ingredients make a blockchain: digital fingerprints, blocks chained by those
+  fingerprints, a rule for agreeing on the next block, and keys that prove ownership.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Hashes: a fingerprint for any piece of data</h2>
+</header>
+
+<p>A <strong>hash function</strong> takes any data, from one word to a whole film, and turns it into
+a short, fixed-length string of characters called a hash. Bitcoin uses one called SHA-256. A hash
+behaves like a fingerprint. The same input always gives the same hash. But change a single comma in
+a long document, and the hash changes completely and unpredictably.</p>
+
+<p>Two more properties matter. You cannot work backwards from a hash to the original data. And it
+is practically impossible to find two different inputs with the same hash. So a hash lets you
+<strong>check that data has not been changed without storing the data twice</strong>. If the
+fingerprint still matches, the document is untouched.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Blocks and the chain</h2>
+</header>
+
+<p>Transactions are collected into batches called <strong>blocks</strong>. Each block contains its
+transactions plus one special item: the hash of the previous block. That is the "chain".</p>
+
+<div class="sheet">
+  <div class="cap">Why you cannot quietly edit the past</div>
+<pre>
+  ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+  │ Block 100   │     │ Block 101   │     │ Block 102   │
+  │ txs: A→B 2  │     │ txs: C→D 5  │     │ txs: B→E 1  │
+  │ prev: 9f3a… │◄────│ prev: 7c21… │◄────│ prev: e04b… │
+  │ hash: 7c21… │     │ hash: e04b… │     │ hash: 51d8… │
+  └─────────────┘     └─────────────┘     └─────────────┘
+  change "A→B 2" to "A→B 20" in block 100
+    ⇒ block 100's hash changes
+    ⇒ block 101's "prev" no longer matches ⇒ 101 must be redone
+    ⇒ and 102, and every block after it
+</pre>
+</div>
+
+<p>This is why a blockchain is called <strong>tamper-evident</strong>. Changing one old record
+breaks the link to every later block. Anyone checking their own copy would see the mismatch at
+once. To get away with it, a cheater would have to rebuild every later block and convince the
+network to accept the new version. The next chapter explains why that is made very expensive.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Proof of work: a lottery you enter with electricity</h2>
+</header>
+
+<p>Who gets to write the next block? If anyone could, cheaters would flood the network with fake
+versions. Bitcoin's answer is <strong>proof of work</strong>. Computers called
+<strong>miners</strong> compete to solve a puzzle: find a number that, when added to the block and
+hashed, gives a hash starting with a long run of zeros. There is no shortcut. You can only guess,
+billions of times a second, and check.</p>
+
+<p>The first miner to find a valid answer broadcasts the block. Others check it, which is easy, and
+add it to their copy. The winner is paid in newly created bitcoins plus fees. The network adjusts
+the difficulty so that, on average, a new block is found about every <strong>ten minutes</strong>,
+however many miners join.</p>
+
+<p>The genius is economic. <strong>Rewriting history would mean redoing all that work faster than
+the rest of the world combined</strong>, which would require controlling more than half of the
+network's computing power. This is called a 51 per cent attack. On Bitcoin it would cost a vast
+amount in machines and electricity. On small blockchains with few miners, such attacks have
+actually happened.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Proof of stake: a deposit instead of a race</h2>
+</header>
+
+<p>Proof of work is secure but uses enormous amounts of electricity, by design. The main
+alternative is <strong>proof of stake</strong>. Instead of burning energy, participants called
+<strong>validators</strong> lock up some of their own coins as a deposit. The network picks
+validators to propose and confirm blocks, roughly in proportion to their deposits. If a validator
+cheats, for example by approving two conflicting blocks, part of its deposit is destroyed, which is
+called <strong>slashing</strong>.</p>
+
+<p>Ethereum, the second-largest blockchain, switched from proof of work to proof of stake in
+September 2022, in an event called "the Merge". Its energy use fell by more than 99 per cent. Critics
+argue that proof of stake favours those who already hold the most coins. Supporters reply that
+proof of work favours those who can afford the most machines and cheapest power. <strong>Both
+systems replace trust in a person with a cost for cheating</strong>; they differ in what that cost
+is.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Keys and wallets: ownership is a secret number</h2>
+</header>
+
+<p>On a blockchain there are no names or accounts in the bank sense. Ownership is proved with
+<strong>public-key cryptography</strong>, the same family of mathematics described in
+<a href="../14-computing-and-ai.html#c5">Vol 14, Encryption</a>. You have two linked numbers. The
+<strong>public key</strong> works like an address that others can send to. The <strong>private
+key</strong> is a secret that lets you sign transactions from that address. Anyone can check the
+signature; only the holder of the private key can make it.</p>
+
+<p>A <strong>wallet</strong> is simply software or a small device that stores your private keys.
+This has a harsh consequence. <strong>Whoever has the private key controls the coins, and if you
+lose it, there is no one to call.</strong> No bank can reset your password. A large number of
+bitcoins are believed to be permanently lost this way. Many people therefore leave their coins with
+an exchange, which holds the keys for them, and that brings back the trusted middleman the system
+was designed to remove.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Smart contracts: programs that run on the chain</h2>
+</header>
+
+<p>Bitcoin records payments. In 2015 a network called Ethereum, proposed by the programmer Vitalik
+Buterin, went further: it lets people store small programs on the blockchain, called
+<strong>smart contracts</strong>. A smart contract runs exactly as written whenever someone triggers
+it. For example: "if two parties both deposit money, and a third party confirms the delivery,
+release the money to the seller". Nobody can stop or change it once it is running, unless its code
+allows it.</p>
+
+<p>That strength is also the danger. In 2016 an investment fund built as a smart contract, called
+The DAO, held tens of millions of dollars. An attacker found a flaw in its code and drained a large
+share. The Ethereum community decided to rewrite history to return the funds, which split the
+network into two: Ethereum and Ethereum Classic. <strong>Code that cannot be changed also cannot be
+fixed.</strong> And smart contracts cannot see the outside world on their own; they rely on data
+feeds called <strong>oracles</strong>, which reintroduce someone you have to trust.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>A new kind of trust, and a long list of disappointments</h2>
+  <p class="lede">Blockchains have produced a trillion-dollar asset class and real tools for some
+  people. They have also produced bubbles, frauds and many abandoned projects.</p>
+</header>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>What it is actually used for</h2>
+</header>
+
+<p><strong>Cryptocurrencies as assets.</strong> By far the biggest use. Bitcoin's total value has
+at times exceeded a trillion US dollars. Most of it is held as a speculative investment or a
+claimed "digital gold", rather than spent. That side is covered in
+<a href="../10-finance-investing/16-cryptocurrencies.html">Cryptocurrencies</a>.</p>
+
+<p><strong>Stablecoins.</strong> Tokens designed to stay worth one US dollar, usually backed by cash
+and short-term government bonds held by a company. They have become a major way of moving dollars
+across borders quickly, especially in countries with unstable currencies. See
+<a href="../15-banking-fintech/14-digital-currencies.html">Digital currencies</a>.</p>
+
+<p><strong>Decentralised finance (DeFi)</strong> uses smart contracts to lend, borrow and trade
+without a bank. <strong>NFTs</strong> (non-fungible tokens) record ownership of a unique digital
+item. In March 2021 an NFT of a digital collage by the artist Beeple sold at Christie's for about
+69 million dollars; the wider NFT market then fell sharply in 2022. <strong>Business uses</strong>,
+such as tracking goods along supply chains, were widely tested. Many were quietly dropped. TradeLens,
+a shipping platform from IBM and the shipping company Maersk, was closed after attracting too few
+participants. In practice, <strong>the most lasting uses have been those where moving value between
+strangers without a middleman is the whole point</strong>.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Where it went wrong: the trusted middlemen came back</h2>
+</header>
+
+<p>In November 2022 FTX, one of the world's largest cryptocurrency exchanges, collapsed within days.
+Customers' deposits had been secretly used by a linked trading firm. Its founder, Sam Bankman-Fried,
+was convicted of fraud in 2023. Years earlier, in 2014, the Tokyo exchange Mt. Gox had failed after
+losing a huge number of customers' bitcoins.</p>
+
+<p>The lesson is not that the Bitcoin blockchain was broken. In both cases it kept working
+perfectly. <strong>The failures happened at the centralised edges</strong>: companies holding
+other people's keys, with weak oversight. Most people find managing their own keys too risky or
+inconvenient, so they hand them to firms, and those firms then need exactly the regulation and
+audits that banks have. Scams, hacks of poorly written smart contracts and "pump-and-dump" tokens
+have cost ordinary users many billions of dollars. Volume 38's chapter on
+<a href="../38-money.html#c6">bubbles</a> describes the pattern of the boom-and-bust cycles.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Trust without a middleman, paid for in speed and simplicity</h2>
+  <p class="lede">The fair test is not "is a blockchain good?" but "is it better than an ordinary
+  database run by someone we already trust?"</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Blockchain against an ordinary database</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Question</th><th>Public blockchain</th><th>Ordinary database (a bank, a registry)</th></tr></thead>
+<tbody>
+<tr><td><strong>Who must you trust?</strong></td><td class="ok">No single party; the rules and the majority of participants</td><td class="mid">The organisation that runs it</td></tr>
+<tr><td><strong>Can records be secretly changed?</strong></td><td class="ok">Practically no, once well confirmed</td><td class="mid">Yes, by insiders, though audits and law deter it</td></tr>
+<tr><td><strong>Can mistakes be reversed?</strong></td><td class="no">Usually not. A wrong or stolen payment is gone</td><td class="ok">Yes. Banks reverse fraud and errors</td></tr>
+<tr><td><strong>Speed and capacity</strong></td><td class="no">Bitcoin handles only a handful of payments per second</td><td class="ok">Card networks handle thousands per second</td></tr>
+<tr><td><strong>Energy and cost</strong></td><td class="no">High for proof of work; lower for proof of stake</td><td class="ok">Low</td></tr>
+<tr><td><strong>Privacy</strong></td><td class="mid">Pseudonymous: names are hidden but every payment is public forever</td><td class="mid">Private, but visible to the operator and authorities</td></tr>
+<tr><td><strong>Censorship resistance</strong></td><td class="ok">Hard for any one government or company to block a payment</td><td class="no">Accounts can be frozen; this protects against crime and also enables control</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>The trilemma and the energy bill</h2>
+</header>
+
+<p>Engineers speak of a <strong>blockchain trilemma</strong>: it is hard to be fully decentralised,
+fully secure and fast at the same time. Bitcoin chose security and decentralisation, and pays with
+speed. One response is <strong>layer 2</strong> systems built on top. The Lightning Network, for
+example, lets two people make many small payments between themselves off the main chain and record
+only the final balance on it, like running a bar tab and paying once.</p>
+
+<p>The energy question is real. Estimates from researchers at the University of Cambridge have put
+Bitcoin's yearly electricity use in the same range as that of a medium-sized country. Supporters
+note that some mining uses surplus renewable power or gas that would otherwise be burned off.
+Critics reply that the energy is the security mechanism, so it cannot be made efficient without
+changing the system. <strong>Whether the cost is worth it depends on how much you value a money
+that no government controls</strong>, which is a political judgement more than a technical one.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Quieter, more regulated, and absorbed into finance</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Regulated stablecoins and crypto firms</strong></td><td>The EU's MiCA rules apply since 2024; the US passed a federal stablecoin law in 2025; others are following</td><td class="ok">Fairly sure: crypto becomes a regulated part of finance, with licensed issuers and exchanges</td></tr>
+<tr><td><strong>Tokenised traditional assets</strong></td><td>Large asset managers have issued tokenised bond and money-market funds</td><td class="mid">Plausible: faster settlement for some securities; scale is uncertain</td></tr>
+<tr><td><strong>Quantum-safe signatures</strong></td><td>Future quantum computers could break today's signature schemes</td><td class="mid">Plausible and necessary: blockchains will need to migrate to new cryptography, which is hard to coordinate without a leader</td></tr>
+<tr><td><strong>Blockchains replacing banks or registries widely</strong></td><td>Many pilots, few large-scale replacements</td><td class="no">Speculative: most institutions have chosen ordinary databases, sometimes with blockchain ideas borrowed</td></tr>
+</tbody></table></div>
+
+<p>Governments are also building their own digital money, which may or may not use blockchains.
+That is the subject of <a href="../15-banking-fintech/15-central-bank-digital-currencies.html">Central
+bank digital currencies</a>.</p>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>Four questions for any blockchain pitch</h2>
+</header>
+
+<p>Because "blockchain" was attached to so many projects, it helps to have a simple test. First:
+<strong>who would otherwise keep the record, and why can they not be trusted?</strong> If the
+answer is "our own company", an ordinary database is cheaper and faster. Second: do several parties
+who distrust each other all need to write to the same record? Third: does the record need to stay
+unchangeable, even if everyone involved later agrees a mistake was made? Fourth: where does the
+real-world data come from, and who vouches for it? A blockchain can prove that a record has not
+changed since it was written. <strong>It cannot prove that the record was true when it was
+written.</strong></p>
+
+<p>If the answers are "no trusted keeper exists, several rivals must write, permanence matters and
+the data is born digital", a blockchain may be the right tool. Digital money between strangers
+passes that test. Tracking lettuces mostly does not. Seen this way, blockchain is neither a
+revolution in everything nor a fraud. <strong>It is a specialised tool for a specific problem:
+agreeing on a shared record when you cannot agree on who should keep it.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A blockchain is a ledger copied across many computers. <strong>Hashes</strong> chain each
+    block to the one before, so the past is <strong>tamper-evident</strong>. A
+    <strong>consensus rule</strong>, proof of work or proof of stake, makes cheating expensive.
+    <strong>Private keys</strong> prove ownership.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Bitcoin paper <strong>2008</strong>; network live <strong>January 2009</strong>; Ethereum <strong>2015</strong>.</li>
+      <li>A new Bitcoin block about every <strong>10 minutes</strong>.</li>
+      <li>Ethereum's switch to proof of stake in <strong>2022</strong> cut its energy use by <strong>more than 99%</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking a blockchain makes data true. <strong>It only makes data hard to change after it is
+    written.</strong> Garbage recorded on a blockchain is permanent garbage.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why changing one old transaction would force a cheater to redo every later
+    block? If you can, you understand hashes, chaining and proof of work together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Ledger</dt><dd>A record of who owns what and who paid whom.</dd>
+    <dt>Double-spending</dt><dd>Spending the same digital money twice, the problem blockchains were built to stop.</dd>
+    <dt>Hash</dt><dd>A short digital fingerprint of data that changes completely if the data changes at all.</dd>
+    <dt>Block</dt><dd>A batch of transactions plus the hash of the previous block.</dd>
+    <dt>Node</dt><dd>A computer that keeps a copy of the blockchain and checks the rules.</dd>
+    <dt>Proof of work</dt><dd>Choosing who writes the next block by a costly guessing race (mining).</dd>
+    <dt>Proof of stake</dt><dd>Choosing block writers among those who lock up coins as a deposit.</dd>
+    <dt>51 per cent attack</dt><dd>Rewriting recent history by controlling most of the network's power or stake.</dd>
+    <dt>Private key</dt><dd>The secret number that proves ownership and signs transactions.</dd>
+    <dt>Wallet</dt><dd>Software or a device that stores private keys.</dd>
+    <dt>Smart contract</dt><dd>A program stored on a blockchain that runs exactly as written.</dd>
+    <dt>Oracle</dt><dd>A data feed that tells a smart contract about the outside world.</dd>
+    <dt>Stablecoin</dt><dd>A token designed to keep a steady value, usually one US dollar.</dd>
+    <dt>Layer 2</dt><dd>A system built on top of a blockchain to handle many transactions faster and cheaper.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A blockchain is a shared notebook that thousands of computers keep identical, so nobody has
+    to be trusted to keep it."</li>
+    <li>"It doesn't make data true. It makes data hard to change once it's written."</li>
+    <li>"Bitcoin's energy use isn't waste in its own logic. It's what makes rewriting history too
+    expensive."</li>
+    <li>"FTX didn't fail because the blockchain broke. It failed because people handed their keys to
+    a company."</li>
+    <li>"The real test is simple: if there's already someone you trust to keep the record, you
+    probably don't need a blockchain."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="10-internet-of-things.html">Internet of Things</a></h4><p>Billions
+  of everyday objects connected to the network: how they sense and talk, and why they are a
+  security headache.</p></div>
+  <div class="card"><h4>Related · <a href="../10-finance-investing/16-cryptocurrencies.html">Cryptocurrencies</a></h4><p>The
+  same technology seen as an investment: price swings, what gives a coin value, and the risks for
+  ordinary savers.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

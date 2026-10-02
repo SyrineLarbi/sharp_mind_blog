@@ -1,0 +1,885 @@
+<!doctype html>
+<!--@HEAD-SRC title="Electrochemistry" desc="Where chemistry and electricity meet: how cells turn reactions into current and current into reactions, what voltage really measures, how batteries, electrolysis, fuel cells, sensors and nerves work, and where the field is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Electrochemistry</title>
+<meta name="description" content="Where chemistry and electricity meet: how cells turn reactions into current and current into reactions, what voltage really measures, how batteries, electrolysis, fuel cells, sensors and nerves work, and where the field is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Chemistry · Topic 10 of 20</p>
+  <h1>Electrochemistry. <span class="thin">A reaction with a wire in the middle.</span></h1>
+  <p class="lede">Every battery, every aluminium can, every litre of chlorine bleach, every glucose
+  meter and every nerve impulse depends on one trick. Take a redox reaction, in which electrons move
+  from one substance to another, and split it in two. Put the electron giver on one side and the
+  electron taker on the other, so that the electrons can only travel between them through a wire. Now
+  the reaction makes electricity. Run it backwards, pushing electrons in with a power supply, and
+  electricity makes chemicals. That two-way door between chemistry and electricity is
+  electrochemistry, and the energy transition is being built on it.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Chemistry</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../26-chemistry.html#c7"><span class="vn">Vol 26 · ch 07</span><b>What a battery actually is</b><em>The short version</em></a>
+<a class="vol" href="../11-energy-and-water.html#e6"><span class="vn">Vol 11 · 06</span><b>Green hydrogen</b><em>Electrolysis at scale</em></a>
+<a class="vol" href="11-thermochemistry.html"><span class="vn">Chemistry · 11</span><b>Thermochemistry</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Several chapters touch this subject. Volume 26 explains a battery in plain terms
+  (<a href="../26-chemistry.html#c7">What a battery actually is</a>). Volume 11 covers
+  <a href="../11-energy-and-water.html#e5">grid batteries</a> and
+  <a href="../11-energy-and-water.html#e6">green hydrogen</a>, and Volume 15
+  <a href="../15-materials-food-and-industry.html#i8">battery recycling</a>. This file explains the
+  principles underneath all of them: what a cell is, what voltage measures, how electrolysis and fuel
+  cells work, and where electrochemistry turns up in sensors and in your own nerves. Next-generation
+  batteries have their own file: <a href="../20-future-tech/16-advanced-batteries.html">Advanced
+  batteries</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Chemistry and electricity, converted into each other</h2>
+  <p class="lede">Electrochemistry studies reactions that produce an electric current, and electric
+  currents that force reactions. It began with an argument about a frog.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The frog, the professor and the pile</h2>
+</header>
+
+<p>In the 1780s the Italian physician Luigi Galvani, in Bologna, noticed that the legs of a dissected
+frog twitched when touched with two different metals. In 1791 he published his explanation: the
+animal's tissue contained its own "animal electricity", and the metals merely released it.</p>
+
+<p>Alessandro Volta, a physicist at the University of Pavia, disagreed. He thought the electricity came
+from the two different metals touching through a moist substance, and the frog was only a sensitive
+detector. To prove it, he built a stack of alternating zinc and copper discs, each pair separated by
+cardboard or cloth soaked in salt water. In 1800 he reported that the stack, soon called a
+<strong>voltaic pile</strong>, produced a steady electric current, with no animal anywhere. It was the
+first battery.</p>
+
+<p>Both men were partly right. Volta was right that two different metals and a salty liquid make
+electricity; that is every battery since. Galvani was right that living tissue is electrical; that is
+how your nerves work, as Chapter 11 explains. The unit of electrical push, the
+<strong>volt</strong>, is named after Volta. And <strong>within weeks of his report, other scientists
+were using his pile to split water into hydrogen and oxygen</strong>: the two directions of
+electrochemistry were discovered in the same year.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Two directions, one set of parts</h2>
+</header>
+
+<p>An <strong>electrochemical cell</strong> has the same basic parts whichever way it runs. There are
+two <strong>electrodes</strong>, solid conductors where reactions happen. Between them is an
+<strong>electrolyte</strong>, a substance in which charged particles called ions can move, such as salt
+water. An external wire connects the electrodes.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Galvanic cell: chemistry makes electricity</h4><p>The reaction wants to happen
+  on its own. Electrons leave the electron giver, flow through the wire and do useful work on the way,
+  before reaching the electron taker. A battery being used is a galvanic cell. So is a fuel
+  cell.</p></div>
+  <div class="card"><h4>Electrolytic cell: electricity makes chemistry</h4><p>The reaction would not
+  happen on its own. A power supply pushes electrons in the "wrong" direction and forces it. Charging
+  a phone, making aluminium, plating a tap with chrome and splitting water are all
+  electrolysis.</p></div>
+</div>
+
+<p>Two names apply in both cases. The <strong>anode</strong> is the electrode where oxidation happens,
+where electrons are taken away from a substance. The <strong>cathode</strong> is where reduction
+happens, where electrons are delivered. The English scientist Michael Faraday introduced these words in
+1834, with help from the scholar William Whewell. A rechargeable battery swaps the roles of its
+electrodes each time it changes from discharging to charging, which is why the labels on battery
+diagrams can be confusing.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Voltage is a measure of electron greed</h2>
+</header>
+
+<p>Why does one pair of metals give more voltage than another? Because each substance has a measurable
+tendency to gain or lose electrons. Chemists measure it against a standard reference, a hydrogen
+electrode, which is set at zero. The result is called the <strong>standard electrode
+potential</strong>. The more negative the value, the more eagerly the substance gives up electrons. The
+more positive, the more strongly it grabs them.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Substance</th><th>Standard potential (volts)</th><th>Character</th></tr></thead>
+<tbody>
+<tr><td><strong>Lithium</strong></td><td>about −3.04</td><td>The most eager electron giver among common electrode materials</td></tr>
+<tr><td><strong>Sodium</strong></td><td>about −2.71</td><td>Very eager giver</td></tr>
+<tr><td><strong>Zinc</strong></td><td>about −0.76</td><td>Moderate giver; used in ordinary alkaline batteries</td></tr>
+<tr><td><strong>Iron</strong></td><td>about −0.44</td><td>Mild giver; why iron corrodes</td></tr>
+<tr><td><strong>Hydrogen</strong></td><td>0 (by definition)</td><td>The reference point</td></tr>
+<tr><td><strong>Copper</strong></td><td>about +0.34</td><td>Mild taker</td></tr>
+<tr><td><strong>Silver</strong></td><td>about +0.80</td><td>Stronger taker</td></tr>
+<tr><td><strong>Oxygen</strong> (in acid)</td><td>about +1.23</td><td>Strong taker; why oxygen drives respiration and rust</td></tr>
+<tr><td><strong>Fluorine</strong></td><td>about +2.87</td><td>The greediest of all</td></tr>
+</tbody></table></div>
+
+<p>The voltage of a cell is roughly the gap between its two electrodes on this list. Zinc against copper
+gives about 1.1 volts, which is what the classic Daniell cell of 1836 produced. <strong>Lithium sits at
+the very top of the list, which is the main reason lithium batteries give so much voltage and store so
+much energy for their weight.</strong> The table is the reactivity series of
+<a href="06-oxidation-and-reduction.html">Oxidation and reduction</a>, turned into numbers.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Electrons through the wire, ions through the liquid</h2>
+  <p class="lede">A cell needs two circuits that meet: electrons travelling outside, and ions travelling
+  inside. Block either one and everything stops.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Inside a simple cell</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">A zinc-copper cell, discharging</div>
+<pre>
+            electrons flow through the wire  ---&gt;
+        +----------------[ bulb ]------------------+
+        |                                          |
+     ZINC (anode)                            COPPER (cathode)
+     zinc atoms lose 2 electrons             copper ions gain 2 electrons
+     and dissolve as Zn2+                    and settle as copper metal
+        |                                          |
+   ~~~~~~~~~~~~~~~~~~~~~~ | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   zinc sulfate solution  |  copper sulfate solution
+   ~~~~~~~~~~~~~~~~~~~~~~ | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                    porous barrier: ions drift across
+                    to keep both sides electrically neutral
+</pre>
+</div>
+
+<p>At the zinc electrode, zinc atoms give up electrons and dissolve into the liquid as zinc ions. The
+electrons travel through the wire, lighting the bulb, to the copper electrode. There, copper ions from
+the solution pick them up and become copper metal. The zinc electrode slowly wastes away and the copper
+one slowly grows.</p>
+
+<p>The barrier in the middle is essential and easy to overlook. Without a path for ions, positive charge
+would pile up on the zinc side and negative charge on the copper side within a fraction of a second,
+and the current would stop. <strong>A battery needs an inside route for ions as well as an outside
+route for electrons.</strong> In a modern battery, that inside route is the electrolyte soaked into a
+thin porous plastic sheet called the separator.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Batteries, from lead to lithium</h2>
+</header>
+
+<p>Batteries that are used once and thrown away are <strong>primary</strong> cells, like the alkaline
+batteries in a remote control. Batteries that can be recharged are <strong>secondary</strong> cells.
+The first practical rechargeable battery was the lead-acid battery, invented by the French physicist
+Gaston Planté in 1859. Its descendants still start most petrol cars.</p>
+
+<p>The <strong>lithium-ion battery</strong> changed everything after Sony began selling it in 1991.
+Its inventors, Stanley Whittingham, John Goodenough and Akira Yoshino, shared the 2019 Nobel Prize in
+Chemistry. Its clever idea is that the electrodes are not consumed. Lithium ions shuttle back and forth
+between two layered materials, usually graphite on one side and a metal oxide on the other, slotting
+in between the layers like books on a shelf. This is why it is sometimes called a "rocking-chair"
+battery.</p>
+
+<p>There is a hidden constraint here. Water breaks down into hydrogen and oxygen at about 1.23 volts, so
+a battery with a water-based electrolyte cannot easily go much above about 2 volts. A lithium-ion cell
+runs at about 3.6 to 3.7 volts. To reach that, it must use an organic, carbon-based liquid electrolyte
+instead of water. <strong>That liquid is flammable, and it is the root of most lithium battery
+fires.</strong> Much of the research on solid-state batteries is an attempt to replace it.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Electrolysis: Faraday's bookkeeping</h2>
+</header>
+
+<p>In the 1830s Faraday measured how much substance electrolysis produced for a given amount of
+electricity. His result, now called <strong>Faraday's laws of electrolysis</strong>, is simple: the
+amount of chemical produced is proportional to the electric charge passed. Each atom of a metal that
+needs two electrons takes exactly twice the charge of one that needs one. Electricity can be counted in
+atoms.</p>
+
+<p>That rule makes electrolysis a predictable industrial tool. Three examples carry huge weight.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Process</th><th>What goes in</th><th>What comes out</th></tr></thead>
+<tbody>
+<tr><td><strong>Aluminium smelting</strong></td><td>Aluminium oxide dissolved in a molten salt, and large amounts of electricity</td><td>Aluminium metal. The process is described in <a href="06-oxidation-and-reduction.html">Topic 06</a>.</td></tr>
+<tr><td><strong>Chlor-alkali process</strong></td><td>Salt water (brine)</td><td>Chlorine (for PVC, disinfectants), sodium hydroxide (for soap, paper, aluminium refining) and hydrogen</td></tr>
+<tr><td><strong>Water electrolysis</strong></td><td>Water and electricity</td><td>Hydrogen and oxygen. With renewable electricity it gives "green" hydrogen (<a href="../11-energy-and-water.html#e6">Vol 11</a>).</td></tr>
+</tbody></table></div>
+
+<p>Because the product is tied to the charge, the cost of these products is tied to the price of
+electricity. <strong>Aluminium is sometimes described as "solid electricity"</strong>, and smelters
+are built where power is cheap, such as Iceland, Norway, Canada and the Gulf states.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Fuel cells: a battery that never runs out</h2>
+</header>
+
+<p>A battery carries its chemicals inside. A <strong>fuel cell</strong> is fed them continuously. In the
+most common type, hydrogen is supplied to one electrode and oxygen from the air to the other. Hydrogen
+gives up electrons at the anode, the electrons flow through the external circuit, and at the cathode
+they combine with oxygen and hydrogen ions to form water. The only direct product is water, plus heat.</p>
+
+<p>The Welsh scientist William Grove demonstrated the principle around 1839 to 1842, but fuel cells
+stayed a curiosity for more than a century. Their first big job was in space. The Apollo spacecraft
+used fuel cells for electricity, and the water they made was used by the crew. Today fuel cells power
+some buses, trucks, forklifts and backup generators. Their advantage over batteries is fast refuelling
+and long range. Their disadvantage is that clean hydrogen is still expensive and losing energy at each
+step, as Volume 11 explains.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Corrosion is an accidental battery</h2>
+</header>
+
+<p>Rust, described in <a href="06-oxidation-and-reduction.html">Oxidation and reduction</a>, is
+electrochemistry nobody asked for. One patch of iron acts as the anode and dissolves. Another acts as the
+cathode, where oxygen takes up the electrons. The metal itself is the wire and the water on it is the
+electrolyte. Salt makes the electrolyte better, so the accidental cell runs faster.</p>
+
+<p>Knowing this lets engineers turn the cell against itself. Joining two different metals in a wet
+place, such as a steel bolt in an aluminium boat, creates a battery in which the more eager metal
+corrodes fast. This is called <strong>galvanic corrosion</strong>, and designers avoid such pairings.
+The opposite trick is <strong>cathodic protection</strong>: make the structure you care about into the
+cathode, either by attaching a more eager metal that sacrifices itself or by connecting a power supply
+that pushes electrons onto the steel. Pipelines, ship hulls and harbour piles are protected this way.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>From copper wire to blood sugar to the thoughts in your head</h2>
+  <p class="lede">Beyond batteries, electrochemistry purifies the metals in our wiring, measures the
+  chemistry of our blood, and carries every signal in our nervous system.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Plating and purifying</h2>
+</header>
+
+<p>The copper in electrical wiring must be extremely pure, because small impurities raise its
+resistance. It is purified by electrolysis. Slabs of impure copper are made the anode and dissolve.
+Copper ions travel through the solution and are deposited on thin sheets of pure copper at the cathode,
+reaching purities of about 99.99 percent. Impurities either stay in solution or fall to the bottom as a
+sludge that is valuable in its own right, because it can contain silver, gold and other precious
+metals.</p>
+
+<p><strong>Electroplating</strong> uses the same idea to coat one metal with a thin layer of another.
+In the 1840s the Elkington company in Birmingham patented and commercialised electroplating with silver,
+which made "silver-plated" cutlery affordable for the middle classes. Today electroplating puts chrome
+on taps, gold on electrical contacts, zinc on screws and copper into the tiny wiring channels of
+computer chips.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Sensors: a drop of blood, a number in seconds</h2>
+</header>
+
+<p>Electrochemistry is also a way of measuring. If a reaction produces electrons in proportion to how
+much of a substance is present, the current tells you the amount. The finger-prick glucose meter used by
+millions of people with diabetes works like this. The test strip carries an enzyme that reacts only with
+glucose. The reaction moves electrons onto the electrode, and the meter converts the tiny current into a
+blood sugar reading. The American scientist Leland Clark described the first such enzyme electrode in
+1962. Continuous glucose monitors worn on the skin use the same principle.</p>
+
+<p>Other examples are everywhere. A pH meter measures the voltage across a thin glass membrane, which
+depends on acidity. Many police breath-alcohol devices now use a small fuel cell that oxidises alcohol
+and produces a current proportional to the amount. Carbon monoxide alarms in homes often use an
+electrochemical sensor too. <strong>When a small device gives a fast, cheap chemical measurement, there
+is a good chance an electrode is doing the work.</strong></p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Your nerves are electrochemical cells</h2>
+</header>
+
+<p>Galvani's "animal electricity" is real, but it is not carried by electrons in a wire. It is carried by
+ions crossing membranes. Your cells use pumps, powered by ATP, to keep more potassium inside and more
+sodium outside. That imbalance gives the inside of a resting nerve cell a voltage of about −70
+millivolts compared with the outside: each cell is a tiny battery.</p>
+
+<p>A nerve impulse happens when channels in the membrane briefly open and sodium ions rush in, flipping
+the voltage. The flip triggers neighbouring channels, so a wave of changing voltage travels along the
+nerve. Afterwards the pumps restore the balance. The details are in
+<a href="../07-neuroscience/02-neurons.html">Neuroscience · Neurons</a>.</p>
+
+<p>Some animals turned this into a weapon. The electric eel of South America has thousands of modified
+muscle cells stacked in series, each adding a small voltage, and can deliver shocks of several hundred
+volts. Volta knew about electric fish and described his pile as an artificial version of their
+electric organ. <strong>The battery was, from the start, an imitation of something life had already
+invented.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Clean at the point of use, costly upstream</h2>
+  <p class="lede">Electrochemical technologies are efficient, quiet and emission-free where they are
+  used. Their costs show up in mining, electricity supply and safety.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The technologies weighed</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Technology</th><th>Advantages</th><th>Disadvantages</th></tr></thead>
+<tbody>
+<tr><td><strong>Lithium-ion batteries</strong></td><td class="ok">High energy for their weight; roughly 85–90% round-trip efficiency; costs fell steeply over the 2010s</td><td class="no">Flammable electrolyte; depend on mined lithium, nickel, cobalt and graphite; recycling still developing</td></tr>
+<tr><td><strong>Lead-acid batteries</strong></td><td class="ok">Cheap, reliable, and among the most recycled products in the world</td><td class="no">Heavy, low energy storage; lead pollution where recycling is informal</td></tr>
+<tr><td><strong>Water electrolysis</strong></td><td class="ok">Makes hydrogen with no carbon emissions if the power is clean</td><td class="no">Loses a large share of the energy; electrolysers are still costly</td></tr>
+<tr><td><strong>Fuel cells</strong></td><td class="ok">Quiet, only water as direct product, quick to refuel</td><td class="mid">Need hydrogen, which is hard to store and mostly still made from gas; some use platinum catalysts</td></tr>
+<tr><td><strong>Electrolytic industry</strong></td><td class="ok">Aluminium, chlorine and pure copper at huge scale</td><td class="mid">Very large electricity demand; emissions depend on how that power is made</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Fires, mines and the hidden cost of stored energy</h2>
+</header>
+
+<p>A charged battery is a store of chemical energy held back only by a thin separator. If that separator
+is damaged, by a manufacturing flaw, a crush or overheating, the two electrodes can connect inside the
+cell. The current flows internally, heats the cell, and the heat can set off further reactions in the
+electrolyte: thermal runaway. In 2016 Samsung recalled its Galaxy Note 7 phone and then stopped making it
+after batteries caught fire; investigations blamed defects in the cells. Such failures are rare per
+battery, but there are billions of batteries.</p>
+
+<div class="warn">
+  <span class="tag">Safety note</span>
+  <p>Do not charge swollen, damaged or very hot batteries, and avoid cheap uncertified chargers. Volume 46
+  covers household battery safety (<a href="../46-home-and-kitchen.html#c4">Batteries, electricity and
+  the rest of the cupboard</a>).</p>
+</div>
+
+<p>The other cost is upstream. Lithium is mined from hard rock or evaporated from salty underground
+water in very dry regions. A large share of the world's cobalt comes from the Democratic Republic of the
+Congo, where some is dug by hand in small informal mines, with documented cases of dangerous conditions
+and child labour. Volume 12 covers the lithium supply chain (<a href="../12-the-physical-supply-chain.html#s3">Lithium</a>).
+<strong>Battery makers have responded partly by chemistry</strong>: lithium iron phosphate cells, which
+use no cobalt or nickel, have taken a large share of the car and grid markets in the 2020s.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Electrons instead of flames</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>More batteries, everywhere</strong></td><td>Electric vehicle sales and grid storage installations grew fast through the early 2020s. New chemistries such as sodium-ion are entering production.</td><td class="ok">Fairly sure: battery use keeps rising for decades, and recycling grows with it. The pace varies by country and policy. See <a href="../20-future-tech/16-advanced-batteries.html">Advanced batteries</a>.</td></tr>
+<tr><td><strong>Cheap electrolysers for industry</strong></td><td>Large hydrogen projects for steel, ammonia and refining are under way, but many announced projects have been delayed or cancelled because the hydrogen still costs more than hydrogen from gas.</td><td class="mid">Plausible: important for heavy industry where batteries cannot do the job. Cost of electricity and electrolysers will decide the timing.</td></tr>
+<tr><td><strong>Turning carbon dioxide into fuels and chemicals</strong></td><td>Electrodes that reduce carbon dioxide into carbon monoxide, ethylene or other products work in laboratories and small pilot units.</td><td class="no">Speculative at scale: the efficiency, durability and cost are not yet near what industry needs.</td></tr>
+</tbody></table></div>
+
+<p>The common thread is a change in where the energy for chemistry comes from. For centuries, industry
+drove reactions by burning things. Electrochemistry drives them with electrons from a wire, and it can
+store electricity as chemistry and give it back. <strong>As electricity gets cleaner and cheaper, more
+of the world's chemistry is likely to move from the furnace to the electrode.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>An <strong>electrochemical cell</strong> splits a redox reaction so that electrons travel through
+    a wire and ions through an electrolyte. In a <strong>galvanic cell</strong> (a battery or fuel cell)
+    the reaction makes electricity. In an <strong>electrolytic cell</strong> electricity forces the
+    reaction. Voltage reflects the gap in <strong>electron greed</strong> between the two electrodes.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Lithium's standard potential is about <strong>−3.04 V</strong>, the most negative of common electrode materials.</li>
+      <li>Water splits at about <strong>1.23 V</strong>, so lithium-ion cells (about <strong>3.7 V</strong>) need a non-water, flammable electrolyte.</li>
+      <li>A resting nerve cell sits at about <strong>−70 mV</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking a battery stores electricity. <strong>It stores chemicals that want to react</strong>,
+    arranged so the reaction can only proceed by sending electrons through your device.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a cell stops working if the barrier between its two halves is sealed? If you
+    can, you have understood that a cell needs two circuits: electrons outside and ions inside.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Electrochemical cell</dt><dd>A device with two electrodes and an electrolyte in which a reaction and an electric current are linked.</dd>
+    <dt>Electrode</dt><dd>A solid conductor where electrons enter or leave the reaction.</dd>
+    <dt>Electrolyte</dt><dd>A substance in which ions can move, carrying charge inside the cell.</dd>
+    <dt>Anode</dt><dd>The electrode where oxidation (electron loss) happens.</dd>
+    <dt>Cathode</dt><dd>The electrode where reduction (electron gain) happens.</dd>
+    <dt>Galvanic cell</dt><dd>A cell in which a spontaneous reaction produces electricity, such as a battery.</dd>
+    <dt>Electrolysis</dt><dd>Using electricity to drive a reaction that would not happen by itself.</dd>
+    <dt>Standard electrode potential</dt><dd>A measure, in volts, of how strongly a substance gains or loses electrons compared with hydrogen.</dd>
+    <dt>Separator</dt><dd>The thin porous layer in a battery that keeps the electrodes apart but lets ions through.</dd>
+    <dt>Fuel cell</dt><dd>A cell that makes electricity from a continuously supplied fuel, usually hydrogen, and oxygen.</dd>
+    <dt>Electroplating</dt><dd>Using electrolysis to coat an object with a thin layer of metal.</dd>
+    <dt>Cathodic protection</dt><dd>Preventing corrosion by making the metal structure the cathode of a cell.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A battery doesn't store electricity. It stores a reaction, and the only way the reaction can
+    happen is through your phone."</li>
+    <li>"Lithium batteries have high voltage because lithium gives up electrons more eagerly than almost
+    anything."</li>
+    <li>"Lithium-ion batteries can't use water inside, because water splits at about one volt. The
+    replacement liquid is flammable, and that's the fire risk."</li>
+    <li>"Aluminium is sometimes called solid electricity, because making it is mostly electrolysis."</li>
+    <li>"Your nerves run on the same principle as a battery: ions on either side of a membrane."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="11-thermochemistry.html">Thermochemistry</a></h4><p>The energy
+  accounting behind every reaction: heat, bond energies, entropy, and why some reactions happen by
+  themselves.</p></div>
+  <div class="card"><h4>Related · <a href="06-oxidation-and-reduction.html">Oxidation and
+  reduction</a></h4><p>The electron transfers that electrochemistry harnesses, in rust, fire, metal
+  extraction and the cell.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

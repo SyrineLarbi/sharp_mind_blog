@@ -1,0 +1,936 @@
+<!doctype html>
+<!--@HEAD-SRC title="Newton's Laws" desc="Newton's three laws of motion and his law of gravity: what they say, how they work, why they still run engineering and spaceflight, where they break, and what physics does with them now."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Newton's Laws</title>
+<meta name="description" content="Newton&#x27;s three laws of motion and his law of gravity: what they say, how they work, why they still run engineering and spaceflight, where they break, and what physics does with them now.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Physics · Topic 01 of 20</p>
+  <h1>Newton's Laws. <span class="thin">Four short rules that still fly every spacecraft we launch.</span></h1>
+  <p class="lede">In 1687 Isaac Newton published a book that explained, with a few rules, why an
+  apple falls, why the tides rise, why a cannonball curves and why the planets go round the Sun.
+  Nobody had ever explained the sky and the ground with the same rules before. Three of those rules
+  describe motion, and one describes gravity. More than three centuries later we know they are not
+  the final truth. They fail for things that are very fast, very small or very heavy. But for
+  almost everything a human being builds, drives, throws or launches, they are still the rules
+  engineers actually use. This file explains them properly: what they say, why they work, and where
+  they stop working.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Physics</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../25-physics.html#c1"><span class="vn">Vol 25 · ch 01</span><b>The idea that took two thousand years</b><em>The short version</em></a>
+<a class="vol" href="../24-discoveries.html#c1"><span class="vn">Vol 24 · ch 01</span><b>Gravity, the question nobody asked</b><em>The discovery story</em></a>
+<a class="vol" href="02-energy-and-conservation.html"><span class="vn">Physics · 02</span><b>Energy and conservation</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 25 opens with the core of the first law (<a href="../25-physics.html#c1">The idea that
+  took two thousand years</a>) and why everything falls at the same rate
+  (<a href="../25-physics.html#c2">Why heavy things do not fall faster</a>). Volume 24 tells the
+  story of the Moon that keeps falling (<a href="../24-discoveries.html#c1">Gravity, the question
+  nobody had thought to ask</a>), and Volume 32 applies the laws to seat belts
+  (<a href="../32-everyday-science.html#c10">Why your car does what it does</a>). This file gives
+  the full set of laws, the numbers behind them, and their limits.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A small set of rules for how things move</h2>
+  <p class="lede">Newton's laws are not about particular objects. They are about the relationship
+  between force and motion, and they apply to a football, a ship and a planet in the same way.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The book that joined heaven and Earth</h2>
+</header>
+
+<p>Newton's book is usually called the <em>Principia</em>, short for its Latin title, which means
+"The Mathematical Principles of Natural Philosophy". It appeared in 1687. Before it, scholars
+generally believed that the heavens followed one set of rules and the Earth another. Planets moved
+in perfect circles because that was their nature. Things on Earth fell because that was theirs.</p>
+
+<p>Newton built on work by others. Galileo Galilei had studied balls rolling down slopes and
+realised that motion continues unless something stops it. Johannes Kepler had found three precise
+patterns in the orbits of the planets, but could not say why they held. Newton showed that
+<strong>a single set of laws of motion, plus one law of gravity, produced Kepler's patterns and
+Galileo's falling balls at the same time</strong>. That was the revolution. Physics became one
+subject, everywhere.</p>
+
+<p>Newton himself was generous about this in one famous line. In a 1676 letter to the scientist
+Robert Hooke he wrote that if he had seen further, it was "by standing on the shoulders of
+giants". (The two men were rivals, and historians still argue about how sincere he was being.)</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The four rules in plain words</h2>
+</header>
+
+<p>Here is the whole system in one table. The rest of the file explains each line.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Law</th><th>Plain statement</th><th>Short form</th><th>Everyday example</th></tr></thead>
+<tbody>
+<tr><td><strong>First law (inertia)</strong></td><td>An object keeps moving at the same speed in the same direction, or stays still, unless a force acts on it.</td><td>No force, no change in motion</td><td>A puck slides a long way on ice</td></tr>
+<tr><td><strong>Second law</strong></td><td>A force makes an object accelerate. Bigger force, more acceleration. Bigger mass, less acceleration.</td><td>F = m × a</td><td>An empty shopping trolley is easier to start than a full one</td></tr>
+<tr><td><strong>Third law</strong></td><td>When one object pushes another, the second pushes back on the first, equally hard and in the opposite direction.</td><td>Action and reaction</td><td>A gun kicks back when it fires</td></tr>
+<tr><td><strong>Universal gravitation</strong></td><td>Every mass attracts every other mass. The pull grows with the masses and weakens with the square of the distance.</td><td>F = G m₁m₂ / r²</td><td>The Moon holds the Earth's oceans in tides</td></tr>
+</tbody></table></div>
+
+<p>Two words need care. <strong>Force</strong> is a push or a pull. <strong>Acceleration</strong>
+in physics means any change in velocity: speeding up, slowing down, or changing direction. A car
+taking a corner at a steady 50 km/h is accelerating, because its direction is changing. That single
+definition removes a lot of confusion later.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Mass, weight and the newton</h2>
+</header>
+
+<p>Everyday language mixes up mass and weight. Physics separates them. <strong>Mass</strong> is how
+much matter something has, and also how hard it is to get it moving. It is measured in kilograms
+and it is the same on Earth, on the Moon and in deep space. <strong>Weight</strong> is the force
+of gravity pulling on that mass. It changes from place to place. An astronaut with a mass of 80 kg
+still has a mass of 80 kg on the Moon, but weighs only about a sixth as much there.</p>
+
+<p>Force is measured in a unit named after Newton, the <strong>newton</strong> (N). One newton is
+the force that makes one kilogram accelerate by one metre per second, every second. That sounds
+abstract, so here is a handle: <strong>the weight of a small apple, about 100 grams, is roughly one
+newton</strong>. A person of 70 kg weighs about 690 newtons on Earth. Bathroom scales show
+kilograms because they assume you are on Earth and quietly divide by the strength of gravity.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Each law, taken apart</h2>
+  <p class="lede">The laws look simple. Each one hides an idea that took people a long time to
+  accept, and each one is easy to misuse.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The first law: motion is the normal state</h2>
+</header>
+
+<p>Galileo's argument for the first law is a beautiful piece of reasoning. Roll a ball down one
+ramp and up another. It rises to almost the same height it started from. Make the second ramp
+gentler and the ball travels further to reach that height. Now imagine the second ramp is
+perfectly flat. The ball can never reach its starting height, so it should roll forever. Friction
+spoils the real experiment, but <strong>the pattern points to a world where motion needs no
+engine to keep going</strong>.</p>
+
+<p>Space shows this directly. The Voyager 1 probe, launched in 1977, has been coasting for decades
+with its engines essentially idle. It keeps moving at about 17 kilometres per second because
+nothing out there slows it down. The same law explains why a loose object in a braking car flies
+forward, and why a spacecraft must fire an engine to slow down, not just to speed up.</p>
+
+<p>The first law also defines the setting in which the other laws hold. Physicists call it an
+<strong>inertial frame</strong>: a point of view that is not itself accelerating. Inside a train
+moving smoothly at constant speed, a dropped coin falls straight down, exactly as on the platform.
+Inside a train that is braking hard, the coin seems to drift forward with no force behind it. That
+"drift" is not a real force. It is what Newton's laws look like from a point of view that is
+itself changing speed.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The second law: force, mass and acceleration</h2>
+</header>
+
+<p>The second law is the working engine of mechanics. It says <strong>force equals mass times
+acceleration</strong>, F = m × a. Read it in three directions and it answers three kinds of
+question.</p>
+
+<div class="grid3">
+  <div class="card"><h4>How hard must I push?</h4><p>A car of 1,000 kg that you want to accelerate
+  at 2 metres per second, per second, needs a net force of 2,000 newtons from its wheels.</p></div>
+  <div class="card"><h4>How fast will it speed up?</h4><p>The same 2,000 N on a 2,000 kg van gives
+  only half the acceleration. Twice the mass, half the response.</p></div>
+  <div class="card"><h4>How heavy is it?</h4><p>Measure the acceleration a known force produces,
+  and you have measured mass. Astronauts on the space station weigh themselves this way, on a
+  spring-mounted chair.</p></div>
+</div>
+
+<p>The key word is <strong>net</strong>. What matters is the total of all forces added together,
+with their directions. A car cruising at a steady 100 km/h on a motorway still has its engine
+pushing hard. But air resistance and road friction push back by exactly the same amount. The net
+force is zero, so the acceleration is zero, and the speed stays the same. That is the first law
+again, seen from inside the second.</p>
+
+<p>Newton actually wrote the law in terms of <strong>momentum</strong>, which is mass times
+velocity. Force is the rate at which momentum changes. This version is more general. It works for
+a rocket that is losing mass as it burns fuel, where "mass times acceleration" alone would give the
+wrong answer.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The third law: forces come in pairs</h2>
+</header>
+
+<p>The third law says that forces always come in pairs. When you push on a wall, the wall pushes
+back on you just as hard. The secret to understanding it is this: <strong>the two forces act on
+different objects</strong>. One acts on the wall, the other on you. They never cancel each other,
+because they are not acting on the same thing.</p>
+
+<p>That clears up a classic puzzle. If a horse pulls a cart, and the cart pulls back on the horse
+equally, how does anything move? Answer: the horse moves because the ground pushes it forward. Its
+hooves push backwards on the ground, and by the third law the ground pushes forward on the horse.
+If that forward push is bigger than the cart's backward pull, the horse accelerates. On ice, with
+no grip, the horse goes nowhere.</p>
+
+<p>You walk the same way. Each step pushes the Earth backwards a tiny amount, and the Earth pushes
+you forwards. A rocket works the same way without any ground. <strong>It throws hot gas backwards
+at enormous speed, and the gas pushes the rocket forwards.</strong> This is why rockets work in
+the vacuum of space, a point that some critics doubted in the early twentieth century. In 1920 a
+New York Times editorial mocked the rocket pioneer Robert Goddard for believing a rocket could work
+in a vacuum. The paper published a correction in July 1969, as Apollo 11 flew to the Moon.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Gravity: the inverse-square law</h2>
+</header>
+
+<p>Newton's law of gravity says every mass pulls on every other mass. Double one of the masses and
+the pull doubles. Double the distance between them and the pull falls to a quarter. Triple the
+distance and it falls to a ninth. This is called an <strong>inverse-square law</strong>, and it
+appears again and again in physics, for light and for electric charge as well.</p>
+
+<p>Newton tested it with the Moon. The Moon is about 60 times further from the centre of the Earth
+than you are. If gravity weakens with the square of distance, the Moon should feel a pull
+60 × 60 = 3,600 times weaker than an apple does. Newton calculated how fast the Moon must be
+falling towards Earth to stay in its curved path. It matched that prediction closely. <strong>The
+same force that drops an apple, weakened by distance, steers the Moon.</strong></p>
+
+<div class="sheet">
+  <div class="cap">Newton's cannon: why an orbit is a fall that keeps missing</div>
+<pre>
+                 fired slowly: lands near the mountain
+          _.--""-._
+        .'  mountain '.        fired faster: lands further round
+       /      /\       \
+      |      /  \  ---> |----.   fired at about 8 km/s:
+      |     EARTH       |     \  the ground curves away as fast
+       \               /      |  as the ball falls, so it never lands
+        '.           .'      /
+          '-.______.-'  ----'    that is low Earth orbit
+</pre>
+</div>
+
+<p>Newton drew a picture like this himself. Fire a cannonball from a very tall mountain. It curves
+down and lands. Fire it faster and it lands further away. Fire it at about 8 kilometres per second
+near the Earth's surface, ignoring air, and the Earth's curve drops away beneath it exactly as fast
+as it falls. It is in orbit. The International Space Station moves at about 7.7 km/s and circles
+the Earth roughly every 90 minutes. The astronauts float not because gravity is absent (at that
+height it is still about 90 percent as strong) but because they and the station are falling
+together.</p>
+
+<p>The strength of gravity is set by a number called the <strong>gravitational constant</strong>,
+G. It is tiny, which is why two people standing next to each other feel no pull at all. It was
+first measured in a laboratory in 1798 by Henry Cavendish, using lead balls on a sensitive
+twisting balance. That experiment is often described as "weighing the Earth", because once G is
+known, the Earth's mass follows.</p>
+
+<p>Newton knew his law described gravity without explaining it. How could the Sun pull on the
+Earth across empty space with no contact? In the second edition of the <em>Principia</em> (1713)
+he wrote that he would "frame no hypotheses" about the cause. The answer would wait for Einstein,
+covered in <a href="../25-physics.html#c3">Volume 25, Gravity is not a force</a>.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Friction: why the world looked Aristotelian</h2>
+</header>
+
+<p>If the first law is true, why does everything on Earth stop? Because of
+<strong>friction</strong>, the force that resists one surface sliding over another, and its
+cousin, air resistance. Friction comes from tiny bumps and sticky contacts between surfaces. It
+always pushes against the direction of sliding.</p>
+
+<p>There are two kinds that matter in daily life. <strong>Static friction</strong> holds things
+still: it is why a box on a slope does not slide, and why your shoes grip. <strong>Kinetic
+friction</strong> acts once something is sliding, and it is usually smaller. That is why a heavy
+wardrobe is hardest to move at the start, and suddenly easier once it begins to slide. It is also
+why anti-lock brakes matter. A tyre that is still rolling grips with static friction. A locked,
+skidding tyre has only the weaker kinetic friction, so it stops the car less well and cannot
+steer.</p>
+
+<p>Friction is not a nuisance to be removed everywhere. Without it you could not walk, a car could
+not move, a nail would not hold and a knot would not stay tied. Engineers spend as much effort
+adding friction (brakes, tyres, climbing shoes) as removing it (bearings, lubricants).</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Safety, spaceflight and everything engineers build</h2>
+  <p class="lede">Newton's laws are the most used physics in the world. They decide how cars are
+  designed, how bridges stand, and how probes reach other planets.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Crashes, crumple zones and the time it takes to stop</h2>
+</header>
+
+<p>The second law, written with momentum, gives one of the most useful ideas in safety
+engineering. To stop a moving body you must remove its momentum. <strong>The force needed depends
+on how quickly you do it.</strong> Remove the same momentum over a longer time and the force is
+smaller. The product of force and time is called <strong>impulse</strong>.</p>
+
+<p>A rough, illustrative calculation shows how big the difference is. A 70 kg person in a car at
+50 km/h (about 14 metres per second) carries roughly 980 units of momentum. Stop them in a tenth of
+a second and the average force is about 9,800 newtons, around fourteen times their own weight.
+Stop them in a hundredth of a second, as a rigid dashboard would, and the force is ten times
+larger again. That gap is often the difference between bruises and fatal injury.</p>
+
+<p>Almost every car safety feature is a way to stretch that stopping time or spread the force.
+<strong>Crumple zones</strong> are parts of the car designed to fold in a controlled way, so the
+cabin decelerates over a longer distance. Seat belts stretch slightly and apply the force to the
+strong bones of the hips and chest. Airbags give the head a soft surface that slows it over
+centimetres instead of millimetres. Bicycle helmets use foam that crushes. Gymnasts land on mats
+and bend their knees for the same reason.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>A planet found with a pencil</h2>
+</header>
+
+<p>The most dramatic test of Newton's gravity came in 1846. Astronomers had noticed that the
+planet Uranus was not quite following the path Newton's laws predicted. Either the laws were wrong,
+or something unseen was pulling on it. The French mathematician Urbain Le Verrier assumed the laws
+were right and calculated where an unknown planet would have to be. He sent his prediction to the
+astronomer Johann Galle in Berlin, who found <strong>Neptune within about a degree of the predicted
+spot</strong> on the first night of searching. (The English mathematician John Couch Adams had made
+a similar calculation, and credit was disputed at the time.)</p>
+
+<p>Spaceflight is Newton's laws in action every day. The paths of the Apollo missions to the Moon
+were calculated almost entirely with Newtonian mechanics. Probes like Voyager use a
+<strong>gravity assist</strong>: they swing close past a planet and steal a little of its orbital
+momentum, which bends their path and boosts their speed without fuel. By the third law the planet
+slows down too, by an amount far too small to measure.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Why buildings stand up</h2>
+</header>
+
+<p>A great deal of engineering is the study of objects that do not move at all. If something is
+still and staying still, the second law says the net force on it is zero. This branch is called
+<strong>statics</strong>. Every beam in a bridge, every floor of a tower and every shelf bracket is
+designed by adding up the forces on each part and making sure they balance, with a safety margin
+for wind, crowds and earthquakes.</p>
+
+<p>The third law matters here too. A shelf pushes down on its brackets, so the brackets push up on
+the shelf. The brackets push on the wall, so the wall pushes back. Trace the forces all the way to
+the ground and you have the logic of a structural calculation. The same thinking runs
+<a href="../14-engineering/09-structural-engineering.html">structural engineering</a> and
+<a href="../14-engineering/01-mechanical-engineering.html">mechanical engineering</a>.</p>
+
+<div class="note">
+  <span class="tag">A habit of mind</span>
+  <p>Newton's laws also teach a way of thinking. <strong>When something changes, look for the
+  cause. When nothing changes, look for the balance.</strong> If a moving thing slows down,
+  something is pushing on it. If a heavy thing stays up, something is holding it with an equal
+  force. That habit works in physics and is a useful reflex well beyond it.</p>
+</div>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A brilliant approximation with clear edges</h2>
+  <p class="lede">Newton's laws are not perfectly true. They are extremely accurate inside a wide
+  range and fail outside it. Knowing where the edges are is part of understanding them.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Strengths and weaknesses side by side</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Situation</th><th>How Newton performs</th><th>What replaces it</th></tr></thead>
+<tbody>
+<tr><td><strong>Everyday speeds and sizes</strong> (cars, planes, bridges, sport)</td><td class="ok">Excellent. Errors are far smaller than anything we could measure or care about.</td><td>Nothing needed</td></tr>
+<tr><td><strong>Planets and spacecraft</strong></td><td class="ok">Very good. Used for most mission planning.</td><td>Small relativistic corrections for precise work</td></tr>
+<tr><td><strong>Very strong gravity</strong> (near the Sun, near black holes)</td><td class="mid">Slightly off. Mercury's orbit drifts by about 43 arcseconds per century more than Newton predicts.</td><td>Einstein's general relativity (1915)</td></tr>
+<tr><td><strong>Speeds near light</strong></td><td class="no">Wrong. Newton allows unlimited speed; nature does not.</td><td>Special relativity (1905)</td></tr>
+<tr><td><strong>Atoms and electrons</strong></td><td class="no">Wrong. Particles do not have exact positions and paths.</td><td>Quantum mechanics (1920s)</td></tr>
+<tr><td><strong>Accelerating viewpoints</strong></td><td class="mid">Works only if you add "fictitious" forces such as the outward pull in a turning car.</td><td>Careful choice of frame</td></tr>
+</tbody></table></div>
+
+<p>The Mercury case is a lovely story because it rhymes with Neptune. Le Verrier, the man who
+found Neptune, also noticed that Mercury's orbit slowly shifted in a way Newton could not quite
+explain. He suggested another hidden planet, which was even given a name, Vulcan. It does not
+exist. <strong>This time the laws, not the solar system, were incomplete.</strong> Einstein's
+general relativity predicted the missing shift exactly, and that success was one of the first
+signs his theory was right.</p>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Why a "wrong" theory is still taught first</h2>
+</header>
+
+<p>If Einstein replaced Newton, why does every engineer still use Newton? Because the newer
+theories include Newton as a special case. When speeds are small compared with light and gravity is
+weak, the equations of relativity become Newton's equations, almost exactly. <strong>Newton is not
+overturned; he is fenced in.</strong> Inside the fence he is as good as anything we have, and far
+simpler to calculate with.</p>
+
+<p>There are places where the fence matters in daily life. Satellite navigation, for example,
+needs relativistic corrections to the satellites' clocks or positions would drift by kilometres a
+day. That story is told in <a href="../12-the-physical-supply-chain.html#s6">Volume 12, GPS and
+why it is really a clock</a>. But the orbits of those same satellites are still calculated, at
+heart, with Newton.</p>
+
+<div class="grid2">
+  <div class="card"><h4>What the laws do well</h4><p>Simple to state and to calculate. Universal
+  across scales from a marble to a moon. Predictive enough to find a planet. A sound base for all
+  of engineering. A model of how science should work: few assumptions, many testable
+  consequences.</p></div>
+  <div class="card"><h4>What they get wrong or leave out</h4><p>No speed limit. No explanation of
+  what gravity is. Instant action across any distance. Nothing to say about atoms, light or heat
+  on their own. And they invite a clockwork picture of the universe that quantum physics later
+  undermined.</p></div>
+</div>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Testing the edges, and teaching the middle</h2>
+  <p class="lede">Nobody expects Newton's laws to change for bridges and cars. The live questions
+  are at the edges, and in how people learn them.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Newton remains the working tool</strong></td><td>Used in every vehicle, structure, robot and video-game physics engine, and in most orbit planning.</td><td class="ok">Fairly sure: unchanged for practical work for the foreseeable future. Computers simply apply it faster and in more detail.</td></tr>
+<tr><td><strong>Galaxies that do not obey</strong></td><td>Stars at the edges of galaxies orbit faster than the visible matter can explain. Most physicists add unseen "dark matter". A minority propose modifying Newton's gravity at very low accelerations, an idea called MOND.</td><td class="mid">Plausible but contested: the mainstream view is dark matter; the debate continues. See <a href="18-dark-matter.html">Dark matter</a>.</td></tr>
+<tr><td><strong>Gravity at tiny distances</strong></td><td>The inverse-square law has been tested down to fractions of a millimetre. Some theories predict deviations at even smaller scales.</td><td class="no">Speculative: no deviation found so far. A discovery would be a major surprise.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>The stubborn intuition in every head</h2>
+</header>
+
+<p>The biggest open problem with Newton's laws may be in classrooms, not laboratories. Research on
+physics teaching has shown again and again that students who can solve F = m × a problems on paper
+still carry Aristotle's intuition underneath. Asked what force keeps a thrown ball moving upwards,
+many say "the force of the throw", which no longer exists once the ball leaves the hand. A
+widely used test of these ideas, the Force Concept Inventory, published in 1992, found that
+traditional lectures changed these intuitions surprisingly little.</p>
+
+<p>Teaching methods that make students predict, argue and then test do much better. That matters
+beyond physics. <strong>The first law is a direct challenge to what your eyes tell you</strong>,
+and learning to trust a well-tested rule over a strong first impression is a skill worth having.
+Simulations, cheap motion sensors and virtual labs are making that kind of teaching easier, and it
+is likely to spread.</p>
+
+<p>Newton's laws will also keep running in places most people never notice: the software that
+keeps a self-driving car on the road, the controllers that balance a drone, the engines that make
+objects in a film fall convincingly. The future of Newton is mostly invisible, and enormous.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p><strong>Forces change motion; they are not needed to keep it.</strong> The net force on an
+    object equals its mass times its acceleration. Forces always come in equal and opposite pairs
+    acting on different objects. And every mass attracts every other with a pull that weakens with
+    the square of the distance.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>The <em>Principia</em> appeared in <strong>1687</strong>.</li>
+      <li>A small apple weighs about <strong>1 newton</strong>; gravity at Earth's surface gives about
+      <strong>9.8 m/s²</strong> of acceleration.</li>
+      <li>Low Earth orbit needs about <strong>8 km/s</strong>; the space station circles in about
+      <strong>90 minutes</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking action and reaction cancel. <strong>They act on different objects</strong>, so they
+    never cancel each other. What decides motion is the total force on one object.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why astronauts float on the space station even though gravity there is still
+    about 90 percent as strong as on the ground? If you can, you understand gravity, orbits and the
+    first law together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Force</dt><dd>A push or a pull, measured in newtons.</dd>
+    <dt>Net force</dt><dd>All the forces on one object added together, taking their directions into account.</dd>
+    <dt>Mass</dt><dd>How much matter an object has, and how hard it is to change its motion. Measured in kilograms.</dd>
+    <dt>Weight</dt><dd>The force of gravity on a mass. It changes from planet to planet; mass does not.</dd>
+    <dt>Velocity</dt><dd>Speed together with direction.</dd>
+    <dt>Acceleration</dt><dd>Any change in velocity: speeding up, slowing down or turning.</dd>
+    <dt>Inertia</dt><dd>The tendency of an object to keep doing what it is already doing.</dd>
+    <dt>Inertial frame</dt><dd>A point of view that is not itself accelerating, where Newton's laws hold without extra terms.</dd>
+    <dt>Momentum</dt><dd>Mass times velocity. Force is the rate at which it changes.</dd>
+    <dt>Impulse</dt><dd>Force multiplied by the time it acts. Stretching the time lowers the force.</dd>
+    <dt>Friction</dt><dd>The force that resists one surface sliding over another.</dd>
+    <dt>Inverse-square law</dt><dd>A rule where an effect falls with the square of distance: twice as far, a quarter as strong.</dd>
+    <dt>Orbit</dt><dd>A path where an object falls towards a body but moves sideways fast enough to keep missing it.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Things don't need a force to keep moving. They need a force to change how they move."</li>
+    <li>"An orbit is just falling while moving sideways so fast that you keep missing the ground."</li>
+    <li>"Crumple zones and seat belts work by making the stop take longer, because a slower stop
+    means a smaller force."</li>
+    <li>"Neptune was found on paper before anyone saw it, because Uranus wasn't moving the way
+    Newton said it should."</li>
+    <li>"Einstein didn't throw Newton out. He showed where Newton's laws stop working, and inside
+    that range they're still what engineers use."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="02-energy-and-conservation.html">Energy and
+  conservation</a></h4><p>The other way to describe motion: not forces pushing, but a quantity that
+  changes form and is never lost.</p></div>
+  <div class="card"><h4>Related · <a href="../25-physics.html#c3">Gravity is not a force pulling
+  you down</a></h4><p>Volume 25's chapter on what Einstein put in place of Newton's mysterious pull
+  across empty space.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

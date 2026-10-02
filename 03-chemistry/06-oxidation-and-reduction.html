@@ -1,0 +1,879 @@
+<!doctype html>
+<!--@HEAD-SRC title="Oxidation and Reduction" desc="What oxidation and reduction really are, how electron transfer drives rust, fire, breathing and metal-making, what corrosion costs, the truth about antioxidants, and where redox chemistry is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oxidation and Reduction</title>
+<meta name="description" content="What oxidation and reduction really are, how electron transfer drives rust, fire, breathing and metal-making, what corrosion costs, the truth about antioxidants, and where redox chemistry is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Chemistry · Topic 06 of 20</p>
+  <h1>Oxidation and reduction. <span class="thin">Whenever something gives up electrons, something else takes them.</span></h1>
+  <p class="lede">Rust on a bicycle, the flame of a candle, a green copper roof, bleach whitening a
+  shirt, steel coming out of a blast furnace, and the breath you just took: all of these are the same
+  kind of chemistry. In each one, electrons move from one substance to another. The one that loses
+  electrons is oxidised. The one that gains them is reduced. Chemists call the pair "redox", and it is
+  probably the single most important family of reactions on Earth. Once you can see it, you see it
+  everywhere, including inside your own cells.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Chemistry</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../26-chemistry.html#c4"><span class="vn">Vol 26 · ch 04</span><b>Burning, rusting and breathing</b><em>The short version</em></a>
+<a class="vol" href="../15-materials-food-and-industry.html#i1"><span class="vn">Vol 15 · 01</span><b>Steel</b><em>Reduction at industrial scale</em></a>
+<a class="vol" href="07-organic-chemistry.html"><span class="vn">Chemistry · 07</span><b>Organic chemistry</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 26 makes the key point in one chapter: burning, rusting and breathing are one reaction at
+  different speeds (<a href="../26-chemistry.html#c4">Burning, rusting and breathing are the same
+  reaction</a>). Volume 15 describes steelmaking as "un-rusting" (<a href="../15-materials-food-and-industry.html#i1">Steel</a>).
+  This file explains the electron picture underneath both, and follows it into corrosion, disinfection,
+  metal extraction, antioxidants and the cell. The electrical side, batteries and electrolysis, has its
+  own file: <a href="10-electrochemistry.html">Electrochemistry</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A transfer of electrons, always in pairs</h2>
+  <p class="lede">The words began with oxygen. The idea turned out to be bigger: any reaction in which
+  electrons move from one substance to another.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Why the Statue of Liberty is green</h2>
+</header>
+
+<p>When the Statue of Liberty was unveiled in New York harbour in 1886, it was the colour of a new
+penny. Its skin is a thin layer of copper, hammered over an iron frame. Over the following decades,
+the copper slowly reacted with oxygen, water, carbon dioxide and sulfur compounds in the city air. It
+went dark brown, then black, and by the early twentieth century it had become the pale blue-green we
+know today.</p>
+
+<p>That green coat is called a <strong>patina</strong>. It is a mix of copper compounds formed when
+copper atoms lose electrons to oxygen and other substances in the air. It is not damage in the usual
+sense. The patina sticks firmly to the metal underneath and shields it from further attack. There was
+talk early in the statue's life of painting it, and the idea was dropped. Leaving it alone was the
+better engineering.</p>
+
+<p>The story contains the whole subject. Copper atoms gave up electrons; that is
+<strong>oxidation</strong>. Oxygen atoms took them; that is <strong>reduction</strong>.
+<strong>One cannot happen without the other</strong>, because electrons do not simply disappear.
+They have to go somewhere.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>From oxygen to electrons</h2>
+</header>
+
+<p>The words are older than the modern idea. "Oxidation" first meant combining with oxygen, as iron
+does when it rusts. "Reduction" meant the reverse: removing oxygen from an ore to get the metal. The
+word came from the fact that the metal weighs less than the ore it came from, so the ore was "reduced".</p>
+
+<p>In the twentieth century, once chemists understood electrons, they saw that what mattered was not
+oxygen itself but what oxygen does. Oxygen is greedy for electrons. When iron combines with oxygen,
+each iron atom hands electrons over. The same thing happens when sodium reacts with chlorine, with no
+oxygen anywhere. So the definitions were widened.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Oxidation</h4><p>Losing electrons. The substance that loses them is
+  <strong>oxidised</strong>. Because it gives electrons to something else, it is also called the
+  <strong>reducing agent</strong>. Metals, hydrogen and carbon-rich fuels are typical reducing
+  agents.</p></div>
+  <div class="card"><h4>Reduction</h4><p>Gaining electrons. The substance that gains them is
+  <strong>reduced</strong>. Because it takes electrons from something else, it is the
+  <strong>oxidising agent</strong>. Oxygen, chlorine, bleach and hydrogen peroxide are typical
+  oxidising agents.</p></div>
+</div>
+
+<p>English-speaking students remember it with a short phrase: <strong>OIL RIG</strong>, "oxidation is
+loss, reduction is gain". The naming of agents is the confusing part, so it is worth saying slowly. The
+oxidising agent is the one that <em>gets reduced</em>. It oxidises its partner by taking that partner's
+electrons.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Keeping the books: oxidation numbers</h2>
+</header>
+
+<p>In many reactions electrons are not fully handed over. They are shared, but unequally. To track
+who has gained and who has lost, chemists use a bookkeeping device called the <strong>oxidation
+number</strong> (or oxidation state). It is the charge an atom would have if every shared electron
+went entirely to the greedier atom.</p>
+
+<p>You do not need the rules to see the idea. In methane, carbon is surrounded by four hydrogens,
+which are less greedy, so carbon "owns" their electrons and is given an oxidation number of −4. In
+carbon dioxide, carbon is bonded to two very greedy oxygens and is given +4. So when methane burns,
+carbon's number rises by eight. <strong>A rising oxidation number means oxidation, a falling one means
+reduction.</strong> Fuels are fuels because their carbon sits at the reduced end and can release a
+lot of energy as it is pushed to the oxidised end.</p>
+
+<p>This also explains why food and fuel are chemically similar. Fats, sugars, wood, coal and petrol
+all contain carbon bonded mainly to hydrogen and other carbon. Fats are especially reduced, which is
+why they store more than twice as much energy per gram as sugars.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Electrons flow from the generous to the greedy</h2>
+  <p class="lede">Some elements hold their electrons loosely and some grab for more. Redox is what
+  happens when the two meet, and the gap between them decides how much energy is released.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The league table of metals</h2>
+</header>
+
+<p>Chemists rank metals by how easily they give up electrons. The list is called the <strong>reactivity
+series</strong>. A metal higher in the list will push a lower one out of its compounds, because it gives
+up electrons more readily.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Metal</th><th>How readily it loses electrons</th><th>Consequence</th></tr></thead>
+<tbody>
+<tr><td><strong>Potassium, sodium</strong></td><td>Extremely</td><td>React violently with water. Never found as metals in nature.</td></tr>
+<tr><td><strong>Magnesium, aluminium</strong></td><td>Very</td><td>Burn with brilliant white light. Must be extracted with electricity.</td></tr>
+<tr><td><strong>Zinc, iron</strong></td><td>Moderately</td><td>Corrode in damp air. Can be extracted with carbon.</td></tr>
+<tr><td><strong>Lead, copper</strong></td><td>Slightly</td><td>Corrode slowly. Copper was one of the first metals humans smelted.</td></tr>
+<tr><td><strong>Silver, gold, platinum</strong></td><td>Barely</td><td>Often found as pure metal in nature. Gold does not tarnish.</td></tr>
+</tbody></table></div>
+
+<p>This one list explains a great deal of history. <strong>The order in which humans learned to use
+metals roughly follows the reactivity series from the bottom up.</strong> Gold and copper could be
+found or easily freed. Iron needed hotter furnaces and better chemistry, so the Iron Age came after
+the Bronze Age. Aluminium, near the top, could not be produced cheaply until the late nineteenth
+century.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Rust, step by step</h2>
+</header>
+
+<p>Rusting needs both oxygen and water. A nail kept in dry air, or in boiled water sealed from the
+air, barely rusts at all. With both present, a small electrical circuit forms on the metal surface.
+In one spot, iron atoms lose electrons and dissolve into the water as iron ions. The electrons travel
+through the metal to another spot, where oxygen and water take them up. The iron ions and the
+products of the oxygen reaction then meet and form hydrated iron oxide: rust.</p>
+
+<p>Salt speeds this up because salty water conducts electricity much better, which makes the little
+circuit more efficient. That is why cars rust faster in countries that salt winter roads, and why
+ships and coastal structures need constant protection.</p>
+
+<p>Rust has one property that makes it worse than copper's patina: <strong>it is crumbly and flakes
+off</strong>, exposing fresh iron underneath, so the attack continues until the metal is gone.
+Aluminium is more reactive than iron, yet an aluminium window frame lasts for decades. The reason is
+that its oxide forms a thin, hard, transparent film that seals the surface. This protective effect is
+called <strong>passivation</strong>. Stainless steel uses the same trick: it contains at least about
+10.5 percent chromium, which forms a thin chromium oxide skin that repairs itself if scratched.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Fire and breath are electron flows</h2>
+</header>
+
+<p>In a flame, the electrons of a fuel's carbon and hydrogen move to oxygen all at once, and the
+energy comes out as heat and light. In your cells, the same electrons make the same journey, but in a
+long chain of small steps.</p>
+
+<p>Your cells first strip electrons from the sugars and fats you eat and load them onto carrier
+molecules. Inside the mitochondria, the cell's power stations, the carriers pass those electrons down
+a series of proteins called the <strong>electron transport chain</strong>. At each step a little energy
+is released and used to pump particles across a membrane, a bit like water pumped uphill behind a dam.
+At the end of the chain the electrons are finally handed to oxygen, which combines with hydrogen to
+form water. <strong>That is what the oxygen you breathe is for: it is the last electron catcher at the
+end of the line.</strong></p>
+
+<p>This explains why cyanide kills so fast. It blocks the final protein in the chain, the one that
+passes electrons to oxygen. The whole chain backs up, and cells cannot use oxygen even though the blood
+is full of it. Photosynthesis is the same process run in reverse, using light energy to pull electrons
+off water, which releases oxygen as a by-product. The detail is in
+<a href="09-biochemistry.html">Biochemistry</a>.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Getting metals out of rock</h2>
+</header>
+
+<p>Almost all metals in the Earth's crust are already oxidised. They sit in ores as oxides, sulfides or
+carbonates. Making a metal means <strong>reducing</strong> it: forcing electrons back onto the metal
+atoms. Something has to supply those electrons.</p>
+
+<p>For iron, the supplier is carbon. In a blast furnace, coke made from coal takes the oxygen off the
+iron ore and leaves as carbon dioxide. Volume 15 tells that story and its climate cost. For metals
+higher in the reactivity series, carbon is not a strong enough reducing agent. They need electricity,
+which pushes electrons in directly. This is <strong>electrolysis</strong>.</p>
+
+<p>Aluminium shows how much this matters. In the mid-nineteenth century it was so hard to make that it
+was a luxury metal. The French emperor Napoleon III is said to have served his most honoured guests on
+aluminium plates. In 1884 the Washington Monument was topped with a small aluminium pyramid, then a
+precious material. Two years later, Charles Martin Hall in the United States and Paul Héroult in France
+independently found a way to reduce aluminium oxide cheaply with electricity. The price collapsed.
+Today aluminium is a drinks can, and smelters are built near cheap power, because the reduction uses
+huge amounts of electricity.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>A trillion-dollar enemy, a life-saving weapon, and a health myth</h2>
+  <p class="lede">Redox decides how long bridges stand, whether tap water is safe, and whether the
+  supplement on your shelf is doing anything at all.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The bill for corrosion</h2>
+</header>
+
+<p>Corrosion is oxidation of metals by their surroundings, and it never stops. An industry study
+published in 2016 by NACE, the main corrosion engineers' association, estimated the global cost at
+roughly 2.5 trillion US dollars a year, about 3 percent of world economic output. The figure includes
+repairs, replacement, protection and lost production. It is an estimate, but even rough versions put
+corrosion among the most expensive slow problems in engineering.</p>
+
+<p>Its worst cost is in lives. On 15 December 1967 the Silver Bridge over the Ohio River, between West
+Virginia and Ohio, collapsed during rush hour, and 46 people died. Investigators traced the failure to
+a single steel link in its suspension chain, which had cracked from a small flaw made worse by
+corrosion. The disaster led directly to regular national bridge inspections in the United States.</p>
+
+<p>Engineers fight back with redox itself. The simplest defence is a barrier: paint, oil or plastic
+keeps oxygen and water away. A cleverer one is <strong>sacrificial protection</strong>. Zinc gives up
+electrons more readily than iron. Coat steel with zinc, a process called <strong>galvanising</strong>,
+and the zinc corrodes first, feeding electrons to the iron and keeping it reduced. Ships' hulls and
+buried pipelines carry blocks of zinc or magnesium for the same reason. They are replaced when they
+have been eaten away.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Oxidisers that keep you alive</h2>
+</header>
+
+<p>Strong oxidising agents tear electrons out of the molecules that make up microbes, breaking their
+membranes and proteins. That makes them excellent disinfectants. Chlorine and the hypochlorite in
+household bleach, ozone, and hydrogen peroxide all work this way.</p>
+
+<p><strong>Chlorinating drinking water is one of the great public-health advances in history.</strong>
+In 1908 Jersey City in the United States began continuously chlorinating its public water supply, one
+of the first large systems to do so. As the practice spread, deaths from waterborne diseases such as
+typhoid and cholera fell steeply in the cities that adopted it. Volume 15 explains the steps a modern
+treatment plant uses (<a href="../15-materials-food-and-industry.html#i7">Water treatment</a>).</p>
+
+<p>Oxidisers also whiten. Bleach removes stains by oxidising the coloured molecules into colourless
+ones. Hair is lightened by hydrogen peroxide oxidising the pigment melanin. The same reactivity is why
+these products damage fabric and hair if overused, and why bleach must never be mixed with other
+cleaners.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Free radicals, antioxidants, and a supplement that backfired</h2>
+</header>
+
+<p>Some molecules end up with an unpaired electron. These are called <strong>free radicals</strong>,
+and many are highly reactive, snatching electrons from whatever is nearby. Your body produces them
+constantly, mostly as a by-product of the electron transport chain. They can damage fats, proteins and
+DNA. The body also uses some of them on purpose, for example to kill bacteria and to send signals
+between cells.</p>
+
+<p>An <strong>antioxidant</strong> is a molecule that gives up an electron to a radical and calms it
+down, without becoming dangerous itself. Your cells make their own antioxidant enzymes, and food
+contains others, such as vitamins C and E. Food makers add antioxidants to stop oils going rancid,
+which is an oxidation reaction (Volume 41 explains: <a href="../41-whats-in-things.html#c6">What
+preservatives and the rest are doing</a>).</p>
+
+<p>From the 1980s onward many people hoped that antioxidant pills would prevent cancer and heart
+disease. Large trials tested this. In a Finnish trial published in 1994, male smokers given beta-carotene
+had <em>more</em> lung cancer, not less. A large American trial, CARET, was stopped early in 1996 for a
+similar reason. Later reviews of antioxidant supplements have generally found no reliable benefit for
+well-nourished people. <strong>Antioxidants in food are part of a healthy diet; extra antioxidants in
+pills are not the same thing</strong>, possibly because the body's radical chemistry is a balance that
+high doses can disturb.</p>
+
+<div class="warn">
+  <span class="tag">Health note</span>
+  <p>This is general education, not medical advice. Talk to a doctor or pharmacist before taking
+  high-dose supplements, especially if you smoke or take other medicines.</p>
+</div>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Redox you can watch</h2>
+</header>
+
+<p>Redox reactions often change colour, because the number of electrons on a metal atom changes how
+it absorbs light. Older roadside breath testers used orange potassium dichromate, which turns green
+when it oxidises alcohol on a driver's breath and is itself reduced. Wine left open turns to vinegar
+because bacteria oxidise its alcohol into acetic acid. Traditional photographic film worked by light
+helping to reduce silver compounds into tiny grains of black silver metal. Silverware tarnishes black
+because silver loses electrons to sulfur compounds in the air, forming silver sulfide.</p>
+
+<p>Each of these is the same event in a different costume: <strong>an electron changes owner, and the
+substance changes character</strong>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>The reaction that powers life also wears the world down</h2>
+  <p class="lede">The same electron flows that give us energy, metals and clean water also rust our
+  bridges and age our cells.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Where redox helps, and where it harms</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Redox working for us</th><th>Redox working against us</th></tr></thead>
+<tbody>
+<tr><td><strong>Energy</strong></td><td class="ok">Burning fuels, respiration, batteries</td><td class="no">Carbon dioxide emissions; fires and explosions</td></tr>
+<tr><td><strong>Materials</strong></td><td class="ok">Smelting iron, copper, aluminium; protective oxide layers</td><td class="no">Corrosion costing trillions and causing structural failures</td></tr>
+<tr><td><strong>Health</strong></td><td class="ok">Disinfection of water and wounds; immune cells killing microbes</td><td class="mid">Free radical damage linked to ageing and disease; the details remain an active research area</td></tr>
+<tr><td><strong>Food</strong></td><td class="ok">Fermentation into vinegar; antioxidant preservatives</td><td class="no">Rancid oils, browned fruit, lost vitamins</td></tr>
+<tr><td><strong>Environment</strong></td><td class="ok">Treatment plants use oxidation to break down pollutants</td><td class="mid">Acid mine drainage, when sulfide rock exposed by mining oxidises into sulfuric acid</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>The oxygen paradox</h2>
+</header>
+
+<p>Oxygen is the most important oxidiser in our lives, and it was once a pollutant. For the first half
+of Earth's history the air contained almost no free oxygen. Then microbes evolved that split water
+using sunlight and released oxygen as waste. Around 2.4 billion years ago oxygen began to build up in
+the atmosphere, a change known as the <strong>Great Oxidation Event</strong>. Many microbes that could
+not cope with it were likely pushed into oxygen-free corners, where their descendants still live.
+Iron dissolved in the oceans was oxidised and settled out, forming some of the large iron ore beds
+that are mined today.</p>
+
+<p>Life that survived learned to use oxygen, which releases far more energy from food than processes
+without it. But the danger never fully went away. In the 1950s doctors discovered that giving premature
+babies too much oxygen could damage the blood vessels in their eyes and cause blindness. Oxygen in
+hospitals is now dosed carefully. <strong>The molecule that keeps us alive is also reactive enough to
+harm us</strong>, and every oxygen-breathing cell spends energy managing that tension.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Steel without coal, and electrons on demand</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Reducing iron ore with hydrogen</strong></td><td>Hydrogen can take the oxygen off iron ore, leaving water instead of carbon dioxide. A Swedish project, HYBRIT, delivered its first steel made this way in 2021, and several larger plants are being built or planned.</td><td class="ok">Fairly sure: the chemistry works and some plants will run. How fast it spreads depends on the price of clean hydrogen, and some projects have been delayed.</td></tr>
+<tr><td><strong>Redox flow batteries for the grid</strong></td><td>Large tanks of liquids that store energy by changing their oxidation state, pumped past a membrane. Commercial systems exist, especially using vanadium.</td><td class="mid">Plausible: a useful niche for long-duration storage. They compete with ever-cheaper lithium batteries. See <a href="10-electrochemistry.html">Electrochemistry</a>.</td></tr>
+<tr><td><strong>Self-healing anti-corrosion coatings</strong></td><td>Coatings that carry tiny capsules of protective chemicals, released when the coating is scratched. Many laboratory demonstrations, some early products.</td><td class="no">Speculative at large scale: promising for aircraft and pipelines, but durability over decades in real conditions is not yet proven.</td></tr>
+</tbody></table></div>
+
+<p>The bigger pattern is that <strong>industry is learning to supply electrons from electricity
+instead of from carbon</strong>. For most of history, the cheapest way to reduce an ore or drive a
+reaction was to burn something. With cheap renewable power, electrons can come from a wire. That shift,
+from carbon as the electron supplier to electricity, may be the defining chemical change of this
+century.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p><strong>Oxidation is losing electrons; reduction is gaining them</strong>, and the two always
+    happen together. Electrons flow from substances that hold them loosely (metals, fuels) to ones that
+    grab them (oxygen, chlorine). That flow powers fire and breathing, makes metals from ores, and
+    drives corrosion.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Stainless steel needs at least about <strong>10.5% chromium</strong> to protect itself.</li>
+      <li>Corrosion was estimated in 2016 to cost roughly <strong>US$2.5 trillion a year</strong>, about
+      3% of world output.</li>
+      <li>Oxygen began building up in the air about <strong>2.4 billion years</strong> ago.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking oxidation requires oxygen, or that more antioxidants are always better.
+    <strong>Oxidation is about electrons, not oxygen</strong>, and high-dose antioxidant pills have
+    failed in major trials.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a zinc coating protects steel even after it is scratched? If you can, you
+    have understood the reactivity series, electron flow and sacrificial protection together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Oxidation</dt><dd>Losing electrons. Originally, combining with oxygen.</dd>
+    <dt>Reduction</dt><dd>Gaining electrons. Originally, removing oxygen from an ore.</dd>
+    <dt>Redox</dt><dd>Short for reduction-oxidation: any reaction in which electrons move between substances.</dd>
+    <dt>Oxidising agent</dt><dd>The substance that takes electrons, and is itself reduced. Oxygen and bleach are examples.</dd>
+    <dt>Reducing agent</dt><dd>The substance that gives electrons, and is itself oxidised. Metals and carbon are examples.</dd>
+    <dt>Oxidation number</dt><dd>A bookkeeping charge that shows how many electrons an atom has, in effect, gained or lost.</dd>
+    <dt>Reactivity series</dt><dd>A ranking of metals by how readily they give up electrons.</dd>
+    <dt>Corrosion</dt><dd>The gradual oxidation of a metal by its surroundings.</dd>
+    <dt>Passivation</dt><dd>Protection of a metal by a thin, tight oxide film on its surface.</dd>
+    <dt>Galvanising</dt><dd>Coating steel with zinc, which corrodes first and protects the iron.</dd>
+    <dt>Electron transport chain</dt><dd>The series of proteins in mitochondria that passes electrons from food to oxygen in small steps.</dd>
+    <dt>Free radical</dt><dd>A molecule with an unpaired electron, often highly reactive.</dd>
+    <dt>Antioxidant</dt><dd>A molecule that neutralises free radicals by giving them an electron.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Oxidation doesn't really mean adding oxygen. It means losing electrons, and something else
+    always gains them."</li>
+    <li>"You breathe oxygen because it's the last electron catcher at the end of the chain in your
+    cells."</li>
+    <li>"Aluminium doesn't rust away because its oxide forms a tight skin. Iron rust flakes off, so the
+    attack never stops."</li>
+    <li>"Galvanised steel works because the zinc sacrifices itself. It corrodes first so the iron
+    doesn't."</li>
+    <li>"Antioxidant pills were tested in big trials, and in smokers beta-carotene actually raised lung
+    cancer rates."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="07-organic-chemistry.html">Organic chemistry</a></h4><p>The
+  chemistry of carbon compounds: why carbon builds so many molecules, the functional groups that give
+  them character, and how chemists make new ones.</p></div>
+  <div class="card"><h4>Related · <a href="10-electrochemistry.html">Electrochemistry</a></h4><p>Redox
+  with a wire in the middle: batteries, electrolysis, fuel cells, and why voltage is a measure of
+  electron greed.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

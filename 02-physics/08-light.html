@@ -1,0 +1,875 @@
+<!doctype html>
+<!--@HEAD-SRC title="Light" desc="What light is, how fast it travels, why it behaves as both wave and particle, how reflection, lenses, rainbows, colour and lasers work, why light matters to life and technology, and where optics is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Light</title>
+<meta name="description" content="What light is, how fast it travels, why it behaves as both wave and particle, how reflection, lenses, rainbows, colour and lasers work, why light matters to life and technology, and where optics is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Physics · Topic 08 of 20</p>
+  <h1>Light. <span class="thin">The fastest thing there is, and the way almost everything is known.</span></h1>
+  <p class="lede">Nearly everything you know about the world beyond arm's length reached you as
+  light. It brings the words on this page to your eyes, the warmth of the Sun to your skin, and the
+  signals of the internet under the oceans. It sets the speed limit of the universe. It carries, in
+  its colours, the chemistry of stars no one will ever visit. And for three centuries the best minds
+  in physics argued about whether it is a wave or a stream of particles, until the answer turned out
+  to be "both, and neither". This file explains what light is, how it bends, reflects and splits into
+  colours, how lasers and LEDs make it, and why it matters for life, technology and the night sky.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 17 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Physics</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../25-physics.html#c8"><span class="vn">Vol 25 · ch 08</span><b>Why the sky is blue</b><em>Scattering</em></a>
+<a class="vol" href="../07-neuroscience/12-vision.html"><span class="vn">Neuroscience · 12</span><b>Vision</b><em>How the brain sees</em></a>
+<a class="vol" href="09-thermodynamics.html"><span class="vn">Physics · 09</span><b>Thermodynamics</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 25 explains why the sky is blue and sunsets red (<a href="../25-physics.html#c8">Why
+  the sky is blue and sunsets are red</a>) and why nothing beats light's speed
+  (<a href="../25-physics.html#c4">Why nothing goes faster than light</a>). Volume 29 shows how
+  dark lines in starlight reveal what stars are made of (<a href="../29-the-sky.html#c1">Light
+  carries a signature</a>). <a href="05-electromagnetism.html">Electromagnetism</a> explains why
+  light is an electromagnetic wave. This file covers light itself: its speed, its double nature,
+  optics, colour, lasers and its effects on life.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>An electromagnetic wave that arrives in lumps</h2>
+  <p class="lede">Light is the narrow band of electromagnetic radiation your eyes can detect. It
+  travels as a wave and is absorbed as particles called photons.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Newton's prism: white is every colour at once</h2>
+</header>
+
+<p>For most of history, people assumed white light was pure and that a prism somehow added colours
+to it. In the mid-1660s Isaac Newton tested this. He let a narrow beam of sunlight through a hole
+in a shutter, passed it through a glass prism, and saw it spread into a band of colours from red
+to violet. Then came the clever step. He picked out one colour, say green, and sent it through a
+second prism. It bent again, but stayed green. <strong>The prism was not creating colour; it was
+separating colours that were already mixed in white light.</strong> He also recombined the colours
+with a lens and got white again.</p>
+
+<p>Newton published his full account in his book <em>Opticks</em> in 1704. The band of colours he
+named the <strong>spectrum</strong>. We now know that what our eyes call "visible light" is a narrow
+range of wavelengths, from about 400 billionths of a metre (violet) to about 700 billionths (red).
+Beyond each end the waves continue, invisible to us, as ultraviolet and infrared.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>How fast is light?</h2>
+</header>
+
+<p>For a long time people believed light was instantaneous. The first good evidence otherwise came
+in 1676 from the Danish astronomer Ole Rømer. He was timing the eclipses of Io, a moon of Jupiter,
+and noticed they came a few minutes early when Earth was nearer Jupiter and late when it was
+farther away. The difference was the time light took to cross the extra distance.</p>
+
+<p>Today the speed of light in empty space is known exactly: <strong>299,792,458 metres per
+second</strong>, about 300,000 kilometres per second. It is exact because since 1983 the metre has
+been <em>defined</em> as the distance light travels in a specific fraction of a second. A few
+everyday consequences:</p>
+
+<ul>
+<li>Light takes about 1.3 seconds to come from the Moon and about <strong>8 minutes 20 seconds</strong>
+from the Sun. If the Sun vanished, you would not know for eight minutes.</li>
+<li>Light could circle the Earth about seven and a half times in one second.</li>
+<li>Light slows down in materials: to about 225,000 km/s in water and roughly 200,000 km/s in glass.
+That slowing is what makes lenses work.</li>
+</ul>
+
+<p>The speed of light in a vacuum is also the universe's speed limit for anything carrying energy or
+information, for reasons explained in <a href="../25-physics.html#c4">Volume 25</a>.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Wave or particle? The three-hundred-year argument</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>When</th><th>Who</th><th>Claim</th><th>Evidence</th></tr></thead>
+<tbody>
+<tr><td>Late 1600s</td><td>Newton</td><td>Light is a stream of tiny particles ("corpuscles")</td><td>Light travels in straight lines and casts sharp shadows</td></tr>
+<tr><td>Late 1600s</td><td>Christiaan Huygens</td><td>Light is a wave</td><td>Explains reflection and refraction neatly</td></tr>
+<tr><td>Early 1800s</td><td>Thomas Young, Augustin Fresnel</td><td>Wave</td><td>Interference stripes and diffraction patterns, which only waves produce</td></tr>
+<tr><td>1860s</td><td>James Clerk Maxwell</td><td>An electromagnetic wave</td><td>His equations predicted waves moving at light's speed</td></tr>
+<tr><td>1905</td><td>Albert Einstein</td><td>Light also comes in lumps of energy, later called photons</td><td>The photoelectric effect: light knocks electrons out of metals in a way waves cannot explain</td></tr>
+</tbody></table></div>
+
+<p>The photoelectric effect was the turning point. Shine dim blue light on certain metals and
+electrons fly out at once. Shine very bright red light and none come out at all. If light were only
+a wave, a bright enough beam of any colour should eventually shake electrons loose. Einstein
+explained that light delivers energy in packets, and each packet's energy depends on its colour:
+blue packets carry more than red. One blue photon can knock an electron out; no number of red ones
+can. Einstein's Nobel Prize of 1921 was awarded for this work, not for relativity.</p>
+
+<p>The modern view is that <strong>light travels like a wave and is detected like a particle</strong>.
+It spreads, bends and interferes as a wave. But when it is absorbed, by your eye, a camera or a
+solar panel, it gives up its energy one photon at a time. This double nature is a central idea of
+quantum physics.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Bouncing, bending, splitting, and being made</h2>
+  <p class="lede">Most of optics comes from two behaviours, reflection and refraction, plus one
+  fact: different colours bend by different amounts.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Reflection: mirrors, matte surfaces and polarised glasses</h2>
+</header>
+
+<p>When light hits a smooth surface, it bounces off at the same angle it arrived, like a ball off a
+wall. That rule, <strong>angle in equals angle out</strong>, makes mirrors work. A mirror shows a
+clear image because its surface is smooth at the scale of light's wavelength, so all the rays
+bounce together in an orderly way.</p>
+
+<p>Most surfaces are rough at that scale. Paper, wood and skin scatter light in all directions,
+which is called <strong>diffuse reflection</strong>. That is why you can see a page from any angle
+but cannot see your face in it. Almost everything you see, you see by diffuse reflection.</p>
+
+<p>Light waves also vibrate in a direction across their path, called their
+<strong>polarisation</strong>. Light reflected off water or a road tends to vibrate horizontally.
+<strong>Polarised sunglasses</strong> block horizontal vibrations, which is why they cut glare from
+lakes and wet roads so effectively while letting most other light through. Phone and computer
+screens also use polarising layers, which is why some screens go dark when seen through polarised
+glasses at certain angles.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Refraction, lenses and the light pipe</h2>
+</header>
+
+<p>When light passes at an angle from air into glass or water, it slows down and changes direction,
+as described in <a href="06-waves.html">Waves</a>. How much a material slows light is measured by
+its <strong>refractive index</strong>: water is about 1.33, ordinary glass about 1.5, diamond about
+2.4. The higher the index, the more the light bends, which is part of why diamonds sparkle.</p>
+
+<p>A <strong>lens</strong> is a piece of glass or plastic shaped so that refraction bends rays in a
+useful way. A lens that is thicker in the middle (a converging lens) brings rays together to a
+point, and can form an image. The eye's own lens focuses an image on the retina. Cameras,
+microscopes, telescopes, projectors and glasses all work by refraction. Short-sighted eyes focus
+too strongly, so their glasses use lenses thinner in the middle to spread the rays slightly first.</p>
+
+<p>Refraction has a striking special case. When light inside glass hits the surface at a shallow
+enough angle, it cannot get out at all, and reflects back inside completely. This is <strong>total
+internal reflection</strong>. An <strong>optical fibre</strong>, a glass thread thinner than a hair,
+traps light this way and guides it along for many kilometres. The physicist Charles Kao showed in
+the 1960s that very pure glass could carry light far enough for communication, and won a share of
+the 2009 Nobel Prize in Physics. Fibres now carry the great majority of the world's internet
+traffic (<a href="../12-the-physical-supply-chain.html#s5">Volume 12, Undersea cables</a>).</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Rainbows: refraction sorted by colour</h2>
+</header>
+
+<p>Newton's prism worked because each colour bends by a slightly different amount in glass. Violet
+bends most, red least. This spreading is called <strong>dispersion</strong>. Raindrops do the same.</p>
+
+<div class="sheet">
+  <div class="cap">How one raindrop makes a rainbow</div>
+<pre>
+  sunlight -----&gt;   .---.
+  (from behind     /     \     light enters, bends,
+   you)           |  drop |    reflects off the back,
+                   \     /     bends again on the way out
+                    '---'
+                   /    \
+              red /      \ violet     each colour leaves at its own angle,
+                 v        v           about 42 degrees for red, 40 for violet,
+              your eye sees red from higher drops, violet from lower ones
+</pre>
+</div>
+
+<p>Sunlight enters a raindrop, bends, reflects off the back of the drop, and bends again as it
+leaves. The colours come out at slightly different angles, close to 42 degrees from the direction
+opposite the Sun. So <strong>a rainbow is always centred on the point directly opposite the Sun
+from you</strong>, which is why you see one only with the Sun behind you, and why it is a circle,
+usually cut off by the ground. Everyone sees their own rainbow, made by different drops. A fainter
+second bow, with its colours reversed, comes from light that reflects twice inside the drops.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Colour: in the light, in the object, and in the brain</h2>
+</header>
+
+<p>A red apple is red because its skin absorbs most colours of white light and reflects mainly red
+ones. Under a pure blue light, the same apple looks nearly black, because there is no red light for
+it to reflect. <strong>Colour is not a fixed property of an object; it depends on the light falling
+on it.</strong></p>
+
+<p>Your eye has three types of colour-sensitive cells, called <strong>cones</strong>, most sensitive
+to long, medium and short wavelengths, roughly red, green and blue. Every colour you see is your
+brain comparing the signals from those three. That is why screens can fool you with only three
+colours of tiny light: red, green and blue dots mixed in different strengths make every colour on
+the display. This is <strong>additive mixing</strong>, and red plus green light looks yellow.</p>
+
+<p>Paints and inks work the other way. Each pigment absorbs some colours, so mixing pigments
+subtracts more and more light. This is <strong>subtractive mixing</strong>, which is why printers
+use cyan, magenta and yellow (plus black), and why mixing many paints gives a muddy brown. How the
+brain builds colour from the cones, and why colour vision differs between people, is explored in
+<a href="../07-neuroscience/12-vision.html">Vision</a>.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>How light is made: glowing, atoms and LEDs</h2>
+</header>
+
+<p>There are two basic ways to make light. The first is <strong>heat</strong>. Everything glows
+with radiation depending on its temperature. Your body glows in infrared, which is what thermal
+cameras see. A stove ring glows dull red at several hundred degrees. The Sun's surface, at about
+5,500 °C, glows white. Old filament bulbs worked this way, which is why most of their energy came
+out as heat, not light.</p>
+
+<p>The second way is <strong>atoms changing energy</strong>. Electrons in an atom can only sit at
+certain energy levels. When one drops to a lower level, it gives off a photon of one exact colour.
+Each element has its own set of colours: neon glows red-orange, sodium yellow-orange, as in old
+street lamps. This is the same fingerprint Volume 29 uses to read the chemistry of stars.</p>
+
+<p>The <strong>light-emitting diode</strong> (LED) uses the same principle inside a semiconductor.
+Red and green LEDs existed from the 1960s and 1970s, but white lighting needed a bright, efficient
+blue. That arrived in the early 1990s, and Isamu Akasaki, Hiroshi Amano and Shuji Nakamura won the
+2014 Nobel Prize in Physics for it. A white LED is usually a blue LED coated with a material that
+turns some blue light into yellow, which together look white. LEDs use a fraction of the energy of
+filament bulbs for the same light and last far longer.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Lasers: light in perfect step</h2>
+</header>
+
+<p>In 1917 Einstein worked out that a photon passing an excited atom can trigger it to release an
+identical photon, same colour, same direction, in step with the first. This is <strong>stimulated
+emission</strong>. Arrange many excited atoms between two mirrors, and photons bouncing back and
+forth trigger more and more identical photons. The result is a beam that is a single colour, very
+narrow and all in step. The word <strong>laser</strong> comes from "light amplification by
+stimulated emission of radiation". Theodore Maiman built the first working one, using a ruby
+crystal, in 1960.</p>
+
+<p>At first it was called "a solution looking for a problem". Today lasers read barcodes, carry
+internet data through fibres, cut steel, correct eyesight, remove tattoos, measure distances,
+print chips, and guide some weapons. The detectors that first sensed gravitational waves in 2015
+are, at heart, giant laser rulers that measured a change far smaller than an atomic nucleus (see
+<a href="17-gravitational-waves.html">Gravitational waves</a>).</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Life, time, knowledge, and the vanishing dark</h2>
+  <p class="lede">Light feeds nearly all life, sets the body's clock, carries almost all our
+  knowledge of the universe, and, in excess, erases the night.</p>
+</header>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Light feeds the living world and sets its clocks</h2>
+</header>
+
+<p>Plants, algae and some bacteria capture photons of sunlight and use their energy to build sugar
+from carbon dioxide and water. That is <strong>photosynthesis</strong>, and almost every food chain
+on Earth begins with it. The oxygen in the air is its by-product. Fossil fuels are, in effect,
+ancient sunlight stored in plant and plankton remains.</p>
+
+<p>Light also tells bodies what time it is. Besides the rods and cones used for seeing, the eye
+contains a small set of cells with a pigment called melanopsin that respond most to blue-ish light.
+They send signals to the brain's master clock, which keeps the body's daily cycle, its
+<strong>circadian rhythm</strong>, in line with day and night. Bright morning light helps keep the
+clock on time. Bright light late at night can delay it. How much evening phone screens disturb
+sleep is debated: the effect of the light itself seems modest for most people, and what you are
+doing on the screen may matter as much. Sleep itself is covered in
+<a href="../33-your-body.html#c1">Volume 33, What sleep is for</a>.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Light as messenger, from atoms to galaxies</h2>
+</header>
+
+<p>Because light takes time to travel, <strong>looking far away means looking back in time</strong>.
+You see the Sun as it was eight minutes ago, nearby stars as they were years ago, and distant
+galaxies as they were billions of years ago (<a href="../29-the-sky.html#c2">Volume 29, Looking out
+is looking back</a>). Telescopes are time machines for light. Nearly all we know about stars,
+planets and the history of the universe has been learned by collecting light, and the invisible
+kinds beyond it, and reading its colours, brightness and shifts
+(<a href="../13-astronomy-space/16-space-telescopes.html">Space telescopes</a>).</p>
+
+<p>Light is also how we see the very small. Microscopes opened the world of cells in the 1600s.
+Today, light techniques can track single molecules inside living cells. In 2023 the Nobel Prize in
+Physics went to Pierre Agostini, Ferenc Krausz and Anne L'Huillier for flashes of light lasting
+attoseconds, billionths of a billionth of a second, short enough to follow electrons as they move.</p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Light pollution: the night we have lost</h2>
+</header>
+
+<p>Artificial light at night has spread far beyond what anyone needs to see by. A widely cited world
+atlas of night-sky brightness, published in 2016, estimated that more than 80 percent of the world's
+population lives under light-polluted skies, and that about a third of humanity can no longer see
+the Milky Way from home. Studies based on thousands of observations by members of the public suggest
+the night sky has kept brightening by several percent a year since then, faster than satellites
+alone recorded, partly because satellites miss much of the blue light from white LEDs.</p>
+
+<p>The costs are real if hard to measure exactly. Migrating birds are drawn to and confused by lit
+buildings. Newly hatched sea turtles head towards street lights instead of the sea. Insects die in
+huge numbers around lamps. For people, the loss is partly cultural: <strong>a sky full of stars,
+which every human generation knew, is now something most children have never seen</strong>.
+Solutions are simple and cheap: shield lights so they point down, use warmer colours, dim or switch
+off when nobody is there.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A gift with a few sharp edges</h2>
+  <p class="lede">Light is essential and mostly harmless, but some of its forms and uses carry real
+  risks.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Aspect</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Sunlight</strong></td><td class="ok">Powers life, sets body clocks, lets skin make vitamin D.</td><td class="no">Ultraviolet causes sunburn, skin ageing and skin cancer (<a href="../42-your-health.html#c5">Volume 42</a>).</td></tr>
+<tr><td><strong>LED lighting</strong></td><td class="ok">Uses far less energy than old bulbs; long-lasting; easy to dim and control.</td><td class="mid">Cheap light encourages more lighting overall, and bluer white light adds to sky glow.</td></tr>
+<tr><td><strong>Lasers</strong></td><td class="ok">Precise tools for medicine, industry, communication and science.</td><td class="no">Powerful ones can blind in an instant; laser pointers aimed at aircraft are a recurring danger.</td></tr>
+<tr><td><strong>Optical fibre</strong></td><td class="ok">Huge data capacity; low loss over long distances; immune to electrical interference.</td><td class="mid">Cables are a few concentrated routes, vulnerable to anchors and sabotage.</td></tr>
+<tr><td><strong>Solar power</strong></td><td class="ok">Clean, abundant, now among the cheapest new electricity sources (<a href="../11-energy-and-water.html#e2">Volume 11</a>).</td><td class="mid">Only works by day; needs storage and a lot of land or roof area.</td></tr>
+</tbody></table></div>
+
+<div class="warn">
+  <span class="tag">Health note</span>
+  <p>This is general education, not medical advice. Never look directly at the Sun, including during
+  a partial eclipse, without proper eclipse glasses: it can burn the retina without pain. Never point
+  a laser at anyone's eyes or at an aircraft. Sun protection matters most in the middle of the day and
+  for children.</p>
+</div>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Computing with light, lighting with care</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, sorted by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>LEDs everywhere</strong></td><td>LEDs became the dominant new lighting technology in the 2010s; many countries have phased out most filament and fluorescent bulbs.</td><td class="ok">Fairly sure: near-universal LED lighting, with smarter controls.</td></tr>
+<tr><td><strong>Light inside computers</strong></td><td>Data centres already link machines with fibre. Chip makers are moving optical links closer to the processors to save energy as AI systems grow.</td><td class="ok">Fairly sure that optics moves deeper into data centres over the next decade.</td></tr>
+<tr><td><strong>Darker skies by design</strong></td><td>Some cities and regions have adopted dark-sky rules; certified dark-sky places are growing in number.</td><td class="mid">Plausible: wider rules for shielding and warmer light; overall brightening may still continue.</td></tr>
+<tr><td><strong>Optical computing</strong></td><td>Chips that do some calculations with light instead of electrons exist in laboratories and start-ups.</td><td class="no">Speculative that light replaces electronics for general computing; likelier as a specialised helper.</td></tr>
+</tbody></table></div>
+
+<p>Light will also keep opening new windows in science. Each time we have built a new way to collect
+it, a bigger telescope, a sharper microscope, a shorter flash, we have seen something nobody
+expected. <strong>The history of light is the history of seeing more.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Light is <strong>an electromagnetic wave that is absorbed in lumps called photons</strong>.
+    It reflects off surfaces, bends when it changes speed, and splits into colours because each
+    colour bends differently. It is made by hot objects and by electrons changing energy in atoms,
+    LEDs and lasers.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Speed in a vacuum: <strong>299,792,458 m/s</strong>, about 300,000 km/s.</li>
+      <li>Sunlight takes about <strong>8 minutes 20 seconds</strong> to reach Earth.</li>
+      <li>Visible light spans roughly <strong>400 to 700 nanometres</strong> (billionths of a metre).</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking colour belongs to the object. <strong>An object's colour depends on which light it
+    reflects, and on the light falling on it</strong>; your brain builds the colour from three kinds
+    of cone.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why you only see a rainbow with the Sun behind you? If you can, you understand
+    refraction, reflection inside a drop, and dispersion together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Photon</dt><dd>A single packet of light energy; bluer light has more energy per photon.</dd>
+    <dt>Spectrum</dt><dd>The range of colours, or wavelengths, that make up light.</dd>
+    <dt>Wavelength</dt><dd>The distance between crests of the light wave; it sets the colour.</dd>
+    <dt>Reflection</dt><dd>Light bouncing off a surface, at the same angle it arrived.</dd>
+    <dt>Refraction</dt><dd>Light bending as it changes speed passing into another material.</dd>
+    <dt>Refractive index</dt><dd>A number saying how much a material slows and bends light.</dd>
+    <dt>Lens</dt><dd>A shaped piece of transparent material that bends light to form an image.</dd>
+    <dt>Total internal reflection</dt><dd>Light trapped inside glass or water because it meets the surface at a shallow angle.</dd>
+    <dt>Dispersion</dt><dd>The spreading of white light into colours because each bends differently.</dd>
+    <dt>Polarisation</dt><dd>The direction in which a light wave vibrates across its path.</dd>
+    <dt>Photoelectric effect</dt><dd>Light knocking electrons out of a material, which showed that light comes in photons.</dd>
+    <dt>LED</dt><dd>A light-emitting diode, a semiconductor that glows efficiently when current passes.</dd>
+    <dt>Laser</dt><dd>A source of narrow, single-colour light whose waves are all in step.</dd>
+    <dt>Light pollution</dt><dd>Excess artificial light at night that brightens the sky and disturbs living things.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"White light isn't pure. It's every colour mixed together, and a prism just sorts them."</li>
+    <li>"The sunlight on your face left the Sun about eight minutes ago."</li>
+    <li>"Light travels like a wave but lands like a particle. Physics had to accept both."</li>
+    <li>"A rainbow is always exactly opposite the Sun from you, so everyone sees their own."</li>
+    <li>"Most children alive today have never seen the Milky Way, because of light we don't even
+    need."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="09-thermodynamics.html">Thermodynamics</a></h4><p>Heat,
+  temperature, engines and fridges: the laws that say what energy can and cannot do.</p></div>
+  <div class="card"><h4>Related · <a href="../07-neuroscience/12-vision.html">Vision</a></h4><p>What
+  happens after light reaches the eye: how the brain builds colour, depth and objects from photons.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

@@ -1,0 +1,942 @@
+<!doctype html>
+<!--@HEAD-SRC title="Cell Biology" desc="How cells work: the membrane, the organelles, energy and division, why almost every disease is a cell problem, and where cell biology is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cell Biology</title>
+<meta name="description" content="How cells work: the membrane, the organelles, energy and division, why almost every disease is a cell problem, and where cell biology is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Biology · Topic 01 of 20</p>
+  <h1>Cell biology. <span class="thin">A city smaller than a speck of dust, running every second of your life.</span></h1>
+  <p class="lede">Every living thing you have ever seen is made of cells, or is one. A cell is
+  the smallest unit that can take in fuel, build its own parts, respond to its surroundings and
+  copy itself. Inside, it is not a bag of jelly. It is crowded, organised and busy, with
+  compartments that do different jobs, a skeleton that moves, motors that walk along tracks, and
+  a strict schedule for when to divide and when to die. Once you understand one cell, most of
+  medicine starts to make sense, because nearly every disease is, in the end, cells doing the
+  wrong thing.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Biology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../27-life.html#c1"><span class="vn">Vol 27 · ch 01</span><b>Everything alive is made of the same thing</b><em>The short version</em></a>
+<a class="vol" href="14-stem-cells.html"><span class="vn">Biology · 14</span><b>Stem cells</b><em>Cells that can become others</em></a>
+<a class="vol" href="03-rna.html"><span class="vn">Biology · 03</span><b>RNA</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 27 opens with one short chapter on the cell (<a href="../27-life.html#c1">Everything
+  alive is made of the same thing</a>), including how the membrane builds itself and the swallowed
+  bacterium that became the mitochondrion. The DNA code itself is in <a href="../27-life.html#c2">The
+  code, and why it is the same everywhere</a>, and cancer as a cell problem is in
+  <a href="../28-medicine.html#c5">What cancer is</a>. This file goes inside the cell: the parts,
+  the energy, division, deliberate death, and how researchers study all of it.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The study of the smallest thing that is alive</h2>
+  <p class="lede">Cell biology asks what a cell is made of, how its parts work together, and how
+  cells become tissues, organs and whole bodies. It started with a microscope and a piece of
+  cork.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A slice of cork and a rule with no exceptions</h2>
+</header>
+
+<p>In 1665 the English scientist Robert Hooke published a book of drawings made through an early
+microscope. One showed a thin slice of cork. It was full of tiny empty boxes, and they reminded
+him of the small rooms monks lived in, so he called them <strong>cells</strong>. What he saw were
+only the dead walls of plant cells. A few years later the Dutch cloth merchant Antonie van
+Leeuwenhoek, grinding his own superb lenses, saw living single-celled creatures swimming in pond
+water and scraped from his own teeth. He called them "little animals".</p>
+
+<p>It took nearly two centuries to turn those observations into a theory. In the late 1830s the
+German scientists Matthias Schleiden (working on plants) and Theodor Schwann (working on animals)
+argued that all living things are built from cells. In 1855 the physician Rudolf Virchow added
+the piece that made it powerful: every cell comes from an existing cell, by division. Together
+these ideas are called <strong>cell theory</strong>, and they still hold. <strong>No cell has ever
+been seen to arise from non-living matter today. Every cell in your body descends, by an unbroken
+chain of divisions, from a single fertilised egg</strong>, and that egg descends from cells in
+your parents, and so on back about four billion years.</p>
+
+<p>That is the first thing to understand about cell biology. It is not just the study of small
+things. It is the study of the one unit that all life shares, and the only route by which life
+continues.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Two basic designs</h2>
+</header>
+
+<p>All cells share some basics: a membrane around the outside, DNA holding instructions, and
+<strong>ribosomes</strong>, the small machines that build proteins. Beyond that, life comes in two
+very different designs.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Prokaryotes (bacteria and archaea)</th><th>Eukaryotes (animals, plants, fungi, many single cells)</th></tr></thead>
+<tbody>
+<tr><td><strong>Nucleus</strong></td><td>None. DNA floats in the cell, usually as one loop.</td><td>Yes. DNA is wrapped up inside a membrane-bound nucleus.</td></tr>
+<tr><td><strong>Inner compartments</strong></td><td>Very few</td><td>Many: mitochondria, the endoplasmic reticulum, the Golgi and others</td></tr>
+<tr><td><strong>Typical size</strong></td><td>About 1–5 micrometres</td><td>About 10–100 micrometres</td></tr>
+<tr><td><strong>Lives as</strong></td><td>Almost always single cells</td><td>Single cells (yeast, amoebae) or huge cooperatives (you)</td></tr>
+<tr><td><strong>Age of the design</strong></td><td>The older design, billions of years</td><td>Younger, appearing roughly two billion years ago (the date is debated)</td></tr>
+</tbody></table></div>
+
+<p>The word <strong>prokaryote</strong> comes from Greek for "before the kernel", meaning before the
+nucleus. <strong>Eukaryote</strong> means "true kernel". A micrometre is one thousandth of a
+millimetre. So a typical human cell is ten to a hundred times wider than a typical bacterium, and
+its volume can be thousands of times larger. Bacteria get their own file in this category
+(<a href="10-bacteria.html">Bacteria</a>). This one is mostly about the eukaryotic cell, the kind
+you are made of.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>How small, and how many</h2>
+</header>
+
+<p>A careful estimate published in 2016 put the number of cells in an average adult human body at
+about <strong>30 trillion</strong>. Most of them, by count, are red blood cells, which are small and
+extremely numerous. By mass, muscle and fat cells dominate. Biologists traditionally say there are
+a few hundred named cell types: nerve cells over a metre long, fat cells that are mostly one big
+droplet, sperm cells with a tail, and red blood cells that throw out their own nucleus to make
+room for more oxygen-carrying protein.</p>
+
+<div class="sheet">
+  <div class="cap">The scale of things, roughly (each step is about ten times smaller)</div>
+<pre>
+  1 mm      a grain of salt; a human egg cell is ~0.1 mm, just visible
+  100 um    a large human cell
+  10 um     a typical human cell; the nucleus inside it
+  1 um      a bacterium; a mitochondrion
+  100 nm    a large virus
+  10 nm     a ribosome is ~20-30 nm; the membrane is ~5-10 nm thick
+  1 nm      a single protein subunit; DNA is ~2 nm wide
+
+  um = micrometre (1/1,000 mm)     nm = nanometre (1/1,000,000 mm)
+</pre>
+</div>
+
+<p>The scale explains why it took so long to understand cells. An ordinary light microscope cannot
+show two objects as separate if they are closer than about 200 nanometres, because of the way
+light waves spread. <strong>Most of the cell's machinery is smaller than the smallest thing light
+can show.</strong> Seeing it needed electron microscopes, from the 1930s onward, and later new
+tricks, covered in Chapter 13.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>A walled city with a power plant, a factory and a post office</h2>
+  <p class="lede">The usual comparison is a city, and it is a good one, as long as you remember that
+  nobody is in charge. Every part works by chemistry, and the order emerges from millions of
+  molecules each doing one simple thing.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The membrane: a wall with guarded gates</h2>
+</header>
+
+<p>The cell membrane is a double layer of fatty molecules called <strong>phospholipids</strong>. Volume
+27 explains how it assembles itself. What matters here is what it lets through. Small molecules
+such as oxygen and carbon dioxide slip straight across. Water crosses slowly on its own and quickly
+through special channel proteins. But charged particles, such as sodium and potassium, and large
+molecules, such as sugar, cannot cross the fatty layer at all without help.</p>
+
+<p>That help comes from proteins set into the membrane, and they come in two main kinds.
+<strong>Channels</strong> are tunnels that open and let one kind of particle flow downhill, from
+where it is concentrated to where it is scarce. <strong>Pumps</strong> push particles uphill,
+against that flow, and they cost energy. The most famous is the sodium-potassium pump. It pushes
+sodium out of the cell and potassium in, all the time, and it uses a large share of the energy your
+body burns at rest. The result is a cell that is slightly charged, like a small battery. Nerve
+cells use that charge to send signals, which is why <a href="../27-life.html#c7">a thought is
+physically an electrical event</a>.</p>
+
+<p>The membrane also carries <strong>receptors</strong>, proteins that stick out of the surface and
+change shape when a particular molecule, such as a hormone, binds to them. That shape change sends
+a message inside. <strong>Most medicines work by fitting into one of these receptors or channels,
+like a key into a lock</strong>, which is why Volume 44 calls side effects unavoidable
+(<a href="../44-medicines.html#c1">Lock and key</a>).</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The compartments and what each one does</h2>
+</header>
+
+<p>A eukaryotic cell is divided into rooms called <strong>organelles</strong>, "little organs", each
+wrapped in its own membrane. Here is the main cast and what they do.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Organelle</th><th>Job</th><th>City comparison</th></tr></thead>
+<tbody>
+<tr><td><strong>Nucleus</strong></td><td>Holds the DNA. Copies genes out into messenger RNA.</td><td>The library of plans, which never lends the originals</td></tr>
+<tr><td><strong>Ribosomes</strong></td><td>Read messenger RNA and join amino acids into proteins</td><td>Assembly machines on the factory floor</td></tr>
+<tr><td><strong>Endoplasmic reticulum (ER)</strong></td><td>A maze of folded membrane. The "rough" part, studded with ribosomes, makes proteins for export and for membranes. The "smooth" part makes fats and handles some toxins.</td><td>The factory and its workshops</td></tr>
+<tr><td><strong>Golgi apparatus</strong></td><td>Finishes proteins, adds sugar labels, and sorts them into bubbles for delivery</td><td>The post office and its address labels</td></tr>
+<tr><td><strong>Lysosomes</strong></td><td>Bags of acid and enzymes that break down worn-out parts and swallowed material</td><td>Recycling and waste disposal</td></tr>
+<tr><td><strong>Mitochondria</strong></td><td>Turn food and oxygen into usable energy</td><td>The power stations</td></tr>
+<tr><td><strong>Chloroplasts</strong> (plants and algae only)</td><td>Capture sunlight to make sugar</td><td>Solar farms</td></tr>
+</tbody></table></div>
+
+<p>Follow one protein to see the system work. Insulin is made in certain cells of the pancreas. The
+gene is copied in the nucleus. The copy travels out to a ribosome on the rough ER, which builds the
+protein chain straight into the ER, where it folds. Small bubbles of membrane carry it to the
+Golgi, where it is trimmed into its active form and packed into storage bubbles. When blood sugar
+rises, those bubbles merge with the outer membrane and release insulin into the blood. <strong>The
+whole route, from gene to release, is a production line with quality control at each
+step.</strong> Misfolded proteins are caught and sent for destruction.</p>
+
+<p>Breaking down is as important as building. In 2016 the Japanese biologist Yoshinori Ohsumi won
+the Nobel Prize for showing how cells digest their own worn parts, a process called
+<strong>autophagy</strong>, "self-eating". The cell wraps old material in a membrane and delivers it to
+a lysosome to be recycled. When autophagy fails, damaged parts pile up, and that has been linked to
+several diseases of the nervous system.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Energy: one currency for everything</h2>
+</header>
+
+<p>Every job in the cell, pumping, building, moving, is paid for in the same currency. It is a small
+molecule called <strong>ATP</strong> (adenosine triphosphate). ATP carries three phosphate groups.
+Snapping off the last one releases a useful burst of energy, and the leftover molecule is then
+recharged. Each ATP is used and recharged many times a day. A common textbook estimate is that you
+turn over roughly your own body weight in ATP every day, while holding only a few tens of grams at
+any moment. <strong>ATP is not stored energy; it is spending money, constantly earned and
+spent.</strong></p>
+
+<p>Most of it is earned in the mitochondria. Food is broken into small pieces, and their electrons
+are passed along a chain of proteins in the mitochondrion's folded inner membrane. As the electrons
+pass, the chain pumps protons (hydrogen ions) to one side of the membrane, building up pressure,
+like water behind a dam. The protons flow back through a rotating protein machine, ATP synthase,
+which turns as they pass and makes ATP. Oxygen waits at the end of the chain to collect the spent
+electrons, forming water. <strong>That is why you breathe: oxygen is the final collector at the end
+of your cells' power line.</strong> Cyanide kills by blocking that chain.</p>
+
+<p>The idea that mitochondria were once free-living bacteria, the <strong>endosymbiotic theory</strong>,
+was championed by the American biologist Lynn Margulis from 1967, against strong resistance. The
+evidence is now overwhelming. Mitochondria have their own small circle of DNA (in humans 37 genes),
+a double membrane, ribosomes that look like bacterial ones, and they divide by splitting, as
+bacteria do. You inherit them almost entirely from your mother, because the egg supplies them and
+the sperm's are destroyed.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>A skeleton that moves, and motors that walk</h2>
+</header>
+
+<p>A cell is not a soft balloon. It has an inner scaffold called the <strong>cytoskeleton</strong>,
+made of protein fibres. Some are cables that give shape and let the cell crawl. Others are hollow
+tubes, <strong>microtubules</strong>, that run out from the centre like the spokes of a wheel.</p>
+
+<p>Microtubules are roads. Motor proteins such as <strong>kinesin</strong> carry cargo along them,
+taking one step at a time, each step paid with one ATP. Seen in animations, kinesin looks
+startlingly like a tiny two-legged walker carrying a sack. In a nerve cell that is a metre long,
+running from your spine to your foot, these motors are the only way to deliver new parts to the far
+end. When transport fails there, the far end of the nerve suffers first.</p>
+
+<p>The cytoskeleton is also how cells move. White blood cells crawl through tissue toward an
+infection by building cables at their front edge and pulling at the back. Sperm swim with a whip
+driven by microtubules. And when a cell divides, microtubules form the machine that pulls the two
+sets of chromosomes apart.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Division: copy everything, then split, with checks at every stage</h2>
+</header>
+
+<p>To become two, a cell must copy its whole genome, about three billion letters per set in a human,
+and share the copies exactly. This happens in a fixed order called the <strong>cell cycle</strong>:
+grow, copy the DNA, grow again, then divide. The division of the nucleus is called
+<strong>mitosis</strong>.</p>
+
+<div class="sheet">
+  <div class="cap">The cell cycle, simplified</div>
+<pre>
+   G1: grow, do normal work  ---&gt;  CHECKPOINT: is the DNA undamaged? enough food?
+          ^                                  |
+          |                                  v
+   M: mitosis, then split         S: copy every chromosome
+          ^                                  |
+          |                                  v
+   CHECKPOINT: is every          G2: grow, check the copy
+   chromosome attached?  &lt;-----  CHECKPOINT: was copying complete?
+</pre>
+</div>
+
+<p>The checkpoints are the important part. Proteins act as inspectors and stop the cycle if
+something is wrong. The best known is a protein called <strong>p53</strong>. When it detects damaged
+DNA, it pauses the cycle for repair, and if repair is impossible it tells the cell to kill itself.
+p53 is so important that it is often called "the guardian of the genome", and its gene is damaged in
+roughly half of all human cancers. <strong>Cancer is, at the level of the cell, a failure of these
+brakes and inspectors</strong>: the cell keeps dividing when it should stop.</p>
+
+<p>There is a second kind of division, <strong>meiosis</strong>, used only to make eggs and sperm. It
+halves the number of chromosomes and shuffles the parents' versions, so each egg or sperm is unique.
+The details belong to <a href="04-genetics.html">Genetics</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Every disease, every drug and every body starts here</h2>
+  <p class="lede">Doctors treat organs. But the problem is almost always inside cells, and so is the
+  solution.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>One broken gate: cystic fibrosis</h2>
+</header>
+
+<p>Cystic fibrosis is an inherited disease that fills the lungs with thick, sticky mucus and causes
+repeated infections. For most of history, children with it died young. In 1989 researchers found the
+cause: a faulty gene for one membrane protein, a channel called <strong>CFTR</strong> that lets
+chloride move out of cells lining the lungs and gut. When the channel is missing or stuck shut, salt
+and water stop moving properly, and the mucus becomes thick.</p>
+
+<p>That is cell biology turned into medicine. In the most common mutation, the protein is made but
+misfolds, and the cell's quality control destroys it before it reaches the membrane. Drugs called
+<strong>CFTR modulators</strong> help the faulty protein fold and reach the surface, and then help it
+open. A three-drug combination approved in the United States in 2019 works for most patients, and it
+has greatly improved lung function and life expectancy for many of them. <strong>Knowing exactly
+which part of which cell has failed is what made a targeted drug possible.</strong></p>
+
+<div class="warn">
+  <span class="tag">Health note</span>
+  <p>This file is general education about how cells work. It is not medical advice. For any
+  condition mentioned here, talk to a doctor.</p>
+</div>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The woman whose cells never died</h2>
+</header>
+
+<p>In 1951 Henrietta Lacks, a 31-year-old Black woman in Baltimore, was treated for cervical cancer at
+Johns Hopkins Hospital. A sample of her tumour was taken without her knowledge, which was common
+practice then. Most human cells die after a few weeks in a dish. Hers did not. They kept dividing,
+and they have been dividing in laboratories around the world ever since. They are called
+<strong>HeLa cells</strong>, from the first letters of her names.</p>
+
+<p>HeLa cells became the workhorse of cell biology. They were used to test the polio vaccine in the
+1950s and in countless studies of cancer, viruses and drugs since. Henrietta Lacks died the same
+year, and her family did not learn for decades that her cells were being used. The case became a
+landmark in debates about <strong>consent and who benefits from tissue taken from patients</strong>.
+Rules have tightened since, and in 2023 her family reached a settlement with one company that had
+sold the cells. Today most research using human tissue requires informed consent, although rules
+differ by country.</p>
+
+<p>Why did her cells not stop? Ordinary human cells can divide only a limited number of times, often
+around 40 to 60, before they stop for good. This is the <strong>Hayflick limit</strong>, named after
+Leonard Hayflick, who described it in the early 1960s. One reason is that the protective caps on the
+ends of chromosomes, <strong>telomeres</strong>, get shorter with each division. Her cancer cells had
+switched on an enzyme that rebuilds those caps, along with other changes, so they escaped the limit.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Death on purpose</h2>
+</header>
+
+<p>Your fingers were once joined by webbing, like a duck's foot. In the womb, the cells between them
+killed themselves on schedule, and the fingers separated. This tidy, planned suicide is called
+<strong>apoptosis</strong>. The cell shrinks, chops up its own DNA, and breaks into neat packets that
+neighbours eat. Nothing spills, so there is no inflammation.</p>
+
+<p>Much of what we know came from a tiny worm, <em>C. elegans</em>, in which researchers could follow
+every single cell as the animal developed. Exactly the same cells die in every worm. Sydney Brenner,
+Robert Horvitz and John Sulston shared the 2002 Nobel Prize for this work. <strong>Planned cell death
+is not a failure. It is how bodies are sculpted and how damaged cells are removed before they become
+dangerous.</strong> Too little of it helps cancers survive. Too much contributes to some
+degenerative diseases.</p>
+
+<p>Put Chapters 08 to 11 together and a simple picture appears. A healthy body is a balance between
+cells that divide, cells that repair, and cells that die when told. Most of medicine is about
+restoring that balance when it tips.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A clever design, and the limits of how we study it</h2>
+  <p class="lede">There are two questions here. What does the cell's design gain and cost? And what
+  are the strengths and weaknesses of the methods cell biologists use?</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The cell's design, weighed</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Design feature</th><th>What it buys</th><th>What it costs</th></tr></thead>
+<tbody>
+<tr><td><strong>Compartments</strong></td><td class="ok">Incompatible chemistry can run side by side, such as acid digestion next to delicate protein-folding.</td><td class="no">Everything must be addressed and shipped. Faulty labels or transport cause disease.</td></tr>
+<tr><td><strong>Mitochondria</strong></td><td class="ok">Far more energy per gram of food than without oxygen, which probably made large complex cells possible.</td><td class="no">Their chain leaks reactive oxygen molecules that damage the cell. Mitochondrial DNA faults cause rare, serious diseases.</td></tr>
+<tr><td><strong>Division with checkpoints</strong></td><td class="ok">Copies three billion letters with very few errors.</td><td class="no">Errors still slip through, and every division is another chance for a cancer-causing mistake.</td></tr>
+<tr><td><strong>Specialised cell types</strong></td><td class="ok">Nerve, muscle and blood cells can each be excellent at one job.</td><td class="no">Many specialised cells, such as most heart muscle and nerve cells, are rarely or never replaced.</td></tr>
+<tr><td><strong>A division limit</strong></td><td class="ok">Acts as a brake against runaway growth.</td><td class="no">Contributes to tissue ageing.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>How we look, and what each method misses</h2>
+</header>
+
+<div class="grid2">
+  <div class="card"><h4>Strengths of the toolkit</h4><p>Electron microscopes show the cell's parts
+  down to a few nanometres. Since the 2010s, <strong>cryo-electron microscopy</strong>, which images
+  flash-frozen samples, has shown individual protein machines in near-atomic detail (Nobel Prize 2017).
+  <strong>Super-resolution</strong> light microscopes beat the 200-nanometre limit using glowing tags
+  that switch on and off (Nobel Prize 2014). Glowing proteins borrowed from jellyfish let researchers
+  watch chosen proteins move inside living cells.</p></div>
+  <div class="card"><h4>Weaknesses</h4><p>Electron microscopes need dead, fixed cells, so they show a
+  snapshot, not a movie. Cells in a plastic dish, often cancer lines like HeLa, behave differently
+  from cells in a body: flat instead of three-dimensional, without neighbours, blood supply or immune
+  cells. <strong>Many drugs that work beautifully in dishes and mice fail in people.</strong> Studies
+  of "average" cells also hide the fact that two neighbouring cells can behave quite
+  differently.</p></div>
+</div>
+
+<p>Researchers are attacking these weaknesses. <strong>Organoids</strong> are small
+three-dimensional clumps grown from stem cells that partly copy a real organ, such as a mini-gut or
+a mini-kidney. <strong>Single-cell sequencing</strong> reads which genes are active in thousands of
+individual cells at once, instead of a blended average. Neither is a full substitute for a living
+body, and both are still young.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Mapping every cell, using cells as drugs, and building one from scratch</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Four directions, sorted by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>A map of every human cell type</strong></td><td>The international Human Cell Atlas project, launched in 2016, is cataloguing cells across the body by the genes they use.</td><td class="ok">Fairly sure: detailed reference maps of most tissues within a decade, useful for spotting which cells go wrong in disease.</td></tr>
+<tr><td><strong>Living cells as medicines</strong></td><td>CAR-T therapy, in which a patient's own immune cells are re-engineered to attack a blood cancer, was first approved in the US in 2017. It can produce lasting remissions but is costly and has serious side effects.</td><td class="ok">Fairly sure: more cell therapies for blood cancers and some autoimmune diseases. Solid tumours remain much harder.</td></tr>
+<tr><td><strong>Clearing old cells</strong></td><td>Some aged cells stop dividing but do not die, and release inflammatory signals. Drugs meant to remove them, "senolytics", help some ageing problems in mice and are in early human trials.</td><td class="mid">Plausible: treatments for specific age-related conditions. Broad slowing of human ageing is unproven. See <a href="../50-whats-coming.html#c3">Ageing, longevity and the honest state of it</a>.</td></tr>
+<tr><td><strong>A computer model of a whole cell</strong></td><td>Researchers have built a minimal bacterial cell with under 500 genes and are combining huge data sets with AI to predict how cells respond to changes.</td><td class="no">Speculative: a reliable "virtual cell" of a human cell is far off. Cells are much more complex than any current model.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>The deeper shift: from parts list to behaviour</h2>
+</header>
+
+<p>For most of the twentieth century, cell biology was about naming the parts. Today the parts list
+is largely known. The hard questions now are about behaviour. How does a cell decide to divide, to
+move or to die? How do thousands of signals combine into one decision? Why do two genetically
+identical cells next to each other behave differently?</p>
+
+<p>Answering those questions needs data from millions of single cells over time, and that is where
+automated microscopes, sequencing and machine learning are converging. <strong>The likely future of
+cell biology is less about discovering new organelles and more about predicting what a cell will
+do.</strong> If that works, drugs could be tested on detailed models of a patient's own cells before
+anyone takes them. That goal is real and widely shared. How soon it arrives is not known.</p>
+
+<p>For a curious non-specialist, the useful takeaway is simpler. When you hear about a new treatment,
+ask two questions. <strong>Which cells does it act on, and what inside them does it change?</strong>
+Those two questions will make most health news far easier to judge.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A cell is the smallest living unit. It is a membrane-wrapped city of compartments, powered by
+    <strong>ATP</strong> made mostly in <strong>mitochondria</strong>, that builds proteins from
+    instructions in its DNA, and that <strong>divides, repairs or kills itself</strong> under strict
+    checkpoints. Most disease is a failure of one of those jobs.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>About <strong>30 trillion</strong> cells in an adult human (2016 estimate), most of them red blood cells by count.</li>
+      <li>A typical human cell is about <strong>10–100 micrometres</strong> across; a bacterium about <strong>1–5</strong>.</li>
+      <li>Ordinary human cells divide roughly <strong>40–60 times</strong> before stopping (the Hayflick limit).</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Picturing a cell as a simple blob of jelly with a nucleus in the middle. <strong>It is packed,
+    structured and constantly moving</strong>, with motors, tracks, factories and waste systems.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why you need to breathe oxygen, using only what happens inside a mitochondrion?
+    If you can, you understand cellular energy.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Cell theory</dt><dd>The idea that all living things are made of cells and every cell comes from an existing cell.</dd>
+    <dt>Prokaryote</dt><dd>A cell without a nucleus, such as a bacterium.</dd>
+    <dt>Eukaryote</dt><dd>A cell with a nucleus and inner compartments, such as yours.</dd>
+    <dt>Membrane</dt><dd>The thin double layer of fatty molecules around a cell or compartment.</dd>
+    <dt>Organelle</dt><dd>A compartment inside a cell that does one main job.</dd>
+    <dt>Ribosome</dt><dd>A small machine that reads messenger RNA and builds proteins.</dd>
+    <dt>Mitochondrion</dt><dd>The organelle that uses oxygen to make most of the cell's ATP. Plural: mitochondria.</dd>
+    <dt>ATP</dt><dd>The small molecule the cell uses as its energy currency.</dd>
+    <dt>Cytoskeleton</dt><dd>The network of protein fibres that gives a cell shape and lets it move.</dd>
+    <dt>Mitosis</dt><dd>The division of a cell's nucleus into two identical copies.</dd>
+    <dt>Checkpoint</dt><dd>A control stage where the cell cycle stops if something is wrong.</dd>
+    <dt>Apoptosis</dt><dd>Planned, tidy cell suicide.</dd>
+    <dt>Autophagy</dt><dd>The cell digesting and recycling its own worn-out parts.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Every cell in your body comes from another cell by division, all the way back to one
+    fertilised egg."</li>
+    <li>"Mitochondria were once free-living bacteria, and they still have their own DNA, which you got
+    from your mother."</li>
+    <li>"You breathe because oxygen is the last stop in the chain that makes your cells' energy."</li>
+    <li>"Cancer is cells ignoring the brakes and inspectors that normally stop them dividing."</li>
+    <li>"Most drugs work by fitting into a protein on or in a cell, like a key in a lock."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="03-rna.html">RNA</a></h4><p>The molecule that carries
+  instructions from DNA to the ribosome, and does far more besides: from catalysing reactions to
+  mRNA vaccines.</p></div>
+  <div class="card"><h4>Related · <a href="14-stem-cells.html">Stem cells</a></h4><p>The cells that
+  can still become other cells, why they matter for repair, and the promises and limits of using
+  them as treatments.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

@@ -1,0 +1,887 @@
+<!doctype html>
+<!--@HEAD-SRC title="Electromagnetism" desc="How electricity and magnetism turned out to be one force: Ørsted, Faraday and Maxwell, how motors, generators and transformers work, why light is an electromagnetic wave, and what the theory still drives."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Electromagnetism</title>
+<meta name="description" content="How electricity and magnetism turned out to be one force: Ørsted, Faraday and Maxwell, how motors, generators and transformers work, why light is an electromagnetic wave, and what the theory still drives.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Physics · Topic 05 of 20</p>
+  <h1>Electromagnetism. <span class="thin">Two forces that turned out to be one, and the modern world built on the join.</span></h1>
+  <p class="lede">In the early 1800s electricity and magnetism were separate curiosities. Within
+  about fifty years, three discoveries had joined them into one force. A current makes a magnet. A
+  moving magnet makes a current. And the two, chasing each other through space, make light. Those
+  three facts explain the electric motor, the power station, the transformer, radio, Wi-Fi and the
+  colours you see. They also hold every atom in your body together. This file follows the story
+  from a twitching compass needle to the equations that, by most physicists' account, began modern
+  physics.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 17 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Physics</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../25-physics.html#c7"><span class="vn">Vol 25 · ch 07</span><b>Electricity and magnetism are the same thing</b><em>The short version</em></a>
+<a class="vol" href="04-magnetism.html"><span class="vn">Physics · 04</span><b>Magnetism</b><em>The previous topic</em></a>
+<a class="vol" href="06-waves.html"><span class="vn">Physics · 06</span><b>Waves</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 25 states the whole idea in one chapter (<a href="../25-physics.html#c7">Electricity
+  and magnetism are the same thing</a>), and Volume 32 applies it to the kitchen
+  (<a href="../32-everyday-science.html#c3">How a microwave actually works</a>). This file tells
+  the full story of the unification, explains motors, generators and transformers step by step, and
+  shows why light belongs to the same family. The two halves on their own are in
+  <a href="03-electricity.html">Electricity</a> and <a href="04-magnetism.html">Magnetism</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>One force with two faces</h2>
+  <p class="lede">Electromagnetism is the force between electric charges. When charges sit still we
+  call its effects electric. When they move, we also see magnetic effects. They are one thing seen
+  from different angles.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The compass that twitched</h2>
+</header>
+
+<p>In April 1820 the Danish physicist Hans Christian Ørsted was demonstrating electric current
+from a battery. According to the usual account, he noticed during a lecture that a compass needle
+nearby jumped each time he connected the circuit. Whatever the exact setting, he followed it up
+carefully over the next months and published in July 1820. A current in a wire pushed a compass
+needle sideways, at right angles to the wire.</p>
+
+<p>That right angle was the strange part. Every force known until then pushed or pulled along the
+line joining two things. Gravity pulls the apple straight towards the Earth. This new force curled
+<em>around</em> the wire. <strong>Electricity in motion produced magnetism, and the magnetism
+circled the current.</strong> News spread across Europe within weeks, and in France André-Marie
+Ampère quickly showed that two wires carrying currents attract or repel each other, just like
+magnets. The unit of current, the amp, is named after him.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The four effects that make up the subject</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Effect</th><th>Discovered</th><th>What it says</th><th>What it gave us</th></tr></thead>
+<tbody>
+<tr><td><strong>Current makes magnetism</strong></td><td>Ørsted, 1820</td><td>A flowing current creates a magnetic field around it</td><td>Electromagnets, relays, loudspeakers</td></tr>
+<tr><td><strong>Magnetism pushes on current</strong></td><td>Ampère, Faraday, 1820s</td><td>A wire carrying current in a magnetic field feels a sideways force</td><td>Electric motors</td></tr>
+<tr><td><strong>Changing magnetism makes current</strong></td><td>Faraday, 1831</td><td>A changing magnetic field creates a voltage in a nearby wire</td><td>Generators, transformers, induction hobs</td></tr>
+<tr><td><strong>The two make waves</strong></td><td>Maxwell (theory), 1860s; Hertz (experiment), 1880s</td><td>Changing electric and magnetic fields sustain each other and travel as a wave at the speed of light</td><td>Radio, Wi-Fi, radar, and the understanding of light itself</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The force behind almost everything you touch</h2>
+</header>
+
+<p>Physics recognises four fundamental forces: gravity, electromagnetism, and two forces that act
+only inside atomic nuclei, called the strong and weak nuclear forces. Of these, electromagnetism is
+the one that shapes daily life most, though people rarely notice it.</p>
+
+<p>When you push a door, nothing actually touches in the way it feels. The electrons in your hand
+repel the electrons in the door. When a chair holds you up, it is electromagnetic repulsion between
+atoms that stops you sinking through it. Friction, the stretch of a rubber band, the strength of
+steel, every chemical reaction, and the signals in your nerves are all electromagnetic.
+<strong>Apart from gravity and the inside of the nucleus, every force you experience is
+electromagnetism.</strong></p>
+
+<p>It is also enormously strong. The electric repulsion between two protons is about 10³⁶ times
+stronger than the gravitational pull between them, a 1 followed by 36 zeros. We do not notice this
+because positive and negative charges almost always balance. Gravity only wins at the scale of
+planets because it never cancels.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Motors, generators, transformers, and a wave</h2>
+  <p class="lede">Each of the four effects became a machine. The last became a theory that changed
+  physics forever.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Electromagnets: magnetism with an on-off switch</h2>
+</header>
+
+<p>A single wire makes a weak magnetic field. Wind the wire into a coil and the fields from each
+loop add together. Put an iron core inside the coil and the iron's domains line up with the field,
+multiplying it many times. The result is an <strong>electromagnet</strong>: a magnet that is
+strong when current flows and almost nothing when it stops.</p>
+
+<p>That switchability is the whole point. Scrapyard cranes pick up cars and drop them by cutting
+the current. A doorbell's electromagnet pulls a striker against a bell. A <strong>relay</strong>
+uses a small current to work an electromagnet that closes a switch in a big circuit, which is how
+early telephone exchanges and the first computers worked. Loudspeakers push a cone back and forth
+with an electromagnet driven by the music signal. The magnets in MRI scanners and particle
+accelerators are electromagnets made from superconducting wire.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Faraday and the discovery of induction</h2>
+</header>
+
+<p>Michael Faraday is one of the great stories of science. He was the son of a blacksmith, left
+school early and became a bookbinder's apprentice in London. He read the science books he bound,
+attended public lectures by the chemist Humphry Davy, and talked his way into a job as Davy's
+assistant at the Royal Institution in 1813. He had almost no mathematics. He thought in pictures,
+and it was Faraday who imagined "lines of force" filling the space around magnets, the idea that
+became the modern <strong>field</strong>.</p>
+
+<p>If electricity can make magnetism, Faraday asked, can magnetism make electricity? In August 1831
+he found the answer. A steady magnet beside a wire does nothing. But <strong>a changing magnetic
+field creates a voltage in a nearby wire</strong>. Push a magnet into a coil and a current flows.
+Hold it still and the current stops. Pull it out and the current flows the other way. This is
+<strong>electromagnetic induction</strong>, and it is probably the single most economically
+important discovery in physics.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>How an electric motor works</h2>
+</header>
+
+<p>A wire carrying current inside a magnetic field feels a sideways push. Bend the wire into a loop
+on an axle, and the push on one side of the loop is up while the push on the other is down. The
+loop turns. If you reverse the current every half turn, using a sliding contact or, in modern
+motors, electronic switching, the loop keeps turning in the same direction.</p>
+
+<div class="sheet">
+  <div class="cap">The motor and the generator are the same machine run in opposite directions</div>
+<pre>
+   MOTOR                                  GENERATOR
+   electricity in  -->  coil in a         motion in  -->  coil in a
+                        magnetic field                    magnetic field
+                        |                                 |
+                        v                                 v
+                    rotation out                     electricity out
+
+   electric car accelerating              electric car braking (regenerative)
+</pre>
+</div>
+
+<p>Faraday built the first device that turned electricity into continuous motion in 1821, a wire
+that circled endlessly round a magnet in a dish of mercury. Practical motors followed over the
+century. Today electric motors use a large share of all the electricity generated worldwide, often
+estimated at around 40 to 45 percent, running fans, pumps, compressors, conveyor belts, lifts,
+trains and cars. <strong>Every motor is a controlled use of the push between current and
+field.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Generators and transformers</h2>
+</header>
+
+<p>Run a motor backwards and it becomes a <strong>generator</strong>. Turn the coil in the magnetic
+field, and induction drives a current through it. Almost all the world's electricity is made this
+way. Steam from burning coal or gas, or heated by a nuclear reactor, spins a turbine; so does
+falling water, and so does the wind. The turbine turns a generator. Solar panels are the main
+exception, making electricity directly from light without any moving magnet.</p>
+
+<p>A <strong>transformer</strong> uses induction without any movement at all. Two coils are wound
+on one iron core. Alternating current in the first coil makes a constantly changing magnetic field
+in the core, and that changing field induces a current in the second coil. If the second coil has
+more turns, the voltage goes up; fewer turns, and it goes down. This is how grids raise voltage for
+long-distance transmission and lower it again for homes, as explained in
+<a href="03-electricity.html">Electricity</a>. It only works with alternating current, because a
+steady current makes no change for induction to use.</p>
+
+<p>Induction is everywhere once you look. An <strong>induction hob</strong> makes a rapidly
+changing field that induces currents directly in the bottom of an iron pan, heating the pan and not
+the glass. Wireless phone chargers pass energy between two flat coils. Contactless bank cards are
+powered for a moment by the reader's field. Metal detectors, guitar pickups and the sensors in
+traffic lights that detect waiting cars all rely on it.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Maxwell: four equations and a prediction</h2>
+</header>
+
+<p>In the 1860s the Scottish physicist James Clerk Maxwell did for electricity and magnetism what
+Newton had done for motion. He took Faraday's pictures of fields and turned them into mathematics.
+In a paper published in 1865, and in his book of 1873, he set out a complete theory. Later
+physicists, notably Oliver Heaviside, condensed it into the four short equations now known as
+<strong>Maxwell's equations</strong>.</p>
+
+<p>In plain words they say: electric charges produce electric fields; there are no lone magnetic
+poles; a changing magnetic field produces an electric field (Faraday's induction); and an electric
+current, <em>or a changing electric field</em>, produces a magnetic field. That last phrase was
+Maxwell's own addition, and it changed everything.</p>
+
+<p>With it, the equations predicted that a changing electric field makes a changing magnetic field,
+which makes a changing electric field, and so on. The disturbance should travel outward on its own
+as a wave. Maxwell calculated its speed from laboratory measurements of electricity and magnetism.
+<strong>It came out at the measured speed of light.</strong> Maxwell concluded that light is an
+electromagnetic wave. Electricity, magnetism and optics, three separate subjects, had become one.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Hertz, radio, and the electromagnetic spectrum</h2>
+</header>
+
+<p>Maxwell died in 1879, before anyone had made his waves deliberately. In experiments around 1887
+and 1888, the German physicist Heinrich Hertz used sparks to produce electromagnetic waves and
+detected them across his laboratory. He showed they reflect, bend and travel at the speed of light.
+The unit of frequency, the hertz, is named after him. Within about fifteen years, Guglielmo Marconi
+and others had turned the waves into wireless telegraphy, and in 1901 Marconi reported receiving a
+signal sent across the Atlantic.</p>
+
+<p>We now know light is only a thin slice of a whole family. All of it is the same wave, differing
+only in wavelength and frequency.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Band</th><th>Typical wavelength</th><th>Uses and sources</th></tr></thead>
+<tbody>
+<tr><td><strong>Radio</strong></td><td>Metres to kilometres</td><td>Broadcasting, aircraft, ships</td></tr>
+<tr><td><strong>Microwaves</strong></td><td>Millimetres to centimetres</td><td>Mobile phones, Wi-Fi, radar, microwave ovens</td></tr>
+<tr><td><strong>Infrared</strong></td><td>Thousandths of a millimetre</td><td>Heat radiation, remote controls, night cameras</td></tr>
+<tr><td><strong>Visible light</strong></td><td>About 400 to 700 billionths of a metre</td><td>Sight</td></tr>
+<tr><td><strong>Ultraviolet</strong></td><td>Shorter than violet</td><td>Sunburn, sterilising lamps</td></tr>
+<tr><td><strong>X-rays</strong></td><td>Around the size of atoms</td><td>Medical and airport imaging</td></tr>
+<tr><td><strong>Gamma rays</strong></td><td>Smaller than atoms</td><td>Radioactive decay, cancer treatment</td></tr>
+</tbody></table></div>
+
+<p>The deeper story of waves is in <a href="06-waves.html">Waves</a>, and light itself in
+<a href="08-light.html">Light</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Power, communication, and the road to relativity</h2>
+  <p class="lede">Electromagnetism gave us the electrified world, the wireless world, and the
+  clue that led Einstein to rethink space and time.</p>
+</header>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>From a coil on a bench to a world on the grid</h2>
+</header>
+
+<p>Faraday's induction coil of 1831 took about fifty years to grow into public power. In the early
+1880s the first central power stations opened in London and New York. By the middle of the
+twentieth century electricity reached most homes in rich countries. Today the large majority of
+people on Earth have access, though as of the mid-2020s several hundred million people, mostly in
+sub-Saharan Africa, still do not.</p>
+
+<p>The change was not just more light. Electric motors let factories put a small motor on every
+machine instead of driving everything from one steam engine through belts and shafts. Economic
+historians argue that this reorganisation of factory floors, which took decades, was where most of
+the productivity gains from electricity came from. <strong>The technology arrived quickly; learning
+to use it well took a generation.</strong> Many observers draw the same lesson about computers and
+AI today.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>A world connected by invisible waves</h2>
+</header>
+
+<p>Every wireless device is an application of Maxwell's equations. A phone's antenna drives
+electrons back and forth, making waves that spread out at the speed of light. Another antenna,
+perhaps kilometres away, feels those waves push its own electrons, which creates a tiny current
+that carries the signal. Radio, television, mobile networks, satellite links, GPS
+(<a href="../12-the-physical-supply-chain.html#s6">Volume 12</a>), Bluetooth and Wi-Fi all work
+this way. Radar sends waves out and listens for echoes, which is how air traffic control tracks
+planes and weather services track rain.</p>
+
+<p>Because all these services share the same family of waves, they must not interfere. Governments
+divide the radio spectrum into bands and license them, and international agreements coordinate the
+bands across borders. Spectrum auctions for mobile networks have raised very large sums. The next
+generations of mobile technology are covered in <a href="../01-technology/14-5g-and-6g.html">5G and
+6G</a>.</p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The puzzle that led to relativity</h2>
+</header>
+
+<p>Maxwell's equations held a hidden problem. They give one speed for light, with no mention of who
+is measuring it. But Newton's mechanics said speeds should add: if you run towards a light beam, it
+should seem to come at you faster. Experiments, most famously by Albert Michelson and Edward Morley
+in 1887, found no such difference.</p>
+
+<p>In 1905 Albert Einstein published a paper with a revealing title, "On the Electrodynamics of
+Moving Bodies". He took Maxwell seriously: the speed of light is the same for everyone. To make
+that work, time and space themselves had to stretch and shrink depending on how fast you move.
+That was special relativity, summarised in <a href="../25-physics.html#c4">Volume 25, Why nothing
+goes faster than light</a>.</p>
+
+<p>One of its consequences is beautiful. <strong>Magnetism can be understood as a side effect of
+electricity plus relativity.</strong> A current in a wire looks electrically neutral to you. Move
+alongside the electrons and, because of relativity, the spacing of the charges changes slightly
+from your point of view, and you feel an electric force. What one observer calls magnetic, another
+calls electric. They really are one force.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>The most successful theory in physics, and its practical costs</h2>
+  <p class="lede">As science, electromagnetism has almost no weaknesses at everyday scales. As
+  technology, it brings dependence, crowded airwaves and a long-running health debate.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Weighing the technology</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Aspect</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Motors and generators</strong></td><td class="ok">Efficient, quiet, reliable; large ones convert well over 90 percent of energy.</td><td class="mid">Powerful versions often depend on rare-earth magnets and copper, with concentrated supply chains.</td></tr>
+<tr><td><strong>Wireless communication</strong></td><td class="ok">Instant, global, no cables; connects remote places cheaply.</td><td class="no">Spectrum is limited and contested; signals can be jammed, intercepted or spoofed.</td></tr>
+<tr><td><strong>Induction and transformers</strong></td><td class="ok">Let grids move power over long distances with small losses.</td><td class="mid">Large transformers are custom-built with long lead times, a weak point in grids.</td></tr>
+<tr><td><strong>Vulnerability</strong></td><td class="ok">Systems are well understood and can be shielded.</td><td class="no">Severe solar storms, or a deliberate electromagnetic pulse, could damage unprotected electronics and grids.</td></tr>
+<tr><td><strong>Health</strong></td><td class="ok">Radio and microwave signals are non-ionising: they cannot break chemical bonds the way X-rays can.</td><td class="mid">Public worry persists; research continues, and exposure limits are set with safety margins.</td></tr>
+</tbody></table></div>
+
+<p>The health question deserves a fair statement because it is often argued badly. Radio waves,
+including those from phones and masts, are <strong>non-ionising</strong>: each bit of energy they
+carry is far too small to damage DNA directly. Their known effect, at high intensity, is gentle
+heating, which international exposure limits are designed to keep well below. In 2011 the World
+Health Organization's cancer agency classified radio-frequency fields as "possibly carcinogenic"
+(Group 2B), a category that signals limited evidence, not demonstrated harm. Large studies since
+then have not shown a clear rise in brain tumours as phone use spread. Most health agencies
+conclude that normal exposure is not a known health risk, while continuing to monitor.</p>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The most precisely tested idea we have</h2>
+</header>
+
+<p>As a theory, electromagnetism has one limit: Maxwell's version treats fields as smooth and
+continuous. At the scale of atoms, light comes in lumps called photons, and the theory needed a
+quantum upgrade. That upgrade, <strong>quantum electrodynamics</strong> (QED), was completed in the
+late 1940s by Richard Feynman, Julian Schwinger, Sin-Itiro Tomonaga and others.</p>
+
+<p>QED's predictions for the magnetic strength of the electron agree with experiment to better than
+one part in a billion, making it one of the most precisely tested theories in all of science.
+<strong>Maxwell's equations remain exactly right whenever there are enough photons to treat light
+as a smooth wave</strong>, which covers radio, power engineering and almost all optics.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Better motors, crowded skies, and beamed power</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>Directions, sorted by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Electric motors everywhere</strong></td><td>Cars, buses, heat pumps, industrial drives and small aircraft prototypes are moving to electric motors, controlled by power electronics.</td><td class="ok">Fairly sure: motors take over more of transport and heating; efficiency rules for motors keep tightening.</td></tr>
+<tr><td><strong>Wireless charging on the move</strong></td><td>Wireless phone charging is common. Trials have charged buses at stops and tested coils under road lanes.</td><td class="mid">Plausible for buses, taxis and fleets; costly to build into whole road networks.</td></tr>
+<tr><td><strong>Higher-frequency communication</strong></td><td>Mobile networks are moving to higher frequencies that carry more data but travel shorter distances.</td><td class="mid">Plausible: denser networks of small antennas; satellites compete for the same spectrum.</td></tr>
+<tr><td><strong>Power beamed from space</strong></td><td>Solar panels in orbit would beam energy to Earth as microwaves. Small demonstrations have been flown.</td><td class="no">Speculative: physics allows it; cost and scale are the barriers.</td></tr>
+</tbody></table></div>
+
+<p>Whatever happens, the equations will not change. The future of electromagnetism is engineering,
+not new laws: better materials for magnets and conductors, smarter control of motors and grids, and
+more efficient use of a radio spectrum that every new device wants a share of.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p><strong>Electricity and magnetism are one force.</strong> A current makes a magnetic field;
+    a magnetic field pushes on a current; a changing magnetic field makes a current; and changing
+    fields together travel as electromagnetic waves, of which light is one kind.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li><strong>1820</strong> Ørsted, <strong>1831</strong> Faraday, <strong>1865</strong>
+      Maxwell, <strong>1887–88</strong> Hertz.</li>
+      <li>Electric motors use roughly <strong>40–45 percent</strong> of the world's electricity, by
+      common estimates.</li>
+      <li>Electric repulsion between two protons is about <strong>10³⁶</strong> times their
+      gravitational attraction.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking a steady magnet makes electricity. <strong>Only a changing magnetic field
+    induces a current</strong>, which is why generators spin and why transformers need alternating
+    current.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a motor and a generator are really the same machine, and how an electric
+    car uses that fact when it brakes? If you can, you have understood the core of the subject.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Electromagnetism</dt><dd>The single force behind both electric and magnetic effects.</dd>
+    <dt>Field</dt><dd>A description of the force a charge or magnet would feel at every point in space.</dd>
+    <dt>Electromagnet</dt><dd>A coil of wire, usually around iron, that becomes a magnet when current flows.</dd>
+    <dt>Relay</dt><dd>A switch worked by an electromagnet, so a small current can control a large one.</dd>
+    <dt>Electromagnetic induction</dt><dd>The creation of a voltage by a changing magnetic field.</dd>
+    <dt>Motor</dt><dd>A machine that turns electrical energy into motion using the push between current and field.</dd>
+    <dt>Generator</dt><dd>A machine that turns motion into electrical energy by induction.</dd>
+    <dt>Transformer</dt><dd>Two coils on one core that change the voltage of alternating current.</dd>
+    <dt>Maxwell's equations</dt><dd>Four equations that describe all of classical electricity, magnetism and light.</dd>
+    <dt>Electromagnetic wave</dt><dd>Linked electric and magnetic fields travelling through space at the speed of light.</dd>
+    <dt>Electromagnetic spectrum</dt><dd>The full range of these waves, from radio to gamma rays.</dd>
+    <dt>Non-ionising radiation</dt><dd>Radiation, such as radio and visible light, too weak per photon to break chemical bonds.</dd>
+    <dt>Quantum electrodynamics</dt><dd>The quantum version of electromagnetism, in which light comes as photons.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Electricity and magnetism are one force. A current makes a magnet, and a moving magnet
+    makes a current."</li>
+    <li>"Almost every power station is a giant version of Faraday's experiment: spin a magnet near a
+    coil."</li>
+    <li>"A motor and a generator are the same machine. Run electricity in and you get motion; push it
+    round and you get electricity."</li>
+    <li>"Maxwell worked out the speed of his waves from electrical measurements, and got the speed of
+    light. That's how we learned what light is."</li>
+    <li>"When you press on a table, nothing really touches. It's electrons repelling electrons."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="06-waves.html">Waves</a></h4><p>What a wave really is,
+  how it carries energy without carrying stuff, and the behaviour shared by ripples, sound, light
+  and earthquakes.</p></div>
+  <div class="card"><h4>Related · <a href="../14-engineering/02-electrical-engineering.html">Electrical
+  engineering</a></h4><p>How engineers design the motors, grids and electronics that put these laws
+  to work.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

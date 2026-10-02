@@ -1,0 +1,864 @@
+<!doctype html>
+<!--@HEAD-SRC title="Genetic Engineering" desc="Changing DNA on purpose: the tools from restriction enzymes to CRISPR, engineered bacteria making medicines, GM crops, gene therapy, the safety and ethics debates, and what is likely next."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Genetic Engineering</title>
+<meta name="description" content="Changing DNA on purpose: the tools from restriction enzymes to CRISPR, engineered bacteria making medicines, GM crops, gene therapy, the safety and ethics debates, and what is likely next.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Biology · Topic 16 of 20</p>
+  <h1>Genetic engineering. <span class="thin">Fifty years of rewriting life, one letter and one argument at a time.</span></h1>
+  <p class="lede">For ten thousand years people changed the genes of plants and animals the slow way, by
+  choosing which ones to breed. In 1973 two scientists in California moved a gene from one organism into
+  another directly, and a new era began. Since then, genetic engineering has given diabetics human insulin
+  made by bacteria, put insect-resistant cotton in fields across the world, and, very recently, cured some
+  inherited diseases. It has also produced some of the most heated public arguments in science. This file
+  covers the tools, the uses, the evidence and the disputes.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Biology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../13-medicine-and-biology.html#m3"><span class="vn">Vol 13 · 03</span><b>CRISPR</b><em>The editing tool, explained</em></a>
+<a class="vol" href="../50-whats-coming.html#c2"><span class="vn">Vol 50 · ch 02</span><b>Gene editing</b><em>What is here and what isn't</em></a>
+<a class="vol" href="18-biotechnology.html"><span class="vn">Biology · 18</span><b>Biotechnology</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>The newest tool has its own chapter: Volume 13 explains how CRISPR finds and cuts DNA (<a
+  href="../13-medicine-and-biology.html#m3">CRISPR</a>), and Volume 50 sorts gene editing into what works
+  and what does not yet (<a href="../50-whats-coming.html#c2">Gene editing — already here, and the part that
+  isn't</a>). This file covers the whole field around it: the half-century of older tools, the crops, the
+  medicines, and the debates. CRISPR appears here only briefly.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Changing an organism's DNA directly, in a laboratory</h2>
+  <p class="lede">Genetic engineering means adding, removing or changing specific genes on purpose, rather
+  than waiting for a lucky mix through breeding.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>We have always changed genes; we just did it blind</h2>
+</header>
+
+<p>The maize in a modern field looks nothing like its wild ancestor, a grass from Mexico called teosinte,
+which has a few hard kernels on a tiny ear. Over thousands of years, farmers saved seed from the best
+plants and slowly reshaped its genes. Dogs, wheat, cows and cabbages all went through similar changes.
+Broccoli, cauliflower and kale are all one wild cabbage species, bred in different directions.</p>
+
+<p>Breeding works, but it is slow and imprecise. You can only combine genes from closely related organisms,
+and each cross reshuffles thousands of genes at once. In the twentieth century, breeders even used
+radiation and chemicals to cause random mutations and then picked useful ones. Several common crop
+varieties were made this way.</p>
+
+<p><strong>Genetic engineering changes the method, not the fact, of altering genes.</strong> It picks a
+specific gene, changes it or moves it, and can take it from any organism, even across kingdoms of life.
+That precision is what makes it powerful, and moving genes between unrelated species is a large part of
+what makes some people uneasy.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>1973, and the scientists who paused themselves</h2>
+</header>
+
+<p>In 1973 Stanley Cohen at Stanford and Herbert Boyer at the University of California, San Francisco, cut
+pieces of DNA from different sources and joined them inside a small ring of bacterial DNA. When they put
+the ring into bacteria, the bacteria copied the new gene every time they divided. Joined DNA from different
+sources is called <strong>recombinant DNA</strong>, and this was its first working demonstration.</p>
+
+<p>The researchers themselves worried. What if a bacterium carrying a cancer gene escaped from the lab? In
+1975 about 140 scientists, lawyers and journalists met at Asilomar in California, at a meeting organised
+by the biochemist Paul Berg and others. They agreed on safety rules graded by risk, including physical
+containment and weakened lab strains of bacteria that could not survive outside. <strong>It was one of the
+first times a scientific field paused to set its own limits before any harm occurred.</strong> The
+feared disasters did not happen, and many of the rules were later relaxed, but Asilomar is still cited
+whenever a powerful new technology appears.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The toolkit, in plain words</h2>
+</header>
+
+<p>Almost every tool was borrowed from bacteria or viruses, which have been editing DNA for billions of
+years.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Tool</th><th>What it does</th><th>Where it came from</th></tr></thead>
+<tbody>
+<tr><td><strong>Restriction enzymes</strong></td><td>Cut DNA at a specific short sequence of letters</td><td>Bacteria, which use them to chop up invading viruses</td></tr>
+<tr><td><strong>DNA ligase</strong></td><td>Glues cut pieces of DNA together</td><td>Found in all cells, which use it for repair</td></tr>
+<tr><td><strong>Plasmids</strong></td><td>Small rings of DNA that carry a gene into bacteria and get copied</td><td>Bacteria, which swap them naturally</td></tr>
+<tr><td><strong>PCR</strong></td><td>Makes billions of copies of a chosen stretch of DNA in hours</td><td>Invented by Kary Mullis in 1983, using heat-tolerant enzymes from hot-spring bacteria</td></tr>
+<tr><td><strong>Viral vectors</strong></td><td>Emptied-out viruses that deliver a gene into human or animal cells</td><td>Viruses, which naturally inject their genes into cells</td></tr>
+<tr><td><strong>CRISPR</strong></td><td>Finds a chosen DNA sequence and cuts or edits it</td><td>A bacterial immune system, adapted from 2012</td></tr>
+</tbody></table></div>
+
+<p>Two older tools, reading DNA (sequencing) and writing it from scratch (DNA synthesis), complete the
+kit. Sequencing is explained in <a href="../13-medicine-and-biology.html#m5">DNA sequencing</a>.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Cut, paste, deliver, check</h2>
+  <p class="lede">Every genetic engineering project, from bacteria to people, has the same four steps: get the
+  gene, put it into a carrier, deliver it into cells, and check that it works.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>A human gene in a bacterium: the insulin story</h2>
+</header>
+
+<p>For sixty years after its discovery, insulin for diabetes was extracted from the pancreases of cows and
+pigs from slaughterhouses. It worked, but supply depended on the meat industry, and some patients reacted to
+animal proteins.</p>
+
+<div class="sheet">
+  <div class="cap">Making human insulin in bacteria, simplified</div>
+<pre>
+  1. write or copy the human insulin gene
+  2. cut open a plasmid with a restriction enzyme
+  3. insert the gene; seal it with ligase      plasmid: (====[INSULIN]====)
+  4. put plasmids into E. coli bacteria
+  5. grow bacteria in huge steel tanks; they read the gene and make insulin
+  6. break the cells, purify the insulin, check it is identical to human insulin
+</pre>
+</div>
+
+<p>The young company Genentech, co-founded by Herbert Boyer, made human insulin this way in 1978, and in
+1982 it went on sale as the first medicine made by genetic engineering. <strong>The bacteria did not need to
+understand the gene. They simply read it like their own.</strong> That is the deep reason genetic
+engineering works at all: the genetic code is the same in almost every living thing, as <a
+href="../27-life.html#c2">Volume 27</a> explains. Today much insulin is made in engineered bacteria or
+yeast, and the protein is sometimes altered slightly to act faster or last longer.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Getting genes into plants</h2>
+</header>
+
+<p>Plant engineers had a natural helper. A soil bacterium called <em>Agrobacterium tumefaciens</em> causes
+tumours on plants by inserting a piece of its own DNA into the plant's cells. Scientists removed the
+tumour-causing genes from that piece and replaced them with genes they wanted. The bacterium then
+delivered the new genes for them. For plants it does not infect well, such as some cereals, researchers
+used a "gene gun" that fires microscopic gold or tungsten particles coated with DNA into the cells.</p>
+
+<p>Either way, the changed cells are grown into whole new plants using the fact that many plant cells can
+regenerate a complete plant. The seeds then carry the new gene. A plant or animal that carries a gene from
+another species is called <strong>transgenic</strong>. In everyday language, these are "GMOs",
+genetically modified organisms.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Engineered animals: mostly for research</h2>
+</header>
+
+<p>The most important engineered animal is the lab mouse. From the late 1980s, scientists learned to switch
+off a single chosen gene in mice to see what it does. These <strong>knockout mice</strong> revealed the
+roles of thousands of genes, and the researchers who developed the method, Mario Capecchi, Martin Evans and
+Oliver Smithies, shared the Nobel Prize in 2007. Much of modern medical research rests on them.</p>
+
+<p>Engineered animals for food are rare. In 2015 the US regulator approved a salmon carrying a growth-hormone
+gene from another salmon species, which lets it reach market size faster. It was the first genetically
+engineered animal approved for food in the United States, after about two decades of review. Other examples
+include pigs edited to resist a serious viral disease and, in medicine, pigs edited so their organs might be
+transplanted into people (<a href="../13-medicine-and-biology.html#m8">Transplants, and pig organs</a>).</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Gene therapy: a hard road to real cures</h2>
+</header>
+
+<p><strong>Gene therapy</strong> means giving a patient a working copy of a gene, usually to treat an
+inherited disease caused by a faulty one. The idea is old; making it safe took decades.</p>
+
+<p>The field nearly collapsed in 1999, when an 18-year-old American volunteer, Jesse Gelsinger, died from a
+massive immune reaction to the viral vector in a trial. A few years later, a French trial for a severe
+immune disorder cured several children but caused leukaemia in some, because the vector inserted itself
+next to a cancer gene. Research slowed and safety standards rose.</p>
+
+<p>Then the approvals came. In 2017 the United States approved a gene therapy for an inherited form of
+blindness, delivered by injection under the retina, and the first <strong>CAR-T</strong> therapies, in
+which a patient's own immune cells are engineered to hunt their cancer. In 2019 came a gene therapy for
+spinal muscular atrophy, a disease that killed most babies with its severe form before age two. It is given
+once, as an infusion. Its list price at launch, about 2.1 million dollars, was then the highest of any
+medicine. <strong>The science works for a growing list of diseases; the price is now the main
+problem.</strong></p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>From adding genes to editing them</h2>
+</header>
+
+<p>The older methods add a gene somewhere in the genome. They cannot easily fix a typo in place. Since 2012,
+<strong>CRISPR</strong> has made it possible to go to an exact address and cut, change or replace the
+letters there. The method, and its newer, gentler forms called base editing and prime editing, are explained
+in <a href="../13-medicine-and-biology.html#m3">Volume 13</a>. The first CRISPR medicine, for sickle cell
+disease and beta thalassaemia, was approved in late 2023.</p>
+
+<p>Editing also changed agriculture and research, because it can make small changes, such as switching
+off one gene, that look identical to a natural mutation and leave no foreign DNA behind. That fact sits at
+the centre of a regulatory argument in Chapter 12. And in 2018 a Chinese scientist, He Jiankui, announced
+that he had edited human embryos that were then born as twin girls. The work was condemned worldwide, and
+he was imprisoned. That episode, and the ethics of changing embryos, are covered in
+<a href="../50-whats-coming.html#c2">Volume 50</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Medicines, harvests and the whole of modern biology</h2>
+  <p class="lede">Genetic engineering is less visible than it is important. Much of it happens inside tanks,
+  fields and laboratories rather than in headlines.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The medicines you do not know are engineered</h2>
+</header>
+
+<p>Insulin was the first. Since then, engineered cells have become the factories for a large share of
+modern medicines. The clotting factors that people with haemophilia need used to come from donated blood,
+and in the 1980s contaminated supplies infected many patients with HIV and hepatitis C. Recombinant
+versions, made by engineered cells, removed that risk. The hepatitis B vaccine has been made in engineered
+yeast since the 1980s. Most <strong>monoclonal antibodies</strong>, used for cancer, arthritis and many
+other diseases, are made in engineered animal cells grown in huge tanks (<a
+href="../13-medicine-and-biology.html#m4">Monoclonal antibodies</a>).</p>
+
+<p>Growth hormone is a telling case. Children who needed it were once treated with hormone extracted from
+the pituitary glands of dead people. Some developed a fatal brain disease, Creutzfeldt-Jakob disease, from
+contaminated material. Engineered growth hormone, approved in 1985, ended that danger.
+<strong>Engineering made many medicines not only more plentiful but safer.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Crops: what has actually been grown</h2>
+</header>
+
+<p>Genetically engineered crops were first planted commercially in the mid-1990s. By around 2019 they
+covered roughly 190 million hectares, more than ten percent of the world's cropland, mostly in the United
+States, Brazil, Argentina, Canada and India. A few crops dominate: soybeans, maize, cotton and rapeseed
+(canola). Two traits dominate too.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Insect resistance (Bt crops)</h4><p>Plants carry a gene from a soil bacterium,
+  <em>Bacillus thuringiensis</em>, that makes a protein toxic to certain caterpillars and beetles but
+  harmless to people. Organic farmers have sprayed the same bacterium for decades. Bt cotton is now most of
+  the cotton grown in India and China, and has reduced insecticide spraying in many areas.</p></div>
+  <div class="card"><h4>Herbicide tolerance</h4><p>Plants survive a weedkiller, most often glyphosate, so
+  farmers can spray the whole field and kill only the weeds. This made weed control simpler and helped
+  reduce ploughing, which protects soil. It also greatly increased glyphosate use, with consequences
+  discussed in Chapter 12.</p></div>
+</div>
+
+<p>Smaller examples matter locally. In the 1990s a virus was destroying Hawaii's papaya trees. An engineered
+virus-resistant papaya, released in 1998, is widely credited with saving the industry.
+<strong>Golden Rice</strong>, engineered to make beta-carotene, which the body turns into vitamin A, was
+designed to fight a deficiency that causes blindness and death in poor children. After two decades of
+development and dispute, the Philippines approved it for planting in 2021, but a court there halted
+commercial planting in 2024 pending further review. The wider farming picture is in
+<a href="../12-environment-climate/16-sustainable-agriculture.html">Sustainable agriculture</a>.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The engine of biological research</h2>
+</header>
+
+<p>The least visible use may be the most far-reaching. Nearly every biology laboratory uses genetic
+engineering every day. Scientists attach a gene for a glowing jellyfish protein to a gene they study, so
+they can watch where it is made in a living cell. They switch genes off in mice, fish, flies and yeast to
+learn what those genes do. They grow engineered cells to make the proteins they need.</p>
+
+<p>Much of what we now know about cancer, the immune system and the brain came from these methods. The
+optogenetics described in <a href="12-neuroscience.html">Neuroscience</a> depends on putting an algae gene
+into mouse neurons. <strong>Genetic engineering is less a product than a way of asking questions</strong>,
+and most of its value has come from the answers.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Safe to eat, harder to judge as a system</h2>
+  <p class="lede">The scientific evidence on food safety is clearer than the public debate suggests. The
+  questions about farming systems, ownership and ethics are harder and more open.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>What the evidence shows, and what is still argued</h2>
+</header>
+
+<p>In 2016 the US National Academies of Sciences, Engineering, and Medicine reviewed hundreds of studies
+and twenty years of data. It found no substantiated evidence that the engineered crops on the market were
+less safe to eat than conventional ones. Many scientific bodies, including the World Health Organization for
+the foods it has assessed, have reached similar conclusions. <strong>On the narrow question of eating
+approved GM food, the scientific consensus is strong.</strong> The open questions are elsewhere.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Issue</th><th>The case for</th><th>The concern</th></tr></thead>
+<tbody>
+<tr><td><strong>Yields and pesticides</strong></td><td class="ok">Bt crops cut insecticide spraying and losses to pests in many regions.</td><td class="no">Pests evolve. Some insects have become resistant to Bt proteins.</td></tr>
+<tr><td><strong>Weed control</strong></td><td class="ok">Simpler control, less ploughing, less soil erosion.</td><td class="no">Heavy reliance on one herbicide bred glyphosate-resistant weeds across large areas.</td></tr>
+<tr><td><strong>Ownership</strong></td><td class="ok">Patents fund expensive research.</td><td class="no">Seed patents and a few dominant companies concentrate power; farmers may not save seed.</td></tr>
+<tr><td><strong>Environment</strong></td><td class="ok">Potential crops that need less water, fertiliser or spray.</td><td class="no">Genes can spread to wild relatives; effects on ecosystems need monitoring.</td></tr>
+<tr><td><strong>Medicine</strong></td><td class="ok">Safer, more plentiful drugs and new cures.</td><td class="no">Very high prices for gene therapies; unequal access worldwide.</td></tr>
+</tbody></table></div>
+
+<p>Rules differ sharply by region. The United States regulates mainly by what a product is. The European
+Union has regulated by how it was made, with strict approval, labelling and few GM crops grown. In 2018 the
+EU's top court ruled that gene-edited crops count as GMOs under existing law, even when the change matches a
+natural mutation. The EU has since been negotiating lighter rules for some edited plants, while countries
+such as Japan, Argentina and England have already eased theirs.</p>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>The deeper objections, fairly stated</h2>
+</header>
+
+<p>Some objections are not about measurable risk at all. Some people feel that moving genes between species
+crosses a natural line, or that it treats living things as mere material. Some religious thinkers frame it
+as overstepping a human role; others in the same traditions see healing and feeding people as a duty that
+justifies it. Defenders reply that nature itself moves genes between species, as <em>Agrobacterium</em>
+shows, and that breeding by radiation, which has caused little public alarm, is far less precise.</p>
+
+<p>The sharpest disagreement concerns human embryos. Correcting a fatal disease and selecting desirable
+traits use the same technique, and changes in an embryo pass to all future generations, who cannot consent.
+Most countries prohibit editing embryos for pregnancy. <strong>Reasonable people disagree about where lines
+should be drawn</strong>, and Volume 40 shows why different ethical frameworks answer differently (<a
+href="../40-right-and-wrong.html#c4">What to do with three frameworks</a>).</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>More precise, more widespread, and more contested</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions and confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Gene therapies given inside the body</strong></td><td>Editing in the liver has lowered harmful proteins in trials; a personalised base-editing treatment was given to a baby with a rare liver disorder in 2025.</td><td class="ok">Fairly sure: many more inherited diseases treated within a decade.</td></tr>
+<tr><td><strong>Gene-edited foods on shelves</strong></td><td>Japan approved a gene-edited tomato in 2021; other edited crops and animals are approved in several countries.</td><td class="ok">Fairly sure: steady growth, faster where rules treat small edits like conventional breeding.</td></tr>
+<tr><td><strong>Gene drives against malaria</strong></td><td>Genetic changes designed to spread through wild mosquito populations work in caged trials. None has been released.</td><td class="mid">Plausible: a first field release within about a decade, after intense debate over ecological risk and consent.</td></tr>
+<tr><td><strong>"De-extinction"</strong></td><td>A company announced edited animals in 2025 meant to resemble extinct species. Many scientists say they are modified living species, not revived ones.</td><td class="no">Speculative: real extinct species are not coming back in any full sense.</td></tr>
+<tr><td><strong>Editing embryos for traits</strong></td><td>Banned in most countries; technically risky.</td><td class="no">Speculative, and most societies currently reject it.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>The real bottleneck: who can afford it</h2>
+</header>
+
+<p>The biology is advancing faster than the economics. One-time gene therapies are priced in the millions
+of dollars because development is costly, patients are few, and companies argue that a lifelong cure saves
+decades of care. Sickle cell disease is most common in sub-Saharan Africa, India and among people of
+African descent, yet the first cure is mostly available in rich countries. Health systems are testing new
+payment methods, such as paying in instalments only while the treatment keeps working.</p>
+
+<p>The direction that would change most lives is not the most dramatic. It is <strong>making existing
+therapies cheaper, simpler and deliverable outside elite hospitals</strong>, for example by editing cells
+inside the body instead of in specialised laboratories. The industry built around these tools is the subject
+of the next file, <a href="18-biotechnology.html">Biotechnology</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Genetic engineering <strong>changes specific genes directly</strong>, using tools borrowed from
+    bacteria and viruses. It works because <strong>the genetic code is shared by almost all life</strong>.
+    It makes medicines, crops and research possible, and its hardest questions are about systems, prices
+    and ethics rather than food safety.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>First recombinant DNA in <strong>1973</strong>; first engineered medicine (insulin) sold in
+      <strong>1982</strong>.</li>
+      <li>GM crops covered roughly <strong>190 million hectares</strong> around 2019.</li>
+      <li>First CRISPR medicine approved in <strong>late 2023</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Treating "GMO" as one thing that is either good or bad. <strong>Each product should be judged on
+    its own trait, its own risks and its own farming system</strong>, not on the method alone.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a bacterium can make human insulin without any human cells involved? If so, you
+    understand why genetic engineering works at all.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Genetic engineering</dt><dd>Directly changing an organism's DNA in a laboratory.</dd>
+    <dt>Recombinant DNA</dt><dd>DNA made by joining pieces from different sources.</dd>
+    <dt>Restriction enzyme</dt><dd>A bacterial protein that cuts DNA at a specific sequence.</dd>
+    <dt>Plasmid</dt><dd>A small ring of DNA in bacteria, used to carry genes into cells.</dd>
+    <dt>Vector</dt><dd>Anything used to deliver a gene into a cell, such as a plasmid or an emptied virus.</dd>
+    <dt>PCR</dt><dd>Polymerase chain reaction: a method for copying a stretch of DNA billions of times.</dd>
+    <dt>Transgenic</dt><dd>Carrying a gene from another species.</dd>
+    <dt>GMO</dt><dd>Genetically modified organism; in law, usually one changed by genetic engineering.</dd>
+    <dt>Knockout</dt><dd>An organism, usually a mouse, with one chosen gene switched off.</dd>
+    <dt>Gene therapy</dt><dd>Treating disease by adding, fixing or switching off genes in a patient's cells.</dd>
+    <dt>CAR-T</dt><dd>A cancer treatment using a patient's immune cells engineered to recognise the cancer.</dd>
+    <dt>Bt crop</dt><dd>A crop carrying a bacterial gene that makes it toxic to certain insect pests.</dd>
+    <dt>Gene drive</dt><dd>A genetic change designed to spread through a wild population faster than normal inheritance.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Insulin made by bacteria has been on sale since 1982. Genetic engineering has been in medicine
+    for over forty years."</li>
+    <li>"It works because nearly all life uses the same genetic code. A bacterium reads a human gene like its
+    own."</li>
+    <li>"On eating approved GM food, the scientific consensus is that it's as safe as conventional food. The
+    real arguments are about farming, patents and power."</li>
+    <li>"Gene therapy now cures some diseases. The problem has moved from the lab to the price tag."</li>
+    <li>"Editing a patient's cells and editing an embryo are completely different ethical questions."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="18-biotechnology.html">Biotechnology</a></h4><p>The wider
+  industry of using living things to make products, from beer and yoghurt to vaccines, enzymes and
+  lab-grown proteins.</p></div>
+  <div class="card"><h4>Related · <a href="15-epigenetics.html">Epigenetics</a></h4><p>The layer above the
+  genes: how cells switch genes on and off without changing them, and the new tools that edit those
+  switches.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

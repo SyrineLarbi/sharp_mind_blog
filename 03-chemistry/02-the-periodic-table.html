@@ -1,0 +1,883 @@
+<!doctype html>
+<!--@HEAD-SRC title="The Periodic Table" desc="Why the periodic table is shaped the way it is, how its rows and columns predict behaviour, why that matters from chips to poisons, where the layout is still argued over, and what new elements may still come."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Periodic Table</title>
+<meta name="description" content="Why the periodic table is shaped the way it is, how its rows and columns predict behaviour, why that matters from chips to poisons, where the layout is still argued over, and what new elements may still come.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Chemistry · Topic 02 of 20</p>
+  <h1>The periodic table. <span class="thin">A map on which position is a prediction.</span></h1>
+  <p class="lede">Most people remember the periodic table as a poster on a classroom wall, a grid of
+  letters to be memorised for an exam. That is the least interesting way to see it. The table is a
+  compressed theory of matter. Where an element sits tells you how big its atoms are, whether it
+  conducts electricity, what it will bond with, and even whether your body will mistake it for
+  something else. It was built before anyone knew why it worked, and it predicted elements nobody had
+  seen. A century and a half later, it still tells chemists where to look.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Chemistry</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../26-chemistry.html#c2"><span class="vn">Vol 26 · ch 02</span><b>The periodic table is a seating plan</b><em>The short version</em></a>
+<a class="vol" href="../26-chemistry.html#c3"><span class="vn">Vol 26 · ch 03</span><b>Three ways to hold atoms</b><em>What the columns lead to</em></a>
+<a class="vol" href="04-acids-and-bases.html"><span class="vn">Chemistry · 04</span><b>Acids and bases</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 26 gives the table one short chapter (<a href="../26-chemistry.html#c2">The periodic
+  table is a seating plan</a>), and the chapter before it explains the atom
+  (<a href="../26-chemistry.html#c1">The only thing you need to know about an atom</a>). This file
+  goes further: the history that came before Mendeleev, the shell structure that explains the shape,
+  the trends, the places where the simple rules bend, and the arguments still going on at the edges.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A list of every element, folded so that families line up</h2>
+  <p class="lede">An element is a substance made of only one kind of atom. There are 118 known. The
+  table puts them in order and then breaks the line at exactly the points where behaviour starts to
+  repeat.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The density that was measured wrong</h2>
+</header>
+
+<p>In 1875 a French chemist, Paul-Émile Lecoq de Boisbaudran, found a new metal in a zinc ore and
+named it gallium. He measured its density and
+reported a value of about 4.7 grams per cubic centimetre. Soon after, he received a letter from Saint
+Petersburg. The Russian chemist Dmitri Mendeleev told him that his number was wrong. The true value,
+Mendeleev wrote, should be close to 5.9.</p>
+
+<p>Mendeleev had never seen gallium. Six years earlier, in 1869, he had published a table of the
+roughly 63 elements then known. Where the pattern demanded an element that nobody had found, he left
+a gap and described what would fill it. One gap sat below aluminium. He called the missing element
+"eka-aluminium" and listed its expected properties. Lecoq purified his sample further and measured
+again. The density came out at about 5.9.</p>
+
+<p>Two more of Mendeleev's gaps were filled within fifteen years: scandium in 1879 and germanium in
+1886. Germanium matched his predicted atomic weight, density and the kind of compounds it would form
+remarkably closely. <strong>That is why the table won: it did not just organise what was known, it
+made risky predictions about what was not, and they came true.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>How to read the grid</h2>
+</header>
+
+<p>Each square holds one element. The big number on the tile is the <strong>atomic number</strong>:
+how many protons sit in the nucleus of that atom. Protons are the positively charged particles at the
+centre of the atom, and their count is what makes an element what it is. One proton is hydrogen,
+six is carbon, 79 is gold. Change the count and you have a different element.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>What it is</th><th>What it tells you</th></tr></thead>
+<tbody>
+<tr><td><strong>Period</strong> (row)</td><td>Seven horizontal rows</td><td>How many electron layers the atom has. Row 3 atoms have three.</td></tr>
+<tr><td><strong>Group</strong> (column)</td><td>Eighteen vertical columns, numbered 1 to 18</td><td>How many electrons sit in the outer layer, and so how the element reacts</td></tr>
+<tr><td><strong>Block</strong></td><td>Four regions called s, p, d and f</td><td>Which kind of electron "slot" is being filled as you move across</td></tr>
+<tr><td><strong>The staircase</strong></td><td>A zigzag line on the right-hand side</td><td>Metals to its left, non-metals to its right, in-between elements (metalloids) along it</td></tr>
+<tr><td><strong>The two loose rows</strong></td><td>Lanthanides and actinides, printed below</td><td>They belong inside rows 6 and 7. They are moved out only so the table fits on a page.</td></tr>
+</tbody></table></div>
+
+<p>About three quarters of the elements are metals. Since 2016, when the last four names (nihonium, moscovium, tennessine and
+oganesson) were approved, the seventh row has been complete. <strong>The table you see today has no
+holes.</strong> Any new element would have to start an eighth row.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The people who nearly got there first</h2>
+</header>
+
+<p>Mendeleev did not start from nothing. In 1829 the German chemist Johann Döbereiner noticed
+"triads": groups of three similar elements, such as chlorine, bromine and iodine, where the middle
+one's atomic weight was roughly the average of the other two. In 1865 the English chemist John
+Newlands arranged elements by weight and saw that properties repeated every eighth element. He called
+it the "law of octaves", after music. Colleagues at the Chemical Society mocked him, and one asked
+whether he had tried listing the elements alphabetically.</p>
+
+<p>The German chemist Lothar Meyer built a similar table at almost the same time. Mendeleev gets
+most of the credit because he was bolder about the gaps, and because he broke his own rule when the
+chemistry demanded it. Tellurium is heavier than iodine, but he put it first, because iodine clearly
+belonged with chlorine and bromine.</p>
+
+<p>Nobody could explain why that swap was right until 1913. The young English physicist Henry
+Moseley fired electrons at different metals and measured the X-rays that came out. The X-ray
+frequency rose in neat steps from one element to the next. Each step was one more proton.
+<strong>Moseley showed that the true ordering principle is the proton count, not the weight</strong>,
+and with it the swaps made sense. He was killed at Gallipoli two years later, aged 27.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Electrons fill layers, and behaviour repeats when a layer starts again</h2>
+  <p class="lede">The table's shape is not a design choice. It is a picture of how electrons arrange
+  themselves around a nucleus. Once you see that, the strange widths of the rows stop being strange.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Why the rows are 2, 8, 8, 18, 18, 32 and 32 long</h2>
+</header>
+
+<p>Electrons are the light, negatively charged particles that surround the nucleus. They cannot sit
+just anywhere. Quantum physics allows them only certain energy levels, usually called
+<strong>shells</strong>. Each shell is divided into <strong>subshells</strong>, labelled s, p, d and
+f. An s subshell holds 2 electrons, a p holds 6, a d holds 10 and an f holds 14.</p>
+
+<p>Now walk along the table, adding one proton and one electron at each step. Row 1 fills only one
+small s subshell, so it has 2 elements: hydrogen and helium. Rows 2 and 3 fill an s and a p: 2 + 6
+= 8 elements each. From row 4 a d subshell joins in, giving 2 + 6 + 10 = 18. From row 6 an f
+subshell joins too, giving 32. <strong>The four blocks of the table are simply the four kinds of
+subshell being filled.</strong> The tall columns at the left are the s block. The wide middle is the
+d block. The right-hand side is the p block. The two rows printed underneath are the f block.</p>
+
+<p>The chemistry lives in the outer electrons, the <strong>valence electrons</strong>, which touch
+other atoms. Every element in a column has the same outer arrangement, which is why sodium and
+potassium behave like cousins although one is nearly twice as heavy.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The trends: four arrows that explain most of chemistry</h2>
+</header>
+
+<p>Two forces compete in every atom. The positive nucleus pulls the electrons in. The inner electrons
+partly hide the nucleus from the outer ones, an effect called <strong>shielding</strong>. Moving across
+a row, you add protons but no new layer, so the pull wins and atoms actually get smaller. Moving down a
+column, you add a whole new layer each time, so the outer electrons sit further out and are held more
+loosely.</p>
+
+<div class="sheet">
+  <div class="cap">The main trends, roughly</div>
+<pre>
+                 across a row  ------------------------------&gt;
+                 atoms get smaller, grip on electrons gets stronger
+
+   down a      Li  Be  B   C   N   O   F      F = the greediest atom
+   column  |   Na  Mg  Al  Si  P   S   Cl
+           |   K   Ca  ... Ge  As  Se  Br
+           v   Rb  Sr  ... Sn  Sb  Te  I
+               Cs  Ba  ... Pb  Bi  Po  At
+   atoms get bigger, outer electrons easier to remove
+
+   most metallic: bottom left (caesium)   least metallic: top right (fluorine)
+</pre>
+</div>
+
+<p>Chemists name these trends. <strong>Atomic radius</strong> is the size of the atom.
+<strong>Ionisation energy</strong> is the energy needed to pull one electron off. <strong>Electronegativity</strong>
+is how strongly an atom pulls shared electrons towards itself in a bond. The American chemist Linus
+Pauling built the usual scale for it in the 1930s. Fluorine tops it at about 4.0, and caesium sits near
+the bottom at about 0.8.</p>
+
+<p>These numbers predict bonds. When two atoms differ a lot in electronegativity, one takes the
+other's electron: an ionic bond, as in table salt. When they are similar, they share: a covalent bond,
+as in water. <strong>Most of what a chemist "just knows" about two elements comes from where they
+sit on the grid.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Families with personalities</h2>
+</header>
+
+<p>Some columns are so consistent that they have names.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Alkali metals (group 1)</h4><p>Lithium, sodium, potassium, rubidium,
+  caesium. One outer electron, easily lost. Soft enough to cut with a knife, and they react with water
+  more violently the further down you go. Potassium bursts into a lilac flame; caesium can
+  shatter the container.</p></div>
+  <div class="card"><h4>Halogens (group 17)</h4><p>Fluorine, chlorine, bromine, iodine. One electron
+  short of a full layer, so they grab electrons from almost anything. The name means "salt-maker",
+  because they form salts with metals. Fluoride in toothpaste is fluorine that has already taken
+  its electron and calmed down.</p></div>
+  <div class="card"><h4>Noble gases (group 18)</h4><p>Helium, neon, argon, krypton, xenon, radon. Full
+  outer layers, so they barely react. Mendeleev had no column for them, because none were known. When
+  Lord Rayleigh and William Ramsay found argon in 1894, and the others followed within a few years, the
+  table simply gained a new column. It absorbed a surprise without breaking.</p></div>
+  <div class="card"><h4>Transition metals (groups 3 to 12)</h4><p>Iron, copper, nickel, gold,
+  platinum and the rest of the wide middle. Their d electrons let them lose different numbers of
+  electrons in different situations. That gives them vivid colours in compounds and makes many of them
+  excellent catalysts, substances that speed up reactions without being used up.</p></div>
+</div>
+
+<p>The f block deserves a word. The <strong>lanthanides</strong>, the first of its two rows, are
+nearly identical to each other chemically, because the electrons being added are tucked deep inside
+the atom where they barely affect bonding. This is why the "rare earth" metals used in magnets are so
+hard to separate, a problem Volume 12 describes (<a href="../12-the-physical-supply-chain.html#s2">Rare
+earths</a>). The <strong>actinides</strong>, the second row, include uranium and plutonium. All of
+them are radioactive.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Where the simple picture bends</h2>
+</header>
+
+<p>The rules above are very good, and they are not perfect. Three exceptions are worth knowing,
+because each one teaches something.</p>
+
+<p><strong>Hydrogen has no proper home.</strong> It has one electron, like the alkali metals, so it
+usually sits above lithium. But it is a gas, not a metal, and it can also gain an electron like a
+halogen. Some tables float it above the middle on its own. Helium has the same problem in reverse: its
+outer arrangement is like group 2, but its behaviour is noble gas.</p>
+
+<p><strong>Gold is yellow because of relativity.</strong> In very heavy atoms the innermost electrons move at a large
+fraction of the speed of light, and Einstein's relativity shifts their energy levels. As a result,
+gold absorbs blue light and reflects yellow. Silver, one row up, has the
+same outer arrangement but much weaker relativistic effects, so it looks white. Calculations suggest
+that the same effect is a large part of why mercury is a liquid at room temperature.</p>
+
+<p><strong>Diagonal neighbours can be more alike than column neighbours.</strong> Lithium resembles
+magnesium, one step down and to the right, because size and charge balance out in similar
+proportions. The underlying law is the electron structure. The table is a picture of it, drawn
+flat.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Chips, poisons, and the stars inside you</h2>
+  <p class="lede">The table matters outside the laboratory because nature and industry both follow its
+  logic. Elements in the same column can stand in for each other, for better and for worse.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Designing materials by moving one square</h2>
+</header>
+
+<p>Silicon sits in group 14 with four outer electrons. In a silicon crystal, every atom shares those
+four with four neighbours, and almost no electrons are free to carry current. Now replace one atom in
+a million with phosphorus, from group 15 next door. Phosphorus brings a fifth electron that has no
+partner and can wander. Replace it instead with boron, from group 13, and you create a missing
+electron, a "hole", that also moves. This deliberate contamination is called
+<strong>doping</strong>, and it is how every computer chip is made. The whole design logic is a step
+left or right on the table.</p>
+
+<p>The same reasoning builds new materials. Gallium (group 13) and arsenic (group 15) average four
+outer electrons, so gallium arsenide behaves like a faster silicon and is used in radio chips and
+lasers. <strong>Chemists searching for a new battery, magnet or catalyst
+still begin by asking which neighbours on the table could replace an expensive or toxic
+element.</strong></p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The body reads the table too, and gets fooled</h2>
+</header>
+
+<p>Living cells handle elements by their size and charge. An element that resembles a useful one can
+slip through the same doors. That makes position on the table a guide to toxicity.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Impostor</th><th>Mistaken for</th><th>What happens</th></tr></thead>
+<tbody>
+<tr><td><strong>Strontium-90</strong></td><td>Calcium, directly above it</td><td>Built into bones and teeth, where it keeps emitting radiation. In the 1950s and 1960s a survey of children's baby teeth in St. Louis tracked it from nuclear weapons tests, and helped build support for the 1963 test ban treaty.</td></tr>
+<tr><td><strong>Caesium-137</strong></td><td>Potassium, two rows up</td><td>Spreads through soft tissue like potassium. It was a major contaminant after Chernobyl and Fukushima.</td></tr>
+<tr><td><strong>Thallium</strong></td><td>Potassium (similar size and charge)</td><td>Enters cells through the pathways meant for potassium and poisons them. Tasteless and slow-acting, it has a long history as a murderer's poison.</td></tr>
+<tr><td><strong>Cadmium</strong></td><td>Zinc, directly above it</td><td>Displaces zinc in enzymes and damages kidneys and bones. Cadmium pollution in Toyama, Japan, caused the painful bone disease called itai-itai ("it hurts, it hurts").</td></tr>
+<tr><td><strong>Arsenic</strong></td><td>Phosphorus, directly above it</td><td>Its compounds can imitate phosphate, which cells use to store energy and build DNA, and so jam that machinery.</td></tr>
+</tbody></table></div>
+
+<p>The same logic can help. Lithium, above sodium and potassium, has treated bipolar disorder since the
+Australian psychiatrist John Cade reported its effect in 1949, although exactly how it steadies mood
+is still not fully understood. <strong>The table hints at why an element is dangerous or useful in
+the body long before anyone works out the details.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Made in stars, mined on Earth</h2>
+</header>
+
+<p>The table is also a history of the universe. Hydrogen, helium and a trace of lithium came out of
+the Big Bang. Everything heavier was made later, inside stars. Stars fuse light nuclei into heavier
+ones and release energy, but only up to iron. Fusing beyond iron costs energy instead of releasing it.
+So the elements heavier than iron were made in violent events: the explosions of massive stars and
+the collisions of neutron stars. In 2017 telescopes watched the afterglow of such a collision, first
+detected as gravitational waves, and saw the signature of freshly made heavy elements. Volume 29 tells
+the story of how stars die (<a href="../29-the-sky.html#c4">How stars die, and why it matters to
+you</a>).</p>
+
+<p>On Earth, those elements are unevenly spread and some are scarce. <strong>Helium is a striking
+example.</strong> It is the second most common element in the universe, but on Earth it escapes
+into space once released. Almost all we use comes from radioactive decay deep underground, trapped
+in a few natural gas fields. It cools the magnets in hospital MRI scanners, and supplies have been
+squeezed several times in recent years. Cobalt, lithium, the rare earths and the platinum metals are
+concentrated in a handful of countries. The table is now a supply-chain map too.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A brilliant summary that hides some of what it summarises</h2>
+  <p class="lede">The table is one of the most successful diagrams in science. Like any compression,
+  it throws information away, and the places where it does so are worth knowing.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>What the table does well, and where it misleads</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Position predicts behaviour</strong></td><td class="ok">One glance gives size, bonding style and reactivity for 118 elements.</td><td class="no">Real behaviour depends on temperature, pressure and partners, which the grid does not show.</td></tr>
+<tr><td><strong>Columns as families</strong></td><td class="ok">You can learn a whole group from one member.</td><td class="mid">The top element of a column is often the odd one out (fluorine, lithium, carbon versus silicon).</td></tr>
+<tr><td><strong>One flat picture</strong></td><td class="ok">Easy to print, teach and remember.</td><td class="no">Electron structure is not flat. The f block is cut out and pasted underneath, which hides that it belongs inside the rows.</td></tr>
+<tr><td><strong>One square per element</strong></td><td class="ok">Clean and simple.</td><td class="no">Hides isotopes, the versions of an element with different neutron counts. Carbon-12 and carbon-14 share a square but only one is radioactive.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The arguments that are still going on</h2>
+</header>
+
+<p>Chemists still argue about a few placements. The best-known is <strong>group 3</strong>. Older tables put lanthanum and actinium
+under scandium and yttrium. Many newer ones put lutetium and lawrencium there instead, because their
+electron structures fit the column better. A working group of IUPAC, the international body that sets
+chemistry's naming rules, has studied the question and leaned towards lutetium and lawrencium, but
+plenty of textbooks still show the older version.</p>
+
+<p>Others have redrawn the whole thing, as spirals, as three-dimensional shapes, or as a
+"left-step" table proposed by the French engineer Charles Janet in the 1920s. None has replaced the
+standard layout, mainly because it is good enough and everyone already knows it.</p>
+
+<p>At the far bottom of the table, the rules may actually fail. The heaviest elements exist only as a
+few atoms that last fractions of a second. Calculations suggest relativistic effects may stop
+some of them behaving like their column. Experiments on copernicium and flerovium,
+done with a handful of atoms at a time, hint that they are unusually volatile. The results are hard
+to obtain and still debated. <strong>The table works superbly where we live, and becomes a hypothesis
+at its edge.</strong></p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>An eighth row, and a fight over the elements we already have</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Demand shifts towards a few elements</strong></td><td>Batteries, motors, wind turbines and electronics need lithium, nickel, cobalt, copper, graphite and rare earths. Governments now publish "critical minerals" lists.</td><td class="ok">Fairly sure: these elements will matter more in trade and politics for decades, and recycling and substitution will grow.</td></tr>
+<tr><td><strong>Elements 119 and 120</strong></td><td>Laboratories in Japan, Russia, the US and elsewhere are trying. Making them needs heavier beams than before. In 2024 a Berkeley team reported making livermorium with a titanium-50 beam, a technique they hope can reach element 120.</td><td class="mid">Plausible: one or both may be claimed within the next decade or two. Each would last far less than a second, and would start row 8.</td></tr>
+<tr><td><strong>An "island of stability"</strong></td><td>Theory has long suggested that some superheavy nuclei with particular proton and neutron counts could last much longer than their neighbours, perhaps minutes or more.</td><td class="no">Speculative: hinted at by the slightly longer lives of some heavy isotopes, never reached. A new g block of chemistry beyond it is further still.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The table as a search engine</h2>
+</header>
+
+<p>The quieter change is in how the table is used. For most of its history, chemists used it in their
+heads. Now computer programs run quantum calculations for thousands of possible combinations of
+elements, and machine-learning models trained on known materials suggest which untried combinations
+might make a good battery electrode or a superconductor. In 2023 Google DeepMind announced a very large
+list of predicted stable crystals; other chemists soon disputed how many were useful or truly new.</p>
+
+<p>These tools speed up the old method rather than replace it. They still ask what the table has
+always asked: <strong>which elements, in which proportions, will fill which electron slots?</strong>
+Mendeleev asked it with cards for 63 elements. The same question now runs across the whole grid.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Elements are ordered by <strong>proton count</strong>. Rows break where a new
+    <strong>electron shell</strong> begins, so every column shares the same
+    <strong>outer electrons</strong> and behaves alike. Size, grip on electrons and metallic character
+    change in steady <strong>trends</strong> across rows and down columns, and those trends predict how
+    elements bond.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li><strong>118</strong> confirmed elements; row 7 complete since <strong>2016</strong>.</li>
+      <li>Rows hold <strong>2, 8, 8, 18, 18, 32, 32</strong> elements, because s, p, d and f subshells
+      hold 2, 6, 10 and 14 electrons.</li>
+      <li>Mendeleev published in <strong>1869</strong> with about <strong>63</strong> elements known;
+      Moseley fixed the ordering by proton count in <strong>1913</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking the table is ordered by weight, or that its shape is a convention. <strong>The order is
+    the proton count, and the shape is the electron structure</strong>, drawn flat.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why strontium-90 ends up in bones, using only its position on the table? If you
+    can, you have understood columns, outer electrons and why cells mistake one element for another.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Element</dt><dd>A substance made of only one kind of atom, defined by its number of protons.</dd>
+    <dt>Atomic number</dt><dd>The number of protons in an atom's nucleus. It decides which element the atom is.</dd>
+    <dt>Period</dt><dd>A row of the table. All its elements have the same number of electron shells.</dd>
+    <dt>Group</dt><dd>A column of the table. Its elements share the same outer electron arrangement.</dd>
+    <dt>Shell</dt><dd>One of the allowed energy levels that electrons occupy around a nucleus.</dd>
+    <dt>Subshell (s, p, d, f)</dt><dd>A division of a shell. They hold 2, 6, 10 and 14 electrons and give the table its four blocks.</dd>
+    <dt>Valence electrons</dt><dd>The outermost electrons, the ones that take part in bonding.</dd>
+    <dt>Electronegativity</dt><dd>How strongly an atom pulls shared electrons towards itself in a bond.</dd>
+    <dt>Isotope</dt><dd>A version of an element with a different number of neutrons. Same chemistry, different mass, sometimes radioactive.</dd>
+    <dt>Doping</dt><dd>Adding a tiny amount of a neighbouring element to a semiconductor to control how it conducts.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"The periodic table isn't ordered by weight. It's ordered by the number of protons, and its
+    shape is just how electrons fill up."</li>
+    <li>"Mendeleev's real achievement was the gaps. He predicted elements nobody had found, and they
+    turned out exactly as he said."</li>
+    <li>"Elements in the same column behave alike, which is why strontium gets into bones like calcium
+    does."</li>
+    <li>"Gold is yellow because of relativity. Its inner electrons move so fast that Einstein's
+    physics changes its colour."</li>
+    <li>"A computer chip is silicon with a few atoms from the next column over. The design starts on
+    the periodic table."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="04-acids-and-bases.html">Acids and bases</a></h4><p>What
+  makes something an acid, why the pH scale is logarithmic, and how your blood, your stomach and the
+  oceans manage acidity.</p></div>
+  <div class="card"><h4>Related · <a href="../26-chemistry.html#c3">Three ways to hold atoms
+  together</a></h4><p>The bonds that the table's columns predict: giving and taking, sharing, and the
+  electron sea of metals.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

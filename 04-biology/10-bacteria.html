@@ -1,0 +1,863 @@
+<!doctype html>
+<!--@HEAD-SRC title="Bacteria" desc="What bacteria are, how they grow, share genes, talk to each other and survive, how a few cause disease, how antibiotics hit them, and where the fight and the partnership are heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bacteria</title>
+<meta name="description" content="What bacteria are, how they grow, share genes, talk to each other and survive, how a few cause disease, how antibiotics hit them, and where the fight and the partnership are heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Biology · Topic 10 of 20</p>
+  <h1>Bacteria. <span class="thin">One cell, no nucleus, and three and a half billion years of practice.</span></h1>
+  <p class="lede">Bacteria are the oldest and most successful living things on Earth. Each is a single
+  cell, a few thousandths of a millimetre long, with no nucleus. They can double in number in under an
+  hour, swap genes with strangers, talk to each other with chemicals, and survive boiling as dormant
+  spores. A handful cause plague, cholera and tuberculosis. The rest digest our food, fix nitrogen for
+  our crops, and gave us some of the most powerful tools in modern biology.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Biology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../13-medicine-and-biology.html#m6"><span class="vn">Vol 13 · m6</span><b>Antibiotic resistance</b><em>How bacteria beat drugs</em></a>
+<a class="vol" href="08-microbiology.html"><span class="vn">Biology · 08</span><b>Microbiology</b><em>The whole microbial world</em></a>
+<a class="vol" href="12-neuroscience.html"><span class="vn">Biology · 12</span><b>Neuroscience</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 13 explains antibiotic resistance, plasmids and the broken antibiotic market
+  (<a href="../13-medicine-and-biology.html#m6">Antibiotic resistance</a>). Volume 28 explains why
+  antibiotics work on bacteria and not viruses (<a href="../28-medicine.html#c3">Bacteria and viruses are
+  not the same thing</a>), Volume 24 tells the penicillin story
+  (<a href="../24-discoveries.html#c6">Penicillin</a>), and Volume 44 covers using antibiotics well
+  (<a href="../44-medicines.html#c3">Antibiotics, and why the advice changed</a>). This file is about the
+  bacterium itself: its structure, its growth, its social life, and how a few of them make us ill.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A complete living cell, stripped down to essentials</h2>
+  <p class="lede">A bacterium does everything a living thing must do, inside one tiny cell with no inner
+  compartments. Simple does not mean primitive. It means optimised.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The oldest residents</h2>
+</header>
+
+<p>Some of the oldest likely signs of life on Earth are layered rocks called <strong>stromatolites</strong>,
+built up by mats of microbes trapping sediment. The oldest examples are about 3.5 billion years old,
+although some of the oldest claims are debated. Living stromatolites still grow today, for instance in
+Shark Bay in Western Australia. For more than half of Earth's history, bacteria and archaea were the only
+life there was.</p>
+
+<p>Bacteria live everywhere life can exist: in soil, in oceans, in hot springs, deep underground, on and
+inside every animal. Their total mass on Earth is huge, far larger than that of all animals combined, and
+most of it lives underground and in the oceans. <strong>By almost any measure, numbers, variety, age or
+range, bacteria are the dominant form of life on the planet.</strong> Humans are latecomers living in a
+bacterial world.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Inside a bacterium</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Part</th><th>What it is</th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td><strong>Cell wall</strong></td><td>A rigid mesh outside the membrane, made of a material called peptidoglycan</td><td>Stops the cell bursting. Human cells have nothing like it, which makes it a perfect drug target.</td></tr>
+<tr><td><strong>Cell membrane</strong></td><td>A fatty barrier, as in all cells</td><td>Where the bacterium makes most of its energy, since it has no mitochondria</td></tr>
+<tr><td><strong>Nucleoid</strong></td><td>The region where the single, usually circular chromosome is coiled</td><td>No nucleus surrounds it, so genes are read and translated at the same time</td></tr>
+<tr><td><strong>Plasmids</strong></td><td>Small extra rings of DNA</td><td>Often carry resistance genes, and can be passed to other bacteria</td></tr>
+<tr><td><strong>Ribosomes</strong></td><td>Protein-building machines, smaller than ours</td><td>The difference lets some antibiotics jam them without harming human ribosomes</td></tr>
+<tr><td><strong>Flagellum</strong></td><td>A whip-like tail driven by a rotating motor at its base</td><td>Lets the cell swim towards food and away from danger</td></tr>
+<tr><td><strong>Pili and capsule</strong></td><td>Hair-like grappling hooks; a slimy outer coat</td><td>Help bacteria stick to tissues and hide from immune cells</td></tr>
+</tbody></table></div>
+
+<p>The bacterial flagellum is worth a moment. At its base is a true rotary motor, built from proteins and
+powered by a flow of charged particles across the membrane. It can spin very fast and reverse direction.
+<strong>It is one of the very few wheel-like rotating parts known in living things.</strong></p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Shapes and names</h2>
+</header>
+
+<p>Bacteria come in a few basic shapes, and the shape is often part of the name. Spheres are
+<strong>cocci</strong> (from Greek for "berry"); rods are <strong>bacilli</strong> ("little sticks");
+spirals are <strong>spirilla</strong> or, when flexible, spirochaetes. Cocci in grape-like clusters are
+<em>Staphylococcus</em>; cocci in chains are <em>Streptococcus</em>.</p>
+
+<p>Every species has a two-part scientific name, genus and species, written in italics.
+<em>Escherichia coli</em>, the most studied organism in biology, is named after Theodor Escherich, the
+German-Austrian doctor who described it in 1885. Most strains of <em>E. coli</em> live harmlessly in the
+gut. A few have picked up toxin genes and cause serious food poisoning. <strong>The same species name can
+cover both a harmless resident and a dangerous strain</strong>, which is why laboratories identify the exact
+strain in outbreaks.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Grow fast, share genes, talk, and wait out bad times</h2>
+  <p class="lede">Four abilities explain most of what bacteria do: exponential growth, sideways gene
+  sharing, chemical communication, and dormancy.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Splitting in two, again and again</h2>
+</header>
+
+<p>A bacterium reproduces by copying its chromosome, growing, and splitting into two identical cells. This
+is <strong>binary fission</strong>. In ideal laboratory conditions, <em>E. coli</em> can divide about every
+20 minutes. Others are far slower: the tuberculosis bacterium takes most of a day, which is one reason TB
+treatment lasts months.</p>
+
+<p>Doubling is deceptive. One cell becomes two, then four, then eight. After ten doublings there are about
+a thousand; after twenty, about a million. With a 20-minute doubling time, that is under seven hours.
+<strong>This is why cooked food left at room temperature can go from safe to dangerous in a few
+hours</strong>, and why the food safety advice in <a href="../41-whats-in-things.html#c2">The dangerous
+middle</a> is about time as well as temperature. In reality growth slows as food runs out and waste
+builds up.</p>
+
+<div class="sheet">
+  <div class="cap">The growth curve of a bacterial culture</div>
+<pre>
+  number of cells (log scale)
+      |                    ___________________
+      |                  /   STATIONARY:       \
+      |                 /    food runs out,      \   DEATH:
+      |                /     growth = death        \  cells die off
+      |               /  EXPONENTIAL:                \
+      |              /   doubling every generation
+      |   _________ /
+      |   LAG: adjusting to new food
+      +------------------------------------------------------- time
+</pre>
+</div>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Sharing genes with strangers, and how that revealed DNA</h2>
+</header>
+
+<p>Bacteria do not only pass genes to their offspring. They also exchange genes sideways, a process called
+<strong>horizontal gene transfer</strong>. There are three routes. In <strong>transformation</strong>, a
+bacterium picks up loose DNA from its surroundings, often from dead cells. In
+<strong>conjugation</strong>, two bacteria connect through a thin tube and one passes a plasmid to the
+other. In <strong>transduction</strong>, a virus that infects bacteria accidentally carries a piece of one
+host's DNA into the next.</p>
+
+<p>Transformation made history. In 1928 the British microbiologist Frederick Griffith found that a
+harmless strain of pneumonia bacteria became deadly when mixed with heat-killed deadly bacteria. Something
+from the dead cells had changed the living ones. In 1944 Oswald Avery, Colin MacLeod and Maclyn McCarty in
+New York showed that the "something" was DNA. <strong>It was among the first strong evidence that genes are
+made of DNA</strong>, nearly a decade before its structure was solved. The same sideways sharing is what
+lets resistance spread between species, as Volume 13 explains.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Bacteria talk, and build cities</h2>
+</header>
+
+<p>A glowing marine bacterium, <em>Vibrio fischeri</em>, lives inside the light organ of the Hawaiian
+bobtail squid. The bacteria glow only when they are crowded together in large numbers, not when they are
+scattered in seawater. Each cell releases a small signalling molecule. When enough cells are present, the
+signal passes a threshold and they all switch on their light genes together. This head-counting by
+chemistry is called <strong>quorum sensing</strong>, after the minimum number of members needed for a
+meeting to make decisions. The squid uses the light to hide its shadow from predators below on moonlit
+nights.</p>
+
+<p>Many disease-causing bacteria use quorum sensing too, waiting until they are numerous before releasing
+toxins. Crowds of bacteria also build <strong>biofilms</strong>: dense communities stuck to a surface and
+wrapped in a slimy matrix they produce. Dental plaque is a biofilm. So are the slippery coats on river
+stones and the infections that grow on catheters and artificial joints. <strong>Bacteria in a biofilm can
+be far more tolerant of antibiotics than the same bacteria swimming freely</strong>, which is why infected
+medical implants often must be removed.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Spores: waiting out the bad times</h2>
+</header>
+
+<p>Some bacteria, including the families that cause anthrax, tetanus and botulism, can turn into
+<strong>spores</strong> when conditions get bad. A spore is a dried-out, armoured, dormant form with almost
+no activity. Spores can survive boiling, drying, radiation and many disinfectants, and remain viable for
+years or longer. When conditions improve, they wake up and grow again.</p>
+
+<p>Spores explain several practical rules. Hospitals sterilise surgical instruments in
+<strong>autoclaves</strong>, which use steam under pressure at about 121 °C, because ordinary boiling at
+100 °C does not reliably kill spores. Home canning must be done properly for low-acid foods, because the
+spores of <em>Clostridium botulinum</em> can survive and, in an airless jar, produce botulinum toxin. And
+honey is not given to babies under one year old, because it can contain these spores, which an infant's
+immature gut cannot keep in check.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>How a few bacteria cause disease</h2>
+</header>
+
+<p>Bacteria that cause disease are called <strong>pathogens</strong>, and they harm us in two main ways.
+Some <strong>invade</strong>, multiplying in tissues and triggering inflammation that damages the body:
+tuberculosis in the lungs, or meningitis around the brain. Others mostly release
+<strong>toxins</strong>, poisonous proteins. The cholera bacterium stays in the gut but releases a toxin
+that makes gut cells pour out water, causing severe diarrhoea that can kill through dehydration within a
+day. Treatment with clean water containing the right amounts of salt and sugar, called <strong>oral
+rehydration solution</strong>, saves most patients.</p>
+
+<p>Botulinum toxin, from <em>Clostridium botulinum</em>, is among the most poisonous substances known. It
+blocks the signal from nerves to muscles, causing paralysis. In tiny, controlled doses, the same toxin is
+the medicine sold as Botox, used to relax muscles for conditions such as some migraines and muscle spasms,
+and in cosmetics. Tuberculosis remains the deadliest bacterial disease. The World Health Organization
+estimated about 1.25 million deaths from it in 2023, making it again the world's leading cause of death
+from a single infectious agent.</p>
+
+<div class="warn">
+  <span class="tag">Health note</span>
+  <p>This file is general education about bacteria, not medical advice. If you think you have a bacterial
+  infection, see a doctor, and take antibiotics only as prescribed.</p>
+</div>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Plague, cholera, and the tools of modern biology</h2>
+  <p class="lede">Bacteria have changed the course of history, and studying them has given science some of
+  its most important methods.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>How antibiotics hit bacteria and spare you</h2>
+</header>
+
+<p>An antibiotic is useful only if it harms bacteria much more than human cells. That is possible because
+bacteria are built differently. Each main class of antibiotic attacks one of those differences.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Target</th><th>Why it is different in bacteria</th><th>Example drugs</th></tr></thead>
+<tbody>
+<tr><td><strong>Cell wall building</strong></td><td>Human cells have no peptidoglycan wall</td><td>Penicillins, cephalosporins</td></tr>
+<tr><td><strong>Ribosomes</strong></td><td>Bacterial ribosomes are a different size and shape</td><td>Tetracyclines, macrolides, aminoglycosides</td></tr>
+<tr><td><strong>DNA copying enzymes</strong></td><td>Bacterial versions differ from ours</td><td>Fluoroquinolones such as ciprofloxacin</td></tr>
+<tr><td><strong>Making a vitamin (folate)</strong></td><td>Bacteria make it; humans get it from food</td><td>Sulfonamides, trimethoprim</td></tr>
+</tbody></table></div>
+
+<p>One complication is that mitochondria, descended from bacteria, have bacteria-like ribosomes. That is
+part of why some antibiotics have side effects. And because antibiotics cannot tell harmful bacteria from
+helpful ones, a course of them can disturb the gut's community. In some people, especially older patients
+in hospital, that lets a dangerous species, <em>Clostridioides difficile</em>, take over and cause severe
+diarrhoea.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Plague and cholera: bacteria that shaped history</h2>
+</header>
+
+<p>The <strong>Black Death</strong> swept through Europe, the Middle East and North Africa from 1347 to
+1351. It killed perhaps a third to a half of Europe's population. The bacterium responsible,
+<em>Yersinia pestis</em>, was identified in 1894 in Hong Kong by the Swiss-French doctor Alexandre Yersin,
+and it spreads mainly through fleas carried by rats and other rodents. DNA extracted from the teeth of
+medieval plague victims has since confirmed it. The labour shortages that followed are thought to have
+raised wages and helped weaken serfdom in parts of Europe, although historians debate how much.</p>
+
+<p><strong>Cholera</strong> gave epidemiology its founding story. In 1854, during an outbreak in London's
+Soho, the doctor John Snow mapped deaths and found them clustered around one public water pump on Broad
+Street. He persuaded local officials to remove the pump handle. The outbreak was already declining, but his
+map became the classic demonstration that cholera spreads through dirty water, not "bad air". That idea led
+to the sewers and clean water described in <a href="../28-medicine.html#c7">Sewers, not surgeons</a>.
+Cholera still causes large outbreaks where clean water and sanitation are lacking.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The gifts: PCR and CRISPR came from bacteria</h2>
+</header>
+
+<p>In the 1960s the American microbiologist Thomas Brock found a bacterium living in the hot springs of
+Yellowstone National Park and named it <em>Thermus aquaticus</em>. Its enzymes work at temperatures that
+destroy most proteins. Two decades later, its DNA-copying enzyme, <strong>Taq polymerase</strong>, made the
+<strong>polymerase chain reaction</strong> (PCR) practical. PCR copies a chosen piece of DNA billions of times
+by cycling the temperature up and down, and a heat-proof enzyme survives every cycle. PCR is now basic to
+genetic testing, forensics and the diagnosis of infections.</p>
+
+<p>The gene-editing tool CRISPR is also a bacterial invention. Bacteria keep short records of viruses that
+have attacked them, stored in their DNA, and use them to guide an enzyme that cuts matching viral DNA if the
+virus returns. It is an immune system with a memory. Researchers turned it into a programmable editor,
+described in <a href="../13-medicine-and-biology.html#m3">CRISPR</a>. <strong>Some of the most powerful
+tools in modern biology were found by studying obscure bacteria for no practical reason.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Partners and threats, and the cost of our main weapon</h2>
+  <p class="lede">For humans, bacteria are overwhelmingly helpful. Our main weapon against the harmful
+  ones has its own trade-offs.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Bacteria: benefits against harms</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Benefit</th><th>Harm</th></tr></thead>
+<tbody>
+<tr><td><strong>Your body</strong></td><td class="ok">Gut bacteria digest fibre, make some vitamins, crowd out pathogens.</td><td class="no">Pathogens cause pneumonia, sepsis, tuberculosis, and more.</td></tr>
+<tr><td><strong>Food</strong></td><td class="ok">Yoghurt, cheese, sauerkraut, vinegar, soy sauce.</td><td class="no">Salmonella, Listeria and toxin-making E. coli cause food poisoning.</td></tr>
+<tr><td><strong>Farming and nature</strong></td><td class="ok">Nitrogen fixation, decomposition, healthy soils.</td><td class="no">Plant and animal diseases.</td></tr>
+<tr><td><strong>Industry and science</strong></td><td class="ok">Insulin and other medicines; enzymes; PCR; CRISPR; sewage treatment.</td><td class="mid">Contamination, corrosion, and the theoretical misuse of dangerous species as weapons.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Antibiotics: the miracle and its price</h2>
+</header>
+
+<div class="grid2">
+  <div class="card"><h4>What antibiotics gave us</h4><p>Pneumonia, infected wounds, meningitis and
+  childbirth infections went from frequent killers to treatable. They also made modern surgery,
+  chemotherapy, transplants and intensive care safe enough to do routinely, as Volume 13 explains.</p></div>
+  <div class="card"><h4>What they cost</h4><p>Every use selects for resistant bacteria. They disturb
+  helpful gut bacteria. Heavy use in farming spreads resistance. And very few genuinely new classes have
+  reached patients in recent decades, while resistance keeps rising.</p></div>
+</div>
+
+<p>The honest balance is clear. <strong>Antibiotics are among the greatest medical advances ever, and they
+are a shared resource that every unnecessary use wears down.</strong> That is why doctors now prescribe
+them more carefully, why shorter courses are often recommended where evidence supports it, and why many
+countries have restricted their routine use in healthy farm animals.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Resistance, new weapons, and bacteria as medicine</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Five directions, sorted by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Rising resistance</strong></td><td>A major study published in 2024 projected that deaths directly caused by resistant bacteria will keep rising towards 2050, with the steepest rises among older people.</td><td class="ok">Fairly sure: resistance will grow. How fast depends on prescribing, farming, sanitation and new drugs.</td></tr>
+<tr><td><strong>Faster diagnosis</strong></td><td>Rapid tests can identify a bacterium and its resistance genes in hours instead of days.</td><td class="ok">Fairly sure: wider use, letting doctors pick the right drug sooner and avoid broad ones.</td></tr>
+<tr><td><strong>AI-found antibiotics</strong></td><td>Machine-learning models have found candidate antibiotics, such as halicin (2020) and abaucin (2023), in laboratory and animal studies.</td><td class="mid">Plausible: some will reach patients. Finding a molecule is easier than proving it safe and paying for it.</td></tr>
+<tr><td><strong>Vaccines against bacteria</strong></td><td>Vaccines exist for some, such as pneumococcus and whooping cough. A new tuberculosis vaccine candidate entered a large trial in 2024.</td><td class="mid">Plausible: a better TB vaccine would be one of the biggest public health gains possible. Results are years away.</td></tr>
+<tr><td><strong>Engineered bacteria as living medicines</strong></td><td>Researchers are designing gut bacteria to make drugs or break down harmful substances inside the body.</td><td class="no">Speculative: early trials, mixed results, and real safety questions.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>Partners first, enemies second</h2>
+</header>
+
+<p>The twentieth century treated bacteria mostly as an enemy to be wiped out. The twenty-first is learning
+a more balanced view. Bacteria are partners in digestion, farming and industry, and a source of tools
+nobody would have invented alone. The harmful minority is still dangerous, and resistance means the fight
+against it is getting harder, not easier.</p>
+
+<p>The practical habits are simple and well supported. <strong>Wash hands with soap, handle and store food
+safely, keep vaccinations up to date, and use antibiotics only when they are really needed.</strong> Each
+of those protects you, and each also protects the shared resource that antibiotics have become. The next
+file in this category, <a href="12-neuroscience.html">Neuroscience</a>, turns from the smallest independent
+cells to the most complex organ built from cells.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A bacterium is a <strong>single cell with no nucleus</strong>, a protective <strong>wall</strong>, one
+    main chromosome and often <strong>plasmids</strong>. Bacteria grow by <strong>doubling</strong>, swap
+    genes sideways, coordinate by <strong>quorum sensing</strong>, and some survive as
+    <strong>spores</strong>. A minority cause disease through invasion or toxins; antibiotics work by
+    hitting parts that human cells lack.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Bacterial life goes back about <strong>3.5 billion years</strong>.</li>
+      <li><em>E. coli</em> can double every <strong>20 minutes</strong> in ideal conditions: a million cells in under seven hours.</li>
+      <li>Tuberculosis killed about <strong>1.25 million</strong> people in 2023 (WHO estimate).</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Asking for antibiotics for a cold, or keeping leftovers to take "just in case". <strong>Unneeded
+    antibiotics breed resistance</strong> and harm your helpful bacteria. Take them only as your doctor
+    advises.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why penicillin kills bacteria but does not harm your own cells? If so, you
+    understand the bacterial cell wall.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Bacterium</dt><dd>A single-celled organism with no nucleus. Plural: bacteria.</dd>
+    <dt>Cell wall</dt><dd>The rigid outer mesh, made of peptidoglycan, that stops a bacterium bursting.</dd>
+    <dt>Plasmid</dt><dd>A small extra ring of DNA that can be passed between bacteria.</dd>
+    <dt>Flagellum</dt><dd>A whip-like tail spun by a rotary motor, used for swimming.</dd>
+    <dt>Binary fission</dt><dd>Reproduction by splitting into two identical cells.</dd>
+    <dt>Horizontal gene transfer</dt><dd>Passing genes between bacteria other than from parent to offspring.</dd>
+    <dt>Quorum sensing</dt><dd>Bacteria sensing their own numbers by chemical signals and acting together.</dd>
+    <dt>Biofilm</dt><dd>A slimy community of bacteria stuck to a surface.</dd>
+    <dt>Spore</dt><dd>A tough, dormant form some bacteria take to survive harsh conditions.</dd>
+    <dt>Pathogen</dt><dd>A microbe that causes disease.</dd>
+    <dt>Toxin</dt><dd>A poisonous substance made by a living thing.</dd>
+    <dt>PCR</dt><dd>A method that copies a chosen piece of DNA billions of times.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Bacteria have been on Earth for about three and a half billion years. We live in their world, not
+    the other way round."</li>
+    <li>"Penicillin works because bacteria have a wall that our cells don't have."</li>
+    <li>"Bacteria can count their own numbers with chemicals, and only attack once there are enough of
+    them."</li>
+    <li>"Spores survive boiling, which is why surgical tools go in an autoclave and babies don't get
+    honey."</li>
+    <li>"PCR and CRISPR, two of biology's most powerful tools, both came from studying bacteria."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="12-neuroscience.html">Neuroscience</a></h4><p>The gateway to the
+  brain: how nerve cells work and how they build thought, with links into the full neuroscience
+  category.</p></div>
+  <div class="card"><h4>Related · <a href="../13-medicine-and-biology.html#m6">Antibiotic
+  resistance</a></h4><p>How bacteria evolve to beat our drugs, why resistance spreads across species, and
+  why the antibiotic market is broken.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

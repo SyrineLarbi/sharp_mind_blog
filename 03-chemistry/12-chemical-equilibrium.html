@@ -1,0 +1,897 @@
+<!doctype html>
+<!--@HEAD-SRC title="Chemical Equilibrium" desc="Why many reactions run both ways at once and settle at a balance point, how Le Chatelier's principle lets chemists move that balance, and why it matters for fertiliser, blood and the oceans."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chemical Equilibrium</title>
+<meta name="description" content="Why many reactions run both ways at once and settle at a balance point, how Le Chatelier&#x27;s principle lets chemists move that balance, and why it matters for fertiliser, blood and the oceans.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Chemistry · Topic 12 of 20</p>
+  <h1>Chemical equilibrium. <span class="thin">The balance point where a reaction looks finished but never stops.</span></h1>
+  <p class="lede">Open a bottle of fizzy water and it hisses. Leave it open and it goes flat. Close
+  a fresh bottle and it stays fizzy for months. Nothing in that bottle is still. Gas is dissolving and
+  escaping all the time, in equal amounts, so nothing seems to change. That state is chemical
+  equilibrium, and it is everywhere: in your blood, in the oceans, in the factories that make the
+  fertiliser behind half the world's food. Understanding it means understanding why reactions stop
+  short, and how to make them go further.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Chemistry</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../12-the-physical-supply-chain.html#s8"><span class="vn">Vol 12 · s8</span><b>Fertiliser</b><em>Haber-Bosch, the short version</em></a>
+<a class="vol" href="11-thermochemistry.html"><span class="vn">Chemistry · 11</span><b>Thermochemistry</b><em>The energy behind it</em></a>
+<a class="vol" href="13-catalysts.html"><span class="vn">Chemistry · 13</span><b>Catalysts</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 12 tells the story of the Haber-Bosch process and why it feeds billions
+  (<a href="../12-the-physical-supply-chain.html#s8">Fertiliser, the process that feeds half the
+  world</a>). It does not explain why the process needs such brutal conditions. That explanation is
+  equilibrium, and it is the centre of this file. Volume 26 introduces acids and bases
+  (<a href="../26-chemistry.html#c5">Acids, bases, and why they cancel</a>), which this file uses to
+  explain how your blood holds its acidity steady.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A reaction going forward and backward at the same speed</h2>
+  <p class="lede">Most people picture a reaction as a one-way street: ingredients in, products out,
+  done. Many reactions are two-way streets, and they stop changing when the traffic in each direction
+  is equal.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The fizzy bottle</h2>
+</header>
+
+<p>Carbon dioxide gas can dissolve in water, and dissolved carbon dioxide can escape back into gas.
+Both happen at once. In a sealed bottle, the space above the liquid fills with gas until molecules
+are escaping and re-dissolving at the same rate. From outside, nothing changes. Inside, there is
+constant two-way traffic.</p>
+
+<p>Open the cap and the gas above the liquid rushes out. Now dissolving is slower than escaping,
+because there is so little gas left to dissolve. Bubbles form, the drink fizzes, and if you leave it
+open it eventually goes flat, settling into a new balance with the open air. Put the cap back on
+while it is still fizzy and it stops getting flatter, because a fresh balance forms inside.</p>
+
+<p>Chemists write such reversible changes with a double arrow, ⇌, instead of a single one. And they
+call the state where the two directions run at equal speed <strong>chemical equilibrium</strong>.
+<strong>Equilibrium is not the absence of reaction. It is two opposite reactions cancelling
+out.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Dynamic, not dead</h2>
+</header>
+
+<p>An analogy helps. Picture a shop with two doors, one in and one out. In the morning, people pour
+in and few leave, so the crowd grows. As the shop fills, more people leave each minute. Eventually
+the number leaving per minute equals the number arriving. The crowd stays the same size all
+afternoon, but the people inside keep changing.</p>
+
+<p>Chemists proved this is literal, not just a metaphor. Using atoms of a slightly heavier variety
+(<strong>isotopes</strong>, the same element with a different mass), they can "tag" some molecules in
+a mixture that has stopped changing. Over time, the tags spread into both sides of the reaction. The
+products are still turning back into starting materials, and the starting materials still turning
+into products. <strong>A mixture at equilibrium is busy, just balanced.</strong></p>
+
+<p>One point matters a lot later. The same equilibrium is reached whether you start from the left
+side or the right side. Mix hydrogen and iodine gas in a hot sealed flask, or start with pure
+hydrogen iodide, and at the same temperature both flasks end with the same proportions. The
+equilibrium is a property of the reaction and the conditions, not of the history.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Where the balance sits: the equilibrium constant</h2>
+</header>
+
+<p>Every reversible reaction has a characteristic balance point at a given temperature. Chemists
+capture it in a single number, the <strong>equilibrium constant</strong>, written K. Roughly, K is
+the amount of products divided by the amount of starting materials once the mixture has settled.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Size of K</th><th>What the settled mixture looks like</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Huge (far above 1)</strong></td><td>Almost entirely products. The reaction effectively "goes to completion".</td><td>Strong acids splitting up in water, a fire burning out</td></tr>
+<tr><td><strong>Around 1</strong></td><td>A real mixture of both sides</td><td>Many reactions in living cells, which can be pushed either way</td></tr>
+<tr><td><strong>Tiny (far below 1)</strong></td><td>Almost entirely starting materials. Little seems to happen.</td><td>Water splitting into its ions: only about one molecule in 550 million at any moment</td></tr>
+</tbody></table></div>
+
+<p>Two warnings. First, <strong>K says nothing about speed</strong>. A reaction with an enormous K can
+take a million years, as Topic 11 explained with the energy hill. Second, K connects
+directly to the free energy of Topic 11: a reaction with a strongly negative free-energy change has a
+large K. Equilibrium is where the downhill push runs out.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Push it, and it pushes back</h2>
+  <p class="lede">The most useful rule in this topic fits in one sentence, and it lets you predict
+  what happens when you change almost anything about a reacting mixture.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Le Chatelier's principle</h2>
+</header>
+
+<p>In 1884 the French chemist Henri Le Chatelier stated the rule now named after him. In modern words:
+<strong>if you disturb a system at equilibrium, it shifts in the direction that partly undoes the
+disturbance.</strong> It does not fully undo it, but it leans against the push.</p>
+
+<p>Three kinds of push matter:</p>
+
+<div class="grid3">
+  <div class="card"><h4>Add or remove a substance</h4><p>Add more of a starting material and the
+  reaction runs forward to use some of it up. Remove a product as it forms and the reaction keeps
+  running forward to replace it. This is the cheapest trick in industry.</p></div>
+  <div class="card"><h4>Change the pressure (gases)</h4><p>Squeeze a gas mixture and it shifts toward
+  the side with fewer gas molecules, because fewer molecules push less hard. If both sides have the
+  same number, pressure makes no difference.</p></div>
+  <div class="card"><h4>Change the temperature</h4><p>Heat favours the direction that absorbs heat.
+  Cooling favours the direction that releases it. Unlike the other two, this changes K itself (see
+  the next chapter).</p></div>
+</div>
+
+<p>The fizzy bottle is the pressure rule in action. Sealing gas under pressure pushes more carbon
+dioxide into the water. Releasing the pressure lets it come back out. Divers meet the same rule with
+nitrogen in their blood: breathing compressed air at depth dissolves extra nitrogen in the body, and
+rising too quickly lets it come out as bubbles, which is the main cause of decompression sickness,
+"the bends".</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Why temperature is the special one</h2>
+</header>
+
+<p>Adding a substance or squeezing a gas moves the mixture to a new position, but the balance point,
+K, stays the same. Temperature is different. <strong>Changing the temperature changes K
+itself.</strong></p>
+
+<p>The logic follows from Topic 11. Think of heat as if it were one of the ingredients. For a reaction
+that releases heat, heat is on the product side. Add heat, and by Le Chatelier the reaction shifts
+back toward the starting materials to absorb it. So for heat-releasing reactions, <strong>hotter
+means a smaller share of products</strong>. For heat-absorbing reactions, hotter means more.</p>
+
+<p>Here is the cruel twist that runs through industrial chemistry. Hotter almost always means
+<em>faster</em>. So for a heat-releasing reaction, the conditions that give you the best yield (cool)
+are the conditions that give you the slowest reaction. Chemists must pick a compromise, and the most
+famous compromise in history is the one in the next chapter.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Haber-Bosch: the compromise that feeds billions</h2>
+</header>
+
+<p>Ammonia, the starting point for most nitrogen fertiliser, is made from nitrogen and hydrogen:</p>
+
+<div class="sheet">
+  <div class="cap">The ammonia equilibrium, and how each condition is chosen</div>
+<pre>
+   N2   +   3 H2      ⇌      2 NH3        releases heat (about 92 kJ)
+   1 molecule + 3 molecules  ->  2 molecules     (4 gas molecules become 2)
+
+   PRESSURE     fewer molecules on the right  ->  high pressure helps
+                chosen: very high, roughly 150-300 atmospheres
+
+   TEMPERATURE  heat is released             ->  cool helps the yield...
+                ...but cool is far too slow
+                chosen: about 400-500 °C, the compromise
+
+   CATALYST     iron-based                    ->  speeds both directions,
+                                                  does not move the balance
+
+   RECYCLING    unreacted gas is cooled, ammonia condensed out as liquid,
+                and the leftover N2 and H2 sent round again
+</pre>
+</div>
+
+<p>The German chemist Fritz Haber showed in 1909 that the reaction could be made to work at high
+pressure with a suitable catalyst. Carl Bosch, at the company BASF, turned it into an industrial
+process by 1913, which meant building steel vessels that could survive the pressures and
+temperatures. Both received Nobel Prizes, Haber in 1918 and Bosch in 1931. Haber's legacy is deeply
+mixed: he also led Germany's chlorine gas programme in the First World War.</p>
+
+<p>Each condition is a Le Chatelier decision. <strong>High pressure</strong> favours the side with
+fewer gas molecules, which is ammonia. <strong>The temperature</strong> is a deliberate trade:
+lower would give more ammonia at equilibrium but would take too long. Even so, only a fraction of
+the gas turns into ammonia on each pass through the reactor. The plant gets around this with the
+cheapest trick from Chapter 04: it removes the product by cooling the mixture until ammonia
+liquefies, and sends the rest round again. Over many loops, nearly all of the feed gas ends up as
+ammonia.</p>
+
+<p>The catalyst deserves a precise sentence because it is so often misdescribed. <strong>A catalyst
+does not change where the equilibrium lies. It only helps the mixture get there faster.</strong> It
+speeds the forward and backward reactions equally (<a href="13-catalysts.html">Chemistry ·
+Catalysts</a>).</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Which way will it go? Comparing now with the balance point</h2>
+</header>
+
+<p>At any moment, before a mixture has settled, chemists can calculate the same ratio as K using the
+current amounts. This snapshot is called the <strong>reaction quotient</strong>, Q. Comparing the
+two answers the question "which way will this reaction run from here?"</p>
+
+<ul>
+  <li>If Q is <strong>smaller</strong> than K, there are too few products. The reaction runs forward.</li>
+  <li>If Q is <strong>larger</strong> than K, there are too many products. It runs backward.</li>
+  <li>If Q <strong>equals</strong> K, the mixture is at equilibrium and nothing changes overall.</li>
+</ul>
+
+<p>This is how a cell can run the same reaction in opposite directions in different organs. The
+reaction and its K are fixed. What changes is the local mix of ingredients, so Q sits on one side of
+K in the liver and on the other in a muscle. <strong>Direction depends on where you are relative to
+the balance point, not just on the reaction.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Your blood, your breath and the sea</h2>
+  <p class="lede">Some of the most important equilibria on Earth are not in factories. They run
+  inside your body every second, and across the whole ocean.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>How your blood holds its acidity steady</h2>
+</header>
+
+<p>Human blood is kept within a narrow acidity range, a pH of about 7.35 to 7.45. pH is the scale
+from Volume 26: lower is more acidic, and each step is tenfold. Outside that range, enzymes and
+nerves stop working properly, and large departures are life-threatening.</p>
+
+<p>The main control is an equilibrium linking carbon dioxide, water and bicarbonate:</p>
+
+<div class="sheet">
+  <div class="cap">The bicarbonate buffer</div>
+<pre>
+   CO2 + H2O   ⇌   H2CO3   ⇌   H+   +   HCO3-
+   (breathed out)  (carbonic acid)  (acidity)  (bicarbonate)
+
+   too much acid (H+) in the blood  ->  equilibrium shifts LEFT,
+                                        makes more CO2, which the lungs breathe out
+   too little acid                  ->  shifts RIGHT, releasing H+
+</pre>
+</div>
+
+<p>A mixture that resists changes in acidity like this is called a <strong>buffer</strong>. The
+clever part is that one ingredient, carbon dioxide, is a gas your lungs can remove in seconds, and the
+other, bicarbonate, is managed by your kidneys over hours to days. <strong>Breathing is partly a way
+of steering a chemical equilibrium.</strong> When someone hyperventilates during panic, they blow
+off too much carbon dioxide, the equilibrium shifts, and their blood becomes slightly too alkaline.
+The tingling fingers and light-headedness that follow are partly chemistry.</p>
+
+<div class="warn">
+  <span class="tag">Health note</span>
+  <p>This is general education, not medical advice. Breathing problems, confusion or chest pain need
+  real medical assessment.</p>
+</div>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Oxygen, haemoglobin and the silent poison</h2>
+</header>
+
+<p>Haemoglobin, the protein in red blood cells, binds oxygen reversibly. In the lungs, where oxygen
+is plentiful, the equilibrium shifts toward bound oxygen. In working muscles, where oxygen is scarce
+and carbon dioxide and acidity are high, it shifts the other way and the oxygen is released.
+<strong>Your circulation is an equilibrium being pushed one way in the lungs and the other way in
+the tissues, about once a minute.</strong></p>
+
+<p>Carbon monoxide hijacks this. It binds to the same site on haemoglobin about two hundred times
+more strongly than oxygen. Even a small amount in the air ties up a large share of the blood's
+carrying capacity (<a href="../46-home-and-kitchen.html#c2">Carbon monoxide</a>). The treatment is
+pure Le Chatelier: give the patient a high concentration of oxygen, sometimes in a pressure chamber,
+so the flood of oxygen pushes carbon monoxide off the haemoglobin faster.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The ocean as a giant buffer under strain</h2>
+</header>
+
+<p>The same carbon dioxide equilibria run in seawater. The ocean has absorbed roughly a quarter to a
+third of the carbon dioxide humans have emitted, which has slowed climate change.
+But the extra carbon dioxide shifts the equilibria toward more acidity. Average surface ocean pH has
+fallen from about 8.2 before the industrial era to about 8.1 today. Because the scale is
+logarithmic, that small-looking drop means roughly a 30% increase in acidity.</p>
+
+<p>The seawater is still alkaline, not acidic, so "ocean acidification" means "becoming less
+alkaline". The harm comes through a linked equilibrium. Corals, oysters, mussels and many plankton
+build shells and skeletons from calcium carbonate, and more acidity shifts the balance away from
+the carbonate they need. Building shells becomes more costly, and in some waters existing shells can
+start to dissolve. The details vary by species and region, and research is active
+(<a href="../12-environment-climate/02-greenhouse-gases.html">Environment · Greenhouse gases</a>).</p>
+
+<p>The same chemistry carves caves. Rainwater carrying dissolved carbon dioxide slowly dissolves
+limestone. When that water drips into an open cave and loses carbon dioxide to the air, the
+equilibrium shifts back, and calcium carbonate comes out of solution again, one thin layer at a time,
+as stalactites. <strong>A cave is Le Chatelier's principle running for tens of thousands of
+years.</strong> The limescale in a kettle is the same reaction, driven by heat.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A powerful map with one big blank area</h2>
+  <p class="lede">Equilibrium thinking is one of the best predictive tools in chemistry. Its weak
+  point is that much of the real world is never at equilibrium.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>What equilibrium thinking gets right, and where it fails</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Predicts the end point</strong></td><td class="ok">Tells you the maximum yield possible under given conditions, before you build anything.</td><td class="no">Says nothing about how long it takes to get there.</td></tr>
+<tr><td><strong>Le Chatelier's principle</strong></td><td class="ok">Simple, qualitative and almost always right about direction.</td><td class="mid">Tells you which way, not how far. For numbers you need K and calculation.</td></tr>
+<tr><td><strong>Removing products</strong></td><td class="ok">Lets industry beat a poor balance point by recycling, as in ammonia plants.</td><td class="no">Recycling gas loops and separations cost energy and equipment.</td></tr>
+<tr><td><strong>Temperature trade-off</strong></td><td class="ok">Clear logic for choosing operating conditions.</td><td class="no">For heat-releasing reactions, yield and speed pull in opposite directions. There is no free lunch.</td></tr>
+<tr><td><strong>Ideal assumptions</strong></td><td class="ok">Simple formulas work well for dilute solutions and gases at modest pressure.</td><td class="mid">Crowded, concentrated or high-pressure mixtures need corrections.</td></tr>
+<tr><td><strong>Assumes a closed system</strong></td><td class="ok">Accurate for sealed reactors and many lab mixtures.</td><td class="no">Living things and the atmosphere are open systems, with matter and energy flowing through. They are often far from equilibrium.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Equilibrium is the one place life must never reach</h2>
+</header>
+
+<p>A living cell is crowded with reactions that are held deliberately away from equilibrium. It
+keeps far more potassium inside than outside, far less sodium, and a steady store of energy-carrying
+molecules that would break down if left alone. All of that costs a constant supply of food and
+oxygen. When the supply stops, the reactions slide toward their balance points. <strong>For a cell,
+reaching chemical equilibrium is another word for death.</strong></p>
+
+<p>What a cell keeps instead is a <strong>steady state</strong>: amounts that stay constant because
+matter flows in and out at matching rates, like a bath with the tap running and the plug out. It
+looks like equilibrium from outside, and it is the opposite inside. Confusing the two is a common
+error, even in textbooks. The same distinction applies to a river, a flame, or Earth's atmosphere,
+whose high oxygen content is maintained by photosynthesis and would slowly fall without it.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Gentler routes to the same balance points</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Ammonia from clean hydrogen</strong></td><td>The equilibrium does not care where the hydrogen comes from. Plants using hydrogen from water and renewable electricity, instead of natural gas, are being built and run at growing scale as of 2026.</td><td class="ok">Fairly sure: a growing share of ammonia made this way, with cost the main limit, not chemistry.</td></tr>
+<tr><td><strong>Pulling products out continuously</strong></td><td>Membranes and absorbent materials that remove a product as it forms, pushing a reaction forward at milder conditions. Many work in the lab and some in industry.</td><td class="mid">Plausible: lower-pressure, smaller plants for several bulk chemicals. Materials must survive years of hot, harsh service.</td></tr>
+<tr><td><strong>Making ammonia at room conditions with electricity</strong></td><td>Laboratory electrochemical methods, often using lithium, have produced ammonia from nitrogen at ordinary temperatures.</td><td class="no">Speculative: rates and efficiencies are still far from what would replace Haber-Bosch.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Steering the ocean's equilibrium on purpose</h2>
+</header>
+
+<p>Because ocean chemistry is an equilibrium, some researchers propose pushing it deliberately.
+<strong>Ocean alkalinity enhancement</strong> means adding finely ground minerals or other alkaline
+substances to seawater. By Le Chatelier, that shifts the carbonate equilibria so the water can hold
+more carbon dioxide as dissolved bicarbonate, drawing more from the air and counteracting
+acidification locally.</p>
+
+<p>The chemistry is sound. The open questions are scale, measurement and side effects. Verifying how
+much extra carbon dioxide a patch of ocean actually absorbed is hard, and the effects on marine life
+of adding minerals at large scale are not well understood. As of 2026 it remains at the stage of
+small field trials, and it is <strong>contested</strong>: supporters see a necessary tool, critics
+see a distraction from cutting emissions. Both sides agree that it could only ever add to, not
+replace, emission cuts.</p>
+
+<p>The wider lesson carries beyond chemistry. <strong>Systems that sit at a balance push back when
+you push them</strong>, and they often settle somewhere you did not intend. Le Chatelier's principle
+was written about flasks. It is a useful habit of mind about any system with feedback.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Many reactions are <strong>reversible</strong>. At <strong>equilibrium</strong> the forward
+    and backward reactions run at equal speed, so the amounts stop changing while molecules keep
+    reacting. The <strong>equilibrium constant</strong> K describes where the balance sits.
+    <strong>Le Chatelier's principle</strong> predicts how it shifts when you change amounts,
+    pressure or temperature. Only temperature changes K itself, and a catalyst changes only the
+    speed.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Haber-Bosch runs at about <strong>400–500 °C</strong> and <strong>150–300
+      atmospheres</strong>, a compromise between yield and speed.</li>
+      <li>Blood pH is held at about <strong>7.35–7.45</strong>.</li>
+      <li>Surface ocean pH has dropped from about <strong>8.2 to 8.1</strong>, roughly
+      <strong>30% more acidic</strong>.</li>
+      <li>Carbon monoxide binds haemoglobin about <strong>200 times</strong> more strongly than
+      oxygen.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking a catalyst increases the yield. <strong>A catalyst gets you to the same balance point
+    faster. It does not move the balance point.</strong></p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why Haber-Bosch plants run hot even though heat lowers the yield of ammonia? If
+    you can, you have understood Le Chatelier, temperature and speed together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Reversible reaction</dt><dd>A reaction that can run in both directions, written with ⇌.</dd>
+    <dt>Chemical equilibrium</dt><dd>The state where forward and backward reactions run at the same speed, so amounts stop changing.</dd>
+    <dt>Dynamic</dt><dd>Still moving underneath. Equilibrium is dynamic: molecules keep reacting both ways.</dd>
+    <dt>Equilibrium constant (K)</dt><dd>A number describing the balance of products to starting materials once a reaction has settled.</dd>
+    <dt>Reaction quotient (Q)</dt><dd>The same ratio as K, calculated at any moment. Comparing Q with K tells you which way the reaction will run.</dd>
+    <dt>Le Chatelier's principle</dt><dd>A disturbed equilibrium shifts in the direction that partly undoes the disturbance.</dd>
+    <dt>Yield</dt><dd>How much product you actually get, compared with the most that is possible.</dd>
+    <dt>Isotope</dt><dd>A version of an element with a different mass, useful for tagging atoms.</dd>
+    <dt>pH</dt><dd>A scale of acidity. Lower is more acidic, and each step is a tenfold change.</dd>
+    <dt>Buffer</dt><dd>A mixture that resists changes in acidity by shifting an equilibrium.</dd>
+    <dt>Ocean acidification</dt><dd>The drop in seawater pH caused by absorbing extra carbon dioxide.</dd>
+    <dt>Steady state</dt><dd>Constant amounts kept up by a continuous flow in and out. It looks like equilibrium but is not.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Equilibrium doesn't mean the reaction has stopped. It means it's running both ways at the
+    same speed."</li>
+    <li>"Push a system at equilibrium and it pushes back. That's Le Chatelier's principle, and it
+    explains everything from fizzy drinks to fertiliser plants."</li>
+    <li>"A catalyst doesn't give you more product. It gets you to the same balance point faster."</li>
+    <li>"Ammonia plants run hot because cold would be too slow, even though cold would give more
+    ammonia."</li>
+    <li>"Your body is never at equilibrium. For a living cell, equilibrium is another word for
+    death."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="13-catalysts.html">Catalysts</a></h4><p>How a substance can
+  speed a reaction a millionfold without being used up, and why most of modern industry, and all of
+  life, depends on them.</p></div>
+  <div class="card"><h4>Related · <a href="04-acids-and-bases.html">Acids and bases</a></h4><p>The
+  equilibrium behind pH, buffers and the strength of acids, explained from the beginning.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

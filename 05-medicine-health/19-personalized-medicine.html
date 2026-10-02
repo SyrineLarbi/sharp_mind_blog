@@ -1,0 +1,864 @@
+<!doctype html>
+<!--@HEAD-SRC title="Personalized Medicine" desc="What personalized (precision) medicine is, how genes, tumour profiles and new therapies let doctors match treatment to the person, where it already works, its costs and blind spots, and what may come next."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Personalized Medicine</title>
+<meta name="description" content="What personalized (precision) medicine is, how genes, tumour profiles and new therapies let doctors match treatment to the person, where it already works, its costs and blind spots, and what may come next.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Medicine &amp; Health · Topic 19 of 20</p>
+  <h1>Personalized medicine. <span class="thin">Treating the person in front of you, not the average patient in a trial.</span></h1>
+  <p class="lede">Most medicine is built on averages. A drug is tested on thousands of people, it helps
+  the group on average, and it is then given to everyone with the same diagnosis. But nobody is the
+  average patient. The same pill can cure one person, do nothing for a second and harm a third.
+  Personalized medicine, often called precision medicine, tries to predict in advance which of those
+  three you will be. It uses your genes, the genes of your tumour, and other measurements of your
+  body. In a few areas it has already transformed care. In many others it is still more promise than
+  practice.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Medicine &amp; Health</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../13-medicine-and-biology.html#m5"><span class="vn">Vol 13 · DNA</span><b>DNA sequencing</b><em>How genomes are read</em></a>
+<a class="vol" href="../50-whats-coming.html#c2"><span class="vn">Vol 50 · ch 02</span><b>Gene editing</b><em>What is real now</em></a>
+<a class="vol" href="20-the-future-of-medicine.html"><span class="vn">Medicine · 20</span><b>The future of medicine</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 13 explains how genomes are read and why interpreting them is the hard part (<a
+  href="../13-medicine-and-biology.html#m5">DNA sequencing</a>), and how targeted antibody drugs are
+  made (<a href="../13-medicine-and-biology.html#m4">Monoclonal antibodies</a>). Volume 50 sorts gene
+  editing into what works now and what does not (<a href="../50-whats-coming.html#c2">Gene editing:
+  already here, and the part that isn't</a>). Volume 28 explains why cancer is hundreds of diseases (<a
+  href="../28-medicine.html#c5">What cancer is</a>). This file shows how those tools come together to
+  match treatment to the individual. It also serves as the Future &amp; Emerging Technologies entry on
+  the subject.</p>
+</div>
+
+<div class="warn">
+  <span class="tag">Please note</span>
+  <p>This is general education, not medical advice. Do not change a medicine because of a consumer
+  genetic test; discuss any result with a doctor or genetic counsellor.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Matching the treatment to the patient's biology</h2>
+  <p class="lede">Personalized medicine means using information about an individual, especially
+  their genes, to choose how to prevent, diagnose or treat their disease.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The same dose, a different person</h2>
+</header>
+
+<p>Codeine is a common painkiller, but on its own it does little. The liver converts part of it into
+morphine, which does the real work. The enzyme that does this is called <strong>CYP2D6</strong>, and
+the gene for it varies a great deal between people. Some people have a version that barely works, so
+codeine gives them almost no pain relief. Others carry extra copies of the gene and are
+"ultra-rapid metabolisers": they turn codeine into morphine so fast that a normal dose can become an
+overdose.</p>
+
+<p>That variation had tragic consequences. Several children died or nearly died after being given
+codeine following routine throat surgery, and some breastfed babies were harmed when their mothers,
+who were ultra-rapid metabolisers, took it. In 2013 the US regulator added its strongest warning
+against codeine for children after these operations, and many countries now avoid it in young children
+altogether.</p>
+
+<p>The story shows the basic logic of personalized medicine. <strong>A dose that is right "on average"
+can be wrong for a particular person, for reasons written in their genes.</strong> If you know those
+reasons in advance, you can choose a different drug or a different dose.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Personalized, precision, stratified: and not new</h2>
+</header>
+
+<p>The vocabulary is confusing. <strong>Personalized medicine</strong> suggests a treatment designed for
+one person. In practice, most of it is <strong>stratified medicine</strong>: dividing patients into
+groups that respond differently, and giving each group what works for it. In 2011 a report by the US
+National Research Council promoted the term <strong>precision medicine</strong> for this, and in 2015 the
+United States launched a Precision Medicine Initiative, which led to a research programme called <em>All
+of Us</em> that aims to collect health and genetic data from a million Americans. In everyday use the
+three terms overlap, and this file uses them loosely.</p>
+
+<p>The idea itself is old. Blood transfusions only became safe after Karl Landsteiner discovered blood
+groups in 1901; matching blood type is personalized medicine. Since the 1960s, newborn babies in many
+countries have had a heel-prick blood test for <strong>phenylketonuria</strong> (PKU), an inherited
+condition in which a protein building block builds up and damages the brain. A special diet from birth
+prevents the damage. What is new is the scale and detail: <strong>doctors can now read a person's whole
+genome, and a tumour's, cheaply and quickly</strong>.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>What can be measured</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Layer</th><th>What it tells you</th><th>Example use</th></tr></thead>
+<tbody>
+<tr><td><strong>Inherited genome</strong></td><td>The DNA you were born with, the same in nearly every cell</td><td>Diagnosing rare diseases; drug-response genes; inherited cancer risk (such as BRCA genes)</td></tr>
+<tr><td><strong>Tumour genome</strong></td><td>The mutations a cancer has acquired</td><td>Choosing a targeted cancer drug</td></tr>
+<tr><td><strong>Proteins and metabolites</strong></td><td>What the body is actually doing right now</td><td>Blood markers of heart damage, kidney function, inflammation</td></tr>
+<tr><td><strong>Immune profile</strong></td><td>Tissue type and immune activity</td><td>Organ transplant matching; predicting severe drug reactions</td></tr>
+<tr><td><strong>Microbiome</strong></td><td>The microbes in the gut</td><td>Research on diet and drug response; see <a href="12-the-microbiome.html">The microbiome</a></td></tr>
+<tr><td><strong>Wearables and records</strong></td><td>Heart rhythm, activity, sleep, blood sugar over time</td><td>Detecting irregular heartbeat; continuous glucose monitoring in diabetes</td></tr>
+</tbody></table></div>
+
+<p>Researchers sometimes call these layers "omics": genomics for genes, proteomics for proteins,
+metabolomics for the small molecules of metabolism. Each one adds detail. Combining them is one of the
+field's biggest scientific and computing challenges.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Four ways biology becomes a treatment decision</h2>
+  <p class="lede">Personalized medicine works through drug-response genes, the genetics of cancer,
+  therapies built from the patient's own cells or genes, and risk prediction. They are at very
+  different stages of maturity.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Pharmacogenomics: genes that change how drugs behave</h2>
+</header>
+
+<p><strong>Pharmacogenomics</strong> is the study of how genes affect the response to drugs. Some genes
+control how fast the liver clears a drug, like CYP2D6 for codeine. Others control the immune system's
+reaction to it. A few examples are already part of routine care in many countries.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Preventing dangerous reactions</h4><p>The HIV drug abacavir causes a serious
+  allergic reaction in people with an immune gene variant called HLA-B*57:01. Testing for it before
+  prescribing, introduced after a large trial in 2008, almost eliminated those reactions. Similarly,
+  the epilepsy drug carbamazepine can cause a severe skin reaction in carriers of HLA-B*15:02, a variant
+  more common in parts of East and South-East Asia, where testing is recommended.</p></div>
+  <div class="card"><h4>Getting the dose right</h4><p>Some chemotherapy drugs (fluoropyrimidines such
+  as 5-FU) are broken down by an enzyme coded by the DPYD gene. People with low DPYD activity can be
+  poisoned by a normal dose. UK and EU regulators recommended testing before treatment from 2020. The
+  blood thinner warfarin is another case: genes help explain why the right dose varies so much.</p></div>
+</div>
+
+<p>Can testing many genes at once help more broadly? A large European trial called PREPARE, published in
+2023, tested about 7,000 patients across seven countries with a panel of 12 drug-response genes before
+prescribing. The group whose prescriptions were guided by the results had around <strong>30 percent fewer
+clinically relevant side effects</strong>. That is strong evidence that pre-emptive testing can work,
+though health systems are still working out how to pay for it and build it into everyday
+prescribing.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Cancer: from the organ to the mutation</h2>
+</header>
+
+<p>For most of the twentieth century, cancer was classified by where it started: breast, lung, colon.
+Treatment followed the organ. Then researchers began to classify tumours by their mutations, and
+<strong>oncology became the field where personalized medicine works best</strong>.</p>
+
+<p>The landmark is chronic myeloid leukaemia (CML), a blood cancer. In most cases it is driven by a
+single faulty fusion gene, called BCR-ABL, created when two chromosomes swap pieces. The drug imatinib,
+approved in 2001, blocks the faulty protein that gene makes. Before it, CML was usually fatal within
+years. With imatinib and its successors, most patients now live close to a normal lifespan, taking a
+daily pill. Another early success was trastuzumab, an antibody approved in 1998 for the roughly one in
+five breast cancers that make too much of a protein called HER2.</p>
+
+<p>Since then, dozens of targeted drugs have been approved, especially for lung cancer, melanoma and
+some leukaemias. In 2017 the US regulator approved a cancer drug for the first time based on a tumour's
+genetic feature regardless of where in the body it started. These "tumour-agnostic" approvals mark the
+shift in thinking. The catch is that <strong>cancers evolve</strong>. Under the pressure of a targeted
+drug, a few resistant cells often survive and grow back. That is why combinations and monitoring matter,
+as with antibiotics.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Liquid biopsies: reading a tumour from a blood test</h2>
+</header>
+
+<p>Tumours shed small fragments of their DNA into the bloodstream. A <strong>liquid biopsy</strong> is a
+blood test that detects and reads this <strong>circulating tumour DNA</strong>. It has three promising
+uses. It can identify a tumour's mutations without cutting out tissue. It can show whether treatment is
+working, or whether resistance mutations are appearing, months before a scan would. And after surgery, it
+can show whether any cancer remains.</p>
+
+<p>A fourth use is the most ambitious: screening healthy people for many cancers with one blood test.
+Several companies sell such tests. Large trials are under way, but as of 2026 it is not yet proven that
+they reduce deaths from cancer, and false alarms and missed cancers are real concerns. Volume 42
+explains why <a href="../42-your-health.html#c2">screening is not always better</a> even when a test
+sounds accurate.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Living drugs and treatments for one</h2>
+</header>
+
+<p>Some treatments are personal in the most literal sense: they are made from the patient. In
+<strong>CAR-T therapy</strong>, doctors remove a patient's immune T cells, genetically modify them in a
+lab to recognise the patient's cancer, multiply them and infuse them back. In 2012 a six-year-old
+American girl, Emily Whitehead, became the first child treated this way for leukaemia that had resisted
+everything else. She was still in remission more than a decade later. The first CAR-T therapies were
+approved in the United States in 2017, mainly for blood cancers.</p>
+
+<p>Gene therapies go further, correcting or compensating for a faulty gene. In late 2023 the UK and then
+the US approved the first CRISPR-based therapy, for sickle cell disease and a related blood disorder,
+using the patient's own edited stem cells. And a few treatments have now been made for a single patient.
+In 2019 doctors in Boston reported a drug designed for one girl, Mila Makovec, with a rare fatal brain
+disease, built to correct the effect of her specific mutation. In 2025 a team in Philadelphia reported
+treating a baby, known as KJ, with a gene-editing therapy custom-made for his rare liver condition within
+months of his birth. <strong>These "n-of-1" treatments show what is possible</strong>, though making them
+routine is a different challenge.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Predicting risk: polygenic scores</h2>
+</header>
+
+<p>Most common diseases, such as heart disease or type 2 diabetes, are not caused by one gene. They are
+influenced by thousands of variants, each adding a tiny amount of risk. A <strong>polygenic risk
+score</strong> adds up all those small effects into a single number.</p>
+
+<p>At the extremes, these scores can identify people with substantially higher risk, for some conditions
+comparable to carrying a single high-risk gene. But for most people they add only modest information to
+what age, family history, blood pressure and cholesterol already tell a doctor. They are also much less
+accurate for people of non-European ancestry, because most of the studies they were built from involved
+people of European descent. <strong>A risk score is a probability, not a forecast</strong>, a point Volume
+42 makes about all tests in <a href="../42-your-health.html#c1">A result is a probability, not a
+verdict</a>. They are being trialled in screening programmes, but they are not yet standard care.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Fewer wasted treatments, faster diagnoses, and a fairness test</h2>
+  <p class="lede">The promise is better results with less harm. The risk is that the benefits go mostly
+  to people who are already well served.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The cost of treating everyone the same</h2>
+</header>
+
+<p>Many widely used medicines help only a minority of the people who take them. Doctors measure this
+with the <strong>number needed to treat</strong>: how many people must take a drug for one person to
+benefit. For many preventive drugs that number is in the dozens or more. Everyone else takes the drug,
+pays for it, and risks its side effects without gaining. Adverse drug reactions are also a major cause
+of hospital admissions in older people, many of whom take several medicines at once.</p>
+
+<p>If even part of this could be predicted, the gains would be large: fewer side effects, less wasted
+money, and less time spent on a treatment that will not work before trying one that might. In
+depression, for example, finding the right drug often takes several attempts over months, as described
+in <a href="../43-mind-and-mood.html#c6">Medication, without the mythology</a>. <strong>The real
+promise of personalized medicine is not miracle cures but fewer wrong guesses.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Ending the diagnostic odyssey for rare diseases</h2>
+</header>
+
+<p>There are thousands of known rare diseases, most of them genetic. One alone is rare; together they
+affect a large number of people. Families often spend years going from specialist to specialist before
+anyone can name the condition. Doctors call this the <strong>diagnostic odyssey</strong>.</p>
+
+<p>Whole-genome sequencing shortens it. England's 100,000 Genomes Project, completed in 2018, sequenced
+patients with rare diseases and cancer and their families, and found a diagnosis for roughly a quarter
+of the rare-disease patients, many of whom had waited years. In very sick newborns in intensive care,
+rapid sequencing can now return a result in days and change treatment. England's NHS now offers genome
+sequencing for some conditions as part of routine care, and a research programme is testing sequencing
+for large numbers of newborns. A name does not always bring a cure, but it ends uncertainty, guides care,
+informs family planning, and sometimes points to a treatment.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Who benefits: ancestry, money and access</h2>
+</header>
+
+<p>Genetic research has drawn mostly on people of European ancestry. That matters medically: a variant
+can look suspicious simply because it was never seen in the reference data, and risk scores work less
+well for other groups. Projects in Africa, Asia and among minority communities are working to close the
+gap, and newer reference genomes are built from many populations, as Volume 13 describes.</p>
+
+<p>Price is the other barrier. Gene therapies can cost more than two million US dollars per patient, and
+CAR-T therapies several hundred thousand. Even where they are paid for, they require specialist centres.
+At the same time, medicine has been rethinking how it uses race, which is a social category rather than
+a precise biological one. In 2021, for example, US kidney specialists dropped a race adjustment from the
+standard formula for kidney function, because it had delayed care for some Black patients.
+<strong>The goal is biology measured in the individual, not assumed from a label</strong>, which is in a
+sense the core idea of personalized medicine.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Transformative in places, oversold in others</h2>
+  <p class="lede">The successes are real and in some cases dramatic. The limits are evidence, cost,
+  privacy and fairness.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Advantages and disadvantages, weighed</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td class="ok"><strong>Better results.</strong> Targeted drugs and cell therapies have turned some cancers from fatal into manageable.</td><td class="no"><strong>Cost.</strong> Many targeted and gene therapies are among the most expensive treatments ever sold.</td></tr>
+<tr><td class="ok"><strong>Fewer harmful reactions.</strong> Gene tests before certain drugs prevent serious, sometimes fatal, side effects.</td><td class="mid"><strong>Uncertain results.</strong> Many genetic findings are "variants of uncertain significance" that cannot guide care.</td></tr>
+<tr><td class="ok"><strong>Faster diagnosis.</strong> Sequencing ends years of uncertainty for rare-disease families.</td><td class="no"><strong>Unequal benefit.</strong> Data and access favour wealthy countries and people of European ancestry.</td></tr>
+<tr><td class="ok"><strong>Less waste.</strong> Avoiding drugs that will not work saves money and time.</td><td class="mid"><strong>Weak evidence in small groups.</strong> The smaller the group a treatment targets, the harder it is to run large trials.</td></tr>
+<tr><td class="ok"><strong>New treatments.</strong> Gene and cell therapies address diseases that had none.</td><td class="no"><strong>Privacy.</strong> Genetic data identifies you and your relatives permanently and can be misused.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Where the promise ran ahead</h2>
+</header>
+
+<p>When the human genome was completed in 2003, many predicted a quick revolution in which genetic tests
+would guide the treatment of most common diseases. That did not happen. The genetics of common diseases
+turned out to be spread across thousands of tiny effects, and environment and behaviour matter as much
+as genes. <strong>For most people today, the most personalized and useful information about their
+health is still blood pressure, weight, smoking, family history and age.</strong></p>
+
+<p>There have also been warnings. In the 2010s the American company Theranos claimed it could run
+hundreds of tests from a drop of blood. Its technology did not work as claimed, and its founder,
+Elizabeth Holmes, was convicted of fraud in 2022. The lesson is not that personalized testing is a
+fraud. It is that claims in this field need the same evidence as any other: trials showing that using
+the test actually improves outcomes, not just that it measures something.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>From special cases to routine care</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Tumour sequencing for most cancers</strong></td><td>Routine for many cancers in wealthy countries; liquid biopsies spreading</td><td class="ok">Fairly sure: standard practice, with blood tests used to track response and relapse.</td></tr>
+<tr><td><strong>Pre-emptive drug-gene testing</strong></td><td>Proven to reduce side effects in the PREPARE trial; patchy uptake</td><td class="ok">Fairly sure: a gene panel stored in the medical record and checked automatically at prescribing.</td></tr>
+<tr><td><strong>Cheaper cell and gene therapies</strong></td><td>Editing cells inside the body and "off-the-shelf" donor cells are in trials</td><td class="mid">Plausible: lower costs and wider use, including for some autoimmune diseases.</td></tr>
+<tr><td><strong>Custom therapies for rare mutations</strong></td><td>A handful of n-of-1 treatments; regulators exploring faster pathways</td><td class="mid">Plausible: "platform" treatments that can be quickly adapted to each mutation.</td></tr>
+<tr><td><strong>Whole-body digital models of each patient</strong></td><td>Early research combining genomes, records, wearables and AI</td><td class="no">Speculative: testing treatments on a "digital twin" before the real patient. See <a href="../20-future-tech/15-digital-twins.html">Digital twins</a>.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>What it may mean for an ordinary patient</h2>
+</header>
+
+<p>For most people, personalized medicine will not arrive as a single dramatic moment. It will arrive
+quietly. A genetic profile may be taken once and stored in the medical record. When a doctor prescribes a
+drug, the computer may flag that this patient processes it slowly. If cancer is diagnosed, the tumour
+will be sequenced and the treatment chosen accordingly, then a blood test will check every few months
+that it has not returned. Data from a watch may flag an irregular heartbeat before it causes a stroke.</p>
+
+<p>The open questions are social as much as scientific. Who owns genetic data, and who may use it? Can
+health systems afford gene therapies for everyone who would benefit? Will tests designed in rich
+countries work for everyone else? <strong>The technology is moving faster than the answers.</strong> How
+those questions are settled will decide whether personalized medicine becomes precise medicine for
+everyone, or for the few. The wider picture of where medicine is going is in <a
+href="20-the-future-of-medicine.html">The future of medicine</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Personalized (precision) medicine uses <strong>an individual's biology</strong>, especially
+    genes and tumour mutations, to choose treatment. It already works well in <strong>cancer</strong>,
+    <strong>drug-gene testing</strong> and <strong>rare-disease diagnosis</strong>. For common
+    diseases, genes add modest information, and cost and fairness remain the big obstacles.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>A 12-gene drug-response panel cut side effects by about <strong>30%</strong> (PREPARE, 2023).</li>
+      <li>Imatinib, approved <strong>2001</strong>, turned a fatal leukaemia into a manageable one.</li>
+      <li>First CRISPR therapy approved in <strong>2023</strong>, for sickle cell disease.</li>
+      <li>Gene therapies can cost over <strong>$2 million</strong> per patient.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking a genetic test tells you your future. <strong>Most genetic results are probabilities, and
+    many are uncertain.</strong> The biggest successes are in specific drugs and specific diseases.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why codeine can be useless for one person and dangerous for another? If so, you
+    understand pharmacogenomics, the foundation of the field.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Precision medicine</dt><dd>Choosing treatment based on an individual's biology. Often used as a synonym for personalized medicine.</dd>
+    <dt>Stratified medicine</dt><dd>Dividing patients into groups that respond differently and treating each group accordingly.</dd>
+    <dt>Pharmacogenomics</dt><dd>How a person's genes affect their response to drugs.</dd>
+    <dt>CYP2D6</dt><dd>A liver enzyme that processes many drugs, including codeine. Its gene varies widely.</dd>
+    <dt>Targeted therapy</dt><dd>A cancer drug that attacks a specific faulty protein a tumour depends on.</dd>
+    <dt>Tumour-agnostic</dt><dd>Approved for a genetic feature of a cancer, wherever in the body it started.</dd>
+    <dt>Liquid biopsy</dt><dd>A blood test that detects and reads DNA shed by a tumour.</dd>
+    <dt>CAR-T therapy</dt><dd>A treatment in which a patient's immune cells are engineered to attack their cancer.</dd>
+    <dt>Gene therapy</dt><dd>Treatment that adds, corrects or silences a gene to fight disease.</dd>
+    <dt>n-of-1 therapy</dt><dd>A treatment designed for a single patient.</dd>
+    <dt>Polygenic risk score</dt><dd>A number that sums the small effects of many gene variants on disease risk.</dd>
+    <dt>Diagnostic odyssey</dt><dd>The long search for a diagnosis that many rare-disease families face.</dd>
+    <dt>Number needed to treat</dt><dd>How many people must receive a treatment for one to benefit.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Nobody is the average patient. The same pill can help one person and harm another."</li>
+    <li>"Cancer is where precision medicine works best: we now treat the mutation, not just the
+    organ."</li>
+    <li>"A simple gene test before some drugs prevents serious side effects. That's personalized
+    medicine already working."</li>
+    <li>"For common diseases, your blood pressure and family history still tell a doctor more than your
+    genome."</li>
+    <li>"The science is moving fast. The hard questions now are cost, privacy and who gets
+    access."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="20-the-future-of-medicine.html">The future of medicine</a></h4><p>AI,
+  gene editing, new vaccines and ageing populations: what is likely to change, and what probably
+  won't.</p></div>
+  <div class="card"><h4>Related · <a href="../13-medicine-and-biology.html#m5">DNA sequencing</a></h4><p>How
+  a genome is read, why the cost collapsed, and why interpreting it is the real problem.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

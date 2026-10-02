@@ -1,0 +1,895 @@
+<!doctype html>
+<!--@HEAD-SRC title="Machine Learning" desc="How machines learn from examples instead of rules: training, data, overfitting, the main families of methods, where it runs today, its real limits, and where the field is going."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Machine Learning</title>
+<meta name="description" content="How machines learn from examples instead of rules: training, data, overfitting, the main families of methods, where it runs today, its real limits, and where the field is going.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Technology · Topic 02 of 20</p>
+  <h1>Machine Learning. <span class="thin">Programs that are not written, but grown from examples.</span></h1>
+  <p class="lede">For most of computing history, a program was a list of instructions that a person
+  wrote by hand. Machine learning turns this around. You give the computer thousands or millions of
+  examples, plus a way to measure its mistakes, and it adjusts itself until the mistakes get small.
+  Nobody writes the final rules, and often nobody can read them. That one change is behind your
+  spam filter, your bank's fraud alerts, the route your map suggests and the films a streaming
+  service shows you first. It is also behind most of what people now call "AI".</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No maths needed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Technology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../49-ai-honestly.html#c1"><span class="vn">Vol 49 · ch 01</span><b>Learning from examples</b><em>The short version</em></a>
+<a class="vol" href="../07-neuroscience/18-artificial-neural-networks.html"><span class="vn">Neuroscience · 18</span><b>Artificial neural networks</b><em>Brains versus maths</em></a>
+<a class="vol" href="03-generative-ai.html"><span class="vn">Technology · 03</span><b>Generative AI</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 49 explains the core idea in one chapter (<a href="../49-ai-honestly.html#c1">Learning
+  from examples rather than rules</a>) and the bias problem in another
+  (<a href="../49-ai-honestly.html#c6">Bias, and where it comes from</a>). Volume 14 explains the
+  chips that do the arithmetic (<a href="../14-computing-and-ai.html#c2">GPUs, and the memory
+  wall</a>). This file opens the machine: how training actually works, why models fail, and how
+  to judge one.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A way of building software by showing instead of telling</h2>
+  <p class="lede">Machine learning is a method, not a machine. It is a way to get a computer to
+  perform a task by learning patterns from data, instead of following rules a person wrote.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The checkers player that beat its maker</h2>
+</header>
+
+<p>In the 1950s an IBM engineer called Arthur Samuel wrote a program to play checkers (draughts).
+Samuel was not a strong player himself. So instead of writing down a good strategy, he let the
+program play thousands of games against itself and adjust how much it valued different features
+of a position, such as how many pieces each side had. Over time the program became better than
+Samuel. He is usually credited with popularising the phrase <strong>machine learning</strong>
+around 1959, to describe computers that improve without being explicitly programmed for each
+step.</p>
+
+<p>The important point is what Samuel did <em>not</em> do. He never told the program what a good
+move was. He told it what winning was, and gave it a way to adjust itself. <strong>The programmer
+designs the learning process; the data decides the final behaviour.</strong> That division of
+labour is still the heart of the field seventy years later.</p>
+
+<p>Compare an old-style spam filter. A person writes rules: block emails containing "free money",
+block emails with many exclamation marks. Spammers simply change their wording. A learning filter
+instead looks at millions of emails that people have marked as spam or not spam, and finds the
+patterns itself, including ones no human would think to write down. When spammers change tactics,
+you retrain it on new examples.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Three ways a machine can learn</h2>
+</header>
+
+<p>Almost everything in the field falls into one of three families. They differ in what kind of
+feedback the machine gets.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Family</th><th>What the machine is given</th><th>What it learns</th><th>Everyday example</th></tr></thead>
+<tbody>
+<tr><td><strong>Supervised learning</strong></td><td>Examples with the right answer attached (a "label")</td><td>To predict the answer for new examples</td><td>Photos labelled "cat" or "dog"; house sales with their prices</td></tr>
+<tr><td><strong>Unsupervised learning</strong></td><td>Examples with no answers at all</td><td>Hidden structure: groups, unusual cases, simpler summaries</td><td>Sorting customers into groups with similar buying habits</td></tr>
+<tr><td><strong>Reinforcement learning</strong></td><td>A world to act in, and a reward signal</td><td>Which actions lead to more reward over time</td><td>A program learning a board game by playing it</td></tr>
+</tbody></table></div>
+
+<p><strong>Supervised learning is by far the most common in business</strong>, because most
+practical questions have the shape "given this, predict that": given a loan application, predict
+default; given a scan, predict a tumour. Its weakness is that someone has to supply the labels,
+and labelling is slow and expensive. A fourth approach, <strong>self-supervised learning</strong>,
+avoids that cost by hiding part of the data and asking the model to fill it in, for example the
+next word in a sentence. That trick is how large language models are trained (see
+<a href="../49-ai-honestly.html#c2">Vol 49, What a language model actually does</a>).</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>What a "model" actually is</h2>
+</header>
+
+<p>The word <strong>model</strong> sounds mysterious. It is not. A model is a mathematical
+function with adjustable numbers inside it. It takes an input and produces an output. The
+adjustable numbers are called <strong>parameters</strong> (or weights), and learning means
+finding good values for them.</p>
+
+<p>The simplest example is a straight line. Suppose you want to predict a flat's price from its
+size. A line has two parameters: where it starts and how steep it is. Learning means trying
+different starts and slopes until the line passes as close as possible to the real sales in your
+data. Once you have the line, you can read off a price for a flat you have never seen.</p>
+
+<p>Every famous system is this idea made enormously bigger. A spam filter might have thousands of
+parameters. A modern image or language model has billions. But <strong>the logic is the same:
+a flexible shape, adjusted until it fits the examples</strong>. Volume 49 makes the same point
+and is right to deflate the word "learning". There is no understanding in the human sense, only
+fitting.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Measure the error, nudge the numbers, repeat a billion times</h2>
+  <p class="lede">Training sounds like magic and is mostly repetition. The craft lies in the data,
+  in what you measure, and in stopping the model from memorising instead of learning.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Training: walking downhill in the fog</h2>
+</header>
+
+<p>To train a model you need three things: examples, a model with parameters, and a
+<strong>loss function</strong>. The loss function is a single number that measures how wrong the
+model is on the examples. For house prices it might be the average size of the price errors.
+Training means making that number as small as possible.</p>
+
+<p>The standard method is called <strong>gradient descent</strong>. Imagine you are on a hillside
+in thick fog and want to reach the bottom of the valley. You cannot see the valley. But you can
+feel which way the ground slopes under your feet. So you take a small step downhill, feel again,
+and take another step. The "ground" is the loss, and each direction is one parameter. The
+<strong>gradient</strong> is simply the slope in every direction at once. It tells the model which
+way to nudge each parameter to reduce the error a little.</p>
+
+<div class="sheet">
+  <div class="cap">One training loop, repeated millions of times</div>
+<pre>
+  examples ──► model (with current parameters) ──► predictions
+                    ▲                                   │
+                    │                                   ▼
+      nudge each parameter                  compare with right answers
+      a little downhill   ◄──── gradient ◄──── loss (one number: how wrong)
+</pre>
+</div>
+
+<p>For a neural network with many layers, working out the slope for every parameter is done by an
+algorithm called <strong>backpropagation</strong>. It passes the error backwards through the
+layers, assigning each parameter its share of the blame. The method was popularised in a 1986
+paper by David Rumelhart, Geoffrey Hinton and Ronald Williams. <strong>Almost every modern neural
+network, however large, is still trained with gradient descent and backpropagation.</strong></p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Data: features, labels and the test you must not peek at</h2>
+</header>
+
+<p>Each example is described by <strong>features</strong>: the measurable facts the model can see.
+For a flat, the features might be size, floor, district and age. For a photo, the features are the
+brightness of each pixel. The <strong>label</strong> is the answer you want predicted, such as the
+price or "cat".</p>
+
+<p>The single most important habit in the field is splitting the data. You train on one part, the
+<strong>training set</strong>, and you judge the model on a separate part it has never seen, the
+<strong>test set</strong>. Think of a teacher who writes the final exam with different questions
+from the homework. If the exam used the same questions, a student could pass by memorising answers
+without understanding anything.</p>
+
+<p>Mistakes here are common and costly. If information from the test set leaks into training, even
+indirectly, the model looks excellent in the lab and disappoints in the real world. A classic
+example: a model for a medical scan that quietly learns to recognise which hospital's scanner made
+the image, because one hospital treated sicker patients. <strong>It scores well, and it has learned
+nothing about the disease.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Overfitting: the student who memorised the past papers</h2>
+</header>
+
+<p>A very flexible model can fit its training examples perfectly, including their noise and
+accidents. This is called <strong>overfitting</strong>. The model has memorised instead of
+generalised. On new data it does badly, like a student who learned last year's answers by heart and
+then meets a slightly different question.</p>
+
+<p>The opposite failure is <strong>underfitting</strong>: a model too simple to capture the real
+pattern, like trying to describe a curved road with one straight line. Good practice sits between
+the two. Engineers use several tools to stay there. They collect more data. They add
+<strong>regularisation</strong>, a penalty that discourages extreme parameter values and so keeps
+the model simpler. And they stop training at the point where the test score stops improving, even
+if the training score is still going up.</p>
+
+<p>The goal of the whole exercise is <strong>generalisation</strong>: doing well on examples the
+model has never met. A model is only as good as its performance on new data. Everything else is a
+rehearsal.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The toolbox: not everything is a neural network</h2>
+</header>
+
+<p>News coverage suggests machine learning means huge neural networks. In practice, a large share
+of the systems running in banks, insurers and shops use older and simpler methods, because they are
+cheaper, faster and easier to explain.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Method</th><th>The idea in one line</th><th>Typically good for</th></tr></thead>
+<tbody>
+<tr><td><strong>Linear and logistic regression</strong></td><td>Add up the features, each multiplied by a weight</td><td>Simple predictions that must be explained, such as credit scores</td></tr>
+<tr><td><strong>Decision trees</strong></td><td>A chain of yes/no questions ("income above X? age below Y?")</td><td>Rules a person can read and check</td></tr>
+<tr><td><strong>Random forests and gradient boosting</strong></td><td>Hundreds of small trees that vote, or that each fix the last one's errors</td><td>Tables of business data. Often the strongest choice there</td></tr>
+<tr><td><strong>Clustering (e.g. k-means)</strong></td><td>Put similar examples into the same group</td><td>Customer segments, unsupervised exploration</td></tr>
+<tr><td><strong>Neural networks</strong></td><td>Many layers of simple units, each transforming the output of the last</td><td>Images, sound, language: messy raw data</td></tr>
+</tbody></table></div>
+
+<p>The rule of thumb among practitioners is clear. <strong>For neat tables of numbers, tree-based
+methods are usually hard to beat. For raw images, audio and text, neural networks win.</strong>
+Choosing the simplest method that works is a mark of skill, not of being old-fashioned.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Deep learning, and why it suddenly worked in 2012</h2>
+</header>
+
+<p>Neural networks are old. The basic idea dates back to the 1950s, and backpropagation to the
+1980s. For decades they were a minority interest, because they needed more data and computing power
+than existed. <strong>Deep learning</strong> simply means neural networks with many layers. Each
+layer learns slightly more abstract features than the one before: edges, then shapes, then objects.</p>
+
+<p>The turning point came in 2012. A network now called AlexNet, built by Alex Krizhevsky, Ilya
+Sutskever and Geoffrey Hinton at the University of Toronto, entered the ImageNet competition, a
+contest to label photos across a thousand categories. Its error rate was roughly 15 per cent,
+against about 26 per cent for the next best entry. That gap was enormous by the standards of the
+field. Three ingredients had come together at once: <strong>a large labelled dataset, graphics
+chips (GPUs) that could do the arithmetic in parallel, and a few training tricks</strong>.</p>
+
+<p>Within a few years, deep learning had taken over image recognition, speech recognition and
+translation. In 2024 the Nobel Prize in Physics went to John Hopfield and Geoffrey Hinton for
+foundational work on neural networks. The brain inspiration behind them, and how loose it really
+is, is the subject of <a href="../07-neuroscience/18-artificial-neural-networks.html">Neuroscience ·
+Artificial neural networks</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>The quiet engine under modern services</h2>
+  <p class="lede">Most machine learning is invisible. It decides small things millions of times a
+  day, and some big things too. Knowing how to judge it is now a basic civic skill.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Where it already runs</h2>
+</header>
+
+<p>You probably met a dozen machine learning systems before lunch today. Your phone's keyboard
+predicted your next word. Your bank scored each card payment for fraud in a fraction of a second.
+A map app estimated your arrival time from millions of past journeys. A shop or streaming service
+ranked what you saw first. None of these feel like "AI", which is exactly why they matter: they
+shape behaviour without anyone noticing.</p>
+
+<p>Some uses are more dramatic. In 2016 DeepMind's AlphaGo, trained partly with reinforcement
+learning, beat the champion Lee Sedol at Go, a game long thought too subtle for computers. In 2020
+the same company's AlphaFold predicted the three-dimensional shapes of proteins with accuracy close
+to laboratory methods, a problem biologists had worked on for fifty years. Demis Hassabis and John
+Jumper shared the 2024 Nobel Prize in Chemistry for it. <strong>The most valuable uses are often
+in science, where a good prediction saves years of experiments.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>How to judge a model: the accuracy trap</h2>
+</header>
+
+<p>Suppose one card payment in a thousand is fraud. A model that says "not fraud" every single time
+is 99.9 per cent accurate, and completely useless. <strong>Accuracy alone tells you almost nothing
+when the thing you are looking for is rare.</strong> This is the base-rate problem, and it appears
+in medicine, security and hiring.</p>
+
+<p>Practitioners use two better questions instead. <strong>Precision</strong>: of the cases the
+model flagged, how many were real? <strong>Recall</strong>: of the real cases, how many did the
+model catch? There is always a trade-off between them. A fraud system tuned to catch every fraud
+will also block many honest customers. One tuned never to annoy customers will miss fraud. The same
+dial appears in face recognition, as Volume 14 explains
+(<a href="../14-computing-and-ai.html#c8">Biometrics</a>).</p>
+
+<div class="note">
+  <span class="tag">A useful habit</span>
+  <p>When someone says a model is "95 per cent accurate", ask three things. Accurate on what data?
+  How rare is the thing it is detecting? And what happens to the people it gets wrong? Those three
+  questions catch most exaggerated claims.</p>
+</div>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The data is the product</h2>
+</header>
+
+<p>Engineers in the field like to say that a model is mostly its data. The algorithms are widely
+published and often free. What differs between a good system and a bad one is usually the quantity,
+quality and relevance of the examples. <strong>A model can only learn patterns that are present in
+its data, including the patterns you did not want.</strong></p>
+
+<p>There is a second, subtler problem. A model assumes the future looks like the past it was trained
+on. When the world changes, the model does not know. This is called <strong>distribution
+shift</strong>. When the COVID-19 pandemic arrived in 2020, shopping, travel and spending patterns
+changed almost overnight, and many forecasting and fraud models built on earlier years performed
+badly until they were retrained. A model is a photograph of a moment. It needs to be checked and
+refreshed, like any other part of a working system.</p>
+
+<p>This is also why the people who collect and label data matter. A large global workforce, often
+low-paid, labels images, transcribes audio and rates outputs. Their judgements become part of the
+model.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Superhuman at patterns, weak at knowing when it is wrong</h2>
+  <p class="lede">The same features that make learned systems powerful make them hard to inspect,
+  easy to fool and quick to copy old injustices.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The balance sheet</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>What it buys you</th><th>What it costs you</th></tr></thead>
+<tbody>
+<tr><td><strong>Learns rules nobody could write</strong></td><td class="ok">Solves problems such as speech or image recognition that resisted hand-written programs for decades</td><td class="no">The learned rules are hard or impossible to read, so errors are hard to explain</td></tr>
+<tr><td><strong>Improves with more data</strong></td><td class="ok">Gets better over time and adapts by retraining</td><td class="no">Favours large organisations that own the most data and computing power</td></tr>
+<tr><td><strong>Fast and cheap once trained</strong></td><td class="ok">Millions of decisions per second, consistently, without fatigue</td><td class="no">Mistakes are also repeated millions of times, consistently</td></tr>
+<tr><td><strong>Fits patterns in past data</strong></td><td class="ok">Finds real signals people miss</td><td class="no">Also learns historical bias and accidental shortcuts</td></tr>
+<tr><td><strong>Assumes the future is like the past</strong></td><td class="ok">Works very well in stable settings</td><td class="no">Fails quietly when the world changes</td></tr>
+<tr><td><strong>Statistical, not logical</strong></td><td class="ok">Copes with messy, noisy input</td><td class="no">Can be confidently wrong, and small deliberate changes to input can fool it</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Shortcuts, opacity and the human in the loop</h2>
+</header>
+
+<p>Models are lazy in a specific way. They find the easiest pattern that predicts the label, whether
+or not it is the pattern you meant. Researchers call this <strong>shortcut learning</strong>. An
+image model might learn that "cow" means "green grass in the background", and then fail on a cow on
+a beach. The hospital-scanner example in Chapter 05 is the same failure. Shortcuts are hard to spot
+because the model's score looks fine.</p>
+
+<p>The difficulty of seeing inside a model is called the <strong>black box problem</strong>. A
+research area called explainable AI tries to show which inputs drove a decision. Its tools help,
+but they give partial answers, not full explanations. For this reason, regulators increasingly
+require that important automated decisions about people, such as credit, hiring or benefits, can be
+explained and appealed to a human. The European Union's AI Act, adopted in 2024 and coming into
+force in stages, treats such uses as high-risk. The bias side of this story, with its proxies and
+feedback loops, is in <a href="../49-ai-honestly.html#c6">Vol 49, Bias</a>.</p>
+
+<p>The fair summary is that <strong>a model is a tool that needs supervision, not an oracle</strong>.
+It is excellent at what it was tested on and unreliable outside it.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Fewer models built from scratch, more adapted from giants</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Foundation models adapted for each task</strong></td><td>Since about 2020, the trend has been to train one very large model on broad data, then adapt it ("fine-tune" it) for specific jobs</td><td class="ok">Fairly sure: most new applications will start from a large pretrained model rather than from zero</td></tr>
+<tr><td><strong>Machine learning as a scientific instrument</strong></td><td>Protein structure, weather forecasting and materials discovery already use learned models alongside physics</td><td class="ok">Fairly sure: more fields will use models to choose which experiments are worth running</td></tr>
+<tr><td><strong>Learning from far less data</strong></td><td>People learn a new word from one or two examples; most models need thousands</td><td class="mid">Plausible: steady gains, but closing the gap with human learning efficiency is an open research problem</td></tr>
+<tr><td><strong>Reliable, verifiable models</strong></td><td>Methods to guarantee a model behaves safely in every case exist only for small systems</td><td class="no">Speculative for large models: an active research field without a general solution yet</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>The limits that matter most: data, energy and trust</h2>
+</header>
+
+<p>Three pressures will shape the next decade. The first is <strong>data</strong>. The largest
+models have already been trained on a large share of the public text and images available online.
+Where the next high-quality data comes from, whether from licensing, synthetic data made by other
+models, or new sensors, is an open and contested question.</p>
+
+<p>The second is <strong>energy and hardware</strong>. Training and running large models needs
+huge data centres, and electricity has become a real constraint
+(<a href="../14-computing-and-ai.html#c3">Vol 14, Data centres</a>). Efficiency research, smaller
+specialised models and models that run on phones are partly a response to this.</p>
+
+<p>The third is <strong>trust</strong>. As models decide more, the demand grows for testing,
+auditing and the right to a human review. The likely future is not one in which models replace
+judgement. It is one in which <strong>knowing how to question a model becomes as ordinary a skill
+as reading a chart</strong>. The next topic shows what happens when the same methods are used not
+to predict, but to create.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Machine learning builds software from <strong>examples plus a measure of error</strong>. A
+    model is a function with adjustable <strong>parameters</strong>, tuned by <strong>gradient
+    descent</strong> until its loss is small. What counts is <strong>generalisation</strong>:
+    performance on data it has never seen.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>The phrase "machine learning" dates from around <strong>1959</strong> (Arthur Samuel).</li>
+      <li>AlexNet, <strong>2012</strong>: about 15 per cent error against about 26 per cent for the runner-up. The start of the deep learning era.</li>
+      <li>Two <strong>2024</strong> Nobel Prizes, physics and chemistry, went to work built on machine learning.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Trusting a single accuracy number. <strong>When the target is rare, high accuracy can mean a
+    useless model.</strong> Ask about precision, recall and who gets the errors.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a model that is perfect on its training data might be a bad model? If
+    you can, you understand overfitting, test sets and generalisation together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Model</dt><dd>A mathematical function with adjustable numbers that turns an input into a prediction.</dd>
+    <dt>Parameters (weights)</dt><dd>The adjustable numbers inside a model. Training means finding good values for them.</dd>
+    <dt>Feature</dt><dd>A measurable fact about an example that the model can see, such as a flat's size.</dd>
+    <dt>Label</dt><dd>The right answer attached to a training example.</dd>
+    <dt>Supervised learning</dt><dd>Learning from examples that come with right answers.</dd>
+    <dt>Unsupervised learning</dt><dd>Finding structure, such as groups, in data with no answers.</dd>
+    <dt>Reinforcement learning</dt><dd>Learning which actions earn the most reward by trial and error.</dd>
+    <dt>Loss function</dt><dd>A single number that measures how wrong the model currently is.</dd>
+    <dt>Gradient descent</dt><dd>Reducing the loss step by step by nudging every parameter slightly "downhill".</dd>
+    <dt>Backpropagation</dt><dd>The method for working out each parameter's share of the error in a neural network.</dd>
+    <dt>Overfitting</dt><dd>Memorising the training data, noise included, so the model fails on new data.</dd>
+    <dt>Generalisation</dt><dd>Doing well on examples the model has never seen. The real goal.</dd>
+    <dt>Distribution shift</dt><dd>When the world changes so that new data no longer looks like the training data.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Machine learning means you don't write the rules. You show examples and let the computer
+    fit them."</li>
+    <li>"A model is only as good as its score on data it has never seen."</li>
+    <li>"If fraud is one in a thousand, a model that never flags anything is 99.9 per cent accurate
+    and worthless."</li>
+    <li>"For tables of business data, simple tree methods often beat deep learning."</li>
+    <li>"A model is a photograph of the past. When the world changes, it doesn't know."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="03-generative-ai.html">Generative AI</a></h4><p>The same
+  training methods turned around to create: images, voices, music and video, and how diffusion
+  models make a picture out of noise.</p></div>
+  <div class="card"><h4>Related · <a href="16-data-science.html">Data science</a></h4><p>The wider
+  craft around models: asking the right question, cleaning data, and telling a true story with
+  numbers.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

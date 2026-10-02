@@ -1,0 +1,865 @@
+<!doctype html>
+<!--@HEAD-SRC title="The Future of Software Development" desc="How software is actually built, why every generation of tools made programmers more productive without replacing them, what AI coding assistants change, and the honest outlook for the craft."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Future of Software Development</title>
+<meta name="description" content="How software is actually built, why every generation of tools made programmers more productive without replacing them, what AI coding assistants change, and the honest outlook for the craft.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Technology · Topic 20 of 20</p>
+  <h1>The Future of Software Development. <span class="thin">Writing code was never the hard part. Deciding what to build, and making sure it works, still is.</span></h1>
+  <p class="lede">Since 2022, AI tools have learned to write working code from a sentence of plain
+  English. That has led to two confident predictions: that programmers will soon be obsolete, and that
+  nothing important will change. History suggests both are wrong. Every earlier leap in programming
+  tools, from the first compilers to the cloud, made developers far more productive, and the world
+  responded by wanting far more software. To judge what happens next, you need to know what
+  developers actually spend their time on, and which parts of that work AI really does well.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Technology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../49-ai-honestly.html#c3"><span class="vn">Vol 49 · ch 03</span><b>Why it invents things</b><em>Why AI code needs checking</em></a>
+<a class="vol" href="../20-future-tech/02-ai-agents.html"><span class="vn">Future Tech · 02</span><b>AI agents</b><em>Software that acts on its own</em></a>
+<a class="vol" href="../14-engineering/20-engineering-in-the-ai-era.html"><span class="vn">Engineering · 20</span><b>Engineering in the AI era</b><em>The same shift, in physical engineering</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 49 explains the tools at the centre of this story: <a
+  href="../49-ai-honestly.html#c2">what a language model actually does</a>, <a
+  href="../49-ai-honestly.html#c3">why it invents things</a>, and <a
+  href="../49-ai-honestly.html#c7">the honest uncertainty about work</a>. Volume 14 covers <a
+  href="../14-computing-and-ai.html#c4">the cloud</a> that most modern software runs on. This file
+  applies those ideas to one profession: how software is built, and how that is changing.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Turning a vague human wish into exact instructions</h2>
+  <p class="lede">Software development is the work of designing, writing, testing, running and
+  maintaining computer programs. Writing the code itself is only one part, and often not the largest
+  one.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The software crisis of 1968</h2>
+</header>
+
+<p>In 1968 NATO organised a conference in Garmisch, Germany, on a problem that worried governments
+and companies alike. Large software projects were running years late, far over budget, and often
+did not work when delivered. Participants called it a "software crisis". The conference helped
+popularise the term <strong>software engineering</strong>: the idea that building programs should be
+a disciplined engineering practice rather than clever improvisation. Margaret Hamilton, who led the
+team writing the onboard flight software for NASA's Apollo missions, is often credited with using the
+term in the same period to argue that software deserved the same respect as hardware.</p>
+
+<p>Seven years later Fred Brooks, who had managed a huge IBM software project, published <em>The
+Mythical Man-Month</em>. Its most famous lesson became known as Brooks's law: <strong>"adding
+manpower to a late software project makes it later."</strong> New people need training, and every
+extra person adds more conversations to coordinate. The book's deeper point was that software is
+hard not because typing code is slow, but because <strong>understanding and coordinating a complex
+system is slow</strong>. That point is the key to everything that follows.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>What developers actually spend their time on</h2>
+</header>
+
+<p>Outsiders picture a programmer typing code all day. In practice, writing new code is only part of
+the job. Studies and surveys of developers consistently find that much of their time goes on other
+activities.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Activity</th><th>What it involves</th></tr></thead>
+<tbody>
+<tr><td><strong>Understanding the problem</strong></td><td>Talking to users and colleagues, working out what is really needed, writing down requirements</td></tr>
+<tr><td><strong>Reading existing code</strong></td><td>Most work changes software that already exists, often millions of lines written by others years ago</td></tr>
+<tr><td><strong>Designing</strong></td><td>Deciding how the parts fit together, how data flows, what can fail</td></tr>
+<tr><td><strong>Writing code</strong></td><td>The part most people imagine</td></tr>
+<tr><td><strong>Testing and debugging</strong></td><td>Checking it works, finding out why it doesn't, fixing it</td></tr>
+<tr><td><strong>Reviewing</strong></td><td>Reading colleagues' changes before they are accepted</td></tr>
+<tr><td><strong>Running and maintaining</strong></td><td>Keeping it working, secure and up to date for years</td></tr>
+</tbody></table></div>
+
+<p>This matters for the future. <strong>A tool that makes typing code ten times faster does not
+make the whole job ten times faster</strong>, because typing was never most of the job. The real
+question is how much AI helps with the other rows.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The ladder of abstraction</h2>
+</header>
+
+<p>The history of programming is a ladder. Each step lets people say more with less, by hiding detail
+underneath. In the 1940s programmers wrote raw <strong>machine code</strong>, the numbers a processor
+executes directly. Then came <strong>assembly language</strong>, short names for those numbers. In the
+1950s Grace Hopper built early compilers, programs that translate human-readable instructions into
+machine code, and helped create the business language COBOL. John Backus's team at IBM released
+FORTRAN in 1957.</p>
+
+<p>Each step up brought the same fear and the same result. Experienced programmers doubted that
+compiled code could ever be as good as hand-written assembly. Within years, almost nobody wrote
+assembly by hand. Later steps added ready-made <strong>libraries</strong> of code, shared freely as
+<strong>open source</strong>, and then the cloud, where a few lines can rent a thousand servers.
+<strong>AI that writes code from plain language is the newest step on the same ladder</strong>, and
+possibly the largest. The question is whether it is a step like the others, or a different kind of
+thing.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>How modern software is built, and where AI fits in</h2>
+  <p class="lede">Today's software is built by teams, from shared parts, through an automated
+  pipeline. AI tools are being fitted into every stage of that pipeline.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The modern pipeline</h2>
+</header>
+
+<p>Most software teams today work in short cycles, an approach summed up in the <strong>Agile
+Manifesto</strong> written by a group of developers in 2001. Instead of planning everything for a
+year and delivering at the end, they build a small piece, show it to users, and adjust. Code is kept
+in a <strong>version control</strong> system, usually Git, created by Linus Torvalds in 2005, which
+records every change and lets many people work on the same code without overwriting each other.</p>
+
+<div class="sheet">
+  <div class="cap">From idea to running software, today</div>
+<pre>
+  idea / bug report
+       |
+  developer writes a change  (now often with an AI assistant)
+       |
+  automated tests run        thousands of checks in minutes
+       |
+  code review                a colleague reads it and approves
+       |
+  automatic deployment       released to users, often several times a day
+       |
+  monitoring                 alarms if errors or slowdowns appear
+       |
+       +----> feedback, next change
+</pre>
+</div>
+
+<p>The automated middle part is called <strong>continuous integration and continuous delivery</strong>
+(CI/CD). Its value is that <strong>mistakes are caught minutes after they are made</strong>, not
+months later. A habit closely linked to it, called DevOps, gives the same team responsibility for
+building software and for running it, so developers feel the consequences of fragile code.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Built from other people's code</h2>
+</header>
+
+<p>A typical modern application contains far more code written by strangers than by its own team.
+Developers assemble programs from <strong>open-source packages</strong>: free, shared components for
+everything from reading dates to encrypting passwords. One package depends on others, which depend on
+others again. These are called <strong>dependencies</strong>.</p>
+
+<p>This is enormously efficient and also fragile. In December 2021 a flaw called Log4Shell was found
+in Log4j, a widely used open-source tool for recording what a program is doing. It affected a huge
+number of systems worldwide, many of whose owners did not know they used it. In 2024 a developer
+named Andres Freund noticed a tiny slowdown on his computer and traced it to a hidden backdoor in xz,
+a small compression tool included in many Linux systems. Someone had spent years gaining the trust of
+the project's volunteer maintainer in order to insert it. <strong>Much of the world's software rests
+on small projects kept alive by a few unpaid people.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>AI coding assistants: from autocomplete to agents</h2>
+</header>
+
+<p>The large language models described in <a href="../49-ai-honestly.html#c2">Volume 49</a> are
+trained on huge amounts of text, including public code. Code turns out to suit them well: it is
+highly structured, there is a great deal of it online, and it can be checked automatically by running
+it. Three generations of tools appeared quickly.</p>
+
+<div class="grid3">
+  <div class="card"><h4>Autocomplete</h4><p>GitHub Copilot, previewed in 2021, suggests the next
+  lines of code as you type, like predictive text for programmers. The developer stays fully in
+  control, accepting or rejecting each suggestion.</p></div>
+  <div class="card"><h4>Chat</h4><p>From late 2022, chat assistants could write a whole function,
+  explain unfamiliar code, or suggest why a program crashed, from a plain-language request.</p></div>
+  <div class="card"><h4>Agents</h4><p>From 2024, <strong>coding agents</strong> could take a task,
+  read a codebase, make changes across many files, run the tests and try again when they failed.
+  Examples include Cursor, Claude Code and GitHub's own agent features.</p></div>
+</div>
+
+<p>In early 2025 the AI researcher Andrej Karpathy coined the term <strong>"vibe coding"</strong> for
+building software by describing what you want and accepting what the AI produces, without reading the
+code closely. It is fun and fast for small personal projects. For software that handles money,
+health or private data, it is a risky way to work, because nobody understands what was built.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Why the tests matter more than ever</h2>
+</header>
+
+<p>An AI model generates code that <em>looks</em> right, based on patterns. Like the text models in
+Volume 49, it can be confidently wrong. It may call a function that does not exist, mishandle an
+unusual case, or introduce a security hole. The best defence is something software engineering
+already had: <strong>automated tests</strong>, small programs that check whether other programs
+behave correctly.</p>
+
+<p>This is why AI is especially strong where answers can be checked. If a test suite says clearly
+whether a change works, an agent can try, fail, read the error and try again, many times, quickly.
+Where "correct" is vague, such as "make this easier to use" or "design this so it can grow for ten
+years", the human still has to judge. <strong>The more precisely you can say what "working" means,
+the more of the work a machine can do.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Software runs everything, so how it is built affects everyone</h2>
+  <p class="lede">Banks, hospitals, aircraft, power grids and phones all run on software. Changes in
+  how it is made affect cost, safety and jobs far beyond the technology industry.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>What the evidence says about productivity</h2>
+</header>
+
+<p>The evidence so far is mixed, and the details matter. In a controlled experiment published by
+GitHub researchers in 2023, developers using Copilot finished a well-defined programming task about
+55 per cent faster than those without it. In October 2024 Google's chief executive said that more
+than a quarter of all new code at the company was being generated by AI and then reviewed by
+engineers.</p>
+
+<p>Other evidence points the other way. In 2025 the research group METR ran a randomised study with
+experienced open-source developers working on large projects they knew well. With AI tools they took
+<strong>about 19 per cent longer</strong>, even though they believed the tools had made them faster.
+The likely reasons included time spent prompting, waiting and checking output that was not quite
+right.</p>
+
+<p>These results are not contradictory. <strong>AI helps most on small, well-defined, unfamiliar
+tasks, and least on large, complex systems that an expert already knows deeply.</strong> Studies of
+this kind are also overtaken quickly, because the tools improve every few months. The honest summary
+for 2025 is a large gain on some work, little or none on other work, and a real risk of
+overestimating your own speed-up.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>When software fails</h2>
+</header>
+
+<p>Software failures can be spectacular. In 1996 the first flight of the European Ariane 5 rocket
+ended in an explosion about 40 seconds after launch. Code reused from the earlier Ariane 4 tried to
+squeeze a number too large for its storage space, and the guidance system shut down. In July 2024 a
+faulty update from the security company CrowdStrike crashed about 8.5 million Windows computers
+worldwide, grounding flights and disrupting hospitals and banks for days.</p>
+
+<p>Neither failure was caused by AI. They are reminders that <strong>the cost of software errors
+grows with how much of the world depends on software</strong>. If AI greatly increases the amount of
+code written, the amount of code that must be understood, tested and maintained grows too. Research
+has found that AI assistants can suggest insecure code, especially when asked to do
+security-sensitive tasks. Faster writing without stronger checking would simply produce more
+failures, faster.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Jobs: fewer programmers, or more software?</h2>
+</header>
+
+<p>The economic argument divides into two camps. The first says that if AI does much of the coding,
+companies will need fewer developers. Entry-level roles, where juniors traditionally did simpler
+coding tasks, are the most exposed, and from around 2023 many reports described a tougher market for
+new graduates in software. How much of that was caused by AI, rather than by higher interest rates
+and cuts after a hiring boom, is disputed.</p>
+
+<p>The second camp points to history. When something becomes cheaper, people often want much more of
+it. Economists call this the <strong>Jevons paradox</strong>, after a 19th-century observation that
+more efficient steam engines increased total coal use. Compilers, open source and the cloud each made
+software far cheaper to build, and the number of developers grew. Huge amounts of useful software are
+never built today because they are too expensive: tools for small businesses, local governments,
+charities, and individuals.</p>
+
+<p>Both effects can happen at once. <strong>The likeliest outcome is a changed job rather than a
+vanished one</strong>: less time typing routine code, more time on deciding what to build, designing
+systems, reviewing machine output and taking responsibility for it. The open worry is how juniors
+will learn the craft if the simple tasks that used to train them are automated. The broader picture
+is in <a href="../20-future-tech/20-how-work-may-change-because-of-ai.html">How work may change
+because of AI</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Faster building, and the cost of not understanding</h2>
+  <p class="lede">AI coding tools bring real gains. Each gain has a matching risk, usually about
+  understanding and responsibility.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Speed</strong></td><td class="ok">Routine code, tests and prototypes in minutes rather than hours.</td><td class="mid">Gains are uneven, and people tend to overestimate them.</td></tr>
+<tr><td><strong>Access</strong></td><td class="ok">Non-programmers can build simple tools for themselves.</td><td class="no">They may not recognise when the result is wrong or unsafe.</td></tr>
+<tr><td><strong>Learning</strong></td><td class="ok">Explains unfamiliar code and languages patiently, on demand.</td><td class="no">Beginners may skip the struggle that builds real understanding.</td></tr>
+<tr><td><strong>Quality</strong></td><td class="ok">Can write tests and spot bugs a tired human misses.</td><td class="no">Confident mistakes, invented functions, and insecure patterns copied from training data.</td></tr>
+<tr><td><strong>Maintenance</strong></td><td class="ok">Helps modernise old code that nobody understands any more.</td><td class="no">Large amounts of code that no human fully understands become tomorrow's legacy problem.</td></tr>
+<tr><td><strong>Work</strong></td><td class="ok">More time for design, users and hard problems.</td><td class="no">Fewer entry-level tasks, and pressure on jobs and wages in some roles.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The comprehension debt</h2>
+</header>
+
+<p>Developers already use the phrase <strong>technical debt</strong> for shortcuts that save time now
+and cost more later, like borrowing money. Code written quickly without good structure has to be
+"repaid" with painful rework. AI adds a related risk that some engineers call comprehension debt:
+code that works today but that nobody on the team actually understands.</p>
+
+<p>The danger shows up later. When that code breaks at three in the morning, or must be changed for a
+new law, someone has to understand it. If nobody does, the team is at the mercy of the next AI
+suggestion. <strong>Responsibility cannot be delegated to a tool.</strong> When software fails, the
+company and its engineers answer for it, not the model. Good teams therefore treat AI output like a
+fast but inexperienced colleague's work: useful, often impressive, and always reviewed.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>From writing code to directing and checking it</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>AI in every developer's workflow</strong></td><td>As of 2025, most professional developers in large surveys said they used or planned to use AI tools, though many said they did not fully trust the output.</td><td class="ok">Fairly sure: AI assistance becomes as normal as the compiler. The job shifts towards specifying, reviewing and testing.</td></tr>
+<tr><td><strong>Agents doing whole tasks</strong></td><td>Coding agents can already complete many well-defined tasks in real codebases, with human review.</td><td class="mid">Plausible: agents handle a large share of routine maintenance, upgrades and bug fixes, with humans setting goals and approving changes. See <a href="../20-future-tech/02-ai-agents.html">AI agents</a>.</td></tr>
+<tr><td><strong>Software built mostly from plain-language intent</strong></td><td>Simple apps can be generated from a description. Large, critical systems cannot.</td><td class="no">Speculative: whether complex, safety-critical systems can be specified in plain language and trusted without deep human understanding is an open question.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Safer languages, proofs, and the skills that last</h2>
+</header>
+
+<p>Two quieter trends may matter as much as AI. The first is a move to <strong>memory-safe
+languages</strong>. Microsoft and Google have each reported that roughly 70 per cent of their serious
+security bugs came from memory-safety errors, mistakes that older languages like C and C++ allow and
+newer ones like Rust prevent by design. In 2024 the US government publicly urged software makers to
+move towards memory-safe languages. The second is <strong>formal verification</strong>: proving
+mathematically that a program does what its specification says. It is slow and expensive, but it has
+been done for real systems, such as the seL4 operating system kernel. AI may make it far cheaper,
+because a machine-checked proof is exactly the kind of answer that can be verified automatically.</p>
+
+<p>Put together, these trends point in one direction. <strong>As writing code becomes cheap, the
+valuable skills become knowing what to build, describing it precisely, and proving that it
+works.</strong> Those were always the hard parts that Fred Brooks wrote about in 1975. The
+developers who thrive will be those who understand systems deeply enough to direct machines and to
+catch them when they are wrong. That is a different job from typing code, but it is still
+engineering.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Software development is much more than writing code: understanding needs, designing, testing
+    and maintaining take most of the effort. AI tools are the <strong>newest step on a long ladder of
+    abstraction</strong>. They help most where <strong>correctness can be checked</strong>, and
+    least where judgement and deep system knowledge are needed. Responsibility stays with
+    humans.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>1968: the NATO conference on the <strong>"software crisis"</strong>.</li>
+      <li>2023: about <strong>55 per cent faster</strong> on a defined task with Copilot (GitHub study).
+      2025: about <strong>19 per cent slower</strong> for experts on their own large projects (METR).</li>
+      <li>Roughly <strong>70 per cent</strong> of serious security bugs at Microsoft and Google came
+      from memory-safety errors.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking that if AI writes code ten times faster, software gets built ten times faster.
+    <strong>Typing was never the bottleneck. Understanding and checking were.</strong></p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why an AI agent does better on a task with good automated tests than on one
+    with vague goals? If you can, you understand where AI helps in software and where it does not.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Software engineering</dt><dd>Building software as a disciplined practice, with design, testing and maintenance.</dd>
+    <dt>Compiler</dt><dd>A program that translates human-readable code into instructions a processor can run.</dd>
+    <dt>Abstraction</dt><dd>Hiding detail so people can work at a higher level.</dd>
+    <dt>Open source</dt><dd>Software whose code is published freely for anyone to use and improve.</dd>
+    <dt>Dependency</dt><dd>A piece of someone else's code that your program relies on.</dd>
+    <dt>Version control</dt><dd>A system, usually Git, that records every change to code.</dd>
+    <dt>CI/CD</dt><dd>Automated testing and release of code changes, often many times a day.</dd>
+    <dt>Automated test</dt><dd>A small program that checks whether other code behaves correctly.</dd>
+    <dt>Coding agent</dt><dd>An AI tool that takes a task, edits code, runs tests and iterates on its own.</dd>
+    <dt>Vibe coding</dt><dd>Building software by describing it to an AI and accepting the output without close review.</dd>
+    <dt>Technical debt</dt><dd>Shortcuts that save time now and cost extra work later.</dd>
+    <dt>Memory-safe language</dt><dd>A programming language that prevents a common class of dangerous memory errors.</dd>
+    <dt>Formal verification</dt><dd>Mathematically proving that a program meets its specification.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Typing code was never the hard part of software. Knowing what to build and checking it works
+    is."</li>
+    <li>"AI coding tools help most when you can test the answer automatically."</li>
+    <li>"One study found experts were slower with AI on their own projects, while believing they were
+    faster."</li>
+    <li>"Every time programming got easier, the world wanted more software, not fewer programmers.
+    Whether AI breaks that pattern is the open question."</li>
+    <li>"You can delegate the typing to a tool, but not the responsibility."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="../20-future-tech/02-ai-agents.html">AI agents</a></h4><p>This
+  is the last Technology topic. Go further with AI systems that plan and act on their own, in
+  software and beyond, or return to <a href="index.html">all 20 Technology topics</a>.</p></div>
+  <div class="card"><h4>Related · <a href="../20-future-tech/19-human-ai-collaboration.html">Human-AI
+  collaboration</a></h4><p>How people and AI systems divide work well, and the habits that keep humans
+  in charge of the judgement.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

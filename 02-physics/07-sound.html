@@ -1,0 +1,866 @@
+<!doctype html>
+<!--@HEAD-SRC title="Sound" desc="What sound physically is, how pitch, loudness and tone work, how the ear turns pressure waves into hearing, why noise damages hearing for good, how ultrasound and sonar use sound, and where hearing science is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sound</title>
+<meta name="description" content="What sound physically is, how pitch, loudness and tone work, how the ear turns pressure waves into hearing, why noise damages hearing for good, how ultrasound and sonar use sound, and where hearing science is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Physics · Topic 07 of 20</p>
+  <h1>Sound. <span class="thin">Tiny ripples in air pressure that your ear turns into music, speech and warning.</span></h1>
+  <p class="lede">When someone speaks to you, the air between you is barely disturbed. The pressure
+  changes in normal conversation are around a ten-millionth of the air pressure around you. Your ear
+  detects them, sorts them by frequency, and hands your brain a stream it recognises as a friend's
+  voice, a car behind you, or a song you have not heard in years. Sound is the most intimate wave in
+  daily life. This file explains what it is physically, how pitch, loudness and tone work, how the
+  ear does its job, why loud noise causes damage that never heals, and how doctors, ships and
+  animals use sound to see.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 17 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Physics</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="06-waves.html"><span class="vn">Physics · 06</span><b>Waves</b><em>The general rules</em></a>
+<a class="vol" href="../42-your-health.html#c3"><span class="vn">Vol 42 · ch 03</span><b>Scans, and what each one sees</b><em>Ultrasound in medicine</em></a>
+<a class="vol" href="08-light.html"><span class="vn">Physics · 08</span><b>Light</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volumes 13 and 42 explain ultrasound scans as echoes (<a href="../13-medicine-and-biology.html#m7">Medical
+  imaging</a>, <a href="../42-your-health.html#c3">Scans, and what each one sees</a>), and Volume 42
+  notes how hearing changes with age (<a href="../42-your-health.html#c7">What actually changes as you
+  age</a>). The general behaviour of waves is in <a href="06-waves.html">Waves</a>. This file is the
+  library's first full treatment of sound itself.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A pressure wave, and an experience</h2>
+  <p class="lede">The word "sound" means two things: a physical wave in a material, and the
+  sensation it produces in a listener. Keeping them apart clears up most confusion.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>If a tree falls and no one hears it</h2>
+</header>
+
+<p>The old puzzle asks whether a falling tree makes a sound when nobody is there to hear it. Physics
+answers by splitting the word. The falling tree certainly makes <strong>pressure waves</strong> in
+the air; a microphone would record them. Whether there is "sound" in the sense of something heard
+depends on a listener. The puzzle is about language, not physics.</p>
+
+<p>This split matters because the physical wave and the experience do not always match. Two sounds
+with the same physical energy can seem very different in loudness if their frequencies differ. A
+dog hears whistles that are silent to you. As you age, high notes fade from your hearing even
+though they are still in the air. <strong>Physics measures the wave; the ear and brain decide what
+we hear.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Squeezes and stretches in the air</h2>
+</header>
+
+<p>Imagine a loudspeaker cone. When it moves forward, it pushes the air molecules in front of it
+closer together, making a region of slightly higher pressure called a
+<strong>compression</strong>. When it moves back, it leaves a region of slightly lower pressure, a
+<strong>rarefaction</strong>. Those molecules push on their neighbours, which push on theirs. A
+pattern of compressions and rarefactions travels outward. That is a sound wave. It is a
+<em>longitudinal</em> wave: the air moves back and forth along the direction the sound travels.</p>
+
+<div class="sheet">
+  <div class="cap">A sound wave: the pattern moves, the air only shuffles</div>
+<pre>
+ speaker
+   |)   ||||  |  |  ||||  |  |  ||||  |  |  ||||   ---> direction of travel
+   |)   ||||  |  |  ||||  |  |  ||||  |  |  ||||
+        comp. rare.  comp. rare.  comp. rare.
+        |&lt;-- one wavelength --&gt;|
+</pre>
+</div>
+
+<p>Because sound needs molecules to pass the push along, it cannot travel through empty space. In
+1660 Robert Boyle put a ticking watch in a glass jar and pumped out the air. The ticking faded. In
+space, an explosion is silent. The roaring spaceships of films are poetic licence.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The range of hearing, and beyond</h2>
+</header>
+
+<p>A young person with healthy ears can hear frequencies from about <strong>20 hertz to 20,000
+hertz</strong> (20 kHz): from 20 to 20,000 pressure wobbles per second. The upper limit falls with
+age and noise exposure, and many adults hear little above 12 to 15 kHz.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Range</th><th>Frequencies</th><th>Who uses it</th></tr></thead>
+<tbody>
+<tr><td><strong>Infrasound</strong></td><td>Below 20 Hz</td><td>Elephants communicate over kilometres with low rumbles; volcanoes, storms and nuclear tests produce it and it is monitored worldwide</td></tr>
+<tr><td><strong>Human hearing</strong></td><td>About 20 Hz to 20 kHz</td><td>Speech mostly lies between a few hundred and a few thousand hertz</td></tr>
+<tr><td><strong>Ultrasound</strong></td><td>Above 20 kHz</td><td>Dogs hear up to roughly twice our upper limit; bats and dolphins echolocate with it; medical scanners use millions of hertz</td></tr>
+</tbody></table></div>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Pitch, loudness, tone, speed and the ear</h2>
+  <p class="lede">Three properties describe any sound you hear: how high, how loud, and what it is
+  like. Each maps onto a physical feature of the wave.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Pitch is frequency</h2>
+</header>
+
+<p>The <strong>pitch</strong> of a note, how high or low it sounds, is set by its frequency. A
+faster vibration gives a higher note. A bass guitar's lowest string vibrates about 41 times a
+second. A piccolo's highest notes are over 4,000.</p>
+
+<p>Music is built on a remarkable fact about pitch. <strong>Doubling the frequency gives the "same"
+note an octave higher</strong>. Two notes an octave apart sound so alike that singers call them by
+the same letter. The standard tuning note for orchestras, the A above middle C, is set at 440 Hz by
+international agreement; the A an octave above it is 880 Hz. The intervals that sound pleasant
+together, like the fifth, tend to have frequencies in simple ratios such as 3 to 2. The Greek
+thinker Pythagoras is traditionally credited with noticing these ratios on strings, though how much
+of that tradition is history and how much legend is uncertain.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Loudness and the decibel</h2>
+</header>
+
+<p>Loudness depends on the amplitude of the pressure wave: how big the squeezes and stretches are.
+The ear handles an enormous range. The loudest sound you can bear without pain carries about a
+million million times more energy per second than the faintest you can hear. To cope with that
+range, sound levels are measured on a <strong>logarithmic</strong> scale called the
+<strong>decibel</strong> (dB). On a logarithmic scale, each step multiplies instead of adds.</p>
+
+<p>The key rule: <strong>every extra 10 decibels means ten times the sound energy</strong>, and the
+ear hears it as roughly twice as loud. So 80 dB is not a little more than 70 dB. It is ten times
+the energy. And just 3 dB more means double the energy.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Sound</th><th>Approximate level</th><th>Note</th></tr></thead>
+<tbody>
+<tr><td>Threshold of hearing</td><td class="ok">0 dB</td><td>The faintest sound a healthy young ear detects</td></tr>
+<tr><td>Quiet library, whisper</td><td class="ok">30 dB</td><td></td></tr>
+<tr><td>Normal conversation</td><td class="ok">About 60 dB</td><td></td></tr>
+<tr><td>Busy city traffic</td><td class="mid">About 80–85 dB</td><td>Long daily exposure at this level begins to risk hearing damage</td></tr>
+<tr><td>Rock concert, nightclub</td><td class="no">About 100–110 dB</td><td>Damage possible within minutes to an hour</td></tr>
+<tr><td>Jet engine nearby, gunshot</td><td class="no">120–140 dB and above</td><td>Painful; can cause instant damage</td></tr>
+</tbody></table></div>
+
+<p>Because the scale multiplies, risk rises fast. Workplace guidelines in many countries treat
+about 85 dB averaged over an eight-hour day as the point where protection is needed, and each
+3 dB above it halves the safe time. At 100 dB, that is well under half an hour.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Timbre: why a violin and a flute sound different</h2>
+</header>
+
+<p>Play the same note, at the same loudness, on a violin and a flute. You can tell them apart at
+once. The difference is called <strong>timbre</strong> (pronounced "tam-ber"), or tone colour.</p>
+
+<p>A real instrument never produces a single pure frequency. A string vibrating at 220 Hz also
+vibrates at 440, 660, 880 Hz and so on, all at once. These extra frequencies, whole-number
+multiples of the main one, are called <strong>harmonics</strong> or overtones. Each instrument
+produces a different mix of them, with different strengths, and with its own way of starting and
+fading. <strong>Your brain recognises the recipe of harmonics as the instrument's voice.</strong>
+It does the same with people. You recognise a friend on the phone because the shape of their throat,
+mouth and nose gives their voice a recognisable mix of frequencies.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>How the ear turns pressure into nerve signals</h2>
+</header>
+
+<p>The ear is a three-stage machine.</p>
+
+<div class="grid3">
+  <div class="card"><h4>Outer ear</h4><p>The visible ear funnels sound into the ear canal. Its
+  folds slightly change sounds depending on their direction, which helps you tell whether a sound
+  is in front, behind, above or below.</p></div>
+  <div class="card"><h4>Middle ear</h4><p>The eardrum vibrates with the sound. Three tiny bones,
+  including the stirrup (stapes), the smallest bone in the body, pass the vibration on and
+  concentrate it onto a much smaller membrane, boosting the pressure.</p></div>
+  <div class="card"><h4>Inner ear</h4><p>The <strong>cochlea</strong>, a fluid-filled spiral about
+  the size of a pea, holds thousands of <strong>hair cells</strong>. Each bends when the fluid moves,
+  and fires a signal to the brain.</p></div>
+</div>
+
+<p>The cochlea also sorts sound by frequency. A membrane running along its spiral is stiff and
+narrow at one end and floppy and wide at the other. High frequencies make the stiff end vibrate
+most; low frequencies, the far end. So <strong>each position along the cochlea reports one range of
+pitch</strong>, like the keys of a piano laid out along a coil. The Hungarian-American scientist
+Georg von Békésy won the Nobel Prize in 1961 for working this out.</p>
+
+<p>Hearing works with both ears together. A sound from your left reaches your left ear a fraction
+of a millisecond before your right, and slightly louder. Your brain uses those tiny differences to
+locate the source, which is why someone with hearing in one ear finds it hard to tell where sounds
+come from.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The speed of sound, thunder and the sonic boom</h2>
+</header>
+
+<p>Sound travels through air at about 343 metres per second at room temperature, faster in warm
+air and slower in cold. That is about a kilometre every three seconds. Light from lightning arrives
+almost instantly, so <strong>count the seconds between flash and thunder and divide by three to
+get the distance in kilometres</strong> (or by five for miles).</p>
+
+<p>When an aircraft flies faster than sound, the pressure waves it makes cannot get out ahead of
+it. They pile up into a cone-shaped shock wave trailing behind the plane. When that cone sweeps
+over you on the ground, you hear a sharp double bang called a <strong>sonic boom</strong>. The
+first piloted aircraft to fly faster than sound in level flight was the Bell X-1, flown by Chuck
+Yeager in 1947. A cracking whip makes a tiny sonic boom: its tip moves faster than sound.</p>
+
+<p>Speed is measured against sound with the <strong>Mach number</strong>: Mach 1 is the speed of
+sound, Mach 2 twice that. Concorde cruised at about Mach 2 from 1976 to 2003, but booms were so
+disturbing that most countries banned supersonic flight over land, which limited its routes mostly
+to oceans.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Rooms that sound good, and rooms that don't</h2>
+</header>
+
+<p>In a closed room, sound bounces off walls, floor and ceiling many times before it fades. That
+lingering is <strong>reverberation</strong>. Some is good: it makes music sound full and warm. Too
+much and speech turns to mush, as in a big tiled hall or a busy restaurant with hard surfaces.</p>
+
+<p>Room acoustics became a science in the 1890s when the American physicist Wallace Sabine was asked
+to fix a lecture hall at Harvard where nobody could understand the speaker. He measured how long
+sound took to fade and how different materials absorbed it, and found a formula linking the two.
+He then helped design Boston's Symphony Hall, opened in 1900 and still praised as one of the
+world's best concert halls. Today restaurants, open-plan offices and classrooms are judged partly by
+reverberation time, and soft materials such as curtains, carpet and acoustic panels are the cure.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Hearing you can lose, and sound that can see</h2>
+  <p class="lede">Sound connects people, and it can quietly harm them. It also lets us look inside the
+  body and the deep ocean.</p>
+</header>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Noise, and the damage that does not heal</h2>
+</header>
+
+<p>The hair cells in the cochlea are delicate. Very loud sound, or moderately loud sound for long
+periods, bends and breaks them. In birds and fish such cells can regrow. <strong>In humans and other
+mammals, hair cells that die are not replaced.</strong> The hearing they provided is gone for good.
+Damage often begins at the high frequencies, so the first sign is trouble following conversation in
+noisy places, when consonants like "s", "f" and "th" blur together.</p>
+
+<p>Another common sign is <strong>tinnitus</strong>, a ringing, hissing or buzzing heard when there
+is no outside sound. A short spell after a concert is a warning that the ear has been overloaded.
+Persistent tinnitus is common, and for some people distressing.</p>
+
+<p>The scale is large. The World Health Organization's 2021 World Report on Hearing estimated that
+about 1.5 billion people live with some degree of hearing loss, and projected nearly 2.5 billion by
+2050. It has also warned that over a billion young people are at risk from unsafe listening habits,
+such as loud music through earphones. Hearing loss in middle age is also associated with a higher
+risk of dementia later; whether treating it lowers that risk is still being studied, and a large
+trial published in 2023 found a possible benefit only in a higher-risk group.</p>
+
+<div class="warn">
+  <span class="tag">Health note</span>
+  <p>This is general education, not medical advice. Practical rules that follow from the physics: if
+  you must raise your voice to be heard at arm's length, the noise is probably loud enough to damage
+  hearing over time. Earplugs at concerts and on noisy jobs work. Keep personal music at a level where
+  you can still hear people around you. See a doctor for sudden hearing loss, which can be an
+  emergency.</p>
+</div>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Seeing with sound: ultrasound, sonar and echolocation</h2>
+</header>
+
+<p>Sound reflects whenever it crosses a boundary between materials, so its echoes carry a picture
+of what it met. Bats were shown in the 1930s and 1940s to navigate and hunt by
+<strong>echolocation</strong>, sending out ultrasonic calls and reading the echoes. Dolphins and some
+whales do the same underwater.</p>
+
+<p>Humans copied the trick. <strong>Sonar</strong>, developed largely during and after the First World
+War to find submarines, sends sound pulses through water and times the echoes. It now maps the sea
+floor, finds fish and guides ships. Medical <strong>ultrasound</strong> uses frequencies of a few
+million hertz. A probe sends pulses into the body and listens to echoes from the boundaries between
+tissues, building an image in real time. It uses no ionising radiation, which is why it is the
+standard way to check a pregnancy, as Volume 42 describes. Focused ultrasound can also be strong
+enough to break kidney stones or heat small regions of tissue, as a form of treatment.</p>
+
+<p>Sound travels very well underwater, far better than light. In the oceans, a layer at around a
+kilometre depth traps sound so it can travel thousands of kilometres. Whales may use it to call
+over huge distances, and it is used to monitor for undersea earthquakes and nuclear tests.</p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Noise as a public-health problem</h2>
+</header>
+
+<p>Noise is not only a matter for ears. Long-term exposure to traffic, rail and aircraft noise,
+especially at night, disturbs sleep. In 2018 the WHO's European office published noise guidelines
+that recommended limits for road traffic, rail, aircraft and wind-turbine noise, linking high
+exposure to sleep disturbance, annoyance and, with less certainty, heart disease. The strength of
+the heart-disease evidence varies between studies and is still debated.</p>
+
+<p>Noise is also unequal. Homes next to busy roads, flight paths and industry are often cheaper, so
+poorer households tend to get more of it. That makes noise a concern for city planning and
+fairness, not only for physics. Quiet road surfaces, sound barriers, better windows and electric
+vehicles at low speeds all help. <a href="../12-environment-climate/20-sustainable-cities.html">Sustainable
+cities</a> returns to the theme.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A wave that informs, heals and harms</h2>
+  <p class="lede">Sound is cheap, safe and everywhere, which makes it a superb tool and a constant
+  hazard.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Aspect</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Communication</strong></td><td class="ok">Speech and music need no equipment; sound travels round corners and in the dark.</td><td class="no">Fades quickly with distance in air; easily masked by noise.</td></tr>
+<tr><td><strong>Imaging</strong></td><td class="ok">Ultrasound is safe, cheap, portable and works in real time.</td><td class="mid">Cannot see through bone or air well, so it is poor for lungs and the brain in adults.</td></tr>
+<tr><td><strong>Underwater</strong></td><td class="ok">Travels far, so sonar and whale calls work over long distances.</td><td class="no">Ship noise and powerful sonar disturb marine animals; some military sonar exercises have been linked to whale strandings.</td></tr>
+<tr><td><strong>Human hearing</strong></td><td class="ok">Extraordinary range and sensitivity; can pick out one voice in a crowd.</td><td class="no">Damage is permanent; very common with age and noise.</td></tr>
+<tr><td><strong>Living with noise</strong></td><td class="ok">Can be reduced with design: barriers, materials, quieter machines.</td><td class="no">Noise from traffic and aircraft harms sleep and wellbeing, and falls unequally.</td></tr>
+</tbody></table></div>
+
+<p>One more trade-off is worth knowing. Hearing aids work by amplifying sound, but they cannot
+replace dead hair cells, so they make sound louder rather than clearer, and many users struggle in
+noisy rooms. For people with profound deafness, a <strong>cochlear implant</strong> skips the hair
+cells and stimulates the hearing nerve directly with electrodes. It is one of the most successful
+neural implants ever developed, used by over a million people worldwide by most estimates, though
+the sound it gives takes time to learn and is not the same as natural hearing.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Cheaper hearing help, regrown cells, and quieter booms</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, sorted by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Hearing help becomes consumer tech</strong></td><td>In 2022 the US allowed hearing aids to be sold over the counter without a prescription. In 2024 regulators authorised hearing-aid software on a popular brand of wireless earbuds.</td><td class="ok">Fairly sure: cheaper, more common hearing support, with less stigma.</td></tr>
+<tr><td><strong>Gene therapy for inherited deafness</strong></td><td>Small trials from 2023 onward treated children born deaf because of a faulty OTOF gene, and many gained substantial hearing.</td><td class="mid">Plausible: approved treatments for some genetic forms. Most hearing loss is not genetic, so this helps a minority.</td></tr>
+<tr><td><strong>Regrowing hair cells</strong></td><td>Drugs and gene approaches that coax the inner ear to make new hair cells work in animals; human trials so far have shown limited results.</td><td class="no">Speculative: a treatment for common age- and noise-related loss is not yet in sight.</td></tr>
+<tr><td><strong>Quiet supersonic flight</strong></td><td>NASA's X-59 experimental aircraft is shaped to turn the sonic boom into a soft thump, and began flight testing in the mid-2020s.</td><td class="mid">Plausible that rules for flight over land are revisited; commercial quiet supersonic travel is further off.</td></tr>
+</tbody></table></div>
+
+<p>The likeliest change for most people is the simplest: better habits, quieter cities and earlier
+treatment. The physics will not change, and neither will the biology of hair cells for some time.
+<strong>The cheapest way to have good hearing at seventy is still to protect it at twenty.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Sound is <strong>a pressure wave of compressions and rarefactions</strong> travelling through
+    a material. Pitch is frequency, loudness is amplitude, and timbre is the mix of harmonics. The
+    cochlea sorts frequencies along its length, and its hair cells, once lost, do not regrow.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Human hearing: about <strong>20 Hz to 20 kHz</strong>, shrinking with age.</li>
+      <li>Speed in air: about <strong>343 m/s</strong>, a kilometre every three seconds.</li>
+      <li><strong>+10 dB = ten times the energy</strong>; damage risk starts around 85 dB over a long
+      day.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking decibels add like ordinary numbers. <strong>The scale multiplies</strong>, so a
+    small rise in decibels is a big rise in energy, and in risk to your ears.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a violin and a flute playing the same note at the same loudness still
+    sound different? If you can, you understand pitch, loudness and timbre as separate things.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Compression</dt><dd>A region of a sound wave where air is squeezed to higher pressure.</dd>
+    <dt>Rarefaction</dt><dd>A region where air is stretched to lower pressure.</dd>
+    <dt>Pitch</dt><dd>How high or low a sound seems; set by frequency.</dd>
+    <dt>Octave</dt><dd>The interval between two notes where one has double the frequency of the other.</dd>
+    <dt>Decibel</dt><dd>A logarithmic unit of sound level; +10 dB means ten times the energy.</dd>
+    <dt>Timbre</dt><dd>The quality that makes two sounds of the same pitch and loudness sound different.</dd>
+    <dt>Harmonics</dt><dd>Extra frequencies at whole-number multiples of a note's main frequency.</dd>
+    <dt>Cochlea</dt><dd>The spiral organ of the inner ear that turns vibrations into nerve signals.</dd>
+    <dt>Hair cells</dt><dd>Sensory cells in the cochlea that respond to vibration; they do not regrow in humans.</dd>
+    <dt>Tinnitus</dt><dd>Hearing ringing or buzzing when there is no outside sound.</dd>
+    <dt>Ultrasound</dt><dd>Sound above the range of human hearing, used in scans and by bats.</dd>
+    <dt>Reverberation</dt><dd>Sound lingering in a room as it bounces off surfaces.</dd>
+    <dt>Sonic boom</dt><dd>The bang heard when the shock wave from a supersonic object passes over.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Sound is just air being squeezed and stretched, very slightly, very fast."</li>
+    <li>"Ten more decibels is ten times the energy. That's why a nightclub damages hearing and a
+    busy street mostly doesn't."</li>
+    <li>"The hair cells in your ear don't grow back. Hearing you lose to noise is gone."</li>
+    <li>"Count the seconds between the lightning and the thunder and divide by three: that's how many
+    kilometres away it is."</li>
+    <li>"Ultrasound is the same trick bats use. Send out sound and listen to the echo."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="08-light.html">Light</a></h4><p>The other wave you sense
+  directly: colour, reflection, lenses, lasers, and why light behaves both as a wave and as a
+  particle.</p></div>
+  <div class="card"><h4>Related · <a href="06-waves.html">Waves</a></h4><p>The general rules that
+  sound obeys: reflection, diffraction, interference, resonance and the Doppler effect.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

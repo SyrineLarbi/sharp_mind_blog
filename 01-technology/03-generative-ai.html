@@ -1,0 +1,869 @@
+<!doctype html>
+<!--@HEAD-SRC title="Generative AI" desc="How machines make new images, voices, music and video: GANs, diffusion and text guidance, what it is changing in creative work and trust, the copyright fight, and where it is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generative AI</title>
+<meta name="description" content="How machines make new images, voices, music and video: GANs, diffusion and text guidance, what it is changing in creative work and trust, the copyright fight, and where it is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Technology · Topic 03 of 20</p>
+  <h1>Generative AI. <span class="thin">Machines that learned what the world looks like, and can now invent more of it.</span></h1>
+  <p class="lede">Most machine learning answers a question about something that exists: is this
+  email spam, is this scan healthy? Generative AI does the opposite. It produces something that did
+  not exist before: a picture of a lighthouse in the style of a woodcut, a voice reading a text its
+  owner never read, a ten-second video of a street that was never filmed. The results are often
+  astonishing, and they arrived fast, between about 2021 and 2024. They also raise hard questions
+  about work, ownership and whether we can still believe what we see.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Technology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../14-computing-and-ai.html#c1"><span class="vn">Vol 14 · ch 01</span><b>What a language model does</b><em>Generative text</em></a>
+<a class="vol" href="../47-not-being-fooled.html#c7"><span class="vn">Vol 47 · ch 07</span><b>When you cannot trust your eyes</b><em>Deepfakes in practice</em></a>
+<a class="vol" href="05-robotics.html"><span class="vn">Technology · 05</span><b>Robotics</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Text generation is covered elsewhere: Volume 14 explains how a language model produces words
+  (<a href="../14-computing-and-ai.html#c1">What a language model actually does</a>) and Volume 49
+  explains why it invents things (<a href="../49-ai-honestly.html#c3">Why it invents things</a>).
+  Volume 47 covers deepfake scams from the victim's side
+  (<a href="../47-not-being-fooled.html#c7">When you cannot trust your eyes or ears</a>). This file
+  concentrates on images, sound and video: how they are made, and what follows.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Systems that produce new content in the style of what they learned</h2>
+  <p class="lede">A generative model has studied millions of examples of something, and learned
+  enough about their patterns to produce new examples that fit.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The prize-winning painting nobody painted</h2>
+</header>
+
+<p>In August 2022 a game designer called Jason Allen won first prize in the digital art category
+of the Colorado State Fair in the United States. His entry, "Théâtre D'opéra Spatial", showed robed
+figures in a vast, glowing hall. He had produced it with Midjourney, a tool that makes images from
+written descriptions, then edited and upscaled the result. When this became known, many artists
+were furious. Allen said he had followed the rules and spent many hours refining his prompts.</p>
+
+<p>The argument that followed contained almost every question this topic raises. Was it art? Who
+was the author: Allen, the software company, or the thousands of artists whose work had been used
+to train the tool? Should it be allowed to compete with paintings that took weeks? <strong>The
+technology had arrived before society had any agreed answers</strong>, and in 2026 many of those
+questions are still open.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>What "generative" really means</h2>
+</header>
+
+<p>A classifier, the kind of model described in <a href="02-machine-learning.html">Machine
+learning</a>, learns to draw a line between categories: cat on this side, dog on that side. A
+generative model learns something richer. It learns <strong>what the data itself is like</strong>:
+which combinations of pixels look like a real face, which sequences of sound waves sound like a
+real voice. Statisticians call this learning the data's <strong>distribution</strong>. Once a model
+has it, it can draw new samples from it, the way you could invent a new, plausible face after
+seeing ten thousand of them.</p>
+
+<div class="tw"><table>
+<thead><tr><th>What it makes</th><th>Typical input</th><th>Examples of tools (as of 2026)</th></tr></thead>
+<tbody>
+<tr><td><strong>Text and code</strong></td><td>A question or instruction</td><td>Chat assistants and coding assistants</td></tr>
+<tr><td><strong>Images</strong></td><td>A written description, or an image to edit</td><td>Midjourney, Stable Diffusion, DALL-E and similar</td></tr>
+<tr><td><strong>Voice and speech</strong></td><td>Text, plus a sample of the target voice</td><td>Text-to-speech and voice-cloning services</td></tr>
+<tr><td><strong>Music</strong></td><td>A description of style and mood, sometimes lyrics</td><td>Song generators that produce full tracks with vocals</td></tr>
+<tr><td><strong>Video</strong></td><td>A description, or a still image to animate</td><td>Short-clip video generators from several large labs</td></tr>
+</tbody></table></div>
+
+<p>The products change every few months. The underlying ideas change much more slowly, which is
+why this file concentrates on them.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>A short history in five steps</h2>
+</header>
+
+<p>Computers have generated content for decades, from simple music programs to procedural
+landscapes in video games. But the modern wave has a fairly clear sequence.</p>
+
+<p><strong>2014:</strong> Ian Goodfellow and colleagues introduce <strong>generative adversarial
+networks</strong> (GANs), which can produce realistic small images. By 2018 and 2019, GANs could
+make photographs of people who do not exist. <strong>2017:</strong> Google researchers publish the
+<strong>transformer</strong>, the design behind today's language models. <strong>2020 to
+2021:</strong> diffusion models appear and quickly beat GANs on image quality; OpenAI shows
+DALL-E, which draws from text descriptions. <strong>2022:</strong> Midjourney opens to the public,
+Stable Diffusion is released with its model weights freely downloadable, and ChatGPT launches at
+the end of the year. <strong>2024 onwards:</strong> convincing short video and full songs become
+ordinary consumer products.</p>
+
+<p>The speed matters. <strong>Within about three years, making a realistic image went from a
+specialist skill to something anyone could do on a phone in seconds.</strong> Few technologies
+have spread that quickly.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>From noise to picture, guided by words</h2>
+  <p class="lede">Different generators use different tricks, but they share one recipe: compress
+  huge amounts of data into a map of possibilities, then learn to travel through that map on
+  request.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The shared recipe: a map of possibilities</h2>
+</header>
+
+<p>An ordinary photo is a few million numbers, one for each colour in each pixel. Almost all
+random combinations of those numbers look like grey static. Real photographs are a tiny, very
+structured island in that ocean of noise. A generative model's job is to learn the shape of that
+island.</p>
+
+<p>To do this, most generators learn a compressed description called a <strong>latent
+space</strong>. Think of it as a map where every point stands for one possible image, and nearby
+points are similar images. Somewhere there is a region of "faces", and inside it a direction that
+means "older" and another that means "smiling". <strong>Generating means picking a point on this
+map and turning it back into pixels.</strong> Text works the same way, using the
+<em>embeddings</em> described in <a href="../14-computing-and-ai.html#c1">Volume 14</a>.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>GANs: the forger and the detective</h2>
+</header>
+
+<p>A GAN contains two networks that compete. The <strong>generator</strong> is a forger. It starts
+by producing rubbish and tries to make images that look real. The <strong>discriminator</strong>
+is a detective. It is shown a mix of real photos and the forger's work, and must say which is
+which. Each time the detective catches a fake, the forger learns from the mistake. Each time the
+forger succeeds, the detective learns too. Over many rounds, both get better, until the fakes are
+hard to tell apart from real images.</p>
+
+<p>GANs produced the first startling photo-realistic faces. But they are hard to train. The
+competition can become unstable, and a forger often learns to produce only a few kinds of image
+that reliably fool the detective, a failure called <strong>mode collapse</strong>. That is one
+reason diffusion models took over image generation after about 2021.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Diffusion: learning to clean up noise</h2>
+</header>
+
+<p>Diffusion models use a surprisingly simple idea. Take a real photo and add a little random
+noise, like static on an old television. Then add a little more, and more, until after many steps
+nothing is left but static. That destruction is easy. Now train a neural network to do one small
+thing: <strong>look at a noisy image and predict the noise that was added</strong>, so it can be
+removed one step.</p>
+
+<div class="sheet">
+  <div class="cap">Diffusion in one picture</div>
+<pre>
+  TRAINING (learn to undo damage)
+  photo ──+noise──► slightly noisy ──+noise──► ... ──► pure static
+          the network learns: "given this noisy image, what noise was added?"
+
+  GENERATING (run it backwards)
+  pure static ──denoise──► blurry shapes ──denoise──► ... ──► new image
+                    ▲ each step guided by the text prompt
+</pre>
+</div>
+
+<p>To create an image, you start with pure random static and ask the network to remove noise,
+again and again, typically over a few dozen steps. Shapes appear, then objects, then fine detail.
+Because the starting static is random, <strong>every run produces a different image</strong>. A
+popular refinement, used by Stable Diffusion, does this work inside the compressed latent space
+rather than on full-sized pixels, which makes it much cheaper.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>How words steer the picture</h2>
+</header>
+
+<p>Random static plus denoising would give you a random image. To get "a fox reading a newspaper
+in the rain", the model needs to connect words and pictures. A key step came in 2021 when OpenAI
+published CLIP, a model trained on hundreds of millions of images paired with their captions from
+the web. It learned to place an image and its description near each other in the same space.</p>
+
+<p>During generation, the text prompt is converted into numbers by a model like this, and those
+numbers nudge every denoising step towards images that match the words. A setting often called
+<strong>guidance</strong> controls how strongly the prompt is obeyed. High guidance follows the
+words closely but can look stiff; low guidance is freer but may wander.</p>
+
+<p>This explains some familiar failures. Older image models were notoriously bad at hands and at
+writing text inside pictures. <strong>They had learned what hands and letters roughly look like,
+not how many fingers a hand has or how spelling works.</strong> Newer models have improved a lot
+on both, mostly through more and better training data.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Sound and moving pictures</h2>
+</header>
+
+<p>Audio is a wave: a long list of numbers, often tens of thousands per second. Modern voice and
+music generators usually compress that wave into short <strong>audio tokens</strong>, little coded
+chunks of sound, and then generate them one after another, much as a language model generates
+words. Others use diffusion on a picture of the sound called a spectrogram. A voice-cloning system
+needs only a short recording, sometimes just seconds, to imitate a person's tone and accent
+convincingly.</p>
+
+<p>Video is the hardest case because it adds time. A video model must keep the same face, the same
+lighting and the same physics across hundreds of frames. Early systems produced dream-like clips
+where objects melted or changed. Current systems treat a clip as a block of space and time and
+denoise it all together, which improves consistency. <strong>They still make physical
+mistakes</strong>, such as a glass that refills itself or a hand passing through a table, because
+they learn how things usually look, not the laws that make them move.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Cheap creation changes work, ownership and trust</h2>
+  <p class="lede">When something that cost hours and skill suddenly costs seconds, three things are
+  disrupted at once: the people who did it, the people whose work trained it, and our ability to
+  tell real from fake.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Creative work, and the strikes of 2023</h2>
+</header>
+
+<p>The first jobs touched were those producing large volumes of commercial images and text: stock
+photography, concept sketches, product shots, marketing copy, simple illustration and voice-over.
+Many designers now use generators as a fast sketchbook, producing fifty rough ideas before
+choosing one to develop by hand. For a small business, a passable logo or advert that once needed a
+freelancer can now be made in minutes.</p>
+
+<p>Hollywood showed how contested this is. In 2023 the Writers Guild of America and the actors'
+union SAG-AFTRA both went on long strikes. AI was one of the central issues, alongside pay. Writers
+wanted guarantees that studios would not use AI to replace them or rewrite their work; actors
+wanted consent and payment before their faces and voices could be copied digitally. <strong>The
+deals that ended the strikes set some of the first detailed rules on AI in any industry</strong>,
+based on consent and compensation rather than a ban.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Deepfakes: when seeing stops being believing</h2>
+</header>
+
+<p>A <strong>deepfake</strong> is generated or altered media that makes a real person appear to
+say or do something they did not. The harm comes in three main forms. The first is
+<strong>fraud</strong>. In early 2024 an employee in the Hong Kong office of the engineering firm
+Arup transferred roughly 25 million US dollars after a video call in which, police said, the
+"colleagues" and finance chief on screen were deepfakes. Voice-clone calls pretending to be a
+relative in trouble have become a recognised scam.</p>
+
+<p>The second is <strong>abuse</strong>: by far the largest share of deepfakes found online has
+been sexual imagery of people, mostly women, made without consent. Many countries have passed or
+proposed laws specifically against this. The third is <strong>politics</strong>: fake audio or
+video of candidates released before elections.</p>
+
+<p>There is also a subtler damage that researchers call the <strong>liar's dividend</strong>. Once
+everyone knows convincing fakes exist, a person caught on a genuine recording can simply claim it
+is fake. <strong>The cost is not only that fakes are believed, but that truths become easier to
+deny.</strong> Practical advice for protecting yourself is in
+<a href="../47-not-being-fooled.html#c7">Vol 47</a>.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Labels, watermarks and content credentials</h2>
+</header>
+
+<p>Two technical defences are being built. <strong>Watermarking</strong> hides an invisible signal
+inside generated content that a detector can later find. Several large labs mark their images this
+way. <strong>Provenance</strong> works from the other side: a camera or editing program attaches a
+signed record of where an image came from and how it was changed. An industry standard called
+C2PA, backed by camera makers, software companies and news organisations, defines these "content
+credentials".</p>
+
+<p>Neither is a complete answer. Watermarks can sometimes be removed by cropping, compressing or
+re-generating an image, and open-source models need not add them at all. Provenance only helps if
+most cameras and platforms adopt it. Tools that try to <em>detect</em> fakes by looking at them are
+in a constant race with better generators, and are unreliable. <strong>The likely future is one in
+which authentic content proves where it came from, rather than one in which fakes are always
+caught.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A creative amplifier built on other people's work</h2>
+  <p class="lede">The gains are real and widely shared. So are the costs, and they fall on
+  different people.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The balance sheet</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>What it gives</th><th>What it costs</th></tr></thead>
+<tbody>
+<tr><td><strong>Near-zero cost per image or clip</strong></td><td class="ok">Anyone can visualise an idea, prototype a design or illustrate a story</td><td class="no">Floods the internet with cheap content and undercuts paid creative work</td></tr>
+<tr><td><strong>Learns from huge public datasets</strong></td><td class="ok">Wide range of styles and subjects</td><td class="no">Trained largely on artists' and photographers' work without their consent or payment</td></tr>
+<tr><td><strong>Realistic people and voices</strong></td><td class="ok">Dubbing films into other languages, restoring the voice of people who lost it to illness</td><td class="no">Fraud, harassment and political deception</td></tr>
+<tr><td><strong>Statistical imitation</strong></td><td class="ok">Fluent, polished results instantly</td><td class="no">Tends towards the average; repeats stereotypes in its data; makes physical and factual errors</td></tr>
+<tr><td><strong>Large models in big data centres</strong></td><td class="ok">Improves quickly with scale</td><td class="no">Significant energy use, especially for video, and power concentrated in a few firms</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Who owns it? The copyright fight</h2>
+</header>
+
+<p>Two separate legal questions are often mixed up. The first is about <strong>training</strong>:
+was it lawful to copy millions of images, books and songs to train a model? From 2023, artists,
+photo agencies, authors, news organisations and record labels sued several AI companies. Getty
+Images sued Stability AI, and The New York Times sued OpenAI and Microsoft. Companies argue that
+learning patterns from public material is a lawful, transformative use, in the US sense of
+"fair use", much as a human artist learns by looking. Creators argue that their work was copied
+commercially without permission to build products that compete with them. <strong>As of 2026,
+courts in different countries have not settled this</strong>, early rulings have pointed in
+different directions, and some companies have chosen to sign licensing deals instead.</p>
+
+<p>The second question is about <strong>output</strong>: can you own what a generator makes? In the
+United States, the Copyright Office and the courts have so far held that copyright requires human
+authorship, so purely machine-made images are not protected, although a human's selection,
+arrangement or editing can be. Other countries treat this differently, and the details vary.
+The European Union's AI Act adds a separate duty for providers of general-purpose models to
+publish a summary of their training content.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Longer, more controllable, and harder to tell from the real thing</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Generation built into everyday software</strong></td><td>Photo editors, office tools and phones already include generative features</td><td class="ok">Fairly sure: it becomes an ordinary editing tool, like spell-check, rather than a separate product</td></tr>
+<tr><td><strong>Longer, more consistent video</strong></td><td>Clips of seconds to about a minute, with occasional physical errors</td><td class="ok">Fairly sure: steady gains in length, control and consistency; cost remains a limit</td></tr>
+<tr><td><strong>Provenance as the norm</strong></td><td>Content credentials are supported by some cameras, platforms and news organisations</td><td class="mid">Plausible: depends on wide adoption and on laws requiring labels</td></tr>
+<tr><td><strong>Settled copyright rules</strong></td><td>Many lawsuits and some licensing deals; rules differ by country</td><td class="mid">Plausible within years: likely a mix of licensing, opt-outs and court rulings, not one global answer</td></tr>
+<tr><td><strong>"World models" that simulate physics</strong></td><td>Labs present video generators as early simulators of how the world behaves</td><td class="no">Speculative: current models imitate appearance and still break basic physics</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>When the internet is full of generated content</h2>
+</header>
+
+<p>A growing share of new images and text online is now machine-made. That raises a technical
+question: what happens when future models are trained on the output of earlier ones? A 2024 study
+published in <em>Nature</em> found that models trained repeatedly on their own generated data
+gradually lost the rare and unusual parts of the original data, a problem its authors called
+<strong>model collapse</strong>. How serious this will be in practice, when generated data is mixed
+with fresh human data, is debated.</p>
+
+<p>The human question is larger. Cheap generation makes <strong>authentic, verified, human-made
+work more valuable, not less</strong>, in the way that mass-produced furniture made handmade pieces
+a mark of quality. Expect more emphasis on the person behind a piece of work, on live performance,
+and on proof of origin. The technology itself will keep improving. Whether it mostly widens human
+creativity or mostly replaces it will depend on the rules we set about consent, payment and
+labelling, which are being written now.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Generative models learn <strong>what data is like</strong> and then draw new samples from
+    it. <strong>GANs</strong> pit a forger against a detective. <strong>Diffusion</strong> models
+    learn to remove noise, then build images out of pure static, step by step,
+    <strong>steered by a text prompt</strong>.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>GANs <strong>2014</strong>; transformers <strong>2017</strong>; public image and chat tools <strong>2022</strong>.</li>
+      <li>A voice can be cloned from a recording of <strong>seconds</strong>, not hours.</li>
+      <li>The Hong Kong deepfake call fraud of 2024 cost about <strong>US$25 million</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking the main danger is that fakes are believed. <strong>An equal danger is that real
+    evidence can now be dismissed as fake.</strong></p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain to a friend, without notes, how a diffusion model turns static into a picture
+    of a fox? If you can, you understand noise, denoising and text guidance.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Generative model</dt><dd>A model that produces new content similar to what it learned from.</dd>
+    <dt>Distribution</dt><dd>The overall pattern of what real data looks like, including which combinations are common or rare.</dd>
+    <dt>Latent space</dt><dd>A compressed "map" in which each point stands for a possible image or sound.</dd>
+    <dt>GAN</dt><dd>Generative adversarial network: a generator and a discriminator trained against each other.</dd>
+    <dt>Mode collapse</dt><dd>When a GAN produces only a narrow range of outputs that reliably fool its detective.</dd>
+    <dt>Diffusion model</dt><dd>A model that learns to remove noise and creates images by denoising random static.</dd>
+    <dt>Prompt</dt><dd>The text instruction that describes what you want generated.</dd>
+    <dt>Guidance</dt><dd>How strongly generation is pushed to match the prompt.</dd>
+    <dt>Audio token</dt><dd>A short coded chunk of sound that a model can generate in sequence.</dd>
+    <dt>Deepfake</dt><dd>Generated or altered media showing a real person saying or doing something they did not.</dd>
+    <dt>Liar's dividend</dt><dd>The ability to dismiss genuine evidence as fake once fakes are common.</dd>
+    <dt>Watermark</dt><dd>A hidden signal inside generated content that marks it as machine-made.</dd>
+    <dt>Content credentials</dt><dd>A signed record, under the C2PA standard, of where a piece of media came from.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Image generators start from pure static and remove noise step by step, guided by your
+    words."</li>
+    <li>"These systems learn how things look, not how they work, which is why hands and physics
+    used to go wrong."</li>
+    <li>"The copyright fight is two fights: whether training was lawful, and whether anyone owns
+    the output."</li>
+    <li>"The real damage of deepfakes is that now anything inconvenient can be called fake."</li>
+    <li>"The long-term fix is proving that real content is real, not catching every fake."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="05-robotics.html">Robotics</a></h4><p>From making pictures
+  to moving in the physical world: sensors, motors and why picking up a cup is harder than winning
+  at chess.</p></div>
+  <div class="card"><h4>Related · <a href="11-computer-vision.html">Computer vision</a></h4><p>The
+  other direction: instead of producing images, understanding them, from face unlock to medical
+  scans.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

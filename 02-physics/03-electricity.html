@@ -1,0 +1,868 @@
+<!doctype html>
+<!--@HEAD-SRC title="Electricity" desc="What electric charge, current, voltage and resistance really are, how circuits, batteries and the power grid work, why electricity matters to the body and to modern life, and where it is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Electricity</title>
+<meta name="description" content="What electric charge, current, voltage and resistance really are, how circuits, batteries and the power grid work, why electricity matters to the body and to modern life, and where it is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Physics · Topic 03 of 20</p>
+  <h1>Electricity. <span class="thin">A slow crowd of electrons that delivers energy at almost the speed of light.</span></h1>
+  <p class="lede">Flip a switch and a lamp lights instantly, although the electrons in the wire
+  move slower than a snail. Touch a doorknob after walking on carpet and you feel a spark of several
+  thousand volts that does you no harm, while the 230 volts in a wall socket can kill. Electricity
+  is full of facts like these, which sound like contradictions until you understand four ideas:
+  charge, current, voltage and resistance. This file builds those four ideas from the ground up,
+  then follows them into batteries, the human heart, lightning and the power grid that runs
+  modern life.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 17 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Physics</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../25-physics.html#c7"><span class="vn">Vol 25 · ch 07</span><b>Electricity and magnetism are the same thing</b><em>The short version</em></a>
+<a class="vol" href="../32-everyday-science.html#c8"><span class="vn">Vol 32 · ch 08</span><b>Electricity in the house</b><em>Staying safe</em></a>
+<a class="vol" href="04-magnetism.html"><span class="vn">Physics · 04</span><b>Magnetism</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 25 sums up current, voltage and resistance in a paragraph
+  (<a href="../25-physics.html#c7">Electricity and magnetism are the same thing</a>). Volume 32
+  explains fuses, earthing and residual current devices (<a href="../32-everyday-science.html#c8">Electricity
+  in the house</a>), and Volume 26 explains the chemistry of a battery
+  (<a href="../26-chemistry.html#c7">What a battery actually is</a>). This file goes underneath
+  all three, and then outwards to the grid.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Charge, and what happens when it moves</h2>
+  <p class="lede">Electricity is the name for everything that happens because of electric charge:
+  charges sitting still, charges pushing on each other, and charges flowing.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>From rubbed amber to two kinds of charge</h2>
+</header>
+
+<p>The ancient Greeks knew that a piece of amber, rubbed with fur, would attract bits of straw. The
+Greek word for amber was <em>elektron</em>, and that is where the word "electricity" comes from.
+For about two thousand years this was a curiosity. In the 1700s experimenters found that there are
+two kinds of the effect. Two rubbed glass rods push each other away. A rubbed glass rod and a
+rubbed piece of resin pull together.</p>
+
+<p>The American writer and scientist Benjamin Franklin called the two kinds
+<strong>positive</strong> and <strong>negative</strong>, names we still use. The rule is simple:
+<strong>like charges repel, opposite charges attract</strong>. Franklin also argued that
+lightning is the same thing as the spark from a rubbed rod, on a vast scale. His famous kite
+experiment of 1752 is usually told as a dramatic moment in a storm. Historians have questioned
+some details of the story, but lightning rods based on his idea spread quickly and worked.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>What carries the charge</h2>
+</header>
+
+<p>Today we know that charge belongs to particles inside atoms. Each atom has a small, positive
+nucleus surrounded by negative <strong>electrons</strong>. Normally the two balance, so the atom is
+neutral. Rubbing two materials together can move some electrons from one to the other. The one
+that gains electrons becomes negative. The one that loses them becomes positive. That is
+<strong>static electricity</strong>: charge that has been separated and is sitting still.</p>
+
+<p>Whether charge can flow depends on the material.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Type</th><th>What happens inside</th><th>Examples</th><th>Used for</th></tr></thead>
+<tbody>
+<tr><td><strong>Conductors</strong></td><td>Some electrons are loose and can drift freely between atoms</td><td>Copper, aluminium, silver, salty water</td><td>Wires, cables</td></tr>
+<tr><td><strong>Insulators</strong></td><td>Electrons are held tightly; almost no flow</td><td>Rubber, plastic, glass, dry wood, air</td><td>Cable coatings, plugs, power-line supports</td></tr>
+<tr><td><strong>Semiconductors</strong></td><td>Flow is weak but can be switched on and off by small changes</td><td>Silicon, germanium</td><td>Transistors, computer chips, solar cells</td></tr>
+<tr><td><strong>Superconductors</strong></td><td>Below a very low temperature, resistance falls to exactly zero</td><td>Certain metals and ceramics, deeply cooled</td><td>MRI magnets, particle accelerators</td></tr>
+</tbody></table></div>
+
+<p>Pure water is actually a poor conductor. The water in your taps, your body and the sea conducts
+well because of the dissolved salts in it. That is why wet skin and electricity are a dangerous
+mix.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The four words: charge, current, voltage, resistance</h2>
+</header>
+
+<p>The most useful picture is water in pipes. It is not perfect, but it gets the relationships
+right.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Quantity</th><th>What it means</th><th>Unit</th><th>Water picture</th></tr></thead>
+<tbody>
+<tr><td><strong>Charge</strong></td><td>The amount of electricity</td><td>Coulomb (C)</td><td>Amount of water</td></tr>
+<tr><td><strong>Current</strong></td><td>How much charge flows past a point each second</td><td>Ampere, or amp (A)</td><td>Flow rate, litres per second</td></tr>
+<tr><td><strong>Voltage</strong></td><td>The push: energy given to each unit of charge</td><td>Volt (V)</td><td>Water pressure</td></tr>
+<tr><td><strong>Resistance</strong></td><td>How strongly a material opposes the flow</td><td>Ohm (Ω)</td><td>Narrowness of the pipe</td></tr>
+</tbody></table></div>
+
+<p>The carpet spark is now easy to explain. Its voltage is high, several thousand volts, but the
+amount of charge is tiny and it flows for a millionth of a second. <strong>Voltage is the push;
+what hurts you is current flowing through your body for long enough.</strong> A wall socket has a
+far lower voltage but can keep driving a large current indefinitely.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Circuits, Ohm's law, and the slowest fast thing in the world</h2>
+  <p class="lede">Current only flows in a complete loop. Once you see the loop, batteries, switches,
+  heaters and power lines all follow from a few simple rules.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Ohm's law</h2>
+</header>
+
+<p>In 1827 the German physicist Georg Ohm published the relationship that bears his name.
+<strong>Voltage equals current times resistance</strong>, V = I × R. Read it as: the push you need
+depends on how much flow you want and how hard the path is.</p>
+
+<p>A worked example makes it real. A kettle in Europe runs on 230 volts and is rated at about
+2,300 watts. That means it draws about 10 amps, so its heating element has a resistance of about
+23 ohms. A phone charger cable carries only a fraction of an amp at 5 to 20 volts. The same law
+covers both.</p>
+
+<p>Resistance is not just an obstacle. It is often the point. When current is forced through a
+resistance, electrons collide with atoms and pass energy to them as heat. <strong>Kettles, toasters,
+hair dryers and electric heaters are all deliberately chosen resistances.</strong> The same effect
+is a nuisance in cables, which is why they are made of low-resistance copper and why an overloaded
+extension lead gets warm.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Slow electrons, fast signals</h2>
+</header>
+
+<p>Here is the surprise promised at the top. In a typical household wire carrying a few amps, the
+electrons drift along at well under a millimetre per second. An electron leaving the switch might
+take hours to reach the lamp. Yet the lamp lights at once.</p>
+
+<p>The reason is that <strong>the wire is already full of electrons</strong>. Closing the switch
+does not send electrons down the wire like water from a hose. It sends a push, an electric field,
+along the wire at a large fraction of the speed of light. Every electron in the circuit starts
+drifting almost at the same moment. Think of a tube packed with marbles. Push one in at one end and
+one pops out at the other immediately, although each marble has moved only a little.</p>
+
+<p>In mains electricity the electrons do not even travel. The current is <strong>alternating
+current</strong> (AC): the push reverses direction 50 times a second in Europe, Africa and most of
+Asia, and 60 times a second in North America and some other countries. The electrons just jiggle
+back and forth. Energy flows from the power station to your lamp; the electrons stay roughly where
+they are.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Power, heat, and why power lines use huge voltages</h2>
+</header>
+
+<p>Electrical power is <strong>voltage times current</strong>, P = V × I. So the same power can be
+delivered as high voltage with low current, or low voltage with high current. That choice matters
+enormously, because the heat wasted in a cable grows with the <em>square</em> of the current.
+Halve the current and you cut the losses to a quarter.</p>
+
+<p>That is why long-distance transmission lines run at hundreds of thousands of volts. At very high
+voltage the current needed is small, so little energy is lost as heat along hundreds of
+kilometres. Near homes, <strong>transformers</strong> step the voltage back down to safe levels.
+Transformers only work with alternating current, a fact that decided a famous business battle.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The war of the currents</h2>
+</header>
+
+<p>In the 1880s Thomas Edison's companies built electricity systems using <strong>direct
+current</strong> (DC), which flows steadily in one direction. DC could not easily be changed in
+voltage, so power stations had to be close to customers. George Westinghouse, using alternating
+current systems based partly on patents from Nikola Tesla, could transmit power over long
+distances and transform it down locally. Edison's side campaigned that AC was dangerous. AC won
+most of the market by the 1890s, and a hydroelectric plant at Niagara Falls in the mid-1890s
+became a showcase for it.</p>
+
+<p>The story has a modern twist. Today's electronics turn the AC from the wall back into DC inside
+their chargers, because chips need DC. Solar panels and batteries produce DC. And for very long
+distances or undersea cables, <strong>high-voltage direct current</strong> (HVDC) lines are now
+often the better choice, thanks to modern semiconductor converters. Both sides of the old war
+turned out to be partly right.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Batteries and circuits</h2>
+</header>
+
+<p>In 1800 the Italian physicist Alessandro Volta stacked discs of zinc and copper separated by
+cloth soaked in salt water, and produced the first steady electric current. This "voltaic pile" was
+the first battery, and the volt is named after him. A battery is a chemical pump. Reactions inside
+it push electrons out of one terminal and take them back in at the other, keeping a voltage across
+the two. The chemistry is explained in <a href="../03-chemistry/10-electrochemistry.html">Electrochemistry</a>.</p>
+
+<p>Components can be connected in two basic ways.</p>
+
+<div class="grid2">
+  <div class="card"><h4>In series (one after another)</h4><p>Current has only one path. If one
+  part breaks, everything stops, like old Christmas lights where one dead bulb darkened the whole
+  string. Batteries in series add their voltages: two 1.5 V cells give 3 V.</p></div>
+  <div class="card"><h4>In parallel (side by side)</h4><p>Each part has its own path across the
+  same voltage. One can be switched off without affecting the others. <strong>House wiring is in
+  parallel</strong>, which is why turning off the kitchen light does not turn off the fridge.</p></div>
+</div>
+
+<div class="sheet">
+  <div class="cap">A simple circuit: the loop must be complete</div>
+<pre>
+      + battery -
+   +----|  |-----+
+   |             |
+ switch        lamp   current flows round the loop only
+   |             |    when the switch closes it
+   +-------------+
+</pre>
+</div>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Your nerves, your heart, the sky and the grid</h2>
+  <p class="lede">Electricity is not only something we produce. It is how bodies send signals and
+  how storms release energy, and it is the backbone of modern civilisation.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The body runs on electricity</h2>
+</header>
+
+<p>Every nerve signal in your body is electrical. A nerve cell pumps charged atoms, called
+<strong>ions</strong>, across its membrane so that the inside is slightly negative. When it fires,
+gates in the membrane open and the voltage flips for about a millisecond, and that flip travels
+along the cell. The idea goes back to the 1780s, when Luigi Galvani made dead frogs' legs twitch
+with electricity. The details are in <a href="../07-neuroscience/02-neurons.html">Neurons</a>.</p>
+
+<p>Your heart also beats to an electrical rhythm, started by a small cluster of cells and spread
+across the muscle. An electrocardiogram (ECG) records that rhythm from the skin. This is why
+electric shock is so dangerous. A current through the chest of only tens of thousandths of an amp
+can disrupt the heart's rhythm into a useless quiver called <strong>fibrillation</strong>. A
+<strong>defibrillator</strong> does the reverse: a strong, brief shock stops the chaotic activity
+so the heart's own pacemaker cells can restart a normal beat.</p>
+
+<div class="warn">
+  <span class="tag">Safety</span>
+  <p>This is general education, not safety or medical training. Mains electricity can kill. Never
+  work on wiring that is live, and if someone is being electrocuted, cut the power before touching
+  them. Public defibrillators are designed to be used by untrained people and give spoken
+  instructions.</p>
+</div>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Lightning: static electricity at storm scale</h2>
+</header>
+
+<p>Inside a thunderstorm, ice crystals and soft hail collide in strong updrafts. The collisions
+separate charge, leaving the top of the cloud mostly positive and the lower part mostly negative.
+When the voltage becomes large enough, the air itself breaks down and becomes a conductor for a
+moment. That is lightning.</p>
+
+<p>A typical strike carries a current of tens of thousands of amps for a tiny fraction of a second,
+and heats the air in its channel to several times the temperature of the Sun's surface. The air
+expands so violently that it makes a shock wave, which we hear as thunder. Satellite counts suggest
+that lightning strikes somewhere on Earth around 40 to 50 times every second. <strong>A lightning
+rod does not attract lightning so much as give it a safe path to the ground</strong>, which is what
+Franklin proposed.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The grid: the largest machine ever built</h2>
+</header>
+
+<p>An electricity grid connects power stations to millions of users across a country or a whole
+continent. Its hardest job is one most people never think about. <strong>Supply and demand must
+match at every moment</strong>, because a grid stores almost nothing by itself. When millions of
+kettles switch on at the end of a popular television programme, power stations must increase their
+output within seconds.</p>
+
+<p>Operators watch one number above all: the grid's <strong>frequency</strong>. On a European grid
+it should be 50 cycles per second. If demand exceeds supply, the spinning generators slow slightly
+and the frequency drops. If supply exceeds demand, it rises. Automatic systems respond to tiny
+changes. If the imbalance becomes too large, protective equipment disconnects parts of the grid to
+stop damage, and that can cascade into a blackout. On 28 April 2025 most of mainland Spain and
+Portugal lost power for many hours. Official investigations into the causes were reported in the
+months that followed, and grid stability with a high share of solar power became a major topic of
+debate.</p>
+
+<p>Modern grids also face a newer challenge. Large spinning generators naturally resist sudden
+changes in frequency, a property called <strong>inertia</strong>. Solar panels and many wind
+turbines connect through electronics and do not provide it automatically. Engineers are developing
+electronics that imitate it. This is the subject of
+<a href="../14-engineering/14-renewable-energy-engineering.html">Renewable-energy engineering</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>The perfect energy carrier, almost</h2>
+  <p class="lede">Electricity is not an energy source. It is a way of moving energy. As a carrier
+  it is superb, with a few stubborn weaknesses.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Strengths and weaknesses</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Speed and control</strong></td><td class="ok">Delivered instantly, switched in microseconds, controlled precisely enough to run a computer chip.</td><td class="mid">Needs constant, second-by-second balancing on the grid.</td></tr>
+<tr><td><strong>Clean at the point of use</strong></td><td class="ok">No smoke or fumes in your home or street.</td><td class="no">Only as clean as the power stations that produce it; much is still generated from fossil fuels.</td></tr>
+<tr><td><strong>Conversion</strong></td><td class="ok">Turns into motion, heat, light or computation with high efficiency.</td><td class="mid">Generating it from heat in a power station loses much of the fuel's energy.</td></tr>
+<tr><td><strong>Transport</strong></td><td class="ok">Moved hundreds of kilometres through wires with small losses at high voltage.</td><td class="no">Needs expensive lines, often opposed locally, and takes years to permit and build.</td></tr>
+<tr><td><strong>Storage</strong></td><td class="mid">Batteries and pumped hydro work for hours.</td><td class="no">Storing electricity for weeks or seasons remains costly.</td></tr>
+<tr><td><strong>Safety</strong></td><td class="ok">Modern protection (breakers, earthing, residual current devices) makes it very safe in well-wired buildings.</td><td class="no">Shock and fire remain real risks, especially with old or improvised wiring.</td></tr>
+</tbody></table></div>
+
+<p>The deepest weakness is dependence. <strong>A modern society without electricity for a few
+days stops working</strong>: water pumping, payments, phones, hospitals, refrigeration and fuel
+pumps all need it. That makes grids critical infrastructure, and it is why their resilience to
+storms, heat waves and cyberattacks is a national security issue in many countries.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>More electricity, smarter grids, and a dream material</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>A bigger share of all energy</strong></td><td>Electricity supplies roughly a fifth of the world's final energy use as of the mid-2020s, and its share is rising with electric cars, heat pumps and data centres.</td><td class="ok">Fairly sure: the share keeps growing for decades, and grids must expand substantially to carry it.</td></tr>
+<tr><td><strong>Continental supergrids</strong></td><td>Long HVDC links already join countries and carry power under seas. Plans exist to connect regions with different weather so that sun and wind in one place cover calm or cloudy days in another.</td><td class="mid">Plausible: more and longer links, slowed by cost, permitting and politics.</td></tr>
+<tr><td><strong>Room-temperature superconductors</strong></td><td>Superconductors today need deep cooling. A 2023 claim of a room-temperature superconductor, LK-99, attracted worldwide attention and was not confirmed by other laboratories.</td><td class="no">Speculative: would transform power lines, motors and magnets, but no confirmed material exists.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>From one-way delivery to a two-way network</h2>
+</header>
+
+<p>The grid of the twentieth century was a one-way system: large power stations pushed energy out to
+passive customers. That is changing. Homes with rooftop solar panels sell power back. Electric cars
+plugged in overnight are, together, a huge battery. Smart meters let prices change by the hour, so
+a washing machine or car charger can wait for cheap, plentiful power.</p>
+
+<p><strong>The grid is becoming a network in which millions of devices both use and supply
+energy</strong>, coordinated by software. That brings flexibility and new risks, including
+cybersecurity. The physics underneath does not change at all. It is still charge, current, voltage
+and resistance, obeying rules worked out in the nineteenth century. What changes is the scale and
+the cleverness with which we use them. The engineering side continues in
+<a href="../14-engineering/02-electrical-engineering.html">Electrical engineering</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Electricity is the behaviour of <strong>electric charge</strong>. Voltage pushes charge,
+    current is the flow, and resistance opposes it, related by <strong>V = I × R</strong>. Current
+    needs a complete loop. Energy travels through a circuit almost instantly even though the
+    electrons themselves barely move.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Mains power is about <strong>230 V at 50 Hz</strong> in Europe and <strong>120 V at
+      60 Hz</strong> in North America.</li>
+      <li>Electrons in a household wire drift at <strong>under a millimetre per second</strong>.</li>
+      <li>Currents of only <strong>tens of milliamps</strong> through the chest can stop the heart
+      beating normally.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking high voltage alone is what kills. <strong>Current through the body, for long
+    enough, is what does harm</strong>; voltage matters because it decides how much current can be
+    pushed through you.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why power lines use very high voltages, using only P = V × I and the fact
+    that cable losses grow with the square of the current? If you can, you understand transmission.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Charge</dt><dd>A basic property of particles; it comes in positive and negative, and like charges repel.</dd>
+    <dt>Electron</dt><dd>A tiny negative particle in every atom; the usual carrier of current in metals.</dd>
+    <dt>Current</dt><dd>The rate at which charge flows, measured in amps.</dd>
+    <dt>Voltage</dt><dd>The push that drives charge, or the energy per unit of charge, measured in volts.</dd>
+    <dt>Resistance</dt><dd>How strongly something opposes current, measured in ohms.</dd>
+    <dt>Ohm's law</dt><dd>Voltage equals current times resistance.</dd>
+    <dt>Conductor</dt><dd>A material that lets charge flow easily, such as copper.</dd>
+    <dt>Insulator</dt><dd>A material that blocks the flow of charge, such as rubber or plastic.</dd>
+    <dt>Semiconductor</dt><dd>A material whose ability to conduct can be switched, the basis of chips.</dd>
+    <dt>Direct current (DC)</dt><dd>Current that flows steadily one way, as from a battery.</dd>
+    <dt>Alternating current (AC)</dt><dd>Current that reverses direction many times a second, as in mains power.</dd>
+    <dt>Transformer</dt><dd>A device that raises or lowers AC voltage.</dd>
+    <dt>Grid frequency</dt><dd>How many times a second mains current reverses; it drifts when supply and demand do not match.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Electrons in a wire crawl along slower than a snail. It's the push that travels at nearly
+    the speed of light."</li>
+    <li>"Voltage is the pressure, current is the flow. What hurts you is the flow through your
+    body."</li>
+    <li>"Power lines use huge voltages because high voltage means low current, and low current
+    means less energy wasted as heat."</li>
+    <li>"A grid has to match supply and demand every second, and the frequency tells you whether
+    it's winning."</li>
+    <li>"Electricity isn't a source of energy, it's a way of moving it. It's only as clean as
+    whatever made it."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="04-magnetism.html">Magnetism</a></h4><p>Fridge magnets,
+  compasses and the Earth's own shield, and the discovery that magnetism is really moving charge.</p></div>
+  <div class="card"><h4>Related · <a href="05-electromagnetism.html">Electromagnetism</a></h4><p>How
+  electricity and magnetism create each other, and how that runs every motor and generator on the
+  planet.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

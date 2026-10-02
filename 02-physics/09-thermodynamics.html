@@ -1,0 +1,868 @@
+<!doctype html>
+<!--@HEAD-SRC title="Thermodynamics" desc="The physics of heat, work and energy: the four laws, why no engine can turn all its heat into work, how fridges and heat pumps cheat the cold, and where the science of heat is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thermodynamics</title>
+<meta name="description" content="The physics of heat, work and energy: the four laws, why no engine can turn all its heat into work, how fridges and heat pumps cheat the cold, and where the science of heat is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Physics · Topic 09 of 20</p>
+  <h1>Thermodynamics. <span class="thin">The rules every engine, fridge and living thing must obey, with no exceptions ever found.</span></h1>
+  <p class="lede">Thermodynamics began as a practical question from the age of steam: how much work
+  can you get out of a lump of coal? The answer turned out to reach far beyond engines. The same few
+  rules decide how efficient a power station can be, why your phone gets warm, why a heat pump can
+  deliver more heat than the electricity it uses, and why your body needs food at all. They are some
+  of the most trusted statements in science. They also say clearly what is impossible, which makes
+  them the best defence against anyone selling a machine that runs for free.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Physics</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../25-physics.html#c5"><span class="vn">Vol 25 · ch 05</span><b>Heat is just jiggling</b><em>The short version</em></a>
+<a class="vol" href="../11-energy-and-water.html#e8"><span class="vn">Vol 11 · e8</span><b>Heat pumps</b><em>The machine, explained</em></a>
+<a class="vol" href="10-entropy.html"><span class="vn">Physics · 10</span><b>Entropy</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 25 explains what temperature is in one chapter (<a href="../25-physics.html#c5">Heat is
+  just jiggling</a>) and why heat flows one way in another (<a href="../25-physics.html#c6">Why your
+  tea never spontaneously reheats</a>). Volume 11 explains the heat pump as a machine
+  (<a href="../11-energy-and-water.html#e8">Heat pumps</a>). This file gives the full set of laws,
+  the engine limit that follows from them, and what they mean for energy and climate. The deeper
+  meaning of the second law has its own file: <a href="10-entropy.html">Entropy</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The science of heat, work, and what you can turn into what</h2>
+  <p class="lede">Thermodynamics is about energy in bulk: how it moves as heat, how it becomes work,
+  and the limits on that exchange. It does not need to know what matter is made of to give the right
+  answer.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A science born in the engine room</h2>
+</header>
+
+<p>Thermodynamics started with money. In the early 1800s, steam engines pumped mines and drove
+Britain's factories. They worked, but they
+were terribly wasteful, and nobody knew whether a better design could do much more with the same
+coal. Engineers improved them by trial and error.</p>
+
+<p>In 1824 a young French engineer called Sadi Carnot published a short book, <em>Reflections on the
+Motive Power of Fire</em>. He asked the question in its most general form. Forget pistons and
+valves. What is the best that <em>any</em> heat engine could ever do? His answer was surprising.
+<strong>The limit does not depend on the machine or the fuel. It depends only on how hot the hot side
+is and how cold the cold side is.</strong> Carnot died of cholera in 1832, aged 36, and his book was
+mostly ignored for years. Today it is seen as the founding document of the field.</p>
+
+<p>Carnot believed heat was a fluid, called "caloric". That was wrong, yet his main result
+survived the correction. <strong>Thermodynamics keeps being right even when the picture underneath
+it changes.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Four words that people mix up</h2>
+</header>
+
+<p>Everyday language uses "heat" and "temperature" as if they meant the same thing. In physics they
+are different, and most confusion about the subject starts here.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Word</th><th>What it means in physics</th><th>Everyday example</th></tr></thead>
+<tbody>
+<tr><td><strong>Energy</strong></td><td>The capacity to cause change. It comes in many forms (motion, chemical, electrical, nuclear) and is measured in joules.</td><td>The energy stored in a litre of petrol</td></tr>
+<tr><td><strong>Temperature</strong></td><td>How vigorously the particles in a thing are moving, on average. It says which way heat will flow, not how much is stored.</td><td>A spark from a sparkler is very hot but holds very little energy</td></tr>
+<tr><td><strong>Heat</strong></td><td>Energy <em>on the move</em> because of a temperature difference. Things do not "contain heat"; they contain energy, and heat is a transfer.</td><td>A hot pan warming your hand</td></tr>
+<tr><td><strong>Work</strong></td><td>Energy transferred by a force pushing something through a distance. It is the useful, organised kind of transfer.</td><td>Steam pushing a piston, a motor turning a wheel</td></tr>
+</tbody></table></div>
+
+<p>A sparkler's sparks are over 1,000 °C, yet each is so tiny that it holds almost no energy. A bath
+at 50 °C is far cooler and would scald you. <strong>Temperature is intensity; energy is
+quantity.</strong></p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The four laws on one page</h2>
+</header>
+
+<p>The whole subject rests on four laws. They are numbered strangely, from zero to three, because the
+most basic one was only recognised as a law after the other three already had their numbers.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Law</th><th>Formal idea</th><th>Plain version</th></tr></thead>
+<tbody>
+<tr><td><strong>Zeroth</strong></td><td>If A is in balance with C, and B is in balance with C, then A and B are in balance with each other.</td><td>Thermometers work. Temperature is a real, shared property.</td></tr>
+<tr><td><strong>First</strong></td><td>Energy is conserved. The change in a system's energy equals heat added minus work done.</td><td>You cannot get something for nothing.</td></tr>
+<tr><td><strong>Second</strong></td><td>Heat flows by itself only from hot to cold. No engine can turn heat completely into work. Entropy of an isolated system never decreases.</td><td>You cannot even break even.</td></tr>
+<tr><td><strong>Third</strong></td><td>As temperature approaches absolute zero, entropy approaches a minimum, and absolute zero cannot be reached in a finite number of steps.</td><td>You cannot get out of the game.</td></tr>
+</tbody></table></div>
+
+<p>The plain versions are an old student joke, and an accurate one. The first law forbids machines that
+create energy. The second forbids machines that turn all their heat into work. The third says the
+coldest possible temperature, <strong>absolute zero, −273.15 °C</strong>, is a limit you can approach
+but never touch. Scientists have cooled atoms to within a billionth of a degree of it, and never all
+the way.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Energy is kept, but its quality is always spent</h2>
+  <p class="lede">The first law says the amount of energy never changes. The second law says its
+  usefulness always declines. Engines, fridges and kettles all live inside that pair of rules.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The first law: heat is a form of energy</h2>
+</header>
+
+<p>The caloric theory died slowly. In the 1790s Count Rumford, supervising the boring of cannon in
+Munich, noticed that drilling produced heat endlessly for as long as the drill turned. A stored fluid
+should have run out. Heat seemed to come from the motion itself.</p>
+
+<p>The decisive measurements came in the 1840s from James Prescott Joule, the son of a brewer in
+Manchester. In his best-known experiment, a falling weight turned a paddle wheel inside an insulated
+tank of water. The paddles stirred the water, and the water warmed very slightly. Joule measured
+exactly how much a given fall raised the temperature. <strong>The same amount of mechanical work always
+produced the same amount of heat.</strong> Heat and work were two forms of one thing. The unit of
+energy, the joule, is named after him.</p>
+
+<p>This is the <strong>first law of thermodynamics</strong>, and it is the law of conservation of energy
+applied to heat. Energy can change form, from chemical to heat, from heat to motion, from motion to
+electricity, but the total stays the same. It is why every claimed "free energy" machine fails. The wider story of conservation has its own file:
+<a href="02-energy-and-conservation.html">Energy and conservation</a>.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The second law and the engine limit</h2>
+</header>
+
+<p>If energy is never lost, why do engines waste so much? Because the first law counts quantity, and
+the second law cares about quality. A heat engine works by letting heat flow from a hot place (burning
+fuel, or steam) to a cold place (the air, or a river). On the way, it diverts part of that flow into
+work. The rest must be dumped into the cold side. <strong>An engine cannot run on a hot side alone;
+it needs somewhere colder to throw its waste heat.</strong></p>
+
+<div class="sheet">
+  <div class="cap">Every heat engine, drawn the same way</div>
+<pre>
+      HOT SOURCE  (burning fuel, steam, Th)
+           |
+           |  heat in  (Qh)
+           v
+      +-----------+
+      |  ENGINE   | ------>  useful work out  (W)
+      +-----------+
+           |
+           |  waste heat out  (Qc)      first law:  Qh = W + Qc
+           v
+      COLD SINK  (air, river, Tc)       second law: Qc can never be zero
+
+   Best possible efficiency (Carnot):   1 - Tc / Th    (temperatures in kelvin)
+</pre>
+</div>
+
+<p>Carnot's limit uses temperatures measured from absolute zero, on the <strong>kelvin</strong> scale
+(0 K is −273.15 °C, and 0 °C is about 273 K). Take a modern steam power station with steam at about
+550 °C (about 823 K) and cooling water at about 30 °C (about 303 K). The best any engine could
+possibly do between those temperatures is 1 − 303/823, or about 63 per cent. Real plants lose more to
+friction, leaks and imperfect heat exchange, and a typical coal plant converts somewhere around a
+third to two-fifths of its fuel energy into electricity.</p>
+
+<p>The formula gives engineers one clear lever: <strong>make the hot side hotter</strong>. That is why
+the history of engines is a history of materials that survive higher temperatures. It is also why the
+best gas power stations use a "combined cycle". A gas turbine burns fuel at very high temperature, and
+its hot exhaust then boils water for a second, steam turbine. Together they reach about 60 per cent,
+among the highest of any heat engine in regular use.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Running the engine backwards: fridges and heat pumps</h2>
+</header>
+
+<p>Heat never flows from cold to hot by itself. But it can be <em>pushed</em> uphill, if you pay for
+it with work. That is what a fridge does. A fluid called a refrigerant circulates in a closed loop. It
+evaporates inside the fridge, and evaporating absorbs heat, the same reason wet skin feels cold in a
+breeze. A compressor then squeezes the vapour, which makes it hot, and it releases that heat through
+the coils at the back. The inside gets colder, the kitchen gets slightly warmer, and the electricity
+pays for the trip.</p>
+
+<p>A <strong>heat pump</strong> is the same machine pointed the other way. It pulls heat out of cold
+outdoor air, or the ground, and delivers it inside a house. Here is the part that surprises people.
+Because the electricity is used to <em>move</em> heat rather than to <em>make</em> it, a heat pump
+typically delivers about three to four units of heat for every unit of electricity it uses. Engineers
+call that ratio the <strong>coefficient of performance</strong>. An electric heater, by comparison,
+turns one unit of electricity into exactly one unit of heat.</p>
+
+<div class="note">
+  <span class="tag">Not a free lunch</span>
+  <p>A heat pump does not break the first law. The extra heat was already outside, in the cold air.
+  The electricity only carries it in. The second law sets the price: the bigger the gap between outside and
+  inside, the more work each unit of heat costs, so efficiency drops on the coldest days.</p>
+</div>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>How heat travels: three routes</h2>
+</header>
+
+<p>Heat moves from place to place in three ways, and almost every practical problem, from cooking to
+building design to cooling a computer chip, is about controlling them.</p>
+
+<div class="grid3">
+  <div class="card"><h4>Conduction</h4><p>Direct contact. Fast particles knock into slower neighbours
+  and pass on their energy. Metals conduct well because they have free electrons that carry energy
+  quickly. Still air conducts badly, which is why wool, down and double glazing all work by trapping
+  air.</p></div>
+  <div class="card"><h4>Convection</h4><p>Heat carried by a moving fluid. Warm air or water expands,
+  becomes lighter, and rises, and cooler fluid sinks to take its place. Convection drives sea breezes,
+  boiling pans, and the great circulation of the atmosphere and oceans.</p></div>
+  <div class="card"><h4>Radiation</h4><p>Heat carried by light, mostly infrared light that our eyes
+  cannot see. It needs no material at all, which is how the Sun warms Earth across empty space. A
+  shiny surface reflects it, which is why emergency blankets and vacuum flasks are silvered.</p></div>
+</div>
+
+<p>A vacuum flask blocks all three: the vacuum stops conduction and convection, and the silvered
+walls stop most radiation. <strong>You can block the routes, but you can never make heat stop wanting
+to flow.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Power stations, bodies, and the planet</h2>
+  <p class="lede">Thermodynamics sets the ceiling on how well we can turn fuel into useful work. That
+  ceiling shapes energy policy, the climate debate and even biology.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Why most of the world's fuel becomes waste heat</h2>
+</header>
+
+<p>Every power station that burns fuel, or uses nuclear fission, is a heat engine. So is every petrol
+or diesel car. The second law guarantees that a large share of their fuel energy ends up as low
+temperature heat in the air or a river. That is not bad engineering. It is the price of turning heat
+into work.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Machine</th><th>Rough share of energy turned into useful work</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td><strong>Petrol car engine</strong></td><td class="no">Typically about 20–30% in real driving; the best designs reach about 40% at their sweet spot</td><td>A heat engine, often run at part load in traffic</td></tr>
+<tr><td><strong>Coal or nuclear steam plant</strong></td><td class="mid">About 33–40%</td><td>Limited steam temperature</td></tr>
+<tr><td><strong>Combined-cycle gas plant</strong></td><td class="mid">About 60%</td><td>Two engines in series, a very hot top temperature</td></tr>
+<tr><td><strong>Large electric motor</strong></td><td class="ok">Above 90%</td><td>Not a heat engine, so Carnot's limit does not apply</td></tr>
+</tbody></table></div>
+
+<p>This explains a fact that confuses many energy debates. When a country replaces fuel-burning
+machines with electric ones powered by wind, solar or hydro, its total energy use can fall sharply
+without anyone doing less. <strong>The heat-engine losses simply disappear, because wind and solar
+electricity never had to pass through a heat engine.</strong> The same logic is why an electric car
+needs far less energy per kilometre than a petrol one.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>You are a thermodynamic system</h2>
+</header>
+
+<p>A resting adult gives off roughly 100 watts of heat, about as much as an old-fashioned light bulb.
+That is why a crowded room warms up so quickly. The energy comes from food, through chemical reactions
+that are a slow, controlled version of burning. Muscles turn chemical energy into motion directly, but
+well under half of it; the rest becomes heat. That is why exercise makes you hot and why you shiver when you are cold: shivering is your
+muscles deliberately wasting energy to warm you.</p>
+
+<p>Life also obeys the second law. A living body is a highly ordered structure that keeps itself in
+shape by taking in high-quality energy (food, or sunlight for plants) and releasing low-quality
+energy (heat). <strong>You stay alive by constantly spending order you take in from outside.</strong>
+The <a href="10-entropy.html">Entropy</a> file explains this in full.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The climate is a heat-balance problem</h2>
+</header>
+
+<p>Earth's temperature is set by a thermodynamic budget. Sunlight arrives, mostly as visible light.
+The ground and oceans absorb it and warm up, and then they radiate energy back toward space as
+infrared light. When incoming and outgoing energy are equal, the temperature is steady.</p>
+
+<p>Certain gases in the atmosphere, mainly water vapour and carbon dioxide, let visible sunlight pass
+but absorb and re-emit part of the outgoing infrared. That slows the escape of heat, and the surface
+has to warm until the outflow matches the inflow again. This is the <strong>greenhouse effect</strong>,
+and its basic physics has been understood since the nineteenth century. Without any greenhouse gases,
+Earth's average surface temperature would be far below freezing. Adding more carbon dioxide tips the
+balance further toward warming. Volume 30 explains how that warming is measured
+(<a href="../30-the-earth.html#c7">What is happening, and how it is known</a>).</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A theory of enormous reach, with clear blind spots</h2>
+  <p class="lede">Thermodynamics is powerful because it ignores the details. That same habit is what
+  it cannot do.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Strengths and weaknesses of the theory</h2>
+</header>
+
+<div class="pass">
+  <p>It is the only physical theory of universal content which I am convinced will never be
+  overthrown, within the framework of applicability of its basic concepts.</p>
+  <span class="src"><b>Albert Einstein</b> · on classical thermodynamics, Autobiographical Notes (1949)</span>
+</div>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Ignores what matter is made of</strong></td><td class="ok">Gives correct answers for steam, batteries, stars and cells alike. It survived the discovery of atoms and of quantum physics unchanged.</td><td class="no">It cannot explain <em>why</em> its laws hold. That needs statistical physics, which counts the particles.</td></tr>
+<tr><td><strong>Works with states, not paths</strong></td><td class="ok">You can calculate the energy available from a reaction without knowing every step in between.</td><td class="no">It says nothing about <em>speed</em>. It says diamond should slowly turn to graphite, but not that this would take far longer than the age of the universe.</td></tr>
+<tr><td><strong>Built for balance (equilibrium)</strong></td><td class="ok">Very precise for systems that have settled down.</td><td class="no">Weather, living cells and flowing fluids are far from balance, where the classical theory gives only partial answers.</td></tr>
+<tr><td><strong>States limits clearly</strong></td><td class="ok">Instantly rules out perpetual motion and inflated efficiency claims.</td><td class="mid">A limit is not a design. Knowing the ceiling does not tell you how to reach it.</td></tr>
+<tr><td><strong>Treats heat as energy in bulk</strong></td><td class="ok">Simple, reliable tools for engineers.</td><td class="no">At the scale of single molecules, the laws hold only on average, with brief, measurable fluctuations.</td></tr>
+</tbody></table></div>
+
+<p>The last row is subtle and important. For a handful of molecules, heat can briefly flow
+the "wrong" way, and experiments have measured it. <strong>The second law is a law of large
+numbers.</strong> For anything you can see, failure is too unlikely ever to happen.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Wasting less, storing heat, and thermodynamics at the tiniest scale</h2>
+  <p class="lede">The laws will not change. What changes is how cleverly we work within them. Sorted
+  by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Four directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Electrifying heat</strong></td><td>Heat pumps are sold in large numbers in many countries, for homes and increasingly for industry, and electric cars are a fast-growing share of new car sales as of 2025.</td><td class="ok">Fairly sure: more of the world's heating and transport will skip the heat-engine step, which cuts total energy demand.</td></tr>
+<tr><td><strong>Storing energy as heat</strong></td><td>"Thermal batteries" that store cheap electricity as heat in hot bricks, sand or molten salt are in early commercial use, especially for industrial heat.</td><td class="mid">Plausible: a useful niche where heat, not electricity, is the final need. Turning stored heat back into electricity still faces Carnot's limit.</td></tr>
+tr><td><strong>Quantum thermodynamics</strong></td><td>Laboratory "engines" made of a single atom or a few ions have been built to test how the laws work at the quantum scale.</td><td class="no">Speculative as technology. Important for understanding the limits of quantum computers, which must shed heat to work.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>The open frontier: systems that never settle down</h2>
+</header>
+
+<p>The classical theory is a science of systems at rest. Much of the interesting world is not at
+rest. A cell, a hurricane and a city all keep a structure only because energy is flowing through them.
+Since the 1990s, "non-equilibrium" thermodynamics has found exact results, called <strong>fluctuation theorems</strong>, that
+say how often tiny systems break the second law and by how much.</p>
+
+<p>The most suggestive link is with information. In 1961 Rolf Landauer at IBM argued that erasing one
+bit of information must release a minimum, tiny amount of heat. Experiments in the 2010s supported
+his limit. Today's computers waste vastly more than that minimum, but it says something deep: <strong>information is physical, and handling it has a
+thermodynamic cost</strong>. As computing becomes a larger share of the world's electricity use, that
+old engine-room question, how much useful work can we get from our energy, is returning in a new form.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Heat is <strong>energy in transit</strong> because of a temperature difference. The
+    <strong>first law</strong> says energy is never created or destroyed. The <strong>second law</strong>
+    says heat flows by itself only from hot to cold, so <strong>no engine can turn all its heat into
+    work</strong>. The best possible efficiency depends only on the hot and cold temperatures.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Absolute zero is <strong>−273.15 °C</strong> (0 kelvin), and cannot be reached.</li>
+      <li>Carnot limit: <strong>1 − Tcold/Thot</strong>, in kelvin.</li>
+      <li>Steam power plants: about <strong>a third to two-fifths</strong> efficient; combined-cycle gas about <strong>60%</strong>.</li>
+      <li>A heat pump delivers about <strong>3–4 units of heat</strong> per unit of electricity.</li>
+      <li>A resting person gives off about <strong>100 watts</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking engines are wasteful only because engineers are careless. <strong>Most of the waste is
+    required by the second law</strong>, not by poor design. Better engineering can only close the gap
+    to Carnot's limit, never pass it.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a heat pump can give out three times more heat than the electricity it uses,
+    without breaking the first law? If you can, you have understood the difference between making
+    heat and moving it.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Thermodynamics</dt><dd>The physics of heat, work and energy, and the limits on turning one into another.</dd>
+    <dt>Temperature</dt><dd>A measure of how fast a thing's particles are moving on average. It decides which way heat flows.</dd>
+    <dt>Heat</dt><dd>Energy moving from a hotter thing to a colder one.</dd>
+    <dt>Work</dt><dd>Energy transferred by a force moving something, the organised and useful kind of transfer.</dd>
+    <dt>Joule</dt><dd>The unit of energy. One watt is one joule per second.</dd>
+    <dt>Kelvin</dt><dd>A temperature scale starting at absolute zero. Its degrees are the same size as Celsius degrees.</dd>
+    <dt>Absolute zero</dt><dd>The lowest possible temperature, −273.15 °C, where particle motion is at its minimum.</dd>
+    <dt>Heat engine</dt><dd>Any machine that makes work from heat flowing from a hot place to a cold one.</dd>
+    <dt>Carnot efficiency</dt><dd>The best efficiency any heat engine could have between two given temperatures.</dd>
+    <dt>Heat pump</dt><dd>A machine that uses work to move heat from a colder place to a warmer one.</dd>
+    <dt>Coefficient of performance</dt><dd>Heat delivered by a heat pump divided by the energy used to run it.</dd>
+    <dt>Latent heat</dt><dd>Energy absorbed or released when a substance melts, boils, freezes or condenses, without changing temperature.</dd>
+    <dt>Equilibrium</dt><dd>A state where nothing is changing overall, because all flows are balanced.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Temperature and heat aren't the same thing. Temperature is how hot; heat is energy on the
+    move."</li>
+    <li>"No engine can turn all its heat into work. The limit depends only on how hot and how cold its
+    two sides are."</li>
+    <li>"A heat pump moves heat instead of making it, which is why it gets three or four units of heat
+    out of one unit of electricity."</li>
+    <li>"Electrifying cars and heating cuts total energy use, because you stop losing most of the fuel
+    as waste heat."</li>
+    <li>"Anyone selling a machine that makes more energy than it uses is selling a broken law of
+    physics."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="10-entropy.html">Entropy</a></h4><p>The second law, opened
+  up: why disorder wins, what it has to do with probability and information, and why it gives time a
+  direction.</p></div>
+  <div class="card"><h4>Related · <a href="../03-chemistry/11-thermochemistry.html">Thermochemistry</a></h4><p>The
+  same laws applied to chemical reactions: why some reactions release heat, why others absorb it, and
+  what decides which way a reaction runs.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

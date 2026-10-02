@@ -1,0 +1,844 @@
+<!doctype html>
+<!--@HEAD-SRC title="Viruses" desc="What viruses are, how they break into cells and copy themselves, why they mutate, hide and jump between species, how smallpox was ended and pandemics happen, and where virology is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Viruses</title>
+<meta name="description" content="What viruses are, how they break into cells and copy themselves, why they mutate, hide and jump between species, how smallpox was ended and pandemics happen, and where virology is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Biology · Topic 09 of 20</p>
+  <h1>Viruses. <span class="thin">A set of instructions that only works inside someone else's factory.</span></h1>
+  <p class="lede">A virus is the simplest thing in biology that can evolve. It is a few genes wrapped in
+  protein, with no machinery of its own. Outside a cell it does nothing at all. Inside one, it takes
+  over and turns the cell into a factory for new viruses. That simple strategy has produced smallpox,
+  HIV, influenza and COVID-19. It also shaped human evolution: pieces of ancient viruses make up a
+  noticeable share of your own DNA, and one of them helps build the placenta.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Biology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../28-medicine.html#c3"><span class="vn">Vol 28 · ch 03</span><b>Bacteria and viruses are not the same thing</b><em>The short version</em></a>
+<a class="vol" href="../19-public-health/07-pandemics.html"><span class="vn">Public health · 07</span><b>Pandemics</b><em>When a virus goes global</em></a>
+<a class="vol" href="10-bacteria.html"><span class="vn">Biology · 10</span><b>Bacteria</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 28 explains why antibiotics do nothing against viruses
+  (<a href="../28-medicine.html#c3">Bacteria and viruses are not the same thing</a>) and how epidemics
+  spread (<a href="../28-medicine.html#c4">How an epidemic actually spreads</a>). Volume 13 explains
+  <a href="../13-medicine-and-biology.html#m1">mRNA vaccines</a>, and Volume 27 explains immunity
+  (<a href="../27-life.html#c5">How your body defends itself</a>). This file goes into the virus itself:
+  its structure, its life cycle, its tricks, and its surprising role in our own evolution.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Genes in a box, waiting for a cell</h2>
+  <p class="lede">Viruses were discovered as something that passed through a filter fine enough to stop
+  every known germ. Their nature turned out to be stranger than anyone guessed.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The germ that passed through the filter</h2>
+</header>
+
+<p>In the 1880s and 1890s, tobacco farmers in Europe were losing crops to a disease that mottled the
+leaves, called tobacco mosaic disease. In 1892 the Russian scientist Dmitri Ivanovsky pressed the sap
+of sick plants through a porcelain filter with holes small enough to stop any known bacterium. The
+filtered sap still made healthy plants sick. In 1898 the Dutch scientist Martinus Beijerinck repeated
+the work and argued that this was a new kind of infectious agent, which could multiply only in living
+tissue. The word <strong>virus</strong>, Latin for "poison" or "slimy liquid", stuck.</p>
+
+<p>Nobody could see one until the electron microscope arrived. The first images of tobacco mosaic virus,
+in 1939, showed tiny rods. <strong>For about forty years, viruses were known only by what they did, not
+by what they looked like.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The parts of a virus</h2>
+</header>
+
+<p>Every virus has two parts. The first is its <strong>genome</strong>, the genetic instructions, made of
+DNA or RNA, never both. The second is a protein shell called the <strong>capsid</strong> that protects the
+genome. Many viruses, including flu, HIV and coronaviruses, also wrap themselves in an
+<strong>envelope</strong>, a fatty membrane stolen from the last cell they left, studded with their own
+proteins. The single complete virus particle is called a <strong>virion</strong>.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Virus</th><th>Genome</th><th>Envelope?</th><th>What it causes</th></tr></thead>
+<tbody>
+<tr><td><strong>Influenza</strong></td><td>RNA, in eight separate pieces</td><td>Yes</td><td>Seasonal flu and occasional pandemics</td></tr>
+<tr><td><strong>SARS-CoV-2</strong></td><td>RNA, one long strand</td><td>Yes</td><td>COVID-19</td></tr>
+<tr><td><strong>HIV</strong></td><td>RNA, copied into DNA inside the cell</td><td>Yes</td><td>HIV infection and, untreated, AIDS</td></tr>
+<tr><td><strong>Herpes viruses</strong></td><td>DNA</td><td>Yes</td><td>Cold sores, chickenpox and shingles</td></tr>
+<tr><td><strong>Norovirus</strong></td><td>RNA</td><td>No</td><td>"Stomach flu" outbreaks, for example on cruise ships</td></tr>
+<tr><td><strong>Human papillomavirus (HPV)</strong></td><td>DNA</td><td>No</td><td>Warts and most cervical cancers</td></tr>
+</tbody></table></div>
+
+<p>The envelope matters in daily life. Fat dissolves in soap and alcohol, so <strong>enveloped viruses are
+destroyed by handwashing and alcohol gel fairly easily</strong>. Viruses without an envelope, such as
+norovirus, are much tougher. That is why norovirus spreads so well and why thorough washing with soap
+and water, plus cleaning with bleach-based products, is advised during outbreaks.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Alive or not?</h2>
+</header>
+
+<p>A virus does not eat, grow, produce energy or respond to its surroundings. Outside a cell it is
+chemically inert, and some viruses can even be crystallised like salt. Yet viruses carry genes,
+reproduce (with help) and evolve by natural selection. So are they alive?</p>
+
+<p>Biologists disagree, and the answer depends on the definition you choose. In 2003 researchers
+described the <strong>mimivirus</strong>, a virus that infects amoebae and is so large it was first mistaken
+for a bacterium. It has around a thousand genes, more than some bacteria, including some for making
+proteins. Giant viruses like this blur the line further. <strong>A useful way to think about it: a virus
+is not alive on its own, but it is part of life, the way a recipe is part of cooking.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Break in, take over, copy, escape</h2>
+  <p class="lede">Every virus follows the same basic cycle. The details of each step explain which cells it
+  infects, how fast it changes, and how it can be stopped.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The life cycle of a virus</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">The virus life cycle, in five steps</div>
+<pre>
+  1. ATTACH    a virus protein fits a receptor on the cell surface (key in lock)
+       |
+  2. ENTER     fuses with the membrane, or is swallowed by the cell; releases its genome
+       |
+  3. COPY      the cell's ribosomes and enzymes now make viral proteins and genomes
+       |       (the cell's own work is often shut down)
+  4. ASSEMBLE  new genomes are packed into new capsids
+       |
+  5. RELEASE   bud out through the membrane (taking an envelope) or burst the cell
+               -&gt; hundreds to thousands of new virions from one cell
+</pre>
+</div>
+
+<p>The first step decides almost everything. A virus can only infect a cell that carries the right
+<strong>receptor</strong>, a protein on the surface that the virus has evolved to grab. HIV binds a
+protein called CD4, found mostly on certain immune cells, which is why HIV destroys the immune system.
+SARS-CoV-2 binds a protein called ACE2, found on cells of the airways and several other organs.
+<strong>The receptor is the reason a virus attacks one tissue and ignores another</strong>, and it is
+also the main target of many vaccines: block the virus's key, and it cannot open the lock.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Spillover: how animal viruses become human ones</h2>
+</header>
+
+<p>Most new human viruses come from animals. When a virus jumps from an animal to a person, it is called
+<strong>spillover</strong>, and a disease that passes from animals to humans is a <strong>zoonosis</strong>.
+HIV began as a virus of chimpanzees in Central Africa and crossed into humans in the early twentieth
+century, probably through hunting and butchering. Bats carry many coronaviruses and are thought to be the
+original source of the SARS virus of 2002–03 and of several others.</p>
+
+<p>Most spillovers go nowhere. The virus infects a person but cannot spread well between people. The
+dangerous cases are the ones where the virus can also transmit from person to person. Risk rises when
+people and animals mix more: forest clearing, wildlife trade, and large farms of crowded animals. In 2024
+a bird flu virus, H5N1, was found spreading in dairy cattle in the United States, with a small number of
+human infections, which virologists watched closely as a possible step towards spread in mammals.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Changing shape: drift, shift and the 1918 flu</h2>
+</header>
+
+<p>Many RNA viruses copy themselves carelessly, without the proofreading that cells use, so they mutate
+fast (see <a href="03-rna.html">RNA</a>). Flu shows two kinds of change. <strong>Antigenic drift</strong> is
+the slow build-up of small mutations in the virus's surface proteins, so last year's immunity fits a
+little less well. That is why the flu vaccine is updated every year.</p>
+
+<p><strong>Antigenic shift</strong> is rare and dangerous. Because the flu genome comes in eight separate
+pieces, two different flu viruses infecting the same cell, say one from birds and one from humans, can
+swap pieces. The result can be a virus with surface proteins that almost nobody's immune system has seen.
+That is how flu pandemics start. The 1918 pandemic killed an estimated 50 million people worldwide,
+though estimates range widely. A shift-like reassortment also produced the 2009 "swine flu" pandemic,
+which spread worldwide but was far less deadly.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Hiding: viruses that stay for life</h2>
+</header>
+
+<p>Some viruses do not just come and go. They hide. After chickenpox clears, the virus that caused it
+retreats into nerve cells near the spine and goes silent, a state called <strong>latency</strong>. Decades
+later, often when immunity weakens with age or stress, it can wake up and travel down the nerve to the
+skin, causing a painful rash in a band: <strong>shingles</strong>. Cold sore viruses do the same. HIV hides
+by inserting a DNA copy of its genome into the DNA of the cells it infects, which is why it cannot yet be
+cured, only controlled.</p>
+
+<p>Some viruses cause cancer. The German virologist Harald zur Hausen showed that certain types of
+<strong>human papillomavirus</strong> cause cervical cancer, work that earned him a share of the 2008 Nobel
+Prize. HPV vaccines, introduced from 2006, prevent infection with the most dangerous types. Countries with
+high vaccination rates are already seeing large falls in cervical precancer and cancer in vaccinated
+age groups. Hepatitis B and C viruses can cause liver cancer, and hepatitis B also has a vaccine.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Fighting back: why antivirals are hard, and when they work</h2>
+</header>
+
+<p>A virus uses the cell's own machinery, so most ways of stopping it would also harm the cell. Antiviral
+drugs work by targeting the few things that belong only to the virus: its copying enzyme, the enzyme that
+cuts its proteins into working pieces, or the protein it uses to enter. That is why antivirals are usually
+specific to one virus or family.</p>
+
+<p>When it works, it can be spectacular. In the mid-1990s, combinations of three HIV drugs given together
+turned HIV from a near-certain death sentence into a manageable long-term condition. People treated early
+now have a life expectancy close to normal in many countries, and those whose virus is suppressed to
+undetectable levels do not pass it on sexually. For hepatitis C, drugs introduced from around 2014 cure the
+large majority of patients in a few months. <strong>The lesson is that combination therapy beats a single
+drug</strong>, because the virus would need several lucky mutations at once to escape.</p>
+
+<div class="warn">
+  <span class="tag">Health note</span>
+  <p>This file is general education about viruses, not medical advice. For vaccination, testing or
+  treatment decisions, follow your doctor and your local health authority.</p>
+</div>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>The greatest killers, a great victory, and a hidden benefit</h2>
+  <p class="lede">Viruses have shaped human history through disease. They have also shaped human biology
+  in ways that were discovered only recently.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Smallpox: the only human disease ever eradicated</h2>
+</header>
+
+<p>Smallpox killed perhaps three in ten of the people it infected and left many survivors scarred or
+blind. One widely cited estimate is that it killed around 300 million people in the twentieth century
+alone. In 1796 the English doctor Edward Jenner showed that infecting someone with cowpox, a mild related
+disease, protected them against smallpox. The word <strong>vaccine</strong> comes from <em>vacca</em>,
+Latin for cow.</p>
+
+<p>In 1967 the World Health Organization launched an intensified global campaign. Instead of vaccinating
+everyone, teams found each new case, then vaccinated everyone around it, a method called <strong>ring
+vaccination</strong>. It worked because smallpox has no animal host and causes an obvious rash, so cases
+could not hide. The last natural case was in Somalia in 1977, and in 1980 the WHO declared smallpox
+eradicated. <strong>It remains the only human disease ever wiped out</strong>, and it shows what
+coordinated public health can achieve. Polio is close: as of the mid-2020s, wild polio still circulates
+only in Pakistan and Afghanistan.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Pandemics: the cost when control fails</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Pandemic</th><th>Virus</th><th>Estimated deaths</th><th>What it taught</th></tr></thead>
+<tbody>
+<tr><td><strong>1918 influenza</strong></td><td>Flu (H1N1)</td><td>Around 50 million (wide range)</td><td>A new flu can kill healthy young adults</td></tr>
+<tr><td><strong>HIV/AIDS</strong> (from about 1981)</td><td>HIV</td><td>Over 40 million to date, per UN estimates</td><td>A slow, silent virus can spread for decades before it is noticed</td></tr>
+<tr><td><strong>2009 "swine flu"</strong></td><td>Flu (H1N1)</td><td>Hundreds of thousands, by later estimates</td><td>Preparedness plans work only if they can be scaled</td></tr>
+<tr><td><strong>COVID-19</strong> (from 2019)</td><td>SARS-CoV-2</td><td>About 7 million reported; WHO estimated excess deaths far higher</td><td>Speed matters; global supply and trust matter as much as science</td></tr>
+</tbody></table></div>
+
+<p>Where SARS-CoV-2 came from is still disputed. Many scientists favour a natural spillover from animals,
+possibly at a market in Wuhan. Others, including some government intelligence agencies, consider a
+laboratory-related accident possible. As of 2026 there is no conclusive public evidence that settles it.
+The details of how pandemics are fought belong to <a href="../19-public-health/07-pandemics.html">Pandemics</a>
+and <a href="../19-public-health/08-vaccination-programs.html">Vaccination programs</a>.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The viruses inside your DNA</h2>
+</header>
+
+<p>Retroviruses, the family that includes HIV, insert their genes into the DNA of the cells they infect.
+If that happens in an egg or sperm cell, the viral DNA can be passed on to every descendant. Over tens of
+millions of years, this happened many times to our ancestors. Today about <strong>8% of the human
+genome</strong> consists of the remains of such ancient viruses, called <strong>endogenous
+retroviruses</strong>. Most are broken and silent.</p>
+
+<p>A few have been put to work. A protein called <strong>syncytin</strong>, which helps form a key layer of
+the placenta, comes from an old viral gene that once helped a virus fuse with cells. <strong>Mammal
+pregnancy, in part, runs on borrowed viral machinery.</strong> Viruses also matter well beyond humans. In
+the oceans, viruses that infect bacteria, called <strong>bacteriophages</strong> or phages, kill a large
+share of marine bacteria every day, releasing nutrients and influencing global carbon cycles. They are the
+most numerous biological entities on Earth.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Harms and uses of viruses, and the tools we use against them</h2>
+  <p class="lede">Viruses are not only enemies. Researchers have turned their abilities into tools. And
+  each of our defences has its own trade-offs.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Viruses: harms against uses</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Viral ability</th><th>The harm</th><th>The use humans have found</th></tr></thead>
+<tbody>
+<tr><td><strong>Entering cells precisely</strong></td><td class="no">Infection of chosen tissues</td><td class="ok">Disabled viruses carry healthy genes into cells in gene therapy</td></tr>
+<tr><td><strong>Killing cells</strong></td><td class="no">Tissue damage and disease</td><td class="ok">Cancer-killing viruses; one was approved for melanoma in 2015</td></tr>
+<tr><td><strong>Killing bacteria</strong> (phages)</td><td class="mid">Problems in dairy fermentation</td><td class="ok">Phage therapy for drug-resistant infections, still experimental in most countries</td></tr>
+<tr><td><strong>Teaching the immune system</strong></td><td class="no">Infection</td><td class="ok">Some vaccines use harmless viruses to deliver one protein</td></tr>
+<tr><td><strong>Inserting genes into DNA</strong></td><td class="no">Lifelong infection (HIV)</td><td class="ok">Modified retroviruses are used to engineer cells, for example in CAR-T cancer therapy</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Our defences, weighed</h2>
+</header>
+
+<div class="grid2">
+  <div class="card"><h4>Vaccines</h4><p><strong>Strengths:</strong> prevention, not cure; protect
+  people around you; ended smallpox and nearly ended polio. <strong>Weaknesses:</strong> some viruses,
+  such as HIV, mutate or hide too well for an effective vaccine so far; flu needs yearly updates; rare side
+  effects are real; uptake depends on trust.</p></div>
+  <div class="card"><h4>Antivirals and public measures</h4><p><strong>Strengths:</strong> antivirals can
+  control or cure some infections, such as HIV and hepatitis C. Testing, isolation and ventilation slow
+  spread of almost any virus. <strong>Weaknesses:</strong> antivirals exist for few viruses and resistance
+  can develop. Public measures carry large social and economic costs, and how far to use them was
+  fiercely debated during COVID-19.</p></div>
+</div>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>The next pandemic, faster vaccines, and the end of polio</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Five directions, sorted by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>More spillovers</strong></td><td>Contact between people, wildlife and farm animals keeps rising; bird flu in mammals is being watched closely.</td><td class="ok">Fairly sure: new outbreaks will keep emerging. When, and how severe, cannot be predicted.</td></tr>
+<tr><td><strong>Faster vaccines</strong></td><td>mRNA platforms showed vaccines can be designed in days. International groups aim to have vaccines ready within about 100 days of a new threat.</td><td class="mid">Plausible: faster design. Testing, manufacturing and fair distribution are the slow parts.</td></tr>
+<tr><td><strong>Eradicating polio</strong></td><td>Wild polio is confined to two countries, but outbreaks linked to the oral vaccine's weakened virus still occur.</td><td class="mid">Plausible: eradication is in reach, but has been "close" for years.</td></tr>
+<tr><td><strong>A universal flu vaccine</strong></td><td>Vaccines aimed at parts of the flu virus that rarely change are in trials.</td><td class="mid">Plausible: broader, longer protection. A one-shot lifetime vaccine is not yet in sight.</td></tr>
+<tr><td><strong>A cure for HIV</strong></td><td>A handful of people have been cured after bone marrow transplants for cancer, from donors with a rare resistance mutation. Gene-editing approaches are early.</td><td class="no">Speculative for most people. Long-acting injections and prevention pills are the realistic near-term gains.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>Living with viruses</h2>
+</header>
+
+<p>Viruses will never be defeated as a group. There are too many, they change too fast, and most of them
+infect bacteria, plants and animals rather than us. The realistic goal is <strong>early detection, fast
+response, and strong routine vaccination</strong>, so that each new threat meets a prepared world.
+Wastewater testing, genome sequencing, and platform vaccines are the main new tools.</p>
+
+<p>The other lesson is about science and trust. The tools that ended smallpox depended on people
+accepting vaccines and on countries cooperating, even during the Cold War. <strong>The biology of viruses
+is predictable; the human response is not.</strong> That is why the future of virology is as much about
+communication, fairness and cooperation as about laboratories.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A virus is a <strong>genome in a protein coat</strong>, sometimes inside a fatty envelope. It
+    <strong>attaches to a receptor</strong>, enters, <strong>hijacks the cell</strong> to copy itself, and
+    escapes. Viruses mutate, jump species, and sometimes hide for life. Vaccines prevent them;
+    antivirals target the few parts that belong only to the virus.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Smallpox was declared eradicated in <strong>1980</strong>, the only human disease ever eradicated.</li>
+      <li>The 1918 flu killed around <strong>50 million</strong> people (estimates vary widely).</li>
+      <li>About <strong>8%</strong> of human DNA comes from ancient viruses.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Asking for antibiotics for a cold or flu. <strong>Antibiotics act on bacteria, not viruses</strong>,
+    and using them for viral infections only breeds resistance.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why alcohol gel works well against flu but poorly against norovirus? If so, you
+    understand the viral envelope.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Virus</dt><dd>Genetic material in a protein coat that can multiply only inside a living cell.</dd>
+    <dt>Capsid</dt><dd>The protein shell that protects a virus's genome.</dd>
+    <dt>Envelope</dt><dd>A fatty outer membrane some viruses take from the cell they leave.</dd>
+    <dt>Virion</dt><dd>One complete virus particle.</dd>
+    <dt>Receptor</dt><dd>A protein on a cell's surface that a virus grabs to get in.</dd>
+    <dt>Spillover</dt><dd>A virus jumping from an animal species into humans.</dd>
+    <dt>Zoonosis</dt><dd>A disease that passes from animals to people.</dd>
+    <dt>Antigenic drift</dt><dd>Gradual small changes in a virus's surface proteins.</dd>
+    <dt>Antigenic shift</dt><dd>A sudden big change when two flu viruses swap genome pieces.</dd>
+    <dt>Latency</dt><dd>A virus hiding silently in cells, able to reactivate later.</dd>
+    <dt>Antiviral</dt><dd>A drug that blocks a step only the virus needs.</dd>
+    <dt>Bacteriophage</dt><dd>A virus that infects bacteria.</dd>
+    <dt>Endogenous retrovirus</dt><dd>The remains of an ancient virus inherited in our DNA.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A virus is a recipe with no kitchen. It needs one of your cells to do anything at all."</li>
+    <li>"A virus can only infect cells with the right lock on the surface. That's why each one attacks
+    particular tissues."</li>
+    <li>"Shingles is the chickenpox virus waking up decades later from a nerve where it was hiding."</li>
+    <li>"Smallpox was ended by finding each case and vaccinating everyone around it."</li>
+    <li>"About eight percent of our DNA comes from ancient viruses, and one of them helps build the
+    placenta."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="10-bacteria.html">Bacteria</a></h4><p>Complete living cells:
+  how they grow, swap genes, cause disease and keep us alive, and why antibiotics work on them.</p></div>
+  <div class="card"><h4>Related · <a href="../19-public-health/07-pandemics.html">Pandemics</a></h4><p>How
+  outbreaks become global, how they are fought, and what the world learned from COVID-19.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

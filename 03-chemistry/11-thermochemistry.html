@@ -1,0 +1,876 @@
+<!doctype html>
+<!--@HEAD-SRC title="Thermochemistry" desc="The heat of chemical reactions: why some release energy and others absorb it, how enthalpy, entropy and free energy decide what can happen, and why it matters for fuel, food and safety."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Thermochemistry</title>
+<meta name="description" content="The heat of chemical reactions: why some release energy and others absorb it, how enthalpy, entropy and free energy decide what can happen, and why it matters for fuel, food and safety.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Chemistry · Topic 11 of 20</p>
+  <h1>Thermochemistry. <span class="thin">The energy accounts behind every fire, battery and meal.</span></h1>
+  <p class="lede">Shake a hand warmer and it gets hot. Squeeze an instant cold pack and it gets
+  cold. Burn a litre of petrol and you can drive a car fifteen kilometres. All three are the same
+  question in different clothes: where does the energy in a chemical change come from, and where
+  does it go? Thermochemistry is the bookkeeping that answers it. It tells you how much heat a
+  reaction gives off or takes in, and, with one extra idea called entropy, whether the reaction can
+  happen at all. It does not tell you how fast.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Chemistry</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../25-physics.html#c6"><span class="vn">Vol 25 · ch 06</span><b>Why your tea never reheats</b><em>Entropy, the short version</em></a>
+<a class="vol" href="../02-physics/09-thermodynamics.html"><span class="vn">Physics · 09</span><b>Thermodynamics</b><em>The physics of heat</em></a>
+<a class="vol" href="12-chemical-equilibrium.html"><span class="vn">Chemistry · 12</span><b>Chemical equilibrium</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 26 shows that burning, rusting and breathing are one reaction at three speeds
+  (<a href="../26-chemistry.html#c4">Burning, rusting and breathing</a>), and Volume 25 explains
+  entropy in a page (<a href="../25-physics.html#c6">Why your tea never spontaneously reheats</a>).
+  This file puts numbers on those ideas: how chemists measure the heat of a reaction, why the
+  measurement can be done by adding up steps, and how heat and disorder together decide what
+  happens. The physics of heat engines and the laws of thermodynamics in general belong to
+  <a href="../02-physics/09-thermodynamics.html">Physics · Thermodynamics</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The study of heat going in and out of chemical change</h2>
+  <p class="lede">Every reaction rearranges atoms. Rearranging atoms always changes the energy stored
+  in their connections, and the difference shows up as heat, light or electrical work.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The hand warmer and the cold pack</h2>
+</header>
+
+<p>A disposable hand warmer is a small bag of iron powder, salt, water and charcoal. Open the wrapper and air gets in. The iron starts to rust, fast, because the powder has an enormous surface. Rusting releases
+energy, and in a bag that size the energy comes out as a steady warmth for several hours.</p>
+
+<p>An instant cold pack does the opposite. Inside is a solid, often ammonium nitrate or urea, and a
+pouch of water. Squeeze the pack, break the pouch, and the solid dissolves. Dissolving that solid
+<em>takes in</em> heat from the surroundings, so the water, the bag and your sprained ankle all get
+colder.</p>
+
+<p>Chemists have two words for these. A change that releases heat to its surroundings is
+<strong>exothermic</strong> (from Greek "heat out"). A change that absorbs heat from its surroundings
+is <strong>endothermic</strong> ("heat in"). <strong>Thermochemistry is the measurement and
+prediction of that heat flow.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Breaking bonds costs, making bonds pays</h2>
+</header>
+
+<p>The most common misunderstanding in all of chemistry is the idea that energy is "stored in bonds"
+and released when they break. It is backwards. <strong>Breaking a chemical
+bond always costs energy. Forming one always releases energy.</strong> Pulling bonded atoms apart is like pulling two magnets apart: you have to do work.</p>
+
+<p>So why does burning release so much heat? Because a reaction does both. When methane, the main
+part of natural gas, burns, the bonds inside methane and inside oxygen molecules are broken (a cost),
+and new bonds in carbon dioxide and water are formed (a payment). The bonds in carbon dioxide and
+water are much stronger than the ones that were broken. The payment exceeds the cost, and the
+difference comes out as heat. A fuel is not a parcel of stored energy. <strong>A fuel is a
+substance whose atoms can fall into a much more stable arrangement.</strong></p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Measuring it: a guinea pig in a bucket of ice</h2>
+</header>
+
+<p>In the early 1780s the French chemist Antoine Lavoisier and the mathematician Pierre-Simon
+Laplace built an "ice calorimeter". Anything warm inside its chamber melted the surrounding ice, and the meltwater measured the heat. They put a guinea pig
+inside and compared the heat it gave off with the heat of burning charcoal that produced the same
+amount of carbon dioxide. It was early, powerful evidence that
+breathing is a slow form of burning.</p>
+
+<p>The modern instrument is the <strong>calorimeter</strong>, any device that measures heat by the
+temperature change it causes in a known amount of water or metal. For fuels and foods, chemists use a
+"bomb calorimeter": a sealed steel container filled with pure oxygen and sunk in water. The sample is
+ignited electrically, burns completely, and the rise in water temperature tells you its energy.</p>
+
+<div class="note">
+  <span class="tag">The units</span>
+  <p>The scientific unit of energy is the <strong>joule</strong> (J). One older unit, the
+  <strong>calorie</strong>, is the heat that warms one gram of water by one degree Celsius, about
+  4.18 joules. The "Calorie" on a food label is a thousand of those, a kilocalorie (kcal), about
+  4.2 kilojoules. Chemists usually quote reaction heats in kilojoules per <em>mole</em>, where a mole
+  is a fixed, very large count of molecules (about 6 × 10<sup>23</sup>), chosen so that a mole of a
+  substance weighs its formula weight in grams.</p>
+</div>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Four ideas: enthalpy, Hess's law, entropy and the energy hill</h2>
+  <p class="lede">Heat tells you how much energy changes hands. Entropy tells you which way things
+  tend to go. Free energy combines them. The energy hill explains why possible things do not always
+  happen.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Enthalpy: heat with the bookkeeping done properly</h2>
+</header>
+
+<p>Most reactions on Earth happen in open containers at roughly constant air pressure. Under those
+conditions the heat a reaction gives off or takes in has a name: the <strong>enthalpy change</strong>,
+written ΔH (the Greek letter delta means "change in"). <strong>ΔH is negative when the reaction releases heat</strong>, because the
+chemicals end up with less energy than they started with. It is positive when heat is absorbed.</p>
+
+<p>Some typical values make the scale concrete. Burning one mole of methane (16 grams) releases about
+890 kilojoules. Turning one mole of liquid water into steam (18 grams) absorbs about 41 kilojoules,
+which is why boiling a pan dry takes so long after it reaches boiling point.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Hess's law: the route does not matter</h2>
+</header>
+
+<p>In 1840 Germain Hess, a Swiss-born chemist working in St Petersburg, published a rule that sounds
+too simple to be important. <strong>The total heat of a reaction is the same whatever route you
+take from start to finish.</strong> Burn carbon straight to carbon dioxide, or burn it first to
+carbon monoxide and then burn that, and the total heat comes out the same.</p>
+
+<p>Many reactions cannot be measured directly. They are too slow, or
+they produce a mess of side products. Hess's law lets chemists add and subtract reactions they
+<em>can</em> measure and get the one they cannot. This is how
+tables of "heats of formation" were built: one number for each compound, from which the heat of
+almost any reaction can be calculated on paper.</p>
+
+<div class="sheet">
+  <div class="cap">Hess's law as two paths up and down the same hill</div>
+<pre>
+ energy
+   |   C + O2  (start)
+   |     |\
+   |     | \  step 1: C + 1/2 O2 -> CO      releases about 111 kJ
+   |     |  \
+   |     |   CO + 1/2 O2
+   |     |     \
+   |     |      \  step 2: CO -> CO2         releases about 283 kJ
+   |     |       \
+   |     v        v
+   |   CO2  (finish)
+   |   direct path: C + O2 -> CO2            releases about 394 kJ
+   |
+   |   111 + 283 = 394.  Same start, same finish, same total.
+</pre>
+</div>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Estimating heat from bond strengths</h2>
+</header>
+
+<p>Chemists have measured roughly how much energy it takes to break each common kind of bond. A
+carbon-hydrogen bond needs about 410 kilojoules per mole. The double bond in an oxygen molecule needs
+about 500. The double bonds in carbon dioxide are much stronger, around 800 each, and an
+oxygen-hydrogen bond in water is about 460.</p>
+
+<p>With those numbers you can sketch why fuels burn hot. Methane has four carbon-hydrogen bonds. Two
+oxygen molecules join in. Add up what you break, subtract what you make, and the answer comes out
+close to the measured 800 to 890 kilojoules. The estimate is rough, but it gives the intuition chemists use daily. <strong>The
+more hydrogen-carbon bonds a fuel has, and the less oxygen it already contains, the more energy it
+releases per gram.</strong> That is why fats carry more energy than sugars. Sugar molecules are
+already partly combined with oxygen, so they are partway down the hill.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Why heat alone does not decide: entropy and free energy</h2>
+</header>
+
+<p>If releasing heat were the only thing that mattered, the cold pack could not work. Its reaction
+absorbs heat, yet it happens on its own as soon as the water touches the crystal. Ice melts on a warm
+day, also absorbing heat. Something else is pushing.</p>
+
+<p>That something is <strong>entropy</strong>, a measure of how many ways the energy and the
+particles in a system can be arranged. A crystal is a tidy lattice with few arrangements. The same
+ions floating in water can be arranged in vastly more ways. Nature drifts toward the states with the most arrangements, simply because there are more of them.</p>
+
+<p>In the 1870s the American physicist Josiah Willard Gibbs combined the two drives into one
+quantity, now called <strong>Gibbs free energy</strong>, written G. Its change is:</p>
+
+<div class="sheet">
+  <div class="cap">The single most useful equation in this topic</div>
+<pre>
+   ΔG  =  ΔH  -  T × ΔS
+
+   ΔG  change in free energy   negative = the reaction can run by itself
+   ΔH  change in enthalpy      negative = heat released (helps)
+   T   temperature in kelvin   (degrees Celsius + 273)
+   ΔS  change in entropy       positive = more disorder (helps)
+</pre>
+</div>
+
+<p><strong>A reaction can proceed on its own when releasing heat and increasing
+disorder, taken together, come out favourable.</strong> Temperature sets the exchange rate between
+them. At high temperature, the entropy term counts for more. That is why ice melts above 0 °C and
+water freezes below it: melting absorbs heat (bad) but increases disorder (good), and the balance
+tips at exactly the melting point.</p>
+
+<p>Chemists call a reaction with negative ΔG <strong>spontaneous</strong>. In chemistry the word
+means "able to happen without outside help", not "sudden", as the next chapter shows.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The energy hill: why paper does not burst into flames</h2>
+</header>
+
+<p>Paper and air together are far less stable than ash, carbon dioxide and water. Thermochemistry
+says paper "should" burn. Yet a book can sit on a shelf for three hundred years. The reason is that
+to get from one arrangement to the other, bonds must first be partly broken, and that costs energy
+up front. Picture a hill between two valleys: the far valley is lower, but you must climb first.</p>
+
+<p>The height of that hill is the <strong>activation energy</strong>. A match supplies it for a few
+molecules, and the heat they release supplies it for their neighbours, and the fire spreads. In 1889
+the Swedish chemist Svante Arrhenius described how the rate of a reaction rises steeply with
+temperature, because more molecules have enough energy to get over the hill. A rough rule of thumb
+for many reactions near room temperature is that rates about double for every 10 °C rise, which is
+why food lasts longer in a fridge.</p>
+
+<p>This is the boundary of thermochemistry. <strong>It tells you where the valleys are and how deep.
+It says nothing about how high the hill between them is.</strong> Lowering that hill without being
+used up is exactly what a catalyst does (<a href="13-catalysts.html">Chemistry · Catalysts</a>).
+Studying the hill itself, and how fast things cross it, is called <em>kinetics</em>
+(<a href="05-chemical-reactions.html">Chemistry · Chemical reactions</a>).</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Fuel, food, climate and keeping factories in one piece</h2>
+  <p class="lede">The same accounting that explains a cold pack sets the range of an electric car,
+  the number on a cereal box, and the safety rules of every chemical plant.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Energy density: why oil was so hard to replace</h2>
+</header>
+
+<p>The energy a fuel releases per kilogram is its <strong>energy density</strong>. It explains a
+great deal of modern history. Approximate values, using the full heat of combustion where relevant:</p>
+
+<div class="tw"><table>
+<thead><tr><th>Energy source</th><th>Energy per kilogram (approx.)</th><th>What that means</th></tr></thead>
+<tbody>
+<tr><td><strong>Hydrogen</strong></td><td>About 120–140 MJ</td><td>The best per kilogram, but a gas so light it is bulky to store</td></tr>
+<tr><td><strong>Natural gas (methane)</strong></td><td>About 50–55 MJ</td><td>Clean-burning by fossil standards, easy to pipe</td></tr>
+<tr><td><strong>Petrol, diesel, jet fuel</strong></td><td>About 43–46 MJ</td><td>Liquid at room temperature, dense, easy to carry: hard to beat</td></tr>
+<tr><td><strong>Body fat, cooking oil</strong></td><td>About 37 MJ</td><td>Why animals store energy as fat, not sugar</td></tr>
+<tr><td><strong>Sugar, starch</strong></td><td>About 17 MJ</td><td>Already partly oxidised, so less left to release</td></tr>
+<tr><td><strong>Dry wood</strong></td><td>About 15–18 MJ</td><td>Mostly cellulose, chemically close to sugar</td></tr>
+<tr><td><strong>TNT</strong></td><td>About 4–5 MJ</td><td>Less than a tenth of petrol: explosives are fast, not rich</td></tr>
+<tr><td><strong>Lithium-ion battery cell</strong></td><td>About 0.5–1 MJ</td><td>Dozens of times less than petrol, partly offset by efficient motors</td></tr>
+</tbody></table></div>
+
+<p><strong>An explosive does not contain unusual amounts of
+energy. It releases ordinary amounts extremely fast</strong>, because it carries its own oxygen and
+does not wait for air.
+Batteries look hopeless next to petrol, and yet electric cars work. An engine turns only
+about a quarter to a third of petrol's heat into motion, wasting the rest, while an electric
+motor converts around 90% of the battery's energy. The battery side is covered in
+<a href="../26-chemistry.html#c7">What a battery actually is</a>.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The numbers on a food label</h2>
+</header>
+
+<p>Food energy values come straight from thermochemistry, with a correction for biology. Around 1900
+the American chemist Wilbur Atwater burned foods in calorimeters and measured what people actually
+absorbed and excreted. His rounded results are still printed on labels: about <strong>4 kilocalories
+per gram of carbohydrate or protein, 9 per gram of fat, and 7 per gram of alcohol</strong>.</p>
+
+<p>Your body does exactly what the bomb calorimeter does, ending with carbon dioxide and water from
+fat and sugar. By Hess's law, the route through dozens of enzyme steps releases the same energy as a flame. Protein is the exception. Your body cannot burn its nitrogen to the end
+point a flame would, and excretes it as urea, which is why protein's label value is lower than its
+calorimeter value.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Runaway: when heat feeds the reaction that makes it</h2>
+</header>
+
+<p>Put Chapters 04 and 08 together and you get the most important safety idea in industrial
+chemistry. An exothermic reaction releases heat. Heat raises the temperature. Higher temperature
+speeds the reaction. A faster reaction releases heat faster. If cooling cannot keep up, the loop
+accelerates on its own. This is called <strong>thermal runaway</strong>.</p>
+
+<p> A large tank is more dangerous than a small flask of the same mixture. Heat is made throughout the volume, but it escapes only through the surface. Double the
+width of a tank and its volume rises about eight times, while its surface rises only four times.
+<strong>Big reactors are harder to cool, which is why scaling up a recipe that was safe on the bench
+is one of the riskiest steps in chemical engineering.</strong></p>
+
+<p>The same loop drives the rare but violent fires in lithium-ion batteries: a damaged or faulty cell
+heats, its internal chemicals start to break down exothermically, and the heat spreads to the next
+cell. It also played a part in the 1984 Bhopal disaster in India, where water entering a storage tank
+of methyl isocyanate set off a heat-releasing reaction that pushed the toxic gas out
+(<a href="../23-disasters.html#c5">Bhopal, the disaster with the highest toll</a>).</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A powerful accountant with blind spots</h2>
+  <p class="lede">Thermochemistry is one of the most reliable tools in science. Its limits come
+  from what it chooses not to measure.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>What it tells you, and what it does not</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Based on energy conservation</strong></td><td class="ok">Extremely reliable. No exception has ever been found.</td><td class="no">It forbids things but cannot invent them. It tells you a reaction is possible, not how to make it work.</td></tr>
+<tr><td><strong>Route does not matter (Hess)</strong></td><td class="ok">You can calculate reactions nobody can measure directly.</td><td class="no">Errors in the tabulated values add up when you chain many steps together.</td></tr>
+<tr><td><strong>Free energy predicts direction</strong></td><td class="ok">Tells you whether a reaction can run on its own, and how temperature changes that.</td><td class="no">Says nothing about speed. Diamond to graphite is "allowed" and never happens in practice.</td></tr>
+<tr><td><strong>Standard conditions</strong></td><td class="ok">Everyone compares numbers on the same footing (usually 25 °C and one atmosphere).</td><td class="mid">Real reactors run hot, under pressure, in mixtures. The numbers need correcting.</td></tr>
+<tr><td><strong>Treats heat as the output</strong></td><td class="ok">Simple and measurable with a thermometer.</td><td class="mid">Some energy can be taken as electricity instead (in a battery or fuel cell), and that changes what is useful.</td></tr>
+</tbody></table></div>
+
+<p>The deepest limit is speed. A huge share of the world
+around you exists only because reactions that "should" happen are stuck behind tall energy hills. Wood, paper and your own body, sitting in oxygen, are all unstable on paper and safe in practice. <strong>Life itself is a collection of reactions
+that are allowed but kept waiting, then released on command by enzymes.</strong></p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Storing heat, computing it, and burning less</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Storing energy as heat</strong></td><td>Hot water tanks, molten salt at solar power plants, and newer "thermal batteries" that heat bricks or sand with cheap electricity for later use in factories. Several are in commercial use as of 2026.</td><td class="ok">Fairly sure: heat storage grows, because about half of the world's final energy use is heat, and storing heat is cheaper than storing electricity.</td></tr>
+<tr><td><strong>Computing thermochemistry instead of measuring it</strong></td><td>Quantum chemistry methods, increasingly paired with machine learning, already predict reaction heats for many molecules with useful accuracy.</td><td class="mid">Plausible: routine screening of thousands of candidate battery materials or fuels on a computer before anyone touches a flask. Hard cases still need experiment.</td></tr>
+<tr><td><strong>Solar fuels</strong></td><td>Laboratory systems use sunlight to run reactions "uphill", splitting water or turning carbon dioxide back into fuel, as plants do.</td><td class="no">Speculative at scale: efficiencies and lifetimes are still far from what a cheap industry needs.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The quiet shift: moving heat instead of making it</h2>
+</header>
+
+<p>For most of history, if you wanted heat you burned something. Thermochemistry sets a ceiling on
+that: a cubic metre of gas can only give you its heat of combustion, and no clever boiler can give you
+more. A heat pump breaks the frame. It uses electricity not to make heat but to <em>move</em> heat
+from the cold outside air or ground into the house, the way a fridge moves heat out of its box and
+into your kitchen (<a href="../32-everyday-science.html#c5">Why your fridge warms the room</a>).</p>
+
+<p>A good heat pump delivers about three to four units of heat for every unit of electricity it uses.
+That is not a violation of energy conservation: the extra comes from the outside environment
+(<a href="../11-energy-and-water.html#e8">Heat pumps</a>). <strong>The future of heating may depend
+less on what we burn and more on how cleverly we move energy that already exists.</strong> Industrial heat at several hundred degrees is harder, and burning will remain part of that answer for some time.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Reactions are <strong>exothermic</strong> (heat out) or <strong>endothermic</strong> (heat in)
+    depending on whether the bonds made are stronger than the bonds broken. The heat at constant
+    pressure is the <strong>enthalpy change</strong>, and by <strong>Hess's law</strong> it does not
+    depend on the route. Whether a reaction can run on its own depends on <strong>free
+    energy</strong>, which weighs heat against <strong>entropy</strong>. How fast it runs is a
+    separate question, set by the <strong>activation energy</strong>.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>One food Calorie is about <strong>4.2 kilojoules</strong>.</li>
+      <li>Food: about <strong>4 kcal/g</strong> carbohydrate or protein, <strong>9</strong> fat,
+      <strong>7</strong> alcohol.</li>
+      <li>Petrol holds about <strong>45 MJ/kg</strong>, roughly ten times TNT and dozens of times a
+      lithium-ion battery.</li>
+      <li>Many reaction rates roughly <strong>double per 10 °C</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Saying energy is "stored in bonds" and "released when they break". <strong>Breaking bonds
+    always costs energy.</strong> Energy is released when new, stronger bonds form.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why an instant cold pack works, even though its reaction absorbs heat? If you
+    can, you have understood the difference between enthalpy and free energy.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Exothermic</dt><dd>A change that releases heat into its surroundings, like burning.</dd>
+    <dt>Endothermic</dt><dd>A change that absorbs heat from its surroundings, like melting ice.</dd>
+    <dt>Enthalpy change (ΔH)</dt><dd>The heat a reaction gives out or takes in at constant pressure. Negative means heat released.</dd>
+    <dt>Calorimeter</dt><dd>A device that measures heat from the temperature change it causes.</dd>
+    <dt>Mole</dt><dd>A fixed, very large count of particles, used so chemists can weigh out equal numbers of molecules.</dd>
+    <dt>Bond energy</dt><dd>The energy needed to break a particular kind of chemical bond, averaged over many molecules.</dd>
+    <dt>Hess's law</dt><dd>The total heat of a reaction is the same whatever route connects the start and the finish.</dd>
+    <dt>Entropy</dt><dd>A measure of how many ways a system's particles and energy can be arranged. It tends to increase.</dd>
+    <dt>Gibbs free energy (ΔG)</dt><dd>Heat and entropy combined into one number. Negative means the reaction can run on its own.</dd>
+    <dt>Spontaneous</dt><dd>In chemistry, "able to happen without outside help". It does not mean quick.</dd>
+    <dt>Activation energy</dt><dd>The energy hill a reaction must climb before it can run downhill.</dd>
+    <dt>Thermal runaway</dt><dd>A loop where a reaction's heat speeds it up until cooling can no longer keep pace.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Breaking a bond always costs energy. Fuels release heat because the new bonds they form are
+    stronger than the old ones."</li>
+    <li>"Explosives don't contain much energy. They just release it very fast. Petrol holds about ten
+    times more per kilo than TNT."</li>
+    <li>"Thermochemistry tells you whether a reaction is possible, not whether it's fast. That's why
+    paper doesn't catch fire on its own."</li>
+    <li>"A heat pump doesn't make heat, it moves it, which is why it can deliver three or four times
+    the energy it uses."</li>
+    <li>"For any new fuel, ask one question: how much energy goes in to make it, compared with what
+    comes out?"</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="12-chemical-equilibrium.html">Chemical equilibrium</a></h4><p>What
+  happens when a reaction can run both ways at once, why it settles at a balance point, and how
+  chemists push that balance where they want it.</p></div>
+  <div class="card"><h4>Related · <a href="../02-physics/09-thermodynamics.html">Thermodynamics</a></h4><p>The
+  same laws seen from physics: heat engines, efficiency limits, and why entropy defines the
+  direction of time.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->
