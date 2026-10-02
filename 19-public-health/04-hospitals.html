@@ -1,0 +1,853 @@
+<!doctype html>
+<!--@HEAD-SRC title="Hospitals" desc="What hospitals are and how they work, from triage to discharge, why full beds cause gridlock, why hospitals can harm as well as heal, and how they are changing."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hospitals</title>
+<meta name="description" content="What hospitals are and how they work, from triage to discharge, why full beds cause gridlock, why hospitals can harm as well as heal, and how they are changing.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Public Health &amp; Society · Topic 04 of 20</p>
+  <h1>Hospitals. <span class="thin">The most complex organisations most of us will ever enter, usually on our worst day.</span></h1>
+  <p class="lede">A large hospital runs around the clock, employs thousands of people with hundreds of
+  different skills, and handles everything from a newborn's first breath to an old person's last. It
+  is a hotel, a laboratory, a factory and a school at once. It is also the most expensive part of any
+  health system, and, surprisingly, a place where people can be harmed by the care meant to help them.
+  Understanding how hospitals work explains waiting times in emergency departments, debates about
+  closing local units, and why a simple checklist can save lives.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Public Health</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../28-medicine.html#c2"><span class="vn">Vol 28 · ch 02</span><b>The doctor nobody believed</b><em>Semmelweis and handwashing</em></a>
+<a class="vol" href="../42-your-health.html#c8"><span class="vn">Vol 42 · ch 08</span><b>Anaesthesia, surgery and consent</b><em>The patient's side</em></a>
+<a class="vol" href="05-disease-prevention.html"><span class="vn">Public Health · 05</span><b>Disease prevention</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 28 tells the story of Ignaz Semmelweis and handwashing in a Vienna maternity hospital
+  (<a href="../28-medicine.html#c2">The doctor nobody believed</a>). Volume 42 covers what to expect
+  as a patient in <a href="../42-your-health.html#c8">Anaesthesia, surgery and consent</a>. This file
+  looks at the hospital as an institution: how it is organised, paid, kept safe, and changed.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>From a shelter for the poor to an engine of cure</h2>
+  <p class="lede">For most of history, hospitals were places of charity and often of death. Only in
+  the last hundred and fifty years did they become places where people went to get better.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A short history of a strange institution</h2>
+</header>
+
+<p>Early hospitals were mostly religious. In medieval Europe, institutions such as the Hôtel-Dieu in
+Paris, one of the oldest still operating, cared for the poor, pilgrims and the dying. The care was
+food, shelter and prayer more than medicine. In the medieval Islamic world, large hospitals known as
+<strong>bimaristans</strong>, in cities such as Baghdad, Damascus and Cairo, were more medical. They
+had separate wards for different illnesses, trained physicians, and in some cases treated patients
+regardless of religion or wealth.</p>
+
+<p>Until the late nineteenth century, though, anyone who could afford it was treated at home. Hospital
+wards were crowded and infections spread from bed to bed. Two changes transformed them. The first was
+hygiene and nursing. Florence Nightingale, working in British military hospitals during the Crimean
+War in the 1850s, used careful statistics to show that soldiers were dying far more from disease than
+from wounds, and campaigned for cleanliness, ventilation and trained nurses. The second was the germ
+theory of disease and antiseptic surgery, which Joseph Lister began in the 1860s, followed by
+anaesthesia, X-rays and, in the twentieth century, antibiotics.</p>
+
+<p><strong>Only once hospitals could cure more than they harmed did the rich start choosing to go
+there.</strong> That happened in many countries only in the early twentieth century.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>What a modern hospital is</h2>
+</header>
+
+<p>Today a hospital is a place that provides care needing beds, specialists, equipment or round-the-
+clock nursing that cannot be given at home or in a clinic. Hospitals come in several kinds.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Type</th><th>What it does</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Community or district hospital</strong></td><td>Basic emergency care, common operations, births, care for older patients</td><td>A small-town hospital with a few hundred beds or fewer</td></tr>
+<tr><td><strong>General hospital</strong></td><td>Most specialties, an emergency department, intensive care</td><td>The main hospital of a mid-sized city</td></tr>
+<tr><td><strong>Teaching (university) hospital</strong></td><td>Complex care plus training of doctors and nurses and research</td><td>Linked to a medical school; often the referral centre for a region</td></tr>
+<tr><td><strong>Specialist hospital</strong></td><td>One field only</td><td>A children's hospital, a cancer centre, a psychiatric hospital</td></tr>
+</tbody></table></div>
+
+<p>Hospitals also differ by ownership. Some are owned by the state, as in much of Britain and the
+Nordic countries. Some are non-profit, often with religious or charitable roots, which are common in
+Germany, the Netherlands and the United States. Some are for-profit companies. In Germany, public,
+non-profit and private hospitals all treat patients from the same insurance funds. <strong>Who owns a
+hospital and who pays for its patients are separate questions</strong>, as
+<a href="01-how-healthcare-systems-work.html">How healthcare systems work</a> explains.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>A system of queues, beds and handovers</h2>
+  <p class="lede">From outside, a hospital looks like a building full of doctors. From inside, it looks
+  more like an airport: everything depends on how smoothly people flow from one stage to the next.</p>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The patient's path</h2>
+</header>
+
+<p>Patients arrive by two main doors. <strong>Elective</strong> patients are planned: a hip
+replacement booked months ahead, a scheduled cancer treatment. <strong>Emergency</strong> patients
+arrive unplanned, through the emergency department, often by ambulance. A third group, outpatients,
+come for a consultation or a test and go home the same day.</p>
+
+<div class="sheet">
+  <div class="cap">How an emergency patient moves through a hospital</div>
+<pre>
+ arrive (walk-in / ambulance)
+        |
+        v
+   TRIAGE  -- who is sickest? -->  resuscitation bay (minutes count)
+        |
+        v
+ assessment, tests, treatment in the emergency department
+        |
+   +----+--------------------+
+   |                         |
+   v                         v
+ home / GP follow-up      ADMIT --> needs a free bed on a ward
+                                     |         \
+                                     v          v
+                                  ward care   intensive care
+                                     |
+                                     v
+                       DISCHARGE --> home / rehab / care home
+</pre>
+</div>
+
+<p>The first step, <strong>triage</strong>, comes from the French word for sorting. A nurse quickly
+decides who needs care first, based on how sick people are, not when they arrived. That is why
+someone with chest pain is seen before someone who has waited longer with a sprained ankle.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Why a full hospital stops working</h2>
+</header>
+
+<p>A common surprise is that the emergency department's long waits are often not caused by the
+emergency department. Patients who need admission wait there because no ward bed is free. The ward
+bed is not free because a patient in it is ready to leave but cannot, perhaps because a care home
+place or support at home has not been arranged. The block is at the back door, and the queue
+appears at the front door.</p>
+
+<p>The mathematics of queues explains why this gets worse so quickly. When a system runs close to
+full capacity, small random rises in demand cause waiting times to shoot up, not gently but steeply.
+A hospital running at very high bed occupancy has no slack for a bad flu week. Many planners in
+England have used around 85 percent occupancy as a rough safe level, although the right figure varies
+with the size of the hospital. Many hospitals run well above it for long periods.</p>
+
+<p><strong>Hospital flow is a whole-system problem: the emergency department is where the queue
+shows, not usually where it starts.</strong> This is why social care for older people, which looks
+like a separate service, is one of the strongest levers on hospital performance. England's target,
+set in 2004, that 95 percent of emergency patients should be seen and admitted or discharged within
+four hours made this visible, because it is regularly missed when the rest of the system is
+blocked.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The people inside</h2>
+</header>
+
+<p>Doctors are the visible face of a hospital, but nurses are its backbone. They are the largest
+professional group and the ones at the bedside around the clock. Around them work pharmacists,
+physiotherapists, radiographers, laboratory scientists, porters, cleaners, cooks, IT staff and
+managers. Clinical work is organised into departments by specialty, each led by senior doctors,
+with nursing led separately.</p>
+
+<p>Nurse staffing has some of the clearest evidence in hospital research. A well-known 2002 study by
+Linda Aiken and colleagues, looking at surgical patients in Pennsylvania hospitals, found that each
+extra patient added to a nurse's workload was linked to a rise of about 7 percent in the odds of a
+patient dying within 30 days. Later studies in Europe found similar patterns, and also linked a
+higher share of degree-educated nurses to better survival. <strong>How many nurses there are, and
+how well trained, is a safety matter, not just a cost.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>How hospitals are paid</h2>
+</header>
+
+<p>Hospitals are paid in a few standard ways, covered in detail in <a href="02-healthcare-financing.html">Healthcare
+financing</a>. Many countries now pay a fixed price per case, using <strong>diagnosis-related
+groups</strong> (DRGs): one price for a typical appendix removal, another for a typical stroke. Others
+give each hospital a <strong>global budget</strong> for the year. Some still pay per day or per
+service.</p>
+
+<p>Each method changes behaviour. Per-day payment encourages long stays. Per-case payment encourages
+short, efficient stays and more cases, and may tempt hospitals to record patients as sicker than they
+are to get a higher price, a practice called <strong>upcoding</strong>. Fixed budgets control costs
+but give little reason to treat more patients, so waiting lists can grow. Most countries mix these
+methods to balance the incentives.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Practice makes safer: volume and outcome</h2>
+</header>
+
+<p>For many complex operations, such as pancreatic cancer surgery, oesophageal surgery or certain
+heart procedures, patients do better on average in hospitals and with surgeons that perform them
+often. This <strong>volume–outcome relationship</strong> has been found again and again. Teams that
+do something frequently develop routines, spot complications earlier and handle them better.</p>
+
+<p>This is the main argument for concentrating specialist services in fewer, larger centres. England,
+for example, reorganised stroke care in London around a smaller number of specialist units, and
+studies found lower death rates afterwards. The cost is longer travel for some patients. It is a
+genuine trade-off, explored in Question 4.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Where the money goes, and where harm can happen</h2>
+  <p class="lede">Hospitals absorb the largest share of health budgets, and they are where the most
+  serious mistakes are made. Both facts shape health policy everywhere.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The biggest bill in the system</h2>
+</header>
+
+<p>In most countries, hospital care is the largest single item of health spending. Hospitals are
+staffed around the clock, use costly equipment, and treat the sickest patients. One day in intensive
+care can cost more than many visits to a family doctor.</p>
+
+<p>Countries vary hugely in how many hospital beds they keep. In the early 2020s, Japan and South Korea
+had more than twelve beds per thousand people, Germany around eight, and the United Kingdom, the
+United States and Sweden fewer than three. Fewer beds do not necessarily mean worse care. Some
+countries treat more patients as day cases or at home. But when beds are very few, the system has
+little room for surges, as COVID-19 showed. <strong>A bed count tells you less about quality than
+about how a country chooses to deliver care.</strong></p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>When care itself causes harm</h2>
+</header>
+
+<p>In 1999 the US Institute of Medicine published a report called <em>To Err Is Human</em>. It
+estimated that between 44,000 and 98,000 people died each year in American hospitals because of
+medical errors. The numbers were debated, but the report changed the conversation. It argued that
+<strong>most errors come from bad systems, not bad people</strong>: confusing drug labels, poor
+handovers, tired staff, missing information.</p>
+
+<p>The most common harm is infection. Patients are often weak, have wounds, tubes and catheters, and
+share space. The World Health Organization estimates that out of every 100 patients in acute-care
+hospitals, about 7 in high-income countries and about 15 in low- and middle-income countries will
+catch at least one infection during their stay. Many of those infections are now
+resistant to common antibiotics (see <a href="../13-medicine-and-biology.html#m6">Vol 13 · Antibiotic
+resistance</a>).</p>
+
+<p>The basic defence is the one Semmelweis found in the 1840s: clean hands. It remains hard to
+achieve consistently, because staff touch many patients and surfaces every hour. Hand-hygiene
+campaigns, alcohol gel at every bed, and checking compliance have reduced some infections
+significantly, though no hospital is free of them.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>What safety science learned from aviation</h2>
+</header>
+
+<p>Hospitals have borrowed heavily from airlines, which made flying extremely safe by studying every
+error and standardising routines. The best-known example is the <strong>WHO Surgical Safety
+Checklist</strong>, introduced in 2008. Before anaesthesia, before the first cut and before the
+patient leaves theatre, the team pauses to confirm basic things: the right patient, the right
+operation, the right side, allergies, expected blood loss, and that every instrument and swab is
+counted.</p>
+
+<p>A study of eight hospitals in different countries, published in 2009, found that after the
+checklist was introduced, deaths after surgery fell from about 1.5 percent to 0.8 percent, and major
+complications from about 11 percent to 7 percent. Later studies found smaller or mixed effects in some
+settings, often because the checklist was ticked rather than used. <strong>A checklist works when it
+changes how a team talks, not when it becomes paperwork.</strong></p>
+
+<div class="note">
+  <span class="tag">Speaking up</span>
+  <p>Part of the checklist's value is that every team member, including the most junior nurse,
+  introduces themselves by name. Research on teams suggests that people who have spoken once are more
+  likely to speak again when they notice a problem. In hierarchies where juniors fear seniors,
+  errors go unchallenged.</p>
+</div>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Big and specialised, or small and close?</h2>
+  <p class="lede">The great hospital debate in many countries is about where care should happen.
+  Both sides have strong arguments.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Concentration weighed</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Question</th><th>Fewer, larger centres</th><th>More, smaller local hospitals</th></tr></thead>
+<tbody>
+<tr><td><strong>Complex surgery</strong></td><td class="ok">Better outcomes through high volume and specialist teams.</td><td class="no">Teams see too few cases to keep skills sharp.</td></tr>
+<tr><td><strong>Access and travel</strong></td><td class="no">Longer journeys for patients and families, especially in rural areas.</td><td class="ok">Care close to home; easier visiting.</td></tr>
+<tr><td><strong>Staffing</strong></td><td class="ok">Easier to staff a specialist rota around the clock.</td><td class="no">Hard to recruit; reliance on temporary staff.</td></tr>
+<tr><td><strong>Cost</strong></td><td class="ok">Expensive equipment shared across more patients.</td><td class="mid">Higher cost per case, but less spent on transport.</td></tr>
+<tr><td><strong>Community and politics</strong></td><td class="no">Closures are deeply unpopular and seen as loss.</td><td class="ok">A local hospital is a source of jobs, pride and reassurance.</td></tr>
+</tbody></table></div>
+
+<p>The common compromise is a network: local hospitals handle common problems and stabilise
+emergencies, and specialist centres take the complex cases, with fast transfer between them.</p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The hospital as an expensive default</h2>
+</header>
+
+<p>Hospitals are excellent at acute crises: a car crash, a heart attack, a difficult birth. They are
+less suited to what most patients now have, which is several long-term conditions that flare up and
+settle. For a frail older person, a hospital stay carries its own risks: confusion (delirium), muscle
+loss from lying in bed, falls and infections. Clinicians often say that every day in bed costs an
+older patient strength that takes much longer to rebuild.</p>
+
+<p><strong>The best hospital stay for many patients is the one avoided, or the one kept short.</strong>
+That is not an argument against hospitals. It is an argument for strong <a href="03-primary-healthcare.html">primary
+care</a>, community nursing and social care, so that hospitals can do what only they can do.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Fewer beds, more hospital at home</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>More day surgery</strong></td><td>Many operations that once needed several nights, such as hernia and cataract surgery, are now done in a day.</td><td class="ok">Fairly sure: the share of day cases keeps rising as anaesthesia and techniques improve.</td></tr>
+<tr><td><strong>Concentration of specialist care</strong></td><td>Stroke, major trauma and cancer surgery are being centralised in many countries.</td><td class="ok">Fairly sure, though local resistance slows it.</td></tr>
+<tr><td><strong>Hospital at home</strong></td><td>"Virtual wards" monitor patients at home with visits and remote devices; trials suggest it can be safe for selected patients.</td><td class="mid">Plausible: a growing share of acute care moves home. See <a href="16-telemedicine.html">Telemedicine</a>.</td></tr>
+<tr><td><strong>AI for operations and flow</strong></td><td>Hospitals test prediction tools for admissions, discharges and deterioration.</td><td class="mid">Plausible, with evidence still thin. See <a href="17-ai-in-healthcare.html">AI in healthcare</a>.</td></tr>
+<tr><td><strong>Robots doing much of the routine work</strong></td><td>Robot-assisted surgery is common in some fields; logistics robots move supplies in some hospitals.</td><td class="no">Speculative beyond those niches: hospital work is very hard to automate.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The hospital as a hub, not a fortress</h2>
+</header>
+
+<p>The direction of travel in most rich systems is clear even if the pace is not. The hospital is
+becoming less a building that patients enter and stay in, and more a hub at the centre of a network:
+specialist teams, intensive care and operating theatres in the middle, with diagnostics, follow-up and
+monitoring pushed out into clinics and homes.</p>
+
+<p>In poorer countries the challenge is different. Many people have no access to safe surgery at all,
+and district hospitals lack staff, oxygen, blood and reliable electricity. For them, the priority is
+not fewer hospitals but working ones. <strong>Every system needs hospitals; the question is how to
+use them for what only they can do.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Hospitals provide care that needs beds, specialists and round-the-clock staff. They work as
+    <strong>systems of flow</strong>, where a blocked exit fills the front door. They are the
+    <strong>biggest cost</strong> in health systems and a place where <strong>harm from care</strong>,
+    especially infection and error, must be actively prevented.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>About <strong>7 in 100</strong> acute-care patients in rich countries, and <strong>15 in
+      100</strong> in poorer ones, catch an infection during their stay (WHO).</li>
+      <li><em>To Err Is Human</em> (1999): <strong>44,000–98,000</strong> deaths a year from errors in US
+      hospitals, by its estimate.</li>
+      <li>Surgical checklist study (2009): deaths fell from about <strong>1.5% to 0.8%</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Blaming the emergency department for long waits. <strong>The queue usually starts at the
+    discharge end</strong>, where patients wait for care at home or in care homes.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a hospital at 98 percent bed occupancy has far longer waits than one at 85
+    percent, even though it has only a few more patients? If so, you understand hospital flow.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Triage</dt><dd>Sorting patients by how urgently they need care, not by arrival time.</dd>
+    <dt>Elective care</dt><dd>Planned treatment, booked in advance.</dd>
+    <dt>Outpatient</dt><dd>A patient seen in hospital who goes home the same day.</dd>
+    <dt>Inpatient</dt><dd>A patient admitted to stay at least one night.</dd>
+    <dt>Bed occupancy</dt><dd>The share of a hospital's beds that are filled.</dd>
+    <dt>Discharge</dt><dd>The process of leaving hospital, with any support arranged.</dd>
+    <dt>Intensive care</dt><dd>A unit for the sickest patients, with close monitoring and life support.</dd>
+    <dt>Teaching hospital</dt><dd>A hospital linked to a medical school, with training and research.</dd>
+    <dt>DRG</dt><dd>A fixed payment for a hospital stay of a given type.</dd>
+    <dt>Healthcare-associated infection</dt><dd>An infection caught as a result of receiving care.</dd>
+    <dt>Volume–outcome relationship</dt><dd>The finding that teams doing a procedure more often get better results.</dd>
+    <dt>Delirium</dt><dd>Sudden confusion, common in older patients in hospital.</dd>
+    <dt>Virtual ward</dt><dd>Hospital-level care given at home with monitoring and visits.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Hospitals only became places you'd choose to go about a century ago. Before that they were
+    where the poor went to die."</li>
+    <li>"Long waits in emergency are usually caused by beds that can't be emptied, not by slow
+    doctors."</li>
+    <li>"Most medical errors are system failures, not individual villains."</li>
+    <li>"For complex surgery, go where they do it often. Volume really does improve outcomes."</li>
+    <li>"A simple surgical checklist cut deaths sharply in its first big study, when teams actually
+    used it."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="05-disease-prevention.html">Disease prevention</a></h4><p>The
+  cheapest care of all: stopping illness before anyone needs a hospital bed.</p></div>
+  <div class="card"><h4>Related · <a href="15-healthcare-technology.html">Healthcare technology</a></h4><p>The
+  machines, records and devices that hospitals depend on, and what they change.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

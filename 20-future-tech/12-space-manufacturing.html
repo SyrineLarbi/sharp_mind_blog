@@ -1,0 +1,877 @@
+<!doctype html>
+<!--@HEAD-SRC title="Space Manufacturing" desc="Making things in orbit and beyond: what weightlessness and vacuum change, which products might be worth the trip, what history teaches, and an honest outlook."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Space Manufacturing</title>
+<meta name="description" content="Making things in orbit and beyond: what weightlessness and vacuum change, which products might be worth the trip, what history teaches, and an honest outlook.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Future &amp; Emerging Technologies · Topic 12 of 20</p>
+  <h1>Space manufacturing. <span class="thin">A factory where nothing sinks, nothing rises, and every kilogram costs a fortune to move.</span></h1>
+  <p class="lede">For fifty years people have predicted factories in orbit, and for fifty years the
+  factories have not arrived. The reason is simple arithmetic. Getting anything into space is
+  expensive, and bringing it back safely is hard. Two things have changed since about 2015. Launch has
+  become much cheaper, and small companies have started flying capsules that make a product in orbit
+  and land it on Earth. The idea is no longer science fiction. Whether it becomes an industry depends
+  on finding products that are worth more per kilogram than the trip costs.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No physics assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Future tech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../50-whats-coming.html#c7"><span class="vn">Vol 50 · ch 07</span><b>Space, brains and the further edges</b><em>The short version</em></a>
+<a class="vol" href="../13-astronomy-space/19-space-stations.html"><span class="vn">Astronomy · 19</span><b>Space stations</b><em>Where the work happens</em></a>
+<a class="vol" href="14-smart-cities.html"><span class="vn">Future · 14</span><b>Smart cities</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 50 looks at space only briefly (<a href="../50-whats-coming.html#c7">Space, brains and the
+  further edges</a>). <a href="../13-astronomy-space/19-space-stations.html">Space stations</a> explains
+  the orbiting laboratories where most experiments so far have taken place, and
+  <a href="../13-astronomy-space/15-space-exploration.html">Space exploration</a> explains why
+  astronauts float. <a href="../14-engineering/11-3d-printing.html">3D printing</a> covers the method
+  that most in-space building relies on. This file is about the business and physics of making things
+  up there.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Making things where gravity no longer pulls them apart</h2>
+  <p class="lede">Space manufacturing means producing materials or objects outside Earth's atmosphere.
+  It covers three quite different ideas, and it helps to keep them apart.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A capsule full of medicine lands in the desert</h2>
+</header>
+
+<p>In June 2023 a small Californian company called Varda Space Industries put a capsule the size of a
+large kitchen oven into orbit. Inside was a tiny automated chemistry lab. Its job was to dissolve a
+drug, let the solution cool, and grow crystals of the drug while the whole spacecraft floated in free
+fall. The drug was <strong>ritonavir</strong>, an HIV medicine.</p>
+
+<p>The chemistry worked within weeks. Getting home took far longer: regulators had to agree where
+and when the capsule could land, and Varda waited months for permission. In February 2024 the capsule finally came down under a parachute on a military
+test range in Utah. It was widely described as the first time a private company had made a product in orbit on purpose
+and returned it from a free-flying spacecraft.</p>
+
+<p>Why ritonavir? Because it has a famous history. In 1998, years after the drug went on sale, a new
+crystal form appeared in the factory. That form dissolved less well in the body, and the original
+capsules had to be withdrawn and reformulated. The lesson was that <strong>the same molecule can stack
+into different crystals, and the stacking changes how a medicine works</strong>. If space lets you
+control the stacking more precisely, that could be worth paying for. That, in one story, is the whole
+promise of space manufacturing, and also its challenge.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Three kinds of space manufacturing</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Kind</th><th>The idea</th><th>Example</th><th>Where it stands (2026)</th></tr></thead>
+<tbody>
+<tr><td><strong>In space, for Earth</strong></td><td>Make something better up there, bring it down and sell it</td><td>Drug crystals, special optical fibre, semiconductor crystals</td><td>First commercial capsules flown; no mass market yet</td></tr>
+<tr><td><strong>In space, for space</strong></td><td>Build or repair equipment where it will be used, instead of launching it finished</td><td>3D-printed tools on the space station; assembling large structures in orbit</td><td>Small demonstrations on the International Space Station</td></tr>
+<tr><td><strong>From space resources</strong></td><td>Use materials found on the Moon, Mars or asteroids instead of carrying them from Earth</td><td>Water from lunar ice; oxygen from Martian air; bricks from Moon dust</td><td>Laboratory work and one small oxygen experiment on Mars</td></tr>
+</tbody></table></div>
+
+<p>The first kind is a business question: can a product earn enough on Earth to pay for the round
+trip? The second and third are logistics questions: is it cheaper to make something in space than to
+lift it out of Earth's gravity? Engineers call the third kind <strong>in-situ resource
+utilisation</strong>, usually shortened to ISRU. "In situ" is Latin for "in place". It means living off the land.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>What is actually different up there</h2>
+</header>
+
+<p>People often say there is "no gravity" in orbit. That is wrong. At the height of the International
+Space Station, about 400 kilometres up, gravity is still about 90 per cent as strong as on the ground.
+Astronauts float because the station and everything in it are <strong>falling together</strong>
+around the Earth, moving sideways so fast that they keep missing it. Inside a falling box, nothing
+presses on anything else. Scientists call this condition <strong>microgravity</strong>, because tiny
+forces remain from air drag and the spacecraft's own movements.</p>
+
+<p>Space also offers a nearly perfect <strong>vacuum</strong>, strong sunlight for power, and room.
+It brings problems too: radiation that damages electronics and cells, huge temperature swings, and no
+easy way to fix a machine that breaks.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Remove the weight, and liquids start to behave differently</h2>
+  <p class="lede">Most of the benefit comes from switching off three everyday effects that gravity
+  causes. Then comes the hard part: launching the factory and getting the product home.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>No sinking, no rising, no stirring</h2>
+</header>
+
+<p>On Earth, gravity quietly shapes every liquid process. Heat a pan of soup and the warm liquid at
+the bottom rises while cooler liquid sinks. That circulation is called <strong>convection</strong>.
+Mix sand into water and the sand settles to the bottom. That is <strong>sedimentation</strong>. And a
+bubble in a liquid floats up because of <strong>buoyancy</strong>. All three depend on weight. In
+free fall, none of them happens in the normal way.</p>
+
+<p>Now think about a crystal growing in a solution. On Earth, the liquid around the crystal is
+constantly stirred by convection, and the growing crystal tends to sink. Molecules arrive unevenly,
+and defects build in. In microgravity, molecules reach the crystal mainly by slow, even
+<strong>diffusion</strong>, the random drifting of molecules from crowded areas to empty ones. The
+result can be larger, more regular crystals. <strong>Calm conditions give order a chance.</strong></p>
+
+<p>A fourth effect is called <strong>containerless processing</strong>. On Earth, molten metal or glass
+must sit in a container whose walls can contaminate it. In orbit, a blob of liquid can float freely,
+held in place by sound waves or electric fields, which allows unusually pure materials.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The products people are betting on</h2>
+</header>
+
+<p>Every candidate product shares one feature: <strong>it must be worth far more per kilogram than
+the cost of the trip</strong>. That rules out steel, cement and almost everything else. Here are the
+serious candidates.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Drug crystals</h4><p>Protein drugs such as antibodies are often hard to
+  crystallise. Better crystals help scientists see the molecule's shape and can make a medicine easier
+  to store or inject. The drug maker Merck has run experiments on the space station with its cancer
+  drug Keytruda and has said they helped it understand how to make more uniform crystals. Usually the space crystal guides the Earth process; it is not the product.</p></div>
+  <div class="card"><h4>Special optical fibre</h4><p>A glass called <strong>ZBLAN</strong> (named after
+  the fluorides of zirconium, barium, lanthanum, aluminium and sodium) could in theory carry light with
+  much less loss than ordinary silica fibre. On Earth, tiny crystals form while it cools and scatter the
+  light. Experiments suggest fewer crystals form in microgravity. Several companies have drawn test
+  fibre on the space station. Whether it can be made in useful lengths at a sensible price is still
+  unproven.</p></div>
+  <div class="card"><h4>Semiconductor crystals</h4><p>Computer chips start as large, ultra-pure
+  crystals. Some specialist materials used in power electronics and radio equipment are hard to grow
+  without defects. A British start-up, Space Forge, aims to grow "seed" crystals in orbit that would
+  then be used to grow larger crystals on Earth. Its first satellite was lost in 2023 when the rocket
+  carrying it failed.</p></div>
+  <div class="card"><h4>Living tissue</h4><p>On Earth, soft printed tissue collapses under its own
+  weight before it can mature. In microgravity, a printed structure can hold its shape while cells
+  grow. Researchers have tested <strong>bioprinting</strong>, printing with living cells, on the space
+  station. Making full transplantable organs this way is a long-range hope, not a near product. See
+  <a href="08-lab-grown-organs.html">Lab-grown organs</a>.</p></div>
+</div>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The round trip: up, work, down</h2>
+</header>
+
+<p>A space factory faces three expensive steps, and any one of them can kill the business.</p>
+
+<div class="sheet">
+  <div class="cap">The economics of a product made in orbit</div>
+<pre>
+  1. LAUNCH            2. OPERATE                 3. RETURN
+  rocket ride          automated lab, power,      heat shield, parachute,
+  paid per kilogram    radio link, no repairman   landing permit, recovery team
+
+  value of product  must be greater than  launch + operate + return + risk of loss
+       (per kg)                                  (per kg)
+</pre>
+</div>
+
+<p><strong>Launch</strong> is the step that has changed most. In the Space Shuttle era, by common
+estimates, putting a kilogram into low orbit cost more than 50,000 US dollars in today's money. A
+reusable SpaceX Falcon 9, whose first stage lands and flies again, brought the advertised price down to
+a few thousand dollars per kilogram. Rideshare missions, where many small satellites share one rocket,
+made Varda possible.</p>
+
+<p><strong>Operating</strong> in orbit means the factory must run itself, by radio, with no
+worker to unblock a pipe. On the space station, astronauts can help, but <strong>astronaut time is one of
+the scarcest resources in existence</strong>, and experiments compete for it.</p>
+
+<p><strong>Return</strong> is the part outsiders forget. Coming back from orbit at about 28,000
+kilometres per hour heats the outside of a capsule to well over a thousand degrees Celsius. The
+capsule needs a heat shield, a parachute, a landing zone and, as Varda learned, legal permission to
+come down. The inside must stay cool enough not to ruin the product.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Building in space, for space</h2>
+</header>
+
+<p>Every object launched from Earth has to survive launch and fit inside the rocket's nose cone,
+called the <strong>fairing</strong>. The James Webb Space Telescope's 6.5-metre mirror was too wide to
+fit, so it flew folded and opened in space in a long chain of risky steps. A structure assembled or
+printed in orbit would face neither limit, so it could be lighter and larger.</p>
+
+<p>The first steps are modest. In 2014 a 3D printer on the International Space Station made its first
+plastic part, testing whether astronauts could print tools and spare parts instead of waiting months
+for a supply flight. In 2024 a European metal printer on the station produced what were reported as
+the first metal parts printed in orbit. These are demonstrations, not factories. But the logic is
+strong for long missions. <strong>A crew three years from home cannot carry a spare for every part
+that might break, but it can carry raw material and a printer.</strong></p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Living off the land: the Moon and Mars</h2>
+</header>
+
+<p>The deepest reason to make things in space is a law of rocketry. To go faster, a rocket must throw
+mass backwards, and every extra kilogram of payload needs much more than a kilogram of extra fuel. It
+also needs fuel to lift that fuel. Climbing out of Earth's gravity is by far the most expensive part
+of any journey into the solar system. The Moon's gravity is about one-sixth of Earth's, so lifting
+something off the Moon takes far less energy.</p>
+
+<p>That makes lunar materials interesting. Craters near the Moon's poles that never see sunlight hold
+<strong>water ice</strong>. Water can be drunk, split into oxygen for breathing, or turned
+into hydrogen and oxygen rocket fuel for a refuelling station. Moon dust, called <strong>regolith</strong>, can be heated and fused
+into bricks or used in printed walls. Engineers have done this with simulated lunar dust on Earth.</p>
+
+<p>On Mars, NASA's Perseverance rover carried a toaster-sized device called MOXIE. Between 2021 and
+2023 it pulled carbon dioxide from the thin Martian air and split off oxygen, producing about 120 grams
+in total. That is a tiny amount, but it was the first time anyone had made a useful resource from
+another planet's environment. <strong>It proved the chemistry, not the scale.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Better products, cheaper exploration, and a new kind of economy</h2>
+  <p class="lede">Space manufacturing matters for three reasons: a few products may genuinely be
+  better, exploration may become affordable, and governments see orbit as strategic territory.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The value-per-kilogram test</h2>
+</header>
+
+<p>The simplest way to judge any space manufacturing claim is to compare what the product is worth
+with what the trip costs. A rough sorting looks like this.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Product</th><th>Value per kilogram</th><th>Does space help?</th><th>Verdict</th></tr></thead>
+<tbody>
+<tr><td><strong>Specialist drug crystals</strong></td><td>Can be extremely high, because tiny amounts treat many patients</td><td>Sometimes, for crystal form and size</td><td class="ok">Most promising near-term case</td></tr>
+<tr><td><strong>Seed crystals for chips</strong></td><td>High, and one seed can grow many crystals on Earth</td><td>Possibly, through fewer defects</td><td class="mid">Promising if the quality gain is proven</td></tr>
+<tr><td><strong>ZBLAN fibre</strong></td><td>High per kilogram, since fibre is very light</td><td>Experiments suggest yes</td><td class="mid">Unproven at useful length and price</td></tr>
+<tr><td><strong>Ordinary metals, plastics, food</strong></td><td>Low</td><td>No real advantage</td><td class="no">Will never make sense to ship down</td></tr>
+<tr><td><strong>Parts and fuel used in space</strong></td><td>Very high in orbit, because the alternative is launching them</td><td>Yes, if made from local materials</td><td class="mid">Depends on lasting human presence beyond Earth</td></tr>
+</tbody></table></div>
+
+<p>Notice the last row. <strong>Something cheap on Earth can be very valuable in orbit</strong>,
+because its real price includes the launch. A litre of water costs almost nothing at home and
+thousands of dollars delivered to orbit. That is why the long-term case for space manufacturing is
+mostly about supplying activity in space, not about selling to people on the ground.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The end of the space station era, and what replaces it</h2>
+</header>
+
+<p>Most microgravity research so far has happened on the International Space Station, run since 2000
+by the United States, Russia, Europe, Japan and Canada. It is ageing. NASA plans to retire it around
+2030 and has contracted SpaceX to build a vehicle that will push it down to burn up over the ocean.
+China operates its own station, Tiangong, completed in 2022.</p>
+
+<p>NASA's plan is to become a customer rather than an owner. Several American companies, including
+Axiom Space, Vast, and teams behind projects called Starlab and Orbital Reef, are designing private
+stations. If they fail to find enough customers, there could be a gap with no Western crewed
+laboratory in orbit. <strong>Space manufacturing is not just a hope for these stations; it is part of how they intend to
+pay their bills.</strong></p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The factory that never opened: a lesson from the 1980s</h2>
+</header>
+
+<p>This is not the first wave of excitement. In the early 1980s, the American aerospace firm McDonnell
+Douglas developed a machine to purify biological substances on the Space Shuttle using
+<strong>electrophoresis</strong>, a method that separates molecules by pulling them through a liquid
+with an electric field. On Earth, convection spoils the separation; in orbit, it worked better. In
+1984 one of the company's engineers, Charles Walker, flew on the Shuttle to run it, the first person
+from private industry to fly as a crew member for a company's own project.</p>
+
+<p>Two things ended the plan. After the Challenger disaster in 1986, Shuttle flights stopped for more
+than two years. And on the ground, genetic engineering advanced, letting companies make the target
+hormone in bacteria and cell cultures cheaply. <strong>Earth caught up.</strong> That is the risk for
+every space product: a clever ground process may solve the same problem far more cheaply. </p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Unique conditions, brutal logistics</h2>
+  <p class="lede">The physics of orbit offers real advantages. The difficulty is almost entirely
+  practical: cost, access, repair and return.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Microgravity</strong></td><td class="ok">Calmer liquids, larger crystals, no sinking, containerless melts</td><td class="no">Only some processes benefit, and the gain must be proven product by product</td></tr>
+<tr><td><strong>Vacuum and cold</strong></td><td class="ok">Free, vast and very clean</td><td class="no">Equipment must be built to survive it; lubricants and seals behave oddly</td></tr>
+<tr><td><strong>Location</strong></td><td class="ok">Parts made in orbit avoid launch stress and size limits</td><td class="no">No repair crew, slow communications further out, and a long way home</td></tr>
+<tr><td><strong>Local resources</strong></td><td class="ok">Water, oxygen and building material without lifting them from Earth</td><td class="no">Mining and processing in harsh places is unproven at any scale</td></tr>
+<tr><td><strong>Cost trend</strong></td><td class="ok">Launch prices have fallen sharply and may fall further</td><td class="no">Return, insurance and regulation remain expensive and slow</td></tr>
+<tr><td><strong>Competition from Earth</strong></td><td class="ok">Space results can teach better ground processes</td><td class="no">The same lesson can make the orbital factory unnecessary</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>The costs that are not on the invoice</h2>
+</header>
+
+<p>Every object in orbit adds to a crowded environment. Low Earth orbit already holds many thousands of
+satellites and a cloud of fast-moving debris, and one collision can create thousands of fragments. Scientists have long
+warned of a chain reaction, sometimes called the <strong>Kessler syndrome</strong> after the NASA
+scientist Donald Kessler, in which collisions breed more collisions. Responsible space factories must
+plan how their hardware will come down safely.</p>
+
+<p>Return brings its own risks. Capsules must land in empty areas, and each landing needs legal approval.
+The rules were written for governments, not frequent commercial deliveries. And there is a question of fairness. The 1967
+<strong>Outer Space Treaty</strong> says no nation can claim the Moon or other bodies. American law
+since 2015 says companies can own resources they extract. Not every country agrees that these two
+positions fit together, and the question of who may mine the Moon is contested.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>A niche industry first, an off-world supply chain much later</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three horizons, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Small return capsules for high-value products</strong></td><td>Varda has flown several missions since 2023; other start-ups are preparing their own. Products so far are research samples.</td><td class="ok">Fairly sure: regular flights within a decade, mainly for drug development and materials research. A large market is not guaranteed.</td></tr>
+<tr><td><strong>Commercial stations with factory modules</strong></td><td>Designs under way, partly funded by NASA, with the ISS due to retire around 2030.</td><td class="mid">Plausible: one or two private stations in orbit by the early 2030s. Whether manufacturing pays a large share of their costs is uncertain.</td></tr>
+<tr><td><strong>Building large structures in orbit</strong></td><td>Small printing and robotic assembly tests.</td><td class="mid">Plausible: assembled antennas or telescopes larger than any rocket could carry, mostly for governments.</td></tr>
+<tr><td><strong>Fuel and building material from the Moon</strong></td><td>Laboratory work; the MOXIE oxygen test on Mars; lunar landers scouting for ice.</td><td class="no">Speculative: depends on a lasting human base and on confirming how much usable ice exists.</td></tr>
+<tr><td><strong>Asteroid mining for Earth markets</strong></td><td>Earlier asteroid-mining start-ups of the 2010s ran out of money or changed direction.</td><td class="no">Speculative: flooding Earth with space metals would also crash their price.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>How to read the next headline</h2>
+</header>
+
+<p>Three questions cut through most announcements. First, <strong>what is the value
+per kilogram</strong>, and is it far above the cost of launch and return? Second, is the space product
+the thing being sold, or only a lesson for improving a process on Earth? Third, has anyone flown it,
+brought it back and sold it to a paying customer who is not a government research agency?</p>
+
+<p>The most likely future is undramatic: small capsules of high-value samples, used mostly as a
+research tool. The bigger vision, factories that supply ships, stations and bases
+from material found in space, depends on whether people actually go and stay. <strong>Space
+manufacturing will grow as fast as space activity grows, and no faster.</strong> Its fate is tied to
+the wider future of exploration, which is covered in
+<a href="../13-astronomy-space/15-space-exploration.html">Space exploration</a> and
+<a href="../13-astronomy-space/18-moon-exploration.html">Moon exploration</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>In orbit, everything is <strong>falling together</strong>, so convection, sinking and buoyancy
+    almost disappear. That helps a few processes, such as <strong>growing crystals</strong>. The
+    question is always economic: is the product worth more per kilogram than the
+    <strong>launch, operation and return</strong>?</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Gravity at space-station height is still about <strong>90 per cent</strong> of the ground
+      value.</li>
+      <li>Launch fell from <strong>over 50,000 dollars</strong> per kilogram (Shuttle era, today's
+      money) to <strong>a few thousand</strong> on a reusable rocket.</li>
+      <li>The ISS is due to retire around <strong>2030</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking cheap launch alone makes space factories inevitable. <strong>Return, repair and
+    competition from improved ground processes</strong> are just as decisive, and they ended the
+    first wave in the 1980s.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a litre of water could be worth more in orbit than a gram of space-grown
+    crystal is worth on Earth, and what that implies about where space manufacturing will grow first?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Microgravity</dt><dd>The near-weightless condition inside a spacecraft in free fall. Gravity is still there; nothing presses on anything else.</dd>
+    <dt>Convection</dt><dd>The circulation of a liquid or gas as warm parts rise and cool parts sink. It needs weight.</dd>
+    <dt>Sedimentation</dt><dd>Heavier particles settling to the bottom of a liquid.</dd>
+    <dt>Diffusion</dt><dd>The slow, random spreading of molecules from crowded areas to empty ones.</dd>
+    <dt>Crystal form (polymorph)</dt><dd>One of several ways the same molecule can stack into a solid. Different forms can dissolve differently.</dd>
+    <dt>Containerless processing</dt><dd>Melting or treating a material while it floats, so no container touches or contaminates it.</dd>
+    <dt>ZBLAN</dt><dd>A fluoride glass that might carry light with very low loss if made without tiny crystals.</dd>
+    <dt>Fairing</dt><dd>The nose cone that protects a payload during launch and limits its size.</dd>
+    <dt>Re-entry</dt><dd>Coming back through the atmosphere from orbit, which heats a capsule's outside enormously.</dd>
+    <dt>ISRU</dt><dd>In-situ resource utilisation: making what you need from materials found where you are.</dd>
+    <dt>Regolith</dt><dd>The loose dust and broken rock covering the Moon and other airless bodies.</dd>
+    <dt>Kessler syndrome</dt><dd>A feared chain reaction in which debris collisions create more debris and more collisions.</dd>
+    <dt>Outer Space Treaty</dt><dd>The 1967 agreement that no nation may claim the Moon or other celestial bodies.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Astronauts don't float because there's no gravity. They float because they're falling, and so
+    is everything around them."</li>
+    <li>"The only space products that make sense are ones worth far more per kilogram than the cost of
+    the round trip."</li>
+    <li>"Often the real value of a space experiment is what it teaches you about making the thing better
+    on Earth."</li>
+    <li>"Water is cheap on Earth and precious in orbit. That's why the long-term case is about supplying
+    space, not selling to us."</li>
+    <li>"The first space-factory boom died in the 1980s because Earth caught up. The new one has to beat
+    that."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="14-smart-cities.html">Smart cities</a></h4><p>Back to Earth:
+  what happens when sensors, data and software are laid over a whole city, and who gets to decide what
+  they are used for.</p></div>
+  <div class="card"><h4>Related · <a href="../13-astronomy-space/19-space-stations.html">Space
+  stations</a></h4><p>The orbiting laboratories where nearly all microgravity research has happened,
+  how they are kept alive, and what replaces the ISS.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

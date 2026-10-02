@@ -1,0 +1,864 @@
+<!doctype html>
+<!--@HEAD-SRC title="Telemedicine" desc="What telemedicine is, how remote consultations and monitoring actually work, what the pandemic proved, where distance care helps or harms, and where it is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Telemedicine</title>
+<meta name="description" content="What telemedicine is, how remote consultations and monitoring actually work, what the pandemic proved, where distance care helps or harms, and where it is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Public Health &amp; Society · Topic 16 of 20</p>
+  <h1>Telemedicine. <span class="thin">The doctor did not change. The distance did.</span></h1>
+  <p class="lede">For most of history, getting medical care meant that the patient and the clinician
+  had to be in the same room. Telemedicine breaks that rule. A consultation can happen by video, a
+  scan can be read on another continent, and a heart can be watched from a hospital while its owner
+  sleeps at home. The idea is over a century old. What changed is that, in 2020, a pandemic forced
+  almost every health system to try it at once. This file explains what telemedicine is, how it
+  works, what that giant experiment showed, and why "remote" is a tool rather than a replacement.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Public Health</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="15-healthcare-technology.html"><span class="vn">Public Health · 15</span><b>Healthcare technology</b><em>The wider system</em></a>
+<a class="vol" href="03-primary-healthcare.html"><span class="vn">Public Health · 03</span><b>Primary healthcare</b><em>Where most visits happen</em></a>
+<a class="vol" href="17-ai-in-healthcare.html"><span class="vn">Public Health · 17</span><b>AI in healthcare</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first full treatment of telemedicine. The nearest neighbour is
+  <a href="15-healthcare-technology.html">Healthcare technology</a>, which explains how any new tool is
+  approved, paid for and adopted. For the stroke example used below, Volume 45 explains the disease
+  itself (<a href="../45-the-conditions.html#c4">Stroke, the same disease in the brain</a>).</p>
+</div>
+
+<div class="warn">
+  <span class="tag">General education</span>
+  <p>This explains how remote care works as a system. It is not medical advice. Some symptoms, such
+  as chest pain, sudden weakness or difficulty breathing, need emergency services in person, not a
+  video call.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Care delivered across a distance, in four main forms</h2>
+  <p class="lede">Telemedicine is not one technology. It is a family of ways to move information,
+  instead of moving people.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A radio in the outback</h2>
+</header>
+
+<p>In the 1920s, the interior of Australia was one of the emptiest inhabited places on Earth. A
+farmer injured on a remote station might be days from the nearest doctor. A Presbyterian minister,
+John Flynn, campaigned for a solution, and in 1928 what became the <strong>Royal Flying Doctor
+Service</strong> made its first flight. The aircraft was only half the idea. The other half was the
+radio. An engineer, Alfred Traeger, designed a radio set powered by pedals, so that a family with no
+electricity could call a base and describe the problem. A doctor could give advice over the air and
+decide whether the plane needed to come.</p>
+
+<p>That combination still describes telemedicine today. <strong>Most of the value is in deciding,
+from a distance, who needs to travel and who does not.</strong> The pedal radio has become a
+smartphone, and the plane is often an ambulance, but the logic is the same. Telemedicine is at its
+best when distance is the main barrier between a person and the right decision.</p>
+
+<p>The idea is even older. In the early 1900s the Dutch physiologist Willem Einthoven, inventor of the
+practical electrocardiogram (ECG, a recording of the heart's electrical activity), sent heart
+recordings along telephone wires from a hospital to his laboratory more than a kilometre away. He
+called the result a "telecardiogram".</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The four forms</h2>
+</header>
+
+<p>Two words are often mixed up. <strong>Telemedicine</strong> usually means clinical care at a
+distance: diagnosing and treating. <strong>Telehealth</strong> is wider and also includes health
+education, training of staff and administration. Within telemedicine, four forms matter.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Form</th><th>How it works</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Live (synchronous)</strong></td><td>Patient and clinician talk in real time, by video or phone</td><td>A GP appointment by video; a therapy session</td></tr>
+<tr><td><strong>Store-and-forward (asynchronous)</strong></td><td>Information is captured, sent, and reviewed later</td><td>A photo of a rash sent to a dermatologist; an X-ray read overnight in another country</td></tr>
+<tr><td><strong>Remote patient monitoring</strong></td><td>Devices at home send measurements to a care team</td><td>A heart-failure patient's daily weight; a pacemaker reporting its own data</td></tr>
+<tr><td><strong>Clinician to clinician</strong></td><td>A local doctor consults a distant specialist, with the patient present or not</td><td>A rural emergency doctor calls a stroke neurologist</td></tr>
+</tbody></table></div>
+
+<p>The public mostly thinks of the first row. In practice, <strong>the less visible rows often bring
+the biggest clinical gains</strong>, because they move scarce specialist knowledge to where it is
+needed without anyone travelling.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>A change of place, not a new kind of medicine</h2>
+</header>
+
+<p>It is tempting to treat telemedicine as a new branch of medicine. It is more useful to see it as a
+new <em>place</em> where ordinary medicine happens. The clinical questions do not change. What is
+wrong? How sure are we? What should happen next? What changes is which information is available.</p>
+
+<p>On a video call a doctor can see your face, your breathing, your skin and your home, and can hear
+how you describe things. They cannot press on your abdomen, listen to your lungs or feel your pulse.
+Some home devices, such as blood-pressure cuffs, digital stethoscopes and pulse oximeters, fill part
+of that gap. So the right question is never "is telemedicine good?". It is <strong>"for this problem,
+is the information we can get remotely enough to decide safely?"</strong> For a medication review,
+usually yes. For a child with a high fever and a stiff neck, no.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>A chain of devices, networks, rules and people</h2>
+  <p class="lede">A remote consultation looks like a simple video call. Behind it sit privacy rules,
+  licensing laws, payment codes and a care team that must know what to do with the data.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The technical chain</h2>
+</header>
+
+<p>Every telemedicine service has the same links. There is a <strong>device</strong> at the
+patient's end: a phone, a laptop, a sensor. There is a <strong>connection</strong>: mobile data,
+broadband or, in some places, satellite. There is a <strong>platform</strong>: the software that
+books the visit, runs the video and stores the notes. And there is the <strong>health
+record</strong>, which should receive what was decided so that the next clinician can see it.</p>
+
+<p>Each link has a weak point. Video needs a steady connection, which many rural and poor households
+lack. Platforms must protect privacy: in the United States, a law called HIPAA (the Health Insurance
+Portability and Accountability Act) sets rules for health data, and the EU's data protection law,
+the GDPR, treats health data as a special category needing extra protection. And if the platform does
+not connect to the main record, <strong>remote care creates a second, disconnected file about the
+same patient</strong>, which is exactly how mistakes happen.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Store-and-forward: the specialist who reads while you sleep</h2>
+</header>
+
+<p>Some of the most successful telemedicine never involves a live conversation. In
+<strong>teleradiology</strong>, scans taken in one hospital are sent electronically to radiologists
+somewhere else. A hospital in the United States, for example, may send night-time scans to
+radiologists working in daylight in Australia or India, so that results come back within an hour
+rather than waiting for morning. The images are digital already, so moving them costs almost
+nothing.</p>
+
+<p><strong>Teledermatology</strong> works in a similar way. A GP photographs a mole or rash with a
+special lens and sends it to a skin specialist, who decides whether the patient needs to be seen
+urgently, routinely, or not at all. Eye screening for people with diabetes uses the same model:
+photographs taken in a high-street clinic are graded centrally. The pattern is consistent.
+<strong>Where a diagnosis depends mainly on an image, distance hardly matters.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Telestroke: when minutes are brain</h2>
+</header>
+
+<p>The strongest evidence for live telemedicine comes from stroke. Most strokes are caused by a clot
+blocking an artery in the brain. A clot-dissolving drug can limit the damage, but only if it is given
+within a few hours, and only after a brain scan has ruled out bleeding, because the same drug would
+make a bleed worse. The decision needs a specialist. Small hospitals often do not have one on duty at
+3 a.m.</p>
+
+<p>In a <strong>telestroke network</strong>, the local team scans the patient and connects by video
+to a stroke neurologist at a larger centre. The neurologist reviews the scan, examines the patient on
+camera, using a standard scoring checklist for things like arm weakness and speech, and advises
+whether to give the drug or transfer the patient for a procedure to pull the clot out. Studies in
+several countries have found that such networks get more patients treated, faster, in hospitals that
+would otherwise have no specialist. <strong>The video does not replace the neurologist. It lends one
+to a hospital that could never afford its own.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Remote monitoring: a loop, not a gadget</h2>
+</header>
+
+<p>Remote patient monitoring sounds like a device problem. It is mostly an organisation problem. Take
+heart failure, where the heart pumps weakly and fluid builds up in the body. A rise in body weight of
+a kilogram or two over a few days can be an early sign of trouble, before breathlessness starts.
+Weighing patients daily at home, and acting on the trend, can catch it early.</p>
+
+<div class="sheet">
+  <div class="cap">The monitoring loop, and where it breaks</div>
+<pre>
+  patient at home          care team                 action
+  ---------------          ---------                 ------
+  scale / cuff / sensor -> data arrives -> rule:  "weight up 2 kg in 3 days?"
+         ^                                   |
+         |                                   v
+         +---- advice, new dose  <----  nurse reviews, calls patient
+
+  breaks if:  patient stops measuring     (adherence)
+              nobody is paid to review    (staffing)
+              alerts flood the team       (alert fatigue)
+</pre>
+</div>
+
+<p>Trials of remote monitoring in heart failure have had mixed results. Some found fewer hospital
+admissions, others found little difference. The difference usually lay in the loop, not the device:
+<strong>data that nobody reviews and acts on is just a more expensive way of being ignored.</strong>
+The same is true of continuous glucose monitors for diabetes, which send blood-sugar readings to a
+phone every few minutes. The device is only as good as the decisions it feeds.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The rules: who may treat, who pays, what may be prescribed</h2>
+</header>
+
+<p>Three kinds of rule decide whether telemedicine can happen at all. The first is
+<strong>licensing</strong>. A doctor is normally licensed to practise in a particular country, or in
+the United States in a particular state. In many places, a doctor may treat a patient only where the
+patient is physically located, so a New York doctor seeing a patient on holiday in Florida can be on
+shaky legal ground. Some US states have joined agreements that make multi-state licences easier, and
+EU rules allow some cross-border care, but the details vary widely.</p>
+
+<p>The second is <strong>payment</strong>. If insurers or public systems pay less, or nothing, for a
+remote visit, clinics will not offer it. The third is <strong>prescribing</strong>. Many countries
+restrict the remote prescribing of controlled drugs, such as strong painkillers and some
+stimulants, to reduce abuse. <strong>Before 2020, rules like these, more than technology, were the
+main brake on telemedicine.</strong> That is why the pandemic, which loosened many of them overnight,
+changed everything.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>The largest unplanned experiment in the history of healthcare</h2>
+  <p class="lede">In a few weeks of 2020, health systems moved routine care onto screens. The results
+  showed what remote care can do, and where it falls short.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Spring 2020</h2>
+</header>
+
+<p>When COVID-19 lockdowns began, clinics faced a stark choice: see patients remotely or not see them
+at all. Governments relaxed licensing, payment and privacy rules almost overnight. The scale of the
+switch was enormous. In the United States, according to a federal government analysis, telehealth
+visits in the Medicare programme for older people rose from under a million in 2019 to over fifty
+million in 2020. In England, many GP practices moved to "total triage", where every patient first
+contacts the practice remotely and is then offered a phone, video or in-person appointment.</p>
+
+<p>After the first waves, use fell back but stayed well above its pre-pandemic level. Mental health
+care kept the highest share of remote visits; surgery and specialties that depend on physical
+examination returned mostly to in-person care. <strong>The pandemic did not prove that telemedicine
+could replace medicine. It proved which parts of medicine were never really about being in the same
+room.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Who gains most: distance, time and stigma</h2>
+</header>
+
+<p>The people who gain most are those for whom travel is the real barrier. That includes rural
+residents, people with disabilities, people who cannot take time off work, carers who cannot leave a
+relative, and older patients with chronic conditions who need frequent, brief check-ins. A
+fifteen-minute review that used to cost half a day of travel and waiting can now cost fifteen
+minutes.</p>
+
+<p>Mental health is a special case. Talking therapies rely mostly on conversation, and many studies
+have found video therapy broadly comparable to face-to-face therapy for common conditions such as
+depression and anxiety. For some people, not having to walk into a clinic also reduces the stigma
+that stops them seeking help. Volume 43 explains what the therapies themselves do
+(<a href="../43-mind-and-mood.html#c5">Therapy, what the different kinds actually do</a>).</p>
+
+<p>Large middle-income countries show the population-scale version. India's government
+telemedicine service, eSanjeevani, launched in 2019 and expanded rapidly during the pandemic,
+connecting patients at local health centres with doctors elsewhere. By official counts it had
+delivered more than a hundred million consultations by 2023. <strong>Where doctors are scarce and
+unevenly spread, telemedicine is less a convenience than a way of redistributing them.</strong></p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>What the evidence says, and what it does not</h2>
+</header>
+
+<p>The research picture is more cautious than the marketing. Reviews have found that for many
+follow-up visits, medication reviews, mental health care and long-term condition management, remote
+care gives results broadly similar to in-person care, with high patient satisfaction. For telestroke
+and teleradiology, the case is strong.</p>
+
+<p>The weaker points are also clear. A 2019 US study of children with respiratory infections found
+that those seen through direct-to-consumer telemedicine apps were more likely to be prescribed
+antibiotics than those seen in person, which is the wrong direction, because most such infections are
+viral. Some studies suggest that easier access adds visits rather than replacing them, so total
+costs can rise. And many studies are short, small or run by enthusiastic early adopters.
+<strong>"As good as in-person" has been shown for some uses, not for medicine in general.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Access and convenience, against touch, fragmentation and new divides</h2>
+  <p class="lede">The same feature, removing the need to be in the room, creates most of the benefits
+  and most of the risks.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The balance sheet</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Issue</th><th>The advantage</th><th>The disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Access</strong></td><td class="ok">Reaches rural, housebound and time-poor patients; brings specialists to small hospitals.</td><td class="no">Excludes people without devices, data, privacy at home or digital skills, often the same people who already struggle.</td></tr>
+<tr><td><strong>Examination</strong></td><td class="ok">Enough for many reviews, mental health care and image-based diagnosis.</td><td class="no">No touch, no listening to the chest; serious signs can be missed.</td></tr>
+<tr><td><strong>Continuity</strong></td><td class="ok">Quick check-ins with the patient's own clinician become easy.</td><td class="no">App-based services can fragment care across strangers who never see the full record.</td></tr>
+<tr><td><strong>Cost</strong></td><td class="ok">Saves travel and waiting time; can prevent some admissions.</td><td class="no">Easier access can add visits rather than replace them.</td></tr>
+<tr><td><strong>Quality</strong></td><td class="ok">Strong results for stroke networks and remote image reading.</td><td class="no">Some app services prescribe antibiotics more freely.</td></tr>
+<tr><td><strong>Workforce</strong></td><td class="ok">Clinicians can work flexibly, or from other regions.</td><td class="no">Remote work can be draining, and constant messages blur working hours.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>The convenience trap</h2>
+</header>
+
+<p>The boom in telemedicine brought a wave of companies offering doctors on demand through an app.
+Some built useful services. Others discovered that a model built on quick, one-off consultations
+does not easily make money or deliver good care. The UK company Babylon Health, once valued at
+several billion dollars and running an NHS GP service in London, collapsed in 2023.
+Its story is a reminder that <strong>growth in users is not the same as a working model of
+care</strong>.</p>
+
+<p>The deeper risk is to <strong>continuity of care</strong>: being looked after over years by people
+who know you. Research has long linked continuity with fewer hospital admissions and better outcomes.
+A patient who sees a different stranger each time, through different apps, gets fast answers but no
+one who notices the slow pattern. The best systems use remote care to <em>strengthen</em> the
+relationship with a regular team, not to replace it.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Hybrid by default</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Hybrid care as the normal model</strong></td><td>Most systems now mix in-person, phone, video and messaging, though rules on payment are still being settled in several countries as of 2025.</td><td class="ok">Fairly sure: remote options will stay a permanent part of routine care, especially for follow-up and mental health.</td></tr>
+<tr><td><strong>Hospital at home</strong></td><td>Programmes in several countries treat selected acutely ill patients at home with remote monitoring and visiting staff.</td><td class="ok">Fairly sure to grow, because hospital beds are expensive and scarce; the open question is which patients are safe to treat this way.</td></tr>
+<tr><td><strong>Better home diagnostics</strong></td><td>Connected stethoscopes, ear cameras and smartwatch heart-rhythm alerts exist; their accuracy varies.</td><td class="mid">Plausible: the remote "examination" will get richer, narrowing the gap with an in-person visit.</td></tr>
+<tr><td><strong>Software as first contact</strong></td><td>Symptom checkers and chat tools already triage patients in some services; evidence on their safety is mixed.</td><td class="mid">Plausible but contested. See <a href="17-ai-in-healthcare.html">AI in healthcare</a>.</td></tr>
+<tr><td><strong>Global specialist markets</strong></td><td>Teleradiology already crosses borders.</td><td class="no">Speculative for most specialties: licensing, liability and language remain hard barriers.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>The right question for every new service</h2>
+</header>
+
+<p>The arguments of the 2020s will be less about whether telemedicine works and more about where it
+belongs. Health systems are writing rules on which conditions can be handled remotely, how remote
+visits are paid, and how to make sure people without good internet are not pushed to the back of the
+queue. The digital divide is the issue most likely to decide whether telemedicine reduces
+inequality or widens it, as <a href="09-health-inequality.html">Health inequality</a> explains.</p>
+
+<p>For a citizen, one test covers almost every case. When a remote service is offered, ask:
+<strong>would the decision be any different if I were in the room?</strong> If not, remote care saves
+time for everyone. If yes, insist on being seen. That simple question sums up the whole field.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Telemedicine moves <strong>information instead of people</strong>, in four forms: live
+    consultations, store-and-forward, remote monitoring and clinician-to-clinician advice. It works
+    best <strong>where distance is the main barrier and the decision does not need touch</strong>.
+    Its limits are physical examination, the digital divide and fragmented care.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>1928: the Royal Flying Doctor Service starts in Australia, using pedal-powered radio.</li>
+      <li>US Medicare telehealth visits went from <strong>under 1 million in 2019 to over 50
+      million in 2020</strong>.</li>
+      <li>India's eSanjeevani passed <strong>100 million</strong> consultations by 2023, by official
+      counts.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Asking "is telemedicine as good as a real visit?" as if there were one answer. <strong>It
+    depends entirely on the problem.</strong> For a medication review, usually yes. For a stiff neck
+    and a fever, no.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a telestroke network improves care while a heart-failure monitoring
+    scheme sometimes does not? If you can, you have understood that the loop matters more than the
+    device.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Telemedicine</dt><dd>Clinical care, diagnosis and treatment, delivered at a distance.</dd>
+    <dt>Telehealth</dt><dd>The wider term, which also covers remote education, training and administration.</dd>
+    <dt>Synchronous</dt><dd>Happening in real time, as in a live video or phone consultation.</dd>
+    <dt>Store-and-forward</dt><dd>Capturing information, such as a photo or scan, and sending it to be reviewed later.</dd>
+    <dt>Remote patient monitoring</dt><dd>Home devices sending regular measurements to a care team.</dd>
+    <dt>Teleradiology</dt><dd>Reading scans in a different place from where they were taken.</dd>
+    <dt>Telestroke</dt><dd>A network that links small hospitals by video to stroke specialists.</dd>
+    <dt>Total triage</dt><dd>A system where every patient first contacts the practice remotely and is then directed to the right kind of appointment.</dd>
+    <dt>Digital divide</dt><dd>The gap between people who have devices, connection and skills and people who do not.</dd>
+    <dt>Continuity of care</dt><dd>Being cared for over time by the same clinician or team.</dd>
+    <dt>Alert fatigue</dt><dd>When so many automatic warnings arrive that staff start ignoring them.</dd>
+    <dt>Hospital at home</dt><dd>Treating selected acutely ill patients at home with monitoring and visits instead of a ward bed.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Telemedicine doesn't change the medicine. It changes where the medicine happens."</li>
+    <li>"The pandemic showed which parts of healthcare were never really about being in the same
+    room."</li>
+    <li>"Telestroke doesn't replace the neurologist. It lends one to a hospital that couldn't afford
+    its own."</li>
+    <li>"Monitoring data that nobody reviews is just a more expensive way of being ignored."</li>
+    <li>"The test is simple: would the decision be different if you were in the room?"</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="17-ai-in-healthcare.html">AI in healthcare</a></h4><p>When
+  software does not just carry the information but interprets it: where medical AI genuinely helps,
+  and how it fails.</p></div>
+  <div class="card"><h4>Related · <a href="19-healthcare-access-in-developing-countries.html">Healthcare
+  access in developing countries</a></h4><p>Where the shortage of doctors is most severe, and where
+  mobile phones have already changed what care can reach.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

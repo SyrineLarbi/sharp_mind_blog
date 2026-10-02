@@ -1,0 +1,847 @@
+<!doctype html>
+<!--@HEAD-SRC title="Autonomous Systems" desc="Machines that sense, decide and act without a person at the controls: drones, mining trucks, farm and ocean robots, Mars rovers and autonomous weapons, with their benefits, risks and outlook."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Autonomous Systems</title>
+<meta name="description" content="Machines that sense, decide and act without a person at the controls: drones, mining trucks, farm and ocean robots, Mars rovers and autonomous weapons, with their benefits, risks and outlook.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Future &amp; Emerging Technologies · Topic 04 of 20</p>
+  <h1>Autonomous systems. <span class="thin">Machines that keep working when nobody is holding the controls.</span></h1>
+  <p class="lede">On a rover on Mars, a signal from Earth can take twenty minutes to arrive. In a
+  mine in Western Australia, giant trucks carry ore day and night with no one in the cab. Over the
+  battlefields of Ukraine, small drones fly through radio jamming that cuts them off from their
+  pilots. These machines have one thing in common: at some point they must decide what to do by
+  themselves. That is what "autonomous" means. This file explains how such systems work, why they are
+  spreading from space probes to farms and armies, and why the hardest questions they raise are about
+  responsibility rather than engineering.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Future tech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../01-technology/13-autonomous-vehicles.html"><span class="vn">Technology · 13</span><b>Autonomous vehicles</b><em>Self-driving cars</em></a>
+<a class="vol" href="../14-engineering/13-control-systems.html"><span class="vn">Engineering · 13</span><b>Control systems</b><em>The feedback loop</em></a>
+<a class="vol" href="../07-neuroscience/17-brain-computer-interfaces.html"><span class="vn">Future tech · 05</span><b>Brain-computer interfaces</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 50 touches self-driving cars and robots in one chapter
+  (<a href="../50-whats-coming.html#c6">Robots, vehicles and why the easy things are hard</a>), and
+  Volume 12 explains the satellite navigation that most autonomous machines depend on
+  (<a href="../12-the-physical-supply-chain.html#s6">GPS, and why it is really a clock</a>). Self-driving
+  cars have their own file, <a href="../01-technology/13-autonomous-vehicles.html">Autonomous
+  vehicles</a>, and factory automation is in <a href="../14-engineering/12-automation.html">Automation</a>.
+  This file covers everything else that moves on its own: in the air, at sea, underground, in space and in
+  war.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Automatic is not the same as autonomous</h2>
+  <p class="lede">A machine that follows a fixed sequence is automatic. A machine that chooses its own
+  actions in a changing world, towards a goal, is autonomous. The line between them is where most of the
+  difficulty lives.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The washing machine and the drone</h2>
+</header>
+
+<p>A washing machine runs a programme: fill, spin, drain, rinse. If you throw a brick in, it carries on
+regardless. It is <strong>automatic</strong>. Now picture a delivery drone crossing a town. Wind pushes it
+sideways, a crane appears that was not on the map, a bird flies close, its battery runs lower than
+expected. It must notice each change and choose what to do, without asking anyone. It is
+<strong>autonomous</strong>.</p>
+
+<p>The distinction is not about cleverness but about who handles the unexpected. <strong>An automatic
+machine leaves surprises to humans; an autonomous one is expected to cope with them itself.</strong> Most
+real systems sit in between, handling routine surprises alone and calling for help with unusual ones.</p>
+
+<p>People who design these systems describe the human's role in three ways. With a <strong>human in the
+loop</strong>, the machine proposes and a person must approve each important action. With a <strong>human
+on the loop</strong>, the machine acts by itself while a person watches and can step in. With a
+<strong>human out of the loop</strong>, nobody is watching in real time. The same drone can work in any of
+these modes, and the choice is often a policy decision rather than a technical one.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The family of machines that act alone</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Domain</th><th>Examples</th><th>Why autonomy is needed</th></tr></thead>
+<tbody>
+<tr><td><strong>Space</strong></td><td>Mars rovers, landers, deep-space probes</td><td>Radio signals take minutes to hours, so nobody can steer in real time</td></tr>
+<tr><td><strong>Mining</strong></td><td>Driverless haul trucks, drills and trains, notably in Australia's Pilbara region</td><td>Remote, dangerous sites; round-the-clock work</td></tr>
+<tr><td><strong>Agriculture</strong></td><td>Self-driving tractors, robotic weeders, crop-spraying drones</td><td>Labour shortages, long hours, precise application of chemicals</td></tr>
+<tr><td><strong>Oceans</strong></td><td>Underwater gliders, uncrewed survey boats</td><td>Radio does not travel through water; missions last months</td></tr>
+<tr><td><strong>Air</strong></td><td>Delivery and inspection drones, survey aircraft</td><td>Too many flights for one pilot each; places too dangerous to send people</td></tr>
+<tr><td><strong>Logistics</strong></td><td>Warehouse robots, autonomous forklifts</td><td>Speed and scale in controlled spaces</td></tr>
+<tr><td><strong>Defence</strong></td><td>Surveillance drones, loitering munitions, naval drones, missile defence</td><td>Jamming cuts links to operators; reactions faster than people can manage</td></tr>
+</tbody></table></div>
+
+<p>One reason runs through the whole table. <strong>Autonomy is needed wherever a human operator is too
+far, too slow, too expensive or too cut off to be in control all the time.</strong> Notice that
+intelligence is not the reason. Distance, delay and danger are.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Sense, locate, decide, act, and check again</h2>
+  <p class="lede">Every autonomous system runs the same basic cycle many times a second. What differs is
+  how much of the world it must understand, and what happens when its links to the outside are cut.</p>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The basic cycle</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">How an autonomous machine runs, loop after loop</div>
+<pre>
+  SENSE    cameras, radar, lidar, sonar, GPS, inertial sensors
+    |
+  LOCATE   where am I? (map + position estimate)
+    |
+  PERCEIVE what is around me, and what will it do next?
+    |
+  PLAN     which route or action best meets the goal, within the rules?
+    |
+  ACT      motors, rudders, propellers, tools
+    |
+  CHECK    did it work? anything unexpected? -> back to SENSE
+    |
+  if confidence is low or a rule is hit: SLOW, STOP, RETURN HOME or CALL A HUMAN
+</pre>
+</div>
+
+<p>The last line of the diagram is the part outsiders overlook. Good autonomous systems spend as much
+design effort on <strong>what to do when unsure</strong> as on normal operation. A mining truck stops if
+its sensors disagree. A drone that loses its link flies home or lands. The safe fallback is known in
+engineering as a <strong>fail-safe</strong>, and choosing it well is often the difference between a minor
+incident and a disaster. The underlying feedback idea, measure and correct, is explained in
+<a href="../14-engineering/13-control-systems.html">Control systems</a>.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Knowing where you are without GPS</h2>
+</header>
+
+<p>Most outdoor autonomous machines rely on satellite navigation, such as GPS, to know where they are. GPS
+is wonderful and fragile. Its signals are weak and easy to drown out with a cheaper transmitter, called
+<strong>jamming</strong>, or to fake, called <strong>spoofing</strong>. Since 2022, widespread GPS
+interference around conflict zones in Eastern Europe and the Middle East has disrupted navigation for
+ordinary airliners as well as military drones.</p>
+
+<p>So serious systems carry backups. An <strong>inertial measurement unit</strong> uses tiny
+accelerometers and gyroscopes to track movement from a known starting point, the way you can walk a few
+steps with your eyes closed. It drifts over time. Cameras can match what they see against maps or
+satellite photos, and some systems navigate by recognising landmarks. <strong>Combining several imperfect
+sources, a technique called sensor fusion, gives a position more reliable than any one of them.</strong>
+Underground and underwater, where satellite signals do not reach at all, machines rely entirely on such
+methods.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Delay forces independence: the Mars example</h2>
+</header>
+
+<p>Mars shows the logic most clearly. Depending on where the two planets are in their orbits, a radio
+signal takes roughly between 3 and 22 minutes to travel one way. Steering a rover with a joystick is
+impossible: by the time you see a rock, the rover has already hit it. Early rovers were given short,
+cautious instructions each day and moved slowly.</p>
+
+<p>NASA's Perseverance rover, which landed in 2021, can plan its own routes over the terrain ahead, using
+its cameras to map hazards and choose a safe path. Engineers on Earth set the destination and the rules;
+the rover decides the steps. <strong>The greater the delay or the weaker the link, the more decisions
+must move onto the machine itself.</strong> The same principle explains underwater gliders, which surface
+only occasionally to report, and military drones designed to keep going when jammed.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Swarms: many simple machines working together</h2>
+</header>
+
+<p>One trend is to replace a single expensive machine with many cheap ones that coordinate. A
+<strong>swarm</strong> is a group of autonomous machines that share information and divide tasks among
+themselves, like ants or starlings, without one person controlling each. Light shows in which hundreds or
+thousands of drones form pictures in the night sky are a familiar, choreographed example, although these
+mostly fly pre-planned paths rather than deciding for themselves.</p>
+
+<p>True swarms, in which machines decide together, are harder. They need reliable communication between
+members and rules that produce good group behaviour without central control. Armies are interested because
+a swarm can overwhelm defences built to stop a few large targets, and can keep working when some members
+are lost. Farmers and search teams are interested because many small machines can cover a wide area
+quickly.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>How do you prove it is safe?</h2>
+</header>
+
+<p>Traditional engineering proves safety by testing and by analysing every possible state of a system. An
+autonomous machine that uses machine learning is harder to analyse, because its behaviour comes from
+training data rather than from rules a person wrote. It may behave well in a million tests and still fail
+on a situation nobody thought of, the "long tail" of rare events described in
+<a href="../01-technology/13-autonomous-vehicles.html">Autonomous vehicles</a>.</p>
+
+<p>Engineers respond in layers. They run vast numbers of simulated scenarios. They restrict the machine to
+an <strong>operating envelope</strong>, a defined set of conditions such as a fenced mine site, daylight or
+certain wind speeds. And they wrap the learned components in simpler, checkable rules that override them:
+"never fly above this height", "never enter this zone". <strong>Much of autonomy in practice is keeping the
+machine in a world small enough to be tested.</strong> That is why mining and farming moved faster than
+city streets.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Cheaper work, safer jobs, and a revolution in war</h2>
+  <p class="lede">Autonomous systems are already changing how food is grown, how minerals are mined and
+  how wars are fought. The military change is the fastest and the most controversial.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The quiet civilian revolution</h2>
+</header>
+
+<p>Some of the most important autonomous systems are the least visible. In the iron-ore mines of the
+Pilbara, driverless haul trucks, each the size of a house, have operated for over a decade, controlled
+from centres hundreds or thousands of kilometres away. Mining companies report fewer accidents and more
+consistent operations, because trucks do not get tired and drive the same way each time.</p>
+
+<p>In Rwanda, the company Zipline began delivering blood to hospitals by small autonomous aircraft in 2016,
+dropping packages by parachute. It later expanded to other countries and to medicines and other products.
+The case is often cited because it solved a real problem, slow roads to rural clinics, with a narrowly
+defined autonomous service. In farming, self-steering tractors guided by satellite positioning have been
+common for years, and fully driverless tractors and weeding robots are entering use. <strong>The common
+thread is a defined task in a defined place, where autonomy pays for itself quickly.</strong></p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The drone war</h2>
+</header>
+
+<p>The war that followed Russia's full-scale invasion of Ukraine in 2022 turned drones into a central
+weapon. Both sides use large numbers of cheap drones for spotting targets and for attacks, including small
+racing-style drones flown through a pilot's video goggles, known as first-person-view drones. Production
+reportedly reached millions of units a year. Ukraine also used uncrewed sea drones to strike Russian ships in
+the Black Sea.</p>
+
+<p>The link to autonomy is jamming. Both sides use electronic warfare to cut the radio link between drone
+and pilot. Drone makers responded by adding <strong>terminal guidance</strong>: the pilot picks a target,
+and if the link is lost in the final seconds, software on the drone keeps tracking and hits it. Some drones
+also use fibre-optic cables, which cannot be jammed. <strong>The pressure of electronic warfare is pushing
+weapons towards more autonomy step by step, not through a single decision to build "killer
+robots".</strong> That makes the line between remote control and machine choice increasingly blurred.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Should a machine decide to kill?</h2>
+</header>
+
+<p><strong>Lethal autonomous weapon systems</strong> are weapons that, once activated, can select and attack
+targets without further human intervention. Some defensive systems already work close to this, such as
+shipboard guns that shoot down incoming missiles faster than a person could react. The debate is about
+extending such autonomy to attacks on people and vehicles in complex settings.</p>
+
+<div class="grid2">
+  <div class="card"><h4>The case for restrictions or a ban</h4><p>Machines cannot reliably tell a soldier
+  surrendering from one fighting, or a civilian from a combatant. Delegating the decision to kill removes
+  human moral judgement and creates a "responsibility gap": nobody clearly answers for a wrongful death.
+  Cheap autonomous weapons could spread to terrorists and make wars easier to start. The International
+  Committee of the Red Cross and many states call for new legally binding rules.</p></div>
+  <div class="card"><h4>The case against a ban</h4><p>Existing international humanitarian law already
+  applies to any weapon. Machines do not panic, seek revenge or tire, and might in some cases be more
+  discriminating than stressed soldiers. A ban would be hard to define and verify, and would bind only
+  countries that respect it. Several major military powers have opposed a binding ban, preferring
+  guidelines.</p></div>
+</div>
+
+<p>States have discussed the issue at the United Nations, under the Convention on Certain Conventional
+Weapons, since 2014, without agreeing a treaty. In 2023 the UN General Assembly passed its first resolution
+on the subject, expressing concern and asking for states' views. Many proposals centre on the idea of
+<strong>meaningful human control</strong>: a person must understand the situation well enough to take
+responsibility for each use of force. What counts as "meaningful" is exactly what is contested.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Removing people from danger, and from responsibility</h2>
+  <p class="lede">The same feature, no human at the controls, is both the main benefit and the main
+  risk.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The balance sheet</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Safety of workers</strong></td><td class="ok">People leave dangerous places: mine faces, disaster zones, toxic sites.</td><td class="no">New risks for people nearby if the machine misjudges, and fewer people watching.</td></tr>
+<tr><td><strong>Reach</strong></td><td class="ok">Work where humans cannot go: deep ocean, Mars, remote fields.</td><td class="mid">Failures far away are hard to diagnose and repair.</td></tr>
+<tr><td><strong>Cost and endurance</strong></td><td class="ok">Round-the-clock operation without fatigue or shift changes.</td><td class="no">Job losses for drivers and operators in specific regions.</td></tr>
+<tr><td><strong>Consistency</strong></td><td class="ok">Same behaviour every time, fewer lapses of attention.</td><td class="no">Same mistake every time, at scale, if the design is wrong.</td></tr>
+<tr><td><strong>Security</strong></td><td class="ok">Keeps working when communications are cut.</td><td class="no">Vulnerable to hacking, jamming and spoofing; a captured system can be turned.</td></tr>
+<tr><td><strong>Accountability</strong></td><td class="mid">Detailed logs of every decision can help investigations.</td><td class="no">Responsibility can be diffused across designers, operators and commanders.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The human problems that autonomy creates</h2>
+</header>
+
+<p>Two human effects deserve attention. The first is <strong>automation bias</strong>: people tend to trust
+a machine's judgement too much, especially when it is usually right. A supervisor watching ten drones on a
+screen may approve a recommendation without truly checking it. That turns a "human in the loop" into a
+rubber stamp.</p>
+
+<p>The second is skill fade. When machines handle routine work, the people who must take over in an
+emergency get less practice. Aviation learned this lesson with autopilots: pilots who rarely fly by hand
+can struggle when automation suddenly hands control back. <strong>The more reliable an autonomous system
+is, the less prepared its human backup tends to be.</strong> Good designs plan for this with training,
+clear alerts and handovers that give people time to understand the situation.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>More machines, more independence, harder rules</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands (2026)</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Autonomy spreading in mining, farming, ports and inspection</strong></td><td>Driverless operations established at many large sites; costs falling.</td><td class="ok">Fairly sure: steady expansion in controlled, defined environments over the next decade.</td></tr>
+<tr><td><strong>Routine drone flights over towns</strong></td><td>Delivery and inspection services operate in selected areas; regulators in the US, Europe and elsewhere are writing rules for flights beyond the pilot's line of sight.</td><td class="mid">Plausible: wider use within years, limited by noise, privacy, air-traffic integration and public acceptance rather than technology.</td></tr>
+<tr><td><strong>Binding international rules on autonomous weapons</strong></td><td>Years of UN discussion; growing use of semi-autonomous weapons in real wars.</td><td class="no">Uncertain: some agreement on principles is possible, but a verifiable treaty signed by major military powers looks unlikely soon.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>What to watch</h2>
+</header>
+
+<p>Three signals will show where autonomous systems are heading. The first is <strong>regulation of
+shared spaces</strong>. Machines in fenced mines need few rules; machines over cities, on roads and at sea
+near other vessels need many. The speed at which regulators approve flights and voyages without a person
+watching each machine will set the pace of civilian growth.</p>
+
+<p>The second is <strong>the lessons of war</strong>. Military technology often spreads into civilian life,
+as GPS and the internet once did. The cheap, jam-resistant navigation and targeting developed in current
+conflicts will spread too, for good uses such as search and rescue and for harmful ones. The third is the
+<strong>AI inside</strong>. As the models described in <a href="02-ai-agents.html">AI agents</a> gain the
+ability to understand scenes and instructions, autonomous machines could take on less structured work.
+That would make the questions of control and accountability even more pressing.</p>
+
+<p>The useful summary is that <strong>autonomy is a dial, not a switch, and society is choosing its setting
+domain by domain</strong>. In a mine, the dial can go far. Over a crowded city, it moves slowly. In
+decisions over life and death, the argument about where it should stop has only just begun.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>An autonomous system <strong>senses, decides and acts</strong> towards a goal without a person
+    controlling each step, and must <strong>handle surprises itself</strong>. Autonomy is needed where
+    humans are too far, too slow or too cut off. Engineers keep it safe with <strong>fail-safes</strong>,
+    sensor fusion and limited operating envelopes. The hardest questions are about responsibility,
+    especially in weapons.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>A radio signal takes about <strong>3 to 22 minutes</strong> one way between Earth and Mars.</li>
+      <li>Zipline's medical drone deliveries in Rwanda began in <strong>2016</strong>.</li>
+      <li>UN talks on autonomous weapons have run since <strong>2014</strong>; the first General Assembly resolution came in <strong>2023</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Picturing autonomy as a single leap to a fully independent machine. In reality it grows <strong>one
+    function at a time</strong>, often pushed by practical problems like jamming or delay.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why driverless mining trucks arrived years before driverless city taxis? If so, you
+    understand operating envelopes and the long tail.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Autonomous system</dt><dd>A machine that chooses its own actions towards a goal, coping with changes without a human controlling each step.</dd>
+    <dt>Automatic</dt><dd>Following a fixed sequence regardless of what happens.</dd>
+    <dt>Human in / on / out of the loop</dt><dd>A person approves each action / watches and can intervene / is not involved in real time.</dd>
+    <dt>Fail-safe</dt><dd>The safe action a system takes when something goes wrong, such as stopping or returning home.</dd>
+    <dt>Jamming</dt><dd>Drowning out radio or satellite signals with a stronger transmission.</dd>
+    <dt>Spoofing</dt><dd>Sending fake signals so that a machine believes it is somewhere else.</dd>
+    <dt>Inertial measurement unit</dt><dd>Sensors that track movement and rotation from a known starting point.</dd>
+    <dt>Sensor fusion</dt><dd>Combining several imperfect sensors into a more reliable estimate.</dd>
+    <dt>Operating envelope</dt><dd>The conditions a system is designed and tested to work in.</dd>
+    <dt>Swarm</dt><dd>Many autonomous machines coordinating without one operator for each.</dd>
+    <dt>Lethal autonomous weapon</dt><dd>A weapon that can select and attack targets without further human intervention once activated.</dd>
+    <dt>Meaningful human control</dt><dd>The principle that a person must understand and answer for each use of force.</dd>
+    <dt>Automation bias</dt><dd>The human tendency to over-trust a machine's recommendations.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Autonomous isn't the same as automatic. An autonomous machine is expected to handle the
+    surprises."</li>
+    <li>"Autonomy appears wherever people are too far, too slow or too cut off to stay in control, like
+    on Mars or under jamming."</li>
+    <li>"Driverless trucks have worked in Australian mines for years because a mine is a small, controlled
+    world."</li>
+    <li>"In Ukraine, jamming pushed drones towards autonomy one step at a time, not by any single
+    decision."</li>
+    <li>"A human in the loop only helps if that human really checks, and people tend to trust machines too
+    much."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="../07-neuroscience/17-brain-computer-interfaces.html">Brain-computer
+  interfaces</a></h4><p>Topic 05 lives in the Neuroscience folder: reading signals from the brain to
+  control machines, and why writing to it is much harder.</p></div>
+  <div class="card"><h4>Related · <a href="03-humanoid-robots.html">Humanoid robots</a></h4><p>The
+  autonomous machine built in our own shape, and why hands and homes are its hardest tests.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

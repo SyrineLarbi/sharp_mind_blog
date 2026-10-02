@@ -1,0 +1,878 @@
+<!doctype html>
+<!--@HEAD-SRC title="Pandemics" desc="What turns an outbreak into a pandemic, where new diseases come from, the arithmetic of spread, the tools for fighting back, what COVID-19 taught, and how the world is preparing for the next one."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pandemics</title>
+<meta name="description" content="What turns an outbreak into a pandemic, where new diseases come from, the arithmetic of spread, the tools for fighting back, what COVID-19 taught, and how the world is preparing for the next one.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Public Health &amp; Society · Topic 07 of 20</p>
+  <h1>Pandemics. <span class="thin">Not a question of whether the next one comes, but of how ready we are when it does.</span></h1>
+  <p class="lede">A pandemic is an outbreak that crosses the whole world. It begins with something
+  tiny, often a virus jumping from an animal to one person, and it can end up closing schools on every
+  continent. Pandemics have shaped history more than most wars. They are also surprisingly
+  predictable in outline, even when they are unpredictable in detail. The same arithmetic, the same
+  hard choices and the same human reactions appear again and again, from the Black Death to
+  COVID-19.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Public Health</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../23-disasters.html#c8"><span class="vn">Vol 23 · ch 08</span><b>Two pandemics, a century apart</b><em>1918 and COVID-19</em></a>
+<a class="vol" href="../28-medicine.html#c4"><span class="vn">Vol 28 · ch 04</span><b>How an epidemic spreads</b><em>The reproduction number</em></a>
+<a class="vol" href="08-vaccination-programs.html"><span class="vn">Public Health · 08</span><b>Vaccination programs</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 23 compares the 1918 influenza with COVID-19 in
+  <a href="../23-disasters.html#c8">Two pandemics, a century apart</a>. Volume 28 explains the single
+  number that governs an outbreak in <a href="../28-medicine.html#c4">How an epidemic actually
+  spreads</a>. Volume 13 explains <a href="../13-medicine-and-biology.html#m1">mRNA vaccines</a>.
+  This file goes further: where pandemics come from, why some germs are harder to stop, how the
+  toll is counted, and how the world is preparing.</p>
+</div>
+
+<div class="warn">
+  <span class="tag">Health note</span>
+  <p>This is general education about pandemics as a public health problem, not medical advice. During
+  any outbreak, follow guidance from your national health authority.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>An epidemic that has gone global</h2>
+  <p class="lede">The word describes how far a disease has spread, not how deadly it is. A mild
+  disease can cause a pandemic, and a deadly one may never become one.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>From outbreak to pandemic</h2>
+</header>
+
+<p>Public health uses a ladder of words to describe how widely a disease is spreading.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Term</th><th>Meaning</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Endemic</strong></td><td>Always present in a region at a fairly steady, expected level</td><td>Malaria in parts of sub-Saharan Africa; the common cold</td></tr>
+<tr><td><strong>Outbreak</strong></td><td>More cases than expected, usually in one place</td><td>Food poisoning after one wedding</td></tr>
+<tr><td><strong>Epidemic</strong></td><td>A larger rise in cases across a community or region</td><td>The West African Ebola epidemic of 2014–2016</td></tr>
+<tr><td><strong>Pandemic</strong></td><td>An epidemic spreading across many countries and continents</td><td>Influenza in 1918; COVID-19 from 2020</td></tr>
+</tbody></table></div>
+
+<p>Under the International Health Regulations, a treaty updated in 2005, the WHO can declare a
+<strong>Public Health Emergency of International Concern</strong> (PHEIC). This is a formal alarm that
+obliges countries to coordinate. The WHO declared COVID-19 a PHEIC on 30 January 2020 and described it
+as a pandemic on 11 March 2020. It ended the emergency status in May 2023. Amendments agreed in 2024
+added a higher alarm level, a "pandemic emergency".</p>
+
+<p><strong>Note the important point: "pandemic" is about geography, not severity.</strong> The 2009
+H1N1 influenza was a pandemic but killed fewer people than many expected. Ebola is far deadlier per
+case, but it has caused regional epidemics, not pandemics.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>A short history in six entries</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Pandemic</th><th>Cause</th><th>Rough toll</th><th>What it changed</th></tr></thead>
+<tbody>
+<tr><td><strong>Black Death</strong> (1340s–1350s)</td><td>Plague bacterium, spread by fleas on rats and between people</td><td>Perhaps a third to a half of Europe's population; huge losses in Asia and the Middle East</td><td>Labour shortages raised wages in parts of Europe; quarantine began in the plague years that followed (from the Italian <em>quaranta</em>, forty days)</td></tr>
+<tr><td><strong>1918 influenza</strong></td><td>An H1N1 flu virus</td><td>Tens of millions of deaths worldwide</td><td>Showed the value of early closures of gatherings (see Vol 23)</td></tr>
+<tr><td><strong>1957 and 1968 influenza</strong></td><td>New flu strains (H2N2, then H3N2)</td><td>Each roughly one to several million deaths</td><td>Led to global flu surveillance and seasonal vaccine updating</td></tr>
+<tr><td><strong>HIV/AIDS</strong> (recognised 1981)</td><td>Human immunodeficiency virus</td><td>More than 40 million deaths since the start (UNAIDS)</td><td>Activism changed drug trials and prices; antiretroviral drugs made it a manageable condition</td></tr>
+<tr><td><strong>2009 H1N1 influenza</strong></td><td>A new H1N1 strain</td><td>Estimated at roughly 150,000 to 575,000 deaths in the first year</td><td>Tested plans; criticism that the alarm was overblown</td></tr>
+<tr><td><strong>COVID-19</strong> (from late 2019)</td><td>SARS-CoV-2, a coronavirus</td><td>About 7 million reported deaths; WHO estimated about 15 million excess deaths in 2020–2021 alone</td><td>The fastest vaccine development in history; lasting debates about restrictions</td></tr>
+</tbody></table></div>
+
+<p>Death tolls for older pandemics are estimates with wide ranges, because records were poor. Even
+modern counts differ, as Chapter 09 explains.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Where new diseases come from</h2>
+</header>
+
+<p>Most new human diseases come from animals. A disease that passes from animals to humans is a
+<strong>zoonosis</strong>, and the moment it first jumps is called a <strong>spillover</strong>.
+Researchers commonly estimate that around three-quarters of emerging infectious diseases are zoonotic.
+HIV came from chimpanzees and other primates in central Africa. Influenza strains circulate in wild
+birds and pass through pigs and poultry. The 2003 SARS virus and the MERS virus, first identified in
+2012, are coronaviruses linked to bats, with other animals such as civets and camels acting as
+intermediate hosts.</p>
+
+<p>Spillovers happen more often where people and animals meet in new ways: forests cleared for
+farming, wildlife traded in markets, huge numbers of farm animals kept close together. In 2024 an
+H5N1 bird flu spread among dairy cattle in the United States, a reminder that viruses keep finding new
+hosts. <strong>Most spillovers go nowhere. A pandemic needs a germ that can also spread efficiently
+from person to person</strong>, and that combination is rare, which is why pandemics happen every few
+decades rather than every year.</p>
+
+<p>The origin of COVID-19 itself remains contested. One view holds that the virus spilled over from
+animals at or near a market in Wuhan, China. Another holds that it may have escaped from a research
+laboratory in the same city. Scientists, governments and intelligence agencies have reached different
+conclusions, and as of 2026 there is no consensus, partly because key early data have not been made
+available.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>The arithmetic of spread, and the tools to bend it</h2>
+  <p class="lede">A few numbers decide how hard a pandemic will be to control. The tools to fight it
+  all work by changing those numbers.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>R, and the threshold for herd immunity</h2>
+</header>
+
+<p>Volume 28 explains the <strong>reproduction number</strong>, R: the average number of people
+each infected person infects. Above one, cases grow; below one, they shrink. The starting value in a
+population with no immunity is called <strong>R0</strong> ("R nought"). Seasonal flu has an R0 of
+roughly 1.3. The original COVID-19 virus was around 2 to 3. Measles is one of the most contagious
+diseases known, with an R0 often quoted between 12 and 18.</p>
+
+<p>R0 leads to a useful formula. To stop sustained spread, enough people must be immune that each case
+infects fewer than one other. The share needed is roughly <strong>1 − 1/R0</strong>. For a disease with
+R0 of 2, about half the population must be immune. For measles, with R0 around 15, it is over 90
+percent. That is why measles returns as soon as vaccination rates slip a few points, as
+<a href="08-vaccination-programs.html">Vaccination programs</a> explains.</p>
+
+<div class="sheet">
+  <div class="cap">Herd immunity threshold, roughly 1 − 1/R0</div>
+<pre>
+ R0     share immune needed
+ 1.5    |#######                    33%
+ 2      |##########                 50%
+ 3      |#############              67%
+ 5      |################           80%
+ 15     |#################### >     93%
+        0%                        100%
+</pre>
+</div>
+
+<p>R is not fixed by the germ alone. It also depends on how people behave, how crowded they live, and
+how many are immune. <strong>Every pandemic measure, from handwashing to vaccines, is an attempt to
+push R below one.</strong></p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Why some germs are much harder to stop</h2>
+</header>
+
+<p>The 2003 SARS outbreak infected around 8,000 people and killed about 800 before it was contained,
+within months. COVID-19, caused by a closely related virus, could not be contained. Why?</p>
+
+<p>The key difference was <strong>timing</strong>. People with SARS became most infectious only after
+they were clearly ill, so isolating sick people broke the chains of infection. People with COVID-19
+could pass the virus on before they had symptoms, or while having very mild ones. By the time anyone
+knew they were ill, they had often already infected others. <strong>A germ that spreads before
+symptoms appear is far harder to stop than one that spreads after.</strong></p>
+
+<p>A second factor is <strong>superspreading</strong>. In many outbreaks, most infected people infect
+no one or very few, while a small number infect many, often at crowded indoor events. This means that
+the average R hides a lot of variation, and that targeting crowded, poorly ventilated settings can
+have an outsized effect. A third factor is severity. A germ that kills or disables quickly may limit
+its own spread. One that leaves most people only mildly ill keeps moving.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The toolkit before vaccines</h2>
+</header>
+
+<p>When a new germ appears, there is no vaccine and usually no proven drug. Countries must rely on
+<strong>non-pharmaceutical interventions</strong>: measures that do not involve medicines.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Find and isolate</h4><p>Testing to find cases, <strong>isolation</strong>
+  of the sick, <strong>contact tracing</strong> to find the people they may have infected, and
+  <strong>quarantine</strong> of those contacts. This is precise and works best early, when cases are
+  few.</p></div>
+  <div class="card"><h4>Reduce contact for everyone</h4><p>Closing large gatherings, schools or
+  workplaces, working from home, and, in the strongest form, orders to stay at home ("lockdowns").
+  These are blunt and costly, used when cases are too many to trace.</p></div>
+  <div class="card"><h4>Make each contact safer</h4><p>Masks, ventilation, distance, hand hygiene, and
+  meeting outdoors. Each reduces the chance of transmission a little; together they can add up.</p></div>
+  <div class="card"><h4>Control borders</h4><p>Travel screening, quarantine for arrivals, or
+  closures. These can delay spread, buying time, but rarely stop a highly transmissible germ for
+  long.</p></div>
+</div>
+
+<p>Countries that acted early and decisively, with strong testing and tracing, often kept deaths low in
+the first year of COVID-19. But the right mix depends on the germ, the stage of the outbreak, and what a
+society can sustain. <strong>The aim of early measures is usually to buy time</strong>: to protect
+hospitals and to wait for vaccines and treatments.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Vaccines and drugs at pandemic speed</h2>
+</header>
+
+<p>Before COVID-19, developing a new vaccine typically took many years. In January 2020, Chinese
+scientists published the genetic sequence of the new virus. Within days, companies had designed
+candidate vaccines, and the first was authorised in the United Kingdom in early December 2020, less
+than a year later. Several technologies reached the finish line, including <strong>mRNA
+vaccines</strong> (explained in <a href="../13-medicine-and-biology.html#m1">Volume 13</a>) and viral
+vector vaccines.</p>
+
+<p>This speed came from decades of earlier research, huge public funding, and running trial stages and
+manufacturing in parallel rather than one after another. Safety steps were not skipped; what was
+removed was waiting time between them. The vaccines greatly reduced severe illness and death. One
+modelling study estimated they prevented many millions of deaths in their first year, though such
+estimates depend on assumptions. Treatments improved too: cheap steroids such as dexamethasone were
+shown in a large UK trial in 2020 to reduce deaths among patients needing oxygen.</p>
+
+<p>The weak point was distribution. Rich countries secured most early doses, and many poorer countries
+waited months longer. <strong>Science moved at record speed; fairness did not.</strong></p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>How pandemics end</h2>
+</header>
+
+<p>Pandemics rarely end with a clear date. Most often, the germ does not disappear but settles into an
+<strong>endemic</strong> pattern. Enough people gain immunity, through infection, vaccination or
+both, that the disease becomes a familiar, recurring illness rather than an emergency. The 1918 flu
+virus's descendants circulated as seasonal flu for decades. COVID-19 has followed a similar path.</p>
+
+<p>A few diseases can be eliminated, and one, smallpox, has been eradicated worldwide, with the last
+natural case in 1977. That required a vaccine, a germ with no animal reservoir, and an enormous
+global campaign. <strong>For most pandemic germs, the realistic end is living with them at a level
+health systems can manage.</strong> Historians sometimes add that pandemics also end socially, when
+people decide the emergency is over, which may come before or after the medical end.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Counting the dead, and everything else</h2>
+  <p class="lede">The toll of a pandemic is larger than its death certificates, and it falls unevenly.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Excess deaths: the honest count</h2>
+</header>
+
+<p>Reported deaths depend on testing and on how death certificates are filled in. In places with little
+testing, many COVID-19 deaths were never recorded as such. So researchers use <strong>excess
+mortality</strong>: the number of deaths from all causes, compared with how many would normally be
+expected for that time of year.</p>
+
+<p>Excess deaths include people who died of the disease without a test, and people who died because
+health services were overwhelmed or avoided. They also subtract deaths that did not happen, for
+example fewer road deaths during lockdowns. The WHO estimated about 14.9 million excess deaths
+worldwide in 2020 and 2021, roughly three times the COVID-19 deaths officially reported for those
+years. <strong>Excess mortality is the best single measure of a pandemic's full impact</strong>, though
+it too carries uncertainty where death registration is weak.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The costs beyond death</h2>
+</header>
+
+<p>The global economy shrank sharply in 2020. Hundreds of millions of jobs were lost or reduced, at
+least for a time, and tens of millions of people fell back into extreme poverty. Schools closed for
+months in many countries, and studies of learning found significant losses, larger for poorer
+children. Delayed operations and cancer diagnoses created backlogs that lasted years. Some people
+developed <strong>long COVID</strong>, symptoms lasting months after infection, whose frequency and
+causes are still being studied.</p>
+
+<p>The burden was unequal. People in crowded housing and in jobs that could not be done from home,
+such as care work, transport and food production, were more exposed. Older people and those with
+chronic illnesses faced the highest risk of death. In many countries, poorer neighbourhoods and some
+ethnic minorities had higher death rates. <strong>Pandemics magnify the inequalities a society already
+has</strong>, a theme of <a href="09-health-inequality.html">Health inequality</a>.</p>
+
+<p>There was also an information crisis. The WHO used the word <strong>"infodemic"</strong> for the
+flood of rumours, false cures and conflicting claims. Trust in health authorities, already uneven,
+became sharply divided along political lines in some countries, with effects on later vaccination
+programmes.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Every measure saves something and costs something</h2>
+  <p class="lede">Pandemic decisions are made fast, with poor information, and their costs fall on
+  different people. Reasonable people still disagree about many of them.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The main measures weighed</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Measure</th><th>Benefits</th><th>Costs and doubts</th></tr></thead>
+<tbody>
+<tr><td><strong>Test, trace, isolate</strong></td><td class="ok">Targeted; small cost to most people; very effective early.</td><td class="mid">Needs capacity built in advance. Overwhelmed when cases soar or spread is pre-symptomatic.</td></tr>
+<tr><td><strong>Lockdowns</strong></td><td class="ok">Can bring R below one quickly and protect hospitals.</td><td class="no">Huge economic, educational and mental-health costs; hard to sustain; how much they added beyond voluntary change is debated.</td></tr>
+<tr><td><strong>School closures</strong></td><td class="mid">May reduce transmission, especially for flu, where children spread a lot.</td><td class="no">Lasting learning losses, burden on parents, harm to the poorest children. Widely judged in hindsight to have gone on too long in some countries; others disagree.</td></tr>
+<tr><td><strong>Masks</strong></td><td class="ok">Cheap; good-quality masks reduce transmission in laboratory and many field studies.</td><td class="mid">Trial evidence on community masking is mixed and contested; effect depends on mask type and use.</td></tr>
+<tr><td><strong>Border closures</strong></td><td class="ok">Island nations such as New Zealand used them to delay spread until vaccines arrived.</td><td class="no">Economic damage, separated families; rarely stop spread for long elsewhere.</td></tr>
+<tr><td><strong>Vaccine requirements</strong></td><td class="ok">Raised coverage in some places, protecting vulnerable people.</td><td class="no">Civil-liberties objections and, in some groups, deeper distrust.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>What went right and what went wrong with COVID-19</h2>
+</header>
+
+<div class="grid2">
+  <div class="card"><h4>What went right</h4><p>The virus was sequenced and shared within weeks.
+  Vaccines arrived in under a year and prevented enormous numbers of deaths. Large, simple trials, such
+  as the UK's RECOVERY trial, quickly identified treatments that worked and others that did not.
+  Scientists shared data openly at unprecedented speed. Wastewater and genomic surveillance matured into
+  lasting tools.</p></div>
+  <div class="card"><h4>What went wrong</h4><p>Many countries had plans that existed on paper but
+  lacked tests, protective equipment and tracing capacity. Early warnings were slow. Care homes were
+  badly protected in several countries. Vaccines reached poor countries late. Messages were sometimes
+  inconsistent, and uncertainty was presented as certainty, which damaged trust when advice changed.
+  The balance of costs and benefits of long restrictions remains disputed.</p></div>
+</div>
+
+<p>A useful lesson from preparedness reviews before 2020: several rich countries had ranked highly on
+pandemic-readiness indexes and still did poorly. <strong>Having a plan was less important than having
+capacity, fast decisions and public trust.</strong></p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>The next one, and whether the world will be ready</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Risks and responses, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Another pandemic will come</strong></td><td>Spillovers continue; travel, farming and land clearing keep the risk high. Influenza and coronaviruses are the leading suspects.</td><td class="ok">Fairly sure: the question is when, not whether. Its timing and severity cannot be predicted.</td></tr>
+<tr><td><strong>Better early warning</strong></td><td>Wastewater, genomic sequencing and animal surveillance improved greatly after 2020.</td><td class="ok">Fairly sure in rich countries; patchy elsewhere and dependent on funding.</td></tr>
+<tr><td><strong>Vaccines in about 100 days</strong></td><td>The Coalition for Epidemic Preparedness Innovations (CEPI) promotes a goal of having a vaccine within 100 days of a new threat being identified.</td><td class="mid">Plausible for some virus families with prepared "prototype" vaccines; harder for unknown germs.</td></tr>
+<tr><td><strong>A working global treaty</strong></td><td>The World Health Assembly adopted a WHO Pandemic Agreement in May 2025. A key annex on sharing pathogen samples and the benefits from them was still being negotiated afterwards. The United States announced its withdrawal from the WHO in 2025.</td><td class="mid">Plausible but uncertain: success depends on ratification, funding and whether countries comply in a crisis.</td></tr>
+<tr><td><strong>An engineered pandemic</strong></td><td>Advances in biology lower the barriers to modifying germs. Rules on risky research and DNA synthesis screening are debated.</td><td class="no">Speculative but taken seriously by security experts as a low-probability, high-impact risk.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>What preparedness actually means</h2>
+</header>
+
+<p>Pandemic preparedness sounds abstract. In practice it is a list of unglamorous things that must
+exist before the crisis: laboratories that can scale up testing, stockpiles of protective equipment
+that are kept in date, public health teams trained in tracing, hospitals with surge capacity, vaccine
+factories that can switch production, legal powers that are clear in advance, and data systems that
+talk to each other.</p>
+
+<p>The hardest part is political. Preparedness costs money every year to guard against something that
+may not happen for decades. After each pandemic, attention and funding rise, then fade. Historians call
+this the cycle of <strong>panic and neglect</strong>. The 1918 pandemic was quickly forgotten. Lessons
+from SARS in 2003 shaped strong responses in parts of East Asia but were ignored elsewhere.</p>
+
+<p><strong>The best predictor of how a country handles the next pandemic may be whether it keeps paying
+for readiness when no one is afraid.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A pandemic is an epidemic that has spread worldwide. Most begin as <strong>spillovers</strong>
+    from animals. Their course depends on <strong>R0</strong>, on whether people spread the germ
+    <strong>before symptoms</strong>, and on superspreading. Early tools buy time; vaccines and immunity
+    usually turn the pandemic into an <strong>endemic</strong> disease.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Herd immunity threshold ≈ <strong>1 − 1/R0</strong>: about 50% for R0 = 2, over 90% for
+      measles.</li>
+      <li>COVID-19: about <strong>7 million</strong> reported deaths; about <strong>15 million</strong>
+      excess deaths in 2020–2021 (WHO estimate).</li>
+      <li>First COVID-19 vaccine authorised in <strong>under a year</strong> (December 2020).</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking "pandemic" means "very deadly". <strong>It describes how far a disease has spread</strong>,
+    not how severe it is.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why SARS in 2003 was contained but COVID-19 was not, even though the viruses are
+    closely related? If so, you understand why timing of infectiousness matters.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Endemic</dt><dd>Always present in a population at a fairly steady level.</dd>
+    <dt>Epidemic</dt><dd>A rise in cases well above normal in a community or region.</dd>
+    <dt>Pandemic</dt><dd>An epidemic spread across many countries and continents.</dd>
+    <dt>PHEIC</dt><dd>Public Health Emergency of International Concern: the WHO's formal global alarm.</dd>
+    <dt>Zoonosis</dt><dd>A disease that passes from animals to humans.</dd>
+    <dt>Spillover</dt><dd>The first jump of a germ from an animal into a human.</dd>
+    <dt>R0</dt><dd>How many people one case infects, on average, in a population with no immunity.</dd>
+    <dt>Herd immunity</dt><dd>When enough people are immune that a disease cannot keep spreading.</dd>
+    <dt>Superspreading</dt><dd>A few infected people causing a large share of new infections.</dd>
+    <dt>Non-pharmaceutical intervention</dt><dd>A measure against spread that does not use medicines, such as isolation or masks.</dd>
+    <dt>Contact tracing</dt><dd>Finding and warning people who were near an infected person.</dd>
+    <dt>Quarantine</dt><dd>Separating people who may have been exposed, before they show signs of illness.</dd>
+    <dt>Excess mortality</dt><dd>Deaths from all causes above what would normally be expected.</dd>
+    <dt>Infodemic</dt><dd>A flood of information, much of it false, during a health emergency.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A pandemic is about how far a disease spreads, not how deadly it is."</li>
+    <li>"Most new diseases come from animals. The danger comes when one also spreads easily between
+    people."</li>
+    <li>"SARS was stopped because people were infectious only once they were ill. COVID spread before
+    symptoms, and that changed everything."</li>
+    <li>"Excess deaths are the honest count. For COVID they were roughly three times the official
+    figure in the first two years."</li>
+    <li>"Preparedness isn't a plan on a shelf. It's tests, staff, factories and trust that exist before
+    the crisis."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="08-vaccination-programs.html">Vaccination programs</a></h4><p>How
+  countries organise vaccination, why coverage rises and falls, and how smallpox was wiped out.</p></div>
+  <div class="card"><h4>Related · <a href="06-epidemiology.html">Epidemiology</a></h4><p>The detective
+  methods behind outbreak investigation, surveillance and counting deaths honestly.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

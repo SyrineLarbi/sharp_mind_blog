@@ -1,0 +1,852 @@
+<!doctype html>
+<!--@HEAD-SRC title="Central Banking" desc="The plumbing under every bank: reserves, the payment systems where banks settle, how an overnight rate is enforced, lending in a panic, and the supervisors who check the books."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Central Banking</title>
+<meta name="description" content="The plumbing under every bank: reserves, the payment systems where banks settle, how an overnight rate is enforced, lending in a panic, and the supervisors who check the books.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Banking &amp; Fintech · Topic 02 of 20</p>
+  <h1>Central banking. <span class="thin">The pipes that every payment runs through, and the hand on the valve.</span></h1>
+  <p class="lede">The news covers central banks when they change interest rates. That is the visible
+  tip. Underneath, a central bank runs the system that lets banks pay each other, holds the special
+  money they use to do it, decides how much cash to lend them in a panic, and in many countries
+  inspects their books. None of this makes headlines on a good day. On a bad day, it decides whether
+  the whole financial system keeps working.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Banking &amp; Fintech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../09-economics/10-central-banks.html"><span class="vn">Economics · 10</span><b>Central banks</b><em>The institution and its independence</em></a>
+<a class="vol" href="../09-economics/09-monetary-policy.html"><span class="vn">Economics · 09</span><b>Monetary policy</b><em>Tools and transmission</em></a>
+<a class="vol" href="03-commercial-banking.html"><span class="vn">Banking · 03</span><b>Commercial banking</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Two neighbours cover the rest of the central bank. <a href="../09-economics/10-central-banks.html">Economics
+  · Central banks</a> covers the institution: history, mandates, independence and Bagehot's rule.
+  <a href="../09-economics/09-monetary-policy.html">Economics · Monetary policy</a> covers how rate
+  decisions reach the economy. Volume 14 explains what happens when you tap a card
+  (<a href="../14-computing-and-ai.html#c7">Digital payments</a>). This file sits underneath all
+  three: the accounts, the settlement systems, the emergency lending and the supervision.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>The bank where banks keep their money</h2>
+  <p class="lede">You have an account at a commercial bank. Your bank has an account at the central
+  bank. That second layer is where the financial system actually settles its debts.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A bank that closed at the wrong hour</h2>
+</header>
+
+<p>On 26 June 1974, German regulators closed a small Cologne bank called Bankhaus Herstatt. It had lost
+heavily betting on currencies. The timing caused the real damage. Herstatt was shut in the afternoon,
+German time, after other banks had already paid it Deutsche Marks for that day's currency trades. It
+was due to pay them US dollars in return, later that day in New York. Those dollars were never sent.
+<strong>Its partners had handed over one half of each trade and never received the other.</strong></p>
+
+<p>The shock spread through the market for currency payments, and banks briefly stopped trusting each
+other to pay at all. The same year, the leading central banks set up the Basel Committee on Banking
+Supervision, which still writes the world's main banking rules. The risk Herstatt exposed is now named
+after it. <strong>Herstatt risk</strong> is the danger that you pay your side of a deal and the other
+side fails before paying theirs. Much of central banking is about designing that danger out.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Two layers of money</h2>
+</header>
+
+<p>Money in a modern economy comes in two tiers. The money you use is mostly <strong>deposits</strong>
+at commercial banks, created when those banks lend (see <a href="01-how-banks-work.html">How banks
+work</a>). The money banks use with each other is <strong>central bank money</strong>, held in accounts
+at the central bank. Those balances are called <strong>reserves</strong>. Banknotes are the only kind
+of central bank money ordinary people can hold.</p>
+
+<p>When you pay 500 euros to someone at a different bank, your bank lowers your deposit, their bank
+raises theirs, and to make the books balance, your bank sends 500 euros of reserves to their bank,
+across the central bank's own ledger. <strong>The deposits change at the edges; the reserves move in
+the middle.</strong> Because reserves are a claim on the central bank itself, a bank that receives them
+carries no risk that the payer's bank will fail later. The payment is final.</p>
+
+<p>This is why the central bank is called the <strong>bank for banks</strong>. Its plumbing jobs are
+four: it holds banks' accounts and runs the system that moves reserves between them; it sets the
+price of reserves, which anchors every other interest rate; it lends reserves to banks that are short,
+including in a crisis; and in most countries it supervises the banks, or works closely with whoever
+does.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Who runs the pipes</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Central bank</th><th>Main high-value payment system</th><th>Who supervises banks</th></tr></thead>
+<tbody>
+<tr><td><strong>United States</strong></td><td>Federal Reserve (12 regional banks plus a board in Washington)</td><td>Fedwire, run by the Fed since 1918</td><td>Shared: the Fed, the OCC, the FDIC and state regulators</td></tr>
+<tr><td><strong>Euro area</strong></td><td>European Central Bank with the national central banks (together the Eurosystem)</td><td>T2, which replaced TARGET2 in 2023</td><td>The ECB directly supervises the largest banks; national authorities supervise the rest</td></tr>
+<tr><td><strong>United Kingdom</strong></td><td>Bank of England</td><td>The Bank's RTGS system, which settles CHAPS payments</td><td>The Prudential Regulation Authority, part of the Bank of England since 2013</td></tr>
+</tbody></table></div>
+
+<p>The arrangements differ, but the shape is the same. <strong>Every country with a modern banking
+system has one ledger at the top where banks settle in central bank money.</strong> Card networks,
+bank transfers and cheque clearing all end, eventually, as movements on that ledger.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Settle, price, lend, inspect</h2>
+  <p class="lede">The four plumbing jobs, one at a time, and the design choices behind each.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Settlement: gross and instant, or netted later</h2>
+</header>
+
+<p>There are two ways to settle many payments between banks. In <strong>net settlement</strong>,
+banks keep a running tally all day, cancel out what they owe each other, and move only the difference
+at the end. It saves a lot of money, because a bank that sends 10 billion and receives 9.8 billion needs
+only 200 million at settlement. But until settlement, every bank is exposed to every other one. If one
+fails during the day, the whole tally may have to be unwound.</p>
+
+<p>In <strong>real-time gross settlement</strong> (RTGS), each payment is settled on its own, in full,
+the moment it is made, in central bank money. There is no tally and no exposure. The cost is that banks
+need far more reserves during the day. Large, urgent payments between banks, such as the money side of
+a big securities trade or a house purchase, usually go through RTGS. Everyday retail payments are
+usually netted first and settled in batches.</p>
+
+<div class="sheet">
+  <div class="cap">Two ways to settle the same three payments</div>
+<pre>
+  Payments during the day:  Bank A -> B  100     B -> C  80     C -> A  90
+
+  NET SETTLEMENT (end of day)          GROSS SETTLEMENT (each one, now)
+  A owes 100, is owed 90 : pays 10     A -> B 100   settled at 09:14
+  B owes  80, is owed 100: gets 20     B -> C  80   settled at 11:02
+  C owes  90, is owed 80 : pays 10     C -> A  90   settled at 15:47
+  Reserves moved: 20                   Reserves moved: 270
+  Risk: if A fails at 14:00, the       Risk: none once each payment is
+  whole day's tally is in doubt        made, but banks need more cash
+</pre>
+</div>
+
+<p>To make RTGS affordable, central banks lend reserves to banks <strong>within the day</strong>, free
+or nearly free, against collateral, to be repaid by evening. That lending is called <strong>intraday
+credit</strong>. For currency trades, the answer to Herstatt risk came in 2002, when banks launched CLS,
+a specialist system that pays both currencies in a trade at the same moment or not at all.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Pricing reserves: how the policy rate is enforced</h2>
+</header>
+
+<p>When a central bank "sets interest rates", it actually sets the price at which banks can borrow and
+lend reserves overnight. It has to make that price hold in a real market. The classic method is a
+<strong>corridor</strong>. The central bank offers two standing deals to any bank, every day. A bank
+with spare reserves can deposit them at the central bank at a low rate, which is the floor. A bank short
+of reserves can borrow from the central bank, against collateral, at a higher rate, which is the
+ceiling. No bank will lend to another below the floor or borrow above the ceiling, so the market rate
+stays between the two.</p>
+
+<p>Since 2008 many central banks have used a simpler <strong>floor system</strong>. Their large bond
+purchases, known as <strong>quantitative easing</strong>, flooded banks with reserves. US bank reserves
+went from tens of billions of dollars before 2008 to several trillion afterwards. With so many reserves
+around, the market rate sinks to whatever the central bank pays on reserves. So the central bank sets
+policy simply by choosing that rate. The Fed began paying interest on reserves in October 2008 for
+exactly this reason. <strong>The rate paid on reserves became the main policy tool.</strong> The macro
+effects of those rates are covered in <a href="../09-economics/03-interest-rates.html">Interest
+rates</a>.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Lending in a crisis: the window nobody wants to use</h2>
+</header>
+
+<p>The principle of the <strong>lender of last resort</strong> is old. In a panic, lend freely to
+solid banks against good collateral, at a penalty rate. <a href="../09-economics/10-central-banks.html">Economics
+· Central banks</a> tells that story. The practice is harder than the principle, for three reasons.</p>
+
+<p><strong>Collateral.</strong> A central bank lends only against assets it can take if the bank does
+not repay. The list of acceptable assets, and the discount applied to each one, called a
+<strong>haircut</strong>, decides how much a bank can actually borrow. A bank whose assets are mostly
+loans to small firms may find it can borrow far less than it needs.</p>
+
+<p><strong>Stigma.</strong> In the US, banks borrow emergency cash at the <strong>discount
+window</strong>. For decades, banks have avoided it even when they needed it, fearing that markets
+would find out and assume the worst. A safety valve that nobody dares to open does not work. Central
+banks have tried to fight stigma by making facilities routine, such as the Fed's standing repo
+facility, set up in 2021, which lends against government bonds every day.</p>
+
+<p><strong>Speed.</strong> A bank needs its collateral already registered and tested with the central
+bank before a crisis, not during one. In March 2023 Silicon Valley Bank was not set up to borrow
+quickly enough from the Fed while its deposits left in hours.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Supervision: checking the books before the crisis</h2>
+</header>
+
+<p>Rules on capital and liquidity only work if someone checks them. <strong>Supervisors</strong> read
+banks' reports, visit them, question their managers, and can order them to raise capital, stop paying
+dividends or change their leaders. A related job is <strong>macroprudential</strong> policy, which
+looks at the system as a whole rather than one bank: for example, limiting how much people can borrow
+compared with their income, if house prices look like a bubble.</p>
+
+<p>One of the main tools since 2009 is the <strong>stress test</strong>. The supervisor writes a
+severe imaginary scenario, such as a deep recession, a crash in house prices and soaring unemployment.
+Each large bank must show what would happen to its capital. Banks that fall short must raise more or
+stop paying dividends. The Fed, the ECB and the Bank of England all run regular stress tests.</p>
+
+<p>When a bank does fail, a <strong>resolution authority</strong> takes over. The aim is to keep
+the bank's payments and deposits running while the owners and bondholders take the losses. In the US
+the FDIC does this, often over a weekend, by selling the failed bank to a healthy one. Customers
+usually find on Monday morning that their bank has a new name and nothing else has changed.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>When the plumbing becomes the story</h2>
+  <p class="lede">Three crises show what the plumbing is for. In each one, the decisive actions were
+  not rate changes but changes to who could borrow what, against which assets.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>2008: when banks stopped lending to each other</h2>
+</header>
+
+<p>In normal times, banks lend each other reserves overnight without a second thought. In 2007 and
+2008, as losses on American housing loans spread, no bank knew which others were holding the bad
+assets. So they stopped lending to each other, or lent only at high rates and for very short periods.
+<strong>The market that moves reserves around the system jammed.</strong></p>
+
+<p>Central banks replaced it. They lent to banks for longer periods, accepted a wider range of
+collateral, and created new facilities for firms that were not banks at all, such as dealers in money
+markets. There was a second problem. Many European banks had borrowed in US dollars and could not get
+them. The Fed set up <strong>swap lines</strong> with other central banks: it lent dollars to the ECB,
+the Bank of England and others, which lent them on to their own banks. Since 2013 the swap lines
+between the Fed and five major central banks have been permanent. <strong>The Fed became, in effect, a
+lender of last resort to the world in dollars.</strong></p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>2022 and 2023: the market maker of last resort</h2>
+</header>
+
+<p>In September 2022, after a UK government budget alarmed investors, the price of long-term UK
+government bonds, called gilts, fell sharply. Many pension funds had used borrowed money in strategies
+that now forced them to sell gilts to raise cash, which pushed prices down further. The Bank of
+England stepped in and offered to buy long-dated gilts for a limited period to stop the spiral. It was
+not a rate decision. It was a temporary promise to stand behind a market.</p>
+
+<p>In March 2023, after SVB failed, the Fed created a new facility that let banks borrow against
+government bonds valued at their <strong>face value</strong>, not their lower market price. That
+removed the reason banks had to sell bonds at a loss to meet withdrawals. The same weekend, US
+authorities protected all of SVB's depositors, including those above the insurance limit. Together
+these measures calmed the run on other mid-sized banks within weeks, although First Republic Bank
+still failed in May.</p>
+
+<p>Both episodes show a shift. <strong>Central banks now act as a backstop for markets, not just for
+banks</strong>, because so much of the financial system now runs through markets. This is useful in a
+panic, and it raises a hard question explored in Question 4: if the central bank always steps in, who
+is left to be careful?</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Why one euro is always one euro</h2>
+</header>
+
+<p>The quietest reason central banking matters is one most people never think about. A 100-euro deposit
+at one bank is worth exactly the same as a 100-euro deposit at another, and the same as a 100-euro
+note. Economists call this the <strong>singleness of money</strong>. It is not natural. In the United
+States before 1863, many private banks issued their own notes, and those notes often traded below face
+value, more so the further you were from the bank.</p>
+
+<p>What keeps today's deposits equal is the plumbing in this file. Banks can always swap deposits into
+central bank money through the payment system. Deposit insurance makes small deposits safe. And
+supervisors check that banks can keep their promises. <strong>Remove those, and every bank's money
+would trade at its own price, as it once did.</strong> That is the deeper reason central banks care
+who gets access to their accounts, and why they watch new forms of private money, such as stablecoins,
+so closely.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A strong backstop, and the costs of leaning on it</h2>
+  <p class="lede">The plumbing works well most of the time. The arguments are about how far the
+  backstop should reach, and who pays when it is used.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Strengths and weaknesses</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Settlement in central bank money</strong></td><td class="ok">Final, risk-free payment between banks. Herstatt-style losses are rare.</td><td class="mid">Access is limited to licensed banks, which can shut out new payment firms.</td></tr>
+<tr><td><strong>Lender of last resort</strong></td><td class="ok">Stops a liquidity panic from turning into mass failure.</td><td class="no">Encourages banks to hold fewer safe assets, knowing the central bank will lend.</td></tr>
+<tr><td><strong>Backstop for markets</strong></td><td class="ok">Stopped the 2008, 2020 and 2022 spirals quickly.</td><td class="no">Moral hazard spreads to funds and dealers that are not supervised like banks.</td></tr>
+<tr><td><strong>Supervision and stress tests</strong></td><td class="ok">Banks hold far more capital than before 2008.</td><td class="mid">Supervisors still missed problems, as at SVB, where the Fed's own review criticised its supervision.</td></tr>
+<tr><td><strong>Large balance sheet (floor system)</strong></td><td class="ok">Simple, reliable control of the overnight rate.</td><td class="no">The central bank holds huge bond portfolios, which can lose money when rates rise.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>When a central bank loses money</h2>
+</header>
+
+<p>Under the floor system, a central bank holds a big portfolio of bonds bought years ago at low
+interest rates, and pays today's interest rate on the reserves that were created to buy them. When
+rates rose quickly in 2022 and 2023, many central banks found themselves paying more on reserves than
+they earned on their bonds. The Fed began recording operating losses in late 2022 and booked them as a
+"deferred asset", to be paid off from future profits before it sends money to the US Treasury again.
+In the UK, the Treasury had promised to cover the Bank of England's losses on its bond purchases, so
+the losses fell on public finances directly.</p>
+
+<p>A central bank cannot run out of its own currency, so these losses do not threaten it the way they
+would a company. But they are real money that taxpayers would otherwise have received. They also give
+politicians a new reason to criticise the central bank. <strong>Whether central banks should keep such
+large balance sheets in normal times is a live and contested debate.</strong> Some argue a smaller
+system, with banks borrowing reserves more often, would be cheaper and more disciplined. Others say the
+large-reserve system is simpler and safer, and that the losses are a small price.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Faster pipes, new users, new money</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Instant payments everywhere</strong></td><td>Central banks have built or backed rails that settle retail payments in seconds, at any hour: Pix in Brazil, FedNow in the US (launched July 2023), and instant euro transfers, which EU rules now require banks to offer.</td><td class="ok">Fairly sure: settlement systems will open longer hours, towards round the clock, and instant transfers will become normal.</td></tr>
+<tr><td><strong>Wider access to central bank accounts</strong></td><td>Some central banks, including the Bank of England, have opened settlement accounts to non-bank payment firms under strict conditions.</td><td class="mid">Plausible: more fintech firms settle directly in central bank money, with rules on how they hold customers' funds.</td></tr>
+<tr><td><strong>Tokenised settlement</strong></td><td>Central banks and banks are running pilots where assets and central bank money sit on shared digital ledgers, so a trade and its payment settle in one step.</td><td class="no">Speculative: promising in pilots, but legal and technical questions remain. See <a href="15-central-bank-digital-currencies.html">CBDCs</a>.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The oldest question, in a new form</h2>
+</header>
+
+<p>Every change on that list returns to one question: <strong>who gets to hold central bank money, and
+on what terms?</strong> Today the answer is banks, plus the public through banknotes. As cash use
+falls in many countries, the public's direct link to central bank money is shrinking. A retail
+central bank digital currency would restore it. Critics fear it could also let depositors run from
+banks to the central bank in seconds.</p>
+
+<p>The other side of the same question is private money. If stablecoins or tokenised deposits grow,
+central banks will have to decide whether to let them settle in central bank money, which would make
+them safer, or keep them out, which would keep them at arm's length. How that choice is made will shape
+banking more than any interest rate decision in the coming decade. The private side of the story is in
+<a href="14-digital-currencies.html">Digital currencies</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Banks hold <strong>reserves</strong> at the central bank and settle with each other in that
+    money, which makes payments final. The central bank <strong>prices</strong> reserves to set
+    interest rates, <strong>lends</strong> them in a crisis against collateral, and
+    <strong>supervises</strong> banks so that crises are rarer.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Fedwire has been run by the Fed since <strong>1918</strong>.</li>
+      <li>US bank reserves rose from <strong>tens of billions</strong> of dollars before 2008 to
+      <strong>several trillion</strong> after QE.</li>
+      <li>Herstatt failed in <strong>1974</strong>; the Basel Committee was founded the same year.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking a central bank's job is only interest rates. <strong>The rate is just the price of
+    reserves</strong>; running the system in which reserves move, and lending them in a panic, is the
+    larger job.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a payment between two banks is "final" once reserves move, and why net
+    settlement saves money but adds risk? If so, you understand the plumbing.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Reserves</dt><dd>Money that banks hold in accounts at the central bank.</dd>
+    <dt>Central bank money</dt><dd>Reserves plus banknotes: money that is a claim on the central bank itself.</dd>
+    <dt>Settlement</dt><dd>The moment a payment is truly complete and cannot be undone.</dd>
+    <dt>RTGS</dt><dd>Real-time gross settlement: each payment settled in full, one by one, as it happens.</dd>
+    <dt>Net settlement</dt><dd>Adding up payments and settling only the difference at the end of a period.</dd>
+    <dt>Herstatt risk</dt><dd>The risk of paying your side of a trade and never receiving the other.</dd>
+    <dt>Corridor</dt><dd>A system where the central bank's deposit and lending rates form a floor and ceiling for market rates.</dd>
+    <dt>Floor system</dt><dd>A system with abundant reserves, where the rate paid on reserves sets the market rate.</dd>
+    <dt>Collateral</dt><dd>An asset pledged to a lender, which it keeps if the loan is not repaid.</dd>
+    <dt>Haircut</dt><dd>The discount a lender applies to collateral, so it lends less than the asset's value.</dd>
+    <dt>Discount window</dt><dd>The Fed's standing facility for lending to banks.</dd>
+    <dt>Swap line</dt><dd>An agreement between central banks to exchange currencies, used to supply dollars abroad.</dd>
+    <dt>Stress test</dt><dd>A check of how a bank's capital would hold up in an imaginary severe crisis.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Your bank has an account at the central bank, and that's where payments between banks really
+    settle."</li>
+    <li>"When a central bank 'sets rates', it's really setting the price of reserves overnight."</li>
+    <li>"In 2008 the Fed lent dollars to other central banks, so it became the world's lender of last
+    resort in dollars."</li>
+    <li>"Emergency lending only works if banks aren't ashamed to use it. Stigma is the real enemy."</li>
+    <li>"A euro in one bank equals a euro in any other bank only because the central bank's plumbing
+    makes it so."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="03-commercial-banking.html">Commercial banking</a></h4><p>The
+  banks at the other end of the pipes: what they sell, who they lend to, and how they make money.</p></div>
+  <div class="card"><h4>Related · <a href="../09-economics/10-central-banks.html">Central banks</a></h4><p>The
+  institution itself: where central banks came from, their mandates, and the long argument about
+  independence.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

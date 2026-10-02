@@ -1,0 +1,841 @@
+<!doctype html>
+<!--@HEAD-SRC title="Technology Law" desc="How law governs the digital world: platform liability from Section 230 to the Digital Services Act, cybercrime and cybersecurity, jurisdiction across borders, encryption, software liability and the pacing problem."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Technology Law</title>
+<meta name="description" content="How law governs the digital world: platform liability from Section 230 to the Digital Services Act, cybercrime and cybersecurity, jurisdiction across borders, encryption, software liability and the pacing problem.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Law, Government &amp; Institutions · Topic 19 of 20</p>
+  <h1>Technology law. <span class="thin">Old principles, new machines, and a race the law usually starts late.</span></h1>
+  <p class="lede">When someone posts a lie about you online, can you sue the website? When a hacker in
+  one country attacks a hospital in another, whose law applies? When a software update crashes millions
+  of computers, who pays? None of these questions existed fifty years ago. Technology law is the set
+  of answers that courts and parliaments have built, often in a hurry, by stretching old ideas such as
+  publishing, trespass and product safety to fit machines their authors never imagined.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Law &amp; Government</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../14-computing-and-ai.html#c5"><span class="vn">Vol 14 · ch 05</span><b>Encryption</b><em>The technology behind the fight</em></a>
+<a class="vol" href="08-privacy-law.html"><span class="vn">Law &amp; Government · 08</span><b>Privacy law</b><em>The data side</em></a>
+<a class="vol" href="20-ai-regulation.html"><span class="vn">Law &amp; Government · 20</span><b>AI regulation</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 14 explains the technology behind several legal fights here: <a
+  href="../14-computing-and-ai.html#c5">encryption</a> and <a
+  href="../14-computing-and-ai.html#c6">ransomware</a>. Volume 47 covers <a
+  href="../47-not-being-fooled.html#c6">what data is actually collected</a> about you. This file covers
+  the law around them. Data protection itself has its own file, <a href="08-privacy-law.html">Privacy
+  law</a>, and so does <a href="07-intellectual-property.html">Intellectual property</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Not one law, but many laws meeting one technology</h2>
+  <p class="lede">Technology law is less a single field than a crossroads, where contract, criminal,
+  speech, product and competition law all meet the internet and software.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Punished for trying to be careful</h2>
+</header>
+
+<p>In the early 1990s two American online services were sued for things their users had posted. In
+1991 a court found that CompuServe was not responsible, because it did not review the content; it was
+like a bookshop that cannot read every book. In 1995 a New York court found that Prodigy
+<em>was</em> responsible, because it advertised itself as a family-friendly service and removed
+offensive posts. By moderating, it had acted like a newspaper editor, and a publisher answers for
+what it publishes.</p>
+
+<p>The result was perverse. <strong>A service that tried to remove harmful content took on more legal
+risk than one that did nothing.</strong> In 1996 Congress fixed this with a short provision, Section 230
+of the Communications Decency Act. It says that an online service shall not be treated as the publisher
+of content provided by its users, and that it may moderate in good faith without losing that protection.
+A 2019 book by the lawyer Jeff Kosseff called its key sentence "the twenty-six words that created the
+internet".</p>
+
+<p>That story shows the whole field in miniature. An old rule (publishers are liable) met a new
+technology (millions of users posting instantly), produced an absurd result, and lawmakers wrote a new
+rule. The new rule then shaped the industry for the next thirty years.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>"The law of the horse" and "code is law"</h2>
+</header>
+
+<p>In 1996 the American judge Frank Easterbrook argued that there was no such thing as "cyberlaw", any
+more than a "law of the horse". Horses are involved in sales, injuries and licensing, he said, but
+studying them together teaches nothing about the general principles. Better to learn contract and
+property law properly, and apply them to computers.</p>
+
+<p>The legal scholar Lawrence Lessig answered in his 1999 book <em>Code and Other Laws of
+Cyberspace</em>. He argued that behaviour online is regulated by four forces: <strong>law</strong>,
+<strong>social norms</strong>, <strong>markets</strong>, and <strong>architecture</strong>, meaning the
+design of the software itself. A website that simply does not let you copy a file controls you more
+effectively than any statute. His summary was that <strong>"code is law"</strong>: whoever writes the
+software writes many of the rules.</p>
+
+<p>Both views have survived. Most technology cases are decided by applying old principles. But Lessig
+was right that design choices, such as default settings, encryption and recommendation systems, now
+do much of the work law used to do, and that law increasingly targets design directly.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The map of technology law</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>The core question</th><th>Where to read more</th></tr></thead>
+<tbody>
+<tr><td><strong>Platform liability</strong></td><td>Is a website responsible for what its users post?</td><td>This file, Chapters 04–05</td></tr>
+<tr><td><strong>Cybercrime and cybersecurity</strong></td><td>What is computer crime, and what security must firms provide?</td><td>This file, Chapter 06</td></tr>
+<tr><td><strong>Jurisdiction</strong></td><td>Whose law applies on a borderless network?</td><td>This file, Chapter 07</td></tr>
+<tr><td><strong>Data protection</strong></td><td>Who may collect and use personal data?</td><td><a href="08-privacy-law.html">Privacy law</a></td></tr>
+<tr><td><strong>Copyright and patents</strong></td><td>Who owns software, content and inventions?</td><td><a href="07-intellectual-property.html">Intellectual property</a></td></tr>
+<tr><td><strong>Digital markets</strong></td><td>How much power may a platform hold?</td><td><a href="17-competition-law.html">Competition law</a></td></tr>
+<tr><td><strong>Online contracts</strong></td><td>Does clicking "I agree" bind you?</td><td><a href="06-contracts.html">Contracts</a></td></tr>
+<tr><td><strong>Artificial intelligence</strong></td><td>How should AI systems be governed?</td><td><a href="20-ai-regulation.html">AI regulation</a></td></tr>
+</tbody></table></div>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Safe harbours, duties of care, crimes and borders</h2>
+  <p class="lede">Four mechanisms do most of the work: protecting intermediaries, imposing duties on the
+  largest ones, criminalising attacks, and deciding which country's courts are in charge.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Safe harbours: the deal that built the web</h2>
+</header>
+
+<p>An <strong>intermediary</strong> is any service that carries, stores or organises other people's
+content: internet providers, hosting companies, social networks, search engines, marketplaces. Almost
+every legal system gives them some protection, called a <strong>safe harbour</strong>, because without
+it nobody could afford to host anyone else's words.</p>
+
+<div class="grid2">
+  <div class="card"><h4>United States: broad immunity</h4><p>Section 230 protects platforms from most
+  lawsuits over users' content, whether or not they knew about it, with exceptions such as federal
+  crimes and intellectual property. For copyright, a separate 1998 law, the Digital Millennium
+  Copyright Act, gives protection only if the platform removes infringing material when notified.</p></div>
+  <div class="card"><h4>European Union: conditional protection</h4><p>The e-Commerce Directive of 2000
+  protects a host only if it does not know about illegal content, and only if it acts quickly to remove
+  it once it is told. This is called <strong>notice and takedown</strong>. Platforms are not required to
+  monitor everything in general.</p></div>
+</div>
+
+<p>The difference matters. In the US a platform is usually protected even if it is told about harmful
+user content and leaves it up. In Europe, knowledge brings responsibility. <strong>Both systems
+protect intermediaries, but Europe makes the protection depend on behaviour.</strong></p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>From immunity to duties: the new platform laws</h2>
+</header>
+
+<p>By the late 2010s many governments believed safe harbours alone were not enough. Platforms had
+become huge, and their recommendation systems were not neutral pipes; they chose what billions of
+people saw. The new approach keeps the safe harbour for individual posts but adds duties about
+<em>systems</em>.</p>
+
+<p>The EU's <strong>Digital Services Act</strong>, adopted in 2022 and fully applicable from 2024, is
+the most ambitious. It sets layered obligations. Every intermediary must have clear terms and a way to
+report illegal content. Online marketplaces must check the identity of traders. The very largest
+platforms and search engines, those with more than 45 million users in the EU, must assess and reduce
+systemic risks such as the spread of illegal content or harm to minors, open their data to vetted
+researchers, and submit to independent audits. Fines can reach 6% of worldwide annual turnover.</p>
+
+<p>Britain's Online Safety Act of 2023 takes a similar path, centred on a <strong>duty of care</strong>
+towards users, especially children, and enforced by the communications regulator Ofcom. Critics on one
+side say these laws give governments too much influence over lawful speech. Critics on the other say
+they are too slow and too weak. <strong>The shift is from asking "who posted it?" to asking "how was
+the system designed?"</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Cybercrime and cybersecurity</h2>
+</header>
+
+<p>The first computer crime laws were written because ordinary laws did not fit. Theft requires taking
+something, but copying a file leaves the original in place. Trespass requires entering land. So
+countries created specific offences: the US Computer Fraud and Abuse Act of 1986, Britain's Computer
+Misuse Act of 1990. Their core offence is <strong>unauthorised access</strong>, entering a computer
+system you have no right to enter.</p>
+
+<p>Because attackers cross borders, states also cooperate by treaty. The Council of Europe's Budapest
+Convention of 2001 is the main one, joined by dozens of countries well beyond Europe. In 2024 the UN
+General Assembly adopted a separate global cybercrime convention, which human rights groups criticised
+for vague definitions that authoritarian governments could misuse.</p>
+
+<p>The newer trend is <strong>cybersecurity law</strong>: duties to prevent attacks, not just punish
+them. The EU's NIS2 directive requires firms in critical sectors such as energy, health and transport
+to manage cyber risk and report serious incidents quickly. Its Cyber Resilience Act of 2024 will require
+connected products, from routers to smart toys, to meet basic security standards and receive security
+updates. Ransomware attacks on hospitals and pipelines (see <a
+href="../14-computing-and-ai.html#c6">Vol 14</a>) drove much of this.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Whose law applies?</h2>
+</header>
+
+<p>In 2000 a French court ordered the American company Yahoo! to block French users from auctions of
+Nazi memorabilia, which are illegal in France but protected speech in the United States. Yahoo argued
+that a French court could not police an American website. The court disagreed, reasoning that the site
+was visible and harmful in France. Yahoo removed the auctions. <strong>A website is everywhere at once,
+so in principle every country's law can reach it.</strong></p>
+
+<p>Courts usually limit this by asking whether a site deliberately targets a country, for example by
+using its language or currency. But conflicts remain. In 2014 the EU's top court recognised what became
+known as the "right to be forgotten" against search engines (see <a href="08-privacy-law.html">Privacy
+law</a>), and later ruled that it applies within the EU, not worldwide. Data held abroad raises similar
+fights. A US law of 2018, the CLOUD Act, lets American authorities demand data that American firms
+store overseas, under certain conditions. Many countries respond with <strong>data
+localisation</strong> rules requiring that some data be kept on their own territory.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Security, speech and responsibility</h2>
+  <p class="lede">Technology law decides how private your messages are, what you are allowed to say
+  online, and who answers when software fails.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The encryption standoff</h2>
+</header>
+
+<p>After a mass shooting in San Bernardino, California, in December 2015, the FBI recovered one of the
+attackers' iPhones, which was locked and encrypted. In 2016 a court ordered Apple to write special
+software to help unlock it. Apple refused publicly, arguing that any tool that weakened its security for
+one phone would endanger every user. The confrontation ended without a ruling when the FBI paid an
+outside party to get into the phone.</p>
+
+<p>The underlying dispute has never been settled. Police and intelligence agencies say strong
+<strong>end-to-end encryption</strong>, where only sender and receiver can read a message, lets
+criminals "go dark". Security experts answer that there is no way to build a door only the good side can
+use; a weakness for police is a weakness for hackers and hostile states. In 2025 Apple withdrew one of its
+strongest encryption options for users in Britain after the government reportedly sought access under
+its surveillance law. <strong>Every country that tries to get around encryption runs into the same
+mathematics.</strong></p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Speech, platforms and the state</h2>
+</header>
+
+<p>Platform rules now decide much of what can be said in public. That gives technology law a
+constitutional weight. Systems differ sharply. The US First Amendment strongly limits the government's
+power to control speech, including by pressuring platforms, and the Supreme Court has treated platforms'
+own content choices as a form of protected editorial judgement. European systems allow more limits,
+for example on hate speech and Holocaust denial, and Germany's 2017 network enforcement law required
+large platforms to remove clearly illegal content within twenty-four hours of a complaint.</p>
+
+<p>Clashes between platforms and states have become frequent. In 2024 Brazil's Supreme Court ordered
+the social network X blocked nationwide for over a month after it refused to comply with orders,
+including naming a legal representative in the country. Supporters saw a state enforcing its law on a
+foreign company. Critics saw a single judge with too much power over speech. <strong>The live question
+everywhere is who should decide what stays up: the company, the government, the courts, or the users.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>When software breaks, who pays?</h2>
+</header>
+
+<p>For decades software has been sold almost entirely "as is". Licence terms exclude most liability, and
+courts in many countries have been unsure whether software is a "product" at all under product-safety
+law. A car maker answers for a faulty brake. A software maker has usually not answered for a faulty
+update.</p>
+
+<p>In July 2024 a faulty update from the security company CrowdStrike crashed about 8.5 million Windows
+computers worldwide, grounding flights and disrupting hospitals and banks. The incident sharpened an
+existing debate. The EU's revised Product Liability Directive, adopted in 2024, explicitly treats
+software as a product, so people harmed by defective software can claim compensation without proving
+the maker was careless. <strong>The long era in which code carried less responsibility than hardware is
+ending, at least in Europe.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Light rules built the internet. Heavier ones are trying to tame it</h2>
+  <p class="lede">The light-touch model gave us open platforms and fast innovation. It also left harms
+  that law was slow to address.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Two models compared</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Issue</th><th>Light touch (classic US approach)</th><th>Duty-based (EU and UK direction)</th></tr></thead>
+<tbody>
+<tr><td><strong>Innovation</strong></td><td class="ok">Low barriers. Start-ups can launch without legal teams.</td><td class="mid">Compliance costs rise, though the heaviest duties fall on the largest firms.</td></tr>
+<tr><td><strong>Free expression</strong></td><td class="ok">Platforms host vast amounts of speech without fear of lawsuits.</td><td class="mid">Risk of over-removal: platforms delete lawful content to be safe.</td></tr>
+<tr><td><strong>Harm to users</strong></td><td class="no">Victims of harassment, fraud or harmful content often have no one to sue.</td><td class="ok">Clearer duties to act, and a regulator to complain to.</td></tr>
+<tr><td><strong>Accountability for design</strong></td><td class="no">Recommendation systems largely escape scrutiny.</td><td class="ok">Risk assessments, audits and researcher access.</td></tr>
+<tr><td><strong>Government power</strong></td><td class="ok">Little state control over online content.</td><td class="no">Regulators gain influence over what platforms remove, which could be misused.</td></tr>
+<tr><td><strong>Global reach</strong></td><td class="mid">US firms export US norms with their products.</td><td class="mid">EU rules spread through the Brussels effect (see <a href="16-regulation.html">Regulation</a>).</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The pacing problem</h2>
+</header>
+
+<p>Technology changes in months. Laws take years. Scholars call this the <strong>pacing
+problem</strong>. In 1980 the British researcher David Collingridge described a sharper version, now
+called the <strong>Collingridge dilemma</strong>. When a technology is new, it is easy to shape but we
+do not yet know its effects. By the time the effects are clear, the technology is embedded everywhere
+and very hard to change.</p>
+
+<p>Lawmakers have three main responses. They can write <strong>technology-neutral</strong> laws, which
+regulate outcomes ("do not deceive consumers") rather than specific machines, so the law ages better.
+They can use <strong>principles plus regulators</strong>, leaving details to agencies that can update
+guidance quickly. Or they can experiment with <strong>sandboxes</strong> and sunset clauses. None of
+these solves the dilemma. <strong>The choice is between acting early on uncertain evidence and acting
+late on a settled industry.</strong></p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Children, liability, and a divided internet</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Child online safety and age checks</strong></td><td>Australia's ban on social media accounts for under-16s took effect in late 2025. The UK, EU and many US states require age assurance for some services.</td><td class="ok">Fairly sure: more age-verification duties, with ongoing fights over privacy and effectiveness.</td></tr>
+<tr><td><strong>Narrowing US platform immunity</strong></td><td>Members of both US parties have proposed changing Section 230, for different reasons. Courts have tested its limits, especially for product design claims.</td><td class="mid">Plausible: piecemeal limits through courts and targeted laws, rather than repeal.</td></tr>
+<tr><td><strong>Global common rules</strong></td><td>Cybercrime and some trade agreements cover digital issues, but values on speech and surveillance differ deeply.</td><td class="no">Speculative: a single global framework for online content is very unlikely soon.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Digital sovereignty and the splinternet</h2>
+</header>
+
+<p>The internet was designed as one network (see <a href="../22-the-long-shadow.html#c8">Vol 22</a>).
+Its law is fragmenting. China has long run a separately controlled internet. Russia has built legal
+and technical tools to isolate its own. The EU speaks of <strong>digital sovereignty</strong>: the
+ability to set its own rules and to depend less on foreign firms for cloud services, chips and
+platforms. The US has used export controls and national-security reviews, including a 2024 law
+forcing the sale or ban of the TikTok app, whose application was repeatedly delayed.</p>
+
+<p>The optimistic view is that different democracies can learn from each other's experiments, with
+Europe testing duties and the US testing freedom. The pessimistic view is a <strong>splinternet</strong>,
+in which a service legal in one region is blocked in the next, and users see different internets
+depending on where they stand. The most likely result is in between: shared technical standards, with
+increasingly national rules on top. <strong>Technology law is becoming part of foreign policy.</strong>
+Its newest and fastest-moving branch is the subject of the final topic.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Technology law applies old principles, such as publisher liability, trespass and product safety,
+    to new machines. Its central compromise is the <strong>safe harbour</strong> for intermediaries,
+    now being supplemented by <strong>duties about system design</strong>. Its constant difficulty is
+    the <strong>pacing problem</strong>.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Section 230 dates from <strong>1996</strong>; the EU e-Commerce Directive from
+      <strong>2000</strong>.</li>
+      <li>The Digital Services Act's strictest duties apply to services with over <strong>45
+      million</strong> EU users, with fines up to <strong>6%</strong> of global turnover.</li>
+      <li>The 2024 CrowdStrike failure crashed about <strong>8.5 million</strong> computers.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking the internet is lawless. <strong>Almost every online act is covered by some law</strong>;
+    the hard problems are enforcement across borders and deciding which law applies.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why the Prodigy case led to Section 230, and how the EU's notice-and-takedown
+    approach differs? If so, you understand the foundation of platform law.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Intermediary</dt><dd>A service that carries, stores or organises other people's content.</dd>
+    <dt>Safe harbour</dt><dd>Legal protection for intermediaries from liability for users' content, often with conditions.</dd>
+    <dt>Section 230</dt><dd>The 1996 US provision that shields online services from most liability for users' posts.</dd>
+    <dt>Notice and takedown</dt><dd>A host stays protected if it removes illegal content quickly once told about it.</dd>
+    <dt>Digital Services Act</dt><dd>The EU law setting layered duties for online services, strictest for the largest.</dd>
+    <dt>Duty of care</dt><dd>A legal obligation to take reasonable steps to protect others from harm.</dd>
+    <dt>Unauthorised access</dt><dd>Entering a computer system without permission, the core computer crime.</dd>
+    <dt>End-to-end encryption</dt><dd>Encryption where only the sender and recipient can read the message.</dd>
+    <dt>Jurisdiction</dt><dd>A court's or state's legal authority over a person, place or dispute.</dd>
+    <dt>Data localisation</dt><dd>Rules requiring certain data to be stored inside a country.</dd>
+    <dt>Pacing problem</dt><dd>The gap between how fast technology changes and how fast law can respond.</dd>
+    <dt>Collingridge dilemma</dt><dd>New technologies are easy to shape but poorly understood; by the time they are understood, they are hard to change.</dd>
+    <dt>Splinternet</dt><dd>An internet divided into regions with different rules and blocked services.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Section 230 exists because, before it, a website that moderated content was more likely to be
+    sued than one that didn't."</li>
+    <li>"In America a platform is mostly immune for users' posts. In Europe it's protected only until it
+    knows."</li>
+    <li>"The new platform laws don't ask who posted something. They ask how the system was
+    designed."</li>
+    <li>"You can't build an encryption back door that only the police can use."</li>
+    <li>"Technology moves in months and law in years. That's the pacing problem, and nobody has
+    solved it."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="20-ai-regulation.html">AI regulation</a></h4><p>The newest
+  branch of technology law: risk-based rules, the EU AI Act, and the global race to govern powerful
+  models.</p></div>
+  <div class="card"><h4>Related · <a href="08-privacy-law.html">Privacy law</a></h4><p>The other half
+  of digital law: consent, data protection, GDPR and surveillance.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

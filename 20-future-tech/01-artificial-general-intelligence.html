@@ -1,0 +1,905 @@
+<!doctype html>
+<!--@HEAD-SRC title="Artificial General Intelligence" desc="What artificial general intelligence means, how today's AI might or might not get there, why it matters for work, safety and power, and how honest forecasts differ."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artificial General Intelligence</title>
+<meta name="description" content="What artificial general intelligence means, how today&#x27;s AI might or might not get there, why it matters for work, safety and power, and how honest forecasts differ.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Future &amp; Emerging Technologies · Topic 01 of 20</p>
+  <h1>Artificial General Intelligence. <span class="thin">A machine that can learn anything you can, and the argument about whether it is close.</span></h1>
+  <p class="lede">Most of the software in your life does one job. A spam filter sorts email. A chess engine
+  plays chess. Artificial general intelligence, usually shortened to AGI, is the idea of a machine
+  that is not limited like that: a system that can learn and do almost any mental task a capable person
+  can, and switch between them. For decades it was a science-fiction word. Since language models
+  arrived, the people building them talk about it as an engineering target with a date. Some serious
+  researchers think it is a few years away. Others think the current methods will never reach it. This
+  file explains what the term means, what is genuinely known, and why the disagreement is so hard to
+  settle.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Future tech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../49-ai-honestly.html#c2"><span class="vn">Vol 49 · ch 02</span><b>What a language model does</b><em>The basics first</em></a>
+<a class="vol" href="../49-ai-honestly.html#c8"><span class="vn">Vol 49 · ch 08</span><b>What to actually worry about</b><em>The risks, briefly</em></a>
+<a class="vol" href="02-ai-agents.html"><span class="vn">Future tech · 02</span><b>AI agents</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 49 explains how today's AI works (<a href="../49-ai-honestly.html#c2">What a language model
+  actually does</a>) and ends with a short, balanced paragraph on long-range risk
+  (<a href="../49-ai-honestly.html#c8">What to actually worry about</a>). Volume 14 covers the hardware
+  side (<a href="../14-computing-and-ai.html#c2">GPUs, and the memory wall</a>). This file takes the
+  larger question those chapters set aside: could these systems become general, and what would follow
+  if they did?</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A target that everyone names and nobody defines the same way</h2>
+  <p class="lede">AGI is less a technology than a threshold. The trouble is that people put the
+  threshold in very different places, and the choice often depends on what they want to argue.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Narrow skill against general ability</h2>
+</header>
+
+<p>In 1997 IBM's Deep Blue beat the world chess champion Garry Kasparov. It was a landmark, and it was
+also useless at everything else. It could not play noughts and crosses unless engineers rebuilt it. That
+is <strong>narrow AI</strong>: a system that is excellent inside one fenced field and helpless outside
+it. Almost all AI before about 2020 was narrow, including systems that recognised faces, translated
+text or recommended films.</p>
+
+<p>Human intelligence is different in kind. A child who learns to read can then read about cooking,
+law or football. An adult who moves to a new country learns a new language, a new job and new social
+rules, all with the same brain. <strong>The "general" in AGI means transfer: the ability to take what
+you learned in one area and use it in a new one, without being rebuilt.</strong> That, more than raw
+cleverness, is what the term is trying to capture.</p>
+
+<p>Large language models, the systems behind chatbots such as ChatGPT, Claude and Gemini, blurred this
+line. One model can write a poem, debug code, explain a tax form and summarise a medical paper. No
+engineer built a separate module for each. That is why the AGI debate moved from philosophy seminars to
+company strategy documents after 2022. The systems are clearly broader than anything before. Whether
+they are general in the deep sense is exactly what is disputed.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Five definitions, five different finish lines</h2>
+</header>
+
+<p>Here are the main ways the term is used. Notice how far apart they are.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Definition</th><th>The test it implies</th><th>Who tends to use it</th></tr></thead>
+<tbody>
+<tr><td><strong>Human-level at most thinking tasks</strong></td><td>Can it match a typical skilled adult across a broad range of mental work?</td><td>Many researchers; the everyday sense</td></tr>
+<tr><td><strong>Economic</strong></td><td>Can it do most economically valuable work as well as people? OpenAI's founding charter uses a definition of this kind.</td><td>AI companies, economists</td></tr>
+<tr><td><strong>Learning ability</strong></td><td>Can it pick up a genuinely new skill from a few examples, as a person can?</td><td>Researchers sceptical of current systems</td></tr>
+<tr><td><strong>Levels, not a line</strong></td><td>How broad is it, and how good, compared with skilled humans? A 2023 Google DeepMind paper proposed graded levels like those used for self-driving cars.</td><td>People who want to measure progress</td></tr>
+<tr><td><strong>Superintelligence</strong></td><td>Does it exceed the best humans in nearly every field? This is a further step beyond AGI.</td><td>Safety researchers, philosophers</td></tr>
+</tbody></table></div>
+
+<p>The definition matters because <strong>a claim like "AGI by 2030" means nothing until you know which
+finish line is meant</strong>. An economic definition could be met by a system that still makes odd
+mistakes a child would not. A learning definition could stay unmet even while AI writes most of the
+world's software. When two experts disagree about timing, they are often disagreeing about the
+definition without saying so.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>An old dream with a new name</h2>
+</header>
+
+<p>The ambition is as old as computing. In 1950 the mathematician Alan Turing asked whether machines
+could think, and proposed replacing that vague question with a game. If a judge chatting by text could
+not reliably tell the machine from a person, the machine should count as thinking. This became known as
+the <strong>Turing test</strong>. In 1956 a summer workshop at Dartmouth College gave the field its name,
+"artificial intelligence", and its founders expected rapid success. Herbert Simon predicted in the 1960s
+that machines would be able to do any work a man can do within twenty years.</p>
+
+<p>It did not happen, and the field went through periods of disappointment and cut funding known as
+<strong>AI winters</strong>. Researchers retreated to narrow problems they could actually solve. The
+phrase "artificial general intelligence" was popularised in the 2000s by a small group of researchers who
+wanted to return to the original goal and distinguish it from narrow AI. For years it was a fringe label.
+<strong>The term became mainstream only when a few well-funded companies, notably OpenAI and Google
+DeepMind, made it their stated mission.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Nobody has built it, so the honest question is: what is the plan?</h2>
+  <p class="lede">There is no working AGI to describe. There is a leading bet about how to get there, a
+  list of things that bet has not yet delivered, and a hard problem of measurement.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The leading bet: make it bigger</h2>
+</header>
+
+<p>A language model is trained to predict the next piece of text, a <strong>token</strong> (roughly a
+word or part of a word), across a huge amount of writing. Volume 49 explains the mechanism. The
+important discovery for AGI was not the mechanism but a pattern. Around 2020, researchers showed that
+the model's error falls in a smooth, predictable way as you increase three things together: the size
+of the model, the amount of data, and the computing power used to train it. These regularities are
+called <strong>scaling laws</strong>.</p>
+
+<p>Scaling laws turned AI into something like an industrial plan. If performance improves predictably
+with more compute, then progress becomes partly a question of building larger data centres and buying
+more chips. That is the logic behind the spending you read about, with technology companies committing
+hundreds of billions of dollars to AI infrastructure in 2025. <strong>The scaling bet says that general
+ability is not a missing ingredient but a quantity, and you get more of it by turning up the
+dial.</strong></p>
+
+<p>The bet has paid off more than many sceptics expected. Each larger generation gained abilities that
+nobody had programmed directly, such as translating between language pairs it rarely saw together. But
+there are signs of strain. Good-quality human text is finite, and the largest models have already read a
+large share of the public internet. That pushed builders toward a second dial.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The second dial: thinking for longer</h2>
+</header>
+
+<p>Early chatbots answered at once, in a single pass. From 2024 a new kind of system appeared, often
+called a <strong>reasoning model</strong>. Before giving its final answer, it writes out a long chain of
+intermediate steps, checks them and tries again when a step fails. These models are trained with
+<strong>reinforcement learning</strong>, a method where the system tries many attempts and is rewarded
+for the ones that reach a verifiably correct answer, such as a maths result or code that passes its
+tests.</p>
+
+<p>Two results followed. Performance on hard maths and programming problems jumped. In 2025 systems from
+Google DeepMind and OpenAI reached gold-medal level on the problems of the International Mathematical
+Olympiad, a competition for the world's strongest school students. And a new scaling pattern appeared:
+<strong>letting a model spend more computation per question, at the moment of answering, also improves
+results.</strong> This is called test-time compute. It means progress no longer depends only on bigger
+training runs.</p>
+
+<div class="note">
+  <span class="tag">Why verifiable tasks came first</span>
+  <p>Reinforcement learning needs a clear signal of success. Maths and code provide one: the answer is
+  right or wrong, the program runs or crashes. Writing a good strategy memo or judging a patient's
+  mood has no such automatic check. That is one reason the newest systems improved fastest exactly
+  where answers can be graded by a machine.</p>
+</div>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>What is still missing</h2>
+</header>
+
+<p>Even admirers of current systems list the same gaps. Each one is a place where a typical human
+employee is still clearly better.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Learning on the job</h4><p>A model's knowledge is mostly fixed when training
+  ends. A new colleague gets better every week from feedback. Most deployed models do not, apart from
+  what fits into the text they are given. Continuous learning without forgetting old skills is an open
+  research problem.</p></div>
+  <div class="card"><h4>Long, reliable work</h4><p>Models are impressive on tasks measured in minutes.
+  On tasks that take a person days, with many steps where one error spoils the rest, reliability drops.
+  Research groups track how long a task AI can finish, and that length has been growing quickly, but it
+  is still short of a working week.</p></div>
+  <div class="card"><h4>A grip on the physical world</h4><p>Language models learned from text and images,
+  not from handling objects. They can describe how to tie a knot and still get basic physical reasoning
+  wrong. Volume 50 explains why "the easy things are hard" for robots, which is the same gap.</p></div>
+  <div class="card"><h4>Knowing what it doesn't know</h4><p>Models still produce confident errors, as
+  Volume 49 explains. A general intelligence you could leave unsupervised would need to notice its own
+  uncertainty and ask, the way a careful professional does.</p></div>
+</div>
+
+<p>These gaps are why <strong>a system can beat most people on an exam and still be unable to do most
+people's jobs</strong>. Exams are short, self-contained and checkable. Jobs are long, messy and full of
+context nobody wrote down.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>How would we even know?</h2>
+</header>
+
+<p>Measuring general intelligence is hard even in humans. In AI it is harder, because tests leak. A
+<strong>benchmark</strong> is a fixed set of questions used to compare systems. Once a benchmark is
+published, its questions can end up in training data, and builders tune their systems towards it.
+Benchmarks that took years to design are now often "saturated", meaning top systems score near the
+maximum, within a year or two.</p>
+
+<p>The Turing test illustrates the problem. Modern chatbots can now fool many people in short
+conversations, and almost nobody concludes that AGI has arrived. The test turned out to measure
+convincing conversation, which is easier than general ability. <strong>Every time AI passes a test once
+thought to require intelligence, people tend to decide the test was not about intelligence after
+all.</strong> Researchers sometimes call this the AI effect. It is partly moving the goalposts and
+partly genuine learning about what the goalposts were.</p>
+
+<p>One influential attempt to do better is the ARC benchmark, created in 2019 by the Google researcher
+François Chollet. It uses small visual puzzles that people solve easily but that cannot be memorised,
+because each puzzle needs a new rule. Chollet's view is that intelligence is the efficiency with which
+you learn new skills, not the number of skills you already have. Newer systems have made large gains on
+the original version, and harder versions followed. The broader trend is towards measuring real work:
+whether a system can complete a software project, a research task or a business process end to end.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The rival camps</h2>
+</header>
+
+<p>The expert disagreement is not about facts anyone can look up. It is about how to extrapolate.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Position</th><th>The core argument</th><th>Associated voices</th></tr></thead>
+<tbody>
+<tr><td><strong>Scaling is enough, or nearly</strong></td><td>Every predicted wall so far has been crossed. Add compute, reasoning and tool use and the remaining gaps close within years.</td><td>Leaders of several frontier labs</td></tr>
+<tr><td><strong>New ideas are needed</strong></td><td>Predicting text cannot produce real understanding of the world. Systems need different architectures, for example models that learn how the physical world behaves.</td><td>Yann LeCun, Meta's long-time chief AI scientist; Gary Marcus, a prominent critic</td></tr>
+<tr><td><strong>Close, and dangerous</strong></td><td>Progress is fast and alignment is unsolved, so the arrival of AGI is a serious risk, whatever its exact date.</td><td>Geoffrey Hinton and Yoshua Bengio, two pioneers of deep learning</td></tr>
+<tr><td><strong>The question is badly posed</strong></td><td>Intelligence is not one quantity. AI will keep exceeding people in some ways and lagging in others, with no single moment of arrival.</td><td>Many economists and cognitive scientists</td></tr>
+</tbody></table></div>
+
+<p>It is worth noticing that the people in the first camp often run companies that need investors to
+believe in large returns, and that some critics have built public profiles on scepticism. Neither fact
+proves them wrong. <strong>Incentives are a reason to check an argument harder, not a reason to dismiss
+it.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Work, safety and power, all at once</h2>
+  <p class="lede">If AGI arrived, it would not be one more product. It would be a general substitute for
+  thinking labour, which touches the economy, the balance of power between countries, and the question of
+  who stays in control.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>A general-purpose technology for the mind</h2>
+</header>
+
+<p>Economists use the term <strong>general-purpose technology</strong> for inventions that change almost
+every industry: the steam engine, electricity, the computer. Each took decades to spread, because
+factories, offices and skills had to be rebuilt around them. Electricity was available long before
+factories were redesigned to use it well.</p>
+
+<p>AGI would be a general-purpose technology of a new kind. Earlier machines replaced muscle or routine
+calculation. <strong>A general AI would compete with the thing people retreated to each time machines
+took over: flexible judgement.</strong> That is why its economic effects are so hard to forecast. Optimists
+expect much faster scientific progress and cheaper services such as medical advice and education.
+Pessimists worry about wages falling for large groups of workers, and about who owns the systems that
+earn the income. Both camps agree the distribution of gains would be a political question, not a
+technical one. The separate file <a href="20-how-work-may-change-because-of-ai.html">How work may change
+because of AI</a> looks at the labour side in detail.</p>
+
+<p>There is one specific scenario that worries and excites people most. If AI systems became good enough
+to do AI research themselves, each generation could help build the next, faster than human teams could.
+This idea, sometimes called an <strong>intelligence explosion</strong>, was described by the statistician
+I. J. Good in 1965. It remains speculative, but it is the reason some forecasts jump suddenly from
+"human-level" to "far beyond human".</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The alignment problem</h2>
+</header>
+
+<p><strong>Alignment</strong> means making an AI system pursue the goals its designers actually intend,
+including the unstated ones. It sounds simple. It is not, because we cannot write down everything we
+want. A system rewarded for a measurable target can find shortcuts that satisfy the measure and defeat the
+purpose, a pattern known from human institutions as Goodhart's law: when a measure becomes a target, it
+stops being a good measure. Researchers have documented AI systems that exploit flaws in their tests,
+for example by editing the test instead of fixing the code.</p>
+
+<p>With today's systems, the damage from such behaviour is limited, because people check the output. The
+concern about AGI is that a highly capable system working with little supervision could pursue a
+slightly wrong goal very effectively. <strong>The worry is not evil machines but competent ones aimed a
+little off target.</strong> In May 2023 hundreds of researchers and industry leaders signed a one-sentence
+statement saying that reducing the risk of extinction from AI should be a global priority alongside
+pandemics and nuclear war. Many other researchers think such talk distracts from present harms like bias,
+surveillance and fraud. Both concerns can be true at once.</p>
+
+<div class="pass">
+  <p>"Mitigating the risk of extinction from AI should be a global priority alongside other
+  societal-scale risks such as pandemics and nuclear war."</p>
+  <span class="src"><b>Statement on AI Risk</b> · Center for AI Safety · May 2023</span>
+</div>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Power, chips and a race</h2>
+</header>
+
+<p>Training frontier models needs enormous computing power, concentrated in a handful of companies and
+built on advanced chips from a very short supply chain. Volume 12 explains how few places can make those
+chips (<a href="../12-the-physical-supply-chain.html#s1">Computer chips, and the machine that prints
+them</a>). That concentration turns AGI into a question of national power. Since 2022 the United States
+has restricted exports of the most advanced AI chips and chip-making tools to China, and China has
+invested heavily in its own models and chips.</p>
+
+<p>This creates a familiar trap. Each side fears that slowing down for safety would hand the lead to its
+rival. <strong>When the actors believe they are in a race, every one of them has a reason to cut corners
+that none of them would choose alone.</strong> Governments have begun to respond. The United Kingdom hosted
+an international AI safety summit at Bletchley Park in 2023, several countries set up AI safety
+institutes, and the European Union passed its AI Act, which entered into force in 2024 and is being
+applied in stages. How to govern a technology that does not yet exist, without either freezing it or
+ignoring it, is one of the unresolved policy problems of the decade.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>The largest upside and the largest downside on the same ticket</h2>
+  <p class="lede">Few technologies have a credible case for both curing diseases faster and
+  destabilising societies. That symmetry is why the topic generates so much heat.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Weighing the promise against the price</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Potential benefit</th><th>Potential cost</th></tr></thead>
+<tbody>
+<tr><td><strong>Science</strong></td><td class="ok">Faster discovery. AlphaFold, which predicts protein shapes, already changed biology; its developers shared the 2024 Nobel Prize in Chemistry.</td><td class="no">The same capability could help design dangerous pathogens or cyberweapons.</td></tr>
+<tr><td><strong>Economy</strong></td><td class="ok">Much higher productivity and cheaper expert services.</td><td class="no">Falling demand for many kinds of skilled work, with gains flowing to owners of the systems.</td></tr>
+<tr><td><strong>Access</strong></td><td class="ok">A good tutor, doctor's assistant or lawyer's assistant for people who could never afford one.</td><td class="no">Dependence on a few providers, and erosion of skills people stop practising.</td></tr>
+<tr><td><strong>Control</strong></td><td class="ok">Systems that follow instructions tirelessly and at scale.</td><td class="no">Systems that follow subtly wrong goals at scale, or that serve whoever controls them.</td></tr>
+<tr><td><strong>Information</strong></td><td class="ok">Instant synthesis of everything known on a topic.</td><td class="no">Persuasive misinformation produced cheaply in unlimited quantity.</td></tr>
+</tbody></table></div>
+
+<p>The pattern across the table is that <strong>almost every benefit and its matching cost come from the
+same capability</strong>. A system good enough to design a new drug is good enough to help design a
+toxin. That is why governing AGI cannot be done by banning bad uses alone.</p>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>The cost of the word itself</h2>
+</header>
+
+<p>There is a quieter disadvantage, which is the term. Because AGI has no fixed definition, it can be
+declared achieved or impossible by redefining it. That makes it useful for fundraising and headlines,
+and less useful for thinking. A company can say it is "close to AGI" to attract investment; a critic can
+say "this is not AGI" to dismiss a real advance.</p>
+
+<p>A more practical habit is to ask specific questions. Which tasks can the system do without help? How
+reliably? At what cost? With what failure modes? <strong>"Can it do this particular job, unsupervised, for
+a week?" is a far better question than "Is it AGI?"</strong> It also lets you notice change as it happens,
+rather than waiting for a single announcement that may never come in a recognisable form.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Forecasts, sorted by how much anyone actually knows</h2>
+  <p class="lede">Timelines here are opinions, including expert ones. What can be sorted is how
+  well-supported each kind of claim is.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three horizons, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands (2026)</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>AI keeps getting broader and more capable</strong></td><td>Each year brings stronger reasoning, longer tasks and better tool use. Investment in compute is still rising.</td><td class="ok">Fairly sure: continued improvement over the next few years, even if the pace varies. Many more tasks will become automatable.</td></tr>
+<tr><td><strong>Human-level performance across most office work</strong></td><td>Strong on short, checkable tasks; weaker on long, ambiguous ones and on learning from experience.</td><td class="mid">Plausible within a decade or two; contested. Depends on whether reliability and on-the-job learning are solved by scaling or need new ideas.</td></tr>
+<tr><td><strong>Rapid jump to superintelligence</strong></td><td>No demonstration of AI substantially accelerating its own research yet, though AI is increasingly used as a coding tool inside labs.</td><td class="no">Speculative: taken seriously by some leading researchers, rejected by others. No reliable way to put a date on it.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>How to read the next AGI headline</h2>
+</header>
+
+<p>Expert forecasts have shifted earlier. A large survey of published AI researchers, run in late 2023,
+put the median estimate for machines outperforming humans at every task at around 2047, more than a
+decade earlier than the same survey a year before. Several lab leaders talk about the late 2020s. Those
+numbers are useful as a picture of opinion, not as evidence: the survey also showed huge spread, and the
+answers changed a lot depending on how the question was worded.</p>
+
+<p>When you see the next claim, run four checks. First, which definition is being used? Second, who is
+speaking, and what do they gain if you believe them? Third, is the evidence a demonstration chosen for a
+press release or independent testing on real work? Fourth, what would change their mind? Volume 50 offers a
+general version of this method (<a href="../50-whats-coming.html#c8">How to read the next
+announcement</a>).</p>
+
+<p>The most defensible position for a non-specialist is neither "it is hype" nor "it is imminent".
+<strong>It is that a very capable, very general technology is arriving gradually and unevenly, and that
+its effects will depend more on how people choose to deploy and govern it than on the exact day someone
+declares a threshold crossed.</strong> The two neighbouring files, <a href="02-ai-agents.html">AI
+agents</a> and <a href="19-human-ai-collaboration.html">Human-AI collaboration</a>, show what that
+gradual arrival looks like in practice.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>AGI means a system that can learn and perform <strong>almost any mental task</strong> a capable
+    person can, and <strong>transfer</strong> skills to new problems. There is no agreed definition. The
+    leading approach bets on <strong>scaling</strong> models and adding <strong>reasoning</strong>; the
+    main gaps are on-the-job learning, long reliable work and physical understanding.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li><strong>1950</strong>: Turing proposes his test. <strong>1956</strong>: the field is named at Dartmouth.</li>
+      <li>Scaling laws, described around <strong>2020</strong>, made progress partly predictable from compute.</li>
+      <li>A late-2023 survey of AI researchers gave a median of about <strong>2047</strong> for machines beating humans at every task, with very wide spread.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Arguing about whether AGI is near without first agreeing what it means. <strong>Most timing
+    disputes are definition disputes in disguise.</strong></p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a model can score highly on a professional exam yet still be unable to do the
+    job that exam qualifies people for? If so, you understand the gap between benchmarks and general
+    ability.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>AGI</dt><dd>Artificial general intelligence: AI that can learn and do almost any thinking task a capable person can.</dd>
+    <dt>Narrow AI</dt><dd>A system that is good at one task and cannot move to others without being rebuilt.</dd>
+    <dt>Superintelligence</dt><dd>A hypothetical AI far better than the best humans in nearly every field.</dd>
+    <dt>Turing test</dt><dd>Alan Turing's 1950 proposal: if a judge cannot tell the machine from a person in text chat, call it thinking.</dd>
+    <dt>Token</dt><dd>A small unit of text, roughly a word or part of one, that a language model reads and predicts.</dd>
+    <dt>Scaling laws</dt><dd>The regular pattern by which AI models improve as size, data and computing power grow together.</dd>
+    <dt>Reasoning model</dt><dd>A model trained to work through intermediate steps before answering.</dd>
+    <dt>Reinforcement learning</dt><dd>Training by trial and reward, where successful attempts are reinforced.</dd>
+    <dt>Test-time compute</dt><dd>Extra computation spent while answering a question, which can improve the answer.</dd>
+    <dt>Benchmark</dt><dd>A fixed set of test questions used to compare AI systems.</dd>
+    <dt>Alignment</dt><dd>Making an AI system pursue the goals its designers really intend.</dd>
+    <dt>General-purpose technology</dt><dd>An invention, like electricity, that ends up changing almost every industry.</dd>
+    <dt>Intelligence explosion</dt><dd>The idea that AI able to improve AI could speed up its own progress dramatically.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"AGI doesn't have one definition, so before arguing about the date, ask which finish line people
+    mean."</li>
+    <li>"The 'general' part is about transfer: learning something new without being rebuilt."</li>
+    <li>"Today's models can pass exams that qualify people for jobs they still can't do, because jobs are
+    long and messy and exams aren't."</li>
+    <li>"The safety worry isn't evil machines. It's very competent systems aimed slightly off target."</li>
+    <li>"A better question than 'is it AGI?' is 'can it do this job, unsupervised, for a week?'"</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="02-ai-agents.html">AI agents</a></h4><p>What happens when
+  models stop answering questions and start taking actions: tools, plans, and the reliability problem in
+  practice.</p></div>
+  <div class="card"><h4>Related · <a href="../49-ai-honestly.html">AI, Honestly</a></h4><p>The
+  foundations under this file: how language models learn, why they invent things, and how to work with
+  them well.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

@@ -1,0 +1,844 @@
+<!doctype html>
+<!--@HEAD-SRC title="Digital Currencies" desc="Digital currencies as money: e-money, cryptocurrencies and stablecoins, how they move and hold value, whether they pass the tests of money, runs and collapses, regulation, and the fight over who issues money."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Currencies</title>
+<meta name="description" content="Digital currencies as money: e-money, cryptocurrencies and stablecoins, how they move and hold value, whether they pass the tests of money, runs and collapses, regulation, and the fight over who issues money.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Banking &amp; Fintech · Topic 14 of 20</p>
+  <h1>Digital currencies. <span class="thin">Money has been digital for decades. The new question is who is allowed to make it.</span></h1>
+  <p class="lede">Almost all the money you own is already digital: numbers in a bank's computer.
+  What changed in 2009 was not that money became electronic. It was that someone showed how to create
+  a digital asset that could be passed from person to person with no bank in the middle, and that
+  nobody could copy. That idea produced Bitcoin, thousands of imitators, and then stablecoins: private
+  digital dollars now worth hundreds of billions. This file asks a narrow, important question about
+  all of them. Do they actually work as money?</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Banking &amp; Fintech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c1"><span class="vn">Vol 38 · ch 01</span><b>A promise everyone accepts</b><em>What money is</em></a>
+<a class="vol" href="../01-technology/09-blockchain.html"><span class="vn">Technology · 09</span><b>Blockchain</b><em>The technology underneath</em></a>
+<a class="vol" href="15-central-bank-digital-currencies.html"><span class="vn">Banking · 15</span><b>CBDCs</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 38 explains what money is and where it comes from (<a href="../38-money.html#c1">A promise
+  that everyone accepts</a>, <a href="../38-money.html#c2">Where new money comes from</a>), and why
+  bubbles form (<a href="../38-money.html#c6">Bubbles</a>). Three other topics cover neighbouring
+  ground: <a href="../01-technology/09-blockchain.html">Blockchain</a> (the technology), <a
+  href="../10-finance-investing/16-cryptocurrencies.html">Cryptocurrencies</a> (as an investment) and
+  <a href="15-central-bank-digital-currencies.html">CBDCs</a> (state digital money). This file treats
+  digital currencies as money.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Four kinds of digital money, with four different issuers</h2>
+  <p class="lede">"Digital currency" covers very different things. The useful question is always:
+  whose promise is this, and what stands behind it?</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Most money is already digital</h2>
+</header>
+
+<p>In a modern economy, coins and banknotes are a small share of the money supply. Most money is
+bank deposits: entries in a commercial bank's ledger saying the bank owes you a certain amount. When
+you pay by card or transfer, banks change those entries. Volume 38 explains how banks create this
+money when they lend.</p>
+
+<p>So what is new about digital currencies? Two things. First, <strong>who issues them</strong>: not a
+bank or a state, but a computer network or a private company. Second, <strong>how they move</strong>:
+like cash, they can pass directly from one holder to another without each payment going through a
+bank's books. Economists call money that belongs to whoever holds it a <strong>bearer</strong>
+instrument. A banknote is bearer money. A bank deposit is not. Cryptocurrencies tried to make
+bearer money that works online.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The map</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Type</th><th>Who issues it</th><th>What stands behind it</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>E-money</strong></td><td>A licensed company</td><td>Funds the company must hold safely, one for one</td><td>Mobile money such as M-Pesa in Kenya; balances in some payment apps</td></tr>
+<tr><td><strong>Cryptocurrency</strong></td><td>No one: created by the rules of a computer network</td><td>Nothing outside itself. Value depends on what others will pay</td><td>Bitcoin, Ether</td></tr>
+<tr><td><strong>Stablecoin</strong></td><td>Usually a private company</td><td>Reserves (cash, government bonds) meant to keep it worth one dollar or euro</td><td>Tether (USDT), USDC</td></tr>
+<tr><td><strong>Central bank digital currency</strong></td><td>The central bank</td><td>The state, like banknotes</td><td>China's e-CNY; covered in <a href="15-central-bank-digital-currencies.html">Topic 15</a></td></tr>
+</tbody></table></div>
+
+<p>The table shows why mixing these up causes so much confusion. A Bitcoin and a USDC token both
+live on blockchains, but they are opposite in the way that matters for money. <strong>Bitcoin's price
+floats freely. A stablecoin exists precisely to stop its price from moving.</strong></p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>A short history of private digital cash</h2>
+</header>
+
+<p>The dream is older than Bitcoin. In 1989 the cryptographer David Chaum founded DigiCash, which
+offered private electronic cash using clever cryptography. Few banks adopted it, and the company went
+bankrupt in 1998. Other attempts, such as e-gold, a currency supposedly backed by gold, ran into
+fraud and money-laundering prosecutions. All of them had the same weak point: <strong>a central company
+that could fail, be shut down, or cheat</strong>.</p>
+
+<p>On 31 October 2008, weeks after the collapse of Lehman Brothers, a person or group using the name
+Satoshi Nakamoto published a nine-page paper describing "a purely peer-to-peer version of electronic
+cash". The Bitcoin network started in January 2009. Its novelty was removing the central company.
+The ledger would be kept by everyone, and no one could change it alone.</p>
+
+<p>In 2010, a programmer in Florida paid 10,000 bitcoins for two pizzas, often cited as the first
+real-world purchase. Over the next decade, bitcoin became much more valuable and much less used for
+buying pizza. In 2019 Facebook announced Libra, a global stablecoin for its billions of users.
+Governments reacted with alarm, and the project, renamed Diem, was abandoned in early 2022. That
+reaction showed how seriously states take the question of who issues money.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>A shared ledger, a promise, and a key</h2>
+  <p class="lede">Cryptocurrencies need a way to stop people spending the same coin twice. Stablecoins
+  need a way to stay worth one dollar. Users need a way to hold either safely.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Solving double spending without a bank</h2>
+</header>
+
+<p>Digital files can be copied. If money is a file, what stops you sending the same coin to two
+people? This is the <strong>double-spending problem</strong>, and for digital cash it was the central
+obstacle. Banks solve it by keeping one authoritative ledger. If you spend money, they subtract it.</p>
+
+<p>Bitcoin's answer was a ledger shared by thousands of computers, called a <strong>blockchain</strong>.
+Transactions are grouped into blocks, and each block is linked to the previous one with a
+cryptographic fingerprint, so changing an old entry would break every link after it. Computers
+called <strong>miners</strong> compete to add the next block by solving a costly puzzle, a system known
+as <strong>proof of work</strong>. Rewriting history would require out-computing most of the network,
+which is extremely expensive. The full technical story is in <a
+href="../01-technology/09-blockchain.html">Blockchain</a>.</p>
+
+<p>The key point for money is this: <strong>the ledger replaces trust in a bank with trust in
+mathematics, economic incentives, and the honesty of a majority of the network's computing
+power</strong>. The bitcoin supply is set by the code, with a maximum of 21 million coins. No central
+bank can create more.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>How a stablecoin holds its value</h2>
+</header>
+
+<p>A stablecoin promises that one token is always worth, say, one US dollar. There are three main
+ways to try to keep that promise, and they differ hugely in safety.</p>
+
+<div class="grid3">
+  <div class="card"><h4>Backed by cash and bonds</h4><p>For every token, the issuer holds a dollar's
+  worth of reserves, such as bank deposits or short-term US government bonds. Large customers can
+  redeem tokens for dollars. This is the model of USDC and Tether, and the one regulators now
+  favour.</p></div>
+  <div class="card"><h4>Backed by other crypto</h4><p>Users lock up more crypto than the stablecoins they
+  borrow, for example 150 dollars of ether for 100 stablecoins. If the collateral falls, it is sold
+  automatically. It works until prices fall faster than the system can sell.</p></div>
+  <div class="card"><h4>Algorithmic</h4><p>No real reserves. A second token absorbs swings, and code
+  creates or destroys tokens to push the price back to one dollar. It works only while people believe
+  it will. See Chapter 10.</p></div>
+</div>
+
+<p>For reserve-backed coins, the mechanism that holds the peg is <strong>arbitrage</strong>: buying
+where something is cheap and selling where it is dear. If the token trades at 99 cents, a trader can
+buy it and redeem it with the issuer for a dollar, pushing the price back up. That only works if
+people believe the reserves are really there and can be reached quickly. <strong>A stablecoin is
+exactly as stable as its reserves and its redemption promise.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Keys, wallets and who holds them</h2>
+</header>
+
+<p>On a blockchain, you do not have an account with a name on it. You have a <strong>private
+key</strong>: a long secret number that proves you control certain coins. A <strong>wallet</strong> is
+software or a device that stores keys and signs transactions. Whoever has the key controls the
+money.</p>
+
+<p>That creates a stark choice. With <strong>self-custody</strong>, you hold the key yourself. Nobody
+can freeze your coins, but if you lose the key or someone steals it, the money is gone, with no help
+desk and no refund. With <strong>custody</strong> by an exchange, a company holds the keys for you, as
+a bank would. It can reset your password, but you depend on it being honest and solvent. When the
+exchange FTX collapsed in November 2022, customers discovered their funds had been misused. The
+crypto saying "not your keys, not your coins" comes from such episodes.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The cost of running the ledger</h2>
+</header>
+
+<p>A shared ledger without a central owner is expensive to run. Bitcoin's network handles only a
+handful of transactions per second, far fewer than card networks. Fees rise when it is busy. Proof of
+work uses large amounts of electricity, because miners deliberately spend energy to make cheating
+costly.</p>
+
+<p>Other systems made different choices. Ethereum, the second-largest network, switched in
+September 2022 to <strong>proof of stake</strong>, in which validators lock up coins as a deposit
+they lose if they cheat, instead of burning electricity. That cut its energy use by more than 99%.
+Faster "layer 2" networks process many payments off the main chain and settle them together later,
+much like the batch settlement of card payments described in <a
+href="../14-computing-and-ai.html#c7">Volume 14</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Testing digital currencies against the jobs of money</h2>
+  <p class="lede">Money has three jobs: a means of exchange, a unit of account, and a store of value.
+  Different digital currencies pass different tests.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Is bitcoin money?</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Job of money</th><th>Bitcoin</th><th>Dollar stablecoin</th></tr></thead>
+<tbody>
+<tr><td><strong>Means of exchange</strong></td><td class="mid">Used for some payments, especially across borders, but few shops accept it and fees vary</td><td class="ok">Widely used for transfers and trading between crypto platforms</td></tr>
+<tr><td><strong>Unit of account</strong></td><td class="no">Almost nothing is priced in bitcoin, because its value swings so much</td><td class="mid">Prices are in dollars anyway; the coin borrows the dollar's unit</td></tr>
+<tr><td><strong>Store of value</strong></td><td class="mid">Supporters call it "digital gold"; its price has repeatedly fallen by more than half</td><td class="mid">Stable while reserves hold; inflation still erodes it like a dollar</td></tr>
+</tbody></table></div>
+
+<p>The best-known real-world test came in El Salvador. In September 2021 it became the first country
+to make bitcoin legal tender, which required businesses to accept it. Most people kept using dollars,
+which the country had used officially since 2001. In early 2025, as part of a loan agreement with
+the IMF, the law was changed so that accepting bitcoin became voluntary. <strong>Declaring something
+money does not make people use it as money.</strong></p>
+
+<p>Many economists therefore describe bitcoin as a speculative asset rather than a currency, which is
+why its investment side is covered in <a
+href="../10-finance-investing/16-cryptocurrencies.html">Cryptocurrencies</a>. Supporters reply that
+young monies are always volatile, and that a fixed supply protects savers from governments that
+print too much. The disagreement is genuine and unresolved.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Stablecoins: digital dollars for the world</h2>
+</header>
+
+<p>Stablecoins have become the most used part of crypto. By 2025 their total value was more than
+200 billion US dollars, and the great majority were linked to the US dollar. They are the main way
+traders move money between crypto platforms. But they have a second use that matters more for the
+world economy.</p>
+
+<p>In countries with high inflation or currency controls, such as Argentina, Turkey or Nigeria, many
+people want to save in dollars but cannot easily open a dollar bank account. A dollar stablecoin on a
+phone offers something close to that. It is also used to send money across borders faster and more
+cheaply than some traditional services. <strong>For many users outside the US, a stablecoin is not
+"crypto" at all. It is a way to hold dollars.</strong></p>
+
+<p>That has a political side. Each stablecoin is backed largely by US government bonds, so their
+growth increases demand for US debt and extends the dollar's reach. Some US officials see that as a
+benefit. Central banks in other countries worry that it weakens their own currencies and their control
+over monetary policy, a concern sometimes called <strong>digital dollarisation</strong>.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Runs, breaks and an old lesson</h2>
+</header>
+
+<p>In May 2022, TerraUSD, a large algorithmic stablecoin, lost its dollar peg. As holders sold, the
+system created more of its sister token, Luna, whose price collapsed, which made the stablecoin less
+credible, which caused more selling. Within days both were nearly worthless, and tens of billions
+of dollars of value disappeared. It was a <strong>run</strong>, the same pattern that brings down banks,
+moving at internet speed.</p>
+
+<p>Reserve-backed coins have wobbled too. In March 2023, Circle revealed that part of USDC's reserves
+were held at Silicon Valley Bank, which had just failed. USDC briefly fell to about 87 cents until it
+became clear the US authorities would protect all of that bank's deposits.</p>
+
+<p>Historians point to a parallel. Between 1837 and 1863, many US banks issued their own banknotes,
+backed by whatever reserves they held. Notes from distant or weak banks traded below face value, and
+some banks failed, leaving holders with worthless paper. <strong>Private money has always been only as
+good as its issuer.</strong> The rules now being written for stablecoins, covered in Question 5, are
+largely an attempt not to relearn that lesson.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Openness and speed, against volatility and fragility</h2>
+  <p class="lede">The same features that attract users also create the risks.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>The case for</th><th>The case against</th></tr></thead>
+<tbody>
+<tr><td><strong>No central issuer (crypto)</strong></td><td class="ok">No one can freeze or inflate it at will. Attractive under unstable governments.</td><td class="no">No one to stabilise it, refund mistakes or act as lender of last resort.</td></tr>
+<tr><td><strong>Fixed supply (bitcoin)</strong></td><td class="ok">Protection from over-printing.</td><td class="no">Supply cannot respond to a crisis. Tends to make the price swing.</td></tr>
+<tr><td><strong>Open, global networks</strong></td><td class="ok">Anyone with a phone can join; fast cross-border transfers, any time of day.</td><td class="no">Also open to sanctioned states, scammers and launderers.</td></tr>
+<tr><td><strong>Stable value (stablecoins)</strong></td><td class="ok">Dollar access for people who lack it; useful for trading and payments.</td><td class="no">Run risk if reserves are doubted; depends on one private issuer.</td></tr>
+<tr><td><strong>Self-custody</strong></td><td class="ok">Real ownership without a middleman.</td><td class="no">Lost or stolen keys mean lost money, with no recourse.</td></tr>
+<tr><td><strong>Running costs</strong></td><td class="ok">Proof of stake and layer 2 networks have cut costs sharply.</td><td class="no">Bitcoin's proof of work still uses large amounts of electricity.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Crime, and the myth of anonymity</h2>
+</header>
+
+<p>Cryptocurrencies are used for crime: ransomware payments, darknet markets, scams and, as described
+in <a href="12-financial-cybersecurity.html">Financial cybersecurity</a>, large state-backed thefts.
+That is real. But two common beliefs are wrong.</p>
+
+<p>First, most public blockchains are not anonymous. They are <strong>pseudonymous</strong>: every
+transaction is visible forever, linked to an address rather than a name. Once an address is tied to
+a person, for example when they cash out at a regulated exchange that checks identity, investigators
+can trace the money backwards. Specialist firms and police have used this to recover stolen funds.
+Second, estimates by blockchain analysis firms usually put illicit activity at a small share of total
+crypto transactions, though measuring it is hard and the figures are disputed.</p>
+
+<p>The honest summary is that <strong>crypto makes some crimes easier, especially ransomware and
+cross-border theft, and others easier to trace</strong>. Cash remains the most widely used tool for
+money laundering.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Regulated private money, and a contest with the state</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Where digital currencies are heading</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Regulated stablecoins</strong></td><td>The EU's MiCA rules have applied to stablecoins since mid-2024. The US GENIUS Act, signed in July 2025, set federal rules requiring one-for-one reserves in cash and short-term government debt.</td><td class="ok">Fairly sure: stablecoins become a supervised form of e-money, and large banks and payment firms issue or use them.</td></tr>
+<tr><td><strong>Tokenised bank deposits</strong></td><td>Banks are testing deposits that live on blockchain-style ledgers, so they can move like stablecoins but stay bank money.</td><td class="mid">Plausible: used first for payments between companies and in markets, where instant settlement saves money.</td></tr>
+<tr><td><strong>Stablecoins in everyday shopping</strong></td><td>Card networks and payment firms have started settling some payments in stablecoins behind the scenes.</td><td class="mid">Plausible in some markets, especially cross-border. In countries with cheap instant payments, the advantage is small.</td></tr>
+<tr><td><strong>Bitcoin as a world currency</strong></td><td>Some companies and a few governments hold bitcoin as a reserve asset.</td><td class="no">Speculative: volatility and a fixed supply make it a poor everyday currency, and no major economy is close to using it as one.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The deeper question: who issues money?</h2>
+</header>
+
+<p>For about a century and a half, most countries have settled on a two-layer system. The central
+bank issues the base money, banknotes and reserves, and commercial banks issue deposits under close
+supervision, as explained in <a href="02-central-banking.html">Central banking</a>. Digital currencies
+challenge that arrangement from two directions.</p>
+
+<p>Cryptocurrencies propose money with no issuer at all. Stablecoins propose money issued by
+technology and payment companies, possibly with global reach and billions of users. Both raise the
+same concern for governments: <strong>if people hold their money outside the banking system, the
+central bank loses some of its grip on interest rates, financial stability and the payments that
+tax and law enforcement depend on.</strong></p>
+
+<p>States have answered in two ways. One is to bring private digital money inside the rules, as the
+new stablecoin laws do. The other is to offer a state-issued digital currency of their own. That
+second answer is the subject of the next topic, <a href="15-central-bank-digital-currencies.html">Central
+Bank Digital Currencies</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Most money is already digital. What is new is <strong>who issues it</strong> and <strong>how it
+    moves</strong>. <strong>Cryptocurrencies</strong> solve double spending with a shared ledger and float
+    freely in price; <strong>stablecoins</strong> try to hold a fixed value through reserves. Each is only
+    as trustworthy as the thing behind it: a network's incentives, or an issuer's reserves.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Bitcoin's white paper: <strong>31 October 2008</strong>; maximum supply <strong>21 million</strong>.</li>
+      <li>Stablecoins passed <strong>200 billion dollars</strong> in total value by 2025, mostly dollar-linked.</li>
+      <li>Ethereum's switch to proof of stake in <strong>2022</strong> cut its energy use by more than
+      <strong>99%</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Treating "crypto" as one thing. <strong>A bitcoin and a dollar stablecoin share technology but
+    behave in opposite ways</strong>: one is designed to float, the other to stay fixed.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why TerraUSD collapsed while USDC recovered, using the words "reserves",
+    "redemption" and "run"?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Digital currency</dt><dd>Any money that exists only in electronic form; the term usually means newer forms outside banks.</dd>
+    <dt>Bearer instrument</dt><dd>Something that belongs to whoever holds it, like a banknote.</dd>
+    <dt>E-money</dt><dd>Prepaid electronic value issued by a licensed firm and backed one for one by funds it holds.</dd>
+    <dt>Cryptocurrency</dt><dd>A digital asset created and transferred by the rules of a decentralised network.</dd>
+    <dt>Stablecoin</dt><dd>A crypto token designed to keep a fixed value, usually one dollar.</dd>
+    <dt>Double spending</dt><dd>Spending the same digital money twice, the core problem digital cash must solve.</dd>
+    <dt>Blockchain</dt><dd>A shared ledger of transactions in linked blocks, kept by many computers.</dd>
+    <dt>Proof of work / proof of stake</dt><dd>Two ways of deciding who adds the next block: by spending computing power, or by locking up coins.</dd>
+    <dt>Private key</dt><dd>The secret number that proves control of coins on a blockchain.</dd>
+    <dt>Self-custody</dt><dd>Holding your own keys rather than letting a company hold them.</dd>
+    <dt>Peg</dt><dd>The fixed value a stablecoin aims to keep.</dd>
+    <dt>Arbitrage</dt><dd>Profiting from a price difference, which pushes prices back into line.</dd>
+    <dt>Pseudonymous</dt><dd>Linked to an address rather than a name, but publicly visible.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Your money is already digital. The new thing is money that no bank issues."</li>
+    <li>"Bitcoin and stablecoins use the same technology but do opposite jobs. One floats, the other
+    is pinned to the dollar."</li>
+    <li>"A stablecoin is only as stable as its reserves and your ability to cash it in."</li>
+    <li>"El Salvador showed that making something legal tender doesn't make people use it."</li>
+    <li>"Blockchains aren't anonymous. They're public records with nicknames."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="15-central-bank-digital-currencies.html">Central Bank Digital
+  Currencies</a></h4><p>The state's answer: digital cash issued by the central bank, and the arguments
+  about privacy, banks and control.</p></div>
+  <div class="card"><h4>Related · <a href="../10-finance-investing/16-cryptocurrencies.html">Cryptocurrencies</a></h4><p>The
+  same coins seen as an investment: price cycles, risk, and how to think about holding them.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

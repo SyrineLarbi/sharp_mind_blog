@@ -1,0 +1,829 @@
+<!doctype html>
+<!--@HEAD-SRC title="Loans" desc="How loans work: the main types, how a repayment schedule splits interest from principal, how lenders decide who gets credit, what happens on default, and where lending is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loans</title>
+<meta name="description" content="How loans work: the main types, how a repayment schedule splits interest from principal, how lenders decide who gets credit, what happens on default, and where lending is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Banking &amp; Fintech · Topic 08 of 20</p>
+  <h1>Loans. <span class="thin">Buying time with money, and paying for the time.</span></h1>
+  <p class="lede">A loan is the simplest financial contract there is: someone gives you money now, and
+  you promise to give back more later. Almost every large thing a person or a company does depends on
+  that promise. Homes, cars, degrees, factories and governments are all paid for partly with borrowed
+  money. Yet most borrowers never look closely at how a loan is built: how the monthly payment is
+  calculated, why the early payments are mostly interest, what the lender was really judging, and what
+  happens when the promise cannot be kept.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Banking &amp; Fintech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c4"><span class="vn">Vol 38 · ch 04</span><b>Interest and compounding</b><em>The price of time</em></a>
+<a class="vol" href="03-commercial-banking.html"><span class="vn">Banking · 03</span><b>Commercial banking</b><em>How a lender prices a loan</em></a>
+<a class="vol" href="09-mortgages.html"><span class="vn">Banking · 09</span><b>Mortgages</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 38 explains interest as the price of time and shows how debt compounds
+  (<a href="../38-money.html#c4">Interest, and the astonishing effect of compounding</a>), and
+  explains that bank loans create new money (<a href="../38-money.html#c2">Where new money comes
+  from</a>). This file is about the loan contract itself. Home loans get their own topic in
+  <a href="09-mortgages.html">Mortgages</a>, and the scoring of borrowers is in
+  <a href="10-credit-scores.html">Credit scores</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A promise to repay, with a price on the waiting</h2>
+  <p class="lede">Every loan has the same three parts: an amount, a price and a schedule. The many
+  kinds of loan are just different ways of setting those three, plus what happens if the borrower
+  does not pay.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Older than coins</h2>
+</header>
+
+<p>Lending is older than money as we know it. Clay tablets from Mesopotamia record loans of barley
+and silver, with interest, thousands of years ago. The Code of Hammurabi, a Babylonian law code from
+around 1750 BC, set maximum interest rates on loans of grain and silver. From the start, societies
+saw that loans were useful and that they could be abused, and tried to regulate both sides.</p>
+
+<p>Many religious traditions went further. Medieval Christian teaching condemned <strong>usury</strong>,
+a word that first meant charging any interest and later came to mean charging too much. Islamic law
+forbids interest, which is why Islamic banks structure finance as sales, leases or partnerships
+instead. Over centuries, Europe's ban weakened as trade grew, and lenders found ways to call interest
+something else. <strong>The tension between the usefulness of credit and the danger of debt is as old
+as writing.</strong> It runs through every modern rule on lending.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The main kinds of loan</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Choice</th><th>Option A</th><th>Option B</th></tr></thead>
+<tbody>
+<tr><td><strong>Is there security?</strong></td><td><strong>Secured</strong>: backed by an asset the lender can take if you do not pay, such as a house or car. Lower rate.</td><td><strong>Unsecured</strong>: backed only by your promise. Higher rate. Personal loans, cards, most student loans.</td></tr>
+<tr><td><strong>How is it drawn?</strong></td><td><strong>Term loan</strong>: one amount, repaid on a fixed schedule.</td><td><strong>Revolving</strong>: borrow and repay up to a limit, as with overdrafts and <a href="07-credit-cards.html">credit cards</a>.</td></tr>
+<tr><td><strong>How is the rate set?</strong></td><td><strong>Fixed</strong>: the same rate for the whole term or a set period.</td><td><strong>Variable</strong>: moves with a reference rate, such as the central bank rate.</td></tr>
+<tr><td><strong>How is it repaid?</strong></td><td><strong>Amortising</strong>: each payment covers interest and part of the debt, so the debt reaches zero.</td><td><strong>Interest-only or bullet</strong>: only interest along the way; the whole amount at the end.</td></tr>
+</tbody></table></div>
+
+<p>Any real loan is a combination. A typical car loan is secured, term, fixed and amortising. A
+company's bond is usually unsecured, term, fixed and bullet. A business overdraft is revolving and
+variable. <strong>Once you can place a loan on these four choices, you understand most of its
+risks</strong>, both to you and to the lender.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The price: interest rate, APR and total cost</h2>
+</header>
+
+<p>The <strong>principal</strong> is the amount you borrow. The <strong>interest rate</strong> is the
+yearly price of borrowing it. But loans also carry fees: arrangement fees, insurance sold alongside,
+early-repayment charges. To make loans comparable, many countries require lenders to show a single
+figure that includes most fees, spread over the life of the loan. In the US, UK and EU this is the
+<strong>APR</strong>, the annual percentage rate.</p>
+
+<p>The APR is the right number to compare offers. But the number that matters to your budget is the
+<strong>total amount repayable</strong>. A longer loan has a lower monthly payment and a higher total
+cost, because you pay interest for more years. Lenders know that borrowers look at the monthly
+payment, so they often advertise it. <strong>Always ask what the loan costs in total, not just per
+month.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>The schedule, the decision and the fine print</h2>
+  <p class="lede">Behind every loan there is a calculation of the payments and a judgment about the
+  borrower. Both are less mysterious than they look.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Where your monthly payment goes</h2>
+</header>
+
+<p>Take a loan of 10,000 euros at 8 per cent a year, repaid over three years in equal monthly payments.
+The monthly payment works out at about <strong>313 euros</strong>. Each month, interest is charged on
+whatever is still owed, and the rest of the payment reduces the debt.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Month</th><th>Interest part</th><th>Debt repaid</th><th>Still owed after payment</th></tr></thead>
+<tbody>
+<tr><td><strong>1</strong></td><td>67</td><td>247</td><td>9,753</td></tr>
+<tr><td><strong>2</strong></td><td>65</td><td>248</td><td>9,505</td></tr>
+<tr><td><strong>12</strong></td><td>48</td><td>265</td><td>6,929</td></tr>
+<tr><td><strong>24</strong></td><td>26</td><td>287</td><td>3,602</td></tr>
+<tr><td><strong>36</strong></td><td>2</td><td>311</td><td>0</td></tr>
+</tbody></table></div>
+
+<p>The payment never changes, but its make-up does. At first, a fifth of it is interest. By the end,
+almost all of it repays the debt. This pattern is called <strong>amortisation</strong>, and the table
+is an amortisation schedule. Over the three years you pay about 1,280 euros of interest. Stretch the
+same loan to five years and the payment falls to about 203 euros, but total interest rises to about
+2,170.</p>
+
+<p>The pattern matters most for long loans. On a 25-year mortgage, the early years are dominated by
+interest, so after five years the debt has fallen far less than people expect. <strong>Paying a little
+extra early in a loan saves far more interest than paying extra late</strong>, because it removes
+principal that would have been charged interest for the most years.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>How a lender decides: the five Cs</h2>
+</header>
+
+<p>Lending is a forecast: will this borrower repay? Bankers have long summarised what they look at as
+the <strong>five Cs of credit</strong>.</p>
+
+<div class="tw"><table>
+<thead><tr><th>The C</th><th>The question</th><th>What the lender checks</th></tr></thead>
+<tbody>
+<tr><td><strong>Character</strong></td><td>Does this borrower repay?</td><td>Credit history, past defaults, how long at the same job or address</td></tr>
+<tr><td><strong>Capacity</strong></td><td>Can they afford the payments?</td><td>Income, other debts, the share of income going to debt payments</td></tr>
+<tr><td><strong>Capital</strong></td><td>Do they have their own money at stake?</td><td>Savings, deposit, the owners' investment in a business</td></tr>
+<tr><td><strong>Collateral</strong></td><td>What can be recovered if they do not pay?</td><td>The value of the house, car or business assets</td></tr>
+<tr><td><strong>Conditions</strong></td><td>What is the loan for, and what is the wider situation?</td><td>The purpose, the industry, the state of the economy</td></tr>
+</tbody></table></div>
+
+<p>For consumer loans, most of this is now automated. Scoring models turn credit history into a
+number, and affordability rules set limits on how much of a borrower's income can go on debt. A key
+measure is the <strong>debt-to-income ratio</strong>: total monthly debt payments divided by monthly
+income. For business loans, especially large ones, human judgment still matters a great deal, because
+each business is different.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The fine print that protects the lender</h2>
+</header>
+
+<p>A loan contract does more than set a rate. Business loans usually contain <strong>covenants</strong>:
+promises the borrower makes for the life of the loan, such as keeping its debt below a set multiple of
+its earnings, or not selling key assets. If a covenant is broken, the lender can demand early
+repayment or renegotiate the terms, often charging more. Covenants let a lender act early, before the
+borrower is actually unable to pay.</p>
+
+<p>Consumer loans have their own fine print: <strong>early-repayment charges</strong> that compensate
+the lender for lost interest, rules on what happens if you miss a payment, and sometimes a
+<strong>guarantor</strong>, another person who promises to pay if you cannot. Very large loans to
+companies are often <strong>syndicated</strong>: one bank arranges the loan and shares it among many
+lenders, so that no single one carries the whole risk.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>When payments stop</h2>
+</header>
+
+<p>A borrower who misses a payment is <strong>in arrears</strong>. Lenders usually contact them,
+charge late fees and report the missed payment to credit bureaus. After a set period, often around
+three months for consumer loans, the loan is treated as <strong>in default</strong>. For a secured loan,
+the lender can then take and sell the collateral: it can repossess a car, or start proceedings to sell
+a house, which is called <strong>foreclosure</strong> in the US. For an unsecured loan, it may sell the
+debt to a collection agency, often for a fraction of its face value.</p>
+
+<p>When a borrower cannot pay their debts at all, the law offers a final route:
+<strong>bankruptcy</strong> or <strong>insolvency</strong>. The rules vary widely. The United States
+has comparatively forgiving personal bankruptcy, which can wipe out many debts and give people a fresh
+start, though student loans are very hard to discharge. Many European countries traditionally made
+debts harder to escape, though several have softened their rules in recent decades. For companies,
+procedures such as Chapter 11 in the US let a firm keep operating while it restructures its debts.
+<strong>How a country treats people who cannot repay shapes how much its lenders are willing to lend,
+and to whom.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Opportunity, inequality and the business cycle</h2>
+  <p class="lede">Credit decides who can invest in their future before they have saved for it. That
+  makes it a source of opportunity, and a source of danger when it is too easy or too hard to get.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Borrowing against your future self</h2>
+</header>
+
+<p>Economists explain borrowing with a simple idea. Most people earn little when young, more in middle
+age, and little again in retirement. If they could only spend what they earned each year, they would be
+poor when they most need to spend, on a home, on children, on education. A loan lets someone move money
+from their richer future self to their poorer present self. Economists call this <strong>consumption
+smoothing</strong>.</p>
+
+<p>For businesses, the logic is investment. A firm that can borrow to buy a machine today can earn
+from it for years. <strong>A loan is valuable when what it pays for earns, or saves, more than the
+interest.</strong> A loan for a degree that raises lifetime earnings, or a machine that pays for
+itself, passes the test. A loan for a holiday usually does not, although it may still be a reasonable
+choice. The test is easy to state and easy to ignore.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Who gets credit, and at what price</h2>
+</header>
+
+<p>Credit is not given out evenly. People with stable jobs, assets and long credit histories get the
+cheapest loans. People with irregular incomes, few assets or no history pay more, or are refused. The
+most expensive end of the market is <strong>high-cost short-term credit</strong>, such as payday loans:
+small loans repaid on the next payday, which in the past could carry annual rates in the hundreds or
+thousands of per cent.</p>
+
+<p>Countries have responded in different ways. In 2015 the UK capped payday lending at 0.8 per cent a
+day in interest and fees, with total charges never more than the amount borrowed. Many payday lenders
+left the market afterwards. Some US states ban payday loans; others allow them. In poorer countries,
+<strong>microcredit</strong>, small loans to people without collateral, became famous through the
+Grameen Bank in Bangladesh, whose founder Muhammad Yunus shared the 2006 Nobel Peace Prize with the
+bank. Later rigorous studies found its effects on poverty more modest than early claims suggested.
+More on this in <a href="19-financial-inclusion.html">Financial inclusion</a>.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Debt and the business cycle</h2>
+</header>
+
+<p>Lending rises and falls with confidence. In good times, lenders relax their standards and borrowers
+feel sure their incomes will grow. In bad times, both pull back at once. The American economist Hyman
+Minsky argued that long periods of stability encourage ever riskier borrowing, until the debts can only
+be repaid if asset prices keep rising. When they stop rising, the borrowing collapses. After 2008 this
+became known as a <strong>"Minsky moment"</strong>.</p>
+
+<p>Household debt can also hold back an economy for years after a crisis, as families cut spending to
+pay down what they owe. Student debt has become a large part of that picture in the US, at about 1.6
+trillion dollars in total as of 2025. <strong>Debt pulls spending forward from the future. Eventually
+the future arrives.</strong> The wider story of crises is in
+<a href="../10-finance-investing/19-financial-crises.html">Financial crises</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A tool that magnifies whatever it is used for</h2>
+  <p class="lede">Borrowing makes good decisions better and bad decisions worse. The same is true for
+  the economy as a whole.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Benefits and costs of borrowing</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Benefit</th><th>Cost</th></tr></thead>
+<tbody>
+<tr><td><strong>Spending before saving</strong></td><td class="ok">Homes, education and businesses become possible years earlier.</td><td class="no">You pay interest, sometimes more than the item cost.</td></tr>
+<tr><td><strong>Leverage</strong></td><td class="ok">Magnifies the gain on an investment that does well.</td><td class="no">Magnifies the loss on one that does badly, and you still owe the debt.</td></tr>
+<tr><td><strong>Fixed payments</strong></td><td class="ok">Predictable budgeting; inflation shrinks the real value of the debt.</td><td class="no">The payments stay the same even if your income falls.</td></tr>
+<tr><td><strong>Collateral</strong></td><td class="ok">Lower rates for borrowers with assets.</td><td class="no">You can lose the asset, often your home or car.</td></tr>
+<tr><td><strong>Easy access</strong></td><td class="ok">Credit in emergencies, without savings.</td><td class="no">Easy to borrow repeatedly at high cost; debt can become persistent.</td></tr>
+<tr><td><strong>Risk-based pricing</strong></td><td class="ok">Riskier borrowers can still get credit rather than being refused.</td><td class="mid">Those with least money pay the highest rates.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Responsible lending, and who decides what that means</h2>
+</header>
+
+<p>After 2008, many countries tightened the rules on how lenders judge borrowers. Lenders must now
+check that a loan is affordable, not just that the borrower can be made to pay. In the EU, consumer
+credit and mortgage directives require <strong>creditworthiness assessments</strong>. In the UK,
+mortgage lenders must test whether borrowers could still pay if rates rose. In the US, rules after
+2008 required lenders to make a reasonable judgment of a borrower's ability to repay a mortgage.</p>
+
+<p>The difficulty is that the same rule can protect one person and exclude another. A strict
+affordability test stops some people from borrowing more than they can bear. It also stops some who
+would have repaid. <strong>There is no lending standard that refuses all bad loans and approves all
+good ones</strong>, so every rule chooses which mistake to make more often. That choice is a matter of
+values as well as evidence, and it is argued about in every country.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>New data, new lenders, new rules</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Lending based on cash flow</strong></td><td>With the customer's permission, open banking lets lenders read months of real income and spending, not just a credit history.</td><td class="ok">Fairly sure: more decisions use account data, which helps people with thin credit files. See <a href="13-open-banking.html">Open banking</a>.</td></tr>
+<tr><td><strong>Lending outside banks</strong></td><td>Private credit funds lend to companies; fintech apps and shops lend to consumers at checkout. Regulators are extending rules to buy-now-pay-later.</td><td class="mid">Plausible: non-bank lenders keep growing, and regulators keep catching up, with occasional failures in between.</td></tr>
+<tr><td><strong>AI credit decisions</strong></td><td>Machine-learning models can predict default better in some tests, but rules in the EU and US require lenders to explain refusals and avoid discrimination.</td><td class="no">Speculative: wide use is likely in fraud checks and pricing; fully automated approval of complex loans faces legal limits, including the EU's AI Act, which treats credit scoring as high-risk.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The same promise, a different lender</h2>
+</header>
+
+<p>The loan contract has hardly changed in four thousand years: an amount, a price, a schedule and a
+consequence for not paying. What changes is who lends, what they know about you, and how fast they
+decide. Data and software make credit faster and, for some people, fairer. They also make it easier to
+borrow without thinking.</p>
+
+<p>For a borrower, the old questions remain the best defence. What will this cost in total? What
+happens if my income falls? Does what I am buying earn or save more than the interest?
+<strong>Technology can change how a loan is sold. It cannot change what a loan is.</strong> The
+largest loan most people ever take is the subject of the next topic,
+<a href="09-mortgages.html">Mortgages</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A loan is an <strong>amount, a price and a schedule</strong>. It can be secured or unsecured,
+    term or revolving, fixed or variable, amortising or bullet. Lenders judge <strong>character,
+    capacity, capital, collateral and conditions</strong>. Borrowing pays off when what it buys earns or
+    saves more than the interest.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>10,000 euros at 8% over 3 years costs about <strong>313 a month</strong> and
+      <strong>1,280</strong> in interest; over 5 years, about 203 a month and 2,170 in interest.</li>
+      <li>The UK payday cap since 2015: <strong>0.8% a day</strong>, total charges no more than the
+      amount borrowed.</li>
+      <li>US student debt: about <strong>1.6 trillion dollars</strong> as of 2025.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Choosing a loan by its monthly payment. <strong>A lower payment usually means a longer loan and a
+    higher total cost.</strong> Compare APR and total repayable.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why the first payments on a long loan are mostly interest, and why paying extra
+    early saves more than paying extra late? If so, you understand amortisation.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Principal</dt><dd>The amount borrowed, before interest.</dd>
+    <dt>Secured loan</dt><dd>A loan backed by an asset the lender can take if you do not pay.</dd>
+    <dt>Unsecured loan</dt><dd>A loan backed only by your promise to repay.</dd>
+    <dt>Amortisation</dt><dd>Repaying a loan through regular payments that cover interest and part of the debt.</dd>
+    <dt>Bullet loan</dt><dd>A loan where the whole principal is repaid at the end.</dd>
+    <dt>APR</dt><dd>The yearly cost of a loan including most fees, used to compare offers.</dd>
+    <dt>Debt-to-income ratio</dt><dd>Monthly debt payments divided by monthly income.</dd>
+    <dt>Covenant</dt><dd>A promise in a loan contract that the borrower must keep for the life of the loan.</dd>
+    <dt>Guarantor</dt><dd>A person who promises to repay if the borrower cannot.</dd>
+    <dt>Arrears</dt><dd>Payments that are overdue.</dd>
+    <dt>Default</dt><dd>Failure to repay as agreed, after which the lender can enforce its rights.</dd>
+    <dt>Usury</dt><dd>Originally any interest; today, interest seen as unfairly high.</dd>
+    <dt>Consumption smoothing</dt><dd>Using borrowing and saving to spread spending evenly over a lifetime.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Every loan is just three things: an amount, a price and a schedule. The rest is what happens if
+    you don't pay."</li>
+    <li>"A lower monthly payment usually means you pay more in total. Always ask for the total
+    repayable."</li>
+    <li>"Early in a loan, most of your payment is interest. Overpaying early saves the most."</li>
+    <li>"Borrowing makes sense when what you buy earns or saves more than the interest."</li>
+    <li>"No lending rule refuses every bad loan and approves every good one. Each rule picks which
+    mistake it prefers."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="09-mortgages.html">Mortgages</a></h4><p>The biggest loan most
+  people ever take: deposits, fixed and variable rates, and what happens when house prices fall.</p></div>
+  <div class="card"><h4>Related · <a href="10-credit-scores.html">Credit scores</a></h4><p>How "character"
+  became a number, and what you can do to move it.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

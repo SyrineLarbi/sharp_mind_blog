@@ -1,0 +1,885 @@
+<!doctype html>
+<!--@HEAD-SRC title="Mortgages" desc="How mortgages work: the secured loan behind most home purchases, amortisation, fixed versus variable rates, how lenders decide, where the money comes from, why 2008 happened, and where home lending is going."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mortgages</title>
+<meta name="description" content="How mortgages work: the secured loan behind most home purchases, amortisation, fixed versus variable rates, how lenders decide, where the money comes from, why 2008 happened, and where home lending is going.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Banking &amp; Fintech · Topic 09 of 20</p>
+  <h1>Mortgages. <span class="thin">The largest promise most people ever sign, and the one that ties their home to the whole economy.</span></h1>
+  <p class="lede">Most people never buy a house outright. They pay a small part with their own money,
+  and a bank lends the rest against the house itself, to be repaid over twenty or thirty years. That
+  looks like a private deal. It is not. Mortgages carry central bank decisions into ordinary kitchens,
+  and when they are written badly they can bring down the world's banks.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Banking &amp; Fintech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c4"><span class="vn">Vol 38 · ch 04</span><b>Interest and compounding</b><em>The arithmetic underneath</em></a>
+<a class="vol" href="08-loans.html"><span class="vn">Banking · 08</span><b>Loans</b><em>The general case</em></a>
+<a class="vol" href="10-credit-scores.html"><span class="vn">Banking · 10</span><b>Credit scores</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>No volume gives mortgages a chapter of their own. The nearest pieces are Volume 38 on compound
+  interest (<a href="../38-money.html#c4">Interest, and the astonishing effect of compounding</a>),
+  which explains why a long loan costs so much, and on bubbles (<a href="../38-money.html#c6">Bubbles,
+  and why they keep happening</a>), which explains how borrowed money inflates house prices. This file
+  is the library's first full treatment of home lending.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A loan with a house standing behind it</h2>
+  <p class="lede">A mortgage is a loan secured on property. The security is the whole point: it is
+  why the loan can be so large, so long and so cheap compared with almost any other credit.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The "dead pledge"</h2>
+</header>
+
+<p>The word comes from old French: <em>mort</em> means dead and <em>gage</em> means pledge. The pledge
+"died" in one of two ways. Either the debt was paid and the pledge ended, or it was not paid and the
+land was lost for good.</p>
+
+<p>In modern terms, a mortgage is a loan where the borrower gives the lender a legal claim on a
+property until the loan is repaid. That claim is called a <strong>lien</strong> in the US and a
+<strong>charge</strong> in the UK. The borrower lives in the house and owns it in every ordinary
+sense. But if payments stop, the lender can take and sell it. That process is called <strong>foreclosure</strong> in the US and <strong>repossession</strong> in
+the UK.</p>
+
+<p>A card lender can only chase the borrower. A mortgage lender has something solid to fall back
+on. <strong>Because the lender expects to recover most of its money even in the worst case, it
+will lend far more, for far longer, at a far lower interest rate.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The words on the offer letter</h2>
+</header>
+
+<p>These are the terms that decide what you actually pay.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Term</th><th>What it means</th><th>Why it matters</th></tr></thead>
+<tbody>
+<tr><td><strong>Principal</strong></td><td>The amount borrowed</td><td>Interest is charged on whatever principal is still owed</td></tr>
+<tr><td><strong>Deposit / down payment</strong></td><td>The part of the price you pay yourself</td><td>Your first protection if prices fall</td></tr>
+<tr><td><strong>Loan-to-value (LTV)</strong></td><td>The loan as a share of the property's value. A 90% LTV means a 10% deposit</td><td>Higher LTV means more risk for the lender, so a higher rate</td></tr>
+<tr><td><strong>Term</strong></td><td>How long you have to repay, often 25 or 30 years</td><td>Longer terms lower each payment but raise the total interest</td></tr>
+<tr><td><strong>Interest rate</strong></td><td>The yearly price of the money, fixed or variable</td><td>The single biggest driver of the monthly bill</td></tr>
+<tr><td><strong>APR</strong></td><td>Annual percentage rate: the interest rate plus most fees, as one yearly figure</td><td>Lets you compare offers that hide costs in different places</td></tr>
+<tr><td><strong>Amortisation</strong></td><td>The schedule by which the principal is paid down over the term</td><td>Explains why early payments are mostly interest</td></tr>
+</tbody></table></div>
+
+<p>Most home loans are <strong>repayment</strong> mortgages: each payment covers that month's
+interest plus a slice of the principal, so the debt reaches zero at the end. With an
+<strong>interest-only</strong> loan you pay just the interest and owe the full amount at the end:
+cheaper each month, riskier at the finish.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>One idea, very different national designs</h2>
+</header>
+
+<p>Every country has mortgages, but the basics differ more than people expect.</p>
+
+<div class="grid2">
+  <div class="card"><h4>United States: the 30-year fixed</h4><p>The standard American mortgage fixes
+  the rate for thirty years, usually with free early repayment. Few countries offer this. It exists
+  largely because government-sponsored companies, Fannie Mae (1938) and Freddie Mac (1970), buy or
+  guarantee most such loans and pass the rate risk on to investors.</p></div>
+  <div class="card"><h4>United Kingdom: short fixes</h4><p>Most British borrowers fix their rate for
+  two to five years, then take a new deal ("remortgage") to avoid the lender's higher standard rate.
+  So UK households feel rate changes within a few years, not decades.</p></div>
+  <div class="card"><h4>Germany and France: long fixes, cautious lending</h4><p>Fixes of ten to twenty
+  years are common, deposits tend to be larger, and lenders look hard at income. Germany has one of
+  the lowest home-ownership rates in Western Europe; renting for life is normal there.</p></div>
+  <div class="card"><h4>Denmark: the bond-matched mortgage</h4><p>Danish lenders fund each mortgage by
+  selling a matching bond to investors. A borrower can repay early by buying back that bond at its
+  market price. When rates rise, bond prices fall, so the borrower can clear the debt for less than
+  they borrowed. This system has run for about two centuries.</p></div>
+</div>
+
+<p>There is also <strong>Islamic home finance</strong>, which avoids charging interest. In one common
+structure, the bank buys the house and sells it to the customer at a higher price paid in
+instalments (<em>murabaha</em>). In another, the bank and the customer co-own the house. The customer
+pays rent on the bank's share and gradually buys it out (<em>diminishing musharaka</em>). The payments
+can look similar; the legal relationship is different.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>A fixed payment with a shifting inside, and a lender with a lot to check</h2>
+  <p class="lede">Behind a single monthly figure sit three mechanisms: the amortisation schedule, the
+  choice of who carries the risk of rates changing, and the funding chain that brings the money to the
+  lender in the first place.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Amortisation: why the first ten years feel like treading water</h2>
+</header>
+
+<p>Take a simple example. You borrow 200,000 euros over 25 years at a fixed 5% a year. The standard
+formula gives a monthly payment of about <strong>1,169 euros</strong>. That payment stays the same for
+all 300 months. What changes is what it pays for.</p>
+
+<p>In month one, the interest on 200,000 euros at 5% a year is about 833 euros. So only about 336
+euros of your first payment reduces the debt. As the debt shrinks, the interest shrinks with it, and
+a larger slice goes to the principal. By the last year almost the whole payment is principal.</p>
+
+<div class="sheet">
+  <div class="cap">Where each payment goes · 200,000 over 25 years at 5% (rounded)</div>
+<pre>
+              interest   principal   still owed
+month   1        833         336      199,664
+month  60        740         429      177,160
+month 120        618         551      147,849   &lt;- 10 years in, only about a quarter repaid
+month 180        462         707      110,232
+month 240        262         907       61,956
+month 300          5       1,164            0
+
+total paid over 25 years: about 350,750   (interest: about 150,750)
+</pre>
+</div>
+
+<p>Two lessons follow. First, <strong>after ten years of payments you still owe about
+three quarters of the loan</strong>. Second, the total interest is about three quarters of the amount borrowed. Stretch the
+same loan to 40 years and the payment falls to about 964 euros, but total interest rises to about
+263,000 euros, more than the loan itself. This is compound interest working against you, the same
+force described in <a href="../38-money.html#c4">Volume 38</a>.</p>
+
+<p>It also shows why paying a little extra early is so powerful: every euro of principal removed in
+year two stops charging interest for the next 23 years.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Fixed or variable: who carries the rate risk?</h2>
+</header>
+
+<p>Rates move over the life of a long loan, and someone has to absorb the moves. Fixed versus
+variable is really a choice about <strong>who carries that risk</strong>.</p>
+
+<p>With a <strong>variable</strong> (or adjustable) rate, the rate follows a benchmark, such as the
+central bank's policy rate, plus a fixed margin. When rates rise, your payment rises. The borrower
+carries the risk. With a <strong>fixed</strong> rate, the payment stays the same for the fixed period
+whatever happens. The lender carries the risk, or passes it on to investors, and charges for it.
+That is why fixed rates are often a little higher than variable rates on the day you sign.</p>
+
+<p>The size of the risk is easy to underestimate. Using the same 200,000-euro, 25-year loan: at 2%
+the payment is about 848 euros a month; at 6% it is about 1,289 euros. <strong>A move from 2% to 6%,
+which happened to many borrowers in 2022 and 2023, raises the bill by about half.</strong> For a
+family already spending a third of its income on housing, that is the difference between comfortable
+and desperate.</p>
+
+<div class="note">
+  <span class="tag">The hidden option</span>
+  <p>A fixed rate with free early repayment, as in the US, gives the borrower a one-way bet. If rates
+  rise, they keep their cheap loan. If rates fall, they refinance. Investors know this and demand a
+  higher rate to compensate. Where early repayment carries a penalty, the option is priced out.</p>
+</div>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>How a lender decides to say yes</h2>
+</header>
+
+<p>The process of checking a borrower is called <strong>underwriting</strong>. It asks three separate
+questions, and a good application has to pass all three.</p>
+
+<p><strong>Can you afford it?</strong> The lender checks income, existing debts and regular spending.
+Many use a <strong>debt-to-income ratio</strong>: total monthly debt payments divided by monthly income.
+Others cap the loan at a multiple of income; since 2014 the Bank of England has limited how many new
+mortgages can be written at four and a half times income or more. Many lenders also run a
+<strong>stress test</strong>: could you still pay if the rate were a few points higher?</p>
+
+<p><strong>Will you pay?</strong> Your history with debt is the best predictor of your future
+behaviour. Lenders check credit files and scores, the subject of <a href="10-credit-scores.html">the
+next topic</a>. A recent default or missed payment can mean a refusal or a much higher rate.</p>
+
+<p><strong>What if you don't?</strong> The house must be worth enough to cover the loan if it has to
+be sold. The lender sends a valuer or appraiser to check the price, and it lends a share of the
+<em>lower</em> of the price and the valuation. This is where the deposit matters. <strong>A 20% deposit
+means prices can fall by a fifth before the lender is exposed.</strong> A 5% deposit leaves almost no
+cushion, which is why low-deposit loans cost more and, in the US, often require mortgage insurance
+paid by the borrower to protect the lender.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Where the money comes from</h2>
+</header>
+
+<p>As <a href="../38-money.html#c2">Volume 38</a> explains, a loan creates a deposit. But that money
+leaves the bank when you pay the seller, so the bank must fund the loan over its life. Lenders use
+three main sources.</p>
+
+<div class="grid3">
+  <div class="card"><h4>Deposits</h4><p>Ordinary savers' money. Cheap, but it can leave at short
+  notice, while the mortgage lasts decades. This mismatch is the classic banking risk explained in
+  <a href="01-how-banks-work.html">How banks work</a>.</p></div>
+  <div class="card"><h4>Covered bonds</h4><p>Bonds sold to investors and backed by a pool of mortgages
+  that stays on the bank's books. If the bank fails, bondholders have a claim on the pool. Common in
+  Europe, especially Germany and Denmark.</p></div>
+  <div class="card"><h4>Securitisation</h4><p>The lender sells the mortgages into a separate company,
+  which issues bonds paid from the borrowers' payments. These are <strong>mortgage-backed
+  securities</strong>. Dominant in the US, where Fannie Mae and Freddie Mac guarantee much of the
+  market.</p></div>
+</div>
+
+<p>Securitisation let lenders recycle money quickly and spread risk. It also created a new problem. <strong>When a lender sells the loan, it no
+longer suffers if the borrower defaults.</strong> Economists call this the "originate to distribute"
+model, and it is at the centre of the next chapter.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>A household contract with the power to move economies</h2>
+  <p class="lede">Mortgages decide who can own a home, carry interest rates into daily life, and, when
+  enough of them go wrong at once, start financial crises.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The biggest number in the family budget</h2>
+</header>
+
+<p>For most homeowners, the house is their largest asset and the mortgage their largest debt. In most
+rich countries, mortgages are the largest part of household debt, well ahead of cars and cards.</p>
+
+<p>That has effects far beyond the family. For many, a paid-off house is the bulk of their
+retirement wealth. And because the house is used as security, <strong>rising
+house prices let owners borrow and spend more, and falling prices do the reverse</strong>.
+Economists call this the wealth effect of housing, and it is one reason house-price crashes hurt the
+wider economy so badly.</p>
+
+<p>Mortgages also shape who gets ahead. In the US, "redlining", marking mainly Black neighbourhoods
+as too risky to lend in, was widespread from the 1930s until the Fair Housing Act of 1968 and later
+laws banned it. Historians trace part of today's racial wealth gap to who could borrow in those
+decades.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>2008: when the mortgage machine broke</h2>
+</header>
+
+<p>In the early 2000s, US house prices rose for years, and lending standards loosened with them.
+Lenders wrote <strong>subprime</strong> mortgages to borrowers with weak credit, often with low
+"teaser" rates that reset much higher after two or three years. Some loans required little or no
+proof of income. The logic held as long as prices kept rising: a borrower who could not pay could
+sell or refinance.</p>
+
+<p>Many of these loans were securitised, repackaged and sold on, often with top credit ratings, to
+banks around the world. When prices began to fall in 2006 and 2007, defaults rose. Nobody was sure
+who held the bad loans, so banks stopped trusting each other. Investment
+bank Lehman Brothers failed in September 2008, and the same month the US government took over Fannie
+Mae and Freddie Mac.</p>
+
+<p>The lesson regulators drew was not "mortgages are dangerous". It was that <strong>the danger lies
+in loans made without asking whether the borrower can repay, funded by people who never see the
+borrower</strong>. Many countries then made affordability checks a legal duty. The full story of the crisis is in <a
+href="../10-finance-investing/19-financial-crises.html">Financial crises</a>.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The pipe that carries interest rates home</h2>
+</header>
+
+<p>When a central bank raises rates, mortgages are one of the main ways the decision reaches ordinary
+people. How fast depends on the national design from Chapter 03.</p>
+
+<p>In countries with short fixes or variable rates, such as the UK, Spain or Australia, a rate rise
+shows up in household budgets within months or a couple of years. In the US, where most borrowers
+hold 30-year fixed loans, existing owners barely notice. Instead, the pain lands on new buyers. When
+US mortgage rates rose from around 3% in 2021 to around 7% in 2023, many owners with cheap loans
+simply stopped moving, because selling meant giving up their low rate. This <strong>"lock-in"
+effect</strong> reduced the number of homes for sale and kept prices high even as borrowing got more
+expensive.</p>
+
+<p>After the UK government's September 2022 "mini-budget" unsettled bond markets, lenders withdrew a
+large share of their mortgage offers within days to reprice. The episode showed that <strong>mortgage rates follow bond markets, not just the central bank</strong>. The
+details of how central bank rates spread through the economy are in <a
+href="../09-economics/09-monetary-policy.html">Monetary policy</a>.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Leverage cuts both ways</h2>
+  <p class="lede">A mortgage lets you control an asset many times larger than your savings. That
+  magnifies every gain and every loss.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>What a mortgage gives you, and what it takes</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>The benefit</th><th>The cost</th></tr></thead>
+<tbody>
+<tr><td><strong>Leverage</strong></td><td class="ok">With a 10% deposit, a 10% rise in price doubles your own money.</td><td class="no">A 10% fall wipes your deposit out. You are left in negative equity: owing more than the house is worth.</td></tr>
+<tr><td><strong>Forced saving</strong></td><td class="ok">Each payment builds ownership. Many people save more this way than they ever would by choice.</td><td class="no">Early payments are mostly interest, so the saving is slow for years.</td></tr>
+<tr><td><strong>Fixed payments</strong></td><td class="ok">With a long fix, inflation shrinks the real weight of the debt while wages rise.</td><td class="no">Variable or short fixes expose you to rate shocks you cannot control.</td></tr>
+<tr><td><strong>Security for the lender</strong></td><td class="ok">The lowest rates available to ordinary people for any kind of borrowing.</td><td class="no">You can lose your home, and in some places still owe the shortfall after the sale.</td></tr>
+<tr><td><strong>One big asset</strong></td><td class="ok">A home to live in, and protection from rising rents.</td><td class="no">Your wealth sits in one building in one town, and it is hard to sell quickly.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Buying versus renting, honestly</h2>
+</header>
+
+<p>"Rent is dead money" is half true. Owning has dead money too: interest, property taxes,
+insurance, repairs and the cost of buying and selling. <strong>The honest comparison is between the unrecoverable costs
+of owning and the rent on a similar home, not between rent and the whole mortgage payment.</strong></p>
+
+<p>Which side wins depends on how long you stay, on rates, on how fast prices and rents rise, and on
+what the deposit would have earned invested. Over long periods, owning has often worked well, thanks
+to leverage and forced saving. Over short periods, or where prices fell, renting often won. Many
+Irish buyers near the 2007 peak spent years in negative equity.</p>
+
+<p>Owning gives security and control; renting gives flexibility. Neither is a mistake by itself.
+The mistake is a loan you could only afford if nothing went wrong.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Faster paperwork, longer loans, and the affordability question</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Where home lending is heading</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Digital applications</strong></td><td>Online applications, electronic signatures and automatic income checks through bank data (see <a href="13-open-banking.html">Open banking</a>) already cut approval times in many markets.</td><td class="ok">Fairly sure: weeks of paperwork will shrink to days. The legal transfer of property will be the slowest part to change.</td></tr>
+<tr><td><strong>Longer terms</strong></td><td>As prices rose faster than incomes, lenders in several countries began offering 35- and 40-year terms, and more first-time buyers take them.</td><td class="mid">Plausible: longer loans become normal, which lowers monthly bills but means more people still pay a mortgage into retirement.</td></tr>
+<tr><td><strong>Green mortgages</strong></td><td>Some lenders offer lower rates for energy-efficient homes.</td><td class="mid">Plausible: climate risk (floods, insurance costs) increasingly shapes which homes lenders favour. How much it moves prices is debated.</td></tr>
+<tr><td><strong>Tokenised property</strong></td><td>Pilots record ownership or loan shares on blockchains so they can be traded in small pieces.</td><td class="no">Speculative: land registries, courts and foreclosure law are national and slow to change, and the technology solves only a small part of the problem.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The question underneath: who gets to buy?</h2>
+</header>
+
+<p>In many large cities, house prices have risen much faster than incomes for decades. First-time
+buyers are older and rely more on help from parents. The main explanations differ sharply.</p>
+
+<p>One side argues that <strong>the core problem is supply</strong>: not enough homes are built where
+people want to live, often because of planning rules, so cheaper credit just bids prices higher. A
+second side stresses <strong>demand and finance</strong>: years of low interest rates, tax advantages
+for owners and investors, and buyer subsidies pushed prices up. A third stresses <strong>public and
+social housing</strong>, arguing that markets alone will not house lower-income people. Most
+economists see some truth in all three, and the weight given to each is genuinely contested.</p>
+
+<p>Looser lending helps today's buyer and can raise tomorrow's prices; tighter lending protects
+borrowers but keeps some people out. That is why central banks now use loan-to-value and
+loan-to-income limits as policy tools. <strong>The mortgage, a private contract, has become one of the main levers of public policy on
+housing.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A mortgage is a <strong>loan secured on property</strong>. The security lets lenders offer large,
+    long, cheap loans. Payments follow an <strong>amortisation</strong> schedule that is mostly interest
+    at first. The choice of <strong>fixed or variable</strong> decides who carries the risk of rates
+    changing, and how lenders fund loans decides how risk spreads through the financial system.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>200,000 at 5% over 25 years costs about <strong>1,169 a month</strong> and about
+      <strong>150,000</strong> in total interest.</li>
+      <li>After <strong>10 years</strong> of that loan, about <strong>three quarters</strong> is still owed.</li>
+      <li>On the same loan, a move from <strong>2% to 6%</strong> raises the payment by about
+      <strong>half</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Asking only "can I afford the monthly payment today?" <strong>The right question is whether you
+    could still afford it if rates rose by a few points or your income fell</strong>, and how big a
+    price fall your deposit could absorb.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why the US has 30-year fixed mortgages and the UK mostly does not, and what
+    that means for how fast a central bank rate rise reaches homeowners in each country?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Mortgage</dt><dd>A loan where the lender has a legal claim on a property until it is repaid.</dd>
+    <dt>Principal</dt><dd>The amount you borrowed and still owe, as opposed to the interest on it.</dd>
+    <dt>Deposit (down payment)</dt><dd>The part of the price you pay from your own money.</dd>
+    <dt>Loan-to-value (LTV)</dt><dd>The loan divided by the property's value, as a percentage.</dd>
+    <dt>Amortisation</dt><dd>Paying down a loan in scheduled instalments, each covering interest and some principal.</dd>
+    <dt>Fixed rate</dt><dd>An interest rate that does not change for an agreed period.</dd>
+    <dt>Variable (adjustable) rate</dt><dd>An interest rate that moves with a benchmark rate.</dd>
+    <dt>APR</dt><dd>A yearly figure combining the interest rate and most fees, for comparing offers.</dd>
+    <dt>Underwriting</dt><dd>The lender's checks on whether to lend, how much and at what price.</dd>
+    <dt>Foreclosure / repossession</dt><dd>The lender taking and selling a property after the borrower stops paying.</dd>
+    <dt>Negative equity</dt><dd>Owing more on a mortgage than the property is worth.</dd>
+    <dt>Securitisation</dt><dd>Bundling loans and selling bonds paid from the borrowers' payments.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A mortgage is cheap because the house stands behind it. Take the house away and it is just a
+    very large personal loan."</li>
+    <li>"In the first years of a mortgage you are mostly paying interest. Ten years in, most of the
+    loan is still there."</li>
+    <li>"Choosing fixed or variable is really choosing who carries the risk of rates going up."</li>
+    <li>"2008 was not caused by mortgages as such. It was caused by lending to people nobody had
+    checked, using money from investors who never met them."</li>
+    <li>"Rent versus buy isn't rent versus the mortgage payment. It's rent versus the costs of owning
+    that you never get back."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="10-credit-scores.html">Credit scores</a></h4><p>The number
+  that decides whether you get the mortgage and at what rate: how it is built, what it measures, and
+  where it goes wrong.</p></div>
+  <div class="card"><h4>Related · <a href="../10-finance-investing/17-real-estate-investing.html">Real
+  estate investing</a></h4><p>Property as an investment rather than a home: rental yields, leverage
+  and the cycles of the property market.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

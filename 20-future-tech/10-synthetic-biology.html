@@ -1,0 +1,874 @@
+<!doctype html>
+<!--@HEAD-SRC title="Synthetic Biology" desc="How scientists design and build living systems like machines: reading and writing DNA, genetic circuits, engineered microbes for medicines, food and materials, and the biosecurity debate."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Synthetic Biology</title>
+<meta name="description" content="How scientists design and build living systems like machines: reading and writing DNA, genetic circuits, engineered microbes for medicines, food and materials, and the biosecurity debate.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Future &amp; Emerging Technologies · Topic 10 of 20</p>
+  <h1>Synthetic biology. <span class="thin">Treating living cells as factories you can program.</span></h1>
+  <p class="lede">The insulin that keeps millions of people with diabetes alive is made by bacteria and
+  yeast that were given a human gene. The "blood" that makes some plant-based burgers look like meat comes
+  from engineered yeast. A malaria drug once extracted only from a plant has been brewed in vats. These are
+  products of synthetic biology, a field that tries to make biology work like engineering: design a living
+  system on a computer, build it from DNA, test it, and improve it. It is quieter than artificial
+  intelligence and may matter as much. This file explains how it works, what it already makes, and why
+  the same tools that could cure diseases also worry security experts.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Future tech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../50-whats-coming.html#c7"><span class="vn">Vol 50 · ch 07</span><b>Space, brains and further edges</b><em>Synthetic biology in brief</em></a>
+<a class="vol" href="../15-materials-food-and-industry.html#i4"><span class="vn">Vol 15 · i4</span><b>Precision fermentation</b><em>One application</em></a>
+<a class="vol" href="11-nanotechnology.html"><span class="vn">Future tech · 11</span><b>Nanotechnology</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 50 gives synthetic biology one paragraph, calling it "quietly working already"
+  (<a href="../50-whats-coming.html#c7">Space, brains and the further edges</a>). Volume 15 explains one of
+  its industrial uses (<a href="../15-materials-food-and-industry.html#i4">Precision fermentation</a>), and
+  Volume 13 covers the gene-editing tool it often relies on (<a href="../13-medicine-and-biology.html#m3">CRISPR</a>)
+  and the reading of DNA (<a href="../13-medicine-and-biology.html#m5">DNA sequencing</a>). This file pulls
+  those threads together and goes into the engineering behind them.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Biology, approached the way engineers approach machines</h2>
+  <p class="lede">Synthetic biology is less a single technique than an attitude: the belief that living
+  systems can be designed from standard parts, built reliably and improved step by step.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>From tinkering to designing</h2>
+</header>
+
+<p>Humans have changed living things for thousands of years. Farmers bred wolves into dogs and wild grasses
+into wheat by choosing which ones reproduced. From the 1970s, <strong>genetic engineering</strong> let
+scientists move a single gene from one organism into another. The first great product was human insulin
+made by bacteria, approved in 1982, which replaced insulin extracted from the pancreases of pigs and cattle.
+The file <a href="../04-biology/16-genetic-engineering.html">Genetic engineering</a> tells that story.</p>
+
+<p>Synthetic biology goes a step further. Instead of moving one gene, it aims to <strong>design whole
+systems</strong>: several genes working together in a chosen order, switched on and off by chosen signals,
+sometimes built from DNA sequences that do not exist in nature. <strong>The difference is like that between
+replacing a part in a car and designing a new car from a catalogue of standard parts.</strong> The ambition
+is to make biology predictable enough that a design on a screen behaves the same way when built in a
+cell.</p>
+
+<p>A computer analogy is common and partly useful. DNA is a code written in four chemical letters, A, C, G
+and T. Cells read that code and make proteins, which do most of the work in living things. If you can write
+the code, you can in principle program the cell. The analogy breaks down in important ways, as Chapter 08
+explains, but it captures why people call cells "programmable factories".</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The milestones</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Year</th><th>Event</th><th>Why it mattered</th></tr></thead>
+<tbody>
+<tr><td><strong>1975</strong></td><td>The Asilomar conference in California</td><td>Scientists agreed safety rules for the new gene-splicing techniques themselves, an early model of self-governance</td></tr>
+<tr><td><strong>1982</strong></td><td>Human insulin from engineered bacteria approved</td><td>The first medicine made by genetically engineered microbes</td></tr>
+<tr><td><strong>2000</strong></td><td>The first synthetic "genetic circuits": a toggle switch and an oscillator built in bacteria</td><td>Showed that genes could be wired like electronic components</td></tr>
+<tr><td><strong>2004</strong></td><td>The iGEM student competition begins at MIT</td><td>Built a culture of standard, shareable DNA parts and trained thousands of students</td></tr>
+<tr><td><strong>2010</strong></td><td>The J. Craig Venter Institute boots up a bacterium with a chemically made genome</td><td>The first cell controlled entirely by DNA written in a laboratory</td></tr>
+<tr><td><strong>2012</strong></td><td>CRISPR gene editing described</td><td>Made precise changes to DNA cheap and easy</td></tr>
+<tr><td><strong>2013</strong></td><td>Yeast-made artemisinin, a malaria drug ingredient, enters commercial production</td><td>A flagship case of brewing a plant medicine</td></tr>
+<tr><td><strong>2016</strong></td><td>A "minimal" bacterium with 473 genes</td><td>Close to the smallest set of genes a free-living cell needs</td></tr>
+<tr><td><strong>2024</strong></td><td>Nobel Prize in Chemistry for protein structure prediction and computational protein design</td><td>Recognised that computers can now design new proteins</td></tr>
+</tbody></table></div>
+
+<p>Two things stand out. The field's tools improved enormously in about twenty years, and its scientists
+have repeatedly stopped to discuss safety before regulators asked them to. <strong>Synthetic biology has
+always carried its ethics debate alongside its technology.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Read, write, design, test, learn</h2>
+  <p class="lede">The field rests on three abilities: reading DNA cheaply, writing it cheaply, and
+  predicting what a piece of DNA will do once it is inside a cell. The first two are now very good. The third
+  is the hard one.</p>
+</header>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Reading and writing the code</h2>
+</header>
+
+<p><strong>Sequencing</strong> means reading the order of letters in a piece of DNA. The first human genome
+took over a decade and cost billions of dollars, finishing in 2003. Today a human genome can be read in a
+day or two for a few hundred dollars. Volume 13 explains how (<a href="../13-medicine-and-biology.html#m5">DNA
+sequencing</a>). Cheap reading lets engineers check exactly what they have built.</p>
+
+<p><strong>DNA synthesis</strong> means writing: building a DNA strand letter by letter from chemicals,
+following a sequence typed into a computer. Companies now print genes to order and post them in small tubes,
+often within days. Writing is still slower and more expensive than reading, and errors grow with length, so
+long sequences are usually assembled from shorter pieces, like a long sentence built from words.
+<strong>Once you can both read and write DNA cheaply, you can treat genes as designs to be edited rather than
+as discoveries to be found.</strong> Editing an existing genome precisely, rather than writing a new one,
+is where CRISPR comes in.</p>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Parts, devices and circuits</h2>
+</header>
+
+<p>Engineers like standard parts. A gene, from an engineer's point of view, is built from a few kinds of
+DNA segment. A <strong>promoter</strong> is the "on" switch where the cell's machinery starts reading. A
+<strong>coding sequence</strong> holds the recipe for a protein. A <strong>terminator</strong> marks where
+reading stops. Combine parts with different strengths and you can control how much of each protein a cell
+makes.</p>
+
+<p>Proteins can in turn switch other genes on or off. That lets designers build <strong>genetic
+circuits</strong>, the biological equivalent of simple electronic logic. In 2000 two teams published
+landmark circuits in bacteria in the same issue of the journal Nature. One was a toggle switch: a cell that
+flips between two stable states, like a light switch, when given a chemical signal. The other, called the
+repressilator, was an oscillator that made bacteria glow on and off in a repeating cycle.</p>
+
+<div class="sheet">
+  <div class="cap">A simple sensor circuit, in principle</div>
+<pre>
+  signal present (e.g. arsenic in water)
+        |
+        v
+  [ sensor protein ] --binds--> [ PROMOTER ] -> [ gene for glowing protein ] -> [ TERMINATOR ]
+                                     |
+                         switched ON only when the
+                         sensor detects the signal
+        |
+        v
+  bacterium glows  ->  you can see the contamination
+</pre>
+</div>
+
+<p>Real projects have built bacterial sensors of exactly this kind, for example for arsenic in drinking
+water. <strong>The circuit idea turns cells from producers of one substance into devices that sense,
+decide and respond.</strong></p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The chassis: choosing which cell to build on</h2>
+</header>
+
+<p>Engineers call the host organism the <strong>chassis</strong>, like the frame of a car onto which parts
+are bolted. The favourites are well understood and easy to grow. The gut bacterium <em>Escherichia coli</em>,
+usually shortened to <em>E. coli</em>, doubles roughly every twenty minutes in good conditions and has been
+studied for a century; the strains used in laboratories are harmless. Baker's yeast is a favourite for more
+complex products, because it is closer to human cells in how it folds and processes proteins, and because
+industry already knows how to grow it in huge vats for beer and bread.</p>
+
+<p>Some researchers have tried to build a simpler, more predictable chassis. In 2016 the J. Craig Venter
+Institute reported a bacterium stripped down to 473 genes. Strikingly, the function of around a third of
+those essential genes was unknown. <strong>Even the simplest living cell still contains machinery nobody
+fully understands</strong>, which says a lot about how far "programming life" still has to go. An
+international project has also rebuilt the chromosomes of baker's yeast in redesigned, synthetic form, a
+much larger and more complex genome.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Design, build, test, learn</h2>
+</header>
+
+<p>Because cells are hard to predict, synthetic biology works in loops. Engineers <strong>design</strong> a
+set of DNA variants on a computer, <strong>build</strong> them, <strong>test</strong> how the cells behave,
+and <strong>learn</strong> from the results to make better designs. This cycle is the field's working
+method. Large automated laboratories called <strong>biofoundries</strong> run it at industrial scale, with
+robots that assemble DNA, grow thousands of strains in parallel and measure the results.</p>
+
+<p>Artificial intelligence is speeding up the "design" and "learn" steps. Protein structure prediction,
+recognised by the 2024 Nobel Prize in Chemistry awarded to David Baker, Demis Hassabis and John Jumper, lets
+researchers predict a protein's shape from its sequence and even design new proteins that nature never made.
+Models trained on DNA itself are beginning to suggest sequences with chosen properties.
+<strong>The bottleneck is shifting from "can we build it?" to "do we know what to build?"</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Why biology resists engineering</h2>
+</header>
+
+<p>The computer analogy breaks down in at least four places, and they explain why synthetic biology took
+longer to deliver than its early champions expected.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Context changes everything</h4><p>A DNA part that works well in one cell, or next
+  to one gene, may behave differently somewhere else. Electronic components do not care what is wired beside
+  them. Biological parts often do.</p></div>
+  <div class="card"><h4>Cells are noisy</h4><p>Two genetically identical cells in the same flask can make
+  quite different amounts of a protein, because the molecules inside are few and move randomly. Circuits
+  must tolerate this noise.</p></div>
+  <div class="card"><h4>The host has its own plans</h4><p>Making a foreign product costs the cell energy and
+  can poison it. The cell's own regulation pushes back, and yields fall.</p></div>
+  <div class="card"><h4>Evolution never stops</h4><p>Any cell that breaks the engineered circuit and stops
+  wasting energy on it grows faster and takes over the culture. Engineered designs tend to decay over many
+  generations.</p></div>
+</div>
+
+<p>The last point is the deepest. <strong>Engineers build machines that stay as designed. Biologists work
+with machines that copy themselves and change with every copy.</strong> That is the source of
+biology's power, and the source of its unpredictability.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Medicines, food, materials and the environment</h2>
+  <p class="lede">Synthetic biology is already part of daily life, mostly invisibly. Its potential reach is
+  wide because almost anything made from carbon can, in principle, be made by a cell.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Medicines made and delivered by cells</h2>
+</header>
+
+<p>Many of the most important modern drugs are proteins made by engineered cells: insulin, many cancer
+treatments, and the <strong>monoclonal antibodies</strong> described in Volume 13. Synthetic biology makes
+these processes more efficient and opens new ones. The artemisinin project, led by Jay Keasling at the
+University of California, Berkeley, inserted a chain of plant and yeast genes into yeast so that it produced
+a precursor of the malaria drug. It reached commercial production in 2013. Its later history is instructive:
+when the price of plant-grown artemisinin fell, the brewed version struggled to compete. <strong>A
+technical success is not automatically an economic one.</strong></p>
+
+<p>Cells can also be the medicine. In <strong>CAR-T therapy</strong>, approved in the United States from
+2017, a patient's own immune cells are given a designed gene that lets them recognise and kill a cancer, and
+are then returned to the patient. For some blood cancers, it has produced lasting remissions where nothing
+else worked. The mRNA vaccines described in Volume 13 (<a href="../13-medicine-and-biology.html#m1">mRNA
+vaccines</a>) are another example of designed genetic instructions turned into medicine at speed.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Food, fabrics and fuels from fermentation tanks</h2>
+</header>
+
+<p>The oldest biotechnology is fermentation: yeast making beer, bacteria making yoghurt. Synthetic biology
+upgrades it. In <strong>precision fermentation</strong>, a microbe is engineered to make one specific
+ingredient, such as a milk protein, an egg protein or the iron-containing molecule called heme that gives
+some plant-based burgers a meaty taste. Many cheeses are already made with chymosin, a curdling enzyme
+produced by engineered microbes instead of taken from calves' stomachs. Volume 15 covers the economics of
+this approach.</p>
+
+<p>The same methods can make fragrances, dyes, enzymes for washing powders, and experimental materials such
+as spider-silk-like fibres. Biofuels were an early hope, but most have struggled to compete with cheap
+oil. The pattern is consistent: <strong>engineered microbes compete best on high-value, low-volume products
+and struggle with bulk commodities</strong>, because fermentation tanks are expensive and oil refineries are
+huge and efficient.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Engineering the environment itself</h2>
+</header>
+
+<p>The most ambitious and contested applications release engineered organisms into the wild. The British
+company Oxitec has released male mosquitoes carrying a gene that makes their female offspring die, so local
+populations of disease-carrying mosquitoes fall; trials have run in Brazil, the Cayman Islands and
+Florida.</p>
+
+
+<p>Researchers are also studying so-called gene drives, inheritance systems designed to spread a chosen
+trait through a wild population much faster than normal breeding would. Projects aimed at malaria-carrying
+mosquitoes are the best known. Nothing of this kind has been released into the wild, and most scientists in
+the field argue that it should not be until there is international agreement, because
+<strong>a change that spreads by itself cannot easily be called back.</strong> The United Nations
+Convention on Biological Diversity has debated the issue repeatedly, and the discussion involves not only
+scientists but the communities who would live with the result.</p>
+
+<p>Other environmental applications are less dramatic and closer to use: microbes engineered to break down
+plastics or pollutants, bacteria that supply nitrogen to crops so that less fertiliser is needed, and
+organisms that sense contamination in soil or water. Volume 12 explains why fertiliser matters so much
+(<a href="../12-the-physical-supply-chain.html#s8">Fertiliser, the process that feeds half the world</a>).</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Powerful, cheap, and hard to keep inside the laboratory</h2>
+  <p class="lede">Synthetic biology's benefits are concrete and already arriving. Its risks come from the
+  same features: low cost, wide availability, and living systems that reproduce.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The balance sheet</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Medicine</strong></td><td class="ok">Cheaper, more reliable supply of complex drugs; new therapies such as engineered immune cells.</td><td class="no">High prices for new therapies; access limited to wealthy health systems.</td></tr>
+<tr><td><strong>Industry</strong></td><td class="ok">Products made from sugar and water rather than oil, often with less waste.</td><td class="no">Fermentation is costly at bulk scale; many ventures have failed commercially.</td></tr>
+<tr><td><strong>Food</strong></td><td class="ok">Ingredients such as enzymes and proteins without animals, using less land.</td><td class="no">Public mistrust of engineered ingredients; disruption for farmers whose crops are replaced.</td></tr>
+<tr><td><strong>Environment</strong></td><td class="ok">Possible tools against disease-carrying insects, pollution and fertiliser overuse.</td><td class="no">Released organisms are hard to recall, and effects on ecosystems are hard to predict.</td></tr>
+<tr><td><strong>Knowledge</strong></td><td class="ok">Building a system is a powerful way to test whether you understand it.</td><td class="mid">Understanding remains partial; even a minimal cell holds genes whose roles are unknown.</td></tr>
+<tr><td><strong>Security</strong></td><td class="ok">Faster vaccines and better detection of outbreaks.</td><td class="no">Dual use: the same tools could in principle be misused, which is why oversight matters.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Dual use, and how the field tries to govern itself</h2>
+</header>
+
+<p>Biology has a feature that most technologies lack: the same knowledge that lets you prevent a disease can
+tell you how diseases work. This is called the <strong>dual-use problem</strong>. As DNA synthesis became
+cheap, biosecurity experts began to worry that dangerous work would become easier for people outside
+established institutions, and more recently about AI tools that help design biological molecules.</p>
+
+<p>The main responses are practical rather than prohibitions on knowledge. Companies that make DNA to order
+screen their orders and their customers, coordinated through an international consortium of synthesis
+companies, and several governments have issued screening guidance. Research that could create particular
+risks is reviewed before funding in a number of countries, and AI developers have begun testing their models
+for whether they could give meaningful uplift in this area and restricting what they will answer.
+<strong>None of these measures is complete, and the honest description is of a field trying to stay ahead of
+its own tools.</strong> The Biological Weapons Convention of 1972 bans such weapons but has no inspection
+system, which many governments regard as its central weakness.</p>
+
+<p>The hopeful precedent is Asilomar in 1975, when scientists paused parts of their own research until
+safety rules were agreed. That tradition is why synthetic biology holds public discussions about limits
+earlier than most fields. It is not a guarantee, and self-governance works only when backed by law and by
+the practical choices of suppliers.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Quietly useful, probably more than people expect</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands (2026)</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>More medicines, enzymes and ingredients made by engineered cells</strong></td><td>Established industry: insulin, antibodies, cheese enzymes, flavours, specialist chemicals.</td><td class="ok">Fairly sure: steady growth, with AI-designed proteins widening what can be made. Most of it invisible to consumers.</td></tr>
+<tr><td><strong>Designed cells as living medicines</strong></td><td>Engineered immune cells approved for some blood cancers; trials extending to other diseases and to cells that sense and respond inside the body.</td><td class="mid">Plausible: more approvals over the next decade, limited by cost, manufacturing and safety rather than by the basic idea.</td></tr>
+<tr><td><strong>Engineered organisms released to change ecosystems</strong></td><td>Limited insect releases; self-spreading systems discussed but not deployed.</td><td class="no">Speculative and contested: the science may be ready before the governance is. Expect slow, case-by-case decisions.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>What to watch, and how to read the claims</h2>
+</header>
+
+<p>Three signals matter. The first is <strong>cost</strong>. Writing long DNA sequences is still expensive
+compared with reading them; if that price falls the way sequencing did, far more designs become worth
+trying. The second is <strong>prediction</strong>. The field's bottleneck is knowing what a design will do
+before building it, and AI models for proteins and genomes are the most promising attack on that problem.
+The third is <strong>scale-up</strong>. Many companies have shown a product in a flask and then failed to
+make it cheaply in a factory; the industry had a wave of financial failures in the mid-2020s for exactly
+this reason.</p>
+
+<p>When you read a synthetic biology announcement, three questions sort hype from substance. Has this been
+done outside a single laboratory? Is the product cheaper than the existing way of making it, including the
+cost of the fermentation plant? And is the organism contained in a tank, or intended to live in the open?
+<strong>The gap between a cell that makes a molecule and a business that sells it is usually several years
+and a great deal of money.</strong></p>
+
+<p>Volume 50's judgement remains the fair one: synthetic biology is already working, attracts less attention
+than it deserves, and is likely to matter more than several things that attract more. It will probably reach
+you as an ingredient in a medicine, a cheese or a washing powder long before it reaches you as a headline.
+For the matching story at the scale of atoms rather than cells, read
+<a href="11-nanotechnology.html">Nanotechnology</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Synthetic biology applies <strong>engineering method</strong> to living systems: standard DNA
+    <strong>parts</strong>, assembled into <strong>circuits</strong>, placed in a well-understood host
+    <strong>chassis</strong>, and improved through repeated <strong>design, build, test, learn</strong>
+    cycles. Cheap DNA reading and writing made it possible; biology's noise, context-dependence and
+    evolution make it hard.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Human insulin from engineered microbes was approved in <strong>1982</strong>.</li>
+      <li>A human genome cost billions and took over a decade to <strong>2003</strong>; today it is read in days for a few hundred dollars.</li>
+      <li>A stripped-down "minimal" bacterium needs about <strong>473 genes</strong>, and the job of roughly a third of them was unknown.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Taking the computer analogy literally. <strong>Cells are noisy, context-sensitive and evolving</strong>,
+    so a design that works in one setting may not work in another, and may decay over generations.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why engineered microbes compete well for medicines and flavours but badly for fuels?
+    If so, you understand why value per kilogram decides what gets brewed.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Synthetic biology</dt><dd>Designing and building living systems from standard genetic parts, using engineering methods.</dd>
+    <dt>Genetic engineering</dt><dd>Moving or changing genes in an organism; the older, narrower practice.</dd>
+    <dt>DNA sequencing</dt><dd>Reading the order of letters in DNA.</dd>
+    <dt>DNA synthesis</dt><dd>Writing DNA chemically from a sequence typed on a computer.</dd>
+    <dt>Promoter</dt><dd>The DNA switch where the cell starts reading a gene.</dd>
+    <dt>Genetic circuit</dt><dd>Several genes wired so they switch each other on and off, producing logic-like behaviour.</dd>
+    <dt>Chassis</dt><dd>The host organism that engineered parts are built into, often <em>E. coli</em> or yeast.</dd>
+    <dt>Biofoundry</dt><dd>An automated laboratory that builds and tests many genetic designs in parallel.</dd>
+    <dt>Precision fermentation</dt><dd>Using an engineered microbe to brew one specific ingredient.</dd>
+    <dt>Minimal genome</dt><dd>The smallest set of genes a free-living cell needs to survive and reproduce.</dd>
+    <dt>CAR-T therapy</dt><dd>A treatment in which a patient's own immune cells are engineered to attack their cancer.</dd>
+    <dt>Dual use</dt><dd>Knowledge or tools that can serve both beneficial and harmful purposes.</dd>
+    <dt>Containment</dt><dd>Keeping engineered organisms inside controlled equipment, and designing them so they cannot thrive outside it.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Synthetic biology treats a cell as a factory you can program, using DNA as the code."</li>
+    <li>"Your insulin, your cheese enzyme and the heme in some plant burgers are all made by engineered
+    microbes."</li>
+    <li>"We can read and write DNA cheaply now. The hard part is predicting what a design will actually
+    do."</li>
+    <li>"Cells evolve, so an engineered circuit tends to break down over generations. Machines don't do
+    that."</li>
+    <li>"The field has argued about its own safety rules since Asilomar in 1975, which is unusual and
+    healthy."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="11-nanotechnology.html">Nanotechnology</a></h4><p>The same
+  ambition at the scale of atoms: what can really be built one billionth of a metre at a time, and what
+  stayed science fiction.</p></div>
+  <div class="card"><h4>Related · <a href="../04-biology/18-biotechnology.html">Biotechnology</a></h4><p>The
+  wider field this grew out of: using living things to make useful products, from brewing to modern
+  medicine.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

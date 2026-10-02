@@ -1,0 +1,893 @@
+<!doctype html>
+<!--@HEAD-SRC title="How Healthcare Systems Work" desc="What a healthcare system is, the four classic models from Beveridge to out-of-pocket, why some countries spend twice as much for worse results, and where systems are heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Healthcare Systems Work</title>
+<meta name="description" content="What a healthcare system is, the four classic models from Beveridge to out-of-pocket, why some countries spend twice as much for worse results, and where systems are heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Public Health &amp; Society · Topic 01 of 20</p>
+  <h1>How healthcare systems work. <span class="thin">The same broken leg costs nothing in one country and a month's wages in another.</span></h1>
+  <p class="lede">A healthcare system is not just hospitals and doctors. It is a set of answers to
+  three hard questions: who pays, who provides the care, and who decides what is covered. Every
+  country answers them differently, mostly because of its history rather than careful design. Those
+  answers explain why a British patient never sees a bill, why a German one belongs to a "sickness
+  fund", and why an American can be fully insured and still go bankrupt. Once you can see the three
+  questions, you can understand any system in the world in a few minutes.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Public Health</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../28-medicine.html#c7"><span class="vn">Vol 28 · ch 07</span><b>Sewers, not surgeons</b><em>What really raised life expectancy</em></a>
+<a class="vol" href="../05-medicine-health/16-public-health.html"><span class="vn">Medicine · 16</span><b>Public health</b><em>The overview</em></a>
+<a class="vol" href="02-healthcare-financing.html"><span class="vn">Public Health · 02</span><b>Healthcare financing</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first full treatment of how healthcare is organised. The nearest
+  neighbour is Volume 28's chapter <a href="../28-medicine.html#c7">Sewers, not surgeons</a>, which
+  explains why clean water did more for life expectancy than hospitals. That point returns here: a
+  health system is much more than its medical care.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Everything a society does on purpose to keep people healthy</h2>
+  <p class="lede">The phrase sounds like a building. It is really an arrangement of money, people,
+  rules and information, and the arrangement matters as much as the medicine.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>One broken leg, four countries</h2>
+</header>
+
+<p>Imagine a woman of forty who slips on ice and breaks her leg. The injury is identical wherever it
+happens. The bone needs an X-ray, a cast or an operation, some painkillers, and a few follow-up
+visits. What changes from country to country is everything around the bone.</p>
+
+<p>In the United Kingdom she goes to a public hospital's emergency department. She gives her name and
+address, she is treated, and she goes home. She never sees a bill, because the National Health
+Service is paid for out of general taxes. In Germany she shows a card from her <strong>sickness
+fund</strong>, a non-profit insurer that she and her employer pay into every month. The hospital
+sends the bill to the fund, not to her. In the United States, what she pays depends on her
+insurance plan. She may owe a fixed "deductible" before the plan pays anything, and a share of the
+rest after it. In rural India, if there is no well-equipped public hospital nearby, she may go to a
+private clinic and pay in cash, perhaps by borrowing from relatives.</p>
+
+<p>Same leg, same medicine, four completely different experiences. <strong>The difference is not the
+doctors. It is the system that decides how care is paid for and who can reach it.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The six building blocks</h2>
+</header>
+
+<p>The World Health Organization (WHO) defines a health system broadly: all the organisations,
+people and actions whose main purpose is to promote, restore or maintain health. That includes a
+vaccination team, a pharmacy, a food-safety inspector and a ministry statistician, not only a
+surgeon. In 2007 the WHO described six "building blocks" that every system needs. They are a useful
+checklist when you look at any country.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Building block</th><th>What it means</th><th>What failure looks like</th></tr></thead>
+<tbody>
+<tr><td><strong>Service delivery</strong></td><td>Clinics, hospitals, community health workers, emergency care</td><td>A clinic exists but is closed, too far away, or has a three-month waiting list</td></tr>
+<tr><td><strong>Health workforce</strong></td><td>Enough trained doctors, nurses, midwives and technicians, in the right places</td><td>All the doctors are in the capital; villages have none</td></tr>
+<tr><td><strong>Information</strong></td><td>Records, disease surveillance, statistics on births and deaths</td><td>Nobody knows what people are dying of, so money goes to the wrong problems</td></tr>
+<tr><td><strong>Medicines and technology</strong></td><td>Reliable supply of drugs, vaccines and equipment, of good quality</td><td>Stock-outs, fake medicines, broken machines with no spare parts</td></tr>
+<tr><td><strong>Financing</strong></td><td>Raising money and paying providers so people are not ruined by illness</td><td>Families sell land or skip treatment because of the cost</td></tr>
+<tr><td><strong>Leadership and governance</strong></td><td>Rules, regulation, planning and accountability</td><td>No one checks quality, and corruption drains the budget</td></tr>
+</tbody></table></div>
+
+<p>The blocks depend on each other. A new hospital without nurses is an empty building.
+<strong>A system is only as strong as its weakest
+block</strong>, which is why aid projects that build one shiny thing often disappoint.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>What a system is for: three goals</h2>
+</header>
+
+<p>If a system is a machine, what is it supposed to produce? The WHO's World Health Report of 2000
+named three goals, and they still frame most debates.</p>
+
+<p>The first is <strong>better health</strong>: longer lives, fewer babies and mothers dying, less
+disability. The second is <strong>financial protection</strong>: nobody should be pushed into
+poverty because they or a family member fell ill. The third is <strong>responsiveness</strong>:
+treating people with dignity, giving them some choice, and not making them wait without reason.
+Economists add a fourth that sits over all three: <strong>efficiency</strong>, meaning how much of
+the first three you get for each unit of money.</p>
+
+<p>The goals pull against each other. Long waiting lists keep costs down but hurt responsiveness.
+Generous coverage protects families but can encourage overuse. <strong>Every system is a particular
+compromise between these goals</strong>, and arguments about healthcare are usually arguments about
+which goal to sacrifice a little of.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Who pays, who provides, who decides</h2>
+  <p class="lede">Strip away the names and every system in the world is built from the same few
+  parts. Four classic models show the main ways of putting them together.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The four classic models</h2>
+</header>
+
+<p>The American journalist T.R. Reid popularised a simple way to sort the world's systems in his
+2009 book <em>The Healing of America</em>. Real countries mix the models, but the four types are a
+very good starting map.</p>
+
+<div class="grid2">
+  <div class="card"><h4>The Beveridge model (tax-funded, mostly public)</h4><p>Named after William
+  Beveridge, whose 1942 report shaped Britain's post-war welfare state. The government raises taxes,
+  owns most hospitals and employs many of the staff. Care is free or nearly free when you use it.
+  The UK's National Health Service, launched in July 1948 under the health minister Aneurin Bevan,
+  is the classic case. Spain, Italy, the Nordic countries and New Zealand are broadly similar.</p></div>
+  <div class="card"><h4>The Bismarck model (social insurance)</h4><p>Named after Otto von Bismarck,
+  whose Germany passed a compulsory sickness insurance law in 1883. Workers and employers pay
+  contributions into non-profit funds, and the funds pay doctors and hospitals, many of which are
+  private. Germany, France, Belgium, the Netherlands, Switzerland and Japan are variations on this
+  theme.</p></div>
+  <div class="card"><h4>National health insurance (single payer)</h4><p>A mix of the two. One public
+  insurer, funded by taxes or premiums, pays for everyone, but the doctors and many hospitals are
+  private. Canada built this province by province, starting in Saskatchewan, between the 1940s and the early 1970s. Taiwan created its version in
+  1995, and South Korea runs one national insurer. Because there is one buyer, it has strong power
+  to bargain prices down.</p></div>
+  <div class="card"><h4>Out-of-pocket</h4><p>No real system at all for most people: you pay the
+  doctor or pharmacist directly, if you can. This is the reality for much of the population in many
+  low-income countries. It is the most unequal model, because care goes to those with cash, and it
+  is a major cause of poverty.</p></div>
+</div>
+
+<p>The United States does not fit one box. Older people are covered by <strong>Medicare</strong>,
+a single-payer programme since 1965. Many poorer people are covered by <strong>Medicaid</strong>,
+funded by federal and state taxes. Veterans use a Beveridge-style system run by the government.
+Most working-age people get private insurance through their employer, which is a little like
+Bismarck but run largely for profit. And the uninsured, still about one in twelve Americans in the
+mid-2020s, often fall back on out-of-pocket payment. <strong>The US runs all four models at once,
+for different groups</strong>, which is a large part of why it is so complicated.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The triangle: patient, payer, provider</h2>
+</header>
+
+<p>The most useful picture in health policy is a triangle. At one corner is the
+<strong>patient</strong>, who needs care. At another is the <strong>provider</strong>: a doctor,
+hospital or clinic that gives it. At the third is the <strong>payer</strong>: a government, an
+insurer or a fund that pays the bill. Behind the payer stands the population, who supply the money
+through taxes or premiums.</p>
+
+<div class="sheet">
+  <div class="cap">The health-system triangle</div>
+<pre>
+                    POPULATION
+             (taxes, premiums, contributions)
+                         |
+                         v
+                    +---------+
+                    |  PAYER  |   government, sickness fund, insurer
+                    +---------+
+                   /           \
+      covers, sets rules        pays, negotiates prices
+                 /               \
+     +-----------+               +-----------+
+     |  PATIENT  | ---- care ----|  PROVIDER |  GP, hospital, pharmacy
+     +-----------+   (and maybe  +-----------+
+                      a co-payment)
+</pre>
+</div>
+
+<p>The triangle exists because of a basic problem economists call <strong>information
+asymmetry</strong>: the provider knows far more than the patient about what care is needed. If the
+patient paid directly, they could not judge whether an operation was necessary. The payer acts as
+an informed buyer on the patient's behalf. It decides which treatments are covered, how much each
+is worth, and how to check quality. <strong>Much of what makes systems differ is how strong and
+well-informed the payer is.</strong> A single national payer can say no to an overpriced drug. A
+patient in a doctor's office cannot.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Levels of care, and the gatekeeper</h2>
+</header>
+
+<p>Systems arrange care in levels, like a pyramid. At the broad base is <strong>primary
+care</strong>: the family doctor, the community nurse, the local clinic. It handles most problems,
+most of the time, close to home. In the middle is <strong>secondary care</strong>: specialists and
+general hospitals, such as a cardiologist or an orthopaedic surgeon. At the narrow top is
+<strong>tertiary care</strong>: highly specialised centres for things like organ transplants,
+childhood cancers and major burns.</p>
+
+<p>Many countries, including the UK, the Netherlands and Denmark, make the family doctor a
+<strong>gatekeeper</strong>. You cannot see a specialist (except in an emergency) without a
+referral from your general practitioner. Other countries, such as Germany and, traditionally,
+France, let patients go more freely to specialists, though France now rewards people for
+registering with a regular doctor.</p>
+
+<p>Gatekeeping has a clear logic. Specialists are expensive and see a narrow slice of medicine. A
+generalist who knows you can solve most problems and send only the right cases upward. The cost is
+a feeling of being blocked, and sometimes a delay. More in
+<a href="03-primary-healthcare.html">Primary healthcare</a> and <a href="04-hospitals.html">Hospitals</a>.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Deciding what is worth paying for</h2>
+</header>
+
+<p>No system can pay for everything. New drugs and devices arrive every year, and some cost hundreds
+of thousands of dollars per patient. So someone must decide which ones are covered. Many countries
+now use <strong>health technology assessment</strong>: a formal review of whether a treatment works,
+how much benefit it gives, and whether that benefit is worth its price compared with other uses of
+the money.</p>
+
+<p>England's National Institute for Health and Care Excellence (NICE), set up in 1999, is the
+best-known example. It often measures benefit in <strong>quality-adjusted life years</strong>
+(QALYs). One QALY is one year of life in full health. A year in poor health counts as a fraction.
+NICE then asks roughly how much a treatment costs per QALY gained, and treatments far above its
+threshold are usually not recommended unless special rules apply.</p>
+
+<p>This is often attacked as "rationing". But every system rations. A tax-funded
+system rations by budgets and waiting lists. A market system rations by price, so people who cannot
+pay go without. <strong>The honest choice is not whether to ration but how openly and fairly to do
+it.</strong> Explicit rules at least let the public see and argue with the decisions.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>A tenth of the economy, and a large part of whether you live or die</h2>
+  <p class="lede">Health systems are among the biggest things governments run. The way they are built
+  decides who gets care, who goes bankrupt, and how much a country spends for each year of life.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Twice the money, shorter lives</h2>
+</header>
+
+<p>Rich countries typically spend around a tenth of their national income (GDP) on health. The
+average across the OECD, a club of mostly wealthy democracies, was a little over 9 percent in the
+early 2020s. The United States spends far more: around 17 percent of GDP, which is roughly twice the
+OECD average per person once you adjust for prices.</p>
+
+<p>Yet American life expectancy is several years shorter than in Japan, Spain, Switzerland or
+Australia, and below most other rich countries. Why? The reasons are debated, but researchers
+point to a mix. <strong>Prices</strong> are much higher in the US for the same drugs, scans and
+procedures. Administrative costs are high, because thousands of insurance plans each have their
+own forms and rules. Some people delay care because of cost. And part of the gap has nothing to do
+with medical care at all: higher rates of obesity, gun deaths, road deaths and drug overdoses.</p>
+
+<p>American medicine at its best is among the world's finest. The lesson is that <strong>spending more on medical care does not automatically buy
+more health</strong>. How the money flows matters more than how much there is.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Illness as a road to poverty</h2>
+</header>
+
+<p>In a system that relies on out-of-pocket payment, a serious illness hits a family twice. The sick
+person stops earning, and at the same moment the family must find cash for treatment. They sell
+animals or land, take children out of school, or borrow at high interest. Health economists call
+spending that swallows a large share of a household's budget <strong>catastrophic health
+spending</strong>.</p>
+
+<p>WHO and World Bank monitoring reports estimate that around two billion people face financial
+hardship from health costs, and that hundreds of millions are pushed into extreme poverty by them.
+The same reports say that roughly half the world's population is not fully covered by essential
+health services. These are estimates built from household surveys, so treat the exact figures with
+care, but the scale is not in doubt.</p>
+
+<p><strong>Whether getting sick can ruin you is one of the most
+important differences between systems</strong>, and it is invisible in league tables of life
+expectancy.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Universal health coverage: the goal almost everyone signed</h2>
+</header>
+
+<p>In 2015 all United Nations member states adopted the Sustainable Development Goals. Target 3.8 is
+<strong>universal health coverage</strong> (UHC): everyone can get the health services they need,
+of good quality, without financial hardship. UHC does not mean "everything free for everyone". It
+means a defined package of essential care that everybody can reach and afford.</p>
+
+<p>Middle-income countries have shown it can be done without being rich. Thailand launched its
+Universal Coverage Scheme in 2002, at first charging a token fee of 30 baht per visit. It extended
+cover to tens of millions of people who had none, paid mainly from taxes, and is widely studied as a
+success. Rwanda built a community-based health insurance scheme after the 1994 genocide and reached
+high enrolment. Turkey and Indonesia have also run large coverage reforms.</p>
+
+<div class="note">
+  <span class="tag">Three dimensions of coverage</span>
+  <p>The WHO pictures UHC as a box with three sides. <strong>Who</strong> is covered (breadth),
+  <strong>which services</strong> are covered (depth), and <strong>what share of the cost</strong>
+  is paid from pooled funds rather than by the patient (height). A country can cover everyone for
+  very little, or a few people for almost everything. Progress means making the box bigger on all
+  three sides.</p>
+</div>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Every model buys something and pays for it somewhere else</h2>
+  <p class="lede">There is no system without complaints. The useful question is which complaints you
+  prefer to live with.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The models weighed</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Model</th><th>Main strengths</th><th>Main weaknesses</th></tr></thead>
+<tbody>
+<tr><td><strong>Beveridge</strong> (UK, Spain, Nordics)</td><td class="ok">Simple for patients, no bills. Strong cost control because the government sets the budget. Equal access in principle.</td><td class="no">Waiting lists when budgets are tight. Health competes with every other public service for tax money. Can be slow to change.</td></tr>
+<tr><td><strong>Bismarck</strong> (Germany, France, Japan)</td><td class="ok">Good access and choice, short waits, money ring-fenced for health. Survives changes of government well.</td><td class="mid">More expensive to run. Contributions tied to wages strain the system as populations age and fewer people work.</td></tr>
+<tr><td><strong>Single payer</strong> (Canada, Taiwan, Korea)</td><td class="ok">Low administrative costs. One strong buyer keeps prices down. Everyone in one pool.</td><td class="mid">Waits for some specialist care (a long-running complaint in Canada). Coverage can be narrow: Canada's public plan does not cover most outpatient drugs.</td></tr>
+<tr><td><strong>Out-of-pocket</strong></td><td class="mid">Direct. Nothing to administer. Patients may shop around.</td><td class="no">Care goes to those who can pay. Families impoverished. Prevention neglected because no one pays for it.</td></tr>
+<tr><td><strong>US mixed system</strong></td><td class="ok">World-leading research, fast access for the well insured, much choice.</td><td class="no">Highest costs on earth, gaps in coverage, medical debt, enormous complexity.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The iron triangle</h2>
+</header>
+
+<p>Health policy experts talk about an <strong>iron triangle</strong> of access, quality and cost.
+The rule of thumb is that you can improve any two, but usually at the price of the third. Cover more
+people with better care, and costs rise. Hold costs down and cover everyone, and waits or quality
+may suffer. Keep quality high and costs low, and you probably restrict access.</p>
+
+<p>Good systems loosen the triangle a little through efficiency: generic drugs, more care in the
+community, fewer duplicated tests. No system has broken it. <strong>When a politician promises more
+access, better quality and lower cost all at once, ask which corner will quietly give.</strong></p>
+
+<p>A further honest point: international rankings of systems are contested. The WHO's 2000 report
+ranked France first and caused years of argument about its methods. It has not been repeated.
+Different weights on the goals give different winners.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Older patients, new tools, and the same old money question</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Pressures and directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Ageing and chronic disease</strong></td><td>Populations in Europe, East Asia and beyond are getting older. Most spending already goes on long-term conditions such as diabetes, heart disease and dementia.</td><td class="ok">Fairly sure: demand and costs keep rising, and long-term care becomes a central political issue. See <a href="../16-society-sociology/08-aging-populations.html">Aging populations</a>.</td></tr>
+<tr><td><strong>Workforce shortages</strong></td><td>The WHO projects a global shortfall of millions of health workers by 2030, worst in Africa and South Asia. Rich countries recruit nurses and doctors from poorer ones.</td><td class="ok">Fairly sure: staffing, not buildings, will be the main limit on many systems.</td></tr>
+<tr><td><strong>Care moved out of hospital</strong></td><td>Many systems are trying to shift care into primary care, homes and remote monitoring.</td><td class="mid">Plausible: slow but steady change. See <a href="16-telemedicine.html">Telemedicine</a>.</td></tr>
+<tr><td><strong>AI reshaping the workload</strong></td><td>AI already helps read scans and write clinical notes in some places.</td><td class="mid">Plausible for paperwork and diagnosis support. Whether it lowers costs overall is unknown. See <a href="17-ai-in-healthcare.html">AI in healthcare</a>.</td></tr>
+<tr><td><strong>Convergence on one model</strong></td><td>Countries borrow from each other, but each keeps its founding structure.</td><td class="no">Speculative: a single "best" global model is unlikely.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Why systems change so slowly</h2>
+</header>
+
+<p>Germany's system still carries the shape of an 1883 law. Britain's still reflects decisions made
+in 1948. Political scientists call this <strong>path dependence</strong>: once millions of people,
+jobs and institutions are built around one arrangement, changing it becomes extremely costly. Every
+hospital, insurer, union and patient group has something to lose.</p>
+
+<p>That is why big reforms are rare and usually happen at special moments: after a war, a crisis or
+a landslide election. The US Affordable Care Act of 2010 expanded coverage to millions but kept the
+mixed private structure, because replacing it outright was politically impossible. <strong>Systems
+evolve by adding layers, not by starting again.</strong> When you read about a country's healthcare
+debate, look first at its history.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A healthcare system answers <strong>who pays, who provides and who decides</strong>. The four
+    classic answers are <strong>Beveridge</strong> (tax-funded, public), <strong>Bismarck</strong>
+    (social insurance funds), <strong>single payer</strong> (one public insurer, private providers)
+    and <strong>out-of-pocket</strong>. Every system trades off health, financial protection,
+    responsiveness and cost.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Rich countries spend about <strong>9–11 percent</strong> of GDP on health; the US about
+      <strong>17 percent</strong> (early 2020s).</li>
+      <li>Germany's social insurance dates from <strong>1883</strong>; the UK's NHS from
+      <strong>1948</strong>.</li>
+      <li>Roughly <strong>half the world's people</strong> lack full coverage of essential services,
+      by WHO and World Bank estimates.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking "public" or "private" describes a system. Most systems mix public money with private
+    providers. <strong>Ask separately who pays and who provides</strong>; the answers are often
+    different.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why Canada and the United Kingdom both give care free at the point of use,
+    yet one is called "single payer" and the other "Beveridge"? If so, you understand the triangle.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Health system</dt><dd>All the people, organisations, money and rules whose main purpose is to improve or protect health.</dd>
+    <dt>Payer</dt><dd>Whoever pays the bill for care: a government, a sickness fund or an insurer.</dd>
+    <dt>Provider</dt><dd>Whoever gives the care: a doctor, nurse, clinic, hospital or pharmacy.</dd>
+    <dt>Beveridge model</dt><dd>A system paid for by taxes in which the state also runs most services.</dd>
+    <dt>Bismarck model</dt><dd>A system of compulsory insurance funds paid for by workers and employers.</dd>
+    <dt>Single payer</dt><dd>One public insurer pays for everyone's care, usually from private providers.</dd>
+    <dt>Out-of-pocket payment</dt><dd>Money a patient pays directly, at the time of care.</dd>
+    <dt>Gatekeeper</dt><dd>A family doctor whose referral you need before seeing a specialist.</dd>
+    <dt>Universal health coverage</dt><dd>Everyone can get needed, good-quality care without financial hardship.</dd>
+    <dt>Catastrophic health spending</dt><dd>Health costs so large that they consume a big share of a household's budget.</dd>
+    <dt>Health technology assessment</dt><dd>A formal check of whether a treatment is effective and worth its price.</dd>
+    <dt>QALY</dt><dd>Quality-adjusted life year: one year of life in full health, used to compare treatments.</dd>
+    <dt>Path dependence</dt><dd>The way early decisions lock a system into a shape that is hard to change later.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Every health system answers three questions: who pays, who provides, and who decides what is
+    covered."</li>
+    <li>"Britain and Germany both cover everyone, but Britain pays from taxes and Germany from
+    insurance funds."</li>
+    <li>"America spends about twice as much per person as other rich countries and still has shorter
+    lives. Prices, not just volume, explain much of it."</li>
+    <li>"Every system rations care. The only question is whether it does it by budget, by waiting list
+    or by price."</li>
+    <li>"Countries rarely redesign healthcare from scratch. They add layers to whatever history left
+    them."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="02-healthcare-financing.html">Healthcare financing</a></h4><p>Where
+  the money comes from, how it is pooled, and how the way doctors are paid quietly changes what they
+  do.</p></div>
+  <div class="card"><h4>Related · <a href="09-health-inequality.html">Health inequality</a></h4><p>Why
+  the same system can give very different results to the rich and the poor, and how much of health is
+  decided outside the clinic.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

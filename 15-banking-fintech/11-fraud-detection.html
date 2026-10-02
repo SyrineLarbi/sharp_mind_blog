@@ -1,0 +1,861 @@
+<!doctype html>
+<!--@HEAD-SRC title="Fraud Detection" desc="How banks detect fraud: the main types, rules and machine-learning models, real-time scoring, mule networks, the false-alarm trade-off, who pays when it fails, and the AI arms race ahead."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fraud Detection</title>
+<meta name="description" content="How banks detect fraud: the main types, rules and machine-learning models, real-time scoring, mule networks, the false-alarm trade-off, who pays when it fails, and the AI arms race ahead.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Banking &amp; Fintech · Topic 11 of 20</p>
+  <h1>Fraud detection. <span class="thin">Finding one bad payment among millions, in less time than it takes to blink.</span></h1>
+  <p class="lede">Every time you tap a card, a computer you will never see asks a question: is this
+  really you? It has a fraction of a second to answer. If it says no too often, honest customers get
+  angry and leave. If it says yes too easily, criminals empty accounts. Fraud detection is the craft
+  of getting that answer right billions of times a day against opponents who study the system and
+  change their methods the moment it catches them.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Banking &amp; Fintech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../47-not-being-fooled.html#c2"><span class="vn">Vol 47 · ch 02</span><b>The scams by name</b><em>The customer's side</em></a>
+<a class="vol" href="../14-computing-and-ai.html#c8"><span class="vn">Vol 14 · ch 08</span><b>Biometrics</b><em>The two-error trade-off</em></a>
+<a class="vol" href="12-financial-cybersecurity.html"><span class="vn">Banking · 12</span><b>Financial cybersecurity</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 47 covers fraud from the victim's side: the scams worth knowing by name (<a
+  href="../47-not-being-fooled.html#c2">The ones worth recognising by name</a>) and what to do after
+  one (<a href="../47-not-being-fooled.html#c8">If it has already happened</a>). Volume 14 explains why
+  every detector must choose between two kinds of error (<a
+  href="../14-computing-and-ai.html#c8">Biometrics</a>). This file looks from the other side of the
+  counter: how banks and payment firms spot fraud, and why it is so hard.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A permanent contest between two learning systems</h2>
+  <p class="lede">Fraud detection is the set of checks, models and people that try to stop payments,
+  accounts and loans that are not what they claim to be.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>An opponent that adapts</h2>
+</header>
+
+<p>Most prediction problems are passive. A weather model does not have to worry that the clouds are
+reading its code. Fraud is different. <strong>The thing you are trying to predict is a person who
+wants you to fail and changes behaviour as soon as you succeed.</strong> When banks block one trick,
+criminals move to the next, often within weeks. Security people call this an <strong>adversarial</strong>
+problem.</p>
+
+<p>That single fact shapes everything else. A fraud system can never be "finished". It has to be
+watched, retrained and adjusted all the time. And it must be judged not only by how much fraud it
+stops, but by how much honest business it blocks along the way.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The main kinds of financial fraud</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Type</th><th>What happens</th><th>Typical signal</th></tr></thead>
+<tbody>
+<tr><td><strong>Card-present</strong></td><td>A copied or stolen physical card is used in a shop or cash machine</td><td>A card used in two distant places too quickly</td></tr>
+<tr><td><strong>Card-not-present</strong></td><td>Stolen card details are used online or by phone</td><td>New device, odd delivery address, unusual merchant</td></tr>
+<tr><td><strong>Account takeover</strong></td><td>A criminal logs in as you, often with a stolen password, and changes details</td><td>Login from a new device, then a changed phone number, then a large transfer</td></tr>
+<tr><td><strong>Authorised push payment (APP)</strong></td><td>You are tricked into sending the money yourself</td><td>A first payment to a new payee, often large and urgent</td></tr>
+<tr><td><strong>Application fraud</strong></td><td>Loans or accounts opened with stolen or invented identities</td><td>Details that do not fit together, or match many other applications</td></tr>
+<tr><td><strong>First-party fraud</strong></td><td>A real customer lies, for example borrowing with no intent to repay</td><td>Sudden heavy borrowing just after opening</td></tr>
+</tbody></table></div>
+
+<p>A related problem is <strong>money laundering</strong>: hiding where criminal money came from by
+passing it through accounts until it looks clean. Banks are legally required to watch for it, and
+the same tools are used for both jobs. The rules behind that duty are covered in <a
+href="18-regtech.html">Regtech</a>.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Unauthorised versus authorised: why the difference matters</h2>
+</header>
+
+<p>The most important split in the table is between payments you did not make and payments you were
+tricked into making. In the first case, a stranger used your card or account. Banks in most rich
+countries must usually refund you, unless you were grossly careless. In the second case, <strong>you
+pressed the button yourself</strong>. The bank's systems saw the right customer, on the right phone,
+with the right password. Every security check passed.</p>
+
+<p>That is why authorised fraud has grown as card security improved. It goes around the technology
+by working on the person. It is also why it is so hard to detect: the bank must notice that a real
+customer, doing a real transfer, is acting under someone else's control.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Rules, models and people, all racing the clock</h2>
+  <p class="lede">A modern fraud system stacks several layers. Each catches what the others miss, and
+  each has to finish its work in milliseconds.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The first layer: rules</h2>
+</header>
+
+<p>The oldest tool is a written rule. "Decline any card used in two countries within one hour."
+"Flag any first payment over 5,000 to a new payee." Rules are easy to understand, easy to explain to
+a regulator, and quick to add when a new attack appears.</p>
+
+<p>Their weakness is that they are rigid. A rule that catches a lot of fraud usually also catches a
+lot of honest customers, such as the traveller who lands in a new country. Criminals also learn the
+thresholds. If transfers over 5,000 are checked, they send 4,900. <strong>Rules are good at stopping
+yesterday's attack and poor at noticing tomorrow's.</strong> Most banks still keep them, as a fast
+safety net on top of the models.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The second layer: models that learn what normal looks like</h2>
+</header>
+
+<p>Since the 1990s, card issuers have used <strong>machine learning</strong>: programs that learn
+patterns from examples instead of following written rules. A model is shown millions of past
+transactions, each labelled "genuine" or "fraud" once the outcome was known. It learns which
+combinations of details tend to go with fraud. Then it gives each new transaction a <strong>risk
+score</strong>.</p>
+
+<p>The raw material is called <strong>features</strong>: measurable facts about a transaction and its
+context. Some typical ones:</p>
+
+<div class="grid2">
+  <div class="card"><h4>About the payment</h4><p>Amount, currency, the type of merchant, time of day,
+  whether the card was physically present.</p></div>
+  <div class="card"><h4>About your habits</h4><p>How this compares with your usual spending: how far
+  from home, how much larger than normal, how many payments in the last hour (called
+  <em>velocity</em>).</p></div>
+  <div class="card"><h4>About the device</h4><p>Which phone or browser, whether it has been seen
+  before, its location, whether it hides its location.</p></div>
+  <div class="card"><h4>About behaviour</h4><p>How you type, swipe and hold the phone. This is
+  <em>behavioural biometrics</em>: a fraudster using your password still moves differently from
+  you.</p></div>
+</div>
+
+<p>A second family of models does not need labels at all. <strong>Anomaly detection</strong> learns
+what normal activity looks like and flags anything unusual, which helps against attacks nobody has
+seen before. The catch is that unusual is not the same as criminal. Your first holiday abroad is an
+anomaly too.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Inside the split second</h2>
+</header>
+
+<p>For a card payment, the whole check has to fit inside the authorisation message described in <a
+href="../14-computing-and-ai.html#c7">Volume 14</a>, which takes a second or two end to end. The fraud
+part gets only a slice of that.</p>
+
+<div class="sheet">
+  <div class="cap">One payment through a fraud system (simplified)</div>
+<pre>
+ payment request arrives
+        |
+        v
+ [ enrich ]   add context: your history, device, location, merchant
+        |
+        v
+ [ rules ]    hard blocks and known bad patterns        -- fast, explainable
+        |
+        v
+ [ model ]    risk score, for example 0 to 1000         -- tens of milliseconds
+        |
+        v
+ [ decide ]   low score   -> approve
+              middle      -> ask for more proof (code, app approval) or hold
+              high        -> decline, alert the customer
+        |
+        v
+ [ later ]    analysts review cases; confirmed outcomes feed back into training
+</pre>
+</div>
+
+<p>The middle band is where much of the craft lies. Instead of a plain yes or no, the system can
+<strong>step up</strong>: ask you to approve the payment in your banking app or enter a one-time code.
+In Europe, rules on <strong>strong customer authentication</strong>, phased in around 2019 to 2021,
+require two independent factors for many online payments, which pushed this approach everywhere.
+The factors and their strengths are covered in <a href="../47-not-being-fooled.html#c5">Volume 47</a>.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Following the money through networks</h2>
+</header>
+
+<p>Stolen money has to land somewhere. Criminals use <strong>money mules</strong>: accounts belonging
+to people, often young and often recruited with offers of "easy money", who receive funds and pass
+them on. Looked at one by one, each mule account may look harmless. Looked at as a network, the
+pattern is obvious: many accounts receiving from victims and sending to the same few
+destinations.</p>
+
+<p>That is why fraud teams increasingly use <strong>graph analysis</strong>. A graph here is a map of
+connections: accounts, phones, addresses and devices as points, and payments or shared details as
+lines between them. Ten new accounts opened from the same device, or sharing one address, stand out
+on a graph even when each looks fine alone. <strong>Fraud is often invisible in a single record and
+obvious in the connections.</strong></p>
+
+<p>Banks also share data. In the UK, for example, members of the fraud-prevention service Cifas
+share records of confirmed fraud. A criminal rejected at one bank can be recognised at the next.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The rare-event problem</h2>
+</header>
+
+<p>Fraud is rare. Only a tiny fraction of card payments are fraudulent, far below one in a hundred.
+This creates a trap that catches even clever people.</p>
+
+<p>Imagine a model that is right 99% of the time on genuine payments, meaning it wrongly flags 1% of
+them. That sounds excellent. Now imagine one payment in a thousand is fraud. Out of a million
+payments, there are 1,000 frauds and 999,000 genuine ones. Even if the model catches every fraud, it
+also flags about 9,990 honest payments. <strong>For every real fraud it stops, it annoys about ten
+innocent customers.</strong> Statisticians call this the <strong>base-rate</strong> effect: when the
+thing you are hunting is rare, false alarms dominate.</p>
+
+<p>So no fraud team asks only "how much fraud did we catch?" It also asks "how many good customers
+did we decline?" Those two numbers move in opposite directions as the threshold moves, exactly like
+the false-accept and false-reject dial in biometrics. <strong>There is no setting that removes both
+errors.</strong> The bank chooses where to sit, and that choice is partly a business decision about
+how much friction its customers will tolerate.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Trust in payments, and who pays when it breaks</h2>
+  <p class="lede">Fraud is not a side issue. In some countries it is the most common crime people
+  experience, and the rules about who carries the loss shape how hard banks try.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Fraud moves; it rarely disappears</h2>
+</header>
+
+<p>The UK's switch to chip-and-PIN cards in the mid-2000s is a clean example. Before it, criminals
+copied the magnetic stripe on cards and made counterfeits. The chip is very hard to copy, and
+counterfeit card fraud in shops fell sharply. But fraud as a whole did not vanish. <strong>It moved
+to where the chip did not help</strong>: online shopping, where no card is present; overseas cash
+machines that still read stripes; and later, scams that trick people into paying themselves. The
+United States, which moved to chip cards later, around 2015, saw the same shift.</p>
+
+<p>This pattern, called <strong>displacement</strong>, is the most reliable rule in fraud. Strengthen one
+door and pressure moves to the weakest remaining one. Today that weakest door is usually a human
+being, which is why authorised scams have grown into one of the largest kinds of loss.</p>
+
+<p>Fraud is also enormous in scale. In England and Wales, the official crime survey has for several
+years found fraud to be the single most common type of crime adults experience, roughly four in ten
+of all incidents measured. Much of it is never reported to police.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Who carries the loss</h2>
+</header>
+
+<p>Whoever bears the cost of fraud has the strongest reason to stop it. Payment systems therefore use
+<strong>liability rules</strong> to push that cost where it can best be controlled.</p>
+
+<p>For card fraud, card networks set rules on whether the issuing bank or the merchant pays. When the
+US moved to chip cards in 2015, the networks shifted liability for counterfeit fraud to whichever
+party had not upgraded. That gave shops a strong reason to install new terminals. Online, merchants
+who skip extra authentication often carry the loss themselves.</p>
+
+<p>Authorised fraud was long the exception: because the customer pressed the button, they often
+lost the money. That changed in the UK. From October 2024, payment firms must reimburse most victims
+of authorised push payment fraud on the Faster Payments system, up to a cap of 85,000 pounds, with the
+cost split between the sending and the receiving firm. <strong>Making the receiving bank pay half gave
+it a direct reason to find the mule accounts.</strong> Other countries have debated similar rules, and
+the right balance between protecting victims and encouraging care is contested.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The hidden cost: saying no to honest people</h2>
+</header>
+
+<p>A wrongly declined payment is called a <strong>false decline</strong>. It looks harmless on a fraud
+report, because nothing was stolen. It is not harmless. The customer is embarrassed at a till,
+abandons an online basket, or switches to another card and never comes back. Industry studies have
+long suggested that the sales lost to false declines can be larger than the fraud itself, though the
+estimates vary widely.</p>
+
+<p>The same tension appears in branches and call centres. When a bank stops a customer's transfer and
+asks questions, it may be saving them from a scam, or treating an adult as unable to manage their own
+money. Both happen. Good fraud work is <strong>as much about friction design as about
+mathematics</strong>: knowing when to interrupt, how to explain, and how to make the honest path
+quick.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Powerful, invisible, and never quite fair to everyone</h2>
+  <p class="lede">Automated fraud detection makes instant payments possible. It also makes decisions
+  about people that they cannot see or easily challenge.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Weighing the approaches</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Approach</th><th>Strengths</th><th>Weaknesses</th></tr></thead>
+<tbody>
+<tr><td><strong>Written rules</strong></td><td class="ok">Fast, simple, easy to explain and to change in an emergency.</td><td class="no">Rigid. Many false alarms. Criminals learn the limits.</td></tr>
+<tr><td><strong>Supervised models</strong></td><td class="ok">Catch subtle combinations no human would write down. Score every payment.</td><td class="no">Learn only from fraud already seen. Outcomes arrive weeks late, so models lag.</td></tr>
+<tr><td><strong>Anomaly detection</strong></td><td class="ok">Can spot new attacks without labelled examples.</td><td class="no">Unusual is not criminal. Many alerts for travel, life changes, new jobs.</td></tr>
+<tr><td><strong>Network analysis</strong></td><td class="ok">Finds mule rings and organised groups invisible one account at a time.</td><td class="no">Needs data shared across firms, which raises privacy and legal issues.</td></tr>
+<tr><td><strong>Step-up checks</strong></td><td class="ok">Turns many declines into a quick confirmation.</td><td class="no">Useless against a customer who is being coached by a scammer to approve.</td></tr>
+<tr><td><strong>Human analysts</strong></td><td class="ok">Judgement, context, the ability to phone the customer.</td><td class="no">Slow and costly. Can only review a small share of alerts.</td></tr>
+</tbody></table></div>
+
+<p>Beyond the techniques, there is a wider concern. Models trained on past cases can treat some
+groups unfairly, for example by flagging people whose spending patterns differ from the majority,
+such as migrants sending money home. Being wrongly flagged can mean a frozen account or, in some
+countries, a closed one, sometimes without a clear reason given. <strong>Speed and secrecy help catch
+criminals, and they make mistakes harder for innocent people to fix.</strong></p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>AI against AI, and faster money to protect</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Where fraud detection is heading</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Real-time payments need real-time checks</strong></td><td>Instant bank transfers (Pix, UPI, Faster Payments, FedNow) cannot be reversed once sent.</td><td class="ok">Fairly sure: more checks before the money leaves, such as name-matching of the receiving account and short delays on risky first payments.</td></tr>
+<tr><td><strong>More sharing between firms</strong></td><td>Banks, telecoms and tech platforms increasingly exchange fraud signals, since scams often start on social media or a phone call.</td><td class="ok">Fairly sure in direction. The pace depends on privacy law and on who is made to pay.</td></tr>
+<tr><td><strong>Generative AI in attacks</strong></td><td>Cloned voices, fake documents and convincing messages at scale are already in use.</td><td class="mid">Plausible: identity checks based on a photo, a document or a voice become much weaker, and banks lean on device, behaviour and network signals instead.</td></tr>
+<tr><td><strong>Fully autonomous defence</strong></td><td>Vendors market AI that investigates and blocks without human review.</td><td class="no">Speculative: the cost of a wrong block, and rules requiring explanation, keep humans in the loop for serious decisions.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>When seeing is no longer believing</h2>
+</header>
+
+<p>In early 2024, police in Hong Kong described a case in which an employee of the engineering firm
+Arup transferred about 25 million US dollars after a video call with people he believed were senior
+colleagues. All of them were reportedly deepfakes: computer-generated video and voice. The case
+became a reference point for every fraud team, because the old advice, "check on a video call", had
+been defeated.</p>
+
+<p>The lesson for detection is that <strong>appearance stops being evidence</strong>. A face, a voice
+or a scanned passport can all be faked. What remains harder to fake is context: is this the usual
+device, the usual pattern, the usual process, confirmed through a second channel the attacker does
+not control? Volume 47 gives the personal version of this advice (<a
+href="../47-not-being-fooled.html#c7">When you cannot trust your eyes or ears</a>). For banks, it means
+the future of fraud detection is less about spotting the fake and more about <strong>designing
+processes where a fake alone is not enough</strong>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Fraud detection is an <strong>adversarial</strong> problem: the opponent adapts. Banks layer
+    <strong>rules</strong>, <strong>machine-learning risk scores</strong>, <strong>network analysis</strong>
+    and human review, all within a fraction of a second. Because fraud is rare, every system trades
+    caught fraud against <strong>false declines</strong>, and fraud moves to the weakest remaining door,
+    increasingly the customer.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Fraud is far below <strong>1 in 100</strong> card payments, so false alarms easily outnumber
+      real catches.</li>
+      <li>UK victims of authorised push payment fraud can be reimbursed up to <strong>85,000
+      pounds</strong> (from October 2024).</li>
+      <li>In England and Wales, fraud is roughly <strong>four in ten</strong> crimes in the official
+      survey.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Judging a fraud system by how much fraud it catches. <strong>A system that blocks everything
+    catches all the fraud and ruins the business.</strong> The real measure is fraud stopped
+    against honest customers inconvenienced.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why chip cards reduced counterfeit fraud but did not reduce total fraud, and
+    why authorised scams are so hard for a bank's systems to see?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Adversarial problem</dt><dd>A prediction task where the opponent changes behaviour to beat the predictor.</dd>
+    <dt>Card-not-present fraud</dt><dd>Using stolen card details online or by phone, without the physical card.</dd>
+    <dt>Account takeover</dt><dd>A criminal gaining control of a real customer's account.</dd>
+    <dt>Authorised push payment (APP) fraud</dt><dd>A scam in which the victim is tricked into sending the money.</dd>
+    <dt>Money mule</dt><dd>A person whose account is used to receive and pass on stolen money.</dd>
+    <dt>Risk score</dt><dd>A model's number estimating how likely a transaction is to be fraud.</dd>
+    <dt>Feature</dt><dd>A measurable fact a model uses, such as amount, location or device.</dd>
+    <dt>Velocity</dt><dd>How many transactions happen in a short time window.</dd>
+    <dt>Anomaly detection</dt><dd>Flagging activity that differs from normal, without labelled examples.</dd>
+    <dt>Graph analysis</dt><dd>Studying the connections between accounts, devices and payments.</dd>
+    <dt>Step-up authentication</dt><dd>Asking for extra proof when a payment looks risky.</dd>
+    <dt>False decline</dt><dd>Refusing a genuine payment because it looked like fraud.</dd>
+    <dt>Base-rate effect</dt><dd>When a target is rare, false alarms outnumber true catches.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Fraud detection is hard because the thing you're predicting is fighting back."</li>
+    <li>"Chip cards didn't end fraud. They moved it online and then onto people."</li>
+    <li>"When fraud is one payment in a thousand, even a very accurate model annoys ten honest
+    customers for every crook it stops."</li>
+    <li>"A single mule account looks innocent. The network of them doesn't."</li>
+    <li>"Once faces and voices can be faked, the defence isn't spotting the fake. It's making sure a
+    fake alone can't move the money."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="12-financial-cybersecurity.html">Financial
+  cybersecurity</a></h4><p>Attacks on the banks themselves: breaches, ransomware, heists on payment
+  networks, and how the financial system defends its core.</p></div>
+  <div class="card"><h4>Related · <a href="../01-technology/02-machine-learning.html">Machine
+  learning</a></h4><p>The methods behind risk scores: training, labels, features, and why models drift
+  when the world changes.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

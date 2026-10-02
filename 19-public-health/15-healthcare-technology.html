@@ -1,0 +1,885 @@
+<!doctype html>
+<!--@HEAD-SRC title="Healthcare Technology" desc="What healthcare technology really is, how a device or system reaches patients, why it drives both survival and cost, and what is likely to change next."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Healthcare Technology</title>
+<meta name="description" content="What healthcare technology really is, how a device or system reaches patients, why it drives both survival and cost, and what is likely to change next.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Public Health &amp; Society · Topic 15 of 20</p>
+  <h1>Healthcare technology. <span class="thin">The cheapest tools saved the most lives. The most expensive ones get the headlines.</span></h1>
+  <p class="lede">When people hear "healthcare technology" they picture robots in operating rooms and
+  scanners the size of a car. Those exist, and some are wonderful. But the technologies that changed
+  the health of whole populations are mostly humble: a packet of salt and sugar, a clip on a finger,
+  a one-page checklist, a fridge that keeps vaccines cold on a motorbike. This file explains what
+  counts as health technology, how a new tool reaches a patient, and why technology makes us both
+  healthier and poorer.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Public Health</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../13-medicine-and-biology.html#m7"><span class="vn">Vol 13 · ch 07</span><b>Medical imaging, and diagnostic AI</b><em>How the scanners see</em></a>
+<a class="vol" href="17-ai-in-healthcare.html"><span class="vn">Public Health · 17</span><b>AI in healthcare</b><em>The software layer</em></a>
+<a class="vol" href="16-telemedicine.html"><span class="vn">Public Health · 16</span><b>Telemedicine</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 13 explains how the four main kinds of scanner work and where diagnostic software helps
+  or fails (<a href="../13-medicine-and-biology.html#m7">Medical imaging, and diagnostic AI</a>), and
+  Volume 42 covers scans from the patient's side (<a href="../42-your-health.html#c3">Scans, and what
+  each one sees</a>). This file skips the physics and looks at the system around a technology: who
+  approves it, who pays for it, and why some tools spread while others gather dust.</p>
+</div>
+
+<div class="warn">
+  <span class="tag">General education</span>
+  <p>This is an explanation of how health technology works as a system. It is not medical advice
+  about any device, test or treatment. Decisions about your own care belong with a qualified
+  clinician.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Far more than machines: anything organised knowledge puts to work for health</h2>
+  <p class="lede">The official definition is broad on purpose. A medicine, a vaccine, a test, a
+  surgical procedure and a records system are all health technologies, because each is knowledge
+  turned into something you can use.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A rolled-up sheet of paper</h2>
+</header>
+
+<p>In 1816 a French doctor, René Laennec, needed to listen to the heart of a young woman. The usual
+method was to press an ear directly against the patient's chest, which he found awkward. He rolled a
+few sheets of paper into a tube, put one end on her chest and the other to his ear, and heard the
+heartbeat more clearly than ever before. He went on to build a wooden version. That was the first <strong>stethoscope</strong>.</p>
+
+<p>The story is worth telling because it shows the three parts of almost every health technology.
+There is an <em>object</em> (the tube). There is <em>knowledge</em> about how to use it (which sound
+means fluid in the lungs). And there is a <em>practice</em> that has to change (doctors now had to
+learn to listen, and they did, slowly, over decades). <strong>A technology is not only the gadget.
+It is the gadget plus the skill plus the routine that makes it useful.</strong> Remove any of the
+three and the object is just a tube.</p>
+
+<p>The World Health Organization (WHO) uses a definition in this spirit. It describes health
+technology as the application of organised knowledge and skills in the form of devices, medicines,
+vaccines, procedures and systems, developed to solve a health problem and improve quality of life.
+That is why a vaccination schedule, a hand-washing protocol or a hospital's appointment software all
+count, alongside the robot.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The five families</h2>
+</header>
+
+<p>It helps to sort the field into five families. They are approved, paid for and used in different
+ways, which explains a lot of confusion in news stories.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Family</th><th>What it includes</th><th>Example</th><th>What makes it tricky</th></tr></thead>
+<tbody>
+<tr><td><strong>Medicines and vaccines</strong></td><td>Chemical and biological products that act on the body</td><td>Insulin, measles vaccine</td><td>Long, expensive trials; patents set the price for years</td></tr>
+<tr><td><strong>Medical devices</strong></td><td>Physical tools, from plasters to pacemakers to scanners</td><td>Hip replacement, infusion pump</td><td>Huge variety; risk ranges from trivial to life-or-death</td></tr>
+<tr><td><strong>Diagnostics</strong></td><td>Tests that tell you what is wrong, or whether something is wrong</td><td>Blood glucose test, rapid malaria test</td><td>A test is only useful if a result changes what happens next</td></tr>
+<tr><td><strong>Procedures</strong></td><td>Ways of doing things, often with no product to sell</td><td>Keyhole surgery, a surgical checklist</td><td>Nobody owns them, so nobody markets them</td></tr>
+<tr><td><strong>Information systems</strong></td><td>Software that records, moves and analyses health data</td><td>Electronic health records, booking systems</td><td>They only work if different systems can talk to each other</td></tr>
+</tbody></table></div>
+
+<p>The last column carries a lesson. <strong>Procedures and simple practices are often the best
+value in the whole table, and they are the ones with no company paid to promote them.</strong> This
+imbalance shapes which technologies people hear about, and it is one reason why public health
+agencies exist.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Halfway technology and the real thing</h2>
+</header>
+
+<p>In the 1970s the American physician and essayist Lewis Thomas proposed a useful way to rank
+medical technology. At the bottom is what he called <strong>non-technology</strong>: caring for a
+patient, comforting them and managing symptoms when nothing can be done about the disease itself. In
+the middle is <strong>halfway technology</strong>: expensive, complex tools that make up for a disease
+without curing it. At the top is <strong>decisive technology</strong>: something that prevents or
+cures the disease, usually because we finally understand how it works.</p>
+
+<p>Polio shows the difference. In the 1940s and early 1950s, people whose breathing muscles were
+paralysed were kept alive in "iron lungs", large metal tanks that pumped air in and out by changing
+the pressure around the body. They were heroic, costly and labour-intensive. Hospitals had wards full of them. Then the polio vaccines arrived in the 1950s and early 1960s, and the wards emptied.
+The vaccine cost a tiny fraction of an iron lung. <strong>The decisive technology was both better and
+cheaper than the halfway one.</strong> Much of today's spending on chronic disease, from dialysis to
+many heart procedures, is closer to the iron lung than to the vaccine.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Invent it, prove it, approve it, pay for it, and get people to use it</h2>
+  <p class="lede">A new tool has to pass through several gates before it helps a single patient. Each
+  gate asks a different question, and many good inventions stop at the gate nobody thinks about:
+  adoption.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Gate one: is it safe, and does it do what it claims?</h2>
+</header>
+
+<p>Medicines are tested in clinical trials, explained in Volume 44
+(<a href="../44-medicines.html#c6">What makes evidence good</a>). Devices follow a path that depends
+on risk. The United States sorts them into three classes: <strong>Class I</strong> for low-risk items
+such as bandages, <strong>Class II</strong> for moderate-risk items such as many infusion pumps, and
+<strong>Class III</strong> for devices that keep people alive, such as implanted heart valves.</p>
+
+<p>Most moderate-risk devices reach the US market through <strong>510(k) clearance</strong>, named
+after a section of the law. The maker shows the device is "substantially equivalent" to one already
+sold. Critics note that a chain of "equivalent to the previous one" can drift far from anything ever
+tested in patients. Class III devices need a stricter approval, usually with clinical data.</p>
+
+<p>Europe tightened its rules after a scandal. In 2010 it emerged that a French company, Poly Implant
+Prothèse (PIP), had filled breast implants with cheap industrial-grade silicone. The EU responded
+with the <strong>Medical Device Regulation</strong>, adopted in 2017 and applied from 2021, which
+demands more clinical evidence. <strong>Device rules tend to be written after a failure</strong>,
+which is worth remembering when someone calls regulation red tape.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Gate two: is it worth the money?</h2>
+</header>
+
+<p>A device can be safe and effective and still be a poor use of money. Every health budget is
+limited, so buying one thing means not buying another. To make that choice openly, many countries use
+<strong>health technology assessment</strong> (HTA): a formal review of what a technology costs and
+what it delivers compared with the current best option.</p>
+
+<p>The best-known body is England's NICE (National Institute for Health and Care Excellence), set up in 1999. It measures benefit in <strong>quality-adjusted life years</strong>, or QALYs. One QALY is
+one year of life in full health; two extra years at three-quarters of full health count as 1.5
+QALYs. For most of its history, NICE has usually recommended technologies costing less than about
+£20,000 to £30,000 per QALY gained, with exceptions and adjustments over time.</p>
+
+<div class="sheet">
+  <div class="cap">How a cost-effectiveness question is framed</div>
+<pre>
+                     extra cost of new option
+  cost per QALY  =  -----------------------------
+                     extra QALYs it delivers
+
+  New device:  costs 12,000 more per patient
+               adds 0.8 QALY per patient
+               => 15,000 per QALY   -> likely "worth it"
+
+  New device:  costs 60,000 more per patient
+               adds 0.5 QALY per patient
+               => 120,000 per QALY  -> likely "not at this price"
+</pre>
+</div>
+
+<p>Pricing a year of life sounds cold. Defenders reply that the choice is made anyway. <strong>Every health system rations; the only question is whether it does
+so openly, with rules, or quietly, by queue and by luck.</strong> Germany, France, Canada and Australia run their own versions. The United States has
+no single national body doing this for all payers.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Gate three: the records that have to talk to each other</h2>
+</header>
+
+<p>The technology with the widest reach in a modern hospital is not a scanner. It is the
+<strong>electronic health record</strong> (EHR): the digital file holding your diagnoses, medicines,
+allergies and results. In the United States, a 2009 law known as the HITECH Act paid hospitals and
+doctors to adopt EHRs, and within about a decade almost all hospitals had one.</p>
+
+<p>Adoption was not success. Many systems were built around billing, so doctors spend hours a day
+clicking boxes, and studies have linked heavy EHR workload to burnout. Many systems also could not
+exchange data, so a file at one hospital could be invisible to the hospital across the road. The fix
+is <strong>interoperability</strong>: shared standards, the most important today being FHIR
+(pronounced "fire"), which lets software request small standard pieces of health data over the
+internet. Estonia and Denmark are the usual examples of countries that have gone furthest.
+<strong>A record that cannot travel with the patient is a filing cabinet with a screen.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Gate four: the technology that works in the lab and fails in the ward</h2>
+</header>
+
+<p>The last gate is the one most often forgotten. A tool has to fit into real work done by tired
+people. Hospitals in poorer countries have long received donated equipment, such as incubators for
+newborns and hospital monitors, that soon sat broken. The machine was rarely the problem. There was no spare part nearby, the power was
+unstable, or nobody had been trained to repair it. WHO has warned for years that a
+large share of medical equipment in low-resource settings is out of service for these reasons.</p>
+
+<p>The response is called <strong>appropriate technology</strong>: designing for the place where the
+tool will be used. Examples include solar-powered vaccine fridges, oxygen concentrators that tolerate
+power cuts, and rapid diagnostic tests that need no laboratory, no electricity and only a drop of
+blood. <strong>The best device for a district hospital is often not the most advanced one. It is the
+one that is still working in three years.</strong> Topic 19 returns to this in
+<a href="19-healthcare-access-in-developing-countries.html">Healthcare access in developing
+countries</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Technology explains both why we live longer and why care costs more</h2>
+  <p class="lede">The same force pushes in two directions at once. Understanding both is the key to
+  almost every argument about health budgets.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The humble tools that saved the most lives</h2>
+</header>
+
+<p>Ask which health technologies saved the most lives in the last century and the honest answer
+rarely includes a machine. Vaccines prevent millions of deaths every year. <strong>Oral rehydration
+solution</strong>, a precise mix of clean water, salt and sugar, treats the dehydration that makes
+diarrhoea deadly for small children. It works because sugar helps the gut absorb salt, and water
+follows the salt. In 1978 the medical journal <em>The Lancet</em> called it potentially the most
+important medical advance of the century. Before it, the main treatment was a drip into a vein, which needs a clinic.</p>
+
+<p>Another is the <strong>pulse oximeter</strong>, the clip on your finger that shines red and
+infrared light through the skin and estimates how much oxygen your blood is carrying. Oxygen-rich and oxygen-poor blood absorb these two colours differently. It was developed in Japan in the 1970s, notably by the engineer Takuo Aoyagi, and it became
+standard in operating rooms in the 1980s.</p>
+
+<p>Then there is the checklist. In 2008 WHO launched a one-page Surgical Safety Checklist: confirm the
+patient, the operation and the site; check the anaesthetic; count the instruments before closing. A study published in 2009,
+covering eight hospitals in eight countries, found that deaths after surgery fell from about 1.5% to
+0.8% after the checklist was introduced, and complications fell by about a third.
+<strong>A sheet of paper did what few new machines have done.</strong></p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The engine of cost</h2>
+</header>
+
+<p>Rich countries spend a larger share of national income on health than fifty years ago. Why? Ageing populations
+explain some of it, but less than people assume. The factor most
+economists put near the top of the list is <strong>new technology</strong>: new things to do for
+patients that were impossible before.</p>
+
+<p>The reason is simple. In most industries, technology makes things cheaper: a computer today does
+more than one costing a hundred times as much in 1990. In medicine, technology mostly makes things
+<em>possible</em>. A hip replacement does not replace a cheaper hip replacement. It replaces a life
+in a wheelchair. <strong>Medical technology usually adds a new service rather than making an old one
+cheaper, so it raises spending even when it is excellent value.</strong></p>
+
+<p>There is a second mechanism. A new technology often spreads beyond the patients it was first
+tested on. Keyhole surgery made gallbladder removal less painful and quicker to recover from, and the
+number of gallbladder operations rose, because surgeons were now willing to operate on milder cases.
+Each operation was cheaper and safer; the total bill went up. This is called <strong>indication
+creep</strong>: the group of people for whom a treatment is "indicated" quietly widens.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>When the tool is built for some bodies and not others</h2>
+</header>
+
+<p>Technology also matters because it can carry hidden bias. During the COVID-19 pandemic, doctors
+relied heavily on pulse oximeters to decide who needed oxygen or admission. A study published in 2020
+in the <em>New England Journal of Medicine</em> compared finger readings with direct blood tests in
+thousands of patients. Black patients were about three times as likely as white patients to have
+dangerously low oxygen that the oximeter had missed. The light passing through the skin is affected
+by skin pigment, and the devices had been calibrated mostly on lighter-skinned volunteers.</p>
+
+<p>The effect had been reported in smaller studies decades earlier and largely ignored. Regulators
+have since moved to require testing on people with a wider range of skin tones. <strong>A device that
+is accurate "on average" can be systematically wrong for a particular group</strong>, and the group
+it fails is usually the one that was missing from the testing. The same lesson applies with even more
+force to software, as <a href="17-ai-in-healthcare.html">AI in healthcare</a> explains.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>A hospital is now a computer network with beds</h2>
+</header>
+
+<p>In May 2017 a piece of ransomware called WannaCry spread across the world, locking files and
+demanding payment. It hit parts of England's National Health Service especially hard. Computers in many
+hospitals and GP practices stopped working, thousands of appointments were cancelled, and some
+ambulances were diverted. The NHS was not specifically targeted; it was vulnerable because many
+machines ran old, unpatched software.</p>
+
+<p>Since then, attacks on hospitals have become a regular feature of cybercrime, because hospitals
+cannot afford downtime and are therefore more likely to pay. Volume 14 explains how ransomware works
+(<a href="../14-computing-and-ai.html#c6">Ransomware</a>). The health-system lesson is that
+<strong>every digital tool that makes care faster also creates a new way for care to stop</strong>.
+Paper backups and offline drills are now part of patient safety.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Enormous gains, real costs, and a distribution problem</h2>
+  <p class="lede">Few people would choose to be ill in 1950 rather than today. But the benefits of
+  health technology come with costs that are financial, human and political.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The ledger</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>What technology delivers</th><th>What it costs or risks</th></tr></thead>
+<tbody>
+<tr><td><strong>Survival</strong></td><td class="ok">Vaccines, antibiotics, imaging and modern surgery have turned many fatal conditions into treatable ones.</td><td class="no">Halfway technologies can keep people alive without restoring health, at high cost and sometimes against their wishes.</td></tr>
+<tr><td><strong>Precision</strong></td><td class="ok">Earlier, more exact diagnosis; smaller incisions; faster recovery.</td><td class="no">Overdiagnosis: finding harmless abnormalities that lead to unnecessary treatment.</td></tr>
+<tr><td><strong>Spending</strong></td><td class="ok">Many technologies are excellent value per year of healthy life gained.</td><td class="no">Total spending rises because new services are added and indications widen.</td></tr>
+<tr><td><strong>Workforce</strong></td><td class="ok">Automation of routine tasks can free staff for patients.</td><td class="no">Badly designed software adds clerical work and contributes to burnout.</td></tr>
+<tr><td><strong>Fairness</strong></td><td class="ok">Cheap tools such as rapid tests can reach people far from hospitals.</td><td class="no">Expensive tools reach the rich first; some devices perform worse for groups missing from testing.</td></tr>
+<tr><td><strong>Resilience</strong></td><td class="ok">Digital records make information available at any hour, anywhere in the system.</td><td class="no">Cyberattacks and outages can halt care across a whole region.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Why "newer" is not the same as "better"</h2>
+</header>
+
+<p>Surgical robots, the best known being the da Vinci system first cleared in the United States in
+2000, let a surgeon at a console control fine instruments through small cuts. For some operations
+they offer real advantages. For others, comparisons with ordinary keyhole surgery have found similar
+results at a higher cost.</p>
+
+<p>Metal-on-metal hip replacements, promoted in the 2000s as more durable, are the darker case. Many
+failed early, shed metal particles into surrounding tissue and had to be replaced, leading to large
+recalls. <strong>A new technology should be judged against the best existing option, in ordinary
+hospitals, over years</strong>, not against no treatment in a showcase centre over months. National
+registries that track every implant, as the UK and several Nordic countries keep for joints, are how
+such problems get caught.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Moving care out of the hospital, and paying for value</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Care moving into the home</strong></td><td>Home dialysis, wearable heart monitors, continuous glucose monitors and "hospital at home" schemes already exist in many rich countries.</td><td class="ok">Fairly sure: more monitoring and treatment at home, especially for chronic disease, linked to <a href="16-telemedicine.html">telemedicine</a>.</td></tr>
+<tr><td><strong>Cheap point-of-care diagnostics</strong></td><td>Rapid tests for malaria, HIV and COVID-19 showed that lab-quality answers can come from a strip of paper.</td><td class="ok">Fairly sure: more conditions tested at the bedside or at home, which matters most in poor and rural areas.</td></tr>
+<tr><td><strong>Paying for outcomes, not devices</strong></td><td>Some payers have experimented with contracts where a maker is paid only if the treatment works for that patient.</td><td class="mid">Plausible: spreading slowly, but measuring outcomes is hard and disputes are common.</td></tr>
+<tr><td><strong>Truly joined-up records</strong></td><td>Standards such as FHIR exist; the barriers are now mostly commercial and legal rather than technical.</td><td class="mid">Plausible: steady progress, very uneven between countries.</td></tr>
+<tr><td><strong>Lab-grown and printed organs</strong></td><td>Laboratory successes with simple tissues; complex organs remain far off.</td><td class="no">Speculative for whole organs. See <a href="../20-future-tech/08-lab-grown-organs.html">Lab-grown organs</a>.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>The bottleneck is adoption, not invention</h2>
+</header>
+
+<p>Almost every expert account of the future of health technology lands on the same point. The world
+already has more good technology than it uses. Proven tools such as oral rehydration solution, basic
+vaccines, checklists and oxygen still fail to reach millions of people who need them.</p>
+
+<p>So the most important health technologies of the next twenty years may not be inventions at all.
+They may be <strong>better ways of choosing, buying, maintaining and spreading the tools we already
+have</strong>. That is less exciting than a robot surgeon. It is also where most of the lives are.
+The wider picture of where health systems are heading is in
+<a href="20-future-healthcare-systems.html">Future healthcare systems</a>, and the medical science
+side is in <a href="../05-medicine-health/20-the-future-of-medicine.html">The future of
+medicine</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Health technology is <strong>organised knowledge put to work</strong>: medicines, devices,
+    tests, procedures and information systems. A new tool must pass four gates: <strong>safety,
+    value for money, fit with other systems, and real-world adoption</strong>. Technology is the main
+    reason we live longer, and also a main reason health spending rises, because it usually adds new
+    services rather than making old ones cheaper.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>The WHO surgical checklist study (2009): deaths after surgery fell from about
+      <strong>1.5% to 0.8%</strong>.</li>
+      <li>NICE has long used a range of about <strong>£20,000–30,000 per QALY</strong> as its
+      rough guide to value.</li>
+      <li>Pulse oximeters missed dangerously low oxygen about <strong>three times</strong> as often
+      in Black patients as in white patients (2020 study).</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Assuming the newest, most expensive tool is the most important. <strong>The cheapest
+    technologies, from oral rehydration to checklists, have saved the most lives.</strong></p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a technology that is excellent value per patient can still make a health
+    budget grow? If you can, you have understood indication creep and the difference between
+    "possible" and "cheaper".</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Health technology</dt><dd>Any use of organised knowledge to solve a health problem: medicines, devices, tests, procedures or systems.</dd>
+    <dt>Medical device</dt><dd>A physical product used in care, from a plaster to a pacemaker.</dd>
+    <dt>510(k) clearance</dt><dd>The common US route to market for moderate-risk devices, based on similarity to an existing device.</dd>
+    <dt>Medical Device Regulation</dt><dd>The EU's stricter device rules, adopted in 2017 and applied from 2021.</dd>
+    <dt>Health technology assessment</dt><dd>A formal review of what a technology costs and what it delivers compared with current care.</dd>
+    <dt>QALY</dt><dd>Quality-adjusted life year: one year of life in full health, used to compare very different treatments.</dd>
+    <dt>Electronic health record</dt><dd>The digital file holding a patient's medical history, medicines and results.</dd>
+    <dt>Interoperability</dt><dd>The ability of different systems to exchange and use each other's data.</dd>
+    <dt>FHIR</dt><dd>A modern standard for packaging health data so software can request it over the internet.</dd>
+    <dt>Halfway technology</dt><dd>Lewis Thomas's term for costly tools that compensate for a disease without curing it.</dd>
+    <dt>Appropriate technology</dt><dd>Technology designed for the conditions where it will actually be used.</dd>
+    <dt>Indication creep</dt><dd>The gradual widening of the group of patients a treatment is used for.</dd>
+    <dt>Overdiagnosis</dt><dd>Finding a real abnormality that would never have caused harm, and then treating it.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A health technology isn't just the gadget. It's the gadget, the skill and the routine
+    together."</li>
+    <li>"In most industries technology makes things cheaper. In medicine it mostly makes new things
+    possible, which is why spending keeps rising."</li>
+    <li>"A one-page surgical checklist cut deaths after surgery by nearly half in its first big
+    study."</li>
+    <li>"Every health system rations. The question is whether it does it openly or by queue."</li>
+    <li>"The best device for a district hospital is the one still working in three years."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="16-telemedicine.html">Telemedicine</a></h4><p>What happens
+  when the consultation itself becomes a technology: video visits, remote monitoring, and what the
+  pandemic proved and did not prove.</p></div>
+  <div class="card"><h4>Related · <a href="02-healthcare-financing.html">Healthcare
+  financing</a></h4><p>Who pays for all of this, through taxes, insurance or the patient's own
+  pocket, and why that choice shapes which technologies a country buys.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

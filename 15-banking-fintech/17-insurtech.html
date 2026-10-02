@@ -1,0 +1,878 @@
+<!doctype html>
+<!--@HEAD-SRC title="Insurtech" desc="How technology is changing insurance: pooling risk, pricing it with data, paying claims by app and by trigger, and the fairness and climate questions that come with it."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insurtech</title>
+<meta name="description" content="How technology is changing insurance: pooling risk, pricing it with data, paying claims by app and by trigger, and the fairness and climate questions that come with it.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Banking &amp; Fintech · Topic 17 of 20</p>
+  <h1>Insurtech. <span class="thin">Software meets the oldest promise in finance: we will pay if it goes wrong.</span></h1>
+  <p class="lede">Insurance is a strange product. You pay for it hoping never to use it, and the
+  company that sells it does not know its own costs until years later. Insurtech is the name for the
+  startups, and the older insurers copying them, that use apps, sensors and data to sell, price and
+  pay out insurance differently. Some of it is cosmetic: a nicer way to buy the same policy. Some of
+  it goes to the heart of the business, because better data changes who pays what. That raises a
+  question no app can answer by itself. If insurance is about sharing risk, how much should each
+  person's price reflect their own risk?</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Banking &amp; Fintech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c7"><span class="vn">Vol 38 · ch 07</span><b>The short list that matters</b><em>Insure the catastrophic</em></a>
+<a class="vol" href="../39-chance.html#c8"><span class="vn">Vol 39 · ch 08</span><b>Risk, as people feel it</b><em>Why we misjudge risk</em></a>
+<a class="vol" href="18-regtech.html"><span class="vn">Banking · 18</span><b>Regtech</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 38 gives the one rule most people need about buying insurance: insure what would ruin
+  you, and absorb what would merely annoy you (<a href="../38-money.html#c7">The short list that
+  actually matters</a>). Volume 39 explains why people feel risk so badly
+  (<a href="../39-chance.html#c8">Risk, as people actually feel it</a>). This file is the library's
+  first look at how the insurance industry itself works, and at what technology is changing inside
+  it.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Technology applied to an industry built on pooled risk</h2>
+  <p class="lede">To understand insurtech you first need to understand what an insurer actually
+  does. Then the word means simply: any use of modern technology to do those jobs differently.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A coffee house and a pool of strangers</h2>
+</header>
+
+<p>In the 1680s, a man called Edward Lloyd ran a coffee house near the River Thames in London. Ship
+owners, captains and merchants met there to trade news about voyages. Wealthy individuals began to
+agree, in writing, to cover part of the loss if a particular ship sank, in exchange for a fee. They
+wrote their names under the description of the risk, which is where the word
+<strong>underwriter</strong> comes from. That market grew into Lloyd's of London, still one of the
+centres of world insurance today.</p>
+
+<p>The idea underneath is older than Lloyd's and very simple. One ship sinking would ruin its owner.
+But if a hundred owners each pay a small amount into a pool, the pool can pay for the one ship that
+sinks. Nobody knows <em>whose</em> ship it will be, but everyone can know roughly <em>how many</em>
+ships sink in a year. <strong>Insurance turns an unpredictable disaster for one person into a
+predictable cost for many.</strong></p>
+
+<p>Mathematicians call the reason this works the <strong>law of large numbers</strong>: the more
+independent cases you combine, the closer the actual result comes to the average. One house may or
+may not burn down. Out of a million houses, the number that burn is steady from year to year.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The four jobs of an insurer</h2>
+</header>
+
+<p>Every insurer, old or new, does four things. Insurtech firms usually attack one or two of them.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Job</th><th>What it means</th><th>What technology changes</th></tr></thead>
+<tbody>
+<tr><td><strong>Distribution</strong></td><td>Finding customers and selling policies</td><td>Buying in minutes on a phone, or inside another purchase</td></tr>
+<tr><td><strong>Underwriting</strong></td><td>Deciding whom to cover and at what price</td><td>More data per customer: driving behaviour, satellite images, sensor readings</td></tr>
+<tr><td><strong>Claims</strong></td><td>Checking and paying when something goes wrong</td><td>Photo assessment, automatic fraud checks, payment in minutes</td></tr>
+<tr><td><strong>Carrying the risk</strong></td><td>Holding enough money to pay, and passing some risk on</td><td>Better catastrophe models; new ways to share risk with investors</td></tr>
+</tbody></table></div>
+
+<p>There is an important split between firms that only sell, called <strong>brokers</strong> or
+<strong>managing agents</strong>, and firms that actually carry the risk, called
+<strong>carriers</strong>. A comparison website is insurtech in distribution. It never pays a
+claim. A full insurtech carrier must hold capital approved by regulators, and that is a much harder
+business.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Where insurtech came from</h2>
+</header>
+
+<p>Insurance was one of the last parts of finance to move online. Policies were sold by agents who
+earned commission, priced on a few broad facts such as age and postcode, and paid after forms,
+phone calls and sometimes a visit from a loss adjuster, the person who inspects damage. Comparison
+websites, which spread in Britain and elsewhere in the 2000s, were the first big shake-up. They made
+car and home insurance a price war.</p>
+
+<p>The startup wave arrived in the 2010s, on the same tide as other fintech: smartphones, cloud
+computing and cheap venture money. In the US, Lemonade (launched in 2016) sold renters' and home
+insurance through a chatbot. Root sold car insurance priced on how people drove. Many others built
+software for existing insurers rather than competing with them. Investment peaked in 2021, as it did
+across fintech, and then fell sharply. <a href="16-fintech-startups.html">Fintech startups</a>
+explains that cycle.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Price the risk, keep the float, pay the claim</h2>
+  <p class="lede">An insurer's economics are unusual. It collects money first and finds out its costs
+  later. Every insurtech idea is an attempt to improve one step of that cycle.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The economics: premiums, float and the combined ratio</h2>
+</header>
+
+<p>The money customers pay is called the <strong>premium</strong>. Out of every 100 euros of premium,
+an insurer must pay claims, pay its staff and its sales costs, and keep a margin. The industry
+measures this with one number, the <strong>combined ratio</strong>: claims plus expenses, divided by
+premiums. Below 100% means the insurance itself makes a profit. Above 100% means it loses money on
+underwriting.</p>
+
+<p>Many insurers survive with a combined ratio a little above 100% anyway. The reason is the
+<strong>float</strong>. Premiums arrive today, but claims are paid months or years later. In
+between, the insurer invests the money. Warren Buffett built much of Berkshire Hathaway on this:
+insurance float gave him cheap money to invest for decades. <strong>An insurer is partly an
+investment fund that is paid to hold other people's money.</strong></p>
+
+<div class="sheet">
+  <div class="cap">The insurance cycle, in one picture</div>
+<pre>
+  customers --premiums--> INSURER --invests the float--> bonds, shares
+                             |
+                             |  months or years later
+                             v
+                 claims paid to the unlucky few
+                             |
+                             v
+           big risks passed on to REINSURERS and investors
+           (the insurers' insurers: catastrophe cover, cat bonds)
+</pre>
+</div>
+
+<p>For a new insurtech, this is hard. It has few customers, so its results swing wildly with a few
+large claims. It spends heavily on advertising, so expenses are high. And when it is small it often
+buys a great deal of <strong>reinsurance</strong>, insurance for insurers, which gives away much of
+the profit. Several of the best-known insurtechs ran combined ratios well above 100% for years.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Pricing with data: the black box in the car</h2>
+</header>
+
+<p>Traditional car insurance prices drivers by groups: age, postcode, car model, years without a
+claim. These are proxies. A careful 19-year-old pays for the average 19-year-old, who crashes far
+more often than the average 45-year-old.</p>
+
+<p><strong>Telematics</strong> means measuring behaviour directly. A small device in the car, or an
+app on the phone, records how hard someone brakes, how fast they take corners, what time of night
+they drive and how many kilometres they cover. In Britain, "black box" policies became a standard
+way for young drivers to afford cover. In the US, large insurers have offered such programmes for
+years. This is called <strong>usage-based insurance</strong>: pay-as-you-drive (by distance) or
+pay-how-you-drive (by behaviour).</p>
+
+<p>The same logic spreads elsewhere. Home insurers use water-leak sensors and satellite images of
+roofs. Some health and life insurers offer discounts for sharing step counts from fitness trackers.
+<strong>The promise is a price that reflects you, not your category.</strong> Chapter 11 looks at
+the price of that promise.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Claims in minutes: photos, models and fraud checks</h2>
+</header>
+
+<p>For a customer, the claim is the moment of truth. It is when the promise is tested. It is also,
+for insurers, the most expensive part of the operation, because people must check each claim and
+some claims are dishonest. Estimates of insurance fraud vary a lot, but every major market treats it
+as a large and permanent cost.</p>
+
+<p>Insurtech attacks claims in three ways. <strong>Image assessment</strong>: the customer
+photographs a damaged car or a flooded kitchen, and a computer-vision model, trained on many past
+claims, estimates the repair cost. Firms such as the British company Tractable built businesses on
+this. <strong>Automatic triage</strong>: simple, low-value claims that pass the checks are paid at
+once, and humans look only at the complicated or suspicious ones. <strong>Fraud models</strong>:
+software looks for patterns, such as the same phone number on several unrelated claims, or a policy
+bought days before an expensive "accident".</p>
+
+<p>Lemonade became famous for advertising a claim paid in a few seconds by its software. Fast payment
+of honest claims is a real gain. But speed and suspicion pull in opposite directions. <strong>Every
+rule that catches more fraud also delays or wrongly rejects some honest customers.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Insurance that pays on a trigger</h2>
+</header>
+
+<p>Ordinary insurance pays for the actual loss, after someone has assessed it. That takes time, and
+after a hurricane or a drought, time is what people do not have. <strong>Parametric
+insurance</strong> works differently. It pays a fixed amount when a measurable event crosses a
+threshold agreed in advance: wind speed above a certain level at a certain place, rainfall below a
+certain level over a season, an earthquake of a certain magnitude within a certain distance.</p>
+
+<p>No inspection is needed, so payment can come within days. A well-known example is the Caribbean
+Catastrophe Risk Insurance Facility, set up in 2007, which insures Caribbean governments and pays
+quickly after hurricanes and earthquakes so they can fund emergency response. Similar schemes cover
+farmers against drought in parts of Africa and Asia, often sold through mobile phones.</p>
+
+<p>The weakness is called <strong>basis risk</strong>: the gap between the trigger and the real
+loss. A farmer's field may be ruined by a local dry spell while the official weather station, twenty
+kilometres away, records enough rain. No payout. Or the trigger may pay when there was little damage.
+Good parametric design is mostly about choosing triggers that match losses closely.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Who is covered, who is priced out, and who pays for disasters</h2>
+  <p class="lede">Insurance decides whether a flood, an illness or an accident is a setback or a
+  catastrophe. Changing how it is sold and priced changes who can live with risk.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Embedded insurance: cover at the moment you need it</h2>
+</header>
+
+<p>Most people never think about insurance until they need it, which is too late. One answer is to
+offer it inside another purchase: travel cover when you book the flight, breakage cover when you buy
+the phone, damage cover when you rent the car or the holiday flat. This is <strong>embedded
+insurance</strong>, and software connections between shops and insurers have made it far easier.</p>
+
+<p>It can close real gaps. A gig worker can get accident cover for exactly the hours they work on a
+delivery app. A small business can get cover through the accounting software it already uses.
+Mobile-phone networks in Africa and South Asia have sold small life and health policies, called
+<strong>microinsurance</strong>, to millions of people who had never held a policy before, often paid
+for a few cents at a time. <a href="19-financial-inclusion.html">Financial inclusion</a> explains why
+that matters for families without savings.</p>
+
+<p>Embedded insurance also has a history of mis-selling. In Britain, payment protection insurance
+(PPI), added to loans and credit cards, became the country's largest consumer-finance scandal, with
+banks paying back tens of billions of pounds. <strong>Insurance sold as an add-on is easy to sell
+and easy to sell badly.</strong></p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The fairness question: what is a fair price?</h2>
+</header>
+
+<p>Here is the deepest issue in insurtech. Pooling works because people with different risks share a
+pool. If an insurer could predict each person's risk perfectly, there would be no pool left. Each
+person would simply pay for their own future losses, and the people with the worst luck, often
+through no fault of their own, would pay the most or be refused.</p>
+
+<p>Societies have drawn the line in different places. In 2011 the Court of Justice of the European
+Union ruled, in a case known as Test-Achats, that from the end of 2012 insurers in the EU could no
+longer charge men and women different prices. Young women had been paying less for car insurance
+because, as a group, they crash less. The court decided that sex was not an acceptable basis for
+price, even if it predicted risk. In the United States, a 2008 law (the Genetic Information
+Nondiscrimination Act) bars health insurers and employers from using genetic test results, though it
+does not cover life insurance.</p>
+
+<p>Data-heavy pricing makes this question sharper. A model may not use a forbidden factor directly,
+yet still use information closely linked to it, such as where someone lives or which shops they
+use. Economists call these <strong>proxies</strong>. <strong>The more an insurer knows, the more
+society has to decide which knowledge it is allowed to use.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Climate change and the protection gap</h2>
+</header>
+
+<p>The biggest force reshaping insurance is not technology. It is weather. Losses from floods,
+wildfires and storms have risen, driven by more building in exposed places, higher property values
+and, increasingly, a changing climate. In 2023 State Farm, the largest home insurer in California,
+stopped accepting new home insurance applications in the state, citing wildfire risk and building
+costs. Several insurers left or shrank in Florida. Homeowners in such places face rising prices or no
+private cover at all.</p>
+
+<p>The difference between total economic losses from disasters and the part that is insured is
+called the <strong>protection gap</strong>. In rich countries a large share of disaster losses is
+insured. In many poorer countries almost none is. <strong>When insurance retreats, the cost does not
+vanish. It moves to households, banks holding mortgages, and governments.</strong></p>
+
+<p>This is where better data is most useful and most uncomfortable. Detailed flood and fire models let
+insurers price risk house by house. That is accurate, and it tells people the truth about where they
+live. It can also make some homes uninsurable, and therefore hard to sell or mortgage. Several
+governments run or back insurance schemes for exactly these risks. The <a href="../12-environment-climate/index.html">Environment &amp; Climate</a> topics give the
+scientific background.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Sharper prices, faster claims, and a thinner pool</h2>
+  <p class="lede">Most gains from insurtech are real. Most of the costs come from the same feature:
+  knowing more about each customer.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>What insurtech gives, and what it costs</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>What it gives</th><th>What it costs</th></tr></thead>
+<tbody>
+<tr><td><strong>Digital sales</strong></td><td class="ok">Buy cover in minutes; clearer policies; lower distribution costs.</td><td class="no">Customers skip the small print; cheap online cover may exclude what matters.</td></tr>
+<tr><td><strong>Behaviour-based pricing</strong></td><td class="ok">Careful drivers and owners pay less; an incentive to drive and maintain better.</td><td class="no">Constant monitoring; people with night shifts or long commutes may pay more for reasons outside their control.</td></tr>
+<tr><td><strong>Automated claims</strong></td><td class="ok">Honest claims paid in minutes, not weeks.</td><td class="mid">Wrong rejections by models that customers cannot question easily.</td></tr>
+<tr><td><strong>Parametric cover</strong></td><td class="ok">Money fast after disasters, with no inspections.</td><td class="no">Basis risk: the trigger may miss the real loss.</td></tr>
+<tr><td><strong>Detailed risk models</strong></td><td class="ok">Honest prices that signal where building is dangerous.</td><td class="no">The pool thins; the highest-risk people are priced out.</td></tr>
+<tr><td><strong>Embedded cover</strong></td><td class="ok">Protection offered at the moment it is relevant.</td><td class="no">Easy to mis-sell overpriced add-ons.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Why many insurtechs struggled</h2>
+</header>
+
+<p>The insurtech stock-market listings of 2020 and 2021 were greeted with excitement. Several of the
+companies then lost most of their market value over the following years. Lemonade bought Metromile,
+a pay-per-mile car insurer, in 2022 after Metromile's shares had collapsed. The reasons are
+instructive.</p>
+
+<p><strong>Insurance punishes fast growth.</strong> A firm that grows quickly by offering low prices
+attracts the customers that other insurers have priced higher, often for good reason. This is
+<strong>adverse selection</strong>: the customers who choose you are the ones you have priced too
+cheaply. The losses arrive a year or two later, when the claims come in. By then the growth has been
+celebrated and the money has been spent.</p>
+
+<p><strong>Data is not the same as experience.</strong> Established insurers have decades of claims
+history. A clever model trained on a few years of data can miss rare, expensive events. And
+<strong>trust is fragile</strong>. In 2021 Lemonade faced a public backlash after a social-media post
+suggested its software analysed customers' claim videos for signs of fraud. The company deleted the
+post and said it did not reject claims automatically on that basis. The episode showed how quickly
+people react when they feel judged by a machine.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>From paying for losses to preventing them</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Incumbents absorb the technology</strong></td><td>Large insurers now use telematics, photo claims and AI triage themselves, often bought from insurtech suppliers.</td><td class="ok">Fairly sure: most insurtech value ends up inside established insurers, not in new carriers.</td></tr>
+<tr><td><strong>Parametric and public-private cover for climate risk</strong></td><td>Governments, development banks and insurers are expanding parametric schemes and catastrophe bonds, which pass disaster risk to investors.</td><td class="mid">Plausible: a bigger role for trigger-based cover, but the protection gap in poor countries closes slowly.</td></tr>
+<tr><td><strong>Insurance as prevention</strong></td><td>Sensors that shut off water before a leak floods a home; cars that brake for distracted drivers; insurers paying for risk reduction.</td><td class="mid">Plausible to speculative: strong logic, but privacy and who pays for the devices remain open questions.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Self-driving cars and the question of who is liable</h2>
+</header>
+
+<p>Car insurance is the largest consumer insurance market in many countries, and it rests on one
+assumption: a human is driving. If cars drive themselves, much of the risk shifts from the driver to
+the maker of the car and its software. Insurance might then look more like product liability, bought
+by manufacturers, than personal cover bought by drivers. Britain's 2018 Automated and Electric
+Vehicles Act already set out how insurance should work when an automated vehicle causes a crash.
+<a href="../01-technology/13-autonomous-vehicles.html">Autonomous vehicles</a> describes how far the
+technology really is from that point.</p>
+
+<p>A second long-run question is about AI itself. As companies use AI systems to make decisions,
+new kinds of insurance appear: cover for errors by software, for cyber-attacks and for data leaks.
+Cyber insurance is already a fast-growing line, and insurers have struggled to price it, because one
+attack can hit thousands of customers at once. <a href="12-financial-cybersecurity.html">Financial
+cybersecurity</a> covers the attacks.</p>
+
+<p>The sensible view is that <strong>insurtech will not abolish the pool, but it will keep pushing on
+its edges</strong>. Each society will keep deciding which differences between people insurers may
+price, and which risks are too large, or too unfair, for private insurance to carry alone.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Insurance <strong>pools risk</strong>, so that a disaster for one becomes a small, predictable
+    cost for many. Insurtech applies software and data to the four jobs of an insurer:
+    <strong>selling, pricing, paying claims and carrying risk</strong>. The more precisely it prices
+    each person, the more it challenges the pooling that makes insurance work.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Combined ratio <strong>below 100%</strong> means the insurance itself is profitable.</li>
+      <li>Lloyd's began in a <strong>1680s</strong> London coffee house.</li>
+      <li>EU ban on sex-based insurance prices: ruled <strong>2011</strong>, in force from the end of
+      <strong>2012</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking "fairer" pricing means the same thing as "more accurate" pricing. <strong>Perfectly
+    accurate prices would leave the unluckiest people uninsurable.</strong> Fairness is a social
+    choice, not a statistical result.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a fast-growing insurer with cheap prices can look healthy for two years
+    and then report large losses? If you can, you understand float, adverse selection and the delay
+    between premiums and claims.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Premium</dt><dd>The price a customer pays for an insurance policy.</dd>
+    <dt>Underwriting</dt><dd>Deciding whom to insure, for what, and at what price.</dd>
+    <dt>Law of large numbers</dt><dd>The more independent cases you combine, the closer the total comes to the average.</dd>
+    <dt>Combined ratio</dt><dd>Claims plus expenses divided by premiums; below 100% is an underwriting profit.</dd>
+    <dt>Float</dt><dd>Premiums held and invested by the insurer before claims are paid.</dd>
+    <dt>Reinsurance</dt><dd>Insurance bought by insurers to pass on part of their own risk.</dd>
+    <dt>Telematics</dt><dd>Measuring behaviour, such as driving, with a device or app, for pricing.</dd>
+    <dt>Usage-based insurance</dt><dd>Cover priced by how much or how well you use something, usually a car.</dd>
+    <dt>Parametric insurance</dt><dd>Cover that pays a fixed sum when a measured event passes a set threshold.</dd>
+    <dt>Basis risk</dt><dd>The gap between what a trigger measures and the loss someone actually suffers.</dd>
+    <dt>Embedded insurance</dt><dd>Cover offered inside another purchase, such as a flight or a phone.</dd>
+    <dt>Adverse selection</dt><dd>When the customers who choose you are disproportionately the ones you priced too low.</dd>
+    <dt>Protection gap</dt><dd>The share of disaster losses that no insurance covers.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Insurance turns a disaster for one person into a small cost for many. Pricing every person
+    perfectly would undo that."</li>
+    <li>"An insurer is paid to hold your money before it pays claims. That float is half the
+    business."</li>
+    <li>"Cheap insurance that grows fast often finds its losses two years later."</li>
+    <li>"Parametric insurance pays when the wind passes a number, not when an adjuster arrives. Fast,
+    but it can miss your actual loss."</li>
+    <li>"When insurers leave a region, the risk doesn't go away. It lands on homeowners, banks and the
+    state."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="18-regtech.html">Regtech</a></h4><p>The software that helps
+  banks and insurers obey the rules, and helps regulators check that they do.</p></div>
+  <div class="card"><h4>Related · <a href="16-fintech-startups.html">Fintech startups</a></h4><p>The
+  wider startup story: rented licences, venture money, and why the plumbing matters more than the
+  app.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

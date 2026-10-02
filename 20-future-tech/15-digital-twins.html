@@ -1,0 +1,865 @@
+<!doctype html>
+<!--@HEAD-SRC title="Digital Twins" desc="Live computer copies of real machines, factories, cities and even bodies: how they are built and kept in step, what they are good for, where they mislead, and what comes next."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Twins</title>
+<meta name="description" content="Live computer copies of real machines, factories, cities and even bodies: how they are built and kept in step, what they are good for, where they mislead, and what comes next.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Future &amp; Emerging Technologies · Topic 15 of 20</p>
+  <h1>Digital twins. <span class="thin">A copy of the real thing that lives in a computer, and is only as honest as the data that feeds it.</span></h1>
+  <p class="lede">A digital twin is a computer model of a real object or system that is kept up to date
+  with data from the real one. A jet engine, a wind farm, a factory, a port or a city can each have a
+  twin. Engineers use it to see what is happening inside without opening anything up, to predict what
+  will break, and to try out a change on the copy before risking it on the original. The idea is
+  powerful and real. The phrase has also become one of the most overused labels in technology
+  marketing.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No engineering assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Future tech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../01-technology/10-internet-of-things.html"><span class="vn">Technology · 10</span><b>Internet of Things</b><em>Where the data comes from</em></a>
+<a class="vol" href="14-smart-cities.html"><span class="vn">Future · 14</span><b>Smart cities</b><em>Twins at city scale</em></a>
+<a class="vol" href="16-advanced-batteries.html"><span class="vn">Future · 16</span><b>Advanced batteries</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>No volume covers digital twins, so this is the library's first full treatment. Several topic
+  files mention them in passing: <a href="../01-technology/10-internet-of-things.html">Internet of
+  Things</a> (the sensors that feed them), <a href="../14-engineering/10-manufacturing.html">Manufacturing</a>
+  and <a href="../14-engineering/17-smart-buildings.html">Smart buildings</a> (where they are used most),
+  and <a href="../05-medicine-health/19-personalized-medicine.html">Personalized medicine</a> (the
+  idea of a twin of a patient).</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A model that stays connected to the thing it copies</h2>
+  <p class="lede">Engineers have built models for centuries. What makes a twin different is the live
+  link: data flows from the real object into the model, and decisions flow back.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A spacecraft in trouble, and its copies on the ground</h2>
+</header>
+
+<p>In April 1970 an oxygen tank exploded on Apollo 13, more than 300,000 kilometres from Earth. The
+three astronauts were alive, but their spacecraft was crippled, short of power, water and breathable
+air. Nobody on the ground could look at it. What NASA did have were the simulators that astronauts
+trained in, and engineers who knew every switch and circuit.</p>
+
+<p>Over the following days, crews on the ground used those simulators, and spare hardware, to work
+through problems before the astronauts tried them for real: how to power up the dead command module
+for re-entry with very little electricity, and how to make square air-cleaning canisters fit a system
+built for round ones. Engineers updated the
+simulators with what the crew reported, so the copies on the ground matched the damaged ship as
+closely as possible. The astronauts came home.</p>
+
+<p>Apollo 13 is often called the first digital twin, although the simulators were partly physical and
+the phrase did not yet exist. The story contains the central idea. <strong>When you cannot touch
+the real thing, a copy that is kept in step with it lets you test before you act.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Three ingredients</h2>
+</header>
+
+<p>The term itself came later. The American engineer Michael Grieves described the concept around 2002
+in courses on managing a product through its life, and NASA used the phrase "digital twin" in a
+technology roadmap around 2010. Most definitions now agree on three ingredients.</p>
+
+<div class="grid3">
+  <div class="card"><h4>A physical thing</h4><p>An engine, a pump, a bridge, a power grid, a city
+  district or a human organ. It is called the <strong>physical asset</strong>.</p></div>
+  <div class="card"><h4>A virtual model</h4><p>Software that represents how that thing is built and
+  how it behaves: its shape, materials, physics and history.</p></div>
+  <div class="card"><h4>A data link</h4><p>A flow of measurements from the real thing to the model,
+  and of decisions or settings back again, repeated over the asset's whole life.</p></div>
+</div>
+
+<p>The third ingredient is the one that matters. A beautiful 3D drawing of a building is not a twin.
+<strong>A twin knows what the real building is doing today</strong>: how warm each room is, how much
+the structure has moved, which pump is vibrating more than last month.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Model, shadow, twin: a spectrum</h2>
+</header>
+
+<p>Because the label is popular, it is stuck on many things that are not quite twins. Some engineers
+use a three-step scale to keep the language honest.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Level</th><th>Data from the real thing</th><th>Action back to the real thing</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Digital model</strong></td><td>None, or added by hand</td><td>None</td><td>A design simulation of a bridge before it is built</td></tr>
+<tr><td><strong>Digital shadow</strong></td><td>Automatic and continuous</td><td>None; humans read it and decide</td><td>A dashboard model of a factory showing live machine data</td></tr>
+<tr><td><strong>Digital twin</strong></td><td>Automatic and continuous</td><td>Yes, settings or decisions flow back</td><td>A model that adjusts a wind turbine's blades to reduce wear</td></tr>
+</tbody></table></div>
+
+<p>In everyday speech, people use "digital twin" for all three. That is fine, as long as you ask which
+one is meant. <strong>The more of the loop that is closed, the more useful the twin, and the more
+dangerous a wrong one becomes.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Build a model, feed it data, ask it questions</h2>
+  <p class="lede">A twin is built in layers: a model of how the thing behaves, a stream of
+  measurements that keeps the model honest, and tools that use the result to answer "what if?"</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Two ways to build the model</h2>
+</header>
+
+<p>The first way is <strong>physics-based</strong>. Engineers write down the laws that govern the
+object: how heat flows, how metal bends, how air moves over a wing. The computer solves those
+equations for the object's exact shape and materials. One common method, called <strong>finite element
+analysis</strong>, splits the object into thousands or millions of tiny pieces and calculates the
+forces on each. Physics models are trustworthy when conditions are well understood, but they can be
+slow and need expert work to set up.</p>
+
+<p>The second way is <strong>data-driven</strong>. Instead of equations, the model learns patterns
+from history: when the vibration looked like this, the bearing failed three weeks later. This is
+<a href="../01-technology/02-machine-learning.html">machine learning</a>. It can capture effects that
+nobody wrote an equation for, but it only knows what it has seen. Faced with something new, it can be
+confidently wrong.</p>
+
+<p>Most serious twins are <strong>hybrids</strong>. Physics provides the skeleton, and data corrects
+it for the quirks of this particular machine. Two pumps of the same model, installed in different
+buildings, wear differently. <strong>The physics says how pumps behave; the data says how this pump
+behaves.</strong></p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Keeping the copy in step</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">The twin loop</div>
+<pre>
+     REAL ASSET                                  DIGITAL TWIN
+   (engine, grid,     ---- sensor data ---->    model updated to
+    factory, city)    temperature, vibration,    match current state
+         ^            flow, position, load            |
+         |                                            v
+         |                                     simulate futures:
+         +---------- settings, alerts, <----   "what if we...?"
+                     maintenance orders        "when will it fail?"
+</pre>
+</div>
+
+<p>Sensors on the real asset measure things like temperature, pressure, vibration, flow and
+position. The readings travel over a network, often through the kinds of low-power radio described in
+the <a href="../01-technology/10-internet-of-things.html">Internet of Things</a> file. Before the model
+can use them, the data must be cleaned, because sensors drift, fail and occasionally report
+nonsense.</p>
+
+<p>The model is then adjusted to fit the measurements, a step called <strong>calibration</strong>. If
+the model predicted the bearing would be at 60 degrees and the sensor says 68, either the model is
+wrong or something has changed in the machine. Both are worth knowing. <strong>The gap between
+what the twin expects and what the sensor reports is often the most valuable signal of all.</strong>
+It is how early faults are caught.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Asking the twin questions</h2>
+</header>
+
+<p>Once the twin matches reality, it can answer three kinds of question.</p>
+
+<p><strong>What is happening now?</strong> Some quantities cannot be measured directly. You cannot put
+a thermometer inside the hottest part of a turbine blade. But a model fed with readings from nearby
+can estimate it. Engineers call this a <strong>virtual sensor</strong>.</p>
+
+<p><strong>What will happen?</strong> The twin can run forward in time. A common goal is to estimate
+the <strong>remaining useful life</strong> of a part, meaning how long it can safely keep working. That
+allows <strong>predictive maintenance</strong>: replacing a part shortly before it would fail, rather
+than on a fixed schedule (too early, wasting money) or after it breaks (too late, causing damage).</p>
+
+<p><strong>What if we change something?</strong> Operators can test a new speed, a new route or a new
+layout on the twin first. A factory can see whether a new production line will create a bottleneck
+before moving any machines. <strong>The twin turns expensive real-world experiments into cheap
+virtual ones.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>How detailed is detailed enough?</h2>
+</header>
+
+<p>The Argentine writer Jorge Luis Borges wrote a one-paragraph story about an empire whose map-makers
+became so precise that they drew a map the same size as the empire itself. It was useless, and later
+generations left it to rot in the desert. Digital twins face the same temptation.</p>
+
+<p>A twin's level of detail is called its <strong>fidelity</strong>. A higher-fidelity twin includes
+more parts, more physics and more data. It is also slower to run, more expensive to build and harder to
+keep accurate. The right fidelity depends on the question. To plan when to service a fleet of trucks,
+a simple model of wear is enough. To understand why one engine blade cracked, you need a detailed
+physics simulation. <strong>A good twin is as simple as the question allows</strong>, not as detailed
+as the budget allows.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>From fixing things after they break to knowing before</h2>
+  <p class="lede">Twins matter because breakdowns, downtime and bad decisions about expensive systems
+  cost enormous sums. Seeing inside a system, and rehearsing changes, changes how it is run.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Jet engines that report on themselves</h2>
+</header>
+
+<p>Large jet engines are among the most closely watched machines on Earth. Engine makers such as
+Rolls-Royce and GE collect performance data from engines in service and compare it against models of
+how each engine should behave. When a reading drifts, specialists can plan an inspection at the next
+convenient stop rather than wait for a fault.</p>
+
+<p>This changed the business. Airlines can pay engine makers for each hour an engine flies, with the
+maker responsible for keeping it working, an arrangement often called "power by the hour". Under such
+contracts, <strong>the maker earns more when the engine spends less time in the workshop</strong>, so
+it has every reason to invest in monitoring and modelling. The twin is not just a technical tool. It is
+the basis of a different kind of contract.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Factories, grids and ports</h2>
+</header>
+
+<p>In manufacturing, twins of production lines let engineers balance the flow of work, spot machines
+that are about to fail, and design new lines virtually before buying equipment. The wider movement of
+connected, data-driven factories is often called <strong>Industry 4.0</strong>, covered in
+<a href="../14-engineering/10-manufacturing.html">Manufacturing</a>.</p>
+
+<p>Electricity grids are a natural fit. As more power comes from wind and sun, which rise and fall with
+the weather, grid operators need to predict flows minute by minute and test how the network would cope
+if a line or a power station failed. A grid twin can run thousands of such scenarios. Wind farm
+operators use twins to adjust turbines so that the wake of one does not slow the one behind it. Large
+ports, including Rotterdam, have built twins of their harbours to plan ship movements and berths.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Cities and the whole planet</h2>
+</header>
+
+<p>Singapore built a detailed 3D model of the entire city-state, known as Virtual Singapore, combining
+buildings, terrain and infrastructure. Planners can test how a new tower would shade a park, how wind
+would flow between buildings, or where floodwater would go. Most such city models are closer to a
+digital model or shadow than a full twin, because live data covers only parts of the city. See
+<a href="14-smart-cities.html">Smart cities</a> for the wider debate.</p>
+
+<p>The most ambitious project is the European Union's <strong>Destination Earth</strong>, launched in
+2022. It aims to build highly detailed digital replicas of the Earth system, starting with extreme
+weather and climate adaptation, so that governments can test how floods, droughts and heat waves would
+play out under different choices. Weather forecasting itself has worked like a twin for decades:
+millions of observations are fed into a physics model of the atmosphere several times a day.
+<strong>Your weather forecast is the oldest planetary-scale digital twin.</strong></p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>A twin of the human body</h2>
+</header>
+
+<p>The boldest version is a twin of a person, or of one organ. Researchers have built detailed
+computer models of the heart that simulate its electrical signals and the pumping of its chambers. A
+collaboration called the Living Heart Project, started in 2014, brought companies, doctors and
+regulators together to develop such models. Some are used to test how medical devices such as stents
+and pacemakers might behave before they are tried in patients.</p>
+
+<p>Personalised twins remain mostly a research goal. Cardiologists have explored models built from a
+patient's own scans to plan treatment for heart rhythm problems. A full twin of a whole person, on
+which doctors could test every drug before giving it, is far away. <strong>The body is not a machine
+with a parts list</strong>; it adapts, varies and is still only partly understood. See
+<a href="../05-medicine-health/19-personalized-medicine.html">Personalized medicine</a>.</p>
+
+<div class="warn">
+  <span class="tag">General education</span>
+  <p>This section describes research directions in general terms. It is not medical advice, and no
+  current consumer product offers a reliable "twin" of your health.</p>
+</div>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Cheap experiments, expensive upkeep</h2>
+  <p class="lede">A twin can save far more than it costs, but only if it is kept accurate, used to make
+  real decisions, and trusted for the right reasons.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Maintenance</strong></td><td class="ok">Fix things just before they fail; less downtime, fewer accidents</td><td class="no">Needs reliable sensors, which themselves fail and need servicing</td></tr>
+<tr><td><strong>Design and planning</strong></td><td class="ok">Test changes virtually; fewer costly real-world mistakes</td><td class="no">A wrong model gives confident wrong answers</td></tr>
+<tr><td><strong>Visibility</strong></td><td class="ok">See inside systems that cannot be opened or measured directly</td><td class="no">Floods of data; the risk of watching dashboards instead of deciding</td></tr>
+<tr><td><strong>Cost</strong></td><td class="ok">High payback for expensive, critical assets</td><td class="no">Costly to build and maintain; often not worth it for cheap equipment</td></tr>
+<tr><td><strong>Security</strong></td><td class="ok">Can rehearse responses to failures and attacks</td><td class="no">A detailed map of critical infrastructure is a gift to an attacker</td></tr>
+<tr><td><strong>Skills</strong></td><td class="ok">Captures expert knowledge in software</td><td class="no">Needs rare people who understand both the physics and the data</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>When the twin drifts from reality</h2>
+</header>
+
+<p>A twin can quietly go out of date. Someone replaces a valve with a different model and nobody updates
+the software. A sensor is knocked out of position and starts reporting the wrong temperature. Over
+months, the copy and the original drift apart while the screens still look perfectly confident. This is
+the twin's version of the old computing rule: <strong>garbage in, garbage out</strong>.</p>
+
+<p>The deeper risk is automation bias, the human habit of trusting a computer's answer over one's own
+eyes. If operators believe the twin rather than the alarm bell, a wrong model becomes dangerous. Good
+practice is to treat the twin as a well-informed adviser: check it against reality regularly, record
+its known limits, and keep people who understand the physical system. <strong>A twin should sharpen
+human judgment, not replace the people who know the machine.</strong></p>
+
+<p>There is also a commercial trap. Much of the value of a twin comes from data owned by the
+operator, but the software often belongs to a vendor. As with smart cities, switching later can be
+expensive. Market forecasts for "digital twin" spending vary enormously between consultancies, which
+is a sign that the label covers very different things.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>More connected, faster, and partly run by AI</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Twins of high-value industrial assets</strong></td><td>Common for engines, turbines, large plants and grids.</td><td class="ok">Fairly sure: becomes standard practice for any expensive, critical equipment.</td></tr>
+<tr><td><strong>Faster simulation using AI</strong></td><td>Machine-learning models trained on physics simulations already speed up some weather and engineering calculations dramatically.</td><td class="ok">Fairly sure: twins that once took hours to run will answer in seconds, making live "what if" questions practical.</td></tr>
+<tr><td><strong>City and climate twins</strong></td><td>Virtual Singapore, Destination Earth, and many partial city models.</td><td class="mid">Plausible: widely used for planning and disaster preparation; full live twins of whole cities remain rare.</td></tr>
+<tr><td><strong>Twins that run systems on their own</strong></td><td>Closed loops exist for narrow tasks such as turbine control.</td><td class="mid">Plausible in narrow, well-understood systems; contested for anything safety-critical.</td></tr>
+<tr><td><strong>Personal health twins</strong></td><td>Organ models in research; device testing.</td><td class="no">Speculative: a whole-body twin that predicts your response to drugs is far off.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>Where AI fits in</h2>
+</header>
+
+<p>Two trends are pushing twins forward together. First, AI models trained on physics simulations,
+sometimes called <strong>surrogate models</strong>, can imitate a slow simulation in a fraction of the
+time. AI weather models from several companies and research centres have shown that this works at
+global scale. Second, language-based AI makes twins easier to question. An engineer can ask in plain
+words why a line slowed down yesterday, rather than writing a query.</p>
+
+<p>Both bring a familiar caution. A surrogate is only reliable inside the range of situations it was
+trained on, and the rare extreme event is exactly what operators most need to get right. The likely
+future is a twin built on physics, sped up by AI, checked against sensors, and questioned by people who
+know the real system. <strong>The copy is getting faster and easier to talk to; it still has to be
+kept honest.</strong> How people and these systems divide the work is the subject of
+<a href="19-human-ai-collaboration.html">Human-AI collaboration</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A digital twin is a <strong>model plus a live data link</strong> to a real asset. Sensors keep the
+    copy in step; the copy estimates what cannot be measured, <strong>predicts failures</strong>, and
+    lets people <strong>test changes virtually</strong>. It is only as good as its model, its data and
+    the people checking it.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>The concept was described around <strong>2002</strong>; NASA used the name around
+      <strong>2010</strong>.</li>
+      <li>Apollo 13 (<strong>1970</strong>) is the classic precursor story.</li>
+      <li>The EU's Destination Earth twin of the planet began in <strong>2022</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Calling any 3D model a twin. <strong>Without a continuous link to the real thing, it is a
+    model</strong>, and with a link but no feedback, it is a shadow.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why the gap between what a twin predicts and what a sensor measures is useful,
+    and what could make that gap misleading?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Digital twin</dt><dd>A computer model of a real thing, kept up to date with its data, used to understand and steer it.</dd>
+    <dt>Physical asset</dt><dd>The real object or system that the twin copies.</dd>
+    <dt>Digital shadow</dt><dd>A model fed with live data that does not send decisions back.</dd>
+    <dt>Physics-based model</dt><dd>A model built from the laws of physics that govern the object.</dd>
+    <dt>Data-driven model</dt><dd>A model that learns patterns from past measurements.</dd>
+    <dt>Finite element analysis</dt><dd>A method that splits an object into tiny pieces and calculates the forces on each.</dd>
+    <dt>Calibration</dt><dd>Adjusting a model so its outputs match real measurements.</dd>
+    <dt>Virtual sensor</dt><dd>An estimate, from the model, of something no sensor can measure directly.</dd>
+    <dt>Remaining useful life</dt><dd>How long a part can safely keep working.</dd>
+    <dt>Predictive maintenance</dt><dd>Servicing parts just before they are predicted to fail.</dd>
+    <dt>Fidelity</dt><dd>How detailed and exact a model is.</dd>
+    <dt>Surrogate model</dt><dd>A fast AI model trained to imitate a slow simulation.</dd>
+    <dt>Automation bias</dt><dd>The tendency to trust a computer's answer over contrary evidence.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A digital twin isn't just a 3D model. It's a model that's wired to the real thing and kept up
+    to date."</li>
+    <li>"The most useful moment is when the twin and the sensor disagree. That's how you catch a fault
+    early."</li>
+    <li>"Your weather forecast is a digital twin of the atmosphere, updated several times a day."</li>
+    <li>"A twin should be as simple as the question allows, not as detailed as the budget allows."</li>
+    <li>"A twin that nobody checks against reality slowly turns into a confident fiction."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="16-advanced-batteries.html">Advanced batteries</a></h4><p>Beyond
+  today's lithium-ion: solid-state, sodium-ion and other chemistries, what each promises and what is
+  still holding them back.</p></div>
+  <div class="card"><h4>Related · <a href="../14-engineering/10-manufacturing.html">Manufacturing</a></h4><p>Where
+  twins are used most: production lines, Industry 4.0, and why factories are becoming software
+  systems.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

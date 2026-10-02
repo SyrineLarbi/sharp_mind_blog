@@ -1,0 +1,860 @@
+<!doctype html>
+<!--@HEAD-SRC title="Humanoid Robots" desc="Why companies are building robots shaped like people, how they balance, grip and learn, where they work today, and an honest outlook on homes, factories and care."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Humanoid Robots</title>
+<meta name="description" content="Why companies are building robots shaped like people, how they balance, grip and learn, where they work today, and an honest outlook on homes, factories and care.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Future &amp; Emerging Technologies · Topic 03 of 20</p>
+  <h1>Humanoid robots. <span class="thin">A machine built in our shape, for a world built for our bodies.</span></h1>
+  <p class="lede">For most of their history, useful robots looked nothing like people. They were arms bolted
+  to factory floors, or boxes on wheels in warehouses. Humanoid robots, with two legs, two arms and a head,
+  were research projects and trade-fair attractions. Since about 2022 that has changed. Dozens of companies,
+  many in the United States and China, are raising large sums to build humanoids for real work, and the
+  first paid trials are running in warehouses and car plants. This file explains why anyone would choose
+  such a difficult shape, what makes a two-legged robot so hard to build, what artificial intelligence has
+  changed, and how far the reality is behind the videos.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Future tech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../50-whats-coming.html#c6"><span class="vn">Vol 50 · ch 06</span><b>Why the easy things are hard</b><em>The short version</em></a>
+<a class="vol" href="../01-technology/05-robotics.html"><span class="vn">Technology · 05</span><b>Robotics</b><em>The foundations</em></a>
+<a class="vol" href="04-autonomous-systems.html"><span class="vn">Future tech · 04</span><b>Autonomous systems</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 50 explains, in one chapter, why walking and grasping are harder for machines than chess
+  (<a href="../50-whats-coming.html#c6">Robots, vehicles and why the easy things are hard</a>). The file
+  <a href="../01-technology/05-robotics.html">Robotics</a> covers how all robots sense, move and are
+  controlled. This file assumes those basics and focuses on what is special about the human shape.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A general-purpose body, on purpose</h2>
+  <p class="lede">A humanoid robot is a machine with roughly human proportions, designed to move and
+  handle objects in spaces made for people. The shape is a strategy, not a decoration.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Why copy the human body at all?</h2>
+</header>
+
+<p>Engineers usually avoid copying nature directly. Aeroplanes do not flap their wings, and cars roll on
+wheels instead of walking. So why build a robot with legs, which are slower, less stable and more
+expensive than wheels? The answer is about the world, not the robot. <strong>Almost every building,
+tool, vehicle and workstation on Earth was designed around the human body.</strong> Stairs assume legs.
+Door handles assume hands at a certain height. Shelves, kitchen counters, car assembly lines and hospital
+beds all assume a person of roughly our size.</p>
+
+<p>A specialised robot needs the environment rebuilt around it. Modern warehouses do exactly that: they lay
+out floors, shelves and conveyors so that wheeled robots can do the work. A humanoid promises the opposite
+bargain. <strong>Keep the world as it is, and make the machine fit it.</strong> If that works, one kind of
+robot could in principle do many different jobs, the way a person can, and could learn new ones without
+anyone rebuilding the factory.</p>
+
+<p>There is a second, newer argument. Modern robots learn partly by watching and copying people, either
+from video or from humans steering the robot remotely. That is easiest when the robot's body matches the
+teacher's body. A robot with two hands of roughly human size can copy a human demonstration far more
+directly than a robot with three suction grippers.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Fifty years of falling over</h2>
+</header>
+
+<p>The first full-scale humanoid is usually credited to Waseda University in Tokyo, whose WABOT-1 walked a
+few slow steps in the early 1970s. Japan led the field for decades. In 2000 Honda unveiled ASIMO, a
+child-sized robot that walked smoothly, climbed stairs and waved to crowds. It became the world's most
+famous robot and was a triumph of engineering, but it was never a product. Honda ended its development in
+2018.</p>
+
+<p>The hard limits became public in 2015 at the DARPA Robotics Challenge, a US military research
+competition held after the Fukushima nuclear disaster. Teams had to make robots drive a vehicle, open a
+door, turn a valve and climb steps in a mock disaster zone. Many of the best robots in the world moved
+painfully slowly, and a widely shared video showed robot after robot toppling over. <strong>It was a
+humbling reminder that tasks a child does without thinking were still beyond the best machines.</strong></p>
+
+<p>Boston Dynamics then showed how much was possible. Its Atlas robot, developed with DARPA funding, became
+famous from about 2017 onwards for running, jumping and backflips. Those videos were real but carefully
+rehearsed. In 2024 the company retired the original hydraulic Atlas and announced a new, fully electric
+version aimed at factory work, a sign of how the whole field was turning from research to products.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The new wave</h2>
+</header>
+
+<p>Around 2021–2023 the field changed character. Tesla announced its Optimus humanoid in 2021. Start-ups
+such as Figure AI, Agility Robotics, Apptronik and 1X in the US and Europe, and Unitree, UBTech and many
+others in China, raised money to build humanoids for commercial work. Several reached early paid trials:
+Agility's Digit moving tote boxes in logistics warehouses, Figure testing robots at a BMW plant in South
+Carolina, and Chinese firms placing robots in car factories.</p>
+
+<div class="tw"><table>
+<thead><tr><th>What changed</th><th>Why it mattered</th></tr></thead>
+<tbody>
+<tr><td><strong>AI that can learn skills</strong></td><td>Instead of programming every movement by hand, robots learn from demonstrations and practice in simulation.</td></tr>
+<tr><td><strong>Cheaper, stronger electric motors</strong></td><td>Electric actuators replaced heavy, leaky hydraulics, and their cost fell with electric-car and drone supply chains.</td></tr>
+<tr><td><strong>Better batteries</strong></td><td>Lithium-ion cells from the car industry gave enough energy for hours of work.</td></tr>
+<tr><td><strong>Labour shortages</strong></td><td>Ageing populations and hard-to-fill manual jobs made buyers interested.</td></tr>
+<tr><td><strong>Investor enthusiasm</strong></td><td>The success of language models made "AI with a body" an attractive story for funding.</td></tr>
+</tbody></table></div>
+
+<p>Prices have also fallen sharply at the low end. In 2024 the Chinese firm Unitree announced a small
+humanoid at a starting price of about 16,000 US dollars, far below earlier research robots, though basic
+models like that are aimed at researchers and developers rather than at doing real jobs.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>A body, a sense of balance, hands, and a brain that learns</h2>
+  <p class="lede">A humanoid is several hard problems stacked on top of each other. Each layer has to
+  work in real time, because a two-legged robot that stops thinking falls over.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The body: joints, motors and power</h2>
+</header>
+
+<p>Engineers describe a robot's flexibility by its <strong>degrees of freedom</strong>: the number of
+independent ways its joints can move. Your elbow bends in one way, which is one degree of freedom; your
+shoulder can swing in several directions. A modern humanoid typically has a few dozen degrees of freedom
+across its legs, arms, waist, neck and hands. Each one needs an <strong>actuator</strong>, the robot's
+equivalent of a muscle, which is usually an electric motor with a gearbox.</p>
+
+<p>Actuators are where much of the cost sits. They must be strong enough to lift the robot and a load,
+precise enough to place a screw, light enough not to make the legs too heavy, and tough enough to survive
+falls. They must also be "back-drivable" or compliant, meaning they give way a little when pushed, so a
+robot that bumps into a person does not hit like a car door.</p>
+
+<p>Then there is power. A humanoid carries its own battery, and walking, balancing and lifting are
+energy-hungry. Current commercial humanoids typically work for a few hours before recharging or swapping a
+battery. <strong>Every kilogram of battery makes the robot heavier, which means it needs stronger motors,
+which need more battery.</strong> That loop limits how long and how hard a humanoid can work.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Balance: walking is controlled falling</h2>
+</header>
+
+<p>A table with four legs stands still without effort. A person on two legs is constantly making tiny
+corrections, mostly without noticing. Each step is a small fall forward, caught by the next foot. A
+humanoid has to do the same thing in software, hundreds of times a second, using sensors that measure
+the angle of every joint, the forces on its feet and the tilt of its body, like the balance organ in your
+inner ear.</p>
+
+<p>Older robots such as ASIMO used a careful mathematical approach. They planned each step so that the
+robot's weight always stayed over the area covered by its feet, which made them stable but stiff and
+cautious. They walked with bent knees on flat floors. The modern approach is different. Engineers build a
+detailed computer <strong>simulation</strong> of the robot and let thousands of virtual copies practise
+walking, falling and getting up, using <strong>reinforcement learning</strong>: trial and error, with
+rewards for staying upright and moving efficiently. The learned controller is then transferred to the real
+robot, a step called <strong>sim-to-real</strong>.</p>
+
+<p>Simulation compresses years of practice into hours. <strong>That is the main reason humanoids went from
+stiff shuffling to walking over rough ground, recovering from shoves and even running in just a few
+years.</strong> In April 2025, Beijing hosted a half-marathon in which humanoid robots ran alongside human
+runners; a few finished, slowly and with help from human handlers. It was a stunt, but it showed how far
+locomotion had come.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Hands: the hardest part</h2>
+</header>
+
+<p>Walking is now largely solved for ordinary floors. Hands are not. The human hand is one of the most
+complex structures in the body, with more than twenty degrees of freedom and thousands of touch sensors in
+the skin. It can crack an egg, thread a needle and grip a hammer, adjusting its force without
+conscious thought.</p>
+
+<p>Robot hands face three problems at once. They need many small, strong motors packed into a tight space.
+They need a sense of touch, which is still crude compared with skin. And they need software that knows how
+to handle objects it has never seen: a soft bag, a slippery bottle, a tangled cable. <strong>Grasping
+unfamiliar objects reliably is the central unsolved problem of the whole field.</strong> Many commercial
+humanoids today use simpler grippers and stick to tasks such as moving boxes and totes, which need strength
+and reach rather than dexterity.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>The brain: from programs to robot foundation models</h2>
+</header>
+
+<p>Traditional industrial robots follow exact programs: move to this point, close the gripper, move to that
+point. That works only when everything is always in the same place. Humanoids are meant for messier
+settings, so they need to understand what they see and decide what to do.</p>
+
+<p>The newest approach borrows from language models. A <strong>vision-language-action model</strong> takes
+in camera images and an instruction in ordinary words, such as "put the apple in the bowl", and outputs
+motor commands. Google DeepMind showed an early version, RT-2, in 2023, and several companies and labs have
+since built their own. These models are trained on huge amounts of internet text and images, which gives
+them general knowledge about objects, plus recordings of robots performing tasks. The hope is that, like
+language models, they will get broadly more capable as they grow.</p>
+
+<p>There is a catch. Language models learned from trillions of words already written on the internet. No
+equivalent library of robot movements exists. Companies collect data in three main ways: people
+<strong>teleoperating</strong> robots (steering them remotely, often with virtual-reality headsets and
+gloves) while every movement is recorded; simulation; and videos of humans doing tasks. <strong>The lack of
+robot data is the bottleneck many researchers think matters most</strong>, and whoever solves it cheaply
+may lead the field.</p>
+
+<div class="sheet">
+  <div class="cap">The layers of a modern humanoid</div>
+<pre>
+  instruction: "unload the boxes onto the shelf"
+           |
+  [ PLANNER ]   vision-language model: what are the steps?      slow, seconds
+           |
+  [ SKILLS ]    learned policies: grasp, lift, place, walk      fast, ~10-50 times a second
+           |
+  [ BALANCE + JOINT CONTROL ]  keep upright, track each joint   very fast, hundreds of times a second
+           |
+  motors, sensors, battery
+</pre>
+</div>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Shrinking workforces, industrial rivalry, and care</h2>
+  <p class="lede">The interest in humanoids is driven less by curiosity than by demographics and
+  competition between countries.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Too few workers</h2>
+</header>
+
+<p>Many rich and middle-income countries face shrinking working-age populations. Japan, South Korea, China
+and much of Europe have low birth rates and ageing populations, and employers in manufacturing, logistics
+and care already struggle to fill jobs that are physically hard, repetitive or done at night. Ordinary
+industrial robots have helped for decades, but they only suit work that can be standardised.</p>
+
+<p>The economic case for humanoids is that they could take on the remaining manual tasks that are too
+varied for a fixed robot arm. <strong>The promise is not replacing all workers but filling gaps that
+automation has so far been unable to reach.</strong> Whether that promise is met depends on cost.
+A humanoid needs to work reliably for years, at a total cost below what it replaces, which no company has
+yet demonstrated at scale.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>A race between countries</h2>
+</header>
+
+<p>Humanoids have become part of industrial policy. In 2023 China's industry ministry issued guidance naming
+humanoid robots as a priority technology, and Chinese cities and provinces have backed many companies.
+China also builds much of the world's supply of motors, batteries and sensors, the same components
+humanoids need, which may let its firms produce them more cheaply. American firms, by contrast, have so far
+led in AI models and attracted the largest private investments.</p>
+
+<p>This rivalry matters because the country that manufactures robots at scale may gain an advantage in
+manufacturing generally, in the way factory automation once helped Japan and Germany. It also raises
+security questions that resemble those around telecoms equipment: <strong>a robot is a networked machine
+with cameras and microphones, operating inside factories and homes.</strong> Who controls its software and
+data will matter.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Care, companionship and the uncanny valley</h2>
+</header>
+
+<p>The most emotionally charged use is care for elderly people. Japan has experimented with care robots for
+years, from lifting aids to a seal-shaped robot called Paro that comforts people with dementia. Studies of
+these deployments suggest that practical help, such as lifting a patient, is welcomed, while the idea of
+replacing human contact with machines is more controversial, among both carers and families.</p>
+
+<p>Appearance matters here. In 1970 the Japanese roboticist Masahiro Mori proposed the
+<strong>uncanny valley</strong>: as a robot looks more human, people like it more, until it becomes nearly
+but not quite human, at which point it suddenly feels eerie. The idea is debated, but most commercial
+humanoids avoid realistic faces for this reason. <strong>The ethical question is not only whether robots can
+care, but whether a society should accept machines in roles that were valued partly because a person filled
+them.</strong> Different cultures are likely to answer this differently.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Generality against efficiency</h2>
+  <p class="lede">The human shape buys flexibility. It pays for it in cost, complexity, energy and safety.
+  For almost any single task, a specialised machine is better.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Humanoid against specialised robot</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Question</th><th>Humanoid</th><th>Specialised robot</th></tr></thead>
+<tbody>
+<tr><td><strong>Fits existing workplaces?</strong></td><td class="ok">Yes, in principle: stairs, doors, tools</td><td class="no">Often needs the site redesigned</td></tr>
+<tr><td><strong>Can switch tasks?</strong></td><td class="ok">Potentially many jobs with one machine</td><td class="no">One task, or a narrow family</td></tr>
+<tr><td><strong>Learns from human demonstration?</strong></td><td class="ok">Directly, because the body matches</td><td class="mid">Needs translation to its own form</td></tr>
+<tr><td><strong>Speed and precision at one job</strong></td><td class="no">Usually slower than a person, and far slower than a dedicated machine</td><td class="ok">Excellent</td></tr>
+<tr><td><strong>Cost and maintenance</strong></td><td class="no">Many joints, many failure points</td><td class="ok">Simpler and proven</td></tr>
+<tr><td><strong>Energy use</strong></td><td class="no">Balancing on two legs costs energy even standing still</td><td class="ok">Wheels and fixed bases are efficient</td></tr>
+<tr><td><strong>Safety near people</strong></td><td class="no">Heavy, can fall, standards still being written</td><td class="mid">Well understood, often fenced or speed-limited</td></tr>
+</tbody></table></div>
+
+<p>The table explains why <strong>humanoids make sense only if the generality is real</strong>. A humanoid
+that can do only one job is just an expensive, slow version of a specialised robot. Its value depends on
+doing many different jobs well enough, which is exactly what has not yet been proved.</p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Safety: a machine that can fall on you</h2>
+</header>
+
+<p>Factory robot arms are usually fenced off or slowed down when a person comes near. Collaborative robots,
+or cobots, are designed to work next to people at limited force and speed. Humanoids are harder. A robot
+weighing as much as an adult that is actively balancing cannot simply freeze when something goes wrong,
+because freezing may make it fall. Safety standards for such dynamically balancing machines are still being
+developed by international standards bodies.</p>
+
+<p>Homes are hardest of all. They contain children, pets, stairs, liquids and fragile objects, and nobody
+supervises the robot. <strong>This is why most experts expect humanoids in factories and warehouses long
+before they appear in ordinary homes.</strong> Privacy is another concern: a household robot would map
+your rooms and see everything you do.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>From pilot projects to real jobs, slowly</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands (2026)</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Humanoids doing narrow tasks in factories and warehouses</strong></td><td>Paid pilots in logistics and car plants; small numbers of robots on simple, repetitive handling jobs.</td><td class="ok">Fairly sure: thousands of units in structured workplaces within several years, mainly moving and sorting items. Most will be supervised.</td></tr>
+<tr><td><strong>Multi-skilled workers in varied settings</strong></td><td>Robot foundation models are improving fast; dexterity and reliability lag.</td><td class="mid">Plausible within a decade: depends on solving dexterous grasping and gathering enough robot data. Cost per hour of useful work is the test.</td></tr>
+<tr><td><strong>A general-purpose robot in ordinary homes</strong></td><td>Early home robots announced, often relying on remote human operators for hard tasks.</td><td class="no">Speculative: safety, price, privacy and the chaos of real homes make this the hardest setting. Bold dates should be treated as marketing.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>How to watch a humanoid video</h2>
+</header>
+
+<p>Humanoid companies rely heavily on video to raise money, and many videos are impressive. Some are also
+misleading in ways a careful viewer can check. At high-profile public events, some humanoids that appeared
+to act on their own were later reported to have been partly controlled by remote human operators.
+Teleoperation is a legitimate way to collect data, but it is not autonomy.</p>
+
+<p>When you watch, ask five questions. Is the robot acting by itself, or is someone steering it? Is the
+video sped up? (Many are, and say so in small print.) How many attempts were filmed to get this one? Is the
+setting a real workplace or a prepared stage? And how long can it do this before a person must step in?
+<strong>The number that matters is not what a robot did once, but how many hours it works between human
+interventions.</strong></p>
+
+<p>The broader lesson is the one from Volume 50. Progress in humanoids is real and faster than most experts
+expected a decade ago, especially in walking and in learning from data. But the gap between a demonstration
+and a machine that works unsupervised for years is large, and it closes slowly. For the wider family of
+machines that act on their own, from drones to farm equipment, read the next file,
+<a href="04-autonomous-systems.html">Autonomous systems</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Humanoids copy the human shape because <strong>the world is built for human bodies</strong>, and
+    because a matching body makes it easier to <strong>learn from people</strong>. Walking has improved
+    fast thanks to <strong>simulation and reinforcement learning</strong>. Dexterous hands, enough robot
+    training data, cost and safety remain the hard problems.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>ASIMO appeared in <strong>2000</strong>; Honda stopped developing it in <strong>2018</strong>.</li>
+      <li>A modern humanoid has <strong>a few dozen</strong> degrees of freedom; a human hand alone has more than twenty.</li>
+      <li>Commercial humanoids typically run for <strong>a few hours</strong> per battery charge (as of 2026).</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Treating a polished video as proof of a product. <strong>Ask how long the robot works without a
+    human stepping in</strong>, and whether anyone is steering it remotely.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a humanoid is worse than a specialised robot at any single task, yet companies
+    still think it could be worth building? If so, you understand the generality bet.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Humanoid robot</dt><dd>A robot with roughly human body proportions: legs, arms, torso and head.</dd>
+    <dt>Degrees of freedom</dt><dd>The number of independent ways a robot's joints can move.</dd>
+    <dt>Actuator</dt><dd>The part that produces movement, usually an electric motor with a gearbox: the robot's muscle.</dd>
+    <dt>Compliance</dt><dd>A joint's ability to give way slightly when pushed, which makes contact safer.</dd>
+    <dt>Reinforcement learning</dt><dd>Learning by trial and error, rewarding attempts that succeed.</dd>
+    <dt>Simulation</dt><dd>A detailed computer model of the robot and its world, used for practice.</dd>
+    <dt>Sim-to-real</dt><dd>Transferring a skill learned in simulation to the physical robot.</dd>
+    <dt>Teleoperation</dt><dd>A person steering a robot remotely, often to record training data.</dd>
+    <dt>Vision-language-action model</dt><dd>An AI model that takes images and spoken or written instructions and outputs motor commands.</dd>
+    <dt>Dexterity</dt><dd>Skill at handling objects precisely, especially with fingers.</dd>
+    <dt>Cobot</dt><dd>A collaborative robot designed to work safely next to people.</dd>
+    <dt>Uncanny valley</dt><dd>Masahiro Mori's idea that nearly-human robots feel eerie.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Humanoids aren't shaped like us for show. It's because every stair, door and shelf was built for
+    our bodies."</li>
+    <li>"Walking got much better because robots now practise in simulation thousands of times before
+    trying it for real."</li>
+    <li>"Hands are the hard part. Picking up something the robot has never seen is still unsolved."</li>
+    <li>"For any one task a specialised machine beats a humanoid. The bet is that one machine can do many
+    tasks."</li>
+    <li>"The number to ask for isn't what it did in the video, but how long it works before a person has to
+    step in."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="04-autonomous-systems.html">Autonomous systems</a></h4><p>Drones,
+  self-guided machines in farms and mines, and the debate over weapons that choose their own
+  targets.</p></div>
+  <div class="card"><h4>Related · <a href="../01-technology/05-robotics.html">Robotics</a></h4><p>The
+  foundations beneath this file: sensors, control loops, mapping and the long history of robots in
+  factories.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

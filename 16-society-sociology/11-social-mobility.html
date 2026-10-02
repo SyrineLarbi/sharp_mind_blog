@@ -1,0 +1,846 @@
+<!doctype html>
+<!--@HEAD-SRC title="Social mobility" desc="Whether people can rise or fall from the position they were born into: how mobility is measured, what drives it, why it has slowed in some countries, and what might change it."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Social mobility</title>
+<meta name="description" content="Whether people can rise or fall from the position they were born into: how mobility is measured, what drives it, why it has slowed in some countries, and what might change it.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Society &amp; Sociology · Topic 11 of 20</p>
+  <h1>Social mobility. <span class="thin">How much of your life was decided by the postcode you were born in.</span></h1>
+  <p class="lede">Most modern societies make a promise: work hard and you can do better than your
+  parents, wherever you started. Social mobility is the measure of whether that promise is kept. It
+  turns out to be one of the most revealing numbers a country has. It shows how fair a society is,
+  how much talent it wastes, and why so many people believe, rightly or wrongly, that the game is
+  rigged.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Society</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../09-economics/16-inequality.html"><span class="vn">Economics · 16</span><b>Inequality</b><em>The gaps themselves</em></a>
+<a class="vol" href="03-social-class.html"><span class="vn">Society · 03</span><b>Social class</b><em>The ladder's rungs</em></a>
+<a class="vol" href="12-communities.html"><span class="vn">Society · 12</span><b>Communities</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first treatment of social mobility. Its closest neighbour is
+  <a href="../09-economics/16-inequality.html">Economics · Inequality</a>, which covers how unequal
+  incomes and wealth are at one moment. This file asks the follow-up question: how easily people
+  move between those positions across a lifetime and across generations.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Movement up and down the ladder</h2>
+  <p class="lede">Social mobility is the movement of people between positions in society, measured
+  by income, job, education or class. The interesting question is how much your starting point
+  decides your finishing point.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Nine in ten, then one in two</h2>
+</header>
+
+<p>In 2017 a team led by the American economist Raj Chetty asked a simple question. Of all the
+Americans born in a given year, what share grew up to earn more than their parents had at the same
+age, after adjusting for inflation? For children born in 1940, the answer was about
+<strong>nine in ten</strong>. For children born in 1980, it was about <strong>one in two</strong>.</p>
+
+<p>Nothing in the finding says that those born in 1980 worked less hard. The difference came from
+the economy around them. The 1940 generation grew up during a long boom in which growth was fast and
+its gains were spread widely. By the 1980s growth was slower and a larger share of it went to people
+at the top. The researchers calculated that most of the decline came from that unequal sharing,
+rather than from slower growth alone.</p>
+
+<p>This is what social mobility research does. <strong>It turns a vague feeling, "it was easier for
+my parents", into something that can be measured, explained and argued about with evidence.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Four ways to slice the question</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Type</th><th>The question it asks</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Absolute mobility</strong></td><td>Are you better off than your parents in real terms?</td><td>The 90% versus 50% finding above</td></tr>
+<tr><td><strong>Relative mobility</strong></td><td>Did you change your <em>position</em> compared with others of your age?</td><td>A child of the poorest fifth reaching the richest fifth</td></tr>
+<tr><td><strong>Intergenerational</strong></td><td>How do children's outcomes compare with their parents'?</td><td>A factory worker's daughter becoming a doctor</td></tr>
+<tr><td><strong>Intragenerational</strong></td><td>How far do people move within their own working life?</td><td>A shop assistant who becomes a store manager by 40</td></tr>
+</tbody></table></div>
+
+<p>The difference between absolute and relative mobility matters most. In a fast-growing economy,
+almost everyone can be better off than their parents even if nobody changes rank. That is absolute
+mobility. Relative mobility is harder: for one person to climb a rank, someone else must fall one.
+<strong>Relative mobility is a zero-sum game; absolute mobility is not.</strong> A zero-sum game is one
+where one side's gain is exactly another side's loss. Much confusion in public debate comes from
+mixing the two.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Measuring the stickiness</h2>
+</header>
+
+<p>Economists often sum up relative mobility with one number, the <strong>intergenerational
+elasticity of earnings</strong>. It sounds technical, but the idea is simple. It tells you how much of
+a parent's income advantage tends to show up in the child's income. A value of 0 means parents' income
+tells you nothing about the child's. A value of 1 means the gap passes on completely.</p>
+
+<p>Estimates by the Canadian economist Miles Corak, among others, put this number at roughly 0.15 to
+0.2 in Denmark, Norway and Finland, and close to 0.5 in the United Kingdom, the United States and
+Italy. In plain terms: in the US, about half of a father's income advantage over the average tends to
+pass to his son; in Denmark, less than a fifth. Exact figures vary by study and method.</p>
+
+<p>Another common tool is a <strong>transition table</strong>. You divide parents and children into
+five equal income groups, called <strong>quintiles</strong>, and ask what share of children born in each
+group end up in each. In a perfectly mobile society, a child from the bottom fifth would have a 20%
+chance of reaching the top fifth. In US data, the figure is well below that, around 7 to 8% in
+Chetty's estimates.</p>
+
+<div class="note">
+  <span class="tag">The Great Gatsby curve</span>
+  <p>When countries are plotted with inequality on one axis and the stickiness of income across
+  generations on the other, they line up: <strong>more unequal countries tend to have less
+  mobility</strong>. The American economist Alan Krueger named this pattern the "Great Gatsby curve" in
+  2012, after the novel about a self-made man who cannot buy his way into old money. The link is a
+  correlation, and economists still debate how much is cause and effect.</p>
+</div>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>The channels that carry advantage</h2>
+  <p class="lede">Parents pass on advantage through many pipes at once. Some are obvious, such as
+  money. Others, such as friendships and neighbourhoods, were only measured properly in the last
+  decade.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Money, time, knowledge and luck</h2>
+</header>
+
+<p>Richer parents can buy more: better housing, tutoring, music lessons, healthier food, and the
+safety net of a family loan when a child's first business fails. But money is only one pipe.
+Parents also pass on <strong>time</strong> (reading at bedtime, help with homework), <strong>knowledge
+of how systems work</strong> (which school to choose, how to write a university application), and
+<strong>confidence</strong> (the sense that places like universities are "for people like us").</p>
+
+<p>The French sociologist Pierre Bourdieu called this last group <strong>cultural capital</strong>:
+the tastes, manners, ways of speaking and knowledge that institutions reward but do not openly
+teach. A child who has heard dinner-table debates about books can perform well in an interview that
+looks neutral but quietly tests exactly those skills.</p>
+
+<p>There is also <strong>health</strong>. Poor children are more likely to suffer illness, stress and
+poor nutrition, which can affect learning. And there are genes. Twin and adoption studies show that
+some of the similarity between parents and children is inherited, but how much, and how genes and
+environment interact, is still debated. <strong>Most researchers now agree that inheritance, money
+and environment all matter, and that they are tangled together.</strong></p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Education: ladder and filter</h2>
+</header>
+
+<p>Education is the main official route up. In most rich countries, a university degree still
+brings a substantial earnings advantage over a lifetime. Expanding schooling, as many countries did
+after 1945, gave millions of working-class children their first chance at professional jobs.</p>
+
+<p>But education can also preserve advantage. Gaps between rich and poor children appear before
+they start school and often widen afterwards. Better-off families can buy homes near good schools,
+pay for private schools, or afford tutoring. At the top, the effect can be stark. A 2017 study by
+Chetty's team found that dozens of elite American colleges, including several in the Ivy League, had
+more students from the richest 1% of families than from the poorest 60%.</p>
+
+<p>The sociologist's word for this double role is <strong>reproduction</strong>: institutions that
+seem to reward talent can end up reproducing the existing class structure. <strong>Education is
+both the strongest ladder and a filter that favours those who start nearer the top.</strong> Which
+role dominates depends on how a country funds and organises its schools; see
+<a href="02-education.html">Education</a>.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Place: the neighbourhood you grow up in</h2>
+</header>
+
+<p>In the 1990s the US government ran an experiment called <strong>Moving to Opportunity</strong>.
+Families in public housing in five cities were chosen by lottery, and some received vouchers to move to
+lower-poverty neighbourhoods. Early results were disappointing: parents' earnings barely changed.</p>
+
+<p>Twenty years later, Chetty and colleagues looked at the children. Those who moved before about age
+13 earned around a third more as adults than similar children who stayed, and were more likely to go to
+college. Children who moved as teenagers gained little. <strong>The benefit grew with each year a child
+spent in the better neighbourhood.</strong> Place, in other words, works like a slow dose.</p>
+
+<p>Using tax records, the same researchers mapped mobility for every neighbourhood in the United
+States. They found huge differences between places only a few miles apart. Areas with more two-parent
+families, less segregation, better schools and more community groups tended to produce more upward
+mobility. Similar maps are now being built for other countries.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Who your friends are</h2>
+</header>
+
+<p>In 2022, Chetty's team published two papers in the journal <em>Nature</em> using anonymised data on
+billions of friendships from Facebook. They measured what they called <strong>economic
+connectedness</strong>: how many friends from higher-income backgrounds a lower-income person has. It
+turned out to be one of the strongest predictors of upward mobility found so far, stronger than
+school quality or job availability in their analysis.</p>
+
+<p>Why would friends matter? Friends pass on information about jobs and colleges. They shape what
+seems normal to aim for. They can make an introduction. And the research found two reasons why
+cross-class friendships are rare: people of different classes often do not meet (they live, study
+and work apart), and even when they meet, they tend to befriend people like themselves.
+<strong>Mixing places, such as schools, sports clubs and churches, matter only if they actually lead to
+friendships across the divide.</strong></p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Sticky floors and glass floors</h2>
+</header>
+
+<p>Advantage is sticky at both ends. At the bottom, a <strong>sticky floor</strong> holds people back:
+poor health, debt, a criminal record or caring duties make it hard to take the first step. At the top,
+a <strong>glass floor</strong> protects children of well-off families who do less well at school from
+falling far. Their families' networks, money and second chances catch them.</p>
+
+<p>How sticky is it over the very long run? The British economist Gregory Clark tracked rare surnames
+over many generations, for example in England and Sweden, and argued in <em>The Son Also Rises</em>
+(2014) that underlying status persists far more than single-generation studies suggest, across
+centuries. His method and conclusions are contested. Critics argue that surname groups hide a lot of
+individual movement. The debate is a useful reminder: <strong>how much mobility you find depends on
+what you measure and over how long.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Fairness, wasted talent and political trust</h2>
+  <p class="lede">Mobility is where economics meets morality. It shapes whether people accept
+  inequality, how much talent a society uses, and how they vote.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The promise that makes inequality bearable</h2>
+</header>
+
+<p>Many people accept large income gaps if they believe the race is fair: if the rich earned their
+place and anyone could follow. That belief is called <strong>meritocracy</strong>, rule by merit. The
+word itself was coined as a warning. The British sociologist Michael Young introduced it in a 1958
+satire, <em>The Rise of the Meritocracy</em>, imagining a future in which people sorted by test scores
+become an arrogant new upper class and those left at the bottom have no excuse but their own
+"failure".</p>
+
+<p>The philosopher Michael Sandel revived the argument in <em>The Tyranny of Merit</em> (2020). He
+argued that telling people the system is fair can make losing feel like a personal verdict, which
+breeds resentment. Defenders of meritocracy reply that the alternative, rewards by birth or
+connection, is worse. <strong>Both sides agree that if mobility is low, the meritocratic story becomes
+hard to defend.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Lost Einsteins</h2>
+</header>
+
+<p>In 2019 economists including Alex Bell and Raj Chetty linked US patent records with tax data. They
+found that children from the richest 1% of families were about <strong>ten times</strong> more likely
+to become inventors than children from families below the median income. Among children with
+similar high maths scores at school, the gap was still large.</p>
+
+<p>The authors called the missing inventors "lost Einsteins": people with the ability to innovate who
+never got the exposure. Children who grew up near inventors, or whose parents worked in technical
+fields, were far more likely to invent, and often in the same field. <strong>Low mobility is not only
+unfair to individuals. It shrinks the pool of talent that the whole economy can draw on.</strong></p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>What people believe about mobility</h2>
+</header>
+
+<p>Beliefs about mobility shape politics as much as the real numbers do. A 2018 study by the economists
+Alberto Alesina, Stefanie Stantcheva and Edoardo Teso surveyed people in the United States and several
+European countries. Americans tended to be <strong>too optimistic</strong> about the chance of a poor
+child rising to the top, while many Europeans were too pessimistic. People who believed mobility was
+high were less supportive of redistribution through taxes and benefits.</p>
+
+<p>Perceptions also explain anger. When large groups, such as young people unable to buy homes their
+parents could afford, believe the ladder has been pulled up, trust in institutions falls. Some
+analysts link this to support for anti-establishment parties, though the causes of such votes are
+debated. <strong>A society can survive inequality more easily than the belief that effort no longer
+pays.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Weighing a society that moves</h2>
+  <p class="lede">Almost everyone says they want more mobility. Looking closely, high mobility has
+  costs as well as benefits, and some policies that raise it are hard sells.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The case for, and the uncomfortable parts</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Issue</th><th>The benefit</th><th>The cost or catch</th></tr></thead>
+<tbody>
+<tr><td><strong>Use of talent</strong></td><td class="ok">Able people reach the jobs where they add most, whatever their background.</td><td class="mid">Requires heavy, early investment in children who are not one's own.</td></tr>
+<tr><td><strong>Fairness</strong></td><td class="ok">Outcomes reflect effort and ability more than birth.</td><td class="no">Relative mobility means some children of the comfortable must fall, which their parents resist.</td></tr>
+<tr><td><strong>Social cohesion</strong></td><td class="ok">People believe the system is open, so they accept its rules.</td><td class="no">Strong meritocracy can make those who do not rise feel personally judged.</td></tr>
+<tr><td><strong>Communities</strong></td><td class="ok">Ambitious people can leave places with few opportunities.</td><td class="no">The places they leave lose their most mobile young people ("brain drain").</td></tr>
+<tr><td><strong>Family</strong></td><td class="ok">Children are not trapped by their parents' situation.</td><td class="mid">Parents' freedom to help their own children (gifts, inheritance, schooling) is limited by some policies.</td></tr>
+</tbody></table></div>
+
+<p>The table shows why the debate is political. <strong>The tools that most reliably raise mobility,
+such as high-quality early childhood education, mixed neighbourhoods and schools, and taxes on large
+inheritances, all ask the comfortable to give something up.</strong> Mobility from the bottom is
+popular. The matching downward mobility at the top is not.</p>
+
+<p>There is also a quieter point. A society where everyone strives to climb can be exhausting. Some
+countries with high mobility, such as the Nordic ones, also have smaller gaps between rungs, so falling
+a rung matters less. <strong>Narrowing the distance between rungs may matter as much as making it
+easier to climb them.</strong></p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Housing, inheritance and the machines</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Wealth matters more than wages</strong></td><td>In many rich countries, house prices have risen much faster than incomes since the 1990s. Parental help with deposits increasingly decides who owns a home.</td><td class="ok">Fairly sure: inheritance and family wealth will weigh more in life chances as large, ageing, property-owning generations pass on assets.</td></tr>
+<tr><td><strong>Better measurement</strong></td><td>Linked tax, school and social data now let researchers map mobility down to neighbourhoods.</td><td class="ok">Fairly sure: governments will target policy more precisely at places and ages where it works best.</td></tr>
+<tr><td><strong>AI reshuffles who rises</strong></td><td>AI tools could cheapen expert tutoring and some professional skills, or concentrate gains among those who own and direct the technology.</td><td class="mid">Plausible either way; the direction is unknown. See <a href="../20-future-tech/20-how-work-may-change-because-of-ai.html">How work may change because of AI</a>.</td></tr>
+<tr><td><strong>Rising mobility in emerging economies</strong></td><td>Mass schooling and urban growth in parts of Asia and Africa have lifted many children far above their parents' living standards.</td><td class="mid">Plausible: absolute mobility stays high where growth is fast; relative mobility depends on school quality and inequality.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>The policy debate to watch</h2>
+</header>
+
+<p>Three policy ideas recur in mobility debates, and each has strong support and serious critics.
+The first is <strong>early childhood investment</strong>: high-quality care and education before age
+five, which several long-term studies suggest pays off for disadvantaged children. The cost is high
+and benefits take decades to show. The second is <strong>opening up housing</strong>: building more
+homes in high-opportunity areas and helping families move there, as Moving to Opportunity suggested.
+Local residents often resist. The third is <strong>taxing inheritances and large gifts</strong> to
+slow the passing of wealth. Supporters see it as fairness. Opponents see it as punishing families for
+saving and as double taxation.</p>
+
+<p>Underneath them all is the same question. <strong>Should a society aim to make the race fairer, or
+to make the gap between winners and losers smaller?</strong> Most countries try some of both. The
+mobility evidence of the last decade suggests the two are linked more closely than people once
+thought: where the rungs are far apart, they are harder to climb.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Social mobility measures how far your starting point decides your finishing point.
+    <strong>Absolute mobility</strong> asks whether you are better off than your parents;
+    <strong>relative mobility</strong> asks whether you changed rank. Advantage passes through money,
+    time, cultural capital, education, <strong>neighbourhood</strong> and <strong>friendships</strong>.
+    More unequal countries tend to have less mobility.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>US children out-earning their parents: about <strong>90%</strong> of those born in 1940,
+      about <strong>50%</strong> of those born in 1980.</li>
+      <li>Intergenerational elasticity: roughly <strong>0.15–0.2</strong> in Nordic countries,
+      close to <strong>0.5</strong> in the US and UK.</li>
+      <li>Top-1% children were about <strong>10 times</strong> as likely to become US inventors as
+      below-median children.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Confusing "everyone got richer" with "people moved up". <strong>Absolute gains can be large
+    while relative positions barely change</strong>, and the reverse.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why moving a child to a better neighbourhood at age 8 helps much more than at
+    age 16? If you can, you understand why place works as an exposure effect.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Social mobility</dt><dd>Movement of people between positions in society, by income, job, education or class.</dd>
+    <dt>Absolute mobility</dt><dd>Being better or worse off than your parents in real terms.</dd>
+    <dt>Relative mobility</dt><dd>Changing your rank compared with others of your generation.</dd>
+    <dt>Intergenerational</dt><dd>Between parents and their children.</dd>
+    <dt>Intragenerational</dt><dd>Within one person's own lifetime.</dd>
+    <dt>Intergenerational elasticity</dt><dd>A number showing how much of a parent's income advantage passes to the child; 0 is none, 1 is all.</dd>
+    <dt>Quintile</dt><dd>One fifth of a population ranked by income or wealth.</dd>
+    <dt>Great Gatsby curve</dt><dd>The pattern that more unequal countries tend to have less mobility.</dd>
+    <dt>Cultural capital</dt><dd>Tastes, manners and know-how that institutions reward without openly teaching.</dd>
+    <dt>Economic connectedness</dt><dd>How many friends from richer backgrounds poorer people have.</dd>
+    <dt>Meritocracy</dt><dd>A system that claims to reward ability and effort rather than birth.</dd>
+    <dt>Glass floor</dt><dd>The family advantages that stop well-off children from falling far.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Nine in ten Americans born in 1940 out-earned their parents. For those born in 1980, it
+    was about half."</li>
+    <li>"More unequal countries tend to be less mobile. The rungs are further apart, so they are
+    harder to climb."</li>
+    <li>"Where a child grows up matters, and it matters more the younger they move."</li>
+    <li>"One of the best predictors of rising out of poverty is having friends from richer
+    backgrounds."</li>
+    <li>"Everyone wants mobility from the bottom. Nobody wants their own children to be the ones who
+    move down."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="12-communities.html">Communities</a></h4><p>What holds
+  people together locally, why trust and belonging have frayed in many places, and what rebuilds
+  them.</p></div>
+  <div class="card"><h4>Related · <a href="03-social-class.html">Social class</a></h4><p>The
+  structure that mobility moves through: how classes are defined, from Marx and Weber to modern
+  occupational scales.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

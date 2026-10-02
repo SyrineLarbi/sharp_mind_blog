@@ -1,0 +1,871 @@
+<!doctype html>
+<!--@HEAD-SRC title="How Banks Work" desc="What a bank really does: how loans create deposits, why banks borrow short and lend long, why that makes them fragile, and the safety net built around them."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Banks Work</title>
+<meta name="description" content="What a bank really does: how loans create deposits, why banks borrow short and lend long, why that makes them fragile, and the safety net built around them.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Banking &amp; Fintech · Topic 01 of 20</p>
+  <h1>How banks work. <span class="thin">They do not lend out your savings. They create money, and live with the risk.</span></h1>
+  <p class="lede">Most people picture a bank as a safe with a lending desk attached. Savers put money
+  in, the bank lends it to borrowers, and it keeps the difference in interest. That picture gets two
+  things wrong. First, when a bank makes a loan it does not hand over someone else's savings. It
+  writes new money into the borrower's account. Second, a bank promises you your money back today
+  while it has lent it out for twenty years. That mismatch is the bank's whole purpose, and it is
+  also the reason banks can collapse in an afternoon.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Banking &amp; Fintech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../38-money.html#c2"><span class="vn">Vol 38 · ch 02</span><b>Where new money comes from</b><em>The short version</em></a>
+<a class="vol" href="../10-finance-investing/19-financial-crises.html"><span class="vn">Finance · 19</span><b>Financial crises</b><em>When it all goes wrong</em></a>
+<a class="vol" href="02-central-banking.html"><span class="vn">Banking · 02</span><b>Central banking</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 38 gives this one short chapter (<a href="../38-money.html#c2">Where new money comes
+  from</a>), which makes the key point that loans create deposits. This file takes that idea apart:
+  the balance sheet behind it, what limits it, why the same design makes banks fragile, and the
+  safety net that grew up around them. The central bank's side of the story is in
+  <a href="../09-economics/10-central-banks.html">Economics · Central banks</a> and the next topic.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A business that borrows on demand and lends for years</h2>
+  <p class="lede">A bank is a company whose debts are used as money. That single fact explains almost
+  everything else about it, including why governments watch it so closely.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Forty-two billion dollars in one day</h2>
+</header>
+
+<p>On Thursday 9 March 2023, customers of Silicon Valley Bank in California asked to take out about
+<strong>42 billion dollars in a single day</strong>. The bank had been one of the largest in the
+United States. Its customers were mostly technology start-ups and their investors, a small and
+tightly connected group. When word spread on group chats that the bank had lost money on its bond
+holdings, founders told each other to move their cash. They did it from their phones, in minutes.
+By the next morning regulators had closed the bank.</p>
+
+<p>Nothing in that story involved a vault being emptied. No one queued at a counter. What failed was
+a promise. The bank had promised its depositors that they could have their money whenever they
+wanted. It had also put much of that money into long-term loans and bonds that could not be turned
+into cash quickly without a loss. <strong>As long as only a few customers wanted their money at once,
+both promises held. When many wanted it together, they could not.</strong> That tension is the heart
+of banking.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The three jobs of a bank</h2>
+</header>
+
+<p>Strip away the branches and the apps, and a bank does three things that are hard to do separately.</p>
+
+<div class="grid3">
+  <div class="card"><h4>Keep money and move it</h4><p>A bank account is a safe place to hold money and a
+  way to pay other people. Your salary arrives in it, your rent leaves it, and your card draws on it.
+  Banks are the members of the payment system, so most payments in an economy pass through them.</p></div>
+  <div class="card"><h4>Lend</h4><p>Banks judge who is likely to repay and lend to them: households
+  buying homes, firms buying machines, governments covering deficits. Judging a borrower takes
+  information and skill, and a bank builds both up over years of lending.</p></div>
+  <div class="card"><h4>Transform</h4><p>A bank turns short, safe, small promises (deposits you can take
+  out today) into long, risky, large ones (a 25-year mortgage). Economists call this
+  <strong>maturity transformation</strong>. It is the job no one sees, and the one that matters most.</p></div>
+</div>
+
+<p>The <strong>maturity</strong> of a debt is how long until it must be repaid. A deposit has a
+maturity of zero; a mortgage may run 25 years. No saver alone would lock up their cash for 25 years.
+Pooled through a bank, millions of savers effectively do.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>From goldsmiths' receipts to bank deposits</h2>
+</header>
+
+<p>Lending money is ancient, but the word "bank" comes from the Italian <em>banco</em>, the bench
+where medieval money changers sat. Families such as the Medici of Florence built branch networks
+across Europe in the fifteenth century, moving money with letters of credit instead of carts of
+coins.</p>
+
+<p>The step that created modern banking came later, in seventeenth-century London. Merchants left
+gold with goldsmiths for safekeeping and received a paper receipt. People soon found it easier to pay
+each other with the receipts than to fetch the gold. The goldsmiths then noticed something important.
+<strong>On any ordinary day, only a few receipt-holders came back for their gold.</strong> So they
+could lend out more receipts than they had gold in the vault, and earn interest on them. The receipts
+were now money, and most of that money was backed by loans rather than by metal.</p>
+
+<p>That is still the structure today, without the gold. The Bank of England was founded in 1694, and
+over the next two centuries banking spread with industry. A modern bank deposit is a digital
+version of the goldsmith's receipt: a promise by the bank to pay you, which everyone accepts as
+money.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>The balance sheet, the keystroke and the spread</h2>
+  <p class="lede">To understand a bank, look at two lists: what it owns and what it owes. Almost every
+  banking idea, from money creation to bank runs, is a change to one of those lists.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>A bank in one picture</h2>
+</header>
+
+<p>Every company has a <strong>balance sheet</strong>. On one side are its <strong>assets</strong>,
+the things it owns or is owed. On the other are its <strong>liabilities</strong>, what it owes to
+others, plus its <strong>equity</strong>, the shareholders' own stake. The two sides must always add
+up to the same total. For a bank the picture looks like this.</p>
+
+<div class="sheet">
+  <div class="cap">A simplified bank balance sheet</div>
+<pre>
+        ASSETS (what it owns)          |   LIABILITIES + EQUITY (how it is funded)
+  -------------------------------------+-----------------------------------------
+  Reserves at the central bank   5     |   Customer deposits              75
+  Cash in branches and ATMs       1     |   Borrowing from other banks     10
+  Government bonds               14     |   Bonds the bank has issued       7
+  Mortgages                      45     |
+  Business and consumer loans    35     |   Equity (shareholders' money)    8
+  -------------------------------------+-----------------------------------------
+  Total                         100     |   Total                         100
+
+  Your deposit is on the RIGHT: to the bank it is a debt.
+  Your mortgage is on the LEFT: to the bank it is an asset.
+</pre>
+</div>
+
+<p>Two things stand out. First, <strong>your deposit is the bank's debt to you</strong>, not a pile
+of your money in a drawer. Second, equity is thin. In this example, shareholders' money is only 8 per
+cent of the total. Banks are among the most highly borrowed businesses in the economy. That
+<strong>leverage</strong>, doing a lot with a small base of own money, magnifies profits in good
+years and losses in bad ones. If the bank's loans lose 8 per cent of their value, the shareholders are
+wiped out.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Loans create deposits</h2>
+</header>
+
+<p>Suppose a bank agrees to lend you 20,000 euros for a car. It does not go to the vault, and it does
+not take 20,000 euros out of another customer's account. It simply adds two entries to its balance
+sheet. On the asset side: a new loan of 20,000, which you owe it. On the liability side: a new deposit
+of 20,000 in your account, which it owes you. Both sides grow by the same amount, and the books still
+balance.</p>
+
+<p>That deposit did not exist a moment earlier. You can now spend it, and the car dealer will accept
+it as money. <strong>The bank has created new money with a keystroke, matched by a new debt.</strong>
+When you repay the loan, the process runs backwards and the money disappears.</p>
+
+<p>This sounds like a conspiracy theory, but it is the official description. In 2014 the Bank of
+England published an article called "Money creation in the modern economy" which explains exactly
+this, and adds that most money in a modern economy is bank deposits. Notes and coins are only a small
+share, a few per cent of the total in the UK. <strong>Most of the money you use was created by a
+commercial bank when someone took out a loan.</strong></p>
+
+<div class="note">
+  <span class="tag">The textbook myth</span>
+  <p>Older textbooks describe a "money multiplier": the central bank supplies a fixed amount of
+  reserves, banks must keep a fixed fraction, and they lend out the rest, over and over. Real banks do
+  not work in that order. They lend first, when they find a borrower they trust at a profitable rate,
+  and they find the reserves afterwards. Several countries, including the UK and Canada, have no
+  reserve requirement at all, and the United States cut its requirement to zero in March 2020.</p>
+</div>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>So what stops a bank from lending forever?</h2>
+</header>
+
+<p>If loans create money from nothing, why doesn't a bank lend without limit and get rich? Because
+several brakes operate at once.</p>
+
+<p><strong>Profit and risk.</strong> A loan is only worth making if the borrower is likely to repay.
+Lend to people who cannot pay and the losses come out of the bank's thin equity. <strong>Demand.</strong>
+Someone has to want to borrow at the rate the bank charges. <strong>Capital rules.</strong> Regulators
+require banks to hold a minimum amount of equity against their loans, weighted by how risky the loans
+are. The international standard is set by the Basel Committee in Switzerland and adopted, with local
+variations, by most countries. More lending needs more capital.</p>
+
+<p><strong>Liquidity.</strong> This one is subtle. When you spend your new car loan, the dealer
+probably banks somewhere else. Your bank must then transfer real <strong>reserves</strong>, the money
+banks hold in accounts at the central bank, to the dealer's bank. A bank that lends much faster than
+its rivals keeps losing reserves this way. It must then borrow them, often at a cost. Finally,
+<strong>the central bank's interest rate</strong> sets the cost of those reserves and so, indirectly,
+the price of every loan. That link is the subject of the next topic,
+<a href="02-central-banking.html">Central banking</a>.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Borrowing short, lending long</h2>
+</header>
+
+<p>Now look again at the balance sheet. Almost all of the right-hand side can leave quickly. Most
+deposits can be withdrawn today, and loans from other banks may last only overnight. Almost all of the
+left-hand side is locked up. A mortgage pays back slowly over decades, and a business loan cannot be
+recalled just because the bank would like the cash.</p>
+
+<p>Banks live with this gap by relying on the law of large numbers. On a normal day, some customers
+withdraw and others deposit, and the flows roughly cancel. The bank keeps a buffer of cash, reserves
+and easy-to-sell government bonds to cover the difference. One rule, the <strong>liquidity coverage
+ratio</strong>, asks it to hold enough of these to survive thirty days of heavy withdrawals.</p>
+
+<p>The 1946 film <em>It's a Wonderful Life</em> has the clearest explanation of this ever put on
+screen. During a panic, customers rush the small savings bank run by George Bailey and demand their
+money. He tells them it isn't in the building. It is in their neighbours' houses, lent out as
+mortgages. <strong>The money is safe, but it is not available today.</strong> That is maturity
+transformation, explained to a frightened crowd.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>How a bank earns its living</h2>
+</header>
+
+<p>The core of a bank's income is the <strong>spread</strong>: the gap between the interest it earns
+on loans and the interest it pays on deposits and other borrowing. If it pays savers 2 per cent and
+charges borrowers 6 per cent, the 4-point difference has to cover staff, branches, technology, bad
+loans and a profit. This gap, measured across the whole balance sheet, is called the <strong>net
+interest margin</strong>. For many traditional banks it is the biggest single source of income.</p>
+
+<p>The rest comes from <strong>fees</strong>: account charges, card fees, foreign-exchange margins,
+advice, and arranging deals for large companies. How the mix differs between a high-street bank and
+an investment bank is covered in <a href="03-commercial-banking.html">Commercial banking</a>.</p>
+
+<p>The spread is why interest rates matter so much to bank profits. When rates rise, banks usually
+raise loan rates faster than deposit rates, so margins widen. When rates sit near zero for years, as
+in much of the 2010s, the spread is squeezed, because a bank cannot easily pay savers less than
+nothing.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Fragile by design, essential by function</h2>
+  <p class="lede">A well-run bank can fail purely because people believe it will. That fact has shaped
+  a century of law, and it explains why banking is the most regulated business most people deal with.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Why runs happen, even to healthy banks</h2>
+</header>
+
+<p>A <strong>bank run</strong> is when many depositors try to withdraw at once. The cruel logic is
+this. If you think other people are about to withdraw, you should withdraw too, because the bank pays
+customers in the order they arrive. The ones at the back of the line may get nothing. So a rumour can
+cause the very collapse it predicts. Economists call this a <strong>self-fulfilling</strong> crisis.</p>
+
+<p>In 1983 the economists Douglas Diamond and Philip Dybvig wrote this down as a simple mathematical
+model. It showed that a bank doing exactly its useful job, turning short deposits into long loans,
+has two possible outcomes. In the good one, everyone trusts it and it works. In the bad one, everyone
+runs and it fails. The bank's assets are identical in both. <strong>Only belief differs.</strong>
+Diamond and Dybvig shared the 2022 Nobel prize in economics with Ben Bernanke, who studied how bank
+failures deepened the Great Depression.</p>
+
+<p>In the early 1930s, thousands of American banks failed, and the money their loans had created
+disappeared with them. In September 2007 Britain saw queues outside branches of Northern Rock, widely described as the first run
+on a British bank in well over a century. SVB in 2023 showed the modern version:
+<strong>a run can now happen at the speed of a smartphone</strong>.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The safety net</h2>
+</header>
+
+<p>Because runs are self-fulfilling, the cure is to remove the reason to run. Over the twentieth
+century, governments built three layers of protection.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Layer</th><th>What it does</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Deposit insurance</strong></td><td>The state guarantees ordinary deposits up to a limit, so small savers have no reason to run.</td><td>The US created the FDIC in 1933. Its limit has been 250,000 dollars per depositor, per bank, since 2008. EU countries guarantee 100,000 euros.</td></tr>
+<tr><td><strong>Lender of last resort</strong></td><td>The central bank lends cash to a solid bank that is short of it, against good collateral, so it need not sell assets at fire-sale prices.</td><td>The rule was set out by Walter Bagehot in 1873. See <a href="02-central-banking.html">Central banking</a>.</td></tr>
+<tr><td><strong>Regulation and supervision</strong></td><td>Rules on capital and liquidity, plus inspectors who check the books, aim to stop banks taking on too much risk in the first place.</td><td>The Basel rules, tightened after 2008 into "Basel III".</td></tr>
+</tbody></table></div>
+
+<p>Deposit insurance is one of the most effective financial policies ever adopted. Classic retail
+bank runs became rare in rich countries after it spread. But notice what it does not cover: deposits
+above the limit. At SVB, the large majority of deposits were above the 250,000-dollar limit, held by
+companies keeping their payroll cash. <strong>Those uninsured depositors had every reason to run, and
+they did.</strong> In the end the US authorities chose to protect all of SVB's depositors anyway, to
+stop the panic spreading to other banks.</p>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Credit booms and the wider economy</h2>
+</header>
+
+<p>Because bank lending creates money, banks do more than reflect the economy. They push it. In good
+times, banks lend more, and the new money raises spending and house prices. Higher house prices make
+borrowers look safer, so banks lend even more. In bad times the loop runs backwards: losses make banks
+cautious, lending shrinks, and spending falls further.</p>
+
+<p>That loop was at the centre of the <strong>2008 global financial crisis</strong>. When American
+house prices fell, losses on housing loans landed on thin bank equity, banks stopped trusting each
+other, and short-term funding dried up. The details belong in
+<a href="../10-finance-investing/19-financial-crises.html">Finance · Financial crises</a>. The lesson
+for this topic is simple: <strong>a healthy economy needs banks that lend, but banks that lend too
+freely in a boom make the bust worse.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A useful machine with a built-in weak point</h2>
+  <p class="lede">The features that make banks valuable are the same features that make them
+  dangerous. You cannot keep one set and drop the other.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>What the design buys, and what it costs</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>What it buys society</th><th>What it costs</th></tr></thead>
+<tbody>
+<tr><td><strong>Maturity transformation</strong></td><td class="ok">Savers get instant access, borrowers get long loans. Homes and factories get built.</td><td class="no">Banks are exposed to runs, even when their loans are sound.</td></tr>
+<tr><td><strong>Money created by lending</strong></td><td class="ok">The money supply grows with the economy's needs, without waiting for anyone to save first.</td><td class="no">Credit booms feed bubbles, and busts destroy money just when it is needed.</td></tr>
+<tr><td><strong>High leverage</strong></td><td class="ok">Cheap funding, so loans can be offered at lower rates.</td><td class="no">A small fall in asset values can wipe out the owners.</td></tr>
+<tr><td><strong>Specialist knowledge of borrowers</strong></td><td class="ok">Small firms with no access to markets can still borrow.</td><td class="mid">That knowledge is private, so outsiders find it hard to judge a bank's true health.</td></tr>
+<tr><td><strong>State safety net</strong></td><td class="ok">Ordinary savers are protected, and runs are rare.</td><td class="no">Banks may take more risk, knowing they will be rescued.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Too big to fail, and the problem of the safety net</h2>
+</header>
+
+<p>The last row of that table is the hardest. When people know they are protected against a risk,
+they tend to take more of it. Economists call this <strong>moral hazard</strong>. Insured depositors
+stop checking whether their bank is careful. Large banks that expect a rescue can borrow more cheaply
+than small ones, because lenders assume the state will step in. This is called <strong>too big to
+fail</strong>. After 2008 it became a political scandal: bank profits had been private, but bank
+losses became public.</p>
+
+<p>Regulators answered with extra capital for the largest banks and <strong>bail-in</strong> rules, under which a failing bank's bondholders take losses before
+any public money is used. Whether these fixes would hold in a real crisis is <strong>contested</strong>.
+The 2023 rescues of SVB and of Credit Suisse, taken over by UBS in a deal arranged by the Swiss
+authorities, showed that governments still step in when they fear
+contagion.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Faster runs, new rivals and old debates</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Rules for faster runs</strong></td><td>SVB showed that deposits can leave in hours, not weeks. Regulators in the US, UK and Europe have been reviewing liquidity rules and how quickly banks can borrow from the central bank in an emergency.</td><td class="ok">Fairly sure: banks will be required to keep more ready cash or pre-arranged access to central bank lending, sized for digital speed.</td></tr>
+<tr><td><strong>Deposits leaving for new kinds of money</strong></td><td>Stablecoins, digital tokens backed by safe assets, and possible central bank digital currencies both offer ways to hold money outside a commercial bank.</td><td class="mid">Plausible: some deposits move, and banks pay more to keep them. How much depends on rules still being written. See <a href="14-digital-currencies.html">Digital currencies</a> and <a href="15-central-bank-digital-currencies.html">CBDCs</a>.</td></tr>
+<tr><td><strong>"Narrow banking"</strong></td><td>An old proposal, revived after each crisis: split payment accounts, backed fully by central bank money, from lending, funded by investors who accept the risk.</td><td class="no">Speculative: it would end bank runs, but would also change how credit is created. No major economy is close to adopting it.</td></tr>
+</tbody></table></div>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A bank <strong>creates money when it lends</strong>, by writing a new deposit matched by a new
+    loan. It funds long, illiquid loans with short deposits, which is <strong>maturity
+    transformation</strong>. That makes it useful and <strong>fragile</strong>: a run can sink a sound
+    bank, so states add deposit insurance, a lender of last resort and capital rules.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>US deposit insurance covers <strong>250,000 dollars</strong> per depositor per bank; the EU
+      standard is <strong>100,000 euros</strong>.</li>
+      <li>Notes and coins are only <strong>a few per cent</strong> of money in the UK. The rest is bank
+      deposits.</li>
+      <li>SVB faced withdrawal requests of about <strong>42 billion dollars in one day</strong> in March
+      2023.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking a bank lends out savers' money from a vault. <strong>Lending comes first and creates
+    the deposit</strong>; what limits it is profit, risk, capital rules and the cost of reserves.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a bank with good loans can still fail, and why deposit insurance stops
+    that from happening? If you can, you understand maturity transformation and runs together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Balance sheet</dt><dd>A list of what a company owns (assets) and how it is funded (liabilities and equity). The two sides always match.</dd>
+    <dt>Deposit</dt><dd>Money in your account. To you it is money; to the bank it is a debt it owes you.</dd>
+    <dt>Equity (capital)</dt><dd>The owners' own money in the bank, which absorbs losses first.</dd>
+    <dt>Leverage</dt><dd>Funding most of your assets with borrowed money, which magnifies gains and losses.</dd>
+    <dt>Reserves</dt><dd>Money that banks hold in their own accounts at the central bank, used to pay each other.</dd>
+    <dt>Maturity transformation</dt><dd>Funding long-term loans with short-term deposits.</dd>
+    <dt>Liquidity</dt><dd>How quickly something can be turned into cash without losing value.</dd>
+    <dt>Bank run</dt><dd>Many depositors withdrawing at once because they fear others will.</dd>
+    <dt>Deposit insurance</dt><dd>A state guarantee that ordinary deposits will be repaid up to a limit if a bank fails.</dd>
+    <dt>Net interest margin</dt><dd>The gap between what a bank earns on loans and pays on its funding.</dd>
+    <dt>Moral hazard</dt><dd>Taking more risk because someone else will bear the cost if it goes wrong.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Banks don't lend out your savings. When they make a loan, they create a new deposit, and that's
+    most of the money in the economy."</li>
+    <li>"A bank's real job is borrowing short and lending long. That's what makes it useful, and it's
+    exactly what makes it fragile."</li>
+    <li>"A bank run is self-fulfilling. If everyone believes the bank will fail, it fails, even if its
+    loans are fine."</li>
+    <li>"Deposit insurance works because it removes the reason to run. SVB failed because most of its
+    deposits were above the limit."</li>
+    <li>"Banks run on very little of their own money, often under a tenth. A small loss on the loans can
+    wipe out the owners."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="02-central-banking.html">Central banking</a></h4><p>The bank
+  behind the banks: reserves, the payment system, lending in a panic, and the supervisors who check the
+  books.</p></div>
+  <div class="card"><h4>Related · <a href="03-commercial-banking.html">Commercial banking</a></h4><p>The
+  same institution seen as a business: the products, the customers, and where the money is actually
+  made.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

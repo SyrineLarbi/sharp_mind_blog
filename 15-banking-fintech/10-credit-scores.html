@@ -1,0 +1,868 @@
+<!doctype html>
+<!--@HEAD-SRC title="Credit Scores" desc="How credit scores work: the reports behind them, what goes into the number, how lenders use it, who it leaves out, the fairness debate, and how scoring is changing."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Credit Scores</title>
+<meta name="description" content="How credit scores work: the reports behind them, what goes into the number, how lenders use it, who it leaves out, the fairness debate, and how scoring is changing.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Banking &amp; Fintech · Topic 10 of 20</p>
+  <h1>Credit scores. <span class="thin">A reputation squeezed into three digits, and read by strangers who will never meet you.</span></h1>
+  <p class="lede">A century ago, a bank manager lent to people he knew. Today a lender in another city
+  decides in seconds, using a number built from your past behaviour with debt. That number shapes
+  whether you get a mortgage, what interest you pay, and in some countries whether you can rent a flat.
+  It is one of the most powerful pieces of data about an ordinary person, and most people do not know
+  how it is made.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Banking &amp; Fintech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="09-mortgages.html"><span class="vn">Banking · 09</span><b>Mortgages</b><em>Where the score matters most</em></a>
+<a class="vol" href="../47-not-being-fooled.html#c6"><span class="vn">Vol 47 · ch 06</span><b>Privacy</b><em>What is collected about you</em></a>
+<a class="vol" href="11-fraud-detection.html"><span class="vn">Banking · 11</span><b>Fraud detection</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first treatment of credit scoring. The nearest neighbours are Volume 47 on
+  what data is gathered about you (<a href="../47-not-being-fooled.html#c6">Privacy, what is actually
+  collected</a>) and Volume 38 on why expensive debt grows so fast (<a href="../38-money.html#c4">Interest,
+  and the astonishing effect of compounding</a>).</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A prediction, not a judgement of character</h2>
+  <p class="lede">A credit score is a statistical estimate of how likely you are to fall seriously
+  behind on a debt. It is built from a credit report, which is a different thing.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>From the shopkeeper's memory to a formula</h2>
+</header>
+
+<p>Lending has always needed one piece of information: will this person pay me back? In a village,
+the answer came from reputation. The shopkeeper who let you "put it on the slate" knew your family
+and your job. As cities grew and people moved, that local knowledge stopped working. In the 19th
+century, merchants in Britain and the US began sharing information about customers who did not pay.
+These shared lists grew into <strong>credit bureaus</strong>: companies that collect records of how
+people handle debt and sell them to lenders.</p>
+
+<p>For a long time, lenders read those files and decided by judgement. That was slow, inconsistent
+and open to prejudice. In 1956 an engineer, Bill Fair, and a mathematician, Earl Isaac, founded a
+company to replace judgement with statistics. Their firm, now FICO, sold scoring systems to lenders,
+and in 1989 launched a general-purpose score that became the US standard. <strong>The idea was simple:
+look at what people with files like yours did in the past, and use it to predict what you will do
+next.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>The report and the score are two different things</h2>
+</header>
+
+<p>People mix these up constantly, and the difference explains most of the confusion.</p>
+
+<div class="grid2">
+  <div class="card"><h4>The credit report (the facts)</h4><p>A file held by a credit bureau. It lists
+  your loans, cards and mortgages; their limits and balances; whether each payment was on time; any
+  defaults, court judgments or bankruptcies; and which lenders have looked at your file. In the US the
+  three national bureaus are Equifax, Experian and TransUnion. The UK has the same three. Each may
+  hold slightly different data about you.</p></div>
+  <div class="card"><h4>The credit score (the prediction)</h4><p>A number calculated from a report by a
+  formula. There is no single score. A FICO score uses one formula; VantageScore, created by the three
+  US bureaus in 2006, uses another; lenders also build their own. Your "score" can differ by dozens of
+  points depending on which formula and which bureau's file were used.</p></div>
+</div>
+
+<p>The most common US scores run from <strong>300 to 850</strong>. UK bureaus each use their own
+scale, so a number from one cannot be compared with another. What stays the same is the logic:
+<strong>higher means lower predicted risk</strong>.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Scoring around the world</h2>
+</header>
+
+<p>Countries organise credit information in very different ways.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Country</th><th>Who holds the data</th><th>What is recorded</th></tr></thead>
+<tbody>
+<tr><td><strong>United States</strong></td><td>Three private bureaus, regulated by the Fair Credit Reporting Act of 1970</td><td>Positive and negative history. Scores used for loans, renting and insurance</td></tr>
+<tr><td><strong>United Kingdom</strong></td><td>The same three private bureaus</td><td>Positive and negative. Each lender also scores applicants its own way</td></tr>
+<tr><td><strong>Germany</strong></td><td>SCHUFA, a private company, is dominant</td><td>Positive and negative. Landlords commonly ask tenants for a SCHUFA report</td></tr>
+<tr><td><strong>France</strong></td><td>The Banque de France keeps a national file of repayment problems</td><td>Mainly negative. There is no general private consumer score of the American kind</td></tr>
+<tr><td><strong>Many other countries</strong></td><td>A public credit register, often run by the central bank, sometimes alongside private bureaus</td><td>Varies. Coverage is often thin where many people have no formal loans</td></tr>
+</tbody></table></div>
+
+<p>The difference between positive and negative systems matters. <strong>A negative-only file can
+tell a lender who has failed, but not who has succeeded.</strong> A young person with ten years of
+perfect payments looks the same as one who has never borrowed.</p>
+
+<div class="note">
+  <span class="tag">Not the same thing</span>
+  <p>China's "social credit system" is often described as a credit score for citizens. In practice it
+  is a patchwork of government blacklists, records about companies, and local pilot schemes, separate
+  from the commercial credit scores some Chinese tech firms run. Reporting on it has often been
+  exaggerated, and it is a different subject from consumer credit scoring.</p>
+</div>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Patterns from millions of past borrowers, applied to you</h2>
+  <p class="lede">A score is built by looking backwards at people whose outcome is already known, and
+  then applying what was learned to people whose outcome is not.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>What goes in, and how much it counts</h2>
+</header>
+
+<p>FICO publishes rough weights for the five groups of information its standard scores use. Other
+models differ in detail, but the same themes appear in almost all of them.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Category</th><th>Rough weight</th><th>What it looks at</th></tr></thead>
+<tbody>
+<tr><td><strong>Payment history</strong></td><td>About 35%</td><td>Late payments, how late, how recent, and defaults</td></tr>
+<tr><td><strong>Amounts owed</strong></td><td>About 30%</td><td>Especially <em>utilisation</em>: card balances as a share of card limits</td></tr>
+<tr><td><strong>Length of history</strong></td><td>About 15%</td><td>The age of your oldest and average accounts</td></tr>
+<tr><td><strong>New credit</strong></td><td>About 10%</td><td>Recently opened accounts and recent applications</td></tr>
+<tr><td><strong>Credit mix</strong></td><td>About 10%</td><td>Whether you have handled different kinds, such as cards and instalment loans</td></tr>
+</tbody></table></div>
+
+<p>Just as important is what is <em>not</em> in it. In the US, the law forbids lenders from using
+race, religion, sex, marital status or national origin in credit decisions (the Equal Credit
+Opportunity Act of 1974). Standard scores also do not use income, savings or job title. Income
+matters for whether you can <em>afford</em> a loan, but the lender checks that separately. <strong>The
+score measures how you have handled credit, not how much money you have.</strong></p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>How a formula turns history into points</h2>
+</header>
+
+<p>To build a score, a modeller takes a huge sample of credit files from, say, two years ago. For
+each one, they already know what happened next: did the person fall seriously behind? FICO's
+standard definition of "bad" is being 90 days or more late on a payment within the following two
+years. The modeller then asks which features of the old files best separated the people who went bad
+from those who did not.</p>
+
+<p>The classic tool is a <strong>scorecard</strong>. Each feature is split into bands, and each band
+gets points. "No late payments ever" earns many points. "One payment 30 days late, three years ago"
+earns fewer. "Card balances above 90% of limits" earns very few. The points are added up. Behind the
+scenes, the statistics are usually a method called <strong>logistic regression</strong>, which turns a
+weighted sum of features into a probability. The total is then rescaled to a familiar range.</p>
+
+<div class="sheet">
+  <div class="cap">What a score means, in principle</div>
+<pre>
+  file features          scorecard points          score       predicted outcome
+  ----------------       ----------------          -----       -----------------
+  never late        -->        +high
+  utilisation 15%   -->        +good          -->   780   -->  very few people with
+  oldest card 12y   -->        +good                         this score go 90 days late
+  2 applications    -->        -small
+
+  each band of score points corresponds to an odds ratio:
+  higher score  =  more "good" borrowers for every "bad" one
+</pre>
+</div>
+
+<p>Two things follow. <strong>A score is about groups, not individuals.</strong> It says how people
+like you behaved, not what you personally will do. And it has to be rebuilt from time to time,
+because behaviour, products and the economy change. A model trained on a boom can be too
+optimistic in a recession.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>What the lender does with the number</h2>
+</header>
+
+<p>A lender rarely uses the score alone. It sets a <strong>cut-off</strong>: below a certain score,
+decline or send to a human; above it, approve if affordability checks pass. Many lenders also use
+<strong>risk-based pricing</strong>: the better the score, the lower the interest rate offered. On a
+large mortgage, the gap between the best and a middling price band can add up to tens of thousands
+over the life of the loan.</p>
+
+<p>The score is also used after you borrow. Card issuers watch your file and may raise or cut your
+limit. And a refusal is not secret. US and UK lenders generally have to tell you if a credit file
+contributed to a decline, and in the US they must give the main reasons. That is called an
+<strong>adverse action notice</strong>.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Why scores sometimes behave strangely</h2>
+</header>
+
+<p>Because the formula reacts to patterns, some sensible actions can lower a score for a while.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Closing an old card</h4><p>It shrinks your total limit, so your utilisation
+  rises, and it can shorten your average account age. The prudent act looks riskier to the
+  formula.</p></div>
+  <div class="card"><h4>Never borrowing at all</h4><p>No history means nothing to score. A person who
+  has always paid cash can be "unscorable", even if they are very reliable.</p></div>
+  <div class="card"><h4>Hard versus soft searches</h4><p>When you apply for credit, the lender makes a
+  "hard" search, which is visible and can cost a few points. Checking your own score is a "soft"
+  search and does not count. Scores usually treat several mortgage or car-loan searches in a short
+  window as one, so shopping around is not punished.</p></div>
+  <div class="card"><h4>Paying in full but late in the cycle</h4><p>Some cards report your balance on
+  the statement date, before you pay. You may pay in full every month and still show high
+  utilisation.</p></div>
+</div>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>A gatekeeper for far more than loans</h2>
+  <p class="lede">Scores made credit cheaper and faster for millions. They also became a gate that
+  some people cannot get through, for reasons unrelated to whether they would repay.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Cheaper, faster, more consistent credit</h2>
+</header>
+
+<p>Before scoring, a loan could take days and depend on the mood of one manager. A score lets a
+lender decide in seconds and decide the same way for everyone with the same file. That made it
+possible to lend to people the lender had never met, in another region, through a website. It also
+made it possible to package loans and sell them to investors, because investors could see the score
+distribution of a pool. <strong>Consistency is not the same as fairness, but it is a precondition for
+checking fairness</strong>: you cannot audit a gut feeling.</p>
+
+<p>The reach of the score has spread well beyond lending. In the US, landlords commonly check credit,
+and most states allow insurers to use credit-based "insurance scores" in pricing car and home cover.
+Employers may see a version of the credit report, with your consent, for some jobs, although several
+states restrict this. In Germany, a poor SCHUFA entry can make it hard to rent a flat or get a phone
+contract. A number built to predict loan defaults ends up shaping where people live.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The credit invisible</h2>
+</header>
+
+<p>A score needs history. People without it are stuck in a loop: <strong>you cannot get credit
+without a score, and you cannot get a score without credit</strong>. In 2015 the US Consumer Financial
+Protection Bureau estimated that about 26 million American adults had no credit file at all, and
+millions more had files too thin to score. They were disproportionately young, poor, Black or
+Hispanic, and recent immigrants.</p>
+
+<p>Immigrants feel this sharply. A person with twenty years of perfect payments in one country
+usually arrives in another with no score, because bureaus do not share files across borders. Many
+pay higher rates or larger deposits for years. In much of the developing world the problem is
+larger still: most adults have never had a formal loan, so there is no file to start from. Topic 19,
+<a href="19-financial-inclusion.html">Financial inclusion</a>, follows this further.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Errors, breaches and disputes</h2>
+</header>
+
+<p>A score is only as good as the file behind it. A 2012 study by the US Federal Trade Commission
+found that about one in five consumers had an error in at least one of their three reports, and a
+smaller share had errors serious enough to affect the price they were offered. Errors come from
+mixed-up files of people with similar names, debts reported twice, and fraud.</p>
+
+<p>The data is also a target. In 2017, criminals broke into Equifax and stole personal details of
+about 147 million people, mostly Americans. The breach did not change anyone's score, but it gave
+fraudsters the information needed to open accounts in other people's names, which then damage those
+people's files. Topic 12, <a href="12-financial-cybersecurity.html">Financial cybersecurity</a>, covers
+how such breaches happen.</p>
+
+<div class="good">
+  <span class="tag">What you can do</span>
+  <p>In the US and UK you have a legal right to see your reports and to dispute errors, and US
+  residents can get free reports from each bureau. You can also <strong>freeze</strong> your file,
+  which blocks new credit being opened in your name until you lift the freeze. It is free in the US
+  and one of the most effective defences against identity fraud.</p>
+</div>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Better than a gut feeling, worse than its reputation</h2>
+  <p class="lede">The case for scoring is strong when you compare it with what came before. The case
+  against is strong when you compare it with what people assume it is.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Weighing the score</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Statistical</strong></td><td class="ok">Predicts default much better than unaided human judgement.</td><td class="no">Says how people <em>like you</em> behaved, so an individual can be misjudged.</td></tr>
+<tr><td><strong>Automatic</strong></td><td class="ok">Decisions in seconds, at low cost, for small loans that were not worth a manual review.</td><td class="no">Hard to argue with. A wrong file can mean repeated automatic refusals.</td></tr>
+<tr><td><strong>Consistent</strong></td><td class="ok">Same file, same answer. Removes the loan officer's personal bias.</td><td class="no">Can carry bias already in the data, consistently, at scale.</td></tr>
+<tr><td><strong>History-based</strong></td><td class="ok">Rewards a track record anyone can build over time.</td><td class="no">Excludes people with no history, however reliable.</td></tr>
+<tr><td><strong>Widely shared</strong></td><td class="ok">Lets lenders compete for you, which lowers prices.</td><td class="no">Creep into renting, insurance and jobs, where it was never designed to be used.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The fairness debate</h2>
+</header>
+
+<p>The hardest question about credit scores is whether they are fair. Here the positions genuinely
+differ.</p>
+
+<p>Supporters argue that standard scores do not use race or sex, and that studies by regulators have
+found they predict default about equally well for different groups. If a score predicts accurately,
+they say, it is doing its job, and the fix for unequal outcomes lies elsewhere.</p>
+
+<p>Critics reply that the inputs are not neutral. If one group was historically shut out of cheap
+credit, pushed into worse loans, or hit harder by medical debt or job loss, their files will look
+worse, and the score will faithfully pass that history on. Economists call this <strong>disparate
+impact</strong>: a rule that is neutral on its face but produces unequal results. US law can treat
+this as discrimination unless the rule has a legitimate business justification.</p>
+
+<p>Machine learning sharpens the question. In 2019, a well-known tech entrepreneur complained that
+the Apple Card had offered him a far higher limit than his wife. The New York regulator investigated
+and in 2021 found no unlawful discrimination, but the case showed how hard it is to explain
+automated decisions. <strong>A model can avoid using sex and still find data that acts as a stand-in
+for it.</strong> The general issue of bias in AI systems is covered in <a
+href="../49-ai-honestly.html#c6">Volume 49</a>.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>More data, smarter models, and more rights to question them</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Where scoring is heading</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>New payment types in the file</strong></td><td>Bureaus and scorers have begun adding rent, utility bills and "buy now, pay later" loans, often at the consumer's choice.</td><td class="ok">Fairly sure: files will include more everyday payments, helping thin-file borrowers and showing hidden debt.</td></tr>
+<tr><td><strong>Cash-flow scoring</strong></td><td>With permission, lenders read your bank transactions through <a href="13-open-banking.html">open banking</a> to judge income and spending directly.</td><td class="mid">Plausible: a major second source alongside bureau files within a decade, especially for people new to a country.</td></tr>
+<tr><td><strong>Machine-learning scores</strong></td><td>Lenders test models that find more complex patterns, under rules that demand explanations for refusals.</td><td class="mid">Plausible: modest gains in accuracy. The limit is not maths but explaining decisions to customers and regulators.</td></tr>
+<tr><td><strong>Scores built from behaviour beyond money</strong></td><td>Some lenders in emerging markets have tested phone data or online behaviour to score people.</td><td class="no">Speculative and contested: privacy law and fairness concerns make wide use in Europe or the US unlikely.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Who gets to question the number?</h2>
+</header>
+
+<p>The direction in Europe is toward more rights for the person being scored. The EU's data
+protection law, the GDPR, gives people rights around decisions made purely by automated means. In
+December 2023, the EU's top court ruled in a case involving SCHUFA that producing a score can itself
+count as such a decision when lenders rely on it heavily. That means bureaus can face stronger duties
+to justify and explain their scores. The EU's AI Act also lists credit scoring of individuals as a
+"high-risk" use, with extra requirements (see <a href="../18-law-government/20-ai-regulation.html">AI
+regulation</a>).</p>
+
+<p>The US relies more on its older credit-reporting and anti-discrimination laws, enforced case by
+case, and policy has shifted with changes of government. <strong>The common thread is that a score
+which decides people's lives is increasingly expected to explain itself.</strong> For a formula built
+to be fast and automatic, that is the biggest change since 1989.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A <strong>credit report</strong> is the record of how you have handled debt; a
+    <strong>credit score</strong> is a statistical prediction, built from that record, of how likely you
+    are to fall seriously behind. Payment history and <strong>utilisation</strong> matter most. Scores
+    made lending faster and more consistent, but they exclude people with no history and can carry
+    old inequalities forward.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Common US scores run from <strong>300 to 850</strong>.</li>
+      <li>Payment history is about <strong>35%</strong> of a FICO score; amounts owed about
+      <strong>30%</strong>.</li>
+      <li>The 2017 Equifax breach exposed data on about <strong>147 million</strong> people.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking there is one score, and that it measures wealth or character. <strong>There are many
+    scores, and they measure only your past behaviour with credit.</strong> A rich person who never
+    borrows can score worse than a modest earner with a long, tidy record.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why closing an old, unused credit card might lower your score, and why that
+    does not mean you became riskier?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Credit bureau</dt><dd>A company that collects records of how people handle debt and sells them to lenders.</dd>
+    <dt>Credit report (file)</dt><dd>Your record at a bureau: accounts, balances, payments, defaults and searches.</dd>
+    <dt>Credit score</dt><dd>A number calculated from a report, predicting the chance of serious late payment.</dd>
+    <dt>FICO</dt><dd>The US company whose scores are the most widely used, and the name of its score.</dd>
+    <dt>Utilisation</dt><dd>Card balances as a share of card limits. Lower is better.</dd>
+    <dt>Thin file</dt><dd>A report with too little history to score reliably.</dd>
+    <dt>Scorecard</dt><dd>A table that gives points to bands of each feature and adds them up.</dd>
+    <dt>Logistic regression</dt><dd>A standard statistical method that turns weighted features into a probability.</dd>
+    <dt>Cut-off</dt><dd>The score below which a lender declines or refers an application.</dd>
+    <dt>Risk-based pricing</dt><dd>Charging higher rates to borrowers with lower scores.</dd>
+    <dt>Hard search</dt><dd>A lender's check after you apply, visible to other lenders.</dd>
+    <dt>Credit freeze</dt><dd>A block on your file that stops new credit being opened in your name.</dd>
+    <dt>Disparate impact</dt><dd>A neutral-looking rule that produces unequal outcomes between groups.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Your credit report is the facts. Your score is a prediction made from them, and there are
+    many different scores."</li>
+    <li>"A credit score doesn't measure wealth. It measures how you've handled borrowing."</li>
+    <li>"The two things that matter most are paying on time and not running your cards close to
+    their limits."</li>
+    <li>"You can't get credit without a score and you can't get a score without credit. That trap
+    catches young people and immigrants first."</li>
+    <li>"A score can avoid using race or sex and still reflect the history behind them. That's the
+    real fairness debate."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="11-fraud-detection.html">Fraud detection</a></h4><p>The other
+  great scoring problem in banking: spotting the one bad payment among millions, in milliseconds.</p></div>
+  <div class="card"><h4>Related · <a href="08-loans.html">Loans</a></h4><p>The products the score
+  decides on: secured and unsecured lending, interest, and what happens when repayment fails.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

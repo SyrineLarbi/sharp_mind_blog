@@ -1,0 +1,855 @@
+<!doctype html>
+<!--@HEAD-SRC title="Epidemiology" desc="How epidemiologists find the causes of disease in populations: rates and risks, study designs, confounding and bias, how association becomes causation, and where the field is going."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Epidemiology</title>
+<meta name="description" content="How epidemiologists find the causes of disease in populations: rates and risks, study designs, confounding and bias, how association becomes causation, and where the field is going.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Public Health &amp; Society · Topic 06 of 20</p>
+  <h1>Epidemiology. <span class="thin">Detective work on whole populations, using counting as the magnifying glass.</span></h1>
+  <p class="lede">A doctor looks at one patient and asks what is wrong with them. An epidemiologist
+  looks at thousands of people and asks why some get ill and others do not. That simple change of
+  view, from the person to the population, found the link between smoking and cancer, the risk
+  factors for heart disease, and the cause of many outbreaks long before anyone saw the germ. It is
+  also the science behind most health headlines, which is why knowing its basic tools is one of the
+  best defences against being misled.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Public Health</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../44-medicines.html#c6"><span class="vn">Vol 44 · ch 06</span><b>What makes evidence good</b><em>The hierarchy of studies</em></a>
+<a class="vol" href="../39-chance.html#c6"><span class="vn">Vol 39 · ch 06</span><b>The ones you cannot see</b><em>Survivorship bias</em></a>
+<a class="vol" href="07-pandemics.html"><span class="vn">Public Health · 07</span><b>Pandemics</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Several chapters touch this subject. Volume 44 sets out the ladder of evidence in
+  <a href="../44-medicines.html#c6">What makes evidence good</a> and how to read
+  <a href="../44-medicines.html#c7">a health headline</a>. Volume 39 explains why
+  <a href="../39-chance.html#c5">small numbers lie</a> and how
+  <a href="../39-chance.html#c6">missing cases distort data</a>. Volume 28 introduces outbreak
+  spread in <a href="../28-medicine.html#c4">How an epidemic actually spreads</a>. This file is the
+  full method behind all of them.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Who gets ill, where, when, and why</h2>
+  <p class="lede">Epidemiology is the study of how health and disease are distributed in populations,
+  and of the factors that determine that distribution. Its first great case was solved with a map
+  and a water bill.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>John Snow's second, better proof</h2>
+</header>
+
+<p>Volume 28 tells the famous part: in 1854 the London doctor John Snow mapped cholera deaths around
+a water pump in Broad Street, Soho, and persuaded officials to remove its handle. But the map alone
+convinced few people. Most doctors then believed cholera spread through bad air, or "miasma", and a
+cluster around a pump could be explained in other ways.</p>
+
+<p>Snow's stronger evidence came from a different investigation. In south London, two private
+companies supplied water to homes on the same streets. One, the Southwark and Vauxhall Company, took
+its water from the Thames downstream of the city's sewage outlets. The other, the Lambeth Company,
+had moved its intake upstream, to cleaner water. Neighbours breathed the same air, lived in similar
+houses and were often equally poor. The main difference was the pipe into their house.</p>
+
+<p>Snow went door to door finding out which company supplied each home where someone had died of
+cholera. The death rate in homes supplied by Southwark and Vauxhall was many times higher than in
+homes supplied by Lambeth. <strong>Snow had found a "natural experiment": chance had divided people
+into two groups that differed mainly in the suspected cause.</strong> That design, comparing groups
+alike in everything except the thing you are studying, is still the heart of epidemiology.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Person, place and time</h2>
+</header>
+
+<p>Epidemiologists start any problem by describing it along three axes. <strong>Person</strong>:
+who is affected, by age, sex, job, income, habits? <strong>Place</strong>: where do cases cluster,
+by country, neighbourhood, school or water supply? <strong>Time</strong>: when did cases begin, is
+there a season, are they rising or falling?</p>
+
+<p>These simple questions solve a surprising number of puzzles. If a food poisoning outbreak affects
+only people who attended one wedding, and cases began a day later, the search narrows quickly to the
+food served there. If a cancer is rising only among young adults in one region, investigators ask what
+changed there, and when. <strong>Description comes before explanation</strong>, and good description
+often points straight to the answer.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Counting properly: rates and risks</h2>
+</header>
+
+<p>Raw numbers mislead. A city of ten million will have more cancer cases than a town of ten
+thousand, simply because it has more people. So epidemiologists use <strong>rates</strong>: cases
+divided by the population at risk, over a period of time.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Measure</th><th>What it counts</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Incidence</strong></td><td>New cases in a period</td><td>Number of new diabetes diagnoses per 1,000 adults this year</td></tr>
+<tr><td><strong>Prevalence</strong></td><td>All existing cases at a point in time</td><td>Share of adults living with diabetes today</td></tr>
+<tr><td><strong>Mortality rate</strong></td><td>Deaths in a population over a period</td><td>Deaths from heart disease per 100,000 people per year</td></tr>
+<tr><td><strong>Case fatality rate</strong></td><td>Share of diagnosed cases who die of the disease</td><td>Deaths among people confirmed to have a given infection</td></tr>
+<tr><td><strong>Relative risk</strong></td><td>Risk in an exposed group divided by risk in an unexposed group</td><td>Smokers' lung cancer risk compared with non-smokers'</td></tr>
+</tbody></table></div>
+
+<p>Incidence and prevalence are easy to confuse. A disease that is quickly cured or quickly fatal can
+have high incidence but low prevalence. A disease people live with for decades, such as diabetes, has
+high prevalence even with modest incidence. <strong>Prevalence is like water in a bath; incidence is
+the tap, and recovery or death is the drain.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Comparing groups, and fighting the traps</h2>
+  <p class="lede">Every epidemiological study compares groups. The art is in choosing the groups so that
+  the comparison is fair, and in spotting the many ways it can be unfair.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The main study designs</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Design</th><th>How it works</th><th>Famous example</th></tr></thead>
+<tbody>
+<tr><td><strong>Cross-sectional</strong></td><td>A snapshot: measure exposure and disease in a population at one time</td><td>National health surveys measuring obesity and blood pressure</td></tr>
+<tr><td><strong>Case-control</strong></td><td>Start with people who have the disease (cases) and similar people who do not (controls); compare their past exposures</td><td>Doll and Hill's 1950 study of lung cancer patients and their smoking</td></tr>
+<tr><td><strong>Cohort</strong></td><td>Start with healthy people, record exposures, follow them for years and see who gets ill</td><td>The British Doctors Study (from 1951); the Framingham Heart Study (from 1948)</td></tr>
+<tr><td><strong>Randomised controlled trial</strong></td><td>Assign people to an exposure or treatment by chance, then compare outcomes</td><td>Vaccine and drug trials</td></tr>
+</tbody></table></div>
+
+<p>Case-control studies are fast and cheap, and good for rare diseases: you need only find the cases.
+Cohort studies are slow and costly, but show what came first, and can study many diseases at once. The
+<strong>Framingham Heart Study</strong>, which began in 1948 in a town near Boston, followed thousands
+of residents and helped establish high blood pressure, high cholesterol and smoking as causes of heart
+disease. It also made the phrase "risk factor" common.</p>
+
+<p>Randomised trials are the strongest test of cause, because chance, not choice, decides who is
+exposed. But you cannot randomly assign people to smoke for thirty years, or to live near a factory.
+<strong>Much of what we know about the causes of disease had to come from observational
+studies</strong>, which is why epidemiology's methods for handling their weaknesses matter so much.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Confounding: the hidden third factor</h2>
+</header>
+
+<p>Suppose a study finds that coffee drinkers have more lung cancer. Does coffee cause lung cancer?
+Probably not. In many past populations, coffee drinkers were also more likely to smoke. Smoking is
+linked to both coffee drinking and lung cancer, so it creates a false link between them. This is
+<strong>confounding</strong>, and the hidden factor is a <strong>confounder</strong>.</p>
+
+<div class="sheet">
+  <div class="cap">How a confounder creates a false link</div>
+<pre>
+                 SMOKING  (the confounder)
+                /        \
+      linked to          causes
+              /            \
+      COFFEE  - - - - - - -  LUNG CANCER
+               apparent link,
+               but no direct cause
+</pre>
+</div>
+
+<p>Epidemiologists fight confounding in several ways. They <strong>measure</strong> likely
+confounders and adjust for them statistically. They <strong>match</strong> cases and controls on age,
+sex and other factors. They <strong>restrict</strong> a study, for example to non-smokers only. But
+they can only adjust for what they measured. <strong>An unmeasured confounder is the permanent ghost
+in every observational study.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Bias, and a cautionary tale about hormones</h2>
+</header>
+
+<p>Bias is a systematic error that pushes a result in one direction. Three kinds are common.
+<strong>Selection bias</strong>: the people studied differ from the population in a way that matters,
+like the returning aircraft in <a href="../39-chance.html#c6">Volume 39</a>. <strong>Recall
+bias</strong>: people with a disease search their memories harder for possible causes than healthy
+people do. <strong>Measurement bias</strong>: exposures or outcomes are recorded inaccurately, or
+differently in different groups.</p>
+
+<p>A famous warning concerns hormone replacement therapy (HRT) for women after menopause. In the 1980s
+and 1990s, large observational studies found that women taking HRT had less heart disease. Many
+doctors recommended it partly for that reason. Then randomised trials, above all the Women's Health
+Initiative, whose main results were published in 2002, found no protection against heart disease in
+the groups studied, and some increased risks, including of stroke and blood clots.</p>
+
+<p>What went wrong? Women who chose HRT tended to be wealthier, more health-conscious and in better
+general health. Researchers call this the <strong>healthy user effect</strong>. The observational
+studies had partly measured the kind of woman who takes HRT, not the effect of HRT itself. Later
+analyses suggested that age and timing of starting HRT also matter, and the debate about its overall
+balance of benefits and harms has continued. But <strong>the lesson for method was lasting: when
+people choose an exposure, their choosing can create the result.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>From association to cause: the Bradford Hill considerations</h2>
+</header>
+
+<p>If trials are impossible, how can we ever say something causes a disease? In 1965 Austin Bradford
+Hill, Doll's partner on the smoking studies, set out nine considerations for judging whether an
+association is likely to be causal. They are not a checklist that proves cause, and Hill said so.
+They are a way to weigh evidence.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Consideration</th><th>The question it asks</th><th>Smoking and lung cancer</th></tr></thead>
+<tbody>
+<tr><td><strong>Strength</strong></td><td>Is the link large?</td><td>Heavy smokers had many times the risk of non-smokers</td></tr>
+<tr><td><strong>Consistency</strong></td><td>Is it found by different studies in different places?</td><td>Yes, in many countries and designs</td></tr>
+<tr><td><strong>Temporality</strong></td><td>Does the cause come before the effect?</td><td>Smoking began years before the cancer</td></tr>
+<tr><td><strong>Dose–response</strong></td><td>Does more exposure mean more risk?</td><td>More cigarettes, more risk</td></tr>
+<tr><td><strong>Plausibility and coherence</strong></td><td>Does it fit biology and other knowledge?</td><td>Tobacco smoke contains cancer-causing chemicals</td></tr>
+<tr><td><strong>Experiment</strong></td><td>Does removing the exposure reduce the effect?</td><td>Risk falls after quitting</td></tr>
+<tr><td><strong>Specificity, analogy</strong></td><td>Is the link specific; are there similar known causes?</td><td>Weaker points; smoking causes many diseases</td></tr>
+</tbody></table></div>
+
+<p>Temporality is the only one that is strictly required. A cause must come before its effect. The rest
+add weight. <strong>When many considerations point the same way, as they did for smoking, the case
+for cause becomes overwhelming even without a trial.</strong></p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Surveillance and outbreak work</h2>
+</header>
+
+<p>A second branch of epidemiology works in real time. <strong>Surveillance</strong> is the ongoing
+collection of health data to spot problems early. Doctors and laboratories must report certain
+"notifiable" diseases, such as measles or tuberculosis, to public health authorities. Death
+certificates, hospital records and laboratory results feed national statistics.</p>
+
+<p>When something unusual appears, outbreak investigators follow a standard sequence. They confirm
+that an outbreak really exists, agree a <strong>case definition</strong> (who counts as a case), find
+and count cases, draw an <strong>epidemic curve</strong> of cases over time, form a hypothesis about
+the source, test it, often with a quick case-control study, and act to stop it. The shape of the
+epidemic curve alone can be revealing: a sharp single peak suggests one shared source, such as a
+contaminated meal, while waves suggest person-to-person spread. That second pattern leads into the next
+topic, <a href="07-pandemics.html">Pandemics</a>.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>The causes we know, and the headlines we read</h2>
+  <p class="lede">Most of what we know about preventing disease came from epidemiology. Most health
+  news is epidemiology too, often reported badly.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>What counting has saved</h2>
+</header>
+
+<p>The list of epidemiology's discoveries is long. Smoking causes lung cancer, heart disease and
+much more. High blood pressure and cholesterol cause heart attacks and strokes. Folic acid before
+pregnancy prevents spinal birth defects. Asbestos causes a cancer of the lining of the lungs. The
+human papillomavirus causes cervical cancer.</p>
+
+<p>One finding shows how quickly it can change behaviour. In the 1980s, studies in several countries
+found that babies put to sleep on their fronts were at higher risk of sudden infant death syndrome
+(SIDS). Advice to parents had often been the opposite. When countries launched "back to sleep"
+campaigns in the late 1980s and early 1990s, SIDS rates fell sharply, by around half or more in many
+places. <strong>No new drug or machine was needed, only a pattern found in the numbers and a change in
+advice.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Relative risk, absolute risk, and the headline trap</h2>
+</header>
+
+<p>Imagine a headline: "Eating X raises your risk of bowel cancer by 50 percent." That sounds
+alarming. Now suppose the risk over ten years goes from 2 in 1,000 to 3 in 1,000. That is indeed a 50
+percent rise in <strong>relative risk</strong>. But the <strong>absolute risk</strong> rises by just
+1 in 1,000. A thousand people would have to change their diet for ten years to prevent one case,
+assuming the link is causal at all.</p>
+
+<p>Both numbers are true. Each answers a different question. Relative risk tells researchers whether a
+factor matters. Absolute risk tells you how much it matters to you. <strong>Whenever you see a
+percentage change in risk, ask: from what, to what?</strong> Volume 44 adds more on
+<a href="../44-medicines.html#c7">reading a health headline</a>.</p>
+
+<p>Ask too what kind of study it was. A single observational study linking a food to a disease is a
+reason for curiosity, not for changing your life. Many such links fail to hold up when other teams
+look, or when trials are done.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Powerful at scale, humble about cause</h2>
+  <p class="lede">Each design has strengths and blind spots. Good epidemiologists combine them, and are
+  honest about what each cannot show.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The designs weighed</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Design</th><th>Strengths</th><th>Weaknesses</th></tr></thead>
+<tbody>
+<tr><td><strong>Cross-sectional</strong></td><td class="ok">Quick, cheap, good for measuring how common something is.</td><td class="no">Cannot tell which came first, the exposure or the disease.</td></tr>
+<tr><td><strong>Case-control</strong></td><td class="ok">Efficient for rare diseases and outbreaks. Fast results.</td><td class="no">Prone to recall bias and to choosing the wrong controls.</td></tr>
+<tr><td><strong>Cohort</strong></td><td class="ok">Shows timing. Studies many outcomes. Fewer memory problems.</td><td class="mid">Slow and expensive. Still open to confounding.</td></tr>
+<tr><td><strong>Randomised trial</strong></td><td class="ok">The best protection against confounding. Strongest evidence of cause.</td><td class="no">Expensive, often short, sometimes unethical or impossible. Volunteers may not represent everyone.</td></tr>
+<tr><td><strong>Natural experiment</strong></td><td class="ok">Uses real-world chance, like Snow's water companies. Can study policies.</td><td class="mid">Depends on luck; the groups may differ in hidden ways.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Where the field has stumbled</h2>
+</header>
+
+<p>Epidemiology's biggest weakness shows most in nutrition. Diet is hard to measure: people
+misremember what they ate and change their diets over time. Foods come in bundles: people who eat more
+vegetables also tend to exercise more and smoke less. As a result, studies have produced a long
+stream of conflicting headlines about eggs, coffee, red wine, fat and more. Some links have held up;
+many have not.</p>
+
+<p>Another problem is the sheer number of analyses. If researchers test many possible links in one
+large data set, some will look significant by chance alone. Pre-registering study plans, sharing data
+and demanding replication help. <strong>The field's strength is self-correction: the HRT and diet
+reversals came from epidemiologists themselves.</strong> But a single study, however large, rarely
+settles a question.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>More data, new tools, and old traps in new clothes</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Wastewater surveillance</strong></td><td>Testing sewage for viruses expanded massively during COVID-19. In 2022 it detected poliovirus in London's sewage, prompting a vaccination campaign.</td><td class="ok">Fairly sure: it becomes a standard early-warning tool.</td></tr>
+<tr><td><strong>Genomic surveillance</strong></td><td>Sequencing the genes of germs tracks variants and outbreaks in near real time.</td><td class="ok">Fairly sure: routine in rich countries, spreading elsewhere if funded.</td></tr>
+<tr><td><strong>Huge health-record data sets</strong></td><td>Whole-population records and biobanks (such as UK Biobank) allow very large studies.</td><td class="mid">Plausible gains, but bigger data does not remove confounding; it can make false findings look more precise.</td></tr>
+<tr><td><strong>Genetic "natural experiments"</strong></td><td>Mendelian randomisation uses inherited gene variants, assigned by chance at conception, as a stand-in for randomisation.</td><td class="mid">Plausible and growing, with its own assumptions that can fail.</td></tr>
+<tr><td><strong>AI predicting outbreaks</strong></td><td>Models combine searches, travel and climate data to forecast disease.</td><td class="no">Speculative as a reliable tool: past attempts often overpromised.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>A science that depends on public trust</h2>
+</header>
+
+<p>Epidemiology needs people to answer surveys, join cohort studies, allow use of their records, and
+report illness. During COVID-19, its findings and its uncertainties became public arguments, sometimes
+bitter ones. Estimates changed as data improved, which is how science should work, but to some people
+it looked like confusion or deceit.</p>
+
+<p>The future of the field may depend as much on communication as on method: explaining what is known,
+what is uncertain, and why advice changes. <strong>Counting is only useful if people trust the
+counters.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Epidemiology studies <strong>who gets ill, where, when and why</strong>, by comparing groups.
+    Its designs range from snapshots to <strong>case-control</strong>, <strong>cohort</strong> and
+    <strong>randomised</strong> studies. Its permanent enemies are <strong>confounding</strong> and
+    <strong>bias</strong>, and the Bradford Hill considerations help judge when an association is
+    probably a cause.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li><strong>1854</strong>: John Snow's cholera investigations in London.</li>
+      <li><strong>1948</strong>: the Framingham Heart Study begins; <strong>1950</strong>: Doll and
+      Hill's smoking study.</li>
+      <li><strong>1965</strong>: Bradford Hill's nine considerations for causation.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Reading a relative risk as personal risk. <strong>"50 percent higher" can mean 2 in 1,000
+    becoming 3 in 1,000.</strong> Always ask: from what, to what?</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why observational studies thought HRT protected women's hearts, and why trials
+    disagreed? If so, you understand confounding and the healthy user effect.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Epidemiology</dt><dd>The study of how health and disease are distributed in populations, and why.</dd>
+    <dt>Incidence</dt><dd>The number of new cases in a population over a period.</dd>
+    <dt>Prevalence</dt><dd>The number or share of people who have a condition at a given time.</dd>
+    <dt>Relative risk</dt><dd>How many times more likely the exposed group is to get a disease than the unexposed group.</dd>
+    <dt>Absolute risk</dt><dd>The actual chance of getting a disease over a period, such as 3 in 1,000.</dd>
+    <dt>Case-control study</dt><dd>Comparing people with a disease to similar people without it, looking back at exposures.</dd>
+    <dt>Cohort study</dt><dd>Following a group over time to see who develops disease.</dd>
+    <dt>Randomised controlled trial</dt><dd>A study that assigns treatments by chance to make groups comparable.</dd>
+    <dt>Confounder</dt><dd>A hidden factor linked to both the exposure and the outcome, creating a false link.</dd>
+    <dt>Bias</dt><dd>A systematic error that pushes results in one direction.</dd>
+    <dt>Healthy user effect</dt><dd>People who choose a health behaviour tend to be healthier for other reasons.</dd>
+    <dt>Natural experiment</dt><dd>A situation where chance or policy divides people into comparable groups.</dd>
+    <dt>Surveillance</dt><dd>Continuous collection of health data to spot problems early.</dd>
+    <dt>Epidemic curve</dt><dd>A chart of new cases over time during an outbreak.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Epidemiology asks not what's wrong with this patient, but why this group gets ill and that one
+    doesn't."</li>
+    <li>"John Snow's real proof was two water companies on the same streets. That was a natural
+    experiment."</li>
+    <li>"Correlation isn't causation, but with enough consistent evidence, as with smoking, you can be
+    confident without a trial."</li>
+    <li>"A 50 percent rise in risk sounds huge until you ask: from what, to what?"</li>
+    <li>"Observational studies once said HRT protected hearts. Trials said otherwise. People who choose
+    a treatment are not a random sample."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="07-pandemics.html">Pandemics</a></h4><p>When an outbreak goes
+  global: how pandemics start, spread and end, and what history and COVID-19 taught.</p></div>
+  <div class="card"><h4>Related · <a href="../01-technology/16-data-science.html">Data science</a></h4><p>The
+  wider toolkit of statistics and computing that modern epidemiology increasingly relies on.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

@@ -1,0 +1,852 @@
+<!doctype html>
+<!--@HEAD-SRC title="Human-AI Collaboration" desc="How people and AI systems divide work: centaurs and cyborgs, humans in and on the loop, trust that is too high or too low, real evidence from medicine and offices, and what makes a good partnership."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Human-AI Collaboration</title>
+<meta name="description" content="How people and AI systems divide work: centaurs and cyborgs, humans in and on the loop, trust that is too high or too low, real evidence from medicine and offices, and what makes a good partnership.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Future &amp; Emerging Technologies · Topic 19 of 20</p>
+  <h1>Human-AI collaboration. <span class="thin">A good team is not the best human plus the best machine. It is the best way of joining them.</span></h1>
+  <p class="lede">Most talk about AI asks whether a machine can do a job instead of a person. The more
+  useful question for the next decade is how people and machines do a job together. The answer is not
+  obvious. Teams of humans and AI sometimes beat either one alone by a wide margin. Sometimes they do
+  worse than the machine would on its own, because the human trusts it at the wrong moments or ignores
+  it at the right ones. This file is about what makes the difference.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No technology assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Future tech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../49-ai-honestly.html#c5"><span class="vn">Vol 49 · ch 05</span><b>How to actually work with one</b><em>The everyday habits</em></a>
+<a class="vol" href="02-ai-agents.html"><span class="vn">Future · 02</span><b>AI agents</b><em>When the machine acts alone</em></a>
+<a class="vol" href="20-how-work-may-change-because-of-ai.html"><span class="vn">Future · 20</span><b>How work may change</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 49 gives practical habits for using a chatbot (<a href="../49-ai-honestly.html#c5">How to
+  actually work with one</a>) and explains why it can sound sure while being wrong
+  (<a href="../49-ai-honestly.html#c3">Why it invents things</a>). This file steps back to the design of
+  the partnership itself. Its neighbours take other angles:
+  <a href="02-ai-agents.html">AI agents</a> covers systems that act on their own,
+  <a href="01-artificial-general-intelligence.html">Artificial general intelligence</a> the idea of a
+  machine as capable as a person at everything, and
+  <a href="20-how-work-may-change-because-of-ai.html">How work may change</a> the effect on jobs and
+  wages.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>People and machines sharing one task</h2>
+  <p class="lede">Human-AI collaboration means a person and an AI system working on the same task, each
+  doing part of it. The interesting questions are who does which part, and who has the last word.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The amateurs who beat the grandmasters</h2>
+</header>
+
+<p>In 1997 IBM's Deep Blue computer beat the world chess champion Garry Kasparov in a match. Instead of
+giving up, Kasparov helped promote a new form of the game called "advanced chess", in which each human
+player could consult a computer during the game. Players with this support were sometimes called
+<strong>centaurs</strong>, after the creature from Greek myth that is half human and half horse.</p>
+
+<p>In 2005 an online "freestyle" tournament allowed any mix of people and computers to enter. Strong
+grandmasters with computers took part, as did powerful chess programs alone. The winner, to general
+surprise, was a team of two American amateur players using ordinary computers and several programs.
+Kasparov later drew the lesson in a much-quoted line: a weak human with a machine and a
+<strong>better process</strong> could beat a strong human with a machine and a worse process.</p>
+
+<p>Chess engines have since become so strong that the human now adds little. But the story's lesson
+has travelled far beyond chess. <strong>The quality of a human-machine team depends heavily on how the
+work is divided and how disagreements are handled</strong>, not just on how clever each member is.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>A ladder from tool to boss</h2>
+</header>
+
+<p>In 1978 the engineers Thomas Sheridan and William Verplank described a ladder of ten levels of
+automation, from a computer that offers no help at all to one that acts entirely on its own and ignores
+the human. Their ladder is still used, in simplified forms, to describe AI today.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Role of the AI</th><th>Who decides</th><th>Everyday example</th></tr></thead>
+<tbody>
+<tr><td><strong>Tool</strong></td><td>The human does the task; the AI handles one step when asked</td><td>Spell check, translation of one sentence</td></tr>
+<tr><td><strong>Adviser</strong></td><td>The AI suggests; the human chooses</td><td>A program flagging a suspicious area on a scan</td></tr>
+<tr><td><strong>Co-worker</strong></td><td>Both produce parts of the work; the human edits and approves</td><td>Drafting a report or code with an assistant</td></tr>
+<tr><td><strong>Supervised agent</strong></td><td>The AI acts; the human monitors and can stop it</td><td>An autopilot; an AI agent booking travel with approval steps</td></tr>
+<tr><td><strong>Autonomous system</strong></td><td>The AI acts alone within set limits</td><td>A spam filter; automatic fraud blocking</td></tr>
+</tbody></table></div>
+
+<p>Collaboration lives mainly in the middle three rows. <strong>The further down the ladder you go,
+the less the human does, but the more it matters that they can step in correctly when needed.</strong>
+That is a harder job than it looks, as Chapter 10 shows.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Complementary strengths</h2>
+</header>
+
+<p>Teams work best when members are good at different things. Humans and today's AI systems are,
+broadly, strong in different places.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Where AI is usually stronger</h4><p>Speed and stamina. Searching or summarising
+  huge amounts of text. Spotting statistical patterns across millions of examples. Producing many
+  drafts or options quickly. Consistency: it does not get tired at four in the afternoon.</p></div>
+  <div class="card"><h4>Where people are usually stronger</h4><p>Knowing what actually matters in this
+  situation. Common sense about the physical and social world. Noticing that something is odd or that
+  the question is wrong. Taking responsibility. Building trust with other people. Handling the truly
+  new case.</p></div>
+</div>
+
+<p>The list is changing as systems improve, and it is not tidy. AI is sometimes excellent at tasks that
+look hard and fails at ones that look easy. <strong>The boundary between what it does well and badly
+is uneven and hard to see in advance</strong>, which is the central practical problem of
+collaboration.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Dividing the work, placing the human, and calibrating trust</h2>
+  <p class="lede">A working partnership has three design choices: how tasks are split, where the human
+  sits in the process, and how much the human trusts the machine. Getting the third one right is the
+  hardest.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Centaurs and cyborgs: two ways to split a task</h2>
+</header>
+
+<p>In a 2023 study, researchers from Harvard, the Wharton School and other universities worked with the
+consulting firm Boston Consulting Group. They watched hundreds of consultants do realistic tasks with
+and without an AI model. Among those who used it well, they saw two styles, and named them.</p>
+
+<p><strong>Centaurs</strong> divide the work cleanly. The human decides which sub-tasks to give the
+AI, such as a first draft or a summary, and keeps others, such as the final judgment, entirely for
+themselves. There is a clear line between the horse and the human. <strong>Cyborgs</strong> blend the
+two continuously. They work sentence by sentence with the AI, asking, editing, pushing back and asking
+again, so that it is hard to say afterwards who did what.</p>
+
+<p>Neither style is always better. Centaur working makes it easier to check the AI's part and keep
+responsibility clear. Cyborg working can be faster and more creative, but it is easier to absorb the
+machine's errors without noticing. <strong>The skill is choosing the style to fit the task and the
+stakes.</strong></p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>In the loop, on the loop, out of the loop</h2>
+</header>
+
+<div class="sheet">
+  <div class="cap">Where the human sits</div>
+<pre>
+  IN THE LOOP       AI proposes  -->  HUMAN approves each one  -->  action
+                    (slow, careful; human sees everything)
+
+  ON THE LOOP       AI acts  -->  action          HUMAN watches, can stop it
+                    (fast; human sees summaries and alarms)
+
+  OUT OF THE LOOP   AI acts  -->  action          human reviews later, if at all
+                    (fastest; errors found after the fact)
+</pre>
+</div>
+
+<p>Systems that make decisions about people, such as credit, hiring, medical treatment or policing,
+usually keep a <strong>human in the loop</strong>. The European Union's AI Act, adopted in 2024,
+requires that high-risk AI systems be designed so that people can oversee them effectively, understand
+their limits and override them.</p>
+
+<p>The danger is a human who is in the loop only on paper. If a person must approve hundreds of
+recommendations an hour, they stop thinking and start clicking. Researchers call this a
+<strong>rubber stamp</strong>. <strong>Oversight only counts if the human has the time, the information
+and the authority to say no.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Too much trust, and too little</h2>
+</header>
+
+<p>Two opposite mistakes spoil most partnerships. The first is <strong>automation bias</strong>: the
+tendency to accept a machine's answer even when other evidence says it is wrong. Drivers have followed
+navigation apps into lakes and onto closed roads. In offices, people copy AI-generated text with
+invented facts into reports, as Volume 49 warns.</p>
+
+<p>The second is <strong>algorithm aversion</strong>. In experiments published in 2015, the psychologists
+Berkeley Dietvorst, Joseph Simmons and Cade Massey found that people who saw a forecasting algorithm make
+a mistake lost faith in it much faster than in a human forecaster who made similar mistakes. They then
+chose the human, even though the algorithm was more accurate overall. We forgive people for errors more
+easily than machines.</p>
+
+<p>The goal is <strong>calibrated trust</strong>: trusting the system exactly as much as its track
+record deserves, on this kind of task. That means relying on it heavily where it is reliable, and
+checking it carefully where it is not. <strong>Calibration is task by task, not a single feeling about
+"AI".</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Design that helps people judge</h2>
+</header>
+
+<p>How a system presents its output changes how people use it. Three design choices make the biggest
+difference. First, <strong>showing uncertainty</strong>: a system that says "I am fairly unsure about
+this one" helps people decide where to look. Second, <strong>showing reasons or sources</strong>, so the
+human can check the basis of an answer rather than just the answer. Third, <strong>adding the right
+friction</strong>: asking the human to form their own view before seeing the AI's suggestion, at least
+for important decisions, reduces blind copying.</p>
+
+<p>Explanations are not a cure-all. Studies have found that people sometimes trust a system more simply
+because it gives an explanation, even a poor one. <strong>An explanation is useful only if the human
+can actually test it.</strong> A good collaboration is designed so that checking is easy and doing
+nothing is not automatic.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>The evidence from hospitals, offices and cockpits</h2>
+  <p class="lede">Collaboration matters because it is how AI is actually being used: not replacing
+  whole jobs, but joining people in them. The results so far are real, uneven and full of lessons.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>A second reader for breast cancer screening</h2>
+</header>
+
+<p>In many European countries, every screening mammogram is read by two radiologists, because a single
+reader misses some cancers. Doctors are scarce, so researchers have tested AI as one of the readers. In a
+large Swedish trial reported in 2023, AI sorted scans by risk and marked suspicious areas, and
+radiologists read them with that support. Early results found the AI-supported approach detected
+somewhat more cancers than standard double reading, while cutting the radiologists' reading workload by
+around two-fifths.</p>
+
+<p>The design is what made this work. The AI did not decide alone. It decided <strong>which scans
+needed one reader and which needed two</strong>, and pointed to areas worth a second look. Other studies
+are more mixed. Some found that doctors ignored correct AI advice, or followed wrong advice, depending
+on how it was shown. <strong>The same algorithm can help or harm depending on the workflow around
+it.</strong> See also <a href="../01-technology/11-computer-vision.html">Computer vision</a> and
+<a href="../19-public-health/17-ai-in-healthcare.html">AI in healthcare</a>.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The jagged frontier in office work</h2>
+</header>
+
+<p>The consulting study from Chapter 04 produced the clearest picture yet of AI in knowledge work. On
+tasks that the AI handled well, such as generating product ideas and writing up plans, consultants with
+the AI finished more tasks, worked faster, and produced work that graders rated as substantially
+better. The weakest performers gained the most, which matches a separate study of call-centre agents
+described in <a href="../09-economics/17-productivity.html">Productivity</a>.</p>
+
+<p>But the researchers also set a task that looked similar and that the AI tended to get wrong: a
+business problem that required careful reading of interview notes and figures. On that task, consultants
+using AI were noticeably <em>less</em> likely to reach the correct answer than those without it. They
+trusted a fluent, plausible and wrong analysis. The authors described AI's abilities as a
+<strong>"jagged frontier"</strong>: some tasks that seem hard lie inside it, and some that seem easy lie
+outside. <strong>The danger is not that the frontier exists, but that you cannot see it from where you
+stand.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The irony of automation</h2>
+</header>
+
+<p>In 1983 the British psychologist Lisanne Bainbridge published a short paper called "Ironies of
+Automation". Her argument has become more relevant every year. When a machine handles the routine
+work, the human is left with two jobs: watching the machine, and taking over when it fails. But people
+are bad at watching for long periods with nothing happening. And when the machine fails, it is usually
+in an unusual, difficult situation, exactly when the out-of-practice human is least ready.</p>
+
+<p>Aviation has lived this for decades. In 2009 Air France flight 447 was flying over the Atlantic when
+ice briefly blocked the sensors that measure airspeed. The autopilot switched off. The pilots, suddenly
+flying by hand at high altitude in the dark, misread the situation, and the aircraft stalled and fell
+into the ocean, killing all 228 people on board. Investigators pointed to many causes, including how
+pilots were trained to handle such events. Airlines and regulators have since put more emphasis on
+manual flying practice. <strong>The more reliable the automation, the more deliberately humans must
+practise the skills it replaces.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A real multiplier, with hidden costs</h2>
+  <p class="lede">Well-designed teams catch more errors and work faster. Badly designed ones combine the
+  weaknesses of both partners.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>Weighing it up</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Advantage</th><th>Disadvantage</th></tr></thead>
+<tbody>
+<tr><td><strong>Productivity</strong></td><td class="ok">Faster drafts, searches and analysis; most gain for less experienced workers</td><td class="no">Time saved can be lost checking output, or wasted on tasks outside the frontier</td></tr>
+<tr><td><strong>Quality</strong></td><td class="ok">A second pair of eyes that never tires; fewer missed cases in screening</td><td class="no">Fluent but wrong answers that people accept without checking</td></tr>
+<tr><td><strong>Skills</strong></td><td class="ok">Novices can do expert-level tasks with support</td><td class="no">Deskilling: people lose abilities they no longer practise</td></tr>
+<tr><td><strong>Creativity</strong></td><td class="ok">Many options quickly; a partner to argue with</td><td class="no">Work starts to sound the same, as many people use the same tools</td></tr>
+<tr><td><strong>Responsibility</strong></td><td class="ok">A human remains accountable for the result</td><td class="no">Blame can blur between the user, the vendor and the system</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Deskilling, sameness and the blame gap</h2>
+</header>
+
+<p><strong>Deskilling</strong> is the worry that people who lean on a tool lose the ability to work
+without it. Many people who use satellite navigation every day find it harder to find their way without
+it. Early studies in medicine have raised the same concern: one study published in 2025 reported that
+doctors who had grown used to an AI helper for spotting growths during colonoscopy became less good at
+spotting them when the helper was switched off. The evidence is still young, but the pattern is
+familiar from aviation.</p>
+
+<p><strong>Sameness</strong> is subtler. When many people ask the same model for ideas, the ideas tend
+to resemble each other. Each person's work may improve while the variety of work across a whole group
+shrinks. For creative fields and for decision-making, where diverse views catch errors, that is a real
+cost.</p>
+
+<p>The <strong>blame gap</strong> is about responsibility. When a human-AI team makes a mistake, it is
+easy for the user to blame the system, the vendor to blame the user, and the organisation to blame
+"the process". <strong>Good collaboration needs a named person who owns the outcome</strong>, and who
+has the power to reject the machine's advice.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>From assistants to colleagues, and the skills that will matter</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>AI assistance in most office software</strong></td><td>Writing, coding, search and meeting tools already include AI assistants.</td><td class="ok">Fairly sure: becomes as ordinary as spell check. The question shifts from "whether" to "how well".</td></tr>
+<tr><td><strong>Workflows redesigned around the team</strong></td><td>Some firms and hospitals have rebuilt processes, as in AI-supported screening.</td><td class="ok">Fairly sure: the biggest gains will come from redesigning the work, not from adding a chatbot to the old process.</td></tr>
+<tr><td><strong>Humans supervising many AI agents</strong></td><td>Early agent systems handle multi-step tasks with human approval. See <a href="02-ai-agents.html">AI agents</a>.</td><td class="mid">Plausible: many jobs shift toward directing and checking AI work. Reliability and the rubber-stamp problem are unsolved.</td></tr>
+<tr><td><strong>AI as a genuine scientific partner</strong></td><td>AI tools already help predict protein structures and suggest materials.</td><td class="mid">Plausible: faster discovery in some fields; how much AI adds beyond being a powerful tool is debated.</td></tr>
+<tr><td><strong>Collaboration giving way to replacement</strong></td><td>Depends on whether systems become reliable across nearly all tasks.</td><td class="no">Speculative and contested. See <a href="01-artificial-general-intelligence.html">Artificial general intelligence</a>.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>What makes a good collaborator</h2>
+</header>
+
+<p>If the research so far points anywhere, it is that the most valuable human skills in a partnership
+with AI are not technical tricks for writing requests. They are older skills. <strong>Knowing your
+field well enough to spot a wrong answer</strong> matters most, because you cannot check what you do
+not understand. Breaking a problem into parts and deciding which to delegate matters next. So does the
+habit of asking "how would I know if this were wrong?" before accepting a result.</p>
+
+<p>There is a paradox here. AI helps beginners most, yet the people best placed to use it safely are
+experts. Organisations will need to find ways for juniors to build real expertise even when a machine
+could do much of their early work for them. Whether they manage that is one of the open questions in
+<a href="20-how-work-may-change-because-of-ai.html">How work may change because of AI</a>.
+<strong>The partner worth being is the one who knows when the machine is wrong.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Human-AI teams can beat either partner alone, but only with a <strong>good process</strong>: a
+    sensible division of tasks, a human placed where they can really oversee, and <strong>calibrated
+    trust</strong>, high where the system is reliable and low where it is not. AI's abilities form a
+    <strong>jagged frontier</strong> that is hard to see.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Sheridan and Verplank's ladder had <strong>ten levels</strong> of automation (1978).</li>
+      <li>Bainbridge's "Ironies of Automation" dates from <strong>1983</strong>.</li>
+      <li>The 2023 Swedish screening trial cut radiologists' reading workload by about
+      <strong>two-fifths</strong> while finding somewhat more cancers.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Treating trust in AI as one dial set high or low. <strong>Trust should be calibrated task by
+    task</strong>, and a human "in the loop" who cannot realistically say no is not overseeing
+    anything.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why consultants using AI did better on some tasks and worse on others, and what
+    a team should do about it before the next task arrives?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Human-AI collaboration</dt><dd>A person and an AI system working on the same task, each doing part.</dd>
+    <dt>Centaur</dt><dd>A working style that divides tasks clearly between human and AI.</dd>
+    <dt>Cyborg</dt><dd>A working style that blends human and AI work continuously.</dd>
+    <dt>Levels of automation</dt><dd>A scale from no machine help to full machine control.</dd>
+    <dt>Human in the loop</dt><dd>A setup where a person must approve each decision before it takes effect.</dd>
+    <dt>Human on the loop</dt><dd>A setup where the system acts and a person monitors and can intervene.</dd>
+    <dt>Rubber stamp</dt><dd>Approval given without real checking, often because of volume or time pressure.</dd>
+    <dt>Automation bias</dt><dd>Accepting a machine's output even against contrary evidence.</dd>
+    <dt>Algorithm aversion</dt><dd>Losing trust in an algorithm after seeing it err, more than one would for a person.</dd>
+    <dt>Calibrated trust</dt><dd>Trust that matches how reliable the system really is on the task at hand.</dd>
+    <dt>Jagged frontier</dt><dd>The uneven, hard-to-see boundary between tasks AI does well and badly.</dd>
+    <dt>Deskilling</dt><dd>Losing a skill because a tool now does it for you.</dd>
+    <dt>Ironies of automation</dt><dd>The finding that automation leaves humans the hardest, rarest tasks with the least practice.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"A weak player with a good process can beat a strong player with a bad one. That's true of
+    human-AI teams too."</li>
+    <li>"AI's abilities are a jagged frontier. It can ace a hard task and fail an easy-looking one."</li>
+    <li>"A human in the loop who has to approve five hundred decisions an hour isn't overseeing
+    anything."</li>
+    <li>"The more reliable the automation, the more deliberately you have to practise the skill it
+    replaced."</li>
+    <li>"The most useful thing you bring to an AI is knowing your field well enough to see when it's
+    wrong."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="20-how-work-may-change-because-of-ai.html">How work may change
+  because of AI</a></h4><p>From the single task to the whole labour market: which jobs change, what
+  happens to wages, and what history suggests.</p></div>
+  <div class="card"><h4>Related · <a href="02-ai-agents.html">AI agents</a></h4><p>AI systems that plan
+  and act over many steps on their own, and why supervising them is a new kind of job.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

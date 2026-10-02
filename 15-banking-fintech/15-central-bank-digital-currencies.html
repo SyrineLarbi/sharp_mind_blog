@@ -1,0 +1,853 @@
+<!doctype html>
+<!--@HEAD-SRC title="Central Bank Digital Currencies" desc="Central bank digital currencies explained: retail and wholesale designs, how they would be distributed, holding limits, privacy, why cash decline and stablecoins drive them, the early launches, the risks to banks and freedom, and where the digital euro and others stand."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Central Bank Digital Currencies</title>
+<meta name="description" content="Central bank digital currencies explained: retail and wholesale designs, how they would be distributed, holding limits, privacy, why cash decline and stablecoins drive them, the early launches, the risks to banks and freedom, and where the digital euro and others stand.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Banking &amp; Fintech · Topic 15 of 20</p>
+  <h1>Central Bank Digital Currencies. <span class="thin">Digital cash from the state, and an argument about what money should be allowed to know.</span></h1>
+  <p class="lede">The only money most people hold that comes straight from the state is cash. Everything
+  else, the balance in your bank or payment app, is a private company's promise to pay. As cash fades
+  from daily life, central banks are asking whether the public should have a digital form of state
+  money too. That question has turned into one of the most heated debates in finance. Supporters see a
+  safe public payment option for the digital age. Critics see a threat to banks, to privacy and to
+  freedom.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Banking &amp; Fintech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="14-digital-currencies.html"><span class="vn">Banking · 14</span><b>Digital currencies</b><em>The private versions</em></a>
+<a class="vol" href="02-central-banking.html"><span class="vn">Banking · 02</span><b>Central banking</b><em>The plumbing</em></a>
+<a class="vol" href="16-fintech-startups.html"><span class="vn">Banking · 16</span><b>Fintech startups</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first treatment of CBDCs. Volume 38 lays the groundwork on what money is
+  and how banks create it (<a href="../38-money.html#c1">A promise that everyone accepts</a>, <a
+  href="../38-money.html#c2">Where new money comes from</a>). The previous topic, <a
+  href="14-digital-currencies.html">Digital currencies</a>, covers the private alternatives that CBDCs
+  are partly a response to.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Central bank money, in digital form, possibly for everyone</h2>
+  <p class="lede">A central bank digital currency, or CBDC, is a digital form of a country's official
+  money, issued by its central bank and a direct claim on it, like a banknote.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Public money and private money</h2>
+</header>
+
+<p>To see why CBDCs matter, you need one distinction. Money comes in two kinds. <strong>Public
+money</strong> is issued by the central bank: banknotes, and the reserves that commercial banks hold
+in their accounts at the central bank. <strong>Private money</strong> is issued by commercial banks
+and payment firms: the deposits in your account and the balance in your payment app.</p>
+
+<p>In daily life the two feel identical. A euro in your bank is worth a euro in cash. But they are
+different promises. If your bank fails, your deposit is protected only by deposit insurance and by
+the authorities' willingness to step in. A banknote is a claim on the central bank itself, which
+cannot run out of its own currency. <strong>Today, cash is the only way an ordinary person can hold
+public money.</strong> Businesses and banks have long used digital central bank money among
+themselves. Households never have.</p>
+
+<p>A CBDC would change that. It would be public money, like cash, but digital, like a deposit.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Retail and wholesale: two different projects</h2>
+</header>
+
+<div class="grid2">
+  <div class="card"><h4>Retail CBDC</h4><p>For the general public and shops. You would hold it in a
+  wallet app or card and use it for everyday payments. This is the version that causes political
+  debate, because it touches privacy, banks and daily life. The digital euro and China's e-CNY are
+  retail projects.</p></div>
+  <div class="card"><h4>Wholesale CBDC</h4><p>For banks and large financial institutions only. It
+  would settle large payments and trades in securities, often on new ledger technology. Banks already
+  use central bank money digitally, so this is an upgrade of existing plumbing. It attracts much less
+  controversy.</p></div>
+</div>
+
+<p>When people argue about CBDCs, they almost always mean the retail kind. Keeping the two apart
+avoids a lot of confusion: <strong>wholesale CBDC is mostly an engineering question; retail CBDC is a
+question about society.</strong></p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Who has one, as of 2026</h2>
+</header>
+
+<p>Trackers count well over a hundred countries that are researching, testing or have launched a
+CBDC, representing almost all of world output. Only a few have launched a retail version for the
+whole country.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Country or area</th><th>Status</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td><strong>The Bahamas</strong></td><td class="ok">Launched October 2020</td><td>The "Sand Dollar", the first nationwide retail CBDC. Partly aimed at people on remote islands with few bank branches</td></tr>
+<tr><td><strong>Nigeria</strong></td><td class="ok">Launched October 2021</td><td>The eNaira. Take-up stayed very low (see Chapter 12)</td></tr>
+<tr><td><strong>Jamaica</strong></td><td class="ok">Launched 2022</td><td>JAM-DEX, with limited use so far</td></tr>
+<tr><td><strong>China</strong></td><td class="mid">Large pilot since about 2020</td><td>The e-CNY, tested in many cities with hundreds of millions of wallets opened; everyday use is still modest next to Alipay and WeChat Pay</td></tr>
+<tr><td><strong>India</strong></td><td class="mid">Pilot since late 2022</td><td>The e-rupee, alongside the hugely popular UPI system</td></tr>
+<tr><td><strong>Euro area</strong></td><td class="mid">Preparation</td><td>The ECB is preparing a digital euro; issuance needs an EU law, which is still being negotiated</td></tr>
+<tr><td><strong>United Kingdom, Sweden</strong></td><td class="mid">Research and design</td><td>No decision to issue. The UK talks of a possible "digital pound"; Sweden ran e-krona tests</td></tr>
+<tr><td><strong>United States</strong></td><td class="no">Opposed</td><td>A January 2025 executive order barred federal agencies from creating a retail CBDC</td></tr>
+</tbody></table></div>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>A handful of design choices decide almost everything</h2>
+  <p class="lede">A CBDC is not one technology. It is a bundle of choices: who runs the wallets, how
+  payments are recorded, how much you may hold, and who can see what.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The two-tier model</h2>
+</header>
+
+<p>Almost no central bank wants to run millions of customer accounts. It has no branches, no call
+centres and no experience checking identities. So nearly every serious design uses a <strong>two-tier
+model</strong>, similar to how cash already works.</p>
+
+<div class="sheet">
+  <div class="cap">How a retail CBDC would be distributed (typical design)</div>
+<pre>
+  TIER 1   CENTRAL BANK
+           issues the digital currency; runs or oversees the core ledger;
+           sets the rules (limits, privacy, security)
+               |
+               |  CBDC is a claim on the central bank, not on the bank below
+               v
+  TIER 2   BANKS AND LICENSED PAYMENT FIRMS
+           open wallets, check identity, handle customer service,
+           connect shops, run apps and cards
+               |
+               v
+           YOU and THE SHOP
+           pay each other in seconds, online or (in some designs) offline
+</pre>
+</div>
+
+<p>The crucial point is in the middle of the diagram. Your bank would provide the wallet, but the
+money in it would be a claim on the central bank, not on your bank. <strong>If your bank failed, your
+CBDC would be unaffected</strong>, just as banknotes in your drawer are unaffected today.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Accounts, tokens and offline payments</h2>
+</header>
+
+<p>There are two broad ways to record who owns what. In an <strong>account-based</strong> design, a
+ledger records balances, as a bank does, and each payment checks who you are. In a
+<strong>token-based</strong> design, the money is a digital object you hold, closer to a banknote,
+and the system checks that the token is genuine rather than checking you. Real projects usually mix
+the two.</p>
+
+<p>Many designs also aim for <strong>offline payments</strong>: paying from one phone or card to
+another with no internet connection, using secure chips in the devices. The digital euro proposal
+includes an offline option with privacy similar to cash for small amounts. It matters for resilience,
+because a payment system that works during a network outage or a power cut is valuable. It is also
+technically hard, because devices must prevent double spending without checking a central ledger,
+the problem explained in <a href="14-digital-currencies.html#c4">Digital currencies</a>.</p>
+
+<p>A CBDC does not need a blockchain. Some projects test ledger technologies inspired by crypto, but
+a central bank is a trusted central party, so a conventional, very secure database can do the job.
+<strong>The interesting choices are about rules, not about technology.</strong></p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Holding limits, and why banks worry</h2>
+</header>
+
+<p>Banks fund their lending partly with customer deposits. If people moved large amounts from bank
+deposits into a CBDC, banks would have less cheap funding and might lend less or charge more. Economists
+call this <strong>disintermediation</strong>: cutting the bank out of the middle.</p>
+
+<p>The bigger fear is a crisis. Today, if people doubt a bank, moving money takes some effort.
+With a CBDC, a customer could move everything into risk-free central bank money with one tap. That
+could make <strong>bank runs faster and larger</strong>, the danger described in <a
+href="01-how-banks-work.html">How banks work</a>.</p>
+
+<p>Most designs answer with <strong>holding limits</strong>: a cap on how much CBDC each person may
+hold, with any excess automatically swept into a linked bank account. The ECB has discussed a limit
+of a few thousand euros per person for the digital euro; the Bank of England has discussed a range
+of 10,000 to 20,000 pounds. Designs also usually pay no interest on CBDC, so it does not compete with
+savings accounts. <strong>The aim is a CBDC good enough for payments but deliberately poor as a place
+to store savings.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Who can see your payments?</h2>
+</header>
+
+<p>Cash is private: nobody records that you bought a coffee. Card and bank payments are not: your
+bank, the card network and the shop's provider all see them, and authorities can obtain records with
+legal permission. A CBDC could be designed anywhere along this range.</p>
+
+<p>Western central banks say they would not see individual payments. In the two-tier model,
+intermediaries would know their customers, as banks do now, while the central bank would see only
+anonymised or aggregated data. Some designs promise near-cash privacy for small offline payments. In
+the EU, the draft law includes privacy rules, and anti-money-laundering checks would still apply to
+larger amounts.</p>
+
+<p>Critics reply that promises can change. A system built so a government <em>could</em> see every
+payment is a standing temptation, especially under a future government with different values. This
+is the root of the political argument, and it cannot be settled by technology alone. <strong>Privacy in
+a CBDC is a legal guarantee, and it is only as strong as the law that protects it.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Three forces pushing central banks to act</h2>
+  <p class="lede">Central banks did not wake up wanting to build apps. They are responding to cash
+  disappearing, to private digital money spreading, and to slow, costly international payments.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>When cash fades</h2>
+</header>
+
+<p>Sweden is the usual example. Over the past two decades, cash use there has fallen to a small share
+of payments, and many shops, cafés and even some bank branches stopped handling cash. The Riksbank,
+Sweden's central bank and one of the oldest in the world, began studying an "e-krona" in 2017.</p>
+
+<p>The worry is not nostalgia. If cash disappears, every payment depends on private companies, and
+the public loses access to state money altogether. Central banks see three risks: people who
+struggle with digital banking, such as some older or poorer citizens, are left out; the payment
+system depends on a few private firms, often foreign card networks; and <strong>the "anchor" of
+public money weakens</strong>. Today, the fact that you can always swap a deposit for cash helps keep
+trust in bank money. Without cash, that link becomes invisible. Sweden has since also strengthened
+rules to keep cash available, showing that a CBDC is not the only response.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Monetary sovereignty: Libra as the wake-up call</h2>
+</header>
+
+<p>When Facebook announced its Libra stablecoin in 2019, central banks suddenly imagined billions of
+people using a currency run by a private company, outside their control. Libra failed, but the
+fright accelerated CBDC work, especially in Europe.</p>
+
+<p>The concern is called <strong>monetary sovereignty</strong>: a country's ability to control its own
+money, set its own interest rates and supervise its own payments. If most Europeans paid with dollar
+stablecoins or through a few American tech platforms, European authorities would lose some of that
+control. The ECB has said openly that the digital euro is partly about <strong>strategic
+autonomy</strong>: reducing Europe's dependence on non-European payment providers, since Visa and
+Mastercard handle a large share of card payments in the euro area. Smaller countries face an even
+sharper version of this risk, as Topic 14 described with "digital dollarisation".</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Fixing cross-border payments</h2>
+</header>
+
+<p>Sending money between countries is still slow and often expensive, because it passes through
+chains of correspondent banks, each taking time and a fee. Wholesale CBDCs offer a possible shortcut:
+if central banks connect their digital currencies on a shared platform, banks could settle across
+borders directly, in seconds.</p>
+
+<p>The best-known experiment, Project mBridge, linked the central banks of China, Hong Kong,
+Thailand and the United Arab Emirates, later joined by Saudi Arabia, with the Bank for International
+Settlements (BIS), the central banks' own international bank. In 2024 the BIS withdrew from the
+project, saying it had reached a mature stage. Some observers linked the withdrawal to concerns that
+such systems could be used to avoid Western sanctions, a reading the BIS did not endorse. The BIS
+then began a separate project, Agorá, with several other central banks and private banks, exploring
+tokenised bank deposits alongside wholesale central bank money. <strong>Cross-border CBDC work has
+become part of geopolitics as well as plumbing.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>A public good or a solution in search of a problem?</h2>
+  <p class="lede">The arguments for and against are both serious. Which ones weigh more depends on the
+  country, its payment system and how much its citizens trust the state.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The case for and against</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Issue</th><th>The case for a retail CBDC</th><th>The case against</th></tr></thead>
+<tbody>
+<tr><td><strong>Safety</strong></td><td class="ok">Risk-free public money for everyone, unaffected by bank failures.</td><td class="no">Could speed up runs from banks in a crisis.</td></tr>
+<tr><td><strong>Banks</strong></td><td class="ok">More competition for banks and payment firms.</td><td class="no">Could drain deposits and raise the cost of lending.</td></tr>
+<tr><td><strong>Privacy</strong></td><td class="ok">Could be designed to be more private than cards, with offline cash-like options.</td><td class="no">Creates infrastructure that could enable state surveillance later.</td></tr>
+<tr><td><strong>Inclusion</strong></td><td class="ok">A basic, free payment option for people without bank accounts.</td><td class="no">The unbanked often lack phones, documents or trust; a CBDC alone does not fix that.</td></tr>
+<tr><td><strong>Sovereignty</strong></td><td class="ok">Public alternative to foreign card networks and stablecoins.</td><td class="no">Existing instant-payment systems may achieve the same at lower cost.</td></tr>
+<tr><td><strong>Cost and risk</strong></td><td class="ok">Modern, resilient infrastructure, possibly with offline use.</td><td class="no">Expensive to build, a large cyberattack target, and use may be low.</td></tr>
+</tbody></table></div>
+
+<p>A strong argument against comes from countries that already have excellent payment systems. In
+India and Brazil, public instant-payment systems (UPI and Pix) have transformed everyday payments
+without a CBDC. Critics ask what a retail CBDC adds where such systems exist. Supporters answer that
+those systems still move private bank money, and that a CBDC offers something different: public money
+that survives a bank failure.</p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Lessons from the eNaira</h2>
+</header>
+
+<p>Nigeria launched the eNaira in October 2021 with high hopes for financial inclusion. Take-up was
+very low; studies, including by the IMF, found that only a tiny share of Nigerians used it. In late
+2022 and early 2023, the central bank redesigned the naira notes and limited cash withdrawals, which
+caused severe cash shortages. eNaira use rose briefly during that period, but mainly because people
+had no alternative, and the policy was widely criticised and partly reversed by the courts.</p>
+
+<p>The episode offers two lessons that most observers accept. <strong>People do not adopt a new form
+of money just because it exists</strong>; it has to be more useful than what they already have, which
+in Nigeria included bank transfers and mobile money. And <strong>forcing adoption by restricting cash
+destroys trust</strong>, the one thing a currency cannot work without.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Wholesale first, retail perhaps, and a divided world</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Where CBDCs are heading</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Wholesale CBDCs and tokenised settlement</strong></td><td>Many central banks are testing digital central bank money for settling trades and large payments.</td><td class="ok">Fairly sure: wholesale use will grow quietly, because it improves existing systems with little political cost.</td></tr>
+<tr><td><strong>A digital euro</strong></td><td>The ECB is preparing; the EU law is still under negotiation. The ECB has pointed to a first issuance toward the end of the decade if the law passes.</td><td class="mid">Plausible: the most likely major retail CBDC in a Western economy, with holding limits, offline payments and strong privacy rules. Not certain.</td></tr>
+<tr><td><strong>The e-CNY at scale</strong></td><td>China continues to expand pilots and cross-border tests.</td><td class="mid">Plausible: steady growth, but competing with Alipay and WeChat Pay at home is hard.</td></tr>
+<tr><td><strong>A divided map</strong></td><td>The US has turned against a retail CBDC and toward regulated dollar stablecoins.</td><td class="mid">Plausible: a world split between countries using state digital money and countries relying on regulated private digital money.</td></tr>
+<tr><td><strong>CBDC as a policy tool</strong></td><td>Academics discuss paying interest on CBDC, or giving stimulus directly to citizens' wallets.</td><td class="no">Speculative: central banks say they have no such plans, and it would raise major legal and political questions.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Programmable money and the freedom debate</h2>
+</header>
+
+<p>One phrase drives much of the public fear: <strong>programmable money</strong>. In principle,
+digital money could carry rules. It could expire if not spent, be restricted to certain goods, or be
+blocked for certain people. Critics, especially in the US, argue that a CBDC would give governments
+a tool for control that no democracy should build, and that the risk outweighs any benefit.</p>
+
+<p>Central banks such as the ECB and the Bank of England reply that they have ruled out programmable
+money of this kind. They distinguish it from <strong>programmable payments</strong>, where you
+yourself set conditions, such as an automatic payment when a parcel arrives, which banks already
+offer today. They also point out that existing bank accounts can already be frozen by court order,
+and that a CBDC would sit under the same laws.</p>
+
+<p>Both sides have a point. The technology does not force either outcome. <strong>What decides whether
+a CBDC protects or threatens freedom is the law around it, the independence of the central bank, and
+the strength of the courts.</strong> That is why the debate looks so different in different countries,
+and why the answer to "should we have one?" depends as much on politics as on economics. The wider
+direction of money and banks is picked up in <a href="20-the-future-of-banking.html">The future of
+banking</a>.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A CBDC is <strong>public money in digital form</strong>, a direct claim on the central bank. The
+    <strong>retail</strong> kind, for everyone, is distributed through banks in a <strong>two-tier
+    model</strong> and usually comes with <strong>holding limits</strong> to protect banks. Central banks
+    are motivated by fading cash, private digital money and slow cross-border payments. The debate turns
+    on <strong>privacy, banks and trust in the state</strong>.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>First nationwide retail CBDC: the Bahamas' Sand Dollar, <strong>October 2020</strong>.</li>
+      <li><strong>Well over 100</strong> countries are researching or testing CBDCs; only a handful have launched.</li>
+      <li>Holding limits discussed: <strong>a few thousand euros</strong> (ECB), <strong>10,000–20,000
+      pounds</strong> (Bank of England).</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking a CBDC is a cryptocurrency, or that it must use a blockchain. <strong>It is ordinary
+    central bank money, like a banknote, in a digital form</strong>, and its most important features
+    are legal and design choices, not technology.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why a CBDC could make bank runs worse, and how holding limits and zero interest
+    are meant to prevent that?</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>CBDC</dt><dd>Central bank digital currency: digital money issued by and owed by the central bank.</dd>
+    <dt>Public money</dt><dd>Money issued by the central bank: cash and bank reserves.</dd>
+    <dt>Private money</dt><dd>Money issued by commercial banks and payment firms, such as deposits.</dd>
+    <dt>Retail CBDC</dt><dd>A CBDC for the general public and everyday payments.</dd>
+    <dt>Wholesale CBDC</dt><dd>A CBDC used only between banks and financial institutions.</dd>
+    <dt>Two-tier model</dt><dd>The central bank issues the money; banks and payment firms distribute it.</dd>
+    <dt>Account-based / token-based</dt><dd>Recording balances against identities, or recording digital tokens checked for authenticity.</dd>
+    <dt>Disintermediation</dt><dd>Money moving out of banks, reducing their role in lending.</dd>
+    <dt>Holding limit</dt><dd>A cap on how much CBDC one person may hold.</dd>
+    <dt>Monetary sovereignty</dt><dd>A country's control over its own currency and payments.</dd>
+    <dt>Programmable money</dt><dd>Money that carries built-in rules on how it may be spent.</dd>
+    <dt>Programmable payments</dt><dd>Payments that run automatically on conditions the user sets.</dd>
+    <dt>BIS</dt><dd>Bank for International Settlements: a bank and forum for the world's central banks.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Cash is the only public money ordinary people can hold. A CBDC would be the digital
+    version."</li>
+    <li>"Your bank would give you the wallet, but the money in it would be owed by the central bank."</li>
+    <li>"The banks' fear is simple: in a panic, everyone could move into CBDC with one tap."</li>
+    <li>"Privacy in a CBDC is a legal promise, not a technical fact."</li>
+    <li>"The eNaira showed that people don't use new money just because it exists, and forcing them
+    backfires."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="16-fintech-startups.html">Fintech startups</a></h4><p>The
+  companies building on top of banking: how they win customers, how they make money, and why so many
+  fail.</p></div>
+  <div class="card"><h4>Related · <a href="../09-economics/10-central-banks.html">Central banks</a></h4><p>The
+  institution behind the currency: independence, mandates and history.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

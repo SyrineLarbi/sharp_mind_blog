@@ -1,0 +1,882 @@
+<!doctype html>
+<!--@HEAD-SRC title="Regtech" desc="What regulatory technology is, how banks use software to know their customers, catch money laundering and report to supervisors, why it matters, where it fails, and where it is heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Regtech</title>
+<meta name="description" content="What regulatory technology is, how banks use software to know their customers, catch money laundering and report to supervisors, why it matters, where it fails, and where it is heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Banking &amp; Fintech · Topic 18 of 20</p>
+  <h1>Regtech. <span class="thin">The software that decides whether a bank is a gatekeeper or a getaway car.</span></h1>
+  <p class="lede">Every large bank employs thousands of people whose job is not to lend or to trade,
+  but to check. Who is this customer, really? Why did this account receive forty payments just under
+  the reporting limit? Is this company on a sanctions list under a different spelling? After the 2008
+  crisis, and after a series of record fines, the amount of checking exploded. Regtech, short for
+  regulatory technology, is the software built to do that checking faster and better. It is one of
+  the least glamorous corners of finance. It is also one of the places where the fight against
+  organised crime, terrorism and sanctions-busting is actually won or lost.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 16 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Banking &amp; Fintech</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="11-fraud-detection.html"><span class="vn">Banking · 11</span><b>Fraud detection</b><em>The closest neighbour</em></a>
+<a class="vol" href="../18-law-government/16-regulation.html"><span class="vn">Law · 16</span><b>Regulation</b><em>Why rules exist at all</em></a>
+<a class="vol" href="19-financial-inclusion.html"><span class="vn">Banking · 19</span><b>Financial inclusion</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>This is the library's first treatment of compliance technology. The nearest neighbours are
+  <a href="11-fraud-detection.html">Fraud detection</a>, which covers criminals stealing
+  <em>from</em> customers and banks, and <a href="../18-law-government/16-regulation.html">Regulation</a>,
+  which explains why governments regulate industries in the first place. This file is about
+  criminals using banks <em>as tools</em>, and the software that tries to stop them.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>Technology for following the rules, and for checking that others do</h2>
+  <p class="lede">Regtech covers any software that helps a financial firm meet its legal duties. Its
+  twin, suptech, is the same idea used by the supervisors who watch the firms.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>A branch in Tallinn</h2>
+</header>
+
+<p>Danske Bank is Denmark's largest bank. In 2007 it bought a bank with a small branch in Estonia.
+Over the following eight years, around 200 billion euros flowed through that branch's accounts held
+by non-residents, many of them shell companies (companies with no real business, used to hide who
+owns money) linked to Russia and other former Soviet states. Much of it was later judged suspicious.
+Warnings from a whistleblower inside the bank in 2013 were not acted on properly. When the full story
+came out in 2018, the chief executive resigned. In 2022 the bank pleaded guilty in the United States
+and agreed to pay about two billion dollars.</p>
+
+<p>The Estonian branch was a tiny part of Danske Bank. Its systems were separate from the head
+office's. Its customer checks were weak. Its staff were rewarded for bringing in business.
+<strong>The money did not hide from the bank. It passed through in plain sight, because nobody was
+looking at the right data in the right way.</strong></p>
+
+<p>Regtech exists because of stories like this. It is the attempt to make "looking at the right data"
+something a bank does automatically, every day, for every customer and every payment.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>What compliance actually involves</h2>
+</header>
+
+<p><strong>Compliance</strong> means obeying the laws and rules that apply to a business. For a bank,
+that list is long. The main duties, and the regtech that serves each, are below.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Duty</th><th>What the law asks</th><th>What the software does</th></tr></thead>
+<tbody>
+<tr><td><strong>Know your customer (KYC)</strong></td><td>Verify who each customer is before serving them</td><td>Checks identity documents, matches faces to photos, searches databases</td></tr>
+<tr><td><strong>Anti-money laundering (AML)</strong></td><td>Spot and report suspicious money flows</td><td>Monitors transactions for unusual patterns and raises alerts</td></tr>
+<tr><td><strong>Sanctions screening</strong></td><td>Never deal with listed people, firms or countries</td><td>Compares every customer and payment against official lists</td></tr>
+<tr><td><strong>Regulatory reporting</strong></td><td>Send supervisors regular data on capital, risk and trades</td><td>Collects data across the bank and formats it to the regulator's template</td></tr>
+<tr><td><strong>Conduct and market abuse</strong></td><td>Stop insider trading and market manipulation</td><td>Watches traders' orders, emails and chats for warning signs</td></tr>
+<tr><td><strong>Operational resilience</strong></td><td>Keep critical services running through outages and attacks</td><td>Maps systems and suppliers, tests failures, records incidents</td></tr>
+</tbody></table></div>
+
+<p>The word <strong>regtech</strong> became common around 2015, and Britain's Financial Conduct Authority
+was among the first regulators to use it publicly. The term <strong>suptech</strong>, supervisory
+technology, followed for the regulators' side: software that lets a central bank or a supervisor
+read thousands of reports automatically and spot which firms need a closer look.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>Why compliance became an industry</h2>
+</header>
+
+<p>Banking rules are old. Rules aimed at money laundering are much younger. In 1989 the G7 group of
+rich countries created the <strong>Financial Action Task Force</strong> (FATF), an
+intergovernmental body that sets international standards against money laundering. After the
+attacks of September 2001, those standards were extended to the financing of terrorism. Countries
+that fall short can be placed on FATF's "grey list" for closer monitoring, which makes their banks'
+international business harder and more expensive.</p>
+
+<p>Then came 2008. The financial crisis produced a wave of new rules on capital, liquidity, trading
+and consumer protection: the Basel III standards worldwide, the Dodd-Frank Act in the United States,
+and a long series of European rules. At the same time, enforcement became much tougher. In 2012 HSBC
+agreed to pay about 1.9 billion dollars in the United States over failures that let Mexican drug
+cartels move money through its accounts. In 2014 BNP Paribas agreed to pay about 8.9 billion dollars
+for breaking US sanctions.</p>
+
+<p>Banks responded by hiring. Compliance departments of several thousand people became normal at the
+largest banks. <strong>Regtech is what happens when an activity grows so big and so repetitive that
+software becomes cheaper than people.</strong></p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Identify, monitor, screen, report</h2>
+  <p class="lede">A bank's compliance machinery runs as a chain. First it learns who the customer is.
+  Then it watches what they do, checks them against lists, and reports what it finds.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Knowing the customer, in four minutes</h2>
+</header>
+
+<p>Opening an account used to require a branch visit. Today, in many countries, you photograph your
+passport and take a short video selfie. Behind that screen, several checks run in seconds. The
+software reads the document, checks its security features, and compares the photo with your face. A
+<strong>liveness check</strong> looks for signs that a real person is in front of the camera, not a
+printed photo, a mask or a deepfake video. Your name is then checked against databases of
+politically exposed persons (PEPs: senior public officials and their families, who carry a higher
+risk of corruption), sanctions lists and adverse media (negative news reports).</p>
+
+<p>For companies, the hardest question is <strong>beneficial ownership</strong>: who ultimately owns
+and controls the company, behind any chain of other companies. A criminal rarely owns a bank
+account in their own name. They own a company that owns a company in another country that owns the
+account. Several countries now keep public or semi-public registers of beneficial owners, but their
+quality varies, and in 2022 the EU's top court restricted general public access to them on privacy
+grounds.</p>
+
+<p>KYC is not a one-time event. Banks must refresh it, more often for higher-risk customers. This is
+called <strong>customer due diligence</strong>, and the stronger version for high-risk customers is
+<strong>enhanced due diligence</strong>.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Watching the money: transaction monitoring</h2>
+</header>
+
+<p>Money laundering is usually described in three stages. In <strong>placement</strong>, dirty money,
+often cash, enters the financial system. In <strong>layering</strong>, it is moved through many
+accounts, companies and countries to hide its origin. In <strong>integration</strong>, it comes back
+out looking clean, for example as the price of a property or the profit of a business.</p>
+
+<div class="sheet">
+  <div class="cap">How a transaction-monitoring system works</div>
+<pre>
+  every payment, every day
+        |
+        v
+  RULES and MODELS            e.g. "many cash deposits just under the limit"
+        |                          "money in and straight out again"
+        v                          "sudden flows to a high-risk country"
+  ALERT  (most are false alarms)
+        |
+        v
+  HUMAN ANALYST reviews the customer and the history
+        |
+   +----+--------------------+
+   |                         |
+ close the alert       file a SUSPICIOUS ACTIVITY REPORT
+                       to the national financial intelligence unit
+</pre>
+</div>
+
+<p>The classic pattern is <strong>structuring</strong>, also called smurfing: splitting a large sum
+into many deposits just below the amount that triggers an automatic report. The software looks for
+that, and for hundreds of other patterns. When it raises an alert, an analyst investigates. If the
+analyst finds the activity suspicious, the bank files a <strong>suspicious activity report</strong>
+with the country's financial intelligence unit, a government agency that collects these reports and
+passes leads to police.</p>
+
+<p>The weak point is the alerts. Traditional rule-based systems produce huge numbers of them, and
+industry estimates commonly put the share of false alarms at well over 90%. <strong>Analysts spend
+most of their day proving that innocent people are innocent.</strong> Much of modern regtech is an
+attempt to cut that noise with machine learning, which ranks alerts by how suspicious they look and
+links related accounts into networks.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Sanctions screening: one name, many spellings</h2>
+</header>
+
+<p>Governments publish lists of people, companies, ships and countries that banks must not deal
+with. The US Treasury, the EU, the UK and the United Nations all keep such lists. After Russia's
+full-scale invasion of Ukraine in 2022, these lists grew faster than at any time before, and banks
+had to update their screening within hours of each new announcement.</p>
+
+<p>Screening sounds simple: compare names. In practice it is hard. A name written in Arabic, Cyrillic
+or Chinese script can be transliterated into Latin letters in several ways. Mohammed can be Muhammad,
+Mohamed or Mohammad. Dates of birth are missing. Common names produce thousands of near-matches. So
+screening software uses <strong>fuzzy matching</strong>, which scores how similar two names are
+rather than demanding an exact match, plus other details such as nationality and date of birth.</p>
+
+<p>Set the matching too strict and a sanctioned person slips through with a slightly different
+spelling. Set it too loose and thousands of innocent payments are stopped. <strong>Every compliance
+system is a setting on a dial between missing criminals and blocking ordinary customers.</strong></p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Reporting to supervisors, and rules a machine can read</h2>
+</header>
+
+<p>Banks send their supervisors a constant stream of data: how much capital they hold, how much cash
+they could raise in a crisis, which large loans they have made, and, under European market rules
+such as MiFID II, details of millions of trades. Gathering this from dozens of internal systems,
+each with its own definitions, is a large part of a bank's compliance cost.</p>
+
+<p>Regtech here is mainly about <strong>data plumbing</strong>: collecting, cleaning and checking the
+numbers before they go out. A more ambitious idea is <strong>machine-readable regulation</strong>.
+Today a rule is written in legal language, read by lawyers, translated by staff into a specification,
+and coded by engineers, with room for error at every step. If a regulator published the rule as
+precise code, or as a standard data definition, banks could plug it in directly. Regulators in the
+UK, the EU and elsewhere have run pilots, and the Bank for International Settlements created an
+Innovation Hub in 2019 that works on such tools.</p>
+
+<p>The latest wave of rules targets technology itself. The EU's Digital Operational Resilience Act
+(DORA), which applies from January 2025, requires financial firms to manage risks from IT failures
+and from their technology suppliers, including cloud providers. <a
+href="12-financial-cybersecurity.html">Financial cybersecurity</a> covers the threats behind it.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Crime needs a bank account</h2>
+  <p class="lede">Drug cartels, people traffickers, corrupt officials and sanctioned regimes all face
+  the same problem: their money is useless until it looks legitimate. Banks are where it has to pass.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>The scale of the problem, and how little is caught</h2>
+</header>
+
+<p>Nobody knows how much money is laundered each year, because the whole point is that it is hidden.
+A widely quoted, very rough estimate from the United Nations puts it at 2 to 5% of world economic
+output. Whatever the true figure, enforcement agencies agree that only a small fraction of criminal
+money is ever seized. <strong>The global system catches very little, at very high cost.</strong></p>
+
+<p>That is why the quality of banks' checks matters so much. A bank that files many low-quality
+reports to protect itself helps nobody. Financial intelligence units in several countries receive
+far more reports than they can read. A good report, which links accounts, explains the pattern and
+names the people involved, can start a police investigation. A pile of automatic ones mostly
+creates work.</p>
+
+<p>Leaks have shown the gaps. The Panama Papers in 2016, a leak of documents from a Panamanian law
+firm, showed how easily shell companies could hide the owners of money. Investigations into what
+journalists called "laundromats" showed billions moving from Russia and Azerbaijan through European
+banks. Each scandal led to stricter rules, and each new rule created more demand for regtech.</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>The cost of getting it wrong</h2>
+</header>
+
+<p>For banks, failure is expensive and sometimes existential. In 2024 TD Bank, one of Canada's largest
+banks, pleaded guilty in the United States to failures in its anti-money-laundering programme and
+agreed to penalties of about three billion dollars. US regulators also capped the size of its US
+business, a punishment that limits growth for years. In 2023 Binance, the world's largest
+cryptocurrency exchange, agreed to pay about 4.3 billion dollars in the US over money-laundering and
+sanctions violations, and its founder pleaded guilty and stepped down.</p>
+
+<p>These cases share a pattern. <strong>The problem was rarely a lack of software. It was a culture
+that treated compliance as a brake on growth.</strong> Systems were underfunded, alerts were left
+unreviewed, warnings from staff were ignored. Regtech can make good compliance cheaper. It cannot
+make a bank want to comply.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The people shut out: de-risking</h2>
+</header>
+
+<p>There is a side effect that is less often discussed. When fines are huge and some customers are
+expensive to check, banks may simply close those customers' accounts. This is called
+<strong>de-risking</strong>. Money-transfer firms serving migrants, charities working in conflict
+zones, small banks in poor countries, and people from countries on FATF's grey list have all lost
+access to banking this way.</p>
+
+<p>The effect can be serious. When large international banks cut ties with smaller banks in some
+regions, a process known as the decline of <strong>correspondent banking</strong> (one bank holding
+accounts for another bank abroad so that it can make international payments), whole countries found
+it harder and more expensive to receive money from abroad. FATF and the World Bank have both warned
+that de-risking pushes money into informal channels that are even harder to watch.</p>
+
+<p>This connects directly to <a href="19-financial-inclusion.html">Financial inclusion</a>.
+<strong>Good regtech should make it cheap enough to check a risky customer that the bank keeps them,
+instead of turning them away.</strong> That is one of its strongest arguments.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Cheaper checking, and the risk of checking badly at scale</h2>
+  <p class="lede">Software can check more customers, more consistently, for less money. It can also
+  spread one bad assumption across millions of decisions.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>What regtech gives, and what it costs</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>What it gives</th><th>What it costs</th></tr></thead>
+<tbody>
+<tr><td><strong>Digital identity checks</strong></td><td class="ok">Accounts opened in minutes; fewer forged documents accepted.</td><td class="no">People without standard documents, or whose faces the system reads poorly, can be wrongly rejected.</td></tr>
+<tr><td><strong>Machine-learning monitoring</strong></td><td class="ok">Fewer false alarms; detection of complex networks rules miss.</td><td class="mid">Harder to explain to a regulator or a court why an alert fired.</td></tr>
+<tr><td><strong>Automated screening</strong></td><td class="ok">Every payment checked against every list in real time.</td><td class="no">Innocent people with common names blocked or delayed.</td></tr>
+<tr><td><strong>Automated reporting</strong></td><td class="ok">Fewer manual errors; supervisors get better data sooner.</td><td class="mid">Errors in source data flow straight through, looking official.</td></tr>
+<tr><td><strong>Outsourced compliance vendors</strong></td><td class="ok">Small firms get tools only big banks could build.</td><td class="no">Many firms rely on the same few vendors; the legal duty still stays with the bank.</td></tr>
+<tr><td><strong>More data collected</strong></td><td class="ok">Better detection of crime.</td><td class="no">Large stores of personal data; a privacy cost for every customer.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Box-ticking versus judgement</h2>
+</header>
+
+<p>Critics of the anti-money-laundering system make a hard argument. They say much of it measures
+effort rather than results. Banks are judged on whether they have the right policies, files and
+reports, not on how much crime they actually stop. That encourages <strong>defensive
+compliance</strong>: file a report whenever in doubt, refuse any customer who looks complicated, and
+document everything. It protects the bank and does little else.</p>
+
+<p>Regtech can make this worse or better. It makes it worse if it simply automates box-ticking at
+higher speed. It makes it better if it frees analysts from false alarms to spend time on the cases
+that matter. <strong>The most useful tools are the ones that improve the quality of a human
+judgement, not the ones that replace it with a score.</strong></p>
+
+<p>There is also a risk of over-trust. A model trained on past suspicious cases learns what
+<em>past</em> criminals did, and the cases that were caught. Criminals adapt. A system that looks
+clean may only mean nobody has found the new method yet.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Shared data, readable rules, and AI on both sides</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Three directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>AI-assisted investigations</strong></td><td>Banks are using machine learning to rank alerts, and language models to draft case summaries for analysts to check.</td><td class="ok">Fairly sure: widespread within a few years, under rules requiring human review and explainable decisions.</td></tr>
+<tr><td><strong>Information sharing between banks</strong></td><td>A launderer spreads money across several banks, so each sees only a part. Some countries let banks share data on suspicious networks, with legal safeguards.</td><td class="mid">Plausible: more sharing, limited by privacy law and competition concerns.</td></tr>
+<tr><td><strong>Fully machine-readable rulebooks</strong></td><td>Pilots by regulators and the BIS Innovation Hub; parts of reporting already standardised.</td><td class="no">Speculative for whole rulebooks: law needs interpretation, and much of it resists being turned into code.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>New authorities, digital identity and the arms race</h2>
+</header>
+
+<p>Institutions are changing too. The EU created a new Anti-Money Laundering Authority (AMLA), based
+in Frankfurt, which began operating in 2025 and will directly supervise some of the riskiest
+financial firms in the coming years, replacing a patchwork in which each country checked its own
+banks. Europe is also building digital identity wallets that citizens could use to prove who they
+are to a bank, which could make KYC both faster and more reliable.</p>
+
+<p>The criminals are changing as well. Generative AI makes fake documents and deepfake video selfies
+cheaper to produce, which attacks the identity checks of Chapter 04 directly. Crypto-assets create new
+paths for layering, though public blockchains also leave records that investigators can trace. <a
+href="14-digital-currencies.html">Digital currencies</a> explains why. <a
+href="../18-law-government/20-ai-regulation.html">AI regulation</a> covers the EU rules that treat
+some financial AI, such as credit scoring, as high-risk.</p>
+
+<p>The likely outcome is not victory but a continuing arms race. <strong>Regtech will not make
+money laundering impossible. At best, it makes it more expensive, and makes good compliance cheap
+enough that banks stop turning away honest customers they cannot afford to check.</strong></p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>Regtech is software for <strong>compliance</strong>: knowing customers, monitoring
+    transactions, screening against sanctions lists and reporting to supervisors. It exists because
+    rules and fines grew after 2001 and 2008. Its central problem is the <strong>dial between
+    missing criminals and blocking innocent customers</strong>, and its central limit is that software
+    cannot fix a bank that does not want to comply.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>FATF founded in <strong>1989</strong>.</li>
+      <li>About <strong>200 billion euros</strong> passed through Danske Bank's Estonian branch, 2007–2015.</li>
+      <li>False alarms in traditional monitoring: commonly estimated at <strong>well over 90%</strong>.</li>
+      <li>Laundering worldwide: a rough UN estimate of <strong>2–5% of world output</strong>.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Thinking more alerts and more reports mean better protection. <strong>Quality beats
+    quantity.</strong> A flood of defensive reports hides the few that matter.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain placement, layering and integration with one example, and say which stage a
+    transaction-monitoring system is best placed to catch? If you can, you understand how the
+    machinery fits together.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Regtech</dt><dd>Regulatory technology: software that helps firms meet their legal duties.</dd>
+    <dt>Suptech</dt><dd>Supervisory technology: the same idea used by regulators to watch firms.</dd>
+    <dt>Compliance</dt><dd>Obeying the laws and rules that apply to a business.</dd>
+    <dt>KYC</dt><dd>Know your customer: checking who a customer really is.</dd>
+    <dt>Money laundering</dt><dd>Making criminal money look as if it came from a legal source.</dd>
+    <dt>Beneficial owner</dt><dd>The real person who ultimately owns or controls a company or an account.</dd>
+    <dt>Shell company</dt><dd>A company with no real business, often used to hide who owns money.</dd>
+    <dt>Politically exposed person</dt><dd>A senior public official, or their family, treated as higher risk for corruption.</dd>
+    <dt>Structuring</dt><dd>Splitting a large sum into small amounts to avoid automatic reporting.</dd>
+    <dt>Suspicious activity report</dt><dd>A bank's formal report of possible crime to the national financial intelligence unit.</dd>
+    <dt>Sanctions</dt><dd>Legal bans on dealing with named people, companies or countries.</dd>
+    <dt>Fuzzy matching</dt><dd>Comparing names by similarity rather than exact spelling.</dd>
+    <dt>De-risking</dt><dd>Banks closing whole groups of accounts because checking them is costly or risky.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"Criminal money is useless until it passes through a bank. That's why banks are made to act
+    as gatekeepers."</li>
+    <li>"Most anti-money-laundering alerts are false alarms. The real skill is finding the few that
+    aren't."</li>
+    <li>"Every compliance system is a dial between missing criminals and blocking innocent
+    people."</li>
+    <li>"The big fines were rarely about missing software. They were about a culture that saw
+    compliance as a cost."</li>
+    <li>"When checking is expensive, banks don't check harder. They close the account. Cheap,
+    good checks keep people in the system."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="19-financial-inclusion.html">Financial inclusion</a></h4><p>The
+  more than a billion adults without an account, and the phones, IDs and payment systems that are bringing
+  them in.</p></div>
+  <div class="card"><h4>Related · <a href="11-fraud-detection.html">Fraud detection</a></h4><p>The
+  other side of the same machinery: catching criminals who steal from customers rather than hide
+  money through them.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

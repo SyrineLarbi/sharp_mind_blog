@@ -1,0 +1,861 @@
+<!doctype html>
+<!--@HEAD-SRC title="Communities" desc="What makes a community, how trust and social ties are built and lost, why they matter for health, safety and democracy, and how societies are trying to rebuild them."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Communities</title>
+<meta name="description" content="What makes a community, how trust and social ties are built and lost, why they matter for health, safety and democracy, and how societies are trying to rebuild them.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Society &amp; Sociology · Topic 12 of 20</p>
+  <h1>Communities. <span class="thin">The invisible network that decides who comes to help when things go wrong.</span></h1>
+  <p class="lede">Ask people what they want from where they live and many say the same thing: to
+  know their neighbours, to feel they belong, to have someone to call. That wish describes a
+  community. It sounds soft, but it is measurable, and its effects are hard: on how long people live,
+  how safe their streets are, how well they recover from disaster and how much they trust their
+  government. This file explains what communities are, how they are built, why many have weakened,
+  and what seems to bring them back.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Society</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../36-people.html#c7"><span class="vn">Vol 36 · ch 07</span><b>Us and them</b><em>The psychology of groups</em></a>
+<a class="vol" href="16-digital-communities.html"><span class="vn">Society · 16</span><b>Digital communities</b><em>The online version</em></a>
+<a class="vol" href="13-religion-and-society.html"><span class="vn">Society · 13</span><b>Religion and society</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>Volume 36 covers the psychology of small groups: how easily we form loyalties
+  (<a href="../36-people.html#c7">Us and them</a>) and why crowds fail to help
+  (<a href="../36-people.html#c6">Why nobody helps</a>). This file moves up a level, from the
+  individual mind to the neighbourhood, the town and the network, and asks what keeps whole
+  communities working.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A group bound by more than being nearby</h2>
+  <p class="lede">A community is a group of people linked by lasting ties, a shared sense of
+  belonging and some common expectations. Living on the same street is not enough on its own.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>The town with healthy hearts</h2>
+</header>
+
+<p>In the late 1950s and early 1960s, the American doctor Stewart Wolf and colleagues studied
+Roseto, a small town in Pennsylvania founded by immigrants from one village in southern Italy. The
+men of Roseto died of heart attacks at a much lower rate than men in nearby towns, even though they
+smoked, ate plenty of fat and worked in hard jobs. The researchers could not find a dietary or
+genetic explanation that fitted.</p>
+
+<p>What stood out was how the town lived. Three generations often shared one house. People stopped
+to talk in the street, ate together, belonged to the same church and clubs, and looked after
+neighbours who fell on hard times. Showing off wealth was frowned upon. Over the following decades,
+as younger people moved away and life in Roseto became more like the rest of America, the town's
+heart-attack advantage faded.</p>
+
+<p>The study was small, and later researchers have debated how much of the effect was really about
+social life. But the "Roseto effect" became a famous example of an idea that much larger studies
+have since supported: <strong>the web of relationships around a person is part of their health, not
+just their happiness.</strong></p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>Kinds of community</h2>
+</header>
+
+<p>In 1887 the German sociologist Ferdinand Tönnies made a distinction still used today. He
+contrasted <strong>Gemeinschaft</strong> ("community"), close personal ties based on kinship, place
+and tradition, as in a village, with <strong>Gesellschaft</strong> ("society"), looser ties based on
+contracts and self-interest, as in a city or a market. He feared that modern life was replacing the
+first with the second.</p>
+
+<p>Today sociologists recognise many kinds of community, and most people belong to several at once.</p>
+
+<div class="tw"><table>
+<thead><tr><th>Kind</th><th>What binds it</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Place</strong></td><td>Living in the same area</td><td>A village, a neighbourhood, a housing estate</td></tr>
+<tr><td><strong>Identity</strong></td><td>A shared background or belief</td><td>An ethnic diaspora, a religious congregation</td></tr>
+<tr><td><strong>Interest</strong></td><td>A shared hobby or cause</td><td>A running club, a local campaign group</td></tr>
+<tr><td><strong>Practice</strong></td><td>Doing the same kind of work</td><td>Nurses on a ward, open-source programmers</td></tr>
+<tr><td><strong>Online</strong></td><td>Shared space on a platform</td><td>A forum, a group chat, a gaming guild</td></tr>
+</tbody></table></div>
+
+<p>What they share is more than contact. <strong>A community exists when people expect to meet
+again, feel some loyalty to the group, and act differently because of it.</strong></p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>How many people can you really know?</h2>
+</header>
+
+<p>In the 1990s the British anthropologist Robin Dunbar suggested that humans can keep up stable,
+meaningful relationships with only about <strong>150</strong> people. He based this on the link
+between brain size and group size in other primates, and pointed to the typical size of hunter-gatherer
+bands, early villages and army units. The figure became known as <strong>Dunbar's number</strong>.</p>
+
+<p>It is popular and contested. Some researchers have re-analysed the data and found that the
+estimate could range widely, and that people differ a lot. What holds up better is the general
+picture: <strong>we have a small inner circle of a handful of very close people, wider circles of
+friends, and a large outer ring of acquaintances</strong>, and our time and attention limit how many
+people fit in each ring. Communities larger than a few hundred need institutions, such as churches,
+clubs, schools and councils, to hold them together.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Social capital: the wealth that lives between people</h2>
+  <p class="lede">Communities run on trust, habits of cooperation and networks. Sociologists bundle
+  these together under one name and have tried to measure how they grow and decline.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>Bonding and bridging</h2>
+</header>
+
+<p><strong>Social capital</strong> means the value that comes from relationships: the networks,
+trust and shared norms that let people cooperate. Like money, it can be invested, built up and spent.
+A neighbour who waters your plants is drawing on it. So is a job offer that comes through a
+friend.</p>
+
+<p>The American political scientist Robert Putnam, whose book <em>Bowling Alone</em> (2000) made the
+idea famous, separated two kinds.</p>
+
+<div class="grid2">
+  <div class="card"><h4>Bonding social capital</h4><p>Ties within a group of similar people: family,
+  close friends, an ethnic or religious community. It gives support and loyalty. It "helps you get
+  by". Too much of it, without the other kind, can turn a group inward and suspicious of
+  outsiders.</p></div>
+  <div class="card"><h4>Bridging social capital</h4><p>Ties across different groups: a workplace that
+  mixes classes, a sports club that mixes ethnic backgrounds. It spreads information and tolerance. It
+  "helps you get ahead". It is usually weaker and harder to build.</p></div>
+</div>
+
+<p>Healthy communities need both. <strong>Bonding holds people up; bridging connects them to
+everyone else.</strong> Mobility research shows how much bridging matters; see
+<a href="11-social-mobility.html#c7">Social mobility · Who your friends are</a>.</p>
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>The strength of weak ties</h2>
+</header>
+
+<p>In 1973 the American sociologist Mark Granovetter published a paper with a surprising title: "The
+Strength of Weak Ties". He had asked people in professional jobs how they found work. Many had heard
+about their job through a personal contact, and more often than not, the contact was an
+<strong>acquaintance</strong> they saw only occasionally, not a close friend.</p>
+
+<p>The reason is simple once you see it. Your close friends know the same people and hear the same
+news as you. Acquaintances move in other circles, so they carry information you would never otherwise
+get. <strong>Weak ties are bridges between clusters.</strong> A community full of people who say hello
+at the bakery, the school gate and the bus stop is quietly building a network that can find jobs,
+spread warnings and pass on help.</p>
+
+<p>This is why the American sociologist Ray Oldenburg, in <em>The Great Good Place</em> (1989), praised
+what he called <strong>third places</strong>. The first place is home and the second is work. Third
+places are cafés, pubs, barbershops, libraries and parks, where people meet regularly and informally,
+on neutral ground. They are where weak ties form.</p>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>Collective efficacy: will anyone step in?</h2>
+</header>
+
+<p>In 1997 the sociologist Robert Sampson and colleagues published a study of hundreds of Chicago
+neighbourhoods. They asked residents whether neighbours would intervene if children were skipping
+school or spraying graffiti, and whether people in the area could be trusted. They called the
+combination <strong>collective efficacy</strong>: shared trust plus a willingness to act for the common
+good.</p>
+
+<p>Neighbourhoods with high collective efficacy had less violence, even after allowing for poverty and
+other differences. The point is not that residents fought crime themselves. It is that <strong>people
+who trust each other enforce small norms early, and that changes the whole climate of a
+street</strong>. It is the opposite of the bystander problem described in Volume 36, where each person
+waits for someone else to act.</p>
+
+<p>The American political economist Elinor Ostrom showed something similar on a larger scale.
+Studying fisheries, forests and irrigation systems around the world, she found that local communities
+often manage shared resources well for centuries, without either the state or private ownership,
+when they have clear rules, ways to monitor and punish cheating, and a say in making the rules. She
+received the Nobel Memorial Prize in Economic Sciences in 2009, the first woman to do so.</p>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Why many communities frayed</h2>
+</header>
+
+<p>Putnam's core argument was that, in the United States, membership of clubs, unions, churches,
+parent associations and civic groups had fallen sharply from the 1960s onward. His title came from one
+detail: more Americans were bowling than before, but fewer were bowling in leagues. People still did
+things, but more of them did them alone.</p>
+
+<p>He blamed several forces: suburbs and long commutes that left less time for local life, the rise of
+television as the main use of free time, the pressure of two-earner households, and above all
+generational change, as a very civic generation shaped by the Second World War was replaced by less
+joining ones. Similar declines in traditional membership have been reported in other rich countries,
+though not everywhere and not to the same degree.</p>
+
+<p>Critics pointed out that people may simply have moved to new forms of connection, such as informal
+networks, single-issue campaigns and, later, online groups. That debate is still open.
+<strong>What is not in doubt is that the old institutions that once gathered people weekly, from
+churches to unions, now gather far fewer.</strong></p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>Health, survival and self-government</h2>
+  <p class="lede">The strongest evidence for community comes from the moments when it is missing: in
+  illness, in disaster and in politics.</p>
+</header>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Loneliness as a health risk</h2>
+</header>
+
+<div class="warn">
+  <span class="tag">General education</span>
+  <p>This chapter describes research on populations. It is not medical advice. If loneliness or low
+  mood is affecting your health, talk to a doctor or a trusted support service.</p>
+</div>
+
+<p>In 2010 the psychologist Julianne Holt-Lunstad and colleagues combined the results of 148 studies
+following more than 300,000 people. People with stronger social relationships had about a
+<strong>50% greater likelihood of survival</strong> over the study periods than those with weaker ones.
+The size of the effect was comparable to well-known risks such as smoking, though comparisons like
+that are approximate.</p>
+
+<p>Governments took notice. The United Kingdom appointed a minister for loneliness in 2018, and Japan
+did the same in 2021. In 2023 the US Surgeon General, Vivek Murthy, issued a public advisory describing
+an "epidemic of loneliness and isolation", and the World Health Organization launched a commission on
+social connection. <strong>Loneliness is now treated as a public health issue, not only a private
+sadness.</strong> It is also important to separate two things: being alone (a fact) and feeling lonely
+(a painful gap between the connection you have and the connection you want).</p>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Who dies in a heat wave</h2>
+</header>
+
+<p>In July 1995 a heat wave hit Chicago. Over about a week, more than 700 people died beyond what would
+normally be expected. Most were elderly, poor and living alone. The sociologist Eric Klinenberg studied
+the disaster in his book <em>Heat Wave</em> (2002) and noticed something striking.</p>
+
+<p>Some neighbourhoods with similar levels of poverty had very different death rates. In areas with
+busy streets, local shops and active churches, people checked on elderly neighbours and brought them
+to cool places. In areas where shops had closed, streets were empty and crime made people afraid to
+open their doors, isolated people died alone in hot apartments. <strong>The heat was the same. The
+social fabric was not.</strong></p>
+
+<p>Disaster researchers, notably the political scientist Daniel Aldrich, have reported the same
+pattern after earthquakes and floods in Japan, India and the United States: places with stronger
+social ties tend to recover faster than places with more money but fewer connections. Neighbours, not
+emergency services, are usually the first responders.</p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>The schools of democracy</h2>
+</header>
+
+<p>In the 1830s the French writer Alexis de Tocqueville travelled across the United States and
+published <em>Democracy in America</em>. He was struck by how readily Americans formed associations
+for every purpose, from building a school to running a charity. He saw these groups as places where
+ordinary people learned to cooperate, argue, compromise and lead: the practical training for
+self-government.</p>
+
+<p>Modern research broadly supports his intuition. Regions and countries with higher social trust tend
+to have more effective governments and lower corruption, although it is hard to separate cause and
+effect. Putnam's earlier study of Italian regions, <em>Making Democracy Work</em> (1993), argued that
+regions with long traditions of civic associations had better-run local governments.
+<strong>Democracy needs places where strangers practise trusting each other in small things before
+they are asked to trust each other in large ones.</strong></p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>The warmth and the walls</h2>
+  <p class="lede">Strong communities protect their members. The same strength can exclude, pressure
+  and suffocate.</p>
+</header>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>What strong communities give, and what they can cost</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Area</th><th>Strength</th><th>Weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>Support</strong></td><td class="ok">Help in illness, childcare, job loss and grief.</td><td class="no">Help comes with obligations, and refusing them can be costly.</td></tr>
+<tr><td><strong>Norms</strong></td><td class="ok">Small problems are corrected early; streets feel safe.</td><td class="no">Pressure to conform; gossip and shaming of those who differ.</td></tr>
+<tr><td><strong>Belonging</strong></td><td class="ok">A clear identity and sense of place.</td><td class="no">A clear line between insiders and outsiders, sometimes hostile.</td></tr>
+<tr><td><strong>Local power</strong></td><td class="ok">Residents organise to defend their area and run shared resources.</td><td class="mid">They may also block new housing or newcomers ("not in my back yard").</td></tr>
+<tr><td><strong>Networks</strong></td><td class="ok">Jobs and information pass between members.</td><td class="no">Favouritism and closed doors for those outside the network.</td></tr>
+</tbody></table></div>
+
+<p>Social capital is not always good for society. A mafia family, a gang or a corrupt network has
+plenty of bonding social capital. So do groups that unite mainly against others. <strong>The question
+is never just "how strong is this community?" but "who does its strength serve, and who is kept
+out?"</strong></p>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>The freedom of being nobody</h2>
+</header>
+
+<p>For many people, leaving a close-knit community was a liberation. A medieval German saying held
+that "city air makes you free", because a serf who lived in a chartered town for a year and a day could
+escape his lord. In modern times, young people, religious and sexual minorities, and women escaping
+narrow roles have often moved to cities precisely for their anonymity.</p>
+
+<p>The German sociologist Georg Simmel, writing in 1903 about the big city, described the cool,
+reserved attitude of city dwellers as a defence against too much stimulation, and noted that it also
+gave a new kind of personal freedom. <strong>The loss of close community is real, but so is what it
+bought: the freedom to choose your own life without your neighbours' approval.</strong> The challenge
+is to have connection without control.</p>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Rebuilding by design</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Directions, by confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>Loneliness as public policy</strong></td><td>Several governments have ministers, strategies and funding for social connection. Health services refer patients to community activities.</td><td class="ok">Fairly sure: more countries will treat social connection like other health risks, with targets and programmes.</td></tr>
+<tr><td><strong>Designing for meeting</strong></td><td>Planners are using shared spaces, walkable streets and mixed housing to encourage casual contact.</td><td class="mid">Plausible: real gains in some places, but design alone cannot create trust.</td></tr>
+<tr><td><strong>Hybrid communities</strong></td><td>Many local groups now organise through messaging apps, and online groups meet in person.</td><td class="mid">Plausible: the line between online and local community keeps blurring. See <a href="16-digital-communities.html">Digital communities</a>.</td></tr>
+<tr><td><strong>AI companions</strong></td><td>Chatbots marketed as friends or partners have millions of users.</td><td class="no">Speculative: whether they ease loneliness or deepen isolation is unknown and debated.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>What seems to work</h2>
+</header>
+
+<p>One idea gaining ground is <strong>social prescribing</strong>. In England, the National Health
+Service has employed "link workers" since 2019 who can connect patients with community groups, such as
+walking clubs, gardening projects, choirs or volunteering, alongside medical care. Evaluations are
+promising but mixed, and researchers say more rigorous evidence is needed.</p>
+
+<p>Other lessons repeat across studies. <strong>People build ties through regular, repeated, low-stakes
+contact around a shared activity</strong>, not through one-off events or campaigns telling them to be
+friendly. Libraries, sports clubs, community gardens, religious congregations and parents' groups do
+this naturally. Communities also last when people have a real say, as Ostrom found: being consulted
+and trusted with decisions makes them invest.</p>
+
+<p>The deeper change may be cultural. Earlier generations inherited communities. Many people today
+must choose and build them, and that takes effort that busy lives make hard. <strong>Community is
+becoming less a place you are born into and more a practice you keep up</strong>, like exercise: easy
+to neglect, and noticed most when it is gone.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A community is a group bound by lasting ties, belonging and shared expectations. Its power comes
+    from <strong>social capital</strong>: <strong>bonding</strong> ties that support members and
+    <strong>bridging</strong> ties that connect groups. Communities with high trust and
+    <strong>collective efficacy</strong> are healthier, safer and better governed, but strong
+    communities can also exclude and pressure.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>Stronger social relationships: about <strong>50%</strong> higher likelihood of survival
+      (Holt-Lunstad, 2010, 148 studies).</li>
+      <li>Dunbar's number: about <strong>150</strong> stable relationships, a popular but contested
+      estimate.</li>
+      <li>Chicago, 1995: more than <strong>700</strong> excess deaths in a week-long heat wave, unevenly
+      spread by neighbourhood.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Assuming community is always good. <strong>Bonding without bridging can produce closed,
+    suspicious groups</strong>, and some of the tightest networks are criminal ones.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why an acquaintance is more likely than a close friend to tell you about a job?
+    If you can, you understand weak ties and why bridging matters.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Community</dt><dd>A group linked by lasting ties, belonging and shared expectations.</dd>
+    <dt>Gemeinschaft / Gesellschaft</dt><dd>Tönnies's contrast between close, traditional community and looser, contract-based society.</dd>
+    <dt>Social capital</dt><dd>The networks, trust and norms that let people cooperate.</dd>
+    <dt>Bonding social capital</dt><dd>Ties among similar people that provide support.</dd>
+    <dt>Bridging social capital</dt><dd>Ties across different groups that spread information and tolerance.</dd>
+    <dt>Weak ties</dt><dd>Links with acquaintances, which connect you to circles beyond your own.</dd>
+    <dt>Third place</dt><dd>An informal public meeting place that is neither home nor work.</dd>
+    <dt>Collective efficacy</dt><dd>Neighbours' shared trust plus their willingness to act for the common good.</dd>
+    <dt>Dunbar's number</dt><dd>The estimate that people can keep about 150 stable relationships.</dd>
+    <dt>Loneliness</dt><dd>The painful gap between the connection you have and the connection you want.</dd>
+    <dt>Social prescribing</dt><dd>Health workers referring patients to community activities, not only medicine.</dd>
+    <dt>Commons</dt><dd>A resource shared by a group, such as a fishery or pasture, that it must manage together.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"In a heat wave, what decides who dies is often not money but whether anyone knocks on the
+    door."</li>
+    <li>"Strong social ties are linked to a survival advantage roughly comparable to that of not smoking."</li>
+    <li>"Close friends support you, but acquaintances find you jobs, because they know people you
+    don't."</li>
+    <li>"A community is not the same as a neighbourhood. It's what happens when neighbours expect to
+    meet again."</li>
+    <li>"Every strong community asks two questions: who does it hold up, and who does it keep
+    out?"</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="13-religion-and-society.html">Religion and society</a></h4>
+  <p>Faith as one of the oldest and strongest community builders, and how its role is changing around
+  the world.</p></div>
+  <div class="card"><h4>Related · <a href="16-digital-communities.html">Digital communities</a></h4>
+  <p>Whether online groups can provide the support, trust and belonging that local communities
+  do.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->

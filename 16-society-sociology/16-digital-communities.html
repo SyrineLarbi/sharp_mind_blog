@@ -1,0 +1,896 @@
+<!doctype html>
+<!--@HEAD-SRC title="Digital Communities" desc="How strangers form real communities online: what makes a group a community, how forums, servers and wikis govern themselves, what they give and cost, and where they are heading."-->
+<!--@HEAD-START-->
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Communities</title>
+<meta name="description" content="How strangers form real communities online: what makes a group a community, how forums, servers and wikis govern themselves, what they give and cost, and where they are heading.">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" href="../favicon-32.png" type="image/png" sizes="32x32">
+<link rel="icon" href="../favicon-16.png" type="image/png" sizes="16x16">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Anonymous+Pro:wght@400;700&display=swap">
+
+<style>
+/* ===== tokens · the bare :root is the complete light palette ===== */
+:root {
+  --shadow: rgba(0, 0, 0, .12);
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+
+  --ground:   #F4F3F2;
+  --ground-2: #FCFBFB;
+  --panel:    #EBE8E7;
+  --panel-2:  #E1DDDC;
+
+  --ink:   #191718;
+  --ink-2: #413C3E;
+  --ink-3: #746E70;
+
+  --rule:   #D7D2D3;
+  --rule-2: #E6E2E2;
+
+  --accent:      #8A5A24;
+  --accent-soft: #F3EADC;
+  --accent-deep: #5A3A14;
+
+  --bad:      #A6342A;
+  --bad-soft: #F8E7E4;
+  --warn:      #8A6206;
+  --warn-soft: #F7EEDA;
+  --good:      #1C6B4A;
+  --good-soft: #E1F0E8;
+
+  --focus: #5B3A8C;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ground:   #121011;
+    --ground-2: #191718;
+    --panel:    #211E1F;
+    --panel-2:  #2A2627;
+
+    --ink:   #ECE8E9;
+    --ink-2: #C3BDBF;
+    --ink-3: #8A8385;
+
+    --rule:   #342F30;
+    --rule-2: #2A2627;
+
+    --accent:      #D9A867;
+    --accent-soft: #221A10;
+    --accent-deep: #EBC894;
+
+    --bad:      #E4948A;
+    --bad-soft: #26140F;
+    --warn:      #D2A64F;
+    --warn-soft: #221A0B;
+    --good:      #6DBF98;
+    --good-soft: #101F18;
+
+    --focus: #B79AE0;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground:   #121011;
+  --ground-2: #191718;
+  --panel:    #211E1F;
+  --panel-2:  #2A2627;
+
+  --ink:   #ECE8E9;
+  --ink-2: #C3BDBF;
+  --ink-3: #8A8385;
+
+  --rule:   #342F30;
+  --rule-2: #2A2627;
+
+  --accent:      #D9A867;
+  --accent-soft: #221A10;
+  --accent-deep: #EBC894;
+
+  --bad:      #E4948A;
+  --bad-soft: #26140F;
+  --warn:      #D2A64F;
+  --warn-soft: #221A0B;
+  --good:      #6DBF98;
+  --good-soft: #101F18;
+
+  --focus: #B79AE0;
+}
+
+:root[data-theme="sepia"] {
+  --display: "Sora", "Segoe UI", system-ui, sans-serif;
+  --body: "Petrona", Georgia, "Times New Roman", serif;
+  --mono: "Anonymous Pro", "SFMono-Regular", Consolas, monospace;
+  --ground: #F3EAD6;
+  --ground-2: #F8F1E2;
+  --panel: #E9DDC3;
+  --panel-2: #DFD0B1;
+  --ink: #3A2E22;
+  --ink-2: #574736;
+  --ink-3: #85725B;
+  --rule: #D5C5A3;
+  --rule-2: #E3D6BA;
+  --accent: #7A4E1E;
+  --accent-soft: #EAEEE9;
+  --accent-deep: #5A3A14;
+  --bad: #983A24;
+  --bad-soft: #F0DCC7;
+  --warn: #7C5911;
+  --warn-soft: #EEE0BD;
+  --good: #3D682C;
+  --good-soft: #E0E3C4;
+  --focus: #8A4B2A;
+}
+
+/* ===== base ===== */
+* { box-sizing: border-box; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 18.8px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 2px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+strong { font-weight: 600; color: var(--ink); }
+h1, h2, h3, h4 { font-family: var(--display); text-wrap: balance; letter-spacing: -.015em; }
+p { margin: 0 0 12px; }
+code, kbd { font-family: var(--mono); font-size: .87em; background: var(--panel); padding: 1px 4px; border-radius: 2px; }
+
+/* ===== shell ===== */
+.shell { display: block; max-width: none; margin: 0; }
+  position: sticky; top: 0; align-self: start; height: 100vh; overflow-y: auto;
+  padding: 24px 14px 40px 20px; border-right: 1px solid var(--rule);
+  font-family: var(--mono); font-size: 13.1px; line-height: 1.3;
+}
+
+.doc { max-width: 78ch; margin: 0 auto; padding: 54px 30px 120px; }
+.doc > * { max-width: none; }
+
+@media (max-width: 940px) {
+  .shell { grid-template-columns: 1fr; }
+  .doc { padding: 24px 20px 70px; }
+}
+
+/* ===== hero + band ===== */
+.hero { border-bottom: 2px solid var(--ink); padding-bottom: 24px; margin-bottom: 20px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+.hero h1 { font-size: clamp(33px, 4.8vw, 50px); font-weight: 700; line-height: 1.05; margin: 0 0 14px; }
+.hero h1 .thin { font-weight: 500; color: var(--ink-3); }
+.lede { font-size: 19.4px; color: var(--ink-2); margin: 0 0 4px; }
+.hero-meta { display: flex; flex-wrap: wrap; gap: 6px 22px; margin-top: 22px; padding-top: 15px; border-top: 1px solid var(--rule-2); font-family: var(--mono); font-size: 12px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .04em; }
+.hero-meta b { color: var(--ink-2); font-weight: 400; }
+
+.band { display: grid; grid-template-columns: repeat(auto-fit, minmax(158px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.vol { border: 1px solid var(--rule); border-radius: 2px; padding: 10px 12px 11px; background: var(--ground-2); font-size: 15.4px; text-decoration: none; color: var(--ink-2); display: block; }
+.vol:hover { background: var(--panel); }
+.vol .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 3px; }
+.vol b { font-family: var(--display); font-weight: 600; font-size: 14.8px; display: block; line-height: 1.25; }
+.vol em { font-style: normal; color: var(--ink-3); font-size: 14.8px; }
+.vol.here { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); border-left: 3px solid var(--accent); }
+.vol.here .vn { color: var(--accent); }
+
+/* ===== structure ===== */
+.part { margin: 58px 0 24px; padding-top: 20px; border-top: 2px solid var(--ink); }
+.part .pn { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 7px; }
+.part h2 { font-size: 33.1px; font-weight: 700; margin: 0 0 9px; }
+.part .lede { font-size: 18.8px; }
+
+.mod { margin: 40px 0 14px; padding-top: 15px; border-top: 1px solid var(--rule); }
+.mod .mn { display: block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.mod h2 { font-size: 24.5px; font-weight: 600; margin: 0 0 7px; }
+.mod .lede { font-size: 18.2px; margin-bottom: 0; }
+
+h3 { font-size: 19.4px; font-weight: 600; margin: 24px 0 8px; }
+h4 { font-size: 16.5px; font-weight: 600; margin: 0 0 5px; font-family: var(--display); }
+hr.rule { border: 0; border-top: 1px solid var(--rule); margin: 32px 0; }
+
+/* ===== the four-band senior block — this library's signature here ===== */
+.sen { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 22px 0; overflow: hidden; }
+.sen > .b { padding: 12px 16px 13px; border-bottom: 1px solid var(--rule-2); }
+.sen > .b:last-child { border-bottom: 0; }
+.sen > .b > .k { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 7px; color: var(--ink-3); }
+.sen > .b.knows { background: var(--accent-soft); }
+.sen > .b.knows > .k { color: var(--accent); }
+.sen > .b.junior { background: var(--bad-soft); }
+.sen > .b.junior > .k { color: var(--bad); }
+.sen > .b.check { background: var(--good-soft); }
+.sen > .b.check > .k { color: var(--good); }
+.sen p, .sen li { font-size: 16.9px; }
+.sen p:last-child, .sen ul:last-child, .sen ol:last-child { margin-bottom: 0; }
+.sen ul, .sen ol { margin: 0 0 10px; padding-left: 21px; }
+.sen li { margin-bottom: 5px; }
+
+
+/* ===== graded question block — the signature component here ===== */
+.qa { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.qa > .qh { padding: 12px 16px 13px; background: var(--accent-soft); border-bottom: 1px solid var(--rule); }
+.qa > .qh > .lvl { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
+.qa > .qh p { font-family: var(--display); font-weight: 600; font-size: 17.7px; line-height: 1.3; margin: 0; color: var(--ink); }
+.qa > .b { padding: 11px 16px 12px; border-bottom: 1px solid var(--rule-2); }
+.qa > .b:last-child { border-bottom: 0; }
+.qa > .b > .k { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 6px; color: var(--ink-3); }
+.qa > .b.weak { background: var(--bad-soft); }
+.qa > .b.weak > .k { color: var(--bad); }
+.qa > .b.strong { background: var(--good-soft); }
+.qa > .b.strong > .k { color: var(--good); }
+.qa > .b.up { background: var(--panel); }
+.qa > .b.up > .k { color: var(--ink-2); }
+.qa p, .qa li { font-size: 16.9px; }
+.qa > .b p:last-child, .qa > .b ul:last-child, .qa > .b ol:last-child { margin-bottom: 0; }
+.qa ul, .qa ol { margin: 0 0 10px; padding-left: 21px; }
+.qa li { margin-bottom: 5px; }
+
+/* ===== callouts ===== */
+.note, .warn, .bad, .good, .proj {
+  border: 1px solid var(--rule); border-left: 3px solid var(--ink-3); border-radius: 2px;
+  padding: 11px 14px 12px; margin: 18px 0; font-size: 17.7px; background: var(--ground-2);
+}
+.good { border-left-color: var(--good); background: var(--good-soft); }
+.warn { border-left-color: var(--warn); background: var(--warn-soft); }
+.bad  { border-left-color: var(--bad); background: var(--bad-soft); }
+.proj { border-left-color: var(--accent); background: var(--accent-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 5px; }
+.note .tag { color: var(--ink-3); } .good .tag { color: var(--good); }
+.warn .tag { color: var(--warn); } .bad .tag { color: var(--bad); }
+.proj .tag { color: var(--accent); }
+.note p:last-child, .warn p:last-child, .bad p:last-child, .good p:last-child, .proj p:last-child { margin-bottom: 0; }
+
+/* ===== passages / extracts ===== */
+.pass { margin: 26px 0; padding: 4px 0 4px 22px; border-left: 3px solid var(--accent); }
+.pass p { font-size: 1.06em; line-height: 1.68; color: var(--ink); margin-bottom: 13px; }
+.pass p:last-of-type { margin-bottom: 9px; }
+.pass .src { display: block; font-family: var(--mono); font-size: 11.4px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.pass .src b { font-weight: 500; color: var(--ink-2); letter-spacing: .04em; }
+.pass.short p { font-size: 1.13em; font-style: italic; }
+.bk { margin: 3px 0 18px; font-family: var(--mono); font-size: 11.6px; letter-spacing: .05em; color: var(--ink-3); }
+.bk b { color: var(--ink-2); font-weight: 500; }
+.verdict { display: inline-block; font-family: var(--mono); font-size: 10.8px; letter-spacing: .12em; text-transform: uppercase; padding: 2px 8px; border-radius: 2px; margin-bottom: 14px; }
+.verdict.read { color: var(--good); background: var(--good-soft); }
+.verdict.part { color: var(--accent); background: var(--accent-soft); }
+.verdict.know { color: var(--ink-3); background: var(--panel); }
+
+/* ===== mono sheets, code, diagrams ===== */
+.sheet { border: 1px solid var(--rule); border-radius: 2px; background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.sheet > .cap { display: flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.sheet > .cap::before { content: ""; width: 6px; height: 6px; background: var(--accent); flex: none; }
+.sheet pre { margin: 0; }
+pre { font-family: var(--mono); font-size: 13.7px; line-height: 1.45; overflow-x: auto; padding: 13px 14px; color: var(--ink-2); }
+pre code { background: none; padding: 0; font-size: inherit; }
+.ascii { font-family: var(--mono); font-size: 13.7px; line-height: 1.42; white-space: pre; overflow-x: auto; padding: 14px; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel); margin: 20px 0; color: var(--ink-2); }
+
+/* ===== tables ===== */
+.tw { overflow-x: auto; margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; }
+table { border-collapse: collapse; width: 100%; font-size: 16.5px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 8px 12px; border-bottom: 1px solid var(--rule-2); }
+th { font-family: var(--mono); font-size: 10.8px; letter-spacing: .09em; text-transform: uppercase; color: var(--ink-2); background: var(--panel-2); border-bottom: 1px solid var(--rule); font-weight: 400; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) td { background: var(--ground-2); }
+td code { background: var(--panel); }
+.ok { color: var(--good); font-weight: 600; }
+.no { color: var(--bad); font-weight: 600; }
+.mid { color: var(--warn); font-weight: 600; }
+
+/* ===== lists, cards, terms ===== */
+ul, ol { margin: 0 0 13px; padding-left: 21px; }
+li { margin-bottom: 6px; }
+li::marker { color: var(--accent); }
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 11px; margin: 20px 0; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); gap: 10px; margin: 20px 0; }
+.card { border: 1px solid var(--rule); border-radius: 2px; padding: 11px 13px 12px; background: var(--ground-2); font-size: 16.5px; }
+.card p:last-child { margin-bottom: 0; }
+.terms { margin: 20px 0; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; }
+.terms > .cap { padding: 6px 12px; background: var(--panel-2); border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 10.8px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.terms dl { margin: 0; padding: 12px 14px; display: grid; grid-template-columns: minmax(150px, 215px) 1fr; gap: 7px 14px; font-size: 16.5px; }
+.terms dt { font-family: var(--mono); font-size: 13.7px; color: var(--accent); font-weight: 700; }
+.terms dd { margin: 0; color: var(--ink-2); }
+@media (max-width: 560px) { .terms dl { grid-template-columns: 1fr; gap: 2px 0; } .terms dd { margin-bottom: 8px; } }
+.disclaimer { margin: 28px 0 0; padding: 11px 14px; border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); font-size: 15.4px; color: var(--ink-2); }
+.disclaimer p:last-child { margin-bottom: 0; }
+
+/* ===== scrollbars, themed from the same tokens ===== */
+html { scrollbar-color: var(--rule) var(--panel); scrollbar-width: thin; }
+::-webkit-scrollbar { width: 11px; height: 11px; background: var(--panel); }
+::-webkit-scrollbar-track { background: var(--panel); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 7px; border: 2px solid var(--panel); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+::-webkit-scrollbar-corner { background: var(--panel); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+
+/* ===== model answer — a full letter / essay / spoken turn, read as prose ===== */
+.model { border: 1px solid var(--rule); border-left: 3px solid var(--accent); border-radius: 2px;
+  background: var(--ground-2); margin: 20px 0; overflow: hidden; }
+.model > .cap { display: block; padding: 10px 16px 11px; background: var(--accent-soft);
+  border-bottom: 1px solid var(--rule); font-family: var(--mono); font-size: 11px;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.model > .body { padding: 14px 18px 4px; }
+.model > .body p { font-size: 17.4px; line-height: 1.62; margin: 0 0 11px; }
+.model > .body p.sal { margin-bottom: 14px; }
+.model > .note-in { padding: 10px 16px 12px; border-top: 1px solid var(--rule-2);
+  background: var(--panel); font-size: 16.4px; }
+.model > .note-in > .k { display: block; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.model > .note-in p:last-child { margin-bottom: 0; }
+
+/* ===== video / resource links ===== */
+.vids { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 11px; margin: 20px 0; }
+.vid { display: block; border: 1px solid var(--rule); border-top: 3px solid var(--accent);
+  border-radius: 3px; padding: 13px 15px 14px; background: var(--ground-2);
+  text-decoration: none; color: var(--ink-2); }
+.vid:hover { background: var(--panel); }
+.vid > .src { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--ink-3); margin-bottom: 5px; }
+.vid > b { display: block; font-family: var(--display); font-weight: 600; font-size: 16.6px;
+  line-height: 1.3; color: var(--ink); margin-bottom: 5px; }
+.vid > p { font-size: 16px; margin: 0; }
+
+/* ===== small inline label inside a table cell or heading ===== */
+.lbl { display: block; font-family: var(--mono); font-size: 10.4px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3); font-weight: 400; margin-top: 3px; }
+
+/* ===== theme switcher ===== */
+html:root[data-theme="sepia"] { color-scheme: light; }
+html:root[data-theme="light"] { color-scheme: light; }
+html:root[data-theme="dark"]  { color-scheme: dark; }
+.theme-switch {
+  position: fixed; right: 16px; bottom: 16px; z-index: 50;
+  display: flex; gap: 2px; padding: 3px;
+  background: var(--ground-2); border: 1px solid var(--rule); border-radius: 999px;
+  box-shadow: 0 4px 14px var(--shadow);
+  font-family: var(--mono, monospace);
+}
+.theme-switch button {
+  display: inline-flex; align-items: center; gap: 6px;
+  border: 0; border-radius: 999px; background: transparent; cursor: pointer;
+  padding: 6px 11px; color: var(--ink-3);
+  font: inherit; font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+}
+.theme-switch button:hover { color: var(--ink); background: var(--panel); }
+.theme-switch button[aria-pressed="true"] { color: var(--ground); background: var(--ink); }
+.theme-switch svg { width: 14px; height: 14px; flex: none; }
+@media (max-width: 560px) {
+  .theme-switch { right: 12px; bottom: 12px; }
+  .theme-switch button { padding: 7px 9px; }
+  .theme-switch button span { display: none; }
+}
+@media print { .theme-switch { display: none; } }
+@media (max-width: 720px) { .doc { padding: 30px 18px 80px; } }
+</style>
+
+<style>
+/* ===== topic pages — the five-question navigator ===== */
+.five { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 8px; margin: 0 0 30px; }
+.five a { border: 1px solid var(--rule); border-top: 3px solid var(--accent); border-radius: 2px; padding: 9px 11px 10px;
+  background: var(--ground-2); text-decoration: none; color: var(--ink-2); display: block; }
+.five a:hover { background: var(--panel); }
+.five .vn { display: block; font-family: var(--mono); font-size: 10.3px; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
+.five b { font-family: var(--display); font-weight: 600; font-size: 14.8px; line-height: 1.25; display: block; color: var(--ink); }
+.lib { border: 1px dashed var(--rule); border-radius: 2px; background: var(--panel); padding: 10px 14px 11px; margin: 0 0 26px; font-size: 16.4px; color: var(--ink-2); }
+.lib .tag { color: var(--ink-3); }
+.lib p:last-child, .lib ul:last-child { margin-bottom: 0; }
+.say ol { margin: 6px 0 0; }
+.say li { margin-bottom: 8px; }
+</style>
+
+<div class="theme-switch" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" aria-pressed="false" title="Light"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/></svg><span>Light</span></button>
+  <button type="button" data-theme-set="sepia" aria-pressed="false" title="Eye care"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 4C10 4 4 9 4 16a4 4 0 0 0 4 4c7 0 12-6 12-16Z"/><path d="M4 20c4-6 8-8 12-9"/></svg><span>Eye care</span></button>
+  <button type="button" data-theme-set="dark"  aria-pressed="false" title="Dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 13a8.5 8.5 0 0 1-10-10 8.5 8.5 0 1 0 10 10Z"/></svg><span>Dark</span></button>
+</div>
+<!--@HEAD-END-->
+<div class="shell">
+<main class="doc">
+<header class="hero" id="open">
+  <p class="eyebrow">Sharp Mind · Society &amp; Sociology · Topic 16 of 20</p>
+  <h1>Digital communities. <span class="thin">Strangers who keep coming back, until they are no longer strangers.</span></h1>
+  <p class="lede">A woman with a rare disease finds three hundred people who have it too. A teenager
+  learns to code from people on another continent who will never meet him. A few hundred thousand
+  volunteers write the largest encyclopedia in history for free. None of this is the noisy feed most
+  people picture when they hear "the internet". It is something older and quieter: groups of people
+  who return to the same place, learn each other's names, and build rules together. This file
+  explains what turns an online crowd into a community, how those communities run themselves, and
+  why they can be both a lifeline and a trap.</p>
+  <div class="hero-meta">
+    <span><b>Five questions</b> · what, how, why, trade-offs, future</span>
+    <span><b>Reading</b> · about 15 minutes</span>
+    <span><b>No jargon assumed</b> · every term explained</span>
+  </div>
+</header>
+
+<div class="band">
+<a class="vol" href="index.html"><span class="vn">Society &amp; Sociology</span><b>All 20 topics</b><em>This category</em></a>
+<a class="vol" href="../index.html"><span class="vn">Library</span><b>Sharp Mind index</b><em>All handbooks</em></a>
+<a class="vol" href="../36-people.html#c7"><span class="vn">Vol 36 · ch 07</span><b>Us and them</b><em>Group identity, offline</em></a>
+<a class="vol" href="15-social-media.html"><span class="vn">Society · 15</span><b>Social media</b><em>The feed, not the forum</em></a>
+<a class="vol" href="17-consumer-culture.html"><span class="vn">Society · 17</span><b>Consumer culture</b><em>Next topic</em></a>
+</div>
+
+<nav class="five" aria-label="The five questions">
+  <a href="#q1"><span class="vn">Q1</span><b>What is it?</b></a>
+  <a href="#q2"><span class="vn">Q2</span><b>How does it work?</b></a>
+  <a href="#q3"><span class="vn">Q3</span><b>Why does it matter?</b></a>
+  <a href="#q4"><span class="vn">Q4</span><b>Pros and cons</b></a>
+  <a href="#q5"><span class="vn">Q5</span><b>What comes next</b></a>
+</nav>
+
+<div class="lib">
+  <span class="tag">Already in the library</span>
+  <p>No volume treats online communities directly, so this is the library's first full treatment. The
+  nearest neighbours are Volume 36's chapter on group identity (<a href="../36-people.html#c7">Us and
+  them</a>), which explains why belonging to a group changes how we see outsiders, and the history of
+  the network itself in Volume 22 (<a href="../22-the-long-shadow.html#c8">The network built to
+  survive a war</a>). For the feed-based platforms, read <a href="15-social-media.html">Social
+  media</a>; for communities in general, read <a href="12-communities.html">Communities</a>.</p>
+</div>
+
+<!-- ============ Q1 ============ -->
+<header class="part" id="q1">
+  <span class="pn">Question 1 · What is it?</span>
+  <h2>A group with memory, rules and a reason to return</h2>
+  <p class="lede">Not every online crowd is a community. The difference is repetition: the same people,
+  in the same place, over time, with shared norms.</p>
+</header>
+
+<header class="mod" id="c1">
+  <span class="mn">Chapter 01</span>
+  <h2>Before the feed: the bulletin boards</h2>
+</header>
+
+<p>In 1985 a small group in the San Francisco Bay Area, including the writer Stewart Brand, started a
+dial-up discussion system called <strong>The WELL</strong>. People connected their home computers
+through a telephone line and typed messages into topic areas: parenting, music, politics, the
+Grateful Dead. It was slow, text-only and expensive. It was also, for many members, the first time
+they had friends they had met through a screen. Members later described raising money for a sick
+member, attending each other's weddings, and mourning members who died.</p>
+
+<p>The writer Howard Rheingold, an early member, wrote about it in his 1993 book <em>The Virtual
+Community</em>. His point was simple and, at the time, surprising. <strong>People could form real
+attachments with people they had never seen</strong>, as long as they met repeatedly in a shared
+space. Around the same years, Usenet, a worldwide system of discussion groups started by graduate
+students in North Carolina around 1980, was hosting thousands of topic groups, each with its own
+regulars and its own etiquette.</p>
+
+<p>So online community did not begin with Facebook. Trolls, moderators and flame wars were all
+already there.</p>
+
+<header class="mod" id="c2">
+  <span class="mn">Chapter 02</span>
+  <h2>What makes a crowd a community</h2>
+</header>
+
+<p>Sociologists have argued for a century about what a "community" is. A useful working definition
+has four parts. A community has <strong>members</strong> (people who recognise each other), a
+<strong>shared purpose or interest</strong>, <strong>repeated interaction</strong> over time, and
+<strong>norms</strong>, meaning unwritten and written rules about what is acceptable.</p>
+
+<p>By this test, the comments under a viral video are usually not a community. The people there will
+never meet again, and nobody remembers what anyone said. A subreddit for people learning Japanese,
+a Discord server for a small video game, or a long-running forum for diabetics usually is one. The
+regulars know each other's histories. Newcomers are welcomed, corrected and sometimes told off.</p>
+
+<p>The key ingredient is <strong>memory</strong>. A community remembers who helped, who lied and who
+broke the rules. Without memory, reputation cannot form, and without reputation, trust cannot form.
+That is why the design question "can people see who you are and what you did last month?" turns out
+to be so important.</p>
+
+<header class="mod" id="c3">
+  <span class="mn">Chapter 03</span>
+  <h2>The main kinds of digital community</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Kind</th><th>What holds it together</th><th>Typical examples</th></tr></thead>
+<tbody>
+<tr><td><strong>Interest communities</strong></td><td>A hobby, a fandom or a craft</td><td>Knitting forums, football fan sites, subreddits for a single TV series</td></tr>
+<tr><td><strong>Support communities</strong></td><td>A shared condition or life event</td><td>Rare-disease groups, groups for new parents, grief and recovery forums</td></tr>
+<tr><td><strong>Knowledge communities</strong></td><td>Building or sharing expertise</td><td>Wikipedia, Stack Overflow, open-source software projects</td></tr>
+<tr><td><strong>Gaming and play communities</strong></td><td>A game, a guild, a team</td><td>Guilds in online games, Discord servers around a game</td></tr>
+<tr><td><strong>Identity and diaspora communities</strong></td><td>A shared origin, language or identity</td><td>Groups for emigrants from one town, language groups, minority networks</td></tr>
+<tr><td><strong>Local communities online</strong></td><td>A shared physical place</td><td>Neighbourhood groups, school-parent chats, village message boards</td></tr>
+</tbody></table></div>
+
+<p>The last row is a reminder that "digital" does not mean "placeless". <strong>Many of the busiest
+online communities are extensions of offline ones</strong>: the parents of one school class, the
+residents of one building. The internet did not replace those groups. It gave them a meeting room
+that is open all night.</p>
+
+<!-- ============ Q2 ============ -->
+<header class="part" id="q2">
+  <span class="pn">Question 2 · How does it work?</span>
+  <h2>Architecture, moderators, and the quiet majority</h2>
+  <p class="lede">Online communities look spontaneous, but they run on design choices and on the
+  unpaid work of a small number of people. Change either, and the community changes.</p>
+</header>
+
+<header class="mod" id="c4">
+  <span class="mn">Chapter 04</span>
+  <h2>The software is the architecture</h2>
+</header>
+
+<p>A city's layout shapes how people meet. Wide squares invite crowds; narrow streets invite
+neighbours. Online, the software plays the same role. The legal scholar Lawrence Lessig made this
+point in 1999 with a short phrase: <strong>"code is law"</strong>. What the software allows and
+forbids governs behaviour as firmly as any written rule.</p>
+
+<p>Compare three designs. A <strong>threaded forum</strong> keeps conversations organised by topic
+and keeps them for years, so it rewards careful, searchable answers. A <strong>chat server</strong>
+such as Discord shows a fast-moving stream, so it rewards presence and banter but buries old
+knowledge. A <strong>ranked feed</strong> shows each person a different order of posts chosen by an
+algorithm, so it rewards whatever gets quick reactions. Same people, different buildings, different
+behaviour.</p>
+
+
+<header class="mod" id="c5">
+  <span class="mn">Chapter 05</span>
+  <h2>Moderation: the unpaid government</h2>
+</header>
+
+<p>Every lasting community has someone who removes spam, settles fights and enforces the rules. On
+big platforms there are paid content moderators. But most of the work in communities is done by
+<strong>volunteer moderators</strong>: people who run a subreddit, a Facebook group or a forum section
+for free, often for years.</p>
+
+<p>Their tools are simple. They write rules, delete posts, warn members, and ban persistent offenders.
+The hard part is judgement. Is a sharp joke harassment? Is a heated argument a healthy debate or the
+start of a feud? <strong>Good moderation is mostly invisible</strong>, because it stops problems before
+most members see them. Bad moderation is very visible: either the space fills with abuse, or
+members feel they are ruled by a small clique.</p>
+
+<div class="note">
+  <span class="tag">An old idea that fits</span>
+  <p>The political economist Elinor Ostrom, who won the Nobel prize in economics in 2009, studied how
+  real communities manage shared resources such as fishing grounds and irrigation canals without
+  either a government or private owners. She found that successful groups had clear boundaries,
+  rules made by the people affected, monitoring, gradual penalties and cheap ways to settle
+  conflicts. Researchers of online communities often use her list, because a well-run forum is a
+  shared resource in exactly this sense.</p>
+</div>
+
+<header class="mod" id="c6">
+  <span class="mn">Chapter 06</span>
+  <h2>The 90-9-1 rule: most people only watch</h2>
+</header>
+
+<p>Visit almost any online community and you will notice that a few names appear everywhere. This is
+normal. A rough rule of thumb, popularised by the usability researcher Jakob Nielsen in 2006, says
+that in many communities about <strong>90% of people only read, 9% contribute now and then, and 1%
+create most of the content</strong>. The exact numbers vary a lot, and some communities are more
+balanced. But the shape, a long tail of quiet readers behind a small core, appears again and again.</p>
+
+<p>The quiet readers are called <strong>lurkers</strong>, and they are not useless. They are the
+audience that makes contributing feel worthwhile, and many of them benefit greatly: the patient who
+never posts but reads every answer. The risk lies at the other end. When a community depends on a
+handful of very active members, it is fragile. If they burn out, quarrel or leave, the community can
+empty in weeks.</p>
+
+<div class="sheet">
+  <div class="cap">Who does the work in a typical community</div>
+<pre>
+  readers only (lurkers)      ##########################################  ~90%
+  occasional contributors     ####                                        ~9%
+  core contributors           #                                           ~1%
+
+  share of posts written:
+  core contributors           ##############################              most
+  occasional contributors     ###########                                 some
+  readers only                                                            none
+</pre>
+</div>
+
+<header class="mod" id="c7">
+  <span class="mn">Chapter 07</span>
+  <h2>Reputation, names and masks</h2>
+</header>
+
+<p>In 1993 the magazine <em>The New Yorker</em> printed a cartoon by Peter Steiner: a dog at a
+computer telling another dog, "On the Internet, nobody knows you're a dog." It captured the promise
+and the danger of online identity. You can be anyone, so you can speak freely. And so can a liar.</p>
+
+<p>Communities solve this with <strong>reputation systems</strong>. Stack Overflow, the programming
+question site launched in 2008, gives points when other users find your answers useful, and unlocks
+powers such as editing other people's posts as your score rises. Reddit's "karma" works in a looser
+way. Online marketplaces show seller ratings. Each turns past behaviour into a visible signal, which
+is the online version of a village knowing who is reliable.</p>
+
+<p>There is a real trade-off between <strong>real names</strong> and <strong>pseudonyms</strong>
+(stable invented names). Real names can reduce some abuse, but they expose people who need privacy:
+someone discussing a mental illness, a sexual identity, or a political view that is dangerous where
+they live. Pseudonyms that persist over time give much of the benefit of reputation without the risk.
+<strong>What hurts communities most is not the mask but the disposable mask</strong>: accounts that
+cost nothing to create and nothing to throw away.</p>
+
+<header class="mod" id="c8">
+  <span class="mn">Chapter 08</span>
+  <h2>Weak ties, strong ties, and newcomers</h2>
+</header>
+
+<p>In 1973 the sociologist Mark Granovetter published a paper called "The Strength of Weak Ties". He
+found that people often heard about new jobs not from close friends but from acquaintances. Close
+friends know the same things you know. Acquaintances connect you to other worlds. Digital
+communities are extraordinarily good at producing <strong>weak ties</strong> at scale: the stranger
+who answers your question about a visa, a bug or a symptom.</p>
+
+<p>Some communities also produce <strong>strong ties</strong>, the kind of friendship where people
+call each other in a crisis. That usually needs smaller groups, longer time and some move to private
+channels or real meetings. The anthropologist Robin Dunbar has argued that humans can keep up only
+around 150 meaningful relationships. Whatever the exact figure, the idea explains why big communities
+split into smaller sub-groups, and why the heart of any large forum is a few dozen regulars.</p>
+
+<p>Every community also has to handle <strong>newcomers</strong>. Early internet users still talk
+about the "Eternal September": each September, a wave of new university students joined Usenet and
+had to be taught its etiquette; in 1993, when a big commercial service opened Usenet to its
+customers, the wave never stopped. Communities that close the door to newcomers grow old and die.
+Communities that open it without teaching norms lose what made them good.</p>
+
+<!-- ============ Q3 ============ -->
+<header class="part" id="q3">
+  <span class="pn">Question 3 · Why does it matter?</span>
+  <h2>What strangers can build, and who they can save</h2>
+  <p class="lede">Digital communities have produced some of the most useful public goods of the past
+  forty years, and some of the most worrying social movements. Both come from the same mechanism.</p>
+</header>
+
+<header class="mod" id="c9">
+  <span class="mn">Chapter 09</span>
+  <h2>Wikipedia and open source: proof that it can work</h2>
+</header>
+
+<p>When Wikipedia launched in January 2001, many experts thought an encyclopedia anyone could edit
+would collapse into vandalism. Instead, the English edition alone grew to close to seven million
+articles by the mid-2020s, with hundreds of other language editions alongside it. It works because
+it is a community, not just a website. Volunteers watch pages, revert vandalism within minutes,
+argue on discussion pages, and follow a large body of rules such as "neutral point of view" and
+"cite reliable sources".</p>
+
+<p>Open-source software is the other great example. The Linux operating system, started by Linus
+Torvalds in 1991 as a hobby, now runs most of the world's web servers and, in modified form, every
+Android phone. It was built by a community of programmers, many of them later paid by companies, who
+coordinate through mailing lists and code-review tools. <strong>These projects show that strangers,
+given good rules and visible reputations, can produce goods worth billions without a traditional
+employer.</strong></p>
+
+<header class="mod" id="c10">
+  <span class="mn">Chapter 10</span>
+  <h2>Belonging for people who are rare where they live</h2>
+</header>
+
+<p>If you are the only person in your town with a particular illness, interest or identity, the
+internet can be the difference between isolation and belonging. Parents of children with rare genetic
+conditions have used online groups to share treatment experiences, find specialists and even help
+organise research. People with chronic illness exchange practical tips that no leaflet contains.
+Emigrants keep their language and traditions alive in diaspora groups.</p>
+
+<p>This is perhaps the deepest change. For most of history, your community was decided by where you
+were born. <strong>Digital communities let people choose their community by what they share, not by
+where they happen to live.</strong> For many people in small or hostile places, including young people
+who feel different from those around them, that choice has been described as life-changing.</p>
+
+<div class="warn">
+  <span class="tag">Health note</span>
+  <p>Patient communities can be a great source of support and lived experience. They are general
+  education, not medical advice. Treatment decisions belong with a qualified professional.</p>
+</div>
+
+<header class="mod" id="c11">
+  <span class="mn">Chapter 11</span>
+  <h2>The same machinery, pointed the wrong way</h2>
+</header>
+
+<p>Everything that makes a support group powerful can make an extremist group powerful too. Belonging,
+shared language, in-jokes, a sense that outsiders do not understand: these bind any community.
+Researchers have documented online spaces where conspiracy theories, harassment campaigns or violent
+ideologies were spread and reinforced. Volume 36 explains the underlying psychology: once people feel
+part of an "us", they judge "them" more harshly (<a href="../36-people.html#c7">Us and them</a>).</p>
+
+<p>How strong this effect is remains <strong>contested</strong>. The popular idea of the "echo chamber"
+says people online hear only views they already hold. Several large studies have found that most
+people's media diets are more mixed than that picture suggests, and that strong online segregation is
+concentrated among a smaller, highly engaged minority. Other researchers argue that the minority is
+exactly the problem, because it is the one most likely to act. The honest summary is that <strong>online
+communities can deepen and speed up radicalisation in people already moving that way</strong>, while
+the evidence that they turn ordinary people extreme on a large scale is weaker.</p>
+
+<!-- ============ Q4 ============ -->
+<header class="part" id="q4">
+  <span class="pn">Question 4 · Advantages and disadvantages</span>
+  <h2>Reach without roots, roots without reach</h2>
+  <p class="lede">Digital communities trade some of the strengths of local life for strengths local
+  life never had. Whether the trade is good depends on what a person needs.</p>
+</header>
+
+<header class="mod" id="c12">
+  <span class="mn">Chapter 12</span>
+  <h2>Strengths and weaknesses, side by side</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Feature</th><th>The strength</th><th>The weakness</th></tr></thead>
+<tbody>
+<tr><td><strong>No geography</strong></td><td class="ok">You can find people like you anywhere on Earth.</td><td class="no">You may invest less in the neighbours who could actually help in an emergency.</td></tr>
+<tr><td><strong>Low cost to join</strong></td><td class="ok">Anyone with a phone can take part, including the shy and the housebound.</td><td class="no">Low cost to leave, too. Commitment is thin and groups can vanish fast.</td></tr>
+<tr><td><strong>Pseudonyms</strong></td><td class="ok">People can discuss stigmatised subjects safely.</td><td class="no">Bad actors can hide, and disposable accounts make bans weak.</td></tr>
+<tr><td><strong>Written and searchable</strong></td><td class="ok">Knowledge accumulates and helps strangers for years.</td><td class="no">Old mistakes and arguments never disappear.</td></tr>
+<tr><td><strong>Volunteer moderation</strong></td><td class="ok">Communities govern themselves to fit their own needs.</td><td class="no">Burnout, uneven quality, and small cliques with unchecked power.</td></tr>
+<tr><td><strong>Hosted on platforms</strong></td><td class="ok">Free, easy tools that millions can use.</td><td class="no">The company can change the rules, sell the platform or shut it down.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c13">
+  <span class="mn">Chapter 13</span>
+  <h2>Can online ties replace offline ones?</h2>
+</header>
+
+<p>In 2000 the political scientist Robert Putnam published <em>Bowling Alone</em>, arguing that
+Americans had been withdrawing from clubs, unions, churches and neighbourhood groups since the 1960s,
+and that this loss of "social capital" (the trust and networks that let people cooperate) was
+harmful. The book was written before most online communities existed at scale, and people have
+argued ever since whether the internet makes the problem worse or offers a partial cure.</p>
+
+<p>The research points in both directions. Online contact seems to work best when it <strong>adds to
+offline relationships</strong>: friends who also chat, neighbours who also share a group. It seems to
+work less well as a full substitute, especially for physical help, touch and the kind of trust that
+comes from showing up in person. A balanced view is that <strong>digital communities are excellent at
+breadth and information, and weaker at depth and care</strong>, with many exceptions on both sides.</p>
+
+<div class="grid2">
+  <div class="card"><h4>The optimistic reading</h4><p>Digital communities reconnect people who were
+  already isolated, give a voice to minorities, and let knowledge flow to anyone who asks. For many,
+  they created social capital where there was none.</p></div>
+  <div class="card"><h4>The pessimistic reading</h4><p>They let people sort themselves into groups of
+  the like-minded, and offer a thin, always-available form of company that can crowd out the harder,
+  richer work of local relationships.</p></div>
+</div>
+
+<!-- ============ Q5 ============ -->
+<header class="part" id="q5">
+  <span class="pn">Question 5 · What could happen in the future?</span>
+  <h2>Smaller rooms, new owners, artificial members</h2>
+  <p class="lede">Sorted by how confident anyone can honestly be.</p>
+</header>
+
+<header class="mod" id="c14">
+  <span class="mn">Chapter 14</span>
+  <h2>Four directions, three levels of confidence</h2>
+</header>
+
+<div class="tw"><table>
+<thead><tr><th>Direction</th><th>Where it stands</th><th>Honest outlook</th></tr></thead>
+<tbody>
+<tr><td><strong>The move to smaller, private groups</strong></td><td>Much community life has shifted from public forums to group chats on messaging apps and invite-only servers.</td><td class="ok">Fairly sure: this continues. Communities become more intimate and harder for outsiders, researchers and moderators to see.</td></tr>
+<tr><td><strong>AI in moderation and membership</strong></td><td>Automated tools already filter spam and abuse. Chatbots can now write posts that look human.</td><td class="mid">Plausible: AI takes over much routine moderation, while communities struggle to prove that members are real people.</td></tr>
+<tr><td><strong>Decentralised networks</strong></td><td>Systems such as Mastodon (launched 2016) let communities run their own servers that still talk to each other.</td><td class="mid">Plausible: a meaningful niche for communities that want control. Mass adoption is uncertain because big platforms are easier to use.</td></tr>
+<tr><td><strong>Communities in virtual worlds</strong></td><td>Online games and virtual-reality spaces already host social groups, but headset use remains limited.</td><td class="no">Speculative: a large shift of everyday community life into 3D worlds. See <a href="../01-technology/18-augmented-and-virtual-reality.html">Augmented and virtual reality</a>.</td></tr>
+</tbody></table></div>
+
+<header class="mod" id="c15">
+  <span class="mn">Chapter 15</span>
+  <h2>Who owns the town square?</h2>
+</header>
+
+<p>The live debate is about ownership. Most digital communities live on platforms owned by companies,
+and the community has no legal claim to the space it built. When Yahoo closed the web-hosting
+service GeoCities in the United States in 2009, millions of personal pages disappeared, though
+archivists rescued many. When Google closed its social network Google+ to consumers in 2019, its
+communities had to move or die. In June 2023, thousands of Reddit communities went dark in protest
+against changes to how outside apps could access the site, a rare moment when volunteer moderators
+acted like a union.</p>
+
+<p>The pattern is clear. <strong>A community is built by its members, but on rented land.</strong> In
+the coming years, expect more tools for exporting a community's history and member list, more
+interest in community-owned infrastructure, and more debate about whether large platforms owe the
+communities they host any duties at all. The answer will shape whether digital communities become
+lasting institutions, like clubs and churches, or remain tenants who can be evicted at any time.</p>
+
+<p>One more trend is quieter but may matter most. As artificial intelligence makes it cheap to fake
+people, <strong>proof of being a real, consistent human may become the scarcest thing a community
+offers</strong>. Small groups where members know each other, or have met in person, may become more
+valuable precisely because they are hard to fake.</p>
+
+<!-- ============ wrap-up ============ -->
+<hr class="rule">
+
+<div class="sen">
+  <div class="b knows"><span class="k">The core idea</span>
+    <p>A digital community is an online group with <strong>members, a shared purpose, repeated
+    interaction and norms</strong>. Its behaviour is shaped by <strong>software design</strong>, held
+    together by <strong>reputation</strong> and run largely by <strong>volunteer moderators</strong>.
+    The same bonds that make support groups powerful also make extremist groups powerful.</p></div>
+  <div class="b"><span class="k">The numbers worth knowing</span>
+    <ul>
+      <li>The WELL began in <strong>1985</strong>; Rheingold named "the virtual community" in
+      <strong>1993</strong>.</li>
+      <li>The rough <strong>90-9-1</strong> rule: most people read, few post, a tiny core writes most
+      content.</li>
+      <li>English Wikipedia had close to <strong>seven million</strong> articles by the mid-2020s,
+      written by volunteers.</li>
+    </ul></div>
+  <div class="b junior"><span class="k">The common mistake</span>
+    <p>Treating "the internet" as one thing. <strong>A ranked feed, a chat server and a threaded forum
+    are different buildings</strong>, and the same people behave differently in each.</p></div>
+  <div class="b check"><span class="k">Test yourself</span>
+    <p>Can you explain why the comments under a viral video are usually not a community, while a small
+    forum for a rare illness usually is? If you can, you understand the role of memory and
+    repetition.</p></div>
+</div>
+
+<div class="terms">
+  <div class="cap">The words, in plain words</div>
+  <dl>
+    <dt>Digital community</dt><dd>A group that meets mainly online, with regular members, shared interests and shared rules.</dd>
+    <dt>Norms</dt><dd>The rules, written or unwritten, about what behaviour a group accepts.</dd>
+    <dt>Moderator</dt><dd>A person, often a volunteer, who enforces a community's rules.</dd>
+    <dt>Lurker</dt><dd>Someone who reads a community regularly but rarely or never posts.</dd>
+    <dt>90-9-1 rule</dt><dd>A rough rule of thumb that most members read, some contribute and very few create most content.</dd>
+    <dt>Reputation system</dt><dd>A feature that turns past behaviour into visible points, ratings or badges.</dd>
+    <dt>Pseudonym</dt><dd>A stable invented name that is not your legal name.</dd>
+    <dt>Weak ties</dt><dd>Acquaintances, who are useful because they connect you to information your close friends lack.</dd>
+    <dt>Social capital</dt><dd>The trust and networks that let people cooperate.</dd>
+    <dt>Echo chamber</dt><dd>A space where people mostly hear views they already hold. How common it is online is debated.</dd>
+    <dt>Open source</dt><dd>Software whose code is public and can be improved by anyone, usually built by a community.</dd>
+    <dt>Decentralised network</dt><dd>A system made of many independently run servers that can talk to each other, with no single owner.</dd>
+  </dl>
+</div>
+
+<div class="good say">
+  <span class="tag">Say this · five sentences you can use</span>
+  <ol>
+    <li>"An online crowd becomes a community when the same people keep coming back and start to
+    remember each other."</li>
+    <li>"Software design is the architecture of an online community. Change the layout and people
+    behave differently."</li>
+    <li>"Most online communities run on the unpaid work of a tiny core. When they burn out, the
+    community goes with them."</li>
+    <li>"The internet let people choose their community by what they share, not by where they were
+    born."</li>
+    <li>"Digital communities are built by their members, but on land they don't own."</li>
+  </ol>
+</div>
+
+<div class="grid2">
+  <div class="card"><h4>Next · <a href="17-consumer-culture.html">Consumer culture</a></h4><p>Why
+  modern societies organise so much of identity and status around buying things, and what that does
+  to people and the planet.</p></div>
+  <div class="card"><h4>Related · <a href="15-social-media.html">Social media</a></h4><p>The
+  feed-based platforms: algorithms, attention, and what they do to news, politics and mental
+  health.</p></div>
+</div>
+</main>
+</div>
+<!--@FOOT-START-->
+<script>
+/* theme switcher — light / eye care / dark, remembered per browser */
+(function () {
+  var KEY = 'hb-theme';
+  var root = document.documentElement;
+  var btns = [].slice.call(document.querySelectorAll('[data-theme-set]'));
+  function paint(v) {
+    btns.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-theme-set') === v));
+    });
+  }
+  function apply(v, persist) {
+    if (v) { root.setAttribute('data-theme', v); } else { root.removeAttribute('data-theme'); }
+    paint(v);
+    if (persist) { try { localStorage.setItem(KEY, v || ''); } catch (e) {} }
+  }
+  btns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      apply(b.getAttribute('data-theme-set'), true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) {}
+  if (saved) { apply(saved, false); } else { paint(null); }
+})();
+</script>
+<!--@FOOT-END-->
